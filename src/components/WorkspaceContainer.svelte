@@ -148,7 +148,7 @@
 
 <style>
 	div {
-		background-color: var(--background-secondary-alt);
+		background-color: var(--tab-background-active);
 		display: flex;
 		align-items: stretch;
 		border-bottom: 1px solid var(--background-modifier-border);

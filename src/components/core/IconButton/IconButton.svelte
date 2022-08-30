@@ -4,29 +4,35 @@
 	export let icon: string;
 	export let iconSize: number = 16;
 
-	function useIcon(node: HTMLElement, name: string) {
-		setIcon(node, name, iconSize);
+	function useIcon(
+		node: HTMLElement,
+		{ name, size }: { name: string; size: number }
+	) {
+		setIcon(node, name, size);
+
+		return {
+			update({ name, size }: { name: string; size: number }) {
+				setIcon(node, name, size);
+			},
+		};
 	}
 </script>
 
-<div class="custom-icon" use:useIcon={icon} on:click />
+<div use:useIcon={{ name: icon, size: iconSize }} on:click />
 
 <style>
 	div {
-		border-radius: 9999px;
+		border-radius: var(--radius-s);
 		margin: 0;
-		padding: var(--spacing-xs);
+		padding: var(--size-2-1);
 		background: none;
 		display: flex;
 		align-items: center;
+		color: var(--text-muted);
 	}
 
 	div:hover {
-		background-color: var(--background-primary);
-		cursor: pointer;
-	}
-
-	.custom-icon {
-		fill: var(--text-faint);
+		background-color: var(--background-modifier-hover);
+		color: var(--text-normal);
 	}
 </style>

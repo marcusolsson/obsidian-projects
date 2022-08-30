@@ -22,6 +22,7 @@
 	{#if active && selected && onDelete}
 		<IconButton
 			icon="cross"
+			iconSize={13}
 			on:click={() => {
 				onDelete();
 			}}
@@ -31,28 +32,23 @@
 
 <style>
 	div {
-		background: var(--background-secondary);
-		border-radius: 0;
+		background: none;
 		margin: 0;
-		border-right: 1px solid var(--background-modifier-border);
 		display: flex;
 		align-items: center;
 		gap: 8px;
 		padding: 4px 16px;
-		font-size: 0.8em;
+		font-size: var(--font-ui-small);
 	}
 
 	div:hover {
-		box-shadow: inset 0 -2px 0 0 var(--background-modifier-border);
-		cursor: pointer;
-	}
-
-	div.selected:hover {
 		box-shadow: inset 0 -2px 0 0 var(--interactive-accent);
 	}
 
 	.selected {
 		box-shadow: inset 0 -2px 0 0 var(--interactive-accent);
+		color: var(--text-accent);
+		font-weight: 500;
 	}
 
 	.link {
@@ -62,7 +58,8 @@
 	}
 
 	.link:hover {
-		box-shadow: none;
+		background: none;
 		color: var(--text-normal);
+		box-shadow: none;
 	}
 </style>
