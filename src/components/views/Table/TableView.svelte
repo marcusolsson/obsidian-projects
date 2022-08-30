@@ -65,7 +65,7 @@
 		onConfigChange({
 			...config,
 			fieldWidths: {
-				...config.fieldWidths,
+				...config?.fieldWidths,
 				[field]: width,
 			},
 		})}
