@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { api } from "../../../lib/stores";
 	import {
 		DataFieldType,
 		isString,
 		type DataField,
 		type DataRecord,
 	} from "../../../lib/datasource";
+	import { api } from "../../../lib/stores";
 
+	import { Button2 } from "../../core/Button2";
+	import { Field } from "../../core/Field";
 	import { HorizontalGroup } from "../../core/HorizontalGroup";
 	import { Select } from "../../core/Select";
-	import { Field } from "../../core/Field";
 	import { ToolBar } from "../../core/ToolBar";
-	import { Button2 } from "../../core/Button2";
 
 	import BoardCard from "./BoardCard.svelte";
 	import BoardColumn from "./BoardColumn.svelte";
@@ -31,11 +31,11 @@
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
 
-	let textFields: number[] = fields
-		.map((field, i) => (field.type === DataFieldType.String ? i : -1))
-		.filter((i) => i >= 0);
+	let textFields: DataField[] = fields.filter(
+		(field) => field.type === DataFieldType.String
+	);
 
-	$: groupByField = config?.groupByField ?? fields[textFields[0]].name;
+	$: groupByField = config?.groupByField ?? textFields?.[0]?.name;
 	$: selectedField = fields.find((field) => field.name === groupByField);
 
 	function unique(records: DataRecord[], fieldName: string): string[] {
