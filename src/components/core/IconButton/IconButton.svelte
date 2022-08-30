@@ -22,10 +22,10 @@
 
 <style>
 	div {
-		border-radius: var(--radius-s);
 		margin: 0;
-		padding: var(--size-2-1);
-		background: none;
+		padding: 2px;
+
+		border-radius: var(--radius-s);
 		display: flex;
 		align-items: center;
 		color: var(--text-muted);

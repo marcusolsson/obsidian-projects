@@ -11,6 +11,8 @@
 	import { AddViewModal } from "src/modals/add-view-modal";
 	import { ToolBarSelect } from "./core/ToolBar";
 	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
+	import { Select } from "./core/Select";
+	import { IconButton } from "./core/IconButton";
 
 	export let workspaces: WorkspaceDefinition[];
 	export let workspace: string;
@@ -23,7 +25,7 @@
 </script>
 
 <div>
-	<ToolBarSelect
+	<Select
 		value={workspace}
 		options={workspaces.map((workspace) => ({
 			label: workspace.name,
@@ -31,9 +33,8 @@
 		}))}
 		onChange={onWorkspaceChange}
 	/>
-	<ViewItem
-		name="Add workspace"
-		variant="link"
+	<IconButton
+		icon="plus"
 		on:click={() => {
 			new AddWorkspaceModal($app, (value) => {
 				settings.update((state) => {
@@ -46,9 +47,8 @@
 		}}
 	/>
 	{#if workspaceDef}
-		<ViewItem
-			name="Delete workspace"
-			variant="link"
+		<IconButton
+			icon="trash"
 			on:click={() => {
 				new ConfirmDialogModal(
 					$app,
@@ -150,7 +150,9 @@
 	div {
 		background-color: var(--tab-background-active);
 		display: flex;
-		align-items: stretch;
+		align-items: center;
+		padding: var(--size-4-2);
+		gap: 8px;
 		border-bottom: 1px solid var(--background-modifier-border);
 	}
 </style>
