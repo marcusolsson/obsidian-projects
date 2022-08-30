@@ -35,8 +35,8 @@ export default class ProjectsPlugin extends Plugin {
 		);
 
 		this.addCommand({
-			id: "open-projects",
-			name: "Open Projects",
+			id: "show-projects",
+			name: "Show projects",
 			callback: async () => {
 				this.activateView();
 			},
