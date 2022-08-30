@@ -2,6 +2,8 @@
 	import { Setting } from "obsidian";
 	import { Typography } from "../core/Typography";
 
+	export let message: string;
+	export let cta: string;
 	export let onConfirm: () => void;
 	export let onCancel: () => void;
 
@@ -12,16 +14,13 @@
 			})
 			.addButton((button) => {
 				button
-					.setButtonText("Delete")
+					.setButtonText(cta)
 					.setCta()
 					.onClick(() => onConfirm());
 			});
 	}
 </script>
 
-<Typography variant="h1">Confirm</Typography>
-<Typography variant="body">
-	Are you sure you want to delete this view?
-</Typography>
+<Typography variant="body">{message}</Typography>
 
 <div use:setting />
