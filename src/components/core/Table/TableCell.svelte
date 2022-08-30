@@ -13,8 +13,6 @@
 		box-sizing: border-box;
 		padding: 0;
 		border: 1px solid var(--background-modifier-border);
-		border-right: 1px solid rgba(var(--text-muted-rgb), 0.3);
-		border-left: 1px solid rgba(var(--text-muted-rgb), 0.3);
 		height: calc(100% / 5);
 	}
 

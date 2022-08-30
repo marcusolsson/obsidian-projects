@@ -194,7 +194,7 @@
 									get(app),
 									fields,
 									(record) => {
-										$api.updateRecord(record, fields);
+										$api.updateRecord(record);
 									},
 									records[id]
 								).open();
