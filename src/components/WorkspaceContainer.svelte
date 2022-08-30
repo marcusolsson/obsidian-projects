@@ -46,38 +46,40 @@
 		}}
 	/>
 	<ViewContainer>
-		{#each workspaceDef.views as v}
-			<ViewItem
-				selected={view === v.id}
-				name={v.name}
-				variant="secondary"
-				on:click={() => onViewChange(v.id)}
-				onDelete={() => {
-					new ConfirmDialogModal($app, () => {
-						settings.update((state) => {
-							return produce(state, (draft) => {
-								const idx = draft.workspaces.findIndex(
-									(ws) => ws.id === workspace
-								);
+		{#if workspaceDef}
+			{#each workspaceDef.views as v}
+				<ViewItem
+					selected={view === v.id}
+					name={v.name}
+					variant="secondary"
+					on:click={() => onViewChange(v.id)}
+					onDelete={() => {
+						new ConfirmDialogModal($app, () => {
+							settings.update((state) => {
+								return produce(state, (draft) => {
+									const idx = draft.workspaces.findIndex(
+										(ws) => ws.id === workspace
+									);
 
-								if (idx > 0) {
-									draft.workspaces.splice(idx, 1, {
-										...draft.workspaces[idx],
-										views: draft.workspaces[
-											idx
-										].views.filter(
-											(view) => view.id !== v.id
-										),
-									});
-								}
+									if (idx > 0) {
+										draft.workspaces.splice(idx, 1, {
+											...draft.workspaces[idx],
+											views: draft.workspaces[
+												idx
+											].views.filter(
+												(view) => view.id !== v.id
+											),
+										});
+									}
 
-								return draft;
+									return draft;
+								});
 							});
-						});
-					}).open();
-				}}
-			/>
-		{/each}
+						}).open();
+					}}
+				/>
+			{/each}
+		{/if}
 		<ViewItem
 			variant="link"
 			name="Add view"
@@ -89,7 +91,7 @@
 								(ws) => ws.id === workspace
 							);
 
-							if (idx > 0) {
+							if (idx >= 0) {
 								draft.workspaces.splice(idx, 1, {
 									...draft.workspaces[idx],
 									views: [

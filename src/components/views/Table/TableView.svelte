@@ -46,7 +46,6 @@
 			$app,
 			fields,
 			(record) => {
-				console.log("after", { record });
 				$api.updateRecord(record);
 			},
 			{ path: id, name, values }

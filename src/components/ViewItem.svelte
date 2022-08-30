@@ -9,7 +9,7 @@
 	let active: boolean = false;
 </script>
 
-<button
+<div
 	class:selected
 	on:click
 	class:link={variant === "link"}
@@ -27,10 +27,10 @@
 			}}
 		/>
 	{/if}
-</button>
+</div>
 
 <style>
-	button {
+	div {
 		background: var(--background-secondary);
 		border-radius: 0;
 		margin: 0;
@@ -38,13 +38,16 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
+		padding: 4px 16px;
+		font-size: 0.8em;
 	}
 
-	button:hover {
+	div:hover {
 		box-shadow: inset 0 -2px 0 0 var(--background-modifier-border);
+		cursor: pointer;
 	}
 
-	button.selected:hover {
+	div.selected:hover {
 		box-shadow: inset 0 -2px 0 0 var(--interactive-accent);
 	}
 

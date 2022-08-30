@@ -107,16 +107,13 @@
 </script>
 
 <div class="projects-container">
-	{#if selectedWorkspace}
-		<WorkspaceContainer
-			{workspaces}
-			workspace={selectedWorkspace.id}
-			onWorkspaceChange={(workspaceId) =>
-				handleWorkspaceChange(workspaceId)}
-			view={selectedView?.id}
-			onViewChange={(viewId) => handleViewChange(viewId)}
-		/>
-	{/if}
+	<WorkspaceContainer
+		{workspaces}
+		workspace={selectedWorkspace?.id}
+		onWorkspaceChange={(workspaceId) => handleWorkspaceChange(workspaceId)}
+		view={selectedView?.id}
+		onViewChange={(viewId) => handleViewChange(viewId)}
+	/>
 
 	<div class="projects-main">
 		{#if selectedView}

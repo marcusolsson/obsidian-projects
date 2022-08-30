@@ -24,15 +24,7 @@ export interface ProjectsPluginSettings {
 }
 
 export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettings> = {
-	workspaces: [
-		{
-			name: "Untitled workspace",
-			id: "untitled",
-			path: "",
-			recursive: true,
-			views: [],
-		},
-	],
+	workspaces: [],
 };
 
 export default class ProjectsPlugin extends Plugin {

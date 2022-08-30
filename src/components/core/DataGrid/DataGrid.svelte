@@ -19,8 +19,6 @@
 	export let rows: GridRowProps[];
 	export let sortModel: GridSortModel;
 
-	$: console.log({ rows });
-
 	export let onSortModelChange: (field: string, sort: string) => void;
 	export let onColumnResize: (field: string, width: number) => void;
 	export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
