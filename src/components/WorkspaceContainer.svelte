@@ -32,8 +32,8 @@
 		onChange={onWorkspaceChange}
 	/>
 	<ViewItem
-		name="+"
-		variant="secondary"
+		name="Add workspace"
+		variant="link"
 		on:click={() => {
 			new AddWorkspaceModal($app, (value) => {
 				settings.update((state) => {
@@ -45,95 +45,105 @@
 			}).open();
 		}}
 	/>
-	<ViewItem
-		name="-"
-		variant="secondary"
-		on:click={() => {
-			new ConfirmDialogModal(
-				$app,
-				"Are you sure you want to delete this workspace?",
-				"Delete",
-				() => {
-					settings.update((state) => {
-						return produce(state, (draft) => {
-							draft.workspaces = draft.workspaces.filter(
-								(w) => w.id !== workspace
-							);
-							return draft;
-						});
-					});
-				}
-			).open();
-		}}
-	/>
-	<ViewContainer>
-		{#if workspaceDef}
-			{#each workspaceDef.views as v}
-				<ViewItem
-					selected={view === v.id}
-					name={v.name}
-					variant="secondary"
-					on:click={() => onViewChange(v.id)}
-					onDelete={() => {
-						new ConfirmDialogModal(
-							$app,
-							"Are you sure you want to delete this view?",
-							"Delete",
-							() => {
-								settings.update((state) => {
-									return produce(state, (draft) => {
-										const idx = draft.workspaces.findIndex(
-											(ws) => ws.id === workspace
-										);
-
-										if (idx >= 0) {
-											draft.workspaces.splice(idx, 1, {
-												...draft.workspaces[idx],
-												views: draft.workspaces[
-													idx
-												].views.filter(
-													(view) => view.id !== v.id
-												),
-											});
-										}
-
-										return draft;
-									});
-								});
-							}
-						).open();
-					}}
-				/>
-			{/each}
-		{/if}
+	{#if workspaceDef}
 		<ViewItem
+			name="Delete workspace"
 			variant="link"
-			name="Add view"
 			on:click={() => {
-				new AddViewModal($app, (view) => {
-					settings.update((state) => {
-						return produce(state, (draft) => {
-							const idx = draft.workspaces.findIndex(
-								(ws) => ws.id === workspace
-							);
-
-							if (idx >= 0) {
-								draft.workspaces.splice(idx, 1, {
-									...draft.workspaces[idx],
-									views: [
-										...draft.workspaces[idx].views,
-										view,
-									],
-								});
-							}
-
-							return draft;
+				new ConfirmDialogModal(
+					$app,
+					"Are you sure you want to delete this workspace?",
+					"Delete",
+					() => {
+						settings.update((state) => {
+							return produce(state, (draft) => {
+								draft.workspaces = draft.workspaces.filter(
+									(w) => w.id !== workspace
+								);
+								return draft;
+							});
 						});
-					});
-				}).open();
+					}
+				).open();
 			}}
 		/>
-	</ViewContainer>
+		<ViewContainer>
+			{#if workspaceDef}
+				{#each workspaceDef.views as v}
+					<ViewItem
+						selected={view === v.id}
+						name={v.name}
+						variant="secondary"
+						on:click={() => onViewChange(v.id)}
+						onDelete={() => {
+							new ConfirmDialogModal(
+								$app,
+								"Are you sure you want to delete this view?",
+								"Delete",
+								() => {
+									settings.update((state) => {
+										return produce(state, (draft) => {
+											const idx =
+												draft.workspaces.findIndex(
+													(ws) => ws.id === workspace
+												);
+
+											if (idx >= 0) {
+												draft.workspaces.splice(
+													idx,
+													1,
+													{
+														...draft.workspaces[
+															idx
+														],
+														views: draft.workspaces[
+															idx
+														].views.filter(
+															(view) =>
+																view.id !== v.id
+														),
+													}
+												);
+											}
+
+											return draft;
+										});
+									});
+								}
+							).open();
+						}}
+					/>
+				{/each}
+			{/if}
+			<ViewItem
+				variant="link"
+				name="Add view"
+				on:click={() => {
+					new AddViewModal($app, (view) => {
+						settings.update((state) => {
+							return produce(state, (draft) => {
+								const idx = draft.workspaces.findIndex(
+									(ws) => ws.id === workspace
+								);
+
+								if (idx >= 0) {
+									draft.workspaces.splice(idx, 1, {
+										...draft.workspaces[idx],
+										views: [
+											...draft.workspaces[idx].views,
+											view,
+										],
+									});
+								}
+
+								return draft;
+							});
+						});
+					}).open();
+				}}
+			/>
+		</ViewContainer>
+	{/if}
 </div>
 
 <style>

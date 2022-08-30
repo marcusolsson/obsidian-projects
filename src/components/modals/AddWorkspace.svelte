@@ -20,11 +20,17 @@
 	<input type="text" bind:value={name} />
 </SettingItem>
 
-<SettingItem name={"Workspace path"}>
+<SettingItem
+	name={"Workspace path"}
+	description="Path to the folder you want to manage. Leave empty for root folder."
+>
 	<input type="text" bind:value={path} />
 </SettingItem>
 
-<SettingItem name={"Recursive"}>
+<SettingItem
+	name={"Recursive"}
+	description="Manage notes in folders within the workspace path."
+>
 	<Checkbox value={recursive} onChange={(value) => (recursive = value)} />
 </SettingItem>
 

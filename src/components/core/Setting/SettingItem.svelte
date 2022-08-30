@@ -6,7 +6,7 @@
 <div class="setting-item">
 	<div class="setting-item-info">
 		<div class="setting-item-name">{name}</div>
-		<div class="setting-item-name">{description}</div>
+		<div class="setting-item-description">{description}</div>
 	</div>
 	<div class="setting-item-control">
 		<slot />
