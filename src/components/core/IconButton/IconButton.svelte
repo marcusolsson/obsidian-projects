@@ -18,7 +18,11 @@
 	}
 </script>
 
-<div use:useIcon={{ name: icon, size: iconSize }} on:click />
+<div
+	style={`width: ${iconSize + 4}px; height: ${iconSize + 4}px`}
+	use:useIcon={{ name: icon, size: iconSize }}
+	on:click
+/>
 
 <style>
 	div {

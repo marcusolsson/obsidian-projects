@@ -22,7 +22,6 @@
 	{#if active && selected && onDelete}
 		<IconButton
 			icon="cross"
-			iconSize={10}
 			on:click={() => {
 				onDelete();
 			}}
