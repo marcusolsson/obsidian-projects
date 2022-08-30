@@ -86,7 +86,7 @@
 											(ws) => ws.id === workspace
 										);
 
-										if (idx > 0) {
+										if (idx >= 0) {
 											draft.workspaces.splice(idx, 1, {
 												...draft.workspaces[idx],
 												views: draft.workspaces[
