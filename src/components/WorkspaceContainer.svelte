@@ -1,0 +1,118 @@
+<script lang="ts">
+	import { AddWorkspaceModal } from "../modals/add-workspace-modal";
+
+	import type { WorkspaceDefinition } from "src/main";
+
+	import ViewContainer from "./ViewContainer.svelte";
+	import ViewItem from "./ViewItem.svelte";
+	import { app } from "../lib/stores";
+	import { settings } from "src/lib/stores/settings";
+	import produce from "immer";
+	import { AddViewModal } from "src/modals/add-view-modal";
+	import { ToolBarSelect } from "./core/ToolBar";
+	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
+
+	export let workspaces: WorkspaceDefinition[];
+	export let workspace: string;
+	export let onWorkspaceChange: (workspace: string) => void;
+
+	export let view: string | undefined;
+	export let onViewChange: (view: string) => void;
+
+	$: workspaceDef = workspaces.find((w) => w.id === workspace);
+</script>
+
+<div>
+	<ToolBarSelect
+		value={workspace}
+		options={workspaces.map((workspace) => ({
+			label: workspace.name,
+			value: workspace.id,
+		}))}
+		onChange={onWorkspaceChange}
+	/>
+	<ViewItem
+		name="+"
+		variant="secondary"
+		on:click={() => {
+			new AddWorkspaceModal($app, (value) => {
+				settings.update((state) => {
+					return produce(state, (draft) => {
+						draft.workspaces.push(value);
+						return draft;
+					});
+				});
+			}).open();
+		}}
+	/>
+	<ViewContainer>
+		{#each workspaceDef.views as v}
+			<ViewItem
+				selected={view === v.id}
+				name={v.name}
+				variant="secondary"
+				on:click={() => onViewChange(v.id)}
+				onDelete={() => {
+					new ConfirmDialogModal($app, () => {
+						settings.update((state) => {
+							return produce(state, (draft) => {
+								const idx = draft.workspaces.findIndex(
+									(ws) => ws.id === workspace
+								);
+
+								if (idx > 0) {
+									draft.workspaces.splice(idx, 1, {
+										...draft.workspaces[idx],
+										views: draft.workspaces[
+											idx
+										].views.filter(
+											(view) => view.id !== v.id
+										),
+									});
+								}
+
+								return draft;
+							});
+						});
+					}).open();
+				}}
+			/>
+		{/each}
+		<ViewItem
+			variant="link"
+			name="Add view"
+			on:click={() => {
+				new AddViewModal($app, (view) => {
+					settings.update((state) => {
+						return produce(state, (draft) => {
+							const idx = draft.workspaces.findIndex(
+								(ws) => ws.id === workspace
+							);
+
+							if (idx > 0) {
+								draft.workspaces.splice(idx, 1, {
+									...draft.workspaces[idx],
+									views: [
+										...draft.workspaces[idx].views,
+										view,
+									],
+								});
+							}
+
+							return draft;
+						});
+					});
+				}).open();
+			}}
+		/>
+	</ViewContainer>
+</div>
+
+<style>
+	div {
+		background-color: var(--background-secondary-alt);
+		display: flex;
+		align-items: stretch;
+		border-bottom: 1px solid var(--background-modifier-border);
+	}
+</style>
