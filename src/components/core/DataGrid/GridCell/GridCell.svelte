@@ -49,8 +49,10 @@
 	on:click={handleClick}
 	on:dblclick={handleDoubleClick}
 	on:mousedown
-	on:mouseenter={() => (hover = true)}
-	on:mouseleave={() => (hover = false)}
+	on:mouseover={() => (hover = true)}
+	on:mouseout={() => (hover = false)}
+	on:focus={() => (hover = true)}
+	on:blur={() => (hover = false)}
 	use:clickOutside={() => {
 		edit = false;
 		selected = false;
