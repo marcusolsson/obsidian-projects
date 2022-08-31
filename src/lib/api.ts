@@ -37,7 +37,11 @@ export class RecordApi {
 	}
 
 	deleteRecord(path: string) {
-		this.app.vault.trash(get(files)[path], true);
+		const file = get(files)[path];
+
+		if (file) {
+			this.app.vault.trash(file, true);
+		}
 	}
 
 	async deleteField(name: string) {

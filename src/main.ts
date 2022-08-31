@@ -57,9 +57,11 @@ export default class ProjectsPlugin extends Plugin {
 			active: true,
 		});
 
-		this.app.workspace.revealLeaf(
-			this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS)[0]
-		);
+		const leaves = this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
+
+		if (leaves[0]) {
+			this.app.workspace.revealLeaf(leaves[0]);
+		}
 	}
 
 	addIcons() {

@@ -15,16 +15,6 @@ export function alphabet() {
 	return alphabet;
 }
 
-export function getMaxColumns(rows: string[][]): number {
-	let longest = 0;
-	for (let i = 0; i < rows.length; i++) {
-		if (rows[i].length > longest) {
-			longest = rows[i].length;
-		}
-	}
-	return longest;
-}
-
 export function isShortcutKey(event: KeyboardEvent): boolean {
 	if (process.platform === "darwin") {
 		return event.metaKey;
@@ -106,7 +96,7 @@ export function filesToDataFrame(
 	for (let field in fieldSet) {
 		const type = fieldSet[field];
 
-		if (type !== DataFieldType.Unknown) {
+		if (type && type !== DataFieldType.Unknown) {
 			fields.push({ name: field, type });
 		}
 	}
@@ -122,14 +112,14 @@ export function filesToDataFrame(
 			const value = record.values[field.name];
 
 			if (field.type === DataFieldType.Date) {
-				if (isString(value)) {
+				if (value && isString(value)) {
 					record.values[field.name] = dayjs(
 						value,
 						"YYYY-MM-DD"
 					).toDate();
 				}
 			} else if (field.type === DataFieldType.Link) {
-				if (isString(value)) {
+				if (value && isString(value)) {
 					record.values[field.name] = {
 						linkText: value,
 						sourcePath: record.path,
