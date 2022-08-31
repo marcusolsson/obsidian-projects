@@ -32,12 +32,12 @@ const deleteFile = (file: TFile) => {
 };
 
 const updateAbstractFile = (file: TAbstractFile) => {
-	if (file instanceof TFile) {
+	if (file instanceof TFile && file.extension === "md") {
 		updateFile(file);
 	}
 };
 const deleteAbstractFile = (file: TAbstractFile) => {
-	if (file instanceof TFile) {
+	if (file instanceof TFile && file.extension === "md") {
 		deleteFile(file);
 	}
 };

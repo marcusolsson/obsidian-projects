@@ -8,7 +8,7 @@ import {
 	type FrontMatterCache,
 } from "obsidian";
 import { get } from "svelte/store";
-import { isDate, isLink, type DataRecord } from "./datasource";
+import { isDate, type DataRecord } from "./datasource";
 import { files } from "./stores/files";
 
 export class RecordApi {
