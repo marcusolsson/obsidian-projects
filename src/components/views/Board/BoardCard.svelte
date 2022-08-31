@@ -12,6 +12,5 @@
 
 	div:hover {
 		border: 1px solid var(--background-modifier-border);
-		cursor: pointer;
 	}
 </style>

@@ -7,7 +7,7 @@
 	} from "../../../lib/datasource";
 	import { api } from "../../../lib/stores";
 
-	import { Button2 } from "../../core/Button2";
+	import { Button } from "../../core/Button";
 	import { Field } from "../../core/Field";
 	import { HorizontalGroup } from "../../core/HorizontalGroup";
 	import { Select } from "../../core/Select";
@@ -122,8 +122,8 @@
 						</BoardCard>
 					{/if}
 				{/each}
-				<Button2
-					icon="plus"
+				<Button
+					variant="plain"
 					on:click={() => {
 						new ConfigureRecord(get(app), fields, (record) => {
 							// dataFrame.appendRecord(record);
@@ -131,7 +131,7 @@
 					}}
 				>
 					Add a record
-				</Button2>
+				</Button>
 			</BoardColumn>
 		{/each}
 	</HorizontalGroup>
