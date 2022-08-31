@@ -1,23 +1,21 @@
 <script lang="ts">
-	import { isDate, type DataValue } from "src/lib/datasource";
+	import { isDate } from "src/lib/datasource";
 
 	import { DatePicker } from "../../../../core/DatePicker";
 
 	import { GridCell } from "../";
 	import { TextLabel } from "../";
 
-	export let value: DataValue;
+	export let value: Date | undefined;
 	export let width: number;
-	export let onChange: (value: Date | null) => void;
+	export let onChange: (value: Date) => void;
 </script>
 
-{#if isDate(value)}
-	<GridCell {width} on:mousedown>
-		<TextLabel slot="read" value={value.toLocaleDateString()} />
-		<DatePicker slot="edit" {value} onCommit={onChange} />
-	</GridCell>
-{:else}
-	<GridCell {width} on:mousedown>
-		<DatePicker slot="edit" value={null} onCommit={onChange} />
-	</GridCell>
-{/if}
+<GridCell {width} on:mousedown>
+	<svelte:fragment slot="read">
+		{#if isDate(value)}
+			<TextLabel slot="read" value={value.toLocaleDateString()} />
+		{/if}
+	</svelte:fragment>
+	<DatePicker slot="edit" value={value ?? null} onCommit={onChange} />
+</GridCell>

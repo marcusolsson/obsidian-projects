@@ -1,43 +1,32 @@
 <script lang="ts">
-	import { isLink, type DataValue, type Link } from "src/lib/datasource";
+	import { isLink, type Link } from "src/lib/datasource";
 
 	import { GridCell } from "../";
+	import TextInput from "../GridTextCell/TextInput.svelte";
 
-	import LinkInput from "./LinkInput.svelte";
 	import LinkLabel from "./LinkLabel.svelte";
 
-	export let value: DataValue;
+	export let value: Link | undefined;
 	export let width: number;
 
 	export let onChange: (value: Link) => void;
 </script>
 
-{#if isLink(value)}
-	<GridCell {width} on:mousedown>
-		<LinkLabel slot="read" {value} />
-		<LinkInput
-			slot="edit"
-			value={value.linkText}
-			onChange={(linkText) => {
-				if (isLink(value)) {
-					onChange({
-						...value,
-						linkText,
-					});
-				}
-			}}
-		/>
-	</GridCell>
-{:else}
-	<GridCell {width} on:mousedown>
-		<LinkInput
-			slot="edit"
-			value=""
-			onChange={(linkText) =>
-				onChange({
-					linkText,
-					sourcePath: "",
-				})}
-		/>
-	</GridCell>
-{/if}
+<GridCell {width} on:mousedown>
+	<svelte:fragment slot="read">
+		{#if isLink(value)}
+			<LinkLabel slot="read" {value} />
+		{/if}
+	</svelte:fragment>
+
+	<TextInput
+		slot="edit"
+		value={value?.linkText ?? ""}
+		onChange={(linkText) => {
+			onChange({
+				sourcePath: "",
+				linkText,
+			});
+		}}
+	/>
+</GridCell>

@@ -22,6 +22,7 @@
 
 <style>
 	span {
-		fill: var(--text-faint);
+		color: var(--text-muted);
+		fill: var(--text-muted);
 	}
 </style>

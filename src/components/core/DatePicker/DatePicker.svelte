@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let value: Date | null;
-	export let onCommit: (value: Date | null) => void;
+	export let onCommit: (value: Date) => void;
 
 	let ref: HTMLInputElement;
 	$: {
@@ -11,7 +11,9 @@
 
 	function handleChange(event: Event) {
 		if (event.currentTarget instanceof HTMLInputElement) {
-			onCommit(event.currentTarget.valueAsDate);
+			if (event.currentTarget.valueAsDate) {
+				onCommit(event.currentTarget.valueAsDate);
+			}
 		}
 	}
 </script>

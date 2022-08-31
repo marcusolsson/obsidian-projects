@@ -1,3 +1,4 @@
+import produce from "immer";
 import {
 	parseYaml,
 	stringifyYaml,
@@ -6,7 +7,7 @@ import {
 	type FrontMatterCache,
 } from "obsidian";
 import { get } from "svelte/store";
-import type { DataRecord } from "./datasource";
+import { isLink, type DataRecord } from "./datasource";
 import { files } from "./stores/files";
 
 export class RecordApi {
@@ -26,6 +27,13 @@ export class RecordApi {
 
 			const updated = Object.fromEntries(
 				Object.entries({ ...frontmatter, ...record.values })
+					.map((entry) =>
+						isLink(entry[1])
+							? produce(entry, (draft) => {
+									draft[1] = [[entry[1].linkText]];
+							  })
+							: entry
+					)
 					.filter((entry) => entry[1] !== undefined)
 					.filter((entry) => entry[1] !== null)
 			);

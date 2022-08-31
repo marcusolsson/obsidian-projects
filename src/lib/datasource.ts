@@ -19,7 +19,7 @@ export interface DataField {
 	type: DataFieldType;
 }
 
-export type DataValue = string | number | boolean | Date | Link | null;
+export type DataValue = string | number | boolean | Date | Link | undefined;
 
 export interface DataRecord {
 	name: string;
@@ -60,4 +60,29 @@ export function isNumber(value: DataValue): value is number {
 }
 export function isDate(value: DataValue): value is Date {
 	return value instanceof Date;
+}
+
+export function isOptionalBoolean(
+	value: DataValue
+): value is boolean | undefined {
+	return typeof value === "boolean" || value === undefined;
+}
+export function isOptionalString(
+	value: DataValue
+): value is string | undefined {
+	return typeof value === "string" || value === undefined;
+}
+export function isOptionalLink(value: DataValue): value is Link | undefined {
+	if (typeof value === "object") {
+		return "linkText" in value && "sourcePath" in value;
+	}
+	return value === undefined;
+}
+export function isOptionalNumber(
+	value: DataValue
+): value is number | undefined {
+	return typeof value === "number" || value === undefined;
+}
+export function isOptionalDate(value: DataValue): value is Date | undefined {
+	return value instanceof Date || value === undefined;
 }

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { link } from "fs";
 import type { App, TFile } from "obsidian";
 import {
 	DataFieldType,
@@ -27,11 +28,11 @@ export function fieldIcon(field: DataFieldType): string {
 		case DataFieldType.String:
 			return "text";
 		case DataFieldType.Number:
-			return "number";
+			return "hash";
 		case DataFieldType.Boolean:
-			return "boolean";
+			return "check";
 		case DataFieldType.Date:
-			return "date";
+			return "calendar-days";
 		case DataFieldType.Link:
 			return "link";
 	}
@@ -119,11 +120,16 @@ export function filesToDataFrame(
 					).toDate();
 				}
 			} else if (field.type === DataFieldType.Link) {
-				if (value && isString(value)) {
-					record.values[field.name] = {
-						linkText: value,
-						sourcePath: record.path,
-					};
+				if (value) {
+					if (Array.isArray(value)) {
+						const linkText = value[0][0];
+						if (linkText && isString(linkText)) {
+							record.values[field.name] = {
+								linkText,
+								sourcePath: record.path,
+							};
+						}
+					}
 				}
 			}
 		}
