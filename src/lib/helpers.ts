@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { App, TFile } from "obsidian";
+import type { App, FrontMatterCache, TFile } from "obsidian";
 import { isDate } from "util/types";
 import {
 	DataFieldType,
@@ -77,18 +77,19 @@ export function filesToDataFrame(
 		const cache = app.metadataCache.getFileCache(file);
 
 		if (cache) {
-			const frontmatter = cache.frontmatter;
+			const { position, ...values }: { [key: string]: any } =
+				cache.frontmatter ?? {};
 
-			for (let field in frontmatter) {
+			for (let field in values) {
 				if (field !== "position") {
-					fieldSet[field] = fieldType(frontmatter?.[field]);
+					fieldSet[field] = fieldType(values[field]);
 				}
 			}
 
 			records.push({
 				name: file.basename,
 				path: file.path,
-				values: frontmatter ?? {},
+				values,
 			});
 		}
 	}
