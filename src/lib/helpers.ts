@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { App, FrontMatterCache, TFile } from "obsidian";
+import type { App, TFile } from "obsidian";
 import { isDate } from "util/types";
 import {
 	DataFieldType,
