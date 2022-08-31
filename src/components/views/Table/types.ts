@@ -1,5 +1,5 @@
 export interface GridConfig {
-	fieldWidths: Record<string, number>;
-	sortField: string;
-	sortAsc: boolean;
+	fieldWidths?: Record<string, number>;
+	sortField?: string;
+	sortAsc?: boolean;
 }

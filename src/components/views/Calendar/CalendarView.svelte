@@ -51,14 +51,19 @@
 		records.forEach((record, i) => {
 			const dateValue = record.values[field];
 
-			const start = isDate(dateValue) ? dayjs(dateValue) : null;
+			const start = dateValue
+				? isDate(dateValue)
+					? dayjs(dateValue)
+					: null
+				: null;
 
 			if (start) {
 				const dateStr = start.format("YYYY-MM-DD");
 				if (!(dateStr in res)) {
 					res[dateStr] = [];
 				}
-				res[dateStr].push([i, record]);
+
+				res[dateStr]?.push([i, record]);
 			}
 		});
 
@@ -77,7 +82,7 @@
 	function computeDateInterval(
 		anchor: dayjs.Dayjs,
 		interval: string
-	): [dayjs.Dayjs, dayjs.Dayjs] {
+	): [dayjs.Dayjs, dayjs.Dayjs] | undefined {
 		switch (interval) {
 			case "month":
 				return [anchor.startOf("month"), anchor.endOf("month")];
@@ -93,6 +98,8 @@
 			case "day":
 				return [anchor, anchor];
 		}
+
+		return undefined;
 	}
 
 	function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
@@ -109,8 +116,10 @@
 		)}`;
 	}
 
-	$: numDays = dateInterval[1].diff(dateInterval[0], "days");
-	$: title = generateTitle(dateInterval);
+	$: numDays = dateInterval
+		? dateInterval[1].diff(dateInterval[0], "days")
+		: 0;
+	$: title = dateInterval ? generateTitle(dateInterval) : "";
 
 	function generateDates(start: dayjs.Dayjs): dayjs.Dayjs[] {
 		const dates: dayjs.Dayjs[] = [];
@@ -125,7 +134,11 @@
 	function take<T>(arr: Array<T>, num: number): Array<T> {
 		const buffer: Array<T> = [];
 		for (let i = 0; i < num && i < arr.length; i++) {
-			buffer.push(arr[i]);
+			const el = arr[i];
+
+			if (el) {
+				buffer.push(el);
+			}
 		}
 		return buffer;
 	}
@@ -145,7 +158,7 @@
 		return chunkedDates;
 	}
 
-	$: dates = generateDates(dateInterval[0]);
+	$: dates = dateInterval ? generateDates(dateInterval[0]) : [];
 	$: numColumns = Math.min(dates.length, 7);
 	$: weeks = splitDates(dates, numColumns);
 	$: columnHeaders = dates

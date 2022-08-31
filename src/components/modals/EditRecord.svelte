@@ -39,7 +39,7 @@
 {#each fields as field}
 	<SettingItem name={field.name}>
 		<FieldControl
-			value={record.values[field.name]}
+			value={record.values[field.name] ?? null}
 			onChange={(value) => {
 				record = produce(record, (draft) => {
 					draft.values[field.name] = value;

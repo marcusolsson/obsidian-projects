@@ -5,7 +5,6 @@
 		isNumber,
 		isString,
 		isBoolean,
-		type DataField,
 		type DataValue,
 		isLink,
 	} from "src/lib/datasource";

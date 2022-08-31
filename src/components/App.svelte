@@ -12,11 +12,11 @@
 
 	import WorkspaceContainer from "./WorkspaceContainer.svelte";
 
-	const viewComponents = [
-		{ type: "table", component: TableView },
-		{ type: "board", component: BoardView },
-		{ type: "calendar", component: CalendarView },
-	];
+	const viewComponents: { [key: string]: any } = {
+		table: TableView,
+		board: BoardView,
+		calendar: CalendarView,
+	};
 
 	$: workspaces = $settings.workspaces;
 
@@ -51,12 +51,14 @@
 
 		selectedWorkspace = workspace ? workspace : workspaces[0];
 
-		if (!selectedWorkspace.views.length) {
-			selectedView = null;
-			return;
-		}
+		if (selectedWorkspace) {
+			if (!selectedWorkspace.views.length) {
+				selectedView = null;
+				return;
+			}
 
-		selectedView = selectedWorkspace.views[0];
+			selectedView = selectedWorkspace.views[0];
+		}
 	}
 
 	function handleViewChange(viewId: string) {
@@ -84,11 +86,11 @@
 		settings.update((state) =>
 			produce(state, (draft) => {
 				draft.workspaces = draft.workspaces.map((workspace) => {
-					if (workspace.id === selectedWorkspace.id) {
+					if (workspace.id === selectedWorkspace?.id) {
 						return {
 							...workspace,
 							views: workspace.views.map((view) => {
-								if (view.id === selectedView.id) {
+								if (view.id === selectedView?.id) {
 									return {
 										...view,
 										config,
@@ -104,6 +106,8 @@
 			})
 		);
 	}
+
+	$: viewComponent = selectedView ? viewComponents[selectedView.type] : null;
 </script>
 
 <div class="projects-container">
@@ -116,11 +120,9 @@
 	/>
 
 	<div class="projects-main">
-		{#if selectedView}
+		{#if selectedView && viewComponent}
 			<svelte:component
-				this={viewComponents.find(
-					(view) => view.type === selectedView.type
-				).component}
+				this={viewComponent}
 				records={frame.records}
 				fields={frame.fields}
 				config={selectedView.config}

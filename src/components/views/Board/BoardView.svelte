@@ -38,11 +38,15 @@
 	$: groupByField = config?.groupByField ?? textFields?.[0]?.name;
 	$: selectedField = fields.find((field) => field.name === groupByField);
 
+	function notEmpty<T>(value: T | null | undefined): value is T {
+		return value !== null && value !== undefined;
+	}
+
 	function unique(records: DataRecord[], fieldName: string): string[] {
 		const keys = records
 			.map((record) => record.values[fieldName])
-			.map((value) => (isString(value) ? value : null))
-			.filter((value) => value);
+			.map((value) => (value && isString(value) ? value : null))
+			.filter(notEmpty);
 
 		const set = new Set(keys);
 
@@ -63,8 +67,9 @@
 		}
 
 		records.forEach((record, id) => {
-			if (record.values[fieldName]) {
-				res[record.values[fieldName] as string].push([id, record]);
+			const value = record.values[fieldName];
+			if (value && isString(value)) {
+				res[value]?.push([id, record]);
 			}
 		});
 
@@ -91,24 +96,26 @@
 
 <div>
 	<ToolBar>
-		<Field name="Group by">
-			<Select
-				value={groupByField}
-				options={textFields
-					.map((idx) => fields[idx].name)
-					.map((value) => ({ label: value, value }))}
-				onChange={(value) =>
-					onConfigChange({
-						...config,
-						groupByField: value,
-					})}
-			/>
-		</Field>
+		{#if groupByField}
+			<Field name="Group by">
+				<Select
+					value={groupByField}
+					options={textFields
+						.map((field) => field.name)
+						.map((value) => ({ label: value, value }))}
+					onChange={(value) =>
+						onConfigChange({
+							...config,
+							groupByField: value,
+						})}
+				/>
+			</Field>
+		{/if}
 	</ToolBar>
 	<HorizontalGroup alignItems="flex-start">
 		{#each columns.sort() as column}
 			<BoardColumn name={column}>
-				{#each groupedRecords[column] as record}
+				{#each groupedRecords[column] ?? [] as record}
 					{#if record[1].name}
 						<BoardCard on:click={handleRecordClick(record[1])}>
 							{record[1].name}

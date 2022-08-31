@@ -18,8 +18,8 @@ export interface WorkspaceDefinition {
 }
 
 export interface ProjectsPluginSettings {
-	lastWorkspaceId?: string;
-	lastViewId?: string;
+	lastWorkspaceId?: string | undefined;
+	lastViewId?: string | undefined;
 	workspaces: WorkspaceDefinition[];
 }
 

@@ -3,19 +3,20 @@
 
 	import type { WorkspaceDefinition } from "src/main";
 
+	import produce from "immer";
+	import { settings } from "src/lib/stores/settings";
+	import { AddViewModal } from "src/modals/add-view-modal";
+	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
+	import { app } from "../lib/stores";
+	import { IconButton } from "./core/IconButton";
+	import { Select } from "./core/Select";
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
-	import { app } from "../lib/stores";
-	import { settings } from "src/lib/stores/settings";
-	import produce from "immer";
-	import { AddViewModal } from "src/modals/add-view-modal";
-	import { ToolBarSelect } from "./core/ToolBar";
-	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
-	import { Select } from "./core/Select";
-	import { IconButton } from "./core/IconButton";
+	import { identity } from "svelte/internal";
+	import path from "path";
 
 	export let workspaces: WorkspaceDefinition[];
-	export let workspace: string;
+	export let workspace: string | undefined;
 	export let onWorkspaceChange: (workspace: string) => void;
 
 	export let view: string | undefined;
@@ -26,7 +27,7 @@
 
 <div>
 	<Select
-		value={workspace}
+		value={workspace ?? ""}
 		options={workspaces.map((workspace) => ({
 			label: workspace.name,
 			value: workspace.id,
@@ -89,21 +90,23 @@
 												);
 
 											if (idx >= 0) {
-												draft.workspaces.splice(
-													idx,
-													1,
-													{
-														...draft.workspaces[
-															idx
-														],
-														views: draft.workspaces[
-															idx
-														].views.filter(
-															(view) =>
-																view.id !== v.id
-														),
-													}
-												);
+												const ws =
+													draft.workspaces[idx];
+
+												if (ws) {
+													draft.workspaces.splice(
+														idx,
+														1,
+														{
+															...ws,
+															views: ws.views.filter(
+																(view) =>
+																	view.id !==
+																	v.id
+															),
+														}
+													);
+												}
 											}
 
 											return draft;
@@ -117,6 +120,7 @@
 			{/if}
 			<ViewItem
 				variant="link"
+				icon="plus"
 				name="Add view"
 				on:click={() => {
 					new AddViewModal($app, (view) => {
@@ -127,13 +131,13 @@
 								);
 
 								if (idx >= 0) {
-									draft.workspaces.splice(idx, 1, {
-										...draft.workspaces[idx],
-										views: [
-											...draft.workspaces[idx].views,
-											view,
-										],
-									});
+									const ws = draft.workspaces[idx];
+									if (ws) {
+										draft.workspaces.splice(idx, 1, {
+											...ws,
+											views: [...ws.views, view],
+										});
+									}
 								}
 
 								return draft;

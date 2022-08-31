@@ -35,7 +35,7 @@ export function fieldIcon(field: DataFieldType): string {
 		case DataFieldType.Link:
 			return "link";
 	}
-	return "";
+	return "info";
 }
 
 export interface FieldConfiguration {

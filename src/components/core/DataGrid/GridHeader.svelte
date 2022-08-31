@@ -10,6 +10,7 @@
 	import type { GridColDef } from "./types";
 
 	import GridCellGroup from "./GridCellGroup.svelte";
+	import { DataFieldType } from "src/lib/datasource";
 
 	export let columns: GridColDef[];
 	export let onResize: (name: string, width: number) => void;
@@ -45,7 +46,7 @@
 			on:mousedown={handleColumnHeaderClick(column)}
 		>
 			<div slot="read">
-				<Icon name={fieldIcon(column.type)} />
+				<Icon name={fieldIcon(column.type ?? DataFieldType.Unknown)} />
 				<TextLabel slot="read" value={column.field} />
 				<IconButton
 					icon="vertical-three-dots"

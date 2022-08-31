@@ -8,7 +8,7 @@
 
 	export let value: DataValue;
 	export let width: number;
-	export let onChange: (value: Date) => void;
+	export let onChange: (value: Date | null) => void;
 </script>
 
 {#if isDate(value)}
@@ -18,6 +18,6 @@
 	</GridCell>
 {:else}
 	<GridCell {width} on:mousedown>
-		<DatePicker slot="edit" value={undefined} onCommit={onChange} />
+		<DatePicker slot="edit" value={null} onCommit={onChange} />
 	</GridCell>
 {/if}

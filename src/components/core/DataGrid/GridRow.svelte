@@ -3,7 +3,7 @@
 	import type { Menu } from "obsidian";
 
 	import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
-	import type { DataValue } from "src/lib/datasource";
+	import { DataFieldType, type DataValue } from "src/lib/datasource";
 	import { IconButton } from "../IconButton";
 	import GridCellGroup from "./GridCellGroup.svelte";
 
@@ -59,9 +59,9 @@
 	{#each columns as column}
 		<GridTypedCell
 			value={row[column.field]}
-			type={column.type}
-			width={column.width}
-			editable={column.editable}
+			type={column.type ?? DataFieldType.Unknown}
+			width={column.width ?? 180}
+			editable={column.editable ?? false}
 			onChange={(value) => {
 				onRowChange(
 					rowId,

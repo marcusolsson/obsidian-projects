@@ -1,9 +1,8 @@
 <script lang="ts">
-	import path from "path";
 	import DataGrid from "src/components/core/DataGrid/DataGrid.svelte";
 	import type {
-		GridRowProps,
 		GridColDef,
+		GridRowProps,
 	} from "src/components/core/DataGrid/types";
 	import {
 		DataFieldType,

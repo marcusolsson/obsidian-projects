@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let value: Date;
-	export let onCommit: (value: Date) => void;
+	export let value: Date | null;
+	export let onCommit: (value: Date | null) => void;
 
 	let ref: HTMLInputElement;
 	$: {

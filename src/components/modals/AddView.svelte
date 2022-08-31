@@ -39,7 +39,11 @@
 	onClick={() =>
 		onSave({
 			id: uuidv4(),
-			name: name || type[0].toUpperCase() + type.slice(1),
+			name:
+				name || type.length > 0
+					? type[0]?.toUpperCase() + type.slice(1)
+					: name,
 			type,
+			config: {},
 		})}
 />
