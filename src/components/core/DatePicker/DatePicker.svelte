@@ -4,8 +4,13 @@
 
 	let ref: HTMLInputElement;
 	$: {
-		if (ref) {
-			ref.valueAsDate = value;
+		if (ref && value) {
+			ref.valueAsDate = new Date(
+				value.getFullYear(),
+				value.getMonth(),
+				value.getDate(),
+				12
+			);
 		}
 	}
 
@@ -28,7 +33,8 @@
 		font-family: var(--font-default);
 		padding: 0.1em 0.6em;
 		margin: 0;
-		font-size: var(--font-text-size);
-		margin: 6px;
+		font-size: var(--font-ui-small);
+		margin: 0 8px;
+		width: 100%;
 	}
 </style>

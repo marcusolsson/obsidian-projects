@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
-import { link } from "fs";
 import type { App, TFile } from "obsidian";
+import { isDate } from "util/types";
 import {
 	DataFieldType,
+	isNumber,
 	isString,
 	type DataField,
 	type DataFrame,
@@ -139,13 +140,15 @@ export function filesToDataFrame(
 }
 
 function fieldType(value: any): DataFieldType {
-	if (typeof value === "string") {
+	if (isDate(value)) {
+		return DataFieldType.Date;
+	} else if (isString(value)) {
 		return /\d{4}-\d{2}-\d{2}/.test(value)
 			? DataFieldType.Date
 			: DataFieldType.String;
-	} else if (typeof value === "number") {
+	} else if (isNumber(value)) {
 		return DataFieldType.Number;
-	} else if (typeof value === "boolean") {
+	} else if (isBoolean(value)) {
 		return DataFieldType.Boolean;
 	} else if (Array.isArray(value)) {
 		if (value.length === 1) {

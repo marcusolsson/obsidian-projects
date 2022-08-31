@@ -9,7 +9,6 @@
 <style>
 	div {
 		display: flex;
-		min-height: 30px;
 		border-bottom: 1px solid var(--background-modifier-border);
 	}
 

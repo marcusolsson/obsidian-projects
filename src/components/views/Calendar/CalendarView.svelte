@@ -1,7 +1,5 @@
 <script lang="ts">
 	import dayjs from "dayjs";
-	import isoWeek from "dayjs/plugin/isoWeek";
-	import localizedFormat from "dayjs/plugin/localizedFormat";
 	import { get } from "svelte/store";
 
 	import { app, api } from "../../../lib/stores";
@@ -26,9 +24,6 @@
 	} from "../../core/Table";
 
 	import CalendarDay from "./CalendarDay.svelte";
-
-	dayjs.extend(isoWeek);
-	dayjs.extend(localizedFormat);
 
 	interface CalendarConfig {
 		interval?: string;
