@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import produce from "immer";
 import {
 	parseYaml,
@@ -7,7 +8,7 @@ import {
 	type FrontMatterCache,
 } from "obsidian";
 import { get } from "svelte/store";
-import { isLink, type DataRecord } from "./datasource";
+import { isDate, isLink, type DataRecord } from "./datasource";
 import { files } from "./stores/files";
 
 export class RecordApi {
@@ -28,9 +29,11 @@ export class RecordApi {
 			const updated = Object.fromEntries(
 				Object.entries({ ...frontmatter, ...record.values })
 					.map((entry) =>
-						isLink(entry[1])
+						isDate(entry[1])
 							? produce(entry, (draft) => {
-									draft[1] = [[entry[1].linkText]];
+									draft[1] = dayjs(entry[1]).format(
+										"YYYY-MM-DD"
+									);
 							  })
 							: entry
 					)
