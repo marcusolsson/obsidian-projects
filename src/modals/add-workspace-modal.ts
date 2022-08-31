@@ -3,7 +3,9 @@ import AddWorkspace from "../components/modals/AddWorkspace.svelte";
 import type { WorkspaceDefinition } from "../main";
 
 export class AddWorkspaceModal extends Modal {
+	// @ts-ignore
 	component: AddWorkspace;
+
 	onSave: (workspace: WorkspaceDefinition) => void;
 
 	constructor(app: App, onSave: (workspace: WorkspaceDefinition) => void) {

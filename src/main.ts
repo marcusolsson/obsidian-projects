@@ -52,7 +52,7 @@ export default class ProjectsPlugin extends Plugin {
 	async activateView() {
 		this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
 
-		await this.app.workspace.activeLeaf.setViewState({
+		await this.app.workspace.getLeaf(true).setViewState({
 			type: VIEW_TYPE_PROJECTS,
 			active: true,
 		});

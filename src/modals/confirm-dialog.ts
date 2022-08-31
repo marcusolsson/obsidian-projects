@@ -2,6 +2,7 @@ import { App, Modal } from "obsidian";
 import ConfirmDialog from "../components/modals/ConfirmDialog.svelte";
 
 export class ConfirmDialogModal extends Modal {
+	// @ts-ignore
 	component: ConfirmDialog;
 
 	message: string;

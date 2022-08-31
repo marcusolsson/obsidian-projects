@@ -4,9 +4,11 @@ import EditRecord from "../components/modals/EditRecord.svelte";
 
 export class ConfigureRecord extends Modal {
 	fields: DataField[];
-	component: EditRecord;
 	onSave: (record: DataRecord) => void;
 	defaults?: DataRecord;
+
+	// @ts-ignore
+	component: EditRecord;
 
 	constructor(
 		app: App,

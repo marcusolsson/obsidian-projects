@@ -3,6 +3,7 @@ import AddView from "../components/modals/AddView.svelte";
 import type { ViewDefinition } from "../main";
 
 export class AddViewModal extends Modal {
+	// @ts-expect-error
 	component: AddView;
 	onSave: (view: ViewDefinition) => void;
 

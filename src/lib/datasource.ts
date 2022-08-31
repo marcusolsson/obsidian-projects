@@ -53,6 +53,7 @@ export function isLink(value: DataValue): value is Link {
 	if (value && typeof value === "object") {
 		return "linkText" in value && "sourcePath" in value;
 	}
+	return false;
 }
 export function isNumber(value: DataValue): value is number {
 	return typeof value === "number";

@@ -10,8 +10,12 @@ import { DEFAULT_SETTINGS } from "./main";
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
 export class ProjectsView extends ItemView {
-	component: App;
 	plugin: ProjectsPlugin;
+
+	// @ts-ignore
+	component: App;
+
+	// @ts-ignore
 	unsubscribeSettings: Unsubscriber;
 
 	constructor(leaf: WorkspaceLeaf, plugin: ProjectsPlugin) {
