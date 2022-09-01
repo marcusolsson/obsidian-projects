@@ -5,7 +5,7 @@
 </script>
 
 <div>
-	<Typography variant="label">{name}</Typography>
+	<Typography variant="label" nomargin>{name}</Typography>
 	<slot />
 </div>
 

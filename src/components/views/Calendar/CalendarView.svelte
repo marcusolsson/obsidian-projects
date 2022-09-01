@@ -25,9 +25,12 @@
 
 	import CalendarDay from "./CalendarDay.svelte";
 	import Navigation from "./Navigation.svelte";
+	import HorizontalGroup from "src/components/core/HorizontalGroup/HorizontalGroup.svelte";
+	import Field from "src/components/core/Field/Field.svelte";
 
 	interface CalendarConfig {
 		interval?: string;
+		dateField?: string;
 	}
 
 	export let records: DataRecord[];
@@ -36,7 +39,10 @@
 	export let config: CalendarConfig;
 	export let onConfigChange: (config: CalendarConfig) => void;
 
-	$: dateField = fields.find((field) => field.type === DataFieldType.Date);
+	$: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
+	$: dateField =
+		dateFields.find((field) => config?.dateField === field.name) ??
+		dateFields[0];
 
 	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
 
@@ -207,21 +213,37 @@
 			}}
 		/>
 		<Typography variant="h2" nomargin>{title}</Typography>
-		<Select
-			value={config?.interval ?? "week"}
-			options={[
-				{ label: "Month", value: "month" },
-				{ label: "2 weeks", value: "2weeks" },
-				{ label: "Week", value: "week" },
-				{ label: "3 days", value: "3days" },
-				{ label: "Day", value: "day" },
-			]}
-			onChange={(value) =>
-				onConfigChange({
-					...config,
-					interval: value,
-				})}
-		/>
+		<HorizontalGroup>
+			<Field name="Date field">
+				<Select
+					value={dateField?.name ?? ""}
+					options={dateFields.map(({ name }) => ({
+						label: name,
+						value: name,
+					}))}
+					onChange={(value) =>
+						onConfigChange({
+							...config,
+							dateField: value,
+						})}
+				/>
+			</Field>
+			<Select
+				value={config?.interval ?? "week"}
+				options={[
+					{ label: "Month", value: "month" },
+					{ label: "2 weeks", value: "2weeks" },
+					{ label: "Week", value: "week" },
+					{ label: "3 days", value: "3days" },
+					{ label: "Day", value: "day" },
+				]}
+				onChange={(value) =>
+					onConfigChange({
+						...config,
+						interval: value,
+					})}
+			/>
+		</HorizontalGroup>
 	</ToolBar>
 	<Table grow>
 		<TableHead>

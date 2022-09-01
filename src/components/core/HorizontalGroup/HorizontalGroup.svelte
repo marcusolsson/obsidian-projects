@@ -9,7 +9,6 @@
 
 <style>
 	div {
-		padding: 8px;
 		display: flex;
 		gap: 8px;
 	}
