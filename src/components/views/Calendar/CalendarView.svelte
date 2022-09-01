@@ -3,6 +3,7 @@
 	import { get } from "svelte/store";
 
 	import { app, api } from "../../../lib/stores";
+	import { fieldToSelectableValue } from "src/lib/helpers";
 	import {
 		DataFieldType,
 		type DataField,
@@ -13,7 +14,7 @@
 	import { Select } from "../../core/Select";
 	import { Typography } from "../../core/Typography";
 	import { ToolBar } from "../../core/ToolBar";
-
+	import { HorizontalGroup } from "../../core/HorizontalGroup";
 	import {
 		Table,
 		TableBody,
@@ -24,8 +25,8 @@
 
 	import CalendarDay from "./CalendarDay.svelte";
 	import Navigation from "./Navigation.svelte";
-	import HorizontalGroup from "src/components/core/HorizontalGroup/HorizontalGroup.svelte";
 	import Field from "src/components/core/Field/Field.svelte";
+
 	import {
 		addInterval,
 		computeDateInterval,
@@ -33,11 +34,10 @@
 		generateTitle,
 		groupRecords,
 		isCalendarInterval,
-		splitDates,
+		chunkDates,
 		subtractInterval,
 		type CalendarInterval,
 	} from "./calendar";
-	import { fieldToSelectableValue } from "src/lib/helpers";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
@@ -63,18 +63,12 @@
 	$: dateInterval = computeDateInterval(anchorDate, interval);
 
 	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
-
-	$: numDays = dateInterval
-		? dateInterval[1].diff(dateInterval[0], "days")
-		: 0;
 	$: title = dateInterval ? generateTitle(dateInterval) : "";
+	$: dates = dateInterval ? generateDates(dateInterval) : [];
 
-	$: dates = dateInterval ? generateDates(dateInterval[0], numDays) : [];
 	$: numColumns = Math.min(dates.length, 7);
-	$: weeks = splitDates(dates, numColumns);
-	$: columnHeaders = dates
-		.slice(0, numColumns)
-		.map((date) => date.format("ddd"));
+	$: weeks = chunkDates(dates, numColumns);
+	$: weekDays = dates.slice(0, numColumns).map((date) => date.format("ddd"));
 
 	function handleIntervalChange(interval: string) {
 		if (isCalendarInterval(interval)) {
@@ -119,8 +113,8 @@
 	<Table grow>
 		<TableHead>
 			<TableRow>
-				{#each columnHeaders as header}
-					<TableColumnHeaderCell>{header}</TableColumnHeaderCell>
+				{#each weekDays as weekDay}
+					<TableColumnHeaderCell>{weekDay}</TableColumnHeaderCell>
 				{/each}
 			</TableRow>
 		</TableHead>

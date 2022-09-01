@@ -112,19 +112,23 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
 }
 
 export function generateDates(
-	start: dayjs.Dayjs,
-	numDays: number
+	dateInterval: [dayjs.Dayjs, dayjs.Dayjs]
 ): dayjs.Dayjs[] {
 	const dates: dayjs.Dayjs[] = [];
 
+	const numDays = dateInterval[1].diff(dateInterval[0], "days");
+
 	for (let i = 0; i <= numDays; i++) {
-		dates.push(start.add(i, "day"));
+		dates.push(dateInterval[0].add(i, "day"));
 	}
 
 	return dates;
 }
 
-export function splitDates(dates: dayjs.Dayjs[], chunks: number) {
+export function chunkDates(
+	dates: dayjs.Dayjs[],
+	chunks: number
+): dayjs.Dayjs[][] {
 	const chunkedDates: dayjs.Dayjs[][] = [];
 
 	let rest = dates;
