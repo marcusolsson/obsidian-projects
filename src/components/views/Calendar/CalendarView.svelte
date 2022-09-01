@@ -24,6 +24,7 @@
 	} from "../../core/Table";
 
 	import CalendarDay from "./CalendarDay.svelte";
+	import Navigation from "./Navigation.svelte";
 
 	interface CalendarConfig {
 		interval?: string;
@@ -36,6 +37,26 @@
 	export let onConfigChange: (config: CalendarConfig) => void;
 
 	$: dateField = fields.find((field) => field.type === DataFieldType.Date);
+
+	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
+
+	let anchorDate: dayjs.Dayjs = dayjs();
+
+	$: interval = config?.interval ?? "week";
+
+	$: dateInterval = computeDateInterval(anchorDate, interval);
+
+	$: numDays = dateInterval
+		? dateInterval[1].diff(dateInterval[0], "days")
+		: 0;
+	$: title = dateInterval ? generateTitle(dateInterval) : "";
+
+	$: dates = dateInterval ? generateDates(dateInterval[0]) : [];
+	$: numColumns = Math.min(dates.length, 7);
+	$: weeks = splitDates(dates, numColumns);
+	$: columnHeaders = dates
+		.slice(0, numColumns)
+		.map((date) => date.format("ddd"));
 
 	function groupRecords(
 		records: DataRecord[],
@@ -64,15 +85,6 @@
 
 		return res;
 	}
-
-	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
-
-	let anchorDate: dayjs.Dayjs = dayjs();
-
-	$: dateInterval = computeDateInterval(
-		anchorDate,
-		config?.interval ?? "week"
-	);
 
 	function computeDateInterval(
 		anchor: dayjs.Dayjs,
@@ -111,11 +123,6 @@
 		)}`;
 	}
 
-	$: numDays = dateInterval
-		? dateInterval[1].diff(dateInterval[0], "days")
-		: 0;
-	$: title = dateInterval ? generateTitle(dateInterval) : "";
-
 	function generateDates(start: dayjs.Dayjs): dayjs.Dayjs[] {
 		const dates: dayjs.Dayjs[] = [];
 
@@ -152,17 +159,53 @@
 
 		return chunkedDates;
 	}
-
-	$: dates = dateInterval ? generateDates(dateInterval[0]) : [];
-	$: numColumns = Math.min(dates.length, 7);
-	$: weeks = splitDates(dates, numColumns);
-	$: columnHeaders = dates
-		.slice(0, numColumns)
-		.map((date) => date.format("ddd"));
 </script>
 
 <div>
 	<ToolBar>
+		<Navigation
+			onNext={() => {
+				switch (interval) {
+					case "month":
+						anchorDate = anchorDate.add(1, "month");
+						break;
+					case "2weeks":
+						anchorDate = anchorDate.add(2, "week");
+						break;
+					case "week":
+						anchorDate = anchorDate.add(1, "week");
+						break;
+					case "3days":
+						anchorDate = anchorDate.add(1, "day");
+						break;
+					case "day":
+						anchorDate = anchorDate.add(1, "day");
+						break;
+				}
+			}}
+			onPrevious={() => {
+				switch (interval) {
+					case "month":
+						anchorDate = anchorDate.subtract(1, "month");
+						break;
+					case "2weeks":
+						anchorDate = anchorDate.subtract(2, "week");
+						break;
+					case "week":
+						anchorDate = anchorDate.subtract(1, "week");
+						break;
+					case "3days":
+						anchorDate = anchorDate.subtract(1, "day");
+						break;
+					case "day":
+						anchorDate = anchorDate.subtract(1, "day");
+						break;
+				}
+			}}
+			onToday={() => {
+				anchorDate = dayjs();
+			}}
+		/>
 		<Typography variant="h2" nomargin>{title}</Typography>
 		<Select
 			value={config?.interval ?? "week"}

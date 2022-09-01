@@ -8,6 +8,7 @@
 	class:mod-cta={variant === "primary"}
 	class:mod-warning={variant === "destructive"}
 	class:mod-plain={variant === "plain"}
+	on:click
 >
 	<slot />
 </button>
