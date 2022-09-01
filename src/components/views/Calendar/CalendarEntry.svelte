@@ -9,12 +9,12 @@
 		border-radius: 4px;
 		border: 1px solid var(--background-modifier-border);
 		background-color: var(--background-secondary);
-		padding: 0 0.6em;
-		font-size: 0.8rem;
+		padding: 0.2em 0.4em;
+		font-size: var(--font-ui-small);
+		width: 100%;
 	}
 
 	div:hover {
-		background-color: var(--background-secondary-alt);
-		cursor: pointer;
+		background-color: var(--background-modifier-hover);
 	}
 </style>

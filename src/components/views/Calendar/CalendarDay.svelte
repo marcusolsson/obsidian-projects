@@ -32,6 +32,10 @@
 	div {
 		padding: 4px;
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		align-items: start;
 	}
 
 	.weekend {
