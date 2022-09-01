@@ -21,6 +21,7 @@
 	import { get } from "svelte/store";
 	import { app } from "../../../lib/stores";
 	import { fieldToSelectableValue } from "src/lib/helpers";
+	import { groupRecordsByField, unique } from "./board";
 
 	interface BoardConfig {
 		groupByField?: string;
@@ -32,59 +33,24 @@
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
 
-	let textFields: DataField[] = fields.filter(
+	$: textFields = fields.filter(
 		(field) => field.type === DataFieldType.String
 	);
 
-	$: groupByField = config?.groupByField ?? textFields?.[0]?.name;
-	$: selectedField = fields.find((field) => field.name === groupByField);
+	$: groupByField =
+		fields.find((field) => config?.groupByField === field.name) ??
+		textFields[0];
 
-	function notEmpty<T>(value: T | null | undefined): value is T {
-		return value !== null && value !== undefined;
-	}
-
-	function unique(records: DataRecord[], fieldName: string): string[] {
-		const keys = records
-			.map((record) => record.values[fieldName])
-			.map((value) => (value && isString(value) ? value : null))
-			.filter(notEmpty);
-
-		const set = new Set(keys);
-
-		return [...set];
-	}
-
-	$: columns = selectedField ? unique(records, selectedField.name) : [];
-
-	function groupRecordsByField(
-		records: DataRecord[],
-		fieldName: string
-	): Record<string, Array<[number, DataRecord]>> {
-		const keys = unique(records, fieldName);
-
-		const res: Record<string, Array<[number, DataRecord]>> = {};
-		for (let key of keys) {
-			res[key] = [];
-		}
-
-		records.forEach((record, id) => {
-			const value = record.values[fieldName];
-			if (value && isString(value)) {
-				res[value]?.push([id, record]);
-			}
-		});
-
-		return res;
-	}
-
-	$: groupedRecords = selectedField
-		? groupRecordsByField(records, selectedField.name)
+	$: groupedRecords = groupByField
+		? groupRecordsByField(records, groupByField.name)
 		: {};
+
+	$: columns = groupByField ? unique(records, groupByField.name) : [];
 
 	function handleRecordClick(record: DataRecord): (event: Event) => void {
 		return () => {
 			new ConfigureRecord(
-				get(app),
+				$app,
 				fields,
 				(record) => {
 					$api.updateRecord(record);
@@ -93,6 +59,13 @@
 			).open();
 		};
 	}
+
+	function handleRecordAdd(column: string): () => void {
+		return () =>
+			new ConfigureRecord(get(app), fields, (record) => {
+				// dataFrame.appendRecord(record);
+			}).open();
+	}
 </script>
 
 <div>
@@ -100,7 +73,7 @@
 		{#if groupByField}
 			<Field name="Group by">
 				<Select
-					value={groupByField}
+					value={groupByField.name}
 					options={textFields.map(fieldToSelectableValue)}
 					onChange={(value) =>
 						onConfigChange({
@@ -121,14 +94,7 @@
 						</BoardCard>
 					{/if}
 				{/each}
-				<Button
-					variant="plain"
-					on:click={() => {
-						new ConfigureRecord(get(app), fields, (record) => {
-							// dataFrame.appendRecord(record);
-						}).open();
-					}}
-				>
+				<Button variant="plain" on:click={handleRecordAdd(column)}>
 					Add a record
 				</Button>
 			</BoardColumn>

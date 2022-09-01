@@ -32,7 +32,7 @@
 		computeDateInterval,
 		generateDates,
 		generateTitle,
-		groupRecords,
+		groupRecordsByField,
 		isCalendarInterval,
 		chunkDates,
 		subtractInterval,
@@ -62,7 +62,9 @@
 
 	$: dateInterval = computeDateInterval(anchorDate, interval);
 
-	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
+	$: groupedRecords = dateField
+		? groupRecordsByField(records, dateField.name)
+		: {};
 	$: title = dateInterval ? generateTitle(dateInterval) : "";
 	$: dates = dateInterval ? generateDates(dateInterval) : [];
 

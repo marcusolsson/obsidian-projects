@@ -52,7 +52,7 @@ export function subtractInterval(
 	}
 }
 
-export function groupRecords(
+export function groupRecordsByField(
 	records: DataRecord[],
 	field: string
 ): Record<string, Array<[number, DataRecord]>> {
