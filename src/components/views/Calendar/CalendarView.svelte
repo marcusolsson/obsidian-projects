@@ -5,7 +5,6 @@
 	import { app, api } from "../../../lib/stores";
 	import {
 		DataFieldType,
-		isDate,
 		type DataField,
 		type DataRecord,
 	} from "../../../lib/datasource";
@@ -27,9 +26,21 @@
 	import Navigation from "./Navigation.svelte";
 	import HorizontalGroup from "src/components/core/HorizontalGroup/HorizontalGroup.svelte";
 	import Field from "src/components/core/Field/Field.svelte";
+	import {
+		addInterval,
+		computeDateInterval,
+		generateDates,
+		generateTitle,
+		groupRecords,
+		isCalendarInterval,
+		splitDates,
+		subtractInterval,
+		type CalendarInterval,
+	} from "./calendar";
+	import { fieldToSelectableValue } from "src/lib/helpers";
 
 	interface CalendarConfig {
-		interval?: string;
+		interval?: CalendarInterval;
 		dateField?: string;
 	}
 
@@ -39,193 +50,57 @@
 	export let config: CalendarConfig;
 	export let onConfigChange: (config: CalendarConfig) => void;
 
+	let anchorDate: dayjs.Dayjs = dayjs();
+
 	$: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
+
 	$: dateField =
 		dateFields.find((field) => config?.dateField === field.name) ??
 		dateFields[0];
 
-	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
-
-	let anchorDate: dayjs.Dayjs = dayjs();
-
 	$: interval = config?.interval ?? "week";
 
 	$: dateInterval = computeDateInterval(anchorDate, interval);
+
+	$: groupedRecords = dateField ? groupRecords(records, dateField.name) : {};
 
 	$: numDays = dateInterval
 		? dateInterval[1].diff(dateInterval[0], "days")
 		: 0;
 	$: title = dateInterval ? generateTitle(dateInterval) : "";
 
-	$: dates = dateInterval ? generateDates(dateInterval[0]) : [];
+	$: dates = dateInterval ? generateDates(dateInterval[0], numDays) : [];
 	$: numColumns = Math.min(dates.length, 7);
 	$: weeks = splitDates(dates, numColumns);
 	$: columnHeaders = dates
 		.slice(0, numColumns)
 		.map((date) => date.format("ddd"));
 
-	function groupRecords(
-		records: DataRecord[],
-		field: string
-	): Record<string, Array<[number, DataRecord]>> {
-		const res: Record<string, Array<[number, DataRecord]>> = {};
-
-		records.forEach((record, i) => {
-			const dateValue = record.values[field];
-
-			const start = dateValue
-				? isDate(dateValue)
-					? dayjs(dateValue)
-					: null
-				: null;
-
-			if (start) {
-				const dateStr = start.format("YYYY-MM-DD");
-				if (!(dateStr in res)) {
-					res[dateStr] = [];
-				}
-
-				res[dateStr]?.push([i, record]);
-			}
-		});
-
-		return res;
-	}
-
-	function computeDateInterval(
-		anchor: dayjs.Dayjs,
-		interval: string
-	): [dayjs.Dayjs, dayjs.Dayjs] | undefined {
-		switch (interval) {
-			case "month":
-				return [anchor.startOf("month"), anchor.endOf("month")];
-			case "2weeks":
-				return [
-					anchor.startOf("isoWeek"),
-					anchor.add(1, "week").endOf("isoWeek"),
-				];
-			case "week":
-				return [anchor.startOf("isoWeek"), anchor.endOf("isoWeek")];
-			case "3days":
-				return [anchor, anchor.add(2, "days")];
-			case "day":
-				return [anchor, anchor];
+	function handleIntervalChange(interval: string) {
+		if (isCalendarInterval(interval)) {
+			onConfigChange({ ...config, interval });
 		}
-
-		return undefined;
 	}
-
-	function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
-		if (
-			dateInterval[0]
-				.startOf("day")
-				.isSame(dateInterval[1].startOf("day"))
-		) {
-			return dateInterval[0].format("LL");
-		}
-
-		return `${dateInterval[0].format("MMM D")} – ${dateInterval[1].format(
-			"MMM D"
-		)}`;
-	}
-
-	function generateDates(start: dayjs.Dayjs): dayjs.Dayjs[] {
-		const dates: dayjs.Dayjs[] = [];
-
-		for (let i = 0; i <= numDays; i++) {
-			dates.push(start.add(i, "day"));
-		}
-
-		return dates;
-	}
-
-	function take<T>(arr: Array<T>, num: number): Array<T> {
-		const buffer: Array<T> = [];
-		for (let i = 0; i < num && i < arr.length; i++) {
-			const el = arr[i];
-
-			if (el) {
-				buffer.push(el);
-			}
-		}
-		return buffer;
-	}
-
-	function splitDates(dates: dayjs.Dayjs[], chunks: number) {
-		const chunkedDates: dayjs.Dayjs[][] = [];
-
-		let rest = dates;
-		while (rest.length) {
-			const chunked = take(rest, chunks);
-
-			chunkedDates.push(chunked);
-
-			rest = rest.slice(chunked.length);
-		}
-
-		return chunkedDates;
+	function handleDateFieldChange(dateField: string) {
+		onConfigChange({ ...config, dateField });
 	}
 </script>
 
 <div>
 	<ToolBar>
 		<Navigation
-			onNext={() => {
-				switch (interval) {
-					case "month":
-						anchorDate = anchorDate.add(1, "month");
-						break;
-					case "2weeks":
-						anchorDate = anchorDate.add(2, "week");
-						break;
-					case "week":
-						anchorDate = anchorDate.add(1, "week");
-						break;
-					case "3days":
-						anchorDate = anchorDate.add(1, "day");
-						break;
-					case "day":
-						anchorDate = anchorDate.add(1, "day");
-						break;
-				}
-			}}
-			onPrevious={() => {
-				switch (interval) {
-					case "month":
-						anchorDate = anchorDate.subtract(1, "month");
-						break;
-					case "2weeks":
-						anchorDate = anchorDate.subtract(2, "week");
-						break;
-					case "week":
-						anchorDate = anchorDate.subtract(1, "week");
-						break;
-					case "3days":
-						anchorDate = anchorDate.subtract(1, "day");
-						break;
-					case "day":
-						anchorDate = anchorDate.subtract(1, "day");
-						break;
-				}
-			}}
-			onToday={() => {
-				anchorDate = dayjs();
-			}}
+			onNext={() => (anchorDate = addInterval(anchorDate, interval))}
+			onPrevious={() =>
+				(anchorDate = subtractInterval(anchorDate, interval))}
+			onToday={() => (anchorDate = dayjs())}
 		/>
 		<Typography variant="h2" nomargin>{title}</Typography>
 		<HorizontalGroup>
 			<Field name="Date field">
 				<Select
 					value={dateField?.name ?? ""}
-					options={dateFields.map(({ name }) => ({
-						label: name,
-						value: name,
-					}))}
-					onChange={(value) =>
-						onConfigChange({
-							...config,
-							dateField: value,
-						})}
+					options={dateFields.map(fieldToSelectableValue)}
+					onChange={handleDateFieldChange}
 				/>
 			</Field>
 			<Select
@@ -237,11 +112,7 @@
 					{ label: "3 days", value: "3days" },
 					{ label: "Day", value: "day" },
 				]}
-				onChange={(value) =>
-					onConfigChange({
-						...config,
-						interval: value,
-					})}
+				onChange={handleIntervalChange}
 			/>
 		</HorizontalGroup>
 	</ToolBar>

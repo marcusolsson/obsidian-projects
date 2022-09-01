@@ -20,6 +20,7 @@
 
 	import { get } from "svelte/store";
 	import { app } from "../../../lib/stores";
+	import { fieldToSelectableValue } from "src/lib/helpers";
 
 	interface BoardConfig {
 		groupByField?: string;
@@ -100,9 +101,7 @@
 			<Field name="Group by">
 				<Select
 					value={groupByField}
-					options={textFields
-						.map((field) => field.name)
-						.map((value) => ({ label: value, value }))}
+					options={textFields.map(fieldToSelectableValue)}
 					onChange={(value) =>
 						onConfigChange({
 							...config,

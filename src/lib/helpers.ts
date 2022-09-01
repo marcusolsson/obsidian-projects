@@ -162,3 +162,13 @@ function fieldType(value: any): DataFieldType {
 	}
 	return DataFieldType.Unknown;
 }
+
+export function fieldToSelectableValue(field: DataField): {
+	label: string;
+	value: string;
+} {
+	return {
+		label: field.name,
+		value: field.name,
+	};
+}
