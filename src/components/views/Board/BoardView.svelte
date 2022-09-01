@@ -22,6 +22,7 @@
 	import { app } from "../../../lib/stores";
 	import { fieldToSelectableValue } from "src/lib/helpers";
 	import { groupRecordsByField, unique } from "./board";
+	import { Notice } from "obsidian";
 
 	interface BoardConfig {
 		groupByField?: string;
@@ -61,10 +62,24 @@
 	}
 
 	function handleRecordAdd(column: string): () => void {
-		return () =>
-			new ConfigureRecord(get(app), fields, (record) => {
-				// dataFrame.appendRecord(record);
-			}).open();
+		return () => {
+			if (groupByField) {
+				new ConfigureRecord(
+					get(app),
+					fields,
+					(record) => {
+						new Notice("Not implemented yet.");
+					},
+					{
+						name: "Untitled",
+						path: "Untitled.md",
+						values: {
+							[groupByField.name]: column,
+						},
+					}
+				).open();
+			}
+		};
 	}
 </script>
 
