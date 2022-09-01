@@ -97,6 +97,7 @@
 					value={dateField?.name ?? ""}
 					options={dateFields.map(fieldToSelectableValue)}
 					onChange={handleDateFieldChange}
+					placeholder="No date fields"
 				/>
 			</Field>
 			<Select

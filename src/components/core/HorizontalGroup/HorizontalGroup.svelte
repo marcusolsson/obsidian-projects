@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let fullWidth: boolean = false;
 	export let alignItems: string = "center";
+	export let padding: boolean = false;
 </script>
 
-<div class:fullWidth style="align-items: ${alignItems}">
+<div class:padding class:fullWidth style={`align-items: ${alignItems}`}>
 	<slot />
 </div>
 
@@ -11,6 +12,10 @@
 	div {
 		display: flex;
 		gap: 8px;
+	}
+
+	.padding {
+		padding: 8px;
 	}
 
 	.fullWidth {

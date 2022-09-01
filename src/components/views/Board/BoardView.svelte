@@ -1,20 +1,15 @@
 <script lang="ts">
 	import {
 		DataFieldType,
-		isString,
 		type DataField,
 		type DataRecord,
 	} from "../../../lib/datasource";
 	import { api } from "../../../lib/stores";
 
-	import { Button } from "../../core/Button";
 	import { Field } from "../../core/Field";
 	import { HorizontalGroup } from "../../core/HorizontalGroup";
 	import { Select } from "../../core/Select";
 	import { ToolBar } from "../../core/ToolBar";
-
-	import BoardCard from "./BoardCard.svelte";
-	import BoardColumn from "./BoardColumn.svelte";
 
 	import { ConfigureRecord } from "../../../modals/record-modal";
 
@@ -23,9 +18,11 @@
 	import { fieldToSelectableValue } from "src/lib/helpers";
 	import { groupRecordsByField, unique } from "./board";
 	import { Notice } from "obsidian";
+	import Board from "./Board.svelte";
 
 	interface BoardConfig {
 		groupByField?: string;
+		priorityField?: string;
 	}
 
 	export let records: DataRecord[];
@@ -41,6 +38,14 @@
 	$: groupByField =
 		fields.find((field) => config?.groupByField === field.name) ??
 		textFields[0];
+
+	$: numberFields = fields.filter(
+		(field) => field.type === DataFieldType.Number
+	);
+
+	$: priorityField =
+		fields.find((field) => config?.priorityField === field.name) ??
+		numberFields[0];
 
 	$: groupedRecords = groupByField
 		? groupRecordsByField(records, groupByField.name)
@@ -85,41 +90,50 @@
 
 <div>
 	<ToolBar>
-		{#if groupByField}
+		<p />
+		<HorizontalGroup>
 			<Field name="Group by">
 				<Select
-					value={groupByField.name}
+					value={groupByField?.name ?? ""}
 					options={textFields.map(fieldToSelectableValue)}
 					onChange={(value) =>
 						onConfigChange({
 							...config,
 							groupByField: value,
 						})}
+					placeholder="No text fields"
 				/>
 			</Field>
-		{/if}
+			<Field name="Priority">
+				<Select
+					value={priorityField?.name ?? ""}
+					options={numberFields.map(fieldToSelectableValue)}
+					onChange={(value) =>
+						onConfigChange({
+							...config,
+							priorityField: value,
+						})}
+					placeholder="No number fields"
+				/>
+			</Field>
+		</HorizontalGroup>
 	</ToolBar>
-	<HorizontalGroup alignItems="flex-start">
-		{#each columns.sort() as column}
-			<BoardColumn name={column}>
-				{#each groupedRecords[column] ?? [] as record}
-					{#if record[1].name}
-						<BoardCard on:click={handleRecordClick(record[1])}>
-							{record[1].name}
-						</BoardCard>
-					{/if}
-				{/each}
-				<Button variant="plain" on:click={handleRecordAdd(column)}>
-					Add a record
-				</Button>
-			</BoardColumn>
-		{/each}
-	</HorizontalGroup>
+	<Board
+		columns={columns.sort().map((column) => ({
+			id: column,
+			name: column,
+			records: groupedRecords[column] ?? [],
+		}))}
+		groupByPriority={priorityField?.name}
+		groupByStatus={groupByField?.name}
+		onRecordClick={(record) => handleRecordClick(record)}
+		onRecordAdd={(column) => handleRecordAdd(column)}
+	/>
 </div>
 
 <style>
 	div {
-		background-color: var(--background-secondary-alt);
+		background-color: var(--background-primary);
 		height: 100%;
 	}
 </style>

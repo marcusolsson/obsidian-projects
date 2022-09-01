@@ -18,10 +18,10 @@ export function unique(records: DataRecord[], fieldName: string): string[] {
 export function groupRecordsByField(
 	records: DataRecord[],
 	fieldName: string
-): Record<string, Array<[number, DataRecord]>> {
+): Record<string, Array<DataRecord>> {
 	const keys = unique(records, fieldName);
 
-	const res: Record<string, Array<[number, DataRecord]>> = {};
+	const res: Record<string, Array<DataRecord>> = {};
 	for (let key of keys) {
 		res[key] = [];
 	}
@@ -29,7 +29,7 @@ export function groupRecordsByField(
 	records.forEach((record, id) => {
 		const value = record.values[fieldName];
 		if (value && isString(value)) {
-			res[value]?.push([id, record]);
+			res[value]?.push(record);
 		}
 	});
 
