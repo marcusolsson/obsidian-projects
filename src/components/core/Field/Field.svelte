@@ -15,6 +15,5 @@
 		align-items: center;
 		justify-content: flex-end;
 		gap: var(--spacing-md);
-		width: 100%;
 	}
 </style>

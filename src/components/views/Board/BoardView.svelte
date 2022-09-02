@@ -16,7 +16,7 @@
 	import { get } from "svelte/store";
 	import { app } from "../../../lib/stores";
 	import { fieldToSelectableValue } from "src/lib/helpers";
-	import { groupRecordsByField, unique } from "./board";
+	import { groupRecordsByField } from "./board";
 	import { Notice } from "obsidian";
 	import Board from "./Board.svelte";
 
@@ -35,23 +35,21 @@
 		(field) => field.type === DataFieldType.String
 	);
 
-	$: groupByField =
-		fields.find((field) => config?.groupByField === field.name) ??
-		textFields[0];
+	$: groupByField = fields.find(
+		(field) => config?.groupByField === field.name
+	);
 
 	$: numberFields = fields.filter(
 		(field) => field.type === DataFieldType.Number
 	);
 
-	$: priorityField =
-		fields.find((field) => config?.priorityField === field.name) ??
-		numberFields[0];
+	$: priorityField = fields.find(
+		(field) => config?.priorityField === field.name
+	);
 
-	$: groupedRecords = groupByField
-		? groupRecordsByField(records, groupByField.name)
-		: {};
+	$: groupedRecords = groupRecordsByField(records, groupByField?.name);
 
-	$: columns = groupByField ? unique(records, groupByField.name) : [];
+	$: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
 
 	function handleRecordClick(record: DataRecord): (event: Event) => void {
 		return () => {
@@ -92,7 +90,7 @@
 	<ToolBar>
 		<p />
 		<HorizontalGroup>
-			<Field name="Group by">
+			<Field name="Status field">
 				<Select
 					value={groupByField?.name ?? ""}
 					options={textFields.map(fieldToSelectableValue)}
@@ -101,29 +99,40 @@
 							...config,
 							groupByField: value,
 						})}
-					placeholder="No text fields"
+					placeholder="None"
+					allowEmpty
 				/>
 			</Field>
-			<Field name="Priority">
+			<Field name="Priority field">
 				<Select
 					value={priorityField?.name ?? ""}
 					options={numberFields.map(fieldToSelectableValue)}
-					onChange={(value) =>
+					onChange={(value) => {
 						onConfigChange({
 							...config,
 							priorityField: value,
-						})}
-					placeholder="No number fields"
+						});
+					}}
+					placeholder="None"
+					allowEmpty
 				/>
 			</Field>
 		</HorizontalGroup>
 	</ToolBar>
 	<Board
-		columns={columns.sort().map((column) => ({
-			id: column,
-			name: column,
-			records: groupedRecords[column] ?? [],
-		}))}
+		columns={columns
+			.sort((a, b) => {
+				if (a === "No status") return -1;
+				if (b === "No status") return 1;
+				if (a === "No status" && a === b) return 0;
+
+				return a.localeCompare(b);
+			})
+			.map((column) => ({
+				id: column,
+				name: column,
+				records: groupedRecords[column] ?? [],
+			}))}
 		groupByPriority={priorityField?.name}
 		groupByStatus={groupByField?.name}
 		onRecordClick={(record) => handleRecordClick(record)}

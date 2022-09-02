@@ -17,19 +17,26 @@ export function unique(records: DataRecord[], fieldName: string): string[] {
 
 export function groupRecordsByField(
 	records: DataRecord[],
-	fieldName: string
+	fieldName: string | undefined
 ): Record<string, Array<DataRecord>> {
+	if (!fieldName) {
+		return { "No status": records };
+	}
+
 	const keys = unique(records, fieldName);
 
-	const res: Record<string, Array<DataRecord>> = {};
+	const res: Record<string, Array<DataRecord>> = { "No status": [] };
 	for (let key of keys) {
 		res[key] = [];
 	}
 
 	records.forEach((record, id) => {
 		const value = record.values[fieldName];
+
 		if (value && isString(value)) {
 			res[value]?.push(record);
+		} else {
+			res["No status"]?.push(record);
 		}
 	});
 
