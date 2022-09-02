@@ -1,5 +1,3 @@
-import type { TFile, Vault } from "obsidian";
-
 export enum DataFieldType {
 	String = "string",
 	Number = "number",
