@@ -105,6 +105,7 @@
 						onDelete={() => {
 							new ConfirmDialogModal(
 								$app,
+								"Delete view",
 								"Are you sure you want to delete this view?",
 								"Delete",
 								() => {
