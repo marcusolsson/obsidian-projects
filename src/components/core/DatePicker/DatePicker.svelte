@@ -29,7 +29,7 @@
 	input {
 		border-radius: 9999px;
 		border: 0;
-		background-color: var(--background-secondary-alt);
+		background-color: var(--background-modifier-hover);
 		font-family: var(--font-default);
 		padding: 0.1em 0.6em;
 		margin: 0;
