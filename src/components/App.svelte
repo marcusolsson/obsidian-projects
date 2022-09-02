@@ -12,6 +12,7 @@
 
 	import WorkspaceContainer from "./WorkspaceContainer.svelte";
 	import { emptyDataFrame } from "src/lib/datasource";
+	import { LoaderCube } from "./core/LoaderCube";
 
 	const viewComponents: { [key: string]: any } = {
 		table: TableView,
@@ -32,9 +33,11 @@
 		  ) || selectedWorkspace.views[0]
 		: null;
 
+	let indexingPromise: Promise<void>;
+
 	$: {
 		if (selectedWorkspace) {
-			fileIndex.reindex(selectedWorkspace);
+			indexingPromise = fileIndex.reindex(selectedWorkspace);
 		}
 	}
 
@@ -126,17 +129,21 @@
 		onViewChange={(viewId) => handleViewChange(viewId)}
 	/>
 
-	<div class="projects-main">
-		{#if selectedView && viewComponent}
-			<svelte:component
-				this={viewComponent}
-				records={frame.records}
-				fields={frame.fields}
-				config={selectedView.config}
-				onConfigChange={handleConfigChange}
-			/>
-		{/if}
-	</div>
+	{#await indexingPromise}
+		<LoaderCube />
+	{:then}
+		<div class="projects-main">
+			{#if selectedView && viewComponent}
+				<svelte:component
+					this={viewComponent}
+					records={frame.records}
+					fields={frame.fields}
+					config={selectedView.config}
+					onConfigChange={handleConfigChange}
+				/>
+			{/if}
+		</div>
+	{/await}
 </div>
 
 <style>

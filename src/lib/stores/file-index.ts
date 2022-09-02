@@ -48,7 +48,7 @@ function createFileIndex() {
 
 	return {
 		subscribe,
-		reindex: (workspace: WorkspaceDefinition) => {
+		reindex: async (workspace: WorkspaceDefinition): Promise<void> => {
 			const shouldIndex = createWorkspaceFilter(workspace);
 
 			set({
