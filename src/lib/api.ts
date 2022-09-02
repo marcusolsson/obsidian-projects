@@ -9,7 +9,7 @@ import {
 } from "obsidian";
 import { get } from "svelte/store";
 import { isDate, type DataRecord } from "./datasource";
-import { files } from "./stores/files";
+import { fileIndex } from "./stores/file-index";
 
 export class RecordApi {
 	private app: App;
@@ -48,7 +48,7 @@ export class RecordApi {
 	}
 
 	deleteRecord(path: string) {
-		const file = get(files)[path];
+		const file = get(fileIndex).files[path];
 
 		if (file) {
 			this.app.vault.trash(file, true);
@@ -56,7 +56,7 @@ export class RecordApi {
 	}
 
 	async deleteField(name: string) {
-		for (let pair of Object.entries(get(files))) {
+		for (let pair of Object.entries(get(fileIndex).files)) {
 			const file = pair[1];
 
 			const data = await this.app.vault.read(file);

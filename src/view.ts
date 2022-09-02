@@ -2,7 +2,7 @@ import { ItemView, WorkspaceLeaf } from "obsidian";
 import type { Unsubscriber } from "svelte/store";
 
 import App from "./components/App.svelte";
-import { app, plugin, view } from "./lib/stores";
+import { app, plugin, view } from "./lib/stores/obsidian";
 import { settings } from "./lib/stores/settings";
 import type ProjectsPlugin from "./main";
 import { DEFAULT_SETTINGS } from "./main";

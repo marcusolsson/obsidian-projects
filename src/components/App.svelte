@@ -2,8 +2,8 @@
 	import produce from "immer";
 
 	import { filesToDataFrame } from "src/lib/helpers";
-	import { app, emptyDataFrame } from "../lib/stores";
-	import { files } from "../lib/stores/files";
+	import { app } from "../lib/stores/obsidian";
+	import { fileIndex } from "../lib/stores/file-index";
 	import { settings } from "../lib/stores/settings";
 
 	import { BoardView } from "./views/Board";
@@ -11,6 +11,7 @@
 	import { TableView } from "./views/Table";
 
 	import WorkspaceContainer from "./WorkspaceContainer.svelte";
+	import { emptyDataFrame } from "src/lib/datasource";
 
 	const viewComponents: { [key: string]: any } = {
 		table: TableView,
@@ -31,10 +32,16 @@
 		  ) || selectedWorkspace.views[0]
 		: null;
 
+	$: {
+		if (selectedWorkspace) {
+			fileIndex.reindex(selectedWorkspace);
+		}
+	}
+
 	$: frame = selectedWorkspace
 		? filesToDataFrame(
 				$app,
-				$files,
+				$fileIndex.files,
 				selectedWorkspace.path,
 				selectedWorkspace.recursive
 		  )

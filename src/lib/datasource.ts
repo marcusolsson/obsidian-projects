@@ -32,17 +32,6 @@ export interface DataFrame {
 	records: DataRecord[];
 }
 
-export abstract class DataSource {
-	vault: Vault;
-
-	constructor(vault: Vault) {
-		this.vault = vault;
-	}
-
-	abstract load(file: TFile): Promise<DataFrame>;
-	abstract save(file: TFile, frame: DataFrame): Promise<void>;
-}
-
 export function isBoolean(value: DataValue): value is boolean {
 	return typeof value === "boolean";
 }
@@ -86,3 +75,8 @@ export function isOptionalNumber(
 export function isOptionalDate(value: DataValue): value is Date | undefined {
 	return value instanceof Date || value === undefined;
 }
+
+export const emptyDataFrame: DataFrame = {
+	records: [],
+	fields: [],
+};

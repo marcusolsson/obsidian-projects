@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { app } from "../../../lib/stores";
+	import { app } from "../../../lib/stores/obsidian";
 
 	export let linkText: string;
 	export let sourcePath: string;

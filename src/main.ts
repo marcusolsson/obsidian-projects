@@ -1,10 +1,10 @@
 import { addIcon, Plugin } from "obsidian";
-import { registerFileEvents } from "./lib/stores/files";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
+import { registerFileEvents } from "./lib/stores/file-index";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);

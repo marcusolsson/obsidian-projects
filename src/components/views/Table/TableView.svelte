@@ -9,7 +9,8 @@
 		type DataField,
 		type DataRecord,
 	} from "src/lib/datasource";
-	import { api, app } from "src/lib/stores";
+	import { app } from "src/lib/stores/obsidian";
+	import { api } from "src/lib/stores/api";
 	import { ConfigureRecord } from "src/modals/record-modal";
 	import type { GridConfig } from "./types";
 

@@ -55,25 +55,7 @@ export function filesToDataFrame(
 	const fieldSet: Record<string, DataFieldType> = {};
 	const records: DataRecord[] = [];
 
-	for (const [path, file] of Object.entries(files)) {
-		if (!path.startsWith(workspacePath)) {
-			continue;
-		}
-
-		if (!recursive) {
-			const pathElements = path.split("/").slice(0, -1);
-			const workspacePathElements = workspacePath
-				.split("/")
-				.filter((el) => el);
-
-			if (
-				!recursive &&
-				pathElements.join("/") !== workspacePathElements.join("/")
-			) {
-				continue;
-			}
-		}
-
+	for (const [_, file] of Object.entries(files)) {
 		const cache = app.metadataCache.getFileCache(file);
 
 		if (cache) {

@@ -4,7 +4,6 @@
 		type DataField,
 		type DataRecord,
 	} from "../../../lib/datasource";
-	import { api } from "../../../lib/stores";
 
 	import { Field } from "../../core/Field";
 	import { HorizontalGroup } from "../../core/HorizontalGroup";
@@ -14,7 +13,8 @@
 	import { ConfigureRecord } from "../../../modals/record-modal";
 
 	import { get } from "svelte/store";
-	import { app } from "../../../lib/stores";
+	import { app } from "../../../lib/stores/obsidian";
+	import { api } from "../../../lib/stores/api";
 	import { fieldToSelectableValue } from "src/lib/helpers";
 	import { groupRecordsByField } from "./board";
 	import { Notice } from "obsidian";

@@ -7,7 +7,7 @@
 	import { settings } from "src/lib/stores/settings";
 	import { AddViewModal } from "src/modals/add-view-modal";
 	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
-	import { app } from "../lib/stores";
+	import { app } from "../lib/stores/obsidian";
 	import { IconButton } from "./core/IconButton";
 	import { Select } from "./core/Select";
 	import ViewContainer from "./ViewContainer.svelte";

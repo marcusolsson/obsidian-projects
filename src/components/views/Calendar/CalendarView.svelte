@@ -2,7 +2,8 @@
 	import dayjs from "dayjs";
 	import { get } from "svelte/store";
 
-	import { app, api } from "../../../lib/stores";
+	import { app } from "../../../lib/stores/obsidian";
+	import { api } from "../../../lib/stores/api";
 	import { fieldToSelectableValue } from "src/lib/helpers";
 	import {
 		DataFieldType,
