@@ -1,39 +1,39 @@
 import { App, Modal } from "obsidian";
-import ConfirmDialog from "../components/modals/ConfirmDialog.svelte";
+import InputDialog from "../components/modals/InputDialog.svelte";
 
-export class ConfirmDialogModal extends Modal {
+export class InputDialogModal extends Modal {
 	// @ts-ignore
-	component: ConfirmDialog;
+	component: InputDialog;
 
-	title: string;
 	message: string;
 	cta: string;
-	onConfirm: () => void;
+	onSubmit: (value: string) => void;
+	value: string | undefined;
 
 	constructor(
 		app: App,
-		title: string,
 		message: string,
 		cta: string,
-		onConfirm: () => void
+		onSubmit: (value: string) => void,
+		value?: string | undefined
 	) {
 		super(app);
 
-		this.title = title;
 		this.message = message;
 		this.cta = cta;
-		this.onConfirm = onConfirm;
+		this.onSubmit = onSubmit;
+		this.value = value;
 	}
 
 	onOpen() {
-		this.component = new ConfirmDialog({
+		this.component = new InputDialog({
 			target: this.contentEl,
 			props: {
-				title: this.title,
 				message: this.message,
 				cta: this.cta,
-				onConfirm: () => {
-					this.onConfirm();
+				value: this.value,
+				onSubmit: (value: string) => {
+					this.onSubmit(value);
 					this.close();
 				},
 				onCancel: () => {

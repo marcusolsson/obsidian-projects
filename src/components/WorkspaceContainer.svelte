@@ -12,8 +12,7 @@
 	import { Select } from "./core/Select";
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
-	import { identity } from "svelte/internal";
-	import path from "path";
+	import { InputDialogModal } from "src/modals/input-dialog";
 
 	export let workspaces: WorkspaceDefinition[];
 	export let workspace: string | undefined;
@@ -49,10 +48,37 @@
 	/>
 	{#if workspaceDef}
 		<IconButton
+			icon="edit"
+			on:click={() => {
+				new InputDialogModal(
+					$app,
+					"Workspace name",
+					"Rename",
+					(value) => {
+						settings.update((state) => {
+							return produce(state, (draft) => {
+								draft.workspaces = draft.workspaces.map((w) =>
+									w.id === workspace
+										? {
+												...w,
+												name: value,
+										  }
+										: w
+								);
+								return draft;
+							});
+						});
+					},
+					workspaceDef?.name ?? ""
+				).open();
+			}}
+		/>
+		<IconButton
 			icon="trash"
 			on:click={() => {
 				new ConfirmDialogModal(
 					$app,
+					"Delete workspace",
 					"Are you sure you want to delete this workspace?",
 					"Delete",
 					() => {

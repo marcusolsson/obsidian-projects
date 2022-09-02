@@ -1,26 +1,28 @@
 <script lang="ts">
-	import { Setting } from "obsidian";
+	import { Button } from "../core/Button";
 	import { Typography } from "../core/Typography";
 
+	export let title: string;
 	export let message: string;
 	export let cta: string;
 	export let onConfirm: () => void;
 	export let onCancel: () => void;
-
-	function setting(node: HTMLElement) {
-		new Setting(node)
-			.addButton((button) => {
-				button.setButtonText("Cancel").onClick(() => onCancel());
-			})
-			.addButton((button) => {
-				button
-					.setButtonText(cta)
-					.setCta()
-					.onClick(() => onConfirm());
-			});
-	}
 </script>
 
-<Typography variant="body">{message}</Typography>
-
-<div use:setting />
+<div class="modal-title">{title}</div>
+<div class="modal-content">
+	<Typography variant="body">{message}</Typography>
+</div>
+<div class="modal-button-container">
+	<Button
+		variant="primary"
+		on:click={() => {
+			onConfirm();
+		}}>{cta}</Button
+	>
+	<Button
+		on:click={() => {
+			onCancel();
+		}}>Cancel</Button
+	>
+</div>
