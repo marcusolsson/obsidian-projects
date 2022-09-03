@@ -1,16 +1,14 @@
 <script lang="ts">
 	import type { Menu } from "obsidian";
 
-	import { fieldIcon } from "src/lib/helpers";
-
 	import { Icon } from "../../core/Icon";
 	import { IconButton } from "../../core/IconButton";
 
 	import { GridCell, TextLabel } from "./GridCell";
-	import type { GridColDef } from "./types";
+	import { fieldIcon, type GridColDef } from "./data-grid";
 
 	import GridCellGroup from "./GridCellGroup.svelte";
-	import { DataFieldType } from "src/lib/datasource";
+	import { DataFieldType } from "src/lib/data";
 
 	export let columns: GridColDef[];
 	export let onResize: (name: string, width: number) => void;

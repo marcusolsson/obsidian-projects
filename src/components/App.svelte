@@ -1,9 +1,8 @@
 <script lang="ts">
 	import produce from "immer";
 
-	import { filesToDataFrame } from "src/lib/helpers";
-	import { app } from "../lib/stores/obsidian";
 	import { fileIndex } from "../lib/stores/file-index";
+	import { dataFrame } from "../lib/stores/dataframe";
 	import { settings } from "../lib/stores/settings";
 
 	import { BoardView } from "./views/Board";
@@ -11,7 +10,6 @@
 	import { TableView } from "./views/Table";
 
 	import WorkspaceContainer from "./WorkspaceContainer.svelte";
-	import { emptyDataFrame } from "src/lib/datasource";
 	import { LoaderCube } from "./core/LoaderCube";
 
 	const viewComponents: { [key: string]: any } = {
@@ -41,14 +39,19 @@
 		}
 	}
 
-	$: frame = selectedWorkspace
-		? filesToDataFrame(
-				$app,
-				$fileIndex.files,
-				selectedWorkspace.path,
-				selectedWorkspace.recursive
-		  )
-		: emptyDataFrame;
+	$: frame = $dataFrame;
+
+	$: {
+		settings.update((state) => {
+			return produce(state, (draft) => {
+				draft.lastWorkspaceId = selectedWorkspace?.id;
+				draft.lastViewId = selectedView?.id;
+				return draft;
+			});
+		});
+	}
+
+	$: viewComponent = selectedView ? viewComponents[selectedView.type] : null;
 
 	function handleWorkspaceChange(workspaceId: string) {
 		if (!workspaces.length) {
@@ -82,16 +85,6 @@
 			selectedWorkspace.views[0];
 	}
 
-	$: {
-		settings.update((state) => {
-			return produce(state, (draft) => {
-				draft.lastWorkspaceId = selectedWorkspace?.id;
-				draft.lastViewId = selectedView?.id;
-				return draft;
-			});
-		});
-	}
-
 	function handleConfigChange(config: Record<string, any>) {
 		settings.update((state) =>
 			produce(state, (draft) => {
@@ -116,8 +109,6 @@
 			})
 		);
 	}
-
-	$: viewComponent = selectedView ? viewComponents[selectedView.type] : null;
 </script>
 
 <div class="projects-container">

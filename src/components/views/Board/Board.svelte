@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { DataRecord } from "src/lib/datasource";
+	import type { DataRecord } from "src/lib/data";
 
 	import BoardColumn from "./BoardColumn.svelte";
 

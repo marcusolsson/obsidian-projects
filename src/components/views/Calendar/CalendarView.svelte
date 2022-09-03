@@ -4,12 +4,12 @@
 
 	import { app } from "../../../lib/stores/obsidian";
 	import { api } from "../../../lib/stores/api";
-	import { fieldToSelectableValue } from "src/lib/helpers";
+	import { fieldToSelectableValue } from "src/components/views/helpers";
 	import {
 		DataFieldType,
 		type DataField,
 		type DataRecord,
-	} from "../../../lib/datasource";
+	} from "../../../lib/data";
 	import { ConfigureRecord } from "../../../modals/record-modal";
 
 	import { Select } from "../../core/Select";

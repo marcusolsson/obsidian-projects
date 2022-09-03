@@ -2,7 +2,7 @@
 	import produce from "immer";
 
 	import { Menu } from "obsidian";
-	import type { DataValue } from "src/lib/datasource";
+	import type { DataValue } from "src/lib/data";
 	import GridHeader from "./GridHeader.svelte";
 
 	import GridRow from "./GridRow.svelte";
@@ -13,7 +13,7 @@
 		GridRowModel,
 		GridRowProps,
 		GridSortModel,
-	} from "./types";
+	} from "./data-grid";
 
 	export let columns: GridColDef[];
 	export let rows: GridRowProps[];

@@ -3,12 +3,12 @@
 	import type {
 		GridColDef,
 		GridRowProps,
-	} from "src/components/core/DataGrid/types";
+	} from "src/components/core/DataGrid/data-grid";
 	import {
 		DataFieldType,
 		type DataField,
 		type DataRecord,
-	} from "src/lib/datasource";
+	} from "src/lib/data";
 	import { app } from "src/lib/stores/obsidian";
 	import { api } from "src/lib/stores/api";
 	import { ConfigureRecord } from "src/modals/record-modal";

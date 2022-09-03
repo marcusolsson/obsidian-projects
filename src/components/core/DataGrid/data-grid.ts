@@ -1,4 +1,4 @@
-import type { DataFieldType } from "src/lib/datasource";
+import { DataFieldType } from "src/lib/data";
 
 export type GridValidRowModel = { [key: string]: any };
 export type GridRowModel<R extends GridValidRowModel = GridValidRowModel> = R;
@@ -21,4 +21,20 @@ export interface GridRowProps {
 export interface GridSortModel {
 	field: string;
 	sort?: "asc" | "desc";
+}
+
+export function fieldIcon(field: DataFieldType): string {
+	switch (field) {
+		case DataFieldType.String:
+			return "text";
+		case DataFieldType.Number:
+			return "hash";
+		case DataFieldType.Boolean:
+			return "check";
+		case DataFieldType.Date:
+			return "calendar-days";
+		case DataFieldType.Link:
+			return "link";
+	}
+	return "info";
 }

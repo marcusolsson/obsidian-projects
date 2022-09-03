@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from "src/components/core/Button";
 
-	import { isNumber, type DataRecord } from "src/lib/datasource";
+	import { isNumber, type DataRecord } from "src/lib/data";
 	import { Typography } from "../../core/Typography";
 	import Card from "./Card.svelte";
 	import CardList from "./CardList.svelte";

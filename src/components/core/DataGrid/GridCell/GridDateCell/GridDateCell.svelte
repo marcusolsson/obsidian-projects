@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isDate } from "src/lib/datasource";
+	import { isDate } from "src/lib/data";
 
 	import { DatePicker } from "../../../../core/DatePicker";
 

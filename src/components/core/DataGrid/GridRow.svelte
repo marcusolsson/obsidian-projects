@@ -3,11 +3,11 @@
 	import type { Menu } from "obsidian";
 
 	import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
-	import { DataFieldType, type DataValue } from "src/lib/datasource";
+	import { DataFieldType, type DataValue } from "src/lib/data";
 	import { IconButton } from "../IconButton";
 	import GridCellGroup from "./GridCellGroup.svelte";
 
-	import type { GridColDef, GridRowId, GridRowModel } from "./types";
+	import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
 
 	export let rowId: GridRowId;
 	export let index: number;

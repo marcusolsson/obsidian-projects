@@ -38,7 +38,7 @@ export function registerFileEvents(plugin: Plugin) {
 	);
 }
 
-interface FileIndex {
+export interface FileIndex {
 	workspace?: WorkspaceDefinition;
 	files: Record<string, TFile>;
 }

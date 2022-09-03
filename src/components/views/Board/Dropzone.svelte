@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { DataRecord } from "src/lib/datasource";
+	import type { DataRecord } from "src/lib/data";
 
 	export let description: string;
 	export let onDrop: (record: DataRecord) => void;

@@ -1,4 +1,4 @@
-import { isString, type DataRecord } from "src/lib/datasource";
+import { isString, type DataRecord } from "src/lib/data";
 
 export function notEmpty<T>(value: T | null | undefined): value is T {
 	return value !== null && value !== undefined;

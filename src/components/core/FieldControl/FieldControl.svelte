@@ -7,7 +7,7 @@
 		isBoolean,
 		type DataValue,
 		isLink,
-	} from "src/lib/datasource";
+	} from "src/lib/data";
 
 	import { Checkbox } from "../Checkbox";
 	import { DatePicker } from "../DatePicker";

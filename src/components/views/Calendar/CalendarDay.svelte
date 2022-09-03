@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type dayjs from "dayjs";
 
-	import type { DataRecord } from "src/lib/datasource";
+	import type { DataRecord } from "src/lib/data";
 
 	import CalendarDate from "./CalendarDate.svelte";
 	import CalendarEntry from "./CalendarEntry.svelte";
