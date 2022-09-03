@@ -17,6 +17,7 @@
 	export let type: DataFieldType;
 	export let value: DataValue;
 	export let onChange: (value: DataValue) => void;
+	export let readonly: boolean = false;
 
 	function aliasify(linkText: string) {
 		const splt = linkText.indexOf("|");
@@ -32,12 +33,13 @@
 {#if type === DataFieldType.Boolean}
 	<Checkbox value={isBoolean(value) ? value : false} {onChange} />
 {:else if type === DataFieldType.String}
-	<Input value={isString(value) ? value : ""} {onChange} />
+	<Input value={isString(value) ? value : ""} {onChange} {readonly} />
 {:else if type === DataFieldType.Number}
 	<Input
 		type="number"
 		value={isNumber(value) ? value.toString() : ""}
 		onChange={(value) => onChange(parseFloat(value))}
+		{readonly}
 	/>
 {:else if type === DataFieldType.Date}
 	<DatePicker value={isDate(value) ? value : null} onCommit={onChange} />

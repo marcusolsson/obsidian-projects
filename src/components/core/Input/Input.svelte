@@ -2,6 +2,7 @@
 	export let type: string = "text";
 	export let value: string;
 	export let onChange: (value: string) => void;
+	export let readonly: boolean = false;
 
 	function handleInput(event: Event) {
 		if (event.currentTarget instanceof HTMLInputElement) {
@@ -10,4 +11,4 @@
 	}
 </script>
 
-<input {value} {type} on:input={handleInput} />
+<input {value} {type} on:input={handleInput} {readonly} />

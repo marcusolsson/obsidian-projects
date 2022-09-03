@@ -32,21 +32,20 @@
 			}
 		}}
 		type={DataFieldType.String}
-		modal={false}
+		readonly
 	/>
 </SettingItem>
 
 {#each fields as field}
 	<SettingItem name={field.name}>
 		<FieldControl
-			value={record.values[field.name] ?? null}
+			value={record.values[field.name]}
 			onChange={(value) => {
 				record = produce(record, (draft) => {
 					draft.values[field.name] = value;
 				});
 			}}
 			type={field.type}
-			modal={false}
 		/>
 	</SettingItem>
 {/each}
