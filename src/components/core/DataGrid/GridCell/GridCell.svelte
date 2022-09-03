@@ -7,6 +7,7 @@
 	export let edit: boolean = false;
 	export let resizable: boolean = false;
 	export let onResize: (width: number) => void = () => {};
+	export let onFinalizeResize: (width: number) => void = () => {};
 	export let column: GridColDef;
 	export let columnHeader: boolean = false;
 	export let rowHeader: boolean = false;
@@ -77,7 +78,12 @@
 	{/if}
 
 	{#if resizable}
-		<Resizer width={column.width ?? 180} min={80} onChange={onResize} />
+		<Resizer
+			width={column.width ?? 180}
+			min={80}
+			onChange={onResize}
+			onFinalize={onFinalizeResize}
+		/>
 	{/if}
 </div>
 

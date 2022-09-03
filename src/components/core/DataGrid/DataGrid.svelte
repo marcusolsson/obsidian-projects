@@ -7,12 +7,13 @@
 
 	import GridRow from "./GridRow.svelte";
 
-	import type {
-		GridColDef,
-		GridRowId,
-		GridRowModel,
-		GridRowProps,
-		GridSortModel,
+	import {
+		sortRows,
+		type GridColDef,
+		type GridRowId,
+		type GridRowModel,
+		type GridRowProps,
+		type GridSortModel,
 	} from "./data-grid";
 
 	export let columns: GridColDef[];
@@ -30,33 +31,6 @@
 	export let onColumnDelete: (field: string) => void;
 	export let onRowDelete: (rowId: GridRowId) => void;
 	export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
-
-	function sortRows(
-		rows: GridRowProps[],
-		sortModel: GridSortModel
-	): GridRowProps[] {
-		return rows.sort((a, b): number => {
-			let aval = a.row[sortModel.field];
-			let bval = b.row[sortModel.field];
-
-			const isAsc = sortModel.sort === "asc";
-
-			if (!aval && bval) return isAsc ? 1 : -1;
-			if (aval && !bval) return isAsc ? -1 : 1;
-			if (!aval && !bval) return 0;
-
-			aval = aval.toString().toLocaleLowerCase();
-			bval = bval.toString().toLocaleLowerCase();
-
-			if (aval < bval) {
-				return isAsc ? -1 : 1;
-			} else if (aval > bval) {
-				return isAsc ? 1 : -1;
-			} else {
-				return 0;
-			}
-		});
-	}
 
 	$: sortedRows = sortRows(rows, sortModel);
 
@@ -139,6 +113,11 @@
 	<GridHeader
 		{columns}
 		onResize={(name, width) => {
+			columns = columns.map((column) =>
+				column.field === name ? { ...column, width } : column
+			);
+		}}
+		onFinalizeResize={(name, width) => {
 			onColumnResize(name, width);
 		}}
 		onColumnMenu={(field) => createColumnMenu(field)}

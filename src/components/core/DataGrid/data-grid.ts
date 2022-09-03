@@ -39,3 +39,30 @@ export function fieldIcon(field: DataFieldType): string {
 	}
 	return "info";
 }
+
+export function sortRows(
+	rows: GridRowProps[],
+	sortModel: GridSortModel
+): GridRowProps[] {
+	return rows.sort((a, b): number => {
+		let aval = a.row[sortModel.field];
+		let bval = b.row[sortModel.field];
+
+		const isAsc = sortModel.sort === "asc";
+
+		if (!aval && bval) return isAsc ? 1 : -1;
+		if (aval && !bval) return isAsc ? -1 : 1;
+		if (!aval && !bval) return 0;
+
+		aval = aval.toString().toLocaleLowerCase();
+		bval = bval.toString().toLocaleLowerCase();
+
+		if (aval < bval) {
+			return isAsc ? -1 : 1;
+		} else if (aval > bval) {
+			return isAsc ? 1 : -1;
+		} else {
+			return 0;
+		}
+	});
+}

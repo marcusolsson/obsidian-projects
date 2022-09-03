@@ -12,6 +12,7 @@
 
 	export let columns: GridColDef[];
 	export let onResize: (name: string, width: number) => void;
+	export let onFinalizeResize: (name: string, width: number) => void;
 	export let onColumnMenu: (column: GridColDef) => Menu;
 
 	function handleColumnHeaderClick(
@@ -43,6 +44,9 @@
 			resizable
 			onResize={(width) => {
 				onResize(column.field, width);
+			}}
+			onFinalizeResize={(width) => {
+				onFinalizeResize(column.field, width);
 			}}
 			on:mousedown={handleColumnHeaderClick(column)}
 			columnHeader
