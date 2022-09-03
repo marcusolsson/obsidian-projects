@@ -86,6 +86,10 @@
 		padding: 0 8px;
 		font-size: var(--font-ui-small);
 		border-radius: var(--radius-s);
+
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	div:hover {

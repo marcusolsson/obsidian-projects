@@ -13,18 +13,7 @@ import produce from "immer";
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
-export type ViewType = "table" | "board" | "calendar";
-
-export function isViewType(value: string): value is ViewType {
-	switch (value) {
-		case "table":
-		case "board":
-		case "calendar":
-			return true;
-		default:
-			return false;
-	}
-}
+export type ViewType = string;
 
 export interface ViewDefinition {
 	name: string;

@@ -12,7 +12,10 @@
 	import WorkspaceContainer from "./WorkspaceContainer.svelte";
 	import { LoaderCube } from "./core/LoaderCube";
 
-	const viewComponents = {
+	import { customViews } from "../lib/stores/custom-views";
+	import CustomView from "./CustomView.svelte";
+
+	const standardViewComponents: Record<string, any> = {
 		table: TableView,
 		board: BoardView,
 		calendar: CalendarView,
@@ -56,7 +59,23 @@
 		});
 	}
 
-	$: viewComponent = selectedView ? viewComponents[selectedView.type] : null;
+	$: viewComponent = selectedView
+		? getViewComponent(selectedView.type)
+		: null;
+
+	function getViewComponent(type: string) {
+		const standardComponent = standardViewComponents[type];
+
+		if (standardComponent) {
+			return standardComponent;
+		}
+
+		if ($customViews[type]) {
+			return CustomView;
+		}
+
+		return null;
+	}
 
 	function handleWorkspaceChange(workspaceId: string) {
 		if (!workspaces.length) {
@@ -134,6 +153,7 @@
 					this={viewComponent}
 					{records}
 					{fields}
+					type={selectedView.type}
 					config={selectedView.config}
 					onConfigChange={handleConfigChange}
 					rootPath={selectedWorkspace?.path ?? ""}
