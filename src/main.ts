@@ -11,6 +11,17 @@ dayjs.extend(localizedFormat);
 
 export type ViewType = "table" | "board" | "calendar";
 
+export function isViewType(value: string): value is ViewType {
+	switch (value) {
+		case "table":
+		case "board":
+		case "calendar":
+			return true;
+		default:
+			return false;
+	}
+}
+
 export interface ViewDefinition {
 	name: string;
 	id: string;

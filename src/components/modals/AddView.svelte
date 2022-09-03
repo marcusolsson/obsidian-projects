@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from "uuid";
 
-	import type { ViewDefinition } from "src/main";
+	import { isViewType, type ViewDefinition, type ViewType } from "src/main";
 
 	import { Typography } from "../core/Typography";
 	import { SettingItem, ButtonSetting } from "../core/Setting";
 	import { Select } from "../core/Select";
+	import Input from "../core/Input/Input.svelte";
 
 	export let onSave: (view: ViewDefinition) => void;
 
 	let name: string = "";
-	let type: string = "table";
+	let type: ViewType = "table";
 </script>
 
 <Typography variant="h1">Add view</Typography>
@@ -24,13 +25,19 @@
 			{ label: "Calendar", value: "calendar" },
 		]}
 		onChange={(value) => {
-			type = value;
+			if (isViewType(value)) {
+				type = value;
+			}
 		}}
 	/>
 </SettingItem>
 
 <SettingItem name={"View name"}>
-	<input placeholder="Optional" type="text" bind:value={name} />
+	<Input
+		value={name}
+		onChange={(value) => (name = value)}
+		placeholder="Optional"
+	/>
 </SettingItem>
 
 <ButtonSetting
@@ -39,10 +46,7 @@
 	onClick={() =>
 		onSave({
 			id: uuidv4(),
-			name:
-				name || type.length > 0
-					? type[0]?.toUpperCase() + type.slice(1)
-					: name,
+			name: name || type[0]?.toUpperCase() + type.slice(1),
 			type,
 			config: {},
 		})}
