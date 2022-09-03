@@ -32,6 +32,7 @@
 			value: workspace.id,
 		}))}
 		onChange={onWorkspaceChange}
+		placeholder="No workspaces"
 	/>
 	<IconButton
 		icon="plus"

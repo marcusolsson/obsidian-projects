@@ -43,6 +43,13 @@
 			name,
 			path,
 			recursive,
-			views: [],
+			views: [
+				{
+					id: uuidv4(),
+					name: "Table",
+					type: "table",
+					config: {},
+				},
+			],
 		})}
 />

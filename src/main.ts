@@ -9,10 +9,12 @@ import { registerFileEvents } from "./lib/stores/file-index";
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
+export type ViewType = "table" | "board" | "calendar";
+
 export interface ViewDefinition {
 	name: string;
 	id: string;
-	type: string;
+	type: ViewType;
 	config: Record<string, any>;
 }
 
