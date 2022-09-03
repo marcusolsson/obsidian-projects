@@ -2,14 +2,14 @@
 	import { isBoolean } from "src/lib/data";
 	import { Checkbox } from "../../../../core/Checkbox";
 	import { GridCell } from "../";
+	import type { GridColDef } from "../../data-grid";
 
 	export let value: boolean | undefined;
-	export let width: number;
-
 	export let onChange: (value: boolean) => void;
+	export let column: GridColDef;
 </script>
 
-<GridCell {width} on:mousedown>
+<GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isBoolean(value)}
 			<Checkbox slot="read" {value} {onChange} />

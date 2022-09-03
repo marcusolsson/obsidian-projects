@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { GridCell } from "../";
+	import type { GridColDef } from "../../data-grid";
 
 	import TextInput from "./TextInput.svelte";
 	import TextLabel from "./TextLabel.svelte";
 
 	export let value: string | undefined;
-	export let width: number;
-	export let editable: boolean;
 	export let onChange: (value: string) => void;
+	export let column: GridColDef;
 </script>
 
-<GridCell {editable} {width} on:mousedown>
+<GridCell {column} on:mousedown>
 	<TextLabel slot="read" value={value || ""} />
 	<TextInput slot="edit" value={value || ""} {onChange} />
 </GridCell>

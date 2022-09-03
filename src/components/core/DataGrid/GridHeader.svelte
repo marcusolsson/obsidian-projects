@@ -32,16 +32,20 @@
 </script>
 
 <GridCellGroup header>
-	<GridCell header width={60} />
+	<GridCell
+		column={{ field: "", width: 60, header: true, editable: false }}
+		columnHeader
+		rowHeader
+	/>
 	{#each columns as column}
 		<GridCell
-			header
+			{column}
 			resizable
-			width={column.width ?? 180}
 			onResize={(width) => {
 				onResize(column.field, width);
 			}}
 			on:mousedown={handleColumnHeaderClick(column)}
+			columnHeader
 		>
 			<div slot="read">
 				<Icon name={fieldIcon(column.type ?? DataFieldType.Unknown)} />

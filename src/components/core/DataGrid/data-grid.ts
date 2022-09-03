@@ -9,6 +9,7 @@ export interface GridColDef {
 	width?: number;
 	type?: GridColType;
 	editable?: boolean;
+	header?: boolean;
 }
 
 export type GridRowId = string;

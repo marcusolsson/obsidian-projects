@@ -161,7 +161,6 @@
 
 <style>
 	div {
-		border-bottom: 1px solid var(--background-modifier-border);
 		border-right: 1px solid var(--background-modifier-border);
 		display: inline-block;
 	}

@@ -9,11 +9,6 @@
 <style>
 	div {
 		display: flex;
-		border-bottom: 1px solid var(--background-modifier-border);
-	}
-
-	div:last-child {
-		border-bottom-color: transparent;
 	}
 
 	.header {

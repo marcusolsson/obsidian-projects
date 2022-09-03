@@ -29,6 +29,7 @@
 		type: field.type,
 		width: config?.fieldWidths?.[field.name] ?? 180,
 		editable: field.name !== "name" && field.name !== "path",
+		header: field.name === "name",
 	}));
 
 	$: rows = records.map<GridRowProps>((record) => ({

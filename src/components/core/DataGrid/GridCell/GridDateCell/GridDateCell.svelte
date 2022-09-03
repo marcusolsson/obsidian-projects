@@ -5,13 +5,14 @@
 
 	import { GridCell } from "../";
 	import { TextLabel } from "../";
+	import type { GridColDef } from "../../data-grid";
 
 	export let value: Date | undefined;
-	export let width: number;
 	export let onChange: (value: Date) => void;
+	export let column: GridColDef;
 </script>
 
-<GridCell {width} on:mousedown>
+<GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isDate(value)}
 			<TextLabel slot="read" value={value.toLocaleDateString()} />
