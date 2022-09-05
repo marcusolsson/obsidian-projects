@@ -1,14 +1,7 @@
-import dayjs from "dayjs";
-import produce from "immer";
-import {
-	parseYaml,
-	stringifyYaml,
-	TFile,
-	type App,
-	type FrontMatterCache,
-} from "obsidian";
+import { TFile, type App } from "obsidian";
 import { get } from "svelte/store";
-import { isDate, type DataRecord } from "./data";
+import { doDeleteField, doUpdateRecord } from "./api-helpers";
+import type { DataRecord } from "./data";
 import { fileIndex } from "./stores/file-index";
 
 export class RecordApi {
@@ -22,113 +15,26 @@ export class RecordApi {
 		const file = this.app.vault.getAbstractFileByPath(record.path);
 
 		if (file instanceof TFile) {
-			const data = await this.app.vault.read(file);
-
-			const frontmatter = this.getFrontMatter(data);
-
-			const updated = Object.fromEntries(
-				Object.entries({ ...frontmatter, ...record.values })
-					.map((entry) =>
-						isDate(entry[1])
-							? produce(entry, (draft) => {
-									draft[1] = dayjs(entry[1]).format(
-										"YYYY-MM-DD"
-									);
-							  })
-							: entry
-					)
-					.filter((entry) => entry[1] !== undefined)
-					.filter((entry) => entry[1] !== null)
-			);
-
-			const newdata = this.setFrontMatter(data, updated);
-
-			await this.app.vault.modify(file, newdata);
-		}
-	}
-
-	deleteRecord(path: string) {
-		const file = get(fileIndex).files[path];
-
-		if (file) {
-			this.app.vault.trash(file, true);
+			this.updateFile(file, (data) => doUpdateRecord(data, record));
 		}
 	}
 
 	async deleteField(name: string) {
 		for (let pair of Object.entries(get(fileIndex).files)) {
-			const file = pair[1];
-
-			const data = await this.app.vault.read(file);
-
-			const frontmatter = this.getFrontMatter(data);
-
-			frontmatter[name] = null;
-
-			const updated = Object.fromEntries(
-				Object.entries(frontmatter)
-					.filter((entry) => entry[1] !== undefined)
-					.filter((entry) => entry[1] !== null)
-			);
-
-			const newdata = this.setFrontMatter(data, updated);
-
-			await this.app.vault.modify(file, newdata);
+			this.updateFile(pair[1], (data) => doDeleteField(data, name));
 		}
 	}
 
-	getFrontMatter(data: string): Omit<FrontMatterCache, "position"> {
-		const delim = "---";
-
-		var startPosition = data.indexOf(delim) + delim.length;
-
-		const isStart = data.slice(0, startPosition).trim() === delim;
-
-		var endPosition =
-			data.slice(startPosition).indexOf(delim) + startPosition;
-
-		const hasFrontMatter = isStart && endPosition > startPosition;
-
-		const { position, ...cache }: FrontMatterCache = hasFrontMatter
-			? parseYaml(data.slice(startPosition, endPosition))
-			: {};
-
-		return cache;
+	async updateFile(file: TFile, cb: (data: string) => string) {
+		const data = await this.app.vault.read(file);
+		await this.app.vault.modify(file, cb(data));
 	}
 
-	setFrontMatter(
-		data: string,
-		frontmatter: Omit<FrontMatterCache, "position>">
-	): string {
-		const delim = "---";
+	async deleteRecord(path: string) {
+		const file = get(fileIndex).files[path];
 
-		var startPosition = data.indexOf(delim) + delim.length;
-
-		const isStart = data.slice(0, startPosition).trim() === delim;
-
-		var endPosition =
-			data.slice(startPosition).indexOf(delim) + startPosition;
-
-		const hasFrontMatter = isStart && endPosition > startPosition;
-
-		if (Object.entries(frontmatter).length) {
-			const res = hasFrontMatter
-				? data.slice(0, startPosition + 1) +
-				  stringifyYaml(frontmatter) +
-				  data.slice(endPosition)
-				: delim +
-				  "\n" +
-				  stringifyYaml(frontmatter) +
-				  delim +
-				  "\n\n" +
-				  data;
-
-			return res;
+		if (file) {
+			this.app.vault.trash(file, true);
 		}
-
-		return hasFrontMatter
-			? data.slice(0, startPosition - delim.length) +
-					data.slice(endPosition + delim.length + 1)
-			: data;
 	}
 }
