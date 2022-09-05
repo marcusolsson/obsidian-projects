@@ -93,7 +93,7 @@ function parseRawLink(
 	return undefined;
 }
 
-function isRawLink(value: any): value is Array<Array<string>> {
+export function isRawLink(value: any): value is Array<Array<string>> {
 	if (value && Array.isArray(value)) {
 		if (value.length === 1) {
 			const nextValue = value[0];

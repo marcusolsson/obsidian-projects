@@ -3,11 +3,11 @@ import {
 	isDate,
 	isNumber,
 	isBoolean,
-	isLink,
 	isString,
 	type DataRecord,
 	type DataField,
 } from "../data";
+import { isRawLink } from "./dataframe";
 
 export function detectFields(records: DataRecord[]): DataField[] {
 	const fieldSet: Record<string, DataFieldType> = {};
@@ -48,7 +48,7 @@ function fieldType(value: any): DataFieldType {
 		return DataFieldType.Number;
 	} else if (isBoolean(value)) {
 		return DataFieldType.Boolean;
-	} else if (isLink(value)) {
+	} else if (isRawLink(value)) {
 		return DataFieldType.Link;
 	} else if (Array.isArray(value)) {
 		return DataFieldType.List;

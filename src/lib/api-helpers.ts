@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import produce from "immer";
 import { parseYaml, stringifyYaml, type FrontMatterCache } from "obsidian";
-import { isDate, type DataRecord } from "./data";
+import { isDate, isLink, type DataRecord } from "./data";
 
 export function doUpdateRecord(data: string, record: DataRecord): string {
 	const frontmatter = decodeFrontMatter(data);
@@ -15,11 +15,22 @@ export function doUpdateRecord(data: string, record: DataRecord): string {
 					  })
 					: entry
 			)
+			.map((entry) =>
+				isLink(entry[1])
+					? produce(entry, (draft) => {
+							draft[1] = `[[${draft[1].linkText}]]`;
+					  })
+					: entry
+			)
 			.filter((entry) => entry[1] !== undefined)
 			.filter((entry) => entry[1] !== null)
 	);
 
-	return encodeFrontMatter(data, updated);
+	const encoded = encodeFrontMatter(data, updated);
+
+	return encoded.replace(/\"\[\[(.*)\]\]\"/, (_, p1) => {
+		return `[[${p1}]]`;
+	});
 }
 
 export function doDeleteField(data: string, field: string) {
