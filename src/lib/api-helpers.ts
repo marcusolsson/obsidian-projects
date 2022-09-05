@@ -1,3 +1,7 @@
+/*
+ * This is the dark corner of the plugin. AFAIK there's no official support for
+ * modifying front matter. Would love to simplify this.
+ */
 import dayjs from "dayjs";
 import produce from "immer";
 import { parseYaml, stringifyYaml, type FrontMatterCache } from "obsidian";
