@@ -51,6 +51,21 @@ export function doDeleteField(data: string, field: string) {
 	return encodeFrontMatter(data, updated);
 }
 
+export function doRenameField(data: string, from: string, to: string) {
+	const frontmatter = decodeFrontMatter(data);
+
+	frontmatter[to] = frontmatter[from];
+	frontmatter[from] = null;
+
+	const updated = Object.fromEntries(
+		Object.entries(frontmatter)
+			.filter((entry) => entry[1] !== undefined)
+			.filter((entry) => entry[1] !== null)
+	);
+
+	return encodeFrontMatter(data, updated);
+}
+
 function decodeFrontMatter(data: string): Omit<FrontMatterCache, "position"> {
 	const delim = "---";
 

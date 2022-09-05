@@ -13,6 +13,7 @@
 	import { api } from "src/lib/stores/api";
 	import { ConfigureRecord } from "src/modals/record-modal";
 	import type { GridConfig } from "./types";
+	import { InputDialogModal } from "src/modals/input-dialog";
 
 	export let records: DataRecord[];
 	export let fields: DataField[];
@@ -54,6 +55,17 @@
 	}}
 	onRowDelete={(rowId) => {
 		$api.deleteRecord(rowId);
+	}}
+	onColumnRename={(field) => {
+		new InputDialogModal(
+			$app,
+			"Rename field",
+			"Rename",
+			(value) => {
+				$api.renameField(field, value);
+			},
+			field
+		).open();
 	}}
 	onColumnDelete={(field) => {
 		$api.deleteField(field);

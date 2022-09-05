@@ -1,6 +1,6 @@
 import { TFile, type App } from "obsidian";
 import { get } from "svelte/store";
-import { doDeleteField, doUpdateRecord } from "./api-helpers";
+import { doDeleteField, doRenameField, doUpdateRecord } from "./api-helpers";
 import type { DataRecord } from "./data";
 import { fileIndex } from "./stores/file-index";
 
@@ -16,6 +16,12 @@ export class RecordApi {
 
 		if (file instanceof TFile) {
 			this.updateFile(file, (data) => doUpdateRecord(data, record));
+		}
+	}
+
+	async renameField(from: string, to: string): Promise<void> {
+		for (let pair of Object.entries(get(fileIndex).files)) {
+			this.updateFile(pair[1], (data) => doRenameField(data, from, to));
 		}
 	}
 

@@ -28,6 +28,7 @@
 		row: GridRowModel,
 		openNew: boolean
 	) => void;
+	export let onColumnRename: (field: string) => void;
 	export let onColumnDelete: (field: string) => void;
 	export let onRowDelete: (rowId: GridRowId) => void;
 	export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
@@ -38,6 +39,11 @@
 		const menu = new Menu();
 
 		if (column.editable) {
+			menu.addItem((item) => {
+				item.setTitle("Rename field")
+					.setIcon("edit")
+					.onClick(() => onColumnRename(column.field));
+			});
 			menu.addItem((item) => {
 				item.setTitle("Delete field")
 					.setIcon("trash")
