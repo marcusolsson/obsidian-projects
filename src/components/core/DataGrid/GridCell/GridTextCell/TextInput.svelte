@@ -18,7 +18,7 @@
 	});
 </script>
 
-<input type="text" bind:this={ref} {value} on:input={handleInput} />
+<input type="text" bind:this={ref} {value} on:change={handleInput} />
 
 <style>
 	input {

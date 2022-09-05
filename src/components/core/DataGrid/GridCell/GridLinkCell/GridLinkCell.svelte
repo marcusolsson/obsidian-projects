@@ -1,18 +1,20 @@
 <script lang="ts">
-	import { isLink, type Link } from "src/lib/datasource";
+	import { Notice } from "obsidian";
+
+	import { isLink, type Link } from "src/lib/data";
 
 	import { GridCell } from "../";
+	import type { GridColDef } from "../../data-grid";
 	import TextInput from "../GridTextCell/TextInput.svelte";
 
 	import LinkLabel from "./LinkLabel.svelte";
 
 	export let value: Link | undefined;
-	export let width: number;
-
-	export let onChange: (value: Link) => void;
+	export const onChange: (value: Link) => void = () => {};
+	export let column: GridColDef;
 </script>
 
-<GridCell {width} on:mousedown>
+<GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isLink(value)}
 			<LinkLabel slot="read" {value} />
@@ -23,10 +25,8 @@
 		slot="edit"
 		value={value?.linkText ?? ""}
 		onChange={(linkText) => {
-			onChange({
-				sourcePath: "",
-				linkText,
-			});
+			// onChange({ sourcePath: value?.sourcePath ?? "", linkText });
+			new Notice("Not implemented yet.");
 		}}
 	/>
 </GridCell>

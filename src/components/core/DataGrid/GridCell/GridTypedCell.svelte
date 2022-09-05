@@ -2,6 +2,8 @@
 	import {
 		isOptionalBoolean,
 		isOptionalDate,
+		isOptionalLink,
+		isOptionalList,
 		isOptionalNumber,
 		isOptionalString,
 		type DataValue,
@@ -14,6 +16,8 @@
 	import { GridDateCell } from "./GridDateCell";
 	import { GridNumberCell } from "./GridNumberCell";
 	import { GridTextCell } from "./GridTextCell";
+	import { GridLinkCell } from "./GridLinkCell";
+	import { GridListCell } from "./GridListCell";
 
 	export let value: DataValue;
 	export let onChange: (value: DataValue) => void;
@@ -28,9 +32,10 @@
 	<GridNumberCell {value} {onChange} {column} on:mousedown />
 {:else if column.type === "date" && isOptionalDate(value)}
 	<GridDateCell {value} {onChange} {column} on:mousedown />
-	<!-- {:else if type === "link" && isOptionalLink(value)}
-	// TODO: Serialize and deserialize link objects.
-	<GridLinkCell {value} {onChange} {width} on:mousedown /> -->
+{:else if column.type === "link" && isOptionalLink(value)}
+	<GridLinkCell {value} {onChange} {column} on:mousedown />
+{:else if column.type === "list" && isOptionalList(value)}
+	<GridListCell {value} {onChange} {column} on:mousedown />
 {:else}
 	<GridCell {column} on:mousedown />
 {/if}

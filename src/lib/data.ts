@@ -4,6 +4,7 @@ export enum DataFieldType {
 	Boolean = "boolean",
 	Date = "date",
 	Link = "link",
+	List = "list",
 	Unknown = "unknown",
 }
 
@@ -17,7 +18,14 @@ export interface DataField {
 	type: DataFieldType;
 }
 
-export type DataValue = string | number | boolean | Date | Link | undefined;
+export type DataValue =
+	| string
+	| number
+	| boolean
+	| Date
+	| Link
+	| Array<string>
+	| undefined;
 
 export interface DataRecord {
 	name: string;
@@ -64,6 +72,11 @@ export function isOptionalLink(value: DataValue): value is Link | undefined {
 		return "linkText" in value && "sourcePath" in value;
 	}
 	return value === undefined;
+}
+export function isOptionalList(
+	value: DataValue
+): value is Array<string> | undefined {
+	return Array.isArray(value) || value === undefined;
 }
 export function isOptionalNumber(
 	value: DataValue

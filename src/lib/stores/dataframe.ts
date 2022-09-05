@@ -1,85 +1,73 @@
 import { derived } from "svelte/store";
 
-import { app } from "./obsidian";
-import { fileIndex } from "./file-index";
+import dayjs from "dayjs";
+import type { MetadataCache, TFile } from "obsidian";
 import {
 	DataFieldType,
-	isDate,
-	isNumber,
 	isString,
-	type DataField,
 	type DataFrame,
 	type DataRecord,
+	type Link,
 } from "../data";
-import dayjs from "dayjs";
+import { fileIndex } from "./file-index";
+import { detectFields } from "./helpers";
+import { app } from "./obsidian";
+
+export function parseRecords(
+	files: TFile[],
+	metadataCache: MetadataCache
+): DataRecord[] {
+	const records: DataRecord[] = [];
+
+	for (let file of files) {
+		const cache = metadataCache.getFileCache(file);
+
+		if (cache) {
+			const { position, ...values }: { [key: string]: any } =
+				cache.frontmatter ?? {};
+
+			records.push({
+				name: file.basename,
+				path: file.path,
+				values,
+			});
+		}
+	}
+
+	return records;
+}
 
 export const dataFrame = derived(
 	[app, fileIndex],
 	([$app, $fileIndex]): DataFrame => {
 		const files = $fileIndex.files;
-		const fieldSet: Record<string, DataFieldType> = {};
-		const records: DataRecord[] = [];
 
-		for (const [_, file] of Object.entries(files)) {
-			const cache = $app.metadataCache.getFileCache(file);
+		const records: DataRecord[] = parseRecords(
+			Object.entries(files).map(([_, file]) => file),
+			$app.metadataCache
+		);
 
-			if (cache) {
-				const { position, ...values }: { [key: string]: any } =
-					cache.frontmatter ?? {};
+		const fields = detectFields(records);
 
-				for (let field in values) {
-					if (field !== "position") {
-						fieldSet[field] = fieldType(values[field]);
-					}
-				}
-
-				records.push({
-					name: file.basename,
-					path: file.path,
-					values,
-				});
-			}
-		}
-
-		let fields: DataField[] = [];
-
-		for (let field in fieldSet) {
-			const type = fieldSet[field];
-
-			if (type && type !== DataFieldType.Unknown) {
-				fields.push({ name: field, type });
-			}
-		}
-
-		fields = [
-			...fields.sort((a, b) => {
-				return a.name.localeCompare(b.name);
-			}),
-		];
-
+		// Enrich values based on detected field type.
 		for (let record of records) {
 			for (let field of fields) {
 				const value = record.values[field.name];
 
-				if (field.type === DataFieldType.Date) {
-					if (value && isString(value)) {
-						record.values[field.name] = dayjs(
-							value,
-							"YYYY-MM-DD"
-						).toDate();
-					}
-				} else if (field.type === DataFieldType.Link) {
-					if (value) {
-						if (Array.isArray(value)) {
-							const linkText = value[0][0];
-							if (linkText && isString(linkText)) {
-								record.values[field.name] = {
-									linkText,
-									sourcePath: record.path,
-								};
-							}
+				switch (field.type) {
+					case DataFieldType.Link:
+						if (isRawLink(value)) {
+							record.values[field.name] = parseRawLink(
+								value,
+								record.path
+							);
 						}
-					}
+						break;
+					case DataFieldType.Date:
+						if (value && isString(value)) {
+							record.values[field.name] = dayjs(value).toDate();
+						}
+						break;
 				}
 			}
 		}
@@ -88,25 +76,32 @@ export const dataFrame = derived(
 	}
 );
 
-function fieldType(value: any): DataFieldType {
-	if (isDate(value)) {
-		return DataFieldType.Date;
-	} else if (isString(value)) {
-		return /\d{4}-\d{2}-\d{2}/.test(value)
-			? DataFieldType.Date
-			: DataFieldType.String;
-	} else if (isNumber(value)) {
-		return DataFieldType.Number;
-	} else if (isBoolean(value)) {
-		return DataFieldType.Boolean;
-	} else if (Array.isArray(value)) {
-		if (value.length === 1) {
-			const innerValue = value[0];
+function parseRawLink(
+	rawLink: Array<Array<string>>,
+	sourcePath: string
+): Link | undefined {
+	if (rawLink[0]) {
+		const linkText = rawLink[0][0];
 
-			if (Array.isArray(innerValue) && innerValue.length === 1) {
-				return DataFieldType.Link;
+		if (linkText) {
+			return {
+				linkText,
+				sourcePath,
+			};
+		}
+	}
+	return undefined;
+}
+
+function isRawLink(value: any): value is Array<Array<string>> {
+	if (value && Array.isArray(value)) {
+		if (value.length === 1) {
+			const nextValue = value[0];
+
+			if (nextValue && Array.isArray(nextValue)) {
+				return nextValue.length === 1;
 			}
 		}
 	}
-	return DataFieldType.Unknown;
+	return false;
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Link } from "src/lib/datasource";
+	import type { Link } from "src/lib/data";
 
 	import { InternalLink } from "../../../../core/InternalLink";
 
