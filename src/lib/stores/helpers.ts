@@ -1,3 +1,4 @@
+import { isRawLink } from "../data";
 import {
 	DataFieldType,
 	isDate,
@@ -7,7 +8,6 @@ import {
 	type DataRecord,
 	type DataField,
 } from "../data";
-import { isRawLink } from "./dataframe";
 
 export function detectFields(records: DataRecord[]): DataField[] {
 	const fieldSet: Record<string, DataFieldType> = {};

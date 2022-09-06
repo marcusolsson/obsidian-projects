@@ -1,5 +1,5 @@
 import { derived } from "svelte/store";
-import { RecordApi } from "../api";
+import { DataApi } from "../data";
 import { app } from "./obsidian";
 
-export const api = derived(app, ($app) => new RecordApi($app));
+export const api = derived(app, ($app) => new DataApi($app));
