@@ -103,6 +103,32 @@
 						name={v.name}
 						variant="secondary"
 						on:click={() => onViewChange(v.id)}
+						onRename={(name) => {
+							settings.update((state) => {
+								return produce(state, (draft) => {
+									const idx = draft.workspaces.findIndex(
+										(ws) => ws.id === workspace
+									);
+
+									if (idx >= 0) {
+										const ws = draft.workspaces[idx];
+
+										if (ws) {
+											draft.workspaces.splice(idx, 1, {
+												...ws,
+												views: ws.views.map((view) =>
+													view.id === v.id
+														? { ...view, name }
+														: view
+												),
+											});
+										}
+									}
+
+									return draft;
+								});
+							});
+						}}
 						onDelete={() => {
 							new ConfirmDialogModal(
 								$app,

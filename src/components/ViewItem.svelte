@@ -1,14 +1,36 @@
 <script lang="ts">
 	import Icon from "./core/Icon/Icon.svelte";
 	import IconButton from "./core/IconButton/IconButton.svelte";
+	import Input from "./core/Input/Input.svelte";
 
 	export let name: string;
 	export let selected: boolean = false;
 	export let variant: string;
 	export let icon: string = "";
+	export let onRename: (value: string) => void = () => {};
 	export let onDelete: () => void = () => {};
 
 	let active: boolean = false;
+	let editing: boolean = false;
+
+	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
+		function onClick(event: any) {
+			if (!element.contains(event.target)) {
+				callbackFunction();
+			}
+		}
+
+		document.body.addEventListener("click", onClick);
+
+		return {
+			update(newCallbackFunction: () => void) {
+				callbackFunction = newCallbackFunction;
+			},
+			destroy() {
+				document.body.removeEventListener("click", onClick);
+			},
+		};
+	}
 </script>
 
 <div
@@ -18,12 +40,29 @@
 	on:mouseenter={() => (active = true)}
 	on:mouseleave={() => (active = false)}
 	on:focus={() => (active = true)}
-	on:blur={() => (active = false)}
+	on:blur={() => {
+		active = false;
+		editing = false;
+	}}
+	on:dblclick={() => (editing = true)}
+	use:clickOutside={() => {
+		editing = false;
+	}}
 >
 	{#if icon}
 		<Icon name={icon} />
 	{/if}
-	{name}
+	{#if editing}
+		<Input
+			value={name}
+			onChange={onRename}
+			onSubmit={() => (editing = false)}
+			autofocus
+			embed
+		/>
+	{:else}
+		{name}
+	{/if}
 	{#if active && selected && onDelete}
 		<IconButton
 			icon="cross"
@@ -54,7 +93,6 @@
 	}
 
 	.selected {
-		font-weight: 500;
 		background-color: var(--background-modifier-hover);
 	}
 
