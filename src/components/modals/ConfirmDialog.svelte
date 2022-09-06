@@ -15,7 +15,7 @@
 </div>
 <div class="modal-button-container">
 	<Button
-		variant="primary"
+		variant={cta === "Delete" ? "destructive" : "primary"}
 		on:click={() => {
 			onConfirm();
 		}}>{cta}</Button
