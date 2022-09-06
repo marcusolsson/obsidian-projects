@@ -15,6 +15,9 @@
 		type GridRowProps,
 		type GridSortModel,
 	} from "./data-grid";
+	import GridCellGroup from "./GridCellGroup.svelte";
+	import { Button } from "../Button";
+	import Icon from "../Icon/Icon.svelte";
 
 	export let columns: GridColDef[];
 	export let rows: GridRowProps[];
@@ -22,6 +25,7 @@
 
 	export let onSortModelChange: (field: string, sort: string) => void;
 	export let onColumnResize: (field: string, width: number) => void;
+	export let onRowAdd: () => void;
 	export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
 	export let onRowNavigate: (
 		rowId: GridRowId,
@@ -142,11 +146,25 @@
 				onRowNavigate(rowId, row, event.ctrlKey || event.metaKey)}
 		/>
 	{/each}
+	<GridCellGroup>
+		<span style={`width: ${60 + (columns[0]?.width ?? 0)}`}>
+			<Button variant="plain" on:click={() => onRowAdd()}>
+				<Icon name="plus" />
+				Add row
+			</Button>
+		</span>
+	</GridCellGroup>
 </div>
 
 <style>
 	div {
 		border-right: 1px solid var(--background-modifier-border);
 		display: inline-block;
+	}
+
+	span {
+		padding: 4px;
+		position: sticky;
+		left: 0;
 	}
 </style>

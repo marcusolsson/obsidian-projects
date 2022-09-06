@@ -14,12 +14,14 @@
 	import { ConfigureRecord } from "src/modals/record-modal";
 	import type { GridConfig } from "./types";
 	import { InputDialogModal } from "src/modals/input-dialog";
+	import { normalizePath } from "obsidian";
 
 	export let records: DataRecord[];
 	export let fields: DataField[];
 
 	export let config: GridConfig;
 	export let onConfigChange: (config: GridConfig) => void;
+	export let rootPath: string = "";
 
 	$: columns = [
 		{ name: "name", type: DataFieldType.String },
@@ -42,6 +44,21 @@
 <DataGrid
 	{columns}
 	{rows}
+	onRowAdd={() => {
+		new InputDialogModal(
+			$app,
+			"Add record",
+			"Add",
+			(value) => {
+				$api.createRecord({
+					name: value,
+					path: normalizePath(rootPath + "/" + value + ".md"),
+					values: {},
+				});
+			},
+			"Untitled"
+		).open();
+	}}
 	onRowEdit={(id, row) => {
 		const { name, path, ...values } = row;
 		new ConfigureRecord(

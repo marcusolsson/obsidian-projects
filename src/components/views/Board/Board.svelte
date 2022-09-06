@@ -10,7 +10,6 @@
 	}[];
 
 	export let groupByPriority: string | undefined;
-	export let groupByStatus: string | undefined;
 	export let onRecordClick: (record: DataRecord) => void;
 	export let onRecordAdd: (column: string) => void;
 </script>
@@ -21,7 +20,6 @@
 			name={column.name}
 			records={column.records}
 			{groupByPriority}
-			{groupByStatus}
 			{onRecordClick}
 			onRecordAdd={() => onRecordAdd(column.name)}
 		/>

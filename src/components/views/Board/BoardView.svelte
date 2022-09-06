@@ -12,13 +12,13 @@
 
 	import { ConfigureRecord } from "../../../modals/record-modal";
 
-	import { get } from "svelte/store";
 	import { app } from "../../../lib/stores/obsidian";
 	import { api } from "../../../lib/stores/api";
 	import { fieldToSelectableValue } from "src/components/views/helpers";
 	import { groupRecordsByField } from "./board";
-	import { Notice } from "obsidian";
 	import Board from "./Board.svelte";
+	import { InputDialogModal } from "src/modals/input-dialog";
+	import { normalizePath } from "obsidian";
 
 	interface BoardConfig {
 		groupByField?: string;
@@ -30,6 +30,7 @@
 
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
+	export let rootPath: string = "";
 
 	$: textFields = fields.filter(
 		(field) => field.type === DataFieldType.String
@@ -64,25 +65,27 @@
 		};
 	}
 
-	function handleRecordAdd(column: string): () => void {
-		return () => {
-			if (groupByField) {
-				new ConfigureRecord(
-					get(app),
-					fields,
-					(record) => {
-						new Notice("Not implemented yet.");
-					},
-					{
-						name: "Untitled",
-						path: "Untitled.md",
-						values: {
-							[groupByField.name]: column,
-						},
+	function handleRecordAdd(column: string) {
+		if (groupByField) {
+			new InputDialogModal(
+				$app,
+				"Add record",
+				"Add",
+				(value) => {
+					if (groupByField) {
+						$api.createRecord({
+							name: value,
+							path: normalizePath(rootPath + "/" + value + ".md"),
+							values: {
+								[groupByField.name]:
+									column !== "No status" ? column : undefined,
+							},
+						});
 					}
-				).open();
-			}
-		};
+				},
+				"Untitled"
+			).open();
+		}
 	}
 </script>
 
@@ -134,7 +137,6 @@
 				records: groupedRecords[column] ?? [],
 			}))}
 		groupByPriority={priorityField?.name}
-		groupByStatus={groupByField?.name}
 		onRecordClick={(record) => handleRecordClick(record)}
 		onRecordAdd={(column) => handleRecordAdd(column)}
 	/>

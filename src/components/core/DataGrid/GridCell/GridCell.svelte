@@ -101,6 +101,11 @@
 		box-sizing: border-box;
 		vertical-align: middle;
 		width: 100%;
+		min-height: 30px;
+	}
+
+	div:first-child {
+		border-right-color: transparent;
 	}
 
 	div:last-child {

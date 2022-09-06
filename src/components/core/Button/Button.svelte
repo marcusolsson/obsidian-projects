@@ -14,6 +14,9 @@
 </button>
 
 <style>
+	button {
+		gap: 4px;
+	}
 	.mod-plain {
 		background: unset;
 		box-shadow: unset;

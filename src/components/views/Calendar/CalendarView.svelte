@@ -39,6 +39,8 @@
 		subtractInterval,
 		type CalendarInterval,
 	} from "./calendar";
+	import { InputDialogModal } from "src/modals/input-dialog";
+	import { normalizePath } from "obsidian";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
@@ -50,6 +52,8 @@
 
 	export let config: CalendarConfig;
 	export let onConfigChange: (config: CalendarConfig) => void;
+
+	export let rootPath: string = "";
 
 	let anchorDate: dayjs.Dayjs = dayjs();
 
@@ -140,6 +144,33 @@
 									},
 									records[id]
 								).open();
+							}}
+							onEntryAdd={() => {
+								if (dateField) {
+									new InputDialogModal(
+										$app,
+										"Add record",
+										"Add",
+										(value) => {
+											if (dateField) {
+												$api.createRecord({
+													name: value,
+													path: normalizePath(
+														rootPath +
+															"/" +
+															value +
+															".md"
+													),
+													values: {
+														[dateField.name]:
+															date.toDate(),
+													},
+												});
+											}
+										},
+										"Untitled"
+									).open();
+								}
 							}}
 						/>
 					{/each}

@@ -63,7 +63,12 @@
 		</div>
 	{/if}
 	<div class="column-section">
-		<Button variant="plain" on:click={() => onRecordAdd()}>
+		<Button
+			variant="plain"
+			on:click={() => {
+				onRecordAdd();
+			}}
+		>
 			Add a record
 		</Button>
 	</div>

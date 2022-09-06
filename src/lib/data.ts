@@ -42,6 +42,11 @@ export class DataApi {
 		}
 	}
 
+	async createRecord(record: DataRecord): Promise<void> {
+		const file = await this.app.vault.create(record.path, "");
+		this.updateFile(file, (data) => doUpdateRecord(data, record));
+	}
+
 	async updateFile(file: TFile, cb: (data: string) => string) {
 		const data = await this.app.vault.read(file);
 		await this.app.vault.modify(file, cb(data));

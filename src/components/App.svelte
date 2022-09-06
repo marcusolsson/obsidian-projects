@@ -131,6 +131,7 @@
 					fields={frame.fields}
 					config={selectedView.config}
 					onConfigChange={handleConfigChange}
+					rootPath={selectedWorkspace?.path ?? ""}
 				/>
 			{/if}
 		</div>

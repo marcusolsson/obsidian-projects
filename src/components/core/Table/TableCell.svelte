@@ -1,9 +1,9 @@
 <script lang="ts">
-	export let colspan: number = null;
+	export let colspan: number | null = null;
 	export let width: string;
 </script>
 
-<td on:mousedown {colspan} style={`width: ${width}`}>
+<td on:dblclick on:mousedown {colspan} style={`width: ${width}`}>
 	<slot />
 </td>
 
