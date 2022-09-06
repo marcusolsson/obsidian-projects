@@ -48,12 +48,12 @@
 
 <style>
 	.handle {
-		box-sizing: border-box;
 		position: relative;
-		left: 3px;
-		width: 6px !important;
+		left: 7.5px;
+		width: 6px;
+		min-width: 6px;
 		height: 100%;
-		border-radius: 2px;
+		border-radius: 1px;
 	}
 	.handle:hover {
 		background-color: var(--interactive-accent);

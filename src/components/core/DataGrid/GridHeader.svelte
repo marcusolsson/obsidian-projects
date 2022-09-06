@@ -51,25 +51,14 @@
 			on:mousedown={handleColumnHeaderClick(column)}
 			columnHeader
 		>
-			<div slot="read">
+			<svelte:fragment slot="read">
 				<Icon name={fieldIcon(column.type ?? DataFieldType.Unknown)} />
 				<TextLabel slot="read" value={column.field} />
 				<IconButton
 					icon="vertical-three-dots"
 					on:click={handleFieldClick(column)}
 				/>
-			</div>
+			</svelte:fragment>
 		</GridCell>
 	{/each}
 </GridCellGroup>
-
-<style>
-	div {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		box-sizing: border-box;
-		padding: 0 4px;
-		width: 100%;
-	}
-</style>

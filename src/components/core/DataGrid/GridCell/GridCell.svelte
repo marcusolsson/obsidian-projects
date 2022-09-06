@@ -80,7 +80,7 @@
 	{#if resizable}
 		<Resizer
 			width={column.width ?? 180}
-			min={80}
+			min={100}
 			onChange={onResize}
 			onFinalize={onFinalizeResize}
 		/>
@@ -89,20 +89,17 @@
 
 <style>
 	div {
-		align-items: center;
-		width: 180px;
 		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		background-color: var(--background-primary);
 		border-right: 1px solid var(--background-modifier-border);
 		border-left-color: var(--background-modifier-border);
 		border-bottom: 1px solid var(--background-modifier-border);
-		box-sizing: border-box;
-		justify-content: center;
-		background-color: var(--background-primary);
-		vertical-align: middle;
-	}
 
-	div:first-child {
-		/* flex: 1; */
+		box-sizing: border-box;
+		vertical-align: middle;
 	}
 
 	div:last-child {
@@ -119,6 +116,8 @@
 		background-color: var(--background-secondary);
 		font-weight: 500;
 		text-align: center;
+		justify-content: space-between;
+		padding: 0 4px;
 	}
 
 	.header {
