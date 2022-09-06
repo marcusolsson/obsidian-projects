@@ -1,15 +1,18 @@
 <script lang="ts">
+	import AddView from "src/components/modals/AddView.svelte";
 	import {
 		DataFieldType,
 		isBoolean,
 		isDate,
 		isLink,
 		isNumber,
+		isOptionalList,
 		isString,
 		type DataValue,
 	} from "src/lib/data";
 
 	import { Checkbox } from "../Checkbox";
+	import TagList from "../DataGrid/GridCell/GridListCell/TagList.svelte";
 	import { DatePicker } from "../DatePicker";
 	import { Input } from "../Input";
 	import { InternalLink } from "../InternalLink";
@@ -39,14 +42,18 @@
 		type="number"
 		value={isNumber(value) ? value.toString() : ""}
 		onChange={(value) => onChange(parseFloat(value))}
-		{readonly}
 	/>
 {:else if type === DataFieldType.Date}
 	<DatePicker value={isDate(value) ? value : null} onCommit={onChange} />
+{:else if type === DataFieldType.List && isOptionalList(value)}
+	<TagList edit={true} values={value ?? []} {onChange} />
 {:else if type === DataFieldType.Link}
-	{#if isLink(value)}
-		<InternalLink linkText={value.linkText} sourcePath={value.sourcePath}>
-			{aliasify(value.linkText)}
-		</InternalLink>
-	{/if}
+	<Input
+		value={isLink(value) ? value.linkText : ""}
+		onChange={(val) => {
+			if (isLink(value)) {
+				onChange({ ...value, linkText: val });
+			}
+		}}
+	/>
 {/if}

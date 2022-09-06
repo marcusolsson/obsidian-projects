@@ -54,8 +54,8 @@
 	on:click={handleClick}
 	on:dblclick={handleDoubleClick}
 	on:mousedown
-	on:mouseover={() => (hover = true)}
-	on:mouseout={() => (hover = false)}
+	on:mouseenter={() => (hover = true)}
+	on:mouseleave={() => (hover = false)}
 	on:focus={() => (hover = true)}
 	on:blur={() => (hover = false)}
 	use:clickOutside={() => {
@@ -100,6 +100,7 @@
 
 		box-sizing: border-box;
 		vertical-align: middle;
+		width: 100%;
 	}
 
 	div:last-child {
@@ -116,7 +117,7 @@
 		background-color: var(--background-secondary);
 		font-weight: 500;
 		text-align: center;
-		justify-content: space-between;
+		justify-contenvyt: space-between;
 		padding: 0 4px;
 	}
 
@@ -129,5 +130,6 @@
 
 	.rowHeader {
 		left: 0px;
+		justify-content: center;
 	}
 </style>
