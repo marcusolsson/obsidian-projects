@@ -33,7 +33,7 @@
 	}
 
 	input:focus {
-		box-shadow: none !important;
+		box-shadow: none;
 	}
 
 	input:hover {
