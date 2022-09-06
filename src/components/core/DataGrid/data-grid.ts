@@ -1,4 +1,4 @@
-import { DataFieldType } from "src/lib/data";
+import { DataFieldType, isNumber } from "src/lib/data";
 
 export type GridValidRowModel = { [key: string]: any };
 export type GridRowModel<R extends GridValidRowModel = GridValidRowModel> = R;
@@ -55,6 +55,16 @@ export function sortRows(
 		if (!aval && bval) return isAsc ? 1 : -1;
 		if (aval && !bval) return isAsc ? -1 : 1;
 		if (!aval && !bval) return 0;
+
+		if (isNumber(aval) && isNumber(bval)) {
+			if (aval < bval) {
+				return isAsc ? -1 : 1;
+			} else if (aval > bval) {
+				return isAsc ? 1 : -1;
+			} else {
+				return 0;
+			}
+		}
 
 		aval = aval.toString().toLocaleLowerCase();
 		bval = bval.toString().toLocaleLowerCase();
