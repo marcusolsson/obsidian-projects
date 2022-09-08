@@ -13,6 +13,7 @@
 	"author": "",
 	"license": "MIT",
 	"devDependencies": {
+		"@popperjs/svelte": "^0.1.1",
 		"@tsconfig/svelte": "^3.0.0",
 		"@types/jest": "^28.1.6",
 		"@types/node": "^16.11.6",
@@ -29,6 +30,8 @@
 		"obsidian": "latest",
 		"svelte": "^3.48.0",
 		"svelte-dnd-action": "^0.9.19",
+		"svelte-easy-popover": "^1.0.0",
+		"svelte-popover": "^2.0.8",
 		"svelte-preprocess": "^4.10.7",
 		"ts-jest": "^28.0.7",
 		"tslib": "2.3.1",

@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { Link } from "src/lib/data";
-
 	import { InternalLink } from "../../../../core/InternalLink";
 
-	export let value: Link;
+	export let value: Link | undefined;
 </script>
 
 <div>
-	<InternalLink linkText={value.linkText} sourcePath={value.sourcePath}>
-		{value.linkText}
-	</InternalLink>
+	{#if value}
+		<InternalLink linkText={value.linkText} sourcePath={value.sourcePath}>
+			{value.linkText}
+		</InternalLink>
+	{/if}
 </div>
 
 <style>

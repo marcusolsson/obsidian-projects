@@ -9,10 +9,14 @@
 
 	import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
 
+	import { setContext } from "svelte";
+
 	export let rowId: GridRowId;
 	export let index: number;
 	export let row: GridRowModel;
 	export let columns: GridColDef[];
+
+	setContext<string>("sourcePath", row["path"]);
 
 	export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
 	export let onRowMenu: (rowId: GridRowId, row: GridRowModel) => Menu;

@@ -610,6 +610,16 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@popperjs/core@^2.9.2":
+  version "2.11.6"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
+  integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+
+"@popperjs/svelte@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@popperjs/svelte/-/svelte-0.1.1.tgz#217ff474e2b11319b8edd1d58b809fb9643e5906"
+  integrity sha512-/zhQ0TI5cqhY/tlI+4FiU/Cn1jpQwJQTeOYor2HuQXFp+XRI07t9247OEGRqUvUBlENrVLDSPh6FU3B2MVrKSw==
+
 "@sinclair/typebox@^0.24.1":
   version "0.24.30"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.30.tgz#70d94661a065373b7330cc2dce79424bc8e957a1"
@@ -3491,6 +3501,18 @@ svelte-dnd-action@^0.9.19:
   version "0.9.19"
   resolved "https://registry.yarnpkg.com/svelte-dnd-action/-/svelte-dnd-action-0.9.19.tgz#9fdde68a1d44ce323ff4b35bb10f1a24f7d46c03"
   integrity sha512-1Jsym2HN0TJVUl09wLGASkHg937+ZecnnekPiwC0J6K7mCzOxCuIQSVnIxoQLLeiXv74joNVNpVofX9Z0jM4Vw==
+
+svelte-easy-popover@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/svelte-easy-popover/-/svelte-easy-popover-1.0.0.tgz#bf3ea86bc9752c72766ac5df0b110b13ffb47166"
+  integrity sha512-3PFWhKYaGwd18ww7F/gX6VjFgZjABqQY385T0FduWz5WKFx+eTSF2k0x2ZcWIZ5RGuOMPqdHcGCqjLgrvtEZRg==
+  dependencies:
+    "@popperjs/core" "^2.9.2"
+
+svelte-popover@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/svelte-popover/-/svelte-popover-2.0.8.tgz#38e9e8c065e779612c84ef0e992e13c15740fe42"
+  integrity sha512-Yvz4FpvvXc5aBGyIE/TlGlqULLKkcfc7N0MoaqNXHMRVXxla+sc7G1xSCCURP3VqP0nZ5cIyPWOLLWFXuJjTRA==
 
 svelte-preprocess@^4.10.7:
   version "4.10.7"
