@@ -15,6 +15,8 @@
 	import type { GridConfig } from "./types";
 	import { InputDialogModal } from "src/modals/input-dialog";
 	import { normalizePath } from "obsidian";
+	import ToolBar from "src/components/core/ToolBar/ToolBar.svelte";
+	import SwitchSelect from "src/components/core/SwitchSelect/SwitchSelect.svelte";
 
 	export let records: DataRecord[];
 	export let fields: DataField[];
@@ -23,6 +25,8 @@
 	export let onConfigChange: (config: GridConfig) => void;
 	export let rootPath: string = "";
 
+	$: fieldConfig = config?.fieldConfig ?? {};
+
 	$: columns = [
 		{ name: "name", type: DataFieldType.String },
 		{ name: "path", type: DataFieldType.String },
@@ -30,7 +34,8 @@
 	].map<GridColDef>((field) => ({
 		field: field.name,
 		type: field.type,
-		width: config?.fieldWidths?.[field.name] ?? 180,
+		width: fieldConfig[field.name]?.width ?? 180,
+		hide: fieldConfig[field.name]?.hide ?? false,
 		editable: field.name !== "name" && field.name !== "path",
 		header: field.name === "name",
 	}));
@@ -39,8 +44,49 @@
 		rowId: record.path,
 		row: { ...record.values, name: record.name, path: record.path },
 	}));
+
+	function handleVisibilityChange(field: string, enabled: boolean) {
+		const newconfig = {
+			...config,
+			fieldConfig: {
+				...fieldConfig,
+				[field]: {
+					...fieldConfig[field],
+					hide: !enabled,
+				},
+			},
+		};
+
+		console.log({ fieldConfig, newconfig });
+
+		onConfigChange(newconfig);
+	}
+
+	function handleWidthChange(field: string, width: number) {
+		onConfigChange({
+			...config,
+			fieldConfig: {
+				...fieldConfig,
+				[field]: {
+					...fieldConfig[field],
+					width,
+				},
+			},
+		});
+	}
 </script>
 
+<ToolBar>
+	<SwitchSelect
+		label="Hide fields"
+		items={columns.map((column) => ({
+			label: column.field,
+			value: column.field,
+			enabled: !column.hide,
+		}))}
+		onChange={handleVisibilityChange}
+	/>
+</ToolBar>
 <DataGrid
 	{columns}
 	{rows}
@@ -91,14 +137,7 @@
 		const { name, path, ...values } = row;
 		$api.updateRecord({ path, name, values });
 	}}
-	onColumnResize={(field, width) =>
-		onConfigChange({
-			...config,
-			fieldWidths: {
-				...config?.fieldWidths,
-				[field]: width,
-			},
-		})}
+	onColumnResize={handleWidthChange}
 	onRowNavigate={(rowId, row, openNew) => {
 		$app.workspace.openLinkText(rowId, "", openNew);
 	}}

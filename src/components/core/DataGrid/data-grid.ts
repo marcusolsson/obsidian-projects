@@ -8,6 +8,7 @@ export interface GridColDef {
 	field: string;
 	width?: number;
 	type?: GridColType;
+	hide?: boolean;
 	editable?: boolean;
 	header?: boolean;
 }

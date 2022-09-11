@@ -37,6 +37,7 @@
 	export let onRowDelete: (rowId: GridRowId) => void;
 	export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
 
+	$: visibleColumns = columns.filter((column) => !column.hide);
 	$: sortedRows = sortRows(rows, sortModel);
 
 	function createColumnMenu(column: GridColDef) {
@@ -121,7 +122,7 @@
 
 <div>
 	<GridHeader
-		{columns}
+		columns={visibleColumns}
 		onResize={(name, width) => {
 			columns = columns.map((column) =>
 				column.field === name ? { ...column, width } : column
@@ -134,7 +135,7 @@
 	/>
 	{#each sortedRows as { rowId, row }, i}
 		<GridRow
-			{columns}
+			columns={visibleColumns}
 			index={i + 1}
 			{rowId}
 			{row}
@@ -147,7 +148,7 @@
 		/>
 	{/each}
 	<GridCellGroup>
-		<span style={`width: ${60 + (columns[0]?.width ?? 0)}`}>
+		<span style={`width: ${60 + (visibleColumns[0]?.width ?? 0)}`}>
 			<Button variant="plain" on:click={() => onRowAdd()}>
 				<Icon name="plus" />
 				Add row

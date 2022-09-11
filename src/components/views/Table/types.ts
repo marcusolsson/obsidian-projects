@@ -1,5 +1,12 @@
+export interface FieldConfig {
+	[key: string]: {
+		width?: number;
+		hide?: boolean;
+	};
+}
+
 export interface GridConfig {
-	fieldWidths?: Record<string, number>;
+	fieldConfig?: FieldConfig;
 	sortField?: string;
 	sortAsc?: boolean;
 }

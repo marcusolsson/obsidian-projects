@@ -114,7 +114,7 @@
 
 	.selected {
 		box-shadow: 0 0 0 3px var(--interactive-accent);
-		z-index: 9999;
+		/* z-index: 9; */
 		padding: 0;
 	}
 
@@ -130,7 +130,7 @@
 		background-color: var(--background-secondary);
 		position: sticky;
 		left: 60px;
-		z-index: 10000;
+		/* z-index: 10; */
 	}
 
 	.rowHeader {
