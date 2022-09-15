@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AddWorkspaceModal } from "../modals/add-workspace-modal";
+	import { CreateWorkspaceModal } from "../modals/create-workspace-modal";
 
 	import type { WorkspaceDefinition } from "src/main";
 
@@ -37,7 +37,7 @@
 	<IconButton
 		icon="plus"
 		on:click={() => {
-			new AddWorkspaceModal($app, (value) => {
+			new CreateWorkspaceModal($app, (value) => {
 				settings.update((state) => {
 					return produce(state, (draft) => {
 						draft.workspaces.push(value);

@@ -1,10 +1,13 @@
-import { addIcon, Plugin } from "obsidian";
+import { addIcon, Plugin, TFolder } from "obsidian";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
 import { registerFileEvents } from "./lib/stores/file-index";
+import { CreateWorkspaceModal } from "./modals/create-workspace-modal";
+import { settings } from "./lib/stores/settings";
+import produce from "immer";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -48,11 +51,52 @@ export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettings> = {
 };
 
 export default class ProjectsPlugin extends Plugin {
+	// @ts-ignore
+	unsubscribeSettings: Unsubscriber;
+
 	async onload() {
 		this.registerView(
 			VIEW_TYPE_PROJECTS,
 			(leaf) => new ProjectsView(leaf, this)
 		);
+
+		this.registerEvent(
+			this.app.workspace.on("file-menu", (menu, file) => {
+				if (file instanceof TFolder) {
+					menu.addItem((item) => {
+						item.setTitle("Create new workspace in folder")
+							.setIcon("folder-plus")
+							.onClick(async () => {
+								new CreateWorkspaceModal(
+									this.app,
+									(workspace) => {
+										settings.update((state) => {
+											return produce(state, (draft) => {
+												draft.workspaces.push(
+													workspace
+												);
+												return draft;
+											});
+										});
+									},
+									{
+										name: file.name,
+										path: file.path,
+									}
+								).open();
+							});
+					});
+				}
+			})
+		);
+
+		settings.set(
+			Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
+		);
+
+		this.unsubscribeSettings = settings.subscribe((value) => {
+			this.saveData(value);
+		});
 
 		this.addCommand({
 			id: "show-projects",
@@ -69,6 +113,8 @@ export default class ProjectsPlugin extends Plugin {
 
 	async onunload() {
 		this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
+
+		this.unsubscribeSettings();
 	}
 
 	async activateView() {

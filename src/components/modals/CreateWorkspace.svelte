@@ -8,13 +8,12 @@
 	import { Checkbox } from "../core/Checkbox";
 
 	export let onSave: (workspace: WorkspaceDefinition) => void;
-
-	let name: string = "Untitled workspace";
-	let path: string = "";
-	let recursive: boolean = false;
+	export let name: string = "Untitled workspace";
+	export let path: string = "";
+	export let recursive: boolean = false;
 </script>
 
-<Typography variant="h1">Add workspace</Typography>
+<Typography variant="h1">Create new workspace</Typography>
 
 <SettingItem name={"Workspace name"}>
 	<input type="text" bind:value={name} />
@@ -35,7 +34,7 @@
 </SettingItem>
 
 <ButtonSetting
-	name="Add workspace"
+	name="Create workspace"
 	cta
 	onClick={() =>
 		onSave({
