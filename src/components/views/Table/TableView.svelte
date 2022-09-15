@@ -17,6 +17,7 @@
 	import { normalizePath } from "obsidian";
 	import ToolBar from "src/components/core/ToolBar/ToolBar.svelte";
 	import SwitchSelect from "src/components/core/SwitchSelect/SwitchSelect.svelte";
+	import HorizontalGroup from "src/components/core/HorizontalGroup/HorizontalGroup.svelte";
 
 	export let records: DataRecord[];
 	export let fields: DataField[];
@@ -37,7 +38,6 @@
 		width: fieldConfig[field.name]?.width ?? 180,
 		hide: fieldConfig[field.name]?.hide ?? false,
 		editable: field.name !== "name" && field.name !== "path",
-		header: field.name === "name",
 	}));
 
 	$: rows = records.map<GridRowProps>((record) => ({
@@ -57,8 +57,6 @@
 			},
 		};
 
-		console.log({ fieldConfig, newconfig });
-
 		onConfigChange(newconfig);
 	}
 
@@ -77,79 +75,104 @@
 </script>
 
 <ToolBar>
-	<SwitchSelect
-		label="Hide fields"
-		items={columns.map((column) => ({
-			label: column.field,
-			value: column.field,
-			enabled: !column.hide,
-		}))}
-		onChange={handleVisibilityChange}
-	/>
+	<p />
+	<HorizontalGroup>
+		<SwitchSelect
+			label="Hide fields"
+			items={columns.map((column) => ({
+				label: column.field,
+				value: column.field,
+				enabled: !column.hide,
+			}))}
+			onChange={handleVisibilityChange}
+		/>
+	</HorizontalGroup>
 </ToolBar>
-<DataGrid
-	{columns}
-	{rows}
-	onRowAdd={() => {
-		new InputDialogModal(
-			$app,
-			"Add record",
-			"Add",
-			(value) => {
-				$api.createRecord({
-					name: value,
-					path: normalizePath(rootPath + "/" + value + ".md"),
-					values: {},
-				});
-			},
-			"Untitled"
-		).open();
-	}}
-	onRowEdit={(id, row) => {
-		const { name, path, ...values } = row;
-		new ConfigureRecord(
-			$app,
-			fields,
-			(record) => {
-				$api.updateRecord(record);
-			},
-			{ path: id, name, values }
-		).open();
-	}}
-	onRowDelete={(rowId) => {
-		$api.deleteRecord(rowId);
-	}}
-	onColumnRename={(field) => {
-		new InputDialogModal(
-			$app,
-			"Rename field",
-			"Rename",
-			(value) => {
-				$api.renameField(field, value);
-			},
-			field
-		).open();
-	}}
-	onColumnDelete={(field) => {
-		$api.deleteField(field);
-	}}
-	onRowChange={(rowId, row) => {
-		const { name, path, ...values } = row;
-		$api.updateRecord({ path, name, values });
-	}}
-	onColumnResize={handleWidthChange}
-	onRowNavigate={(rowId, row, openNew) => {
-		$app.workspace.openLinkText(rowId, "", openNew);
-	}}
-	sortModel={{
-		field: config?.sortField ?? "name",
-		sort: config?.sortAsc ? "asc" : "desc",
-	}}
-	onSortModelChange={(field, sort) => {
-		onConfigChange({
-			...config,
-			sortField: field,
-			sortAsc: sort === "asc",
-		});
-	}}
-/>
+<div>
+	<DataGrid
+		{columns}
+		{rows}
+		onRowAdd={() => {
+			new InputDialogModal(
+				$app,
+				"Add record",
+				"Add",
+				(value) => {
+					$api.createRecord({
+						name: value,
+						path: normalizePath(rootPath + "/" + value + ".md"),
+						values: {},
+					});
+				},
+				"Untitled"
+			).open();
+		}}
+		onRowEdit={(id, row) => {
+			const { name, path, ...values } = row;
+			new ConfigureRecord(
+				$app,
+				fields,
+				(record) => {
+					$api.updateRecord(record);
+				},
+				{ path: id, name, values }
+			).open();
+		}}
+		onRowDelete={(rowId) => {
+			$api.deleteRecord(rowId);
+		}}
+		onColumnHide={(column) => {
+			const fieldConfig = config.fieldConfig;
+
+			onConfigChange({
+				...config,
+				fieldConfig: {
+					...fieldConfig,
+					[column.field]: {
+						...fieldConfig?.[column.field],
+						hide: true,
+					},
+				},
+			});
+		}}
+		onColumnRename={(field) => {
+			new InputDialogModal(
+				$app,
+				"Rename field",
+				"Rename",
+				(value) => {
+					$api.renameField(field, value);
+				},
+				field
+			).open();
+		}}
+		onColumnDelete={(field) => {
+			$api.deleteField(field);
+		}}
+		onRowChange={(rowId, row) => {
+			const { name, path, ...values } = row;
+			$api.updateRecord({ path, name, values });
+		}}
+		onColumnResize={handleWidthChange}
+		onRowNavigate={(rowId, row, openNew) => {
+			$app.workspace.openLinkText(rowId, "", openNew);
+		}}
+		sortModel={{
+			field: config?.sortField ?? "name",
+			sort: config?.sortAsc ? "asc" : "desc",
+		}}
+		onSortModelChange={(field, sort) => {
+			onConfigChange({
+				...config,
+				sortField: field,
+				sortAsc: sort === "asc",
+			});
+		}}
+	/>
+</div>
+
+<style>
+	div {
+		overflow: auto;
+	}
+</style>

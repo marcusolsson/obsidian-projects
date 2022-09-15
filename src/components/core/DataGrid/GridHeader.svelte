@@ -53,7 +53,7 @@
 		>
 			<svelte:fragment slot="read">
 				<Icon name={fieldIcon(column.type ?? DataFieldType.Unknown)} />
-				<TextLabel slot="read" value={column.field} />
+				<TextLabel value={column.field} />
 				<IconButton
 					icon="vertical-three-dots"
 					on:click={handleFieldClick(column)}

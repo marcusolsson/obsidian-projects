@@ -76,7 +76,7 @@
 
 <style>
 	.column {
-		width: 350px;
+		min-width: 350px;
 		border: 1px solid var(--background-modifier-border);
 		border-radius: var(--radius-m);
 		background-color: var(--background-secondary);

@@ -104,17 +104,9 @@
 		min-height: 30px;
 	}
 
-	div:first-child {
-		border-right-color: transparent;
-	}
-
-	div:last-child {
-		border-right-color: transparent;
-	}
-
 	.selected {
 		box-shadow: 0 0 0 3px var(--interactive-accent);
-		/* z-index: 9; */
+		z-index: 9;
 		padding: 0;
 	}
 

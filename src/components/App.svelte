@@ -12,7 +12,7 @@
 	import WorkspaceContainer from "./WorkspaceContainer.svelte";
 	import { LoaderCube } from "./core/LoaderCube";
 
-	const viewComponents: { [key: string]: any } = {
+	const viewComponents = {
 		table: TableView,
 		board: BoardView,
 		calendar: CalendarView,
@@ -31,15 +31,20 @@
 		  ) || selectedWorkspace.views[0]
 		: null;
 
-	let indexingPromise: Promise<void>;
+	// Destructure workspace properties to avoid reindexing whenever view
+	// configuration changes.
+	$: workspacePath = selectedWorkspace?.path;
+	$: workspaceRecursive = selectedWorkspace?.recursive;
+
+	let indexing: Promise<void>;
 
 	$: {
-		if (selectedWorkspace) {
-			indexingPromise = fileIndex.reindex(selectedWorkspace);
+		if (workspacePath !== undefined && workspaceRecursive !== undefined) {
+			indexing = fileIndex.reindex(workspacePath, workspaceRecursive);
 		}
 	}
 
-	$: frame = $dataFrame;
+	$: ({ records, fields } = $dataFrame);
 
 	$: {
 		settings.update((state) => {
@@ -120,15 +125,15 @@
 		onViewChange={(viewId) => handleViewChange(viewId)}
 	/>
 
-	{#await indexingPromise}
+	{#await indexing}
 		<LoaderCube />
 	{:then}
 		<div class="projects-main">
 			{#if selectedView && viewComponent}
 				<svelte:component
 					this={viewComponent}
-					records={frame.records}
-					fields={frame.fields}
+					{records}
+					{fields}
 					config={selectedView.config}
 					onConfigChange={handleConfigChange}
 					rootPath={selectedWorkspace?.path ?? ""}
@@ -147,6 +152,8 @@
 
 	.projects-main {
 		flex: 1;
-		overflow: auto;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
 	}
 </style>

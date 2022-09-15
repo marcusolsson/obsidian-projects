@@ -34,6 +34,7 @@
 	) => void;
 	export let onColumnRename: (field: string) => void;
 	export let onColumnDelete: (field: string) => void;
+	export let onColumnHide: (column: GridColDef) => void;
 	export let onRowDelete: (rowId: GridRowId) => void;
 	export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
 
@@ -67,6 +68,16 @@
 			item.setTitle("Sort Z → A")
 				.setIcon("up-and-down-arrows")
 				.onClick(() => onSortModelChange(column.field, "desc"));
+		});
+
+		menu.addSeparator();
+
+		menu.addItem((item) => {
+			item.setTitle("Hide column")
+				.setIcon("eye-off")
+				.onClick(() => {
+					onColumnHide(column);
+				});
 		});
 
 		return menu;
@@ -159,7 +170,6 @@
 
 <style>
 	div {
-		border-right: 1px solid var(--background-modifier-border);
 		display: inline-block;
 	}
 

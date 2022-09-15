@@ -1,6 +1,5 @@
 import produce from "immer";
 import { TFile, type Plugin } from "obsidian";
-import type { WorkspaceDefinition } from "src/main";
 import { get, writable } from "svelte/store";
 import { app } from "./obsidian";
 
@@ -39,36 +38,37 @@ export function registerFileEvents(plugin: Plugin) {
 }
 
 export interface FileIndex {
-	workspace?: WorkspaceDefinition;
+	workspaceFilter: (path: string) => boolean;
 	files: Record<string, TFile>;
 }
 
 function createFileIndex() {
-	const { subscribe, set, update } = writable<FileIndex>({ files: {} });
+	const { subscribe, set, update } = writable<FileIndex>({
+		workspaceFilter: () => false,
+		files: {},
+	});
 
 	return {
 		subscribe,
-		reindex: async (workspace: WorkspaceDefinition): Promise<void> => {
-			const shouldIndex = createWorkspaceFilter(workspace);
+		reindex: async (path: string, recursive: boolean): Promise<void> => {
+			const workspaceFilter = createWorkspaceFilter(path, recursive);
+
+			const files = Object.fromEntries(
+				get(app)
+					.vault.getMarkdownFiles()
+					.filter((file) => workspaceFilter(file.path))
+					.map((file) => [file.path, file])
+			);
 
 			set({
-				workspace,
-				files: Object.fromEntries(
-					get(app)
-						.vault.getMarkdownFiles()
-						.filter((file) => shouldIndex(file.path))
-						.map((file) => [file.path, file])
-				),
+				workspaceFilter,
+				files,
 			});
 		},
 		create: (file: TFile) => {
 			update((index) =>
 				produce(index, (draft) => {
-					const shouldIndex = index.workspace
-						? createWorkspaceFilter(index.workspace)
-						: () => false;
-
-					if (shouldIndex(file.path)) {
+					if (index.workspaceFilter(file.path)) {
 						draft.files[file.path] = file;
 					}
 
@@ -89,11 +89,7 @@ function createFileIndex() {
 				produce(index, (draft) => {
 					delete draft.files[oldPath];
 
-					const shouldIndex = index.workspace
-						? createWorkspaceFilter(index.workspace)
-						: () => false;
-
-					if (shouldIndex(file.path)) {
+					if (index.workspaceFilter(file.path)) {
 						draft.files[file.path] = file;
 					}
 
@@ -105,18 +101,18 @@ function createFileIndex() {
 }
 
 function createWorkspaceFilter(
-	workspace: WorkspaceDefinition
+	workspacePath: string,
+	recursive: boolean
 ): (path: string) => boolean {
 	return (path: string) => {
 		const filePath = path;
-		const workspacePath = workspace.path;
 
 		// No need to continue if file is not below the workspace path.
 		if (!filePath.startsWith(workspacePath)) {
 			return false;
 		}
 
-		if (!workspace.recursive) {
+		if (!recursive) {
 			const pathElements = filePath.split("/").slice(0, -1);
 			const workspacePathElements = workspacePath
 				.split("/")

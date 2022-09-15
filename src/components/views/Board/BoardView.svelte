@@ -89,39 +89,39 @@
 	}
 </script>
 
+<ToolBar>
+	<p />
+	<HorizontalGroup>
+		<Field name="Status field">
+			<Select
+				value={groupByField?.name ?? ""}
+				options={textFields.map(fieldToSelectableValue)}
+				onChange={(value) =>
+					onConfigChange({
+						...config,
+						groupByField: value,
+					})}
+				placeholder="None"
+				allowEmpty
+			/>
+		</Field>
+		<Field name="Priority field">
+			<Select
+				value={priorityField?.name ?? ""}
+				options={numberFields.map(fieldToSelectableValue)}
+				onChange={(value) => {
+					onConfigChange({
+						...config,
+						priorityField: value,
+					});
+				}}
+				placeholder="None"
+				allowEmpty
+			/>
+		</Field>
+	</HorizontalGroup>
+</ToolBar>
 <div>
-	<ToolBar>
-		<p />
-		<HorizontalGroup>
-			<Field name="Status field">
-				<Select
-					value={groupByField?.name ?? ""}
-					options={textFields.map(fieldToSelectableValue)}
-					onChange={(value) =>
-						onConfigChange({
-							...config,
-							groupByField: value,
-						})}
-					placeholder="None"
-					allowEmpty
-				/>
-			</Field>
-			<Field name="Priority field">
-				<Select
-					value={priorityField?.name ?? ""}
-					options={numberFields.map(fieldToSelectableValue)}
-					onChange={(value) => {
-						onConfigChange({
-							...config,
-							priorityField: value,
-						});
-					}}
-					placeholder="None"
-					allowEmpty
-				/>
-			</Field>
-		</HorizontalGroup>
-	</ToolBar>
 	<Board
 		columns={columns
 			.sort((a, b) => {
@@ -145,6 +145,6 @@
 <style>
 	div {
 		background-color: var(--background-primary);
-		height: 100%;
+		overflow: auto;
 	}
 </style>
