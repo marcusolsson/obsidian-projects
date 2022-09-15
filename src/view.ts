@@ -22,6 +22,7 @@ export class ProjectsView extends ItemView {
 		super(leaf);
 
 		this.plugin = plugin;
+		this.navigation = true;
 	}
 
 	getViewType() {
