@@ -28,8 +28,6 @@ export class ProjectsView extends ItemView {
 	}
 
 	async onload() {
-		app.set(this.app);
-		plugin.set(this.plugin);
 		view.set(this);
 	}
 

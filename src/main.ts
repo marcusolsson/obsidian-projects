@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { registerFileEvents } from "./lib/stores/file-index";
 import { CreateWorkspaceModal } from "./modals/create-workspace-modal";
 import { settings } from "./lib/stores/settings";
+import { app, plugin } from "./lib/stores/obsidian";
 import produce from "immer";
 
 dayjs.extend(isoWeek);
@@ -91,6 +92,8 @@ export default class ProjectsPlugin extends Plugin {
 			})
 		);
 
+		app.set(this.app);
+		plugin.set(this);
 		settings.set(
 			Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
 		);
@@ -101,9 +104,24 @@ export default class ProjectsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "show-projects",
-			name: "Show projects",
+			name: "Show Projects",
 			callback: async () => {
 				this.activateView();
+			},
+		});
+
+		this.addCommand({
+			id: "create-workspace",
+			name: "Create new workspace",
+			callback: async () => {
+				new CreateWorkspaceModal(this.app, (workspace) => {
+					settings.update((state) => {
+						return produce(state, (draft) => {
+							draft.workspaces.push(workspace);
+							return draft;
+						});
+					});
+				}).open();
 			},
 		});
 
