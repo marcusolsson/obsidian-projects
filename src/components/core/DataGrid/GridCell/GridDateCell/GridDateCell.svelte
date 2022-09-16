@@ -10,13 +10,32 @@
 	export let value: Date | undefined;
 	export let onChange: (value: Date) => void;
 	export let column: GridColDef;
+
+	let edit = false;
 </script>
 
-<GridCell {column} on:mousedown>
+<GridCell
+	{edit}
+	onEditChange={(mode) => {
+		edit = mode;
+	}}
+	{column}
+	on:mousedown
+>
 	<svelte:fragment slot="read">
 		{#if isDate(value)}
 			<TextLabel value={value.toLocaleDateString()} />
 		{/if}
 	</svelte:fragment>
-	<DatePicker slot="edit" embed value={value ?? null} onCommit={onChange} />
+	<svelte:fragment slot="edit">
+		<DatePicker
+			value={value ?? null}
+			onCommit={(value) => {
+				console.log(value);
+				edit = false;
+				onChange(value);
+			}}
+			embed
+		/>
+	</svelte:fragment>
 </GridCell>

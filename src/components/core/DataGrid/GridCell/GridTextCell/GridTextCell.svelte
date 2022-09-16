@@ -8,9 +8,15 @@
 	export let value: string | undefined;
 	export let onChange: (value: string) => void;
 	export let column: GridColDef;
+	let edit = false;
 </script>
 
-<GridCell {column} on:mousedown>
+<GridCell {edit} onEditChange={(value) => (edit = value)} {column} on:mousedown>
 	<TextLabel slot="read" value={value || ""} />
-	<TextInput slot="edit" value={value || ""} {onChange} />
+	<TextInput
+		slot="edit"
+		onBlur={() => (edit = false)}
+		value={value || ""}
+		{onChange}
+	/>
 </GridCell>

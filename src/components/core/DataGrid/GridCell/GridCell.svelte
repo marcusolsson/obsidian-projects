@@ -11,6 +11,9 @@
 	export let column: GridColDef;
 	export let columnHeader: boolean = false;
 	export let rowHeader: boolean = false;
+	export let onEditChange: (value: boolean) => void = (value: boolean) => {
+		edit = value;
+	};
 
 	let hover: boolean = false;
 
@@ -40,7 +43,7 @@
 	}
 	function handleDoubleClick(event: Event) {
 		if (!column.header && !columnHeader && !rowHeader) {
-			edit = true;
+			onEditChange(true);
 		}
 	}
 </script>
@@ -59,7 +62,7 @@
 	on:focus={() => (hover = true)}
 	on:blur={() => (hover = false)}
 	use:clickOutside={() => {
-		edit = false;
+		onEditChange(false);
 		selected = false;
 	}}
 >
