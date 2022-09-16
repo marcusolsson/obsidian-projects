@@ -18,13 +18,14 @@
 <GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isOptionalLink(value)}
-			<LinkLabel slot="read" {value} />
+			<LinkLabel {value} />
 		{/if}
 	</svelte:fragment>
 
 	<svelte:fragment slot="edit">
 		{#if isOptionalLink(value)}
 			<FileSuggestInput
+				embed
 				value={value?.linkText ?? ""}
 				onChange={(value, file) => {
 					onChange({
@@ -33,6 +34,8 @@
 					});
 				}}
 				{sourcePath}
+				include="notes"
+				valueType="name"
 			/>
 		{/if}
 	</svelte:fragment>

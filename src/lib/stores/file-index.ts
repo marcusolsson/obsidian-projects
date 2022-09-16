@@ -105,16 +105,20 @@ function createWorkspaceFilter(
 	recursive: boolean
 ): (path: string) => boolean {
 	return (path: string) => {
-		const filePath = path;
+		let filePath = path;
+
+		const trimmedWorkspacePath = workspacePath.startsWith("/")
+			? workspacePath.slice(1)
+			: workspacePath;
 
 		// No need to continue if file is not below the workspace path.
-		if (!filePath.startsWith(workspacePath)) {
+		if (!filePath.startsWith(trimmedWorkspacePath)) {
 			return false;
 		}
 
 		if (!recursive) {
 			const pathElements = filePath.split("/").slice(0, -1);
-			const workspacePathElements = workspacePath
+			const workspacePathElements = trimmedWorkspacePath
 				.split("/")
 				.filter((el) => el);
 

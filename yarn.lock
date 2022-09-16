@@ -3497,11 +3497,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-svelte-dnd-action@^0.9.19:
-  version "0.9.19"
-  resolved "https://registry.yarnpkg.com/svelte-dnd-action/-/svelte-dnd-action-0.9.19.tgz#9fdde68a1d44ce323ff4b35bb10f1a24f7d46c03"
-  integrity sha512-1Jsym2HN0TJVUl09wLGASkHg937+ZecnnekPiwC0J6K7mCzOxCuIQSVnIxoQLLeiXv74joNVNpVofX9Z0jM4Vw==
-
 svelte-easy-popover@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/svelte-easy-popover/-/svelte-easy-popover-1.0.0.tgz#bf3ea86bc9752c72766ac5df0b110b13ffb47166"
@@ -3509,10 +3504,10 @@ svelte-easy-popover@^1.0.0:
   dependencies:
     "@popperjs/core" "^2.9.2"
 
-svelte-popover@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/svelte-popover/-/svelte-popover-2.0.8.tgz#38e9e8c065e779612c84ef0e992e13c15740fe42"
-  integrity sha512-Yvz4FpvvXc5aBGyIE/TlGlqULLKkcfc7N0MoaqNXHMRVXxla+sc7G1xSCCURP3VqP0nZ5cIyPWOLLWFXuJjTRA==
+svelte-portal@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/svelte-portal/-/svelte-portal-2.2.0.tgz#794bdd7626e88a7023cd0ff3832c547af827deaf"
+  integrity sha512-jhtZWtD6cUE2nMw46dJ5VXWYiqnER+JH+V/BmNBQ5fNP/YdsJCpJi+DemUy9msklqGb0f+wLhJPBtKHLWQvzjg==
 
 svelte-preprocess@^4.10.7:
   version "4.10.7"

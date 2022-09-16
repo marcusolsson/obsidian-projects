@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	import Popover from "svelte-easy-popover";
+	import SuggestionMenu from "../Menu/SuggestionMenu.svelte";
+	import SuggestionMenuItem from "../Menu/SuggestionMenuItem.svelte";
 
 	interface Suggestion {
 		id: string;
@@ -12,6 +13,7 @@
 	export let value: string;
 	export let onChange: (value: string) => void;
 	export let onSuggest: (value: string) => Suggestion[];
+	export let embed: boolean = false;
 
 	let isOpen = false;
 
@@ -27,55 +29,71 @@
 
 <input
 	bind:value
+	class:embed
+	type="text"
 	on:input={() => {
 		suggestions = onSuggest(value);
+		isOpen = !!suggestions.length;
 	}}
 	bind:this={referenceElement}
-	on:focus={() => (isOpen = true)}
+	on:focus={() => {
+		if (!value) {
+			suggestions = onSuggest(value);
+			isOpen = !!suggestions.length;
+		}
+	}}
 	on:blur={() => {
 		isOpen = false;
 		onChange(value);
 	}}
-/>
-<Popover
-	on:change={(isOpen) => {
+	on:keydown={(event) => {
 		if (isOpen) {
-			suggestions = onSuggest(value);
+			if (event.key === "ArrowUp") {
+				const prev = selected - 1;
+				selected = prev < 0 ? suggestions.length - 1 : prev;
+				event.preventDefault();
+			} else if (event.key === "ArrowDown") {
+				const next = selected + 1;
+				selected = next > suggestions.length - 1 ? 0 : next;
+				event.preventDefault();
+			} else if (event.key === "Enter") {
+				value = suggestions[selected]?.title ?? value;
+				isOpen = false;
+				event.preventDefault();
+			}
 		}
 	}}
-	{isOpen}
-	{referenceElement}
-	placement="bottom-start"
-	spaceAway={5}
+/>
+
+<SuggestionMenu
+	anchorEl={referenceElement}
+	open={isOpen}
+	onClose={() => {
+		isOpen = false;
+	}}
 >
-	<div class="suggestion-container" style={`min-width: 200px`}>
-		<div class="suggestion">
-			{#each suggestions as { id, title, note }, i}
-				<div
-					class="suggestion-item mod-complex"
-					class:is-selected={selected === i}
-					on:mouseenter={() => (selected = i)}
-					on:mouseleave={() => (selected = -1)}
-					on:mousedown={() => {
-						value = title;
-					}}
-				>
-					<div class="suggestion-content">
-						<div class="suggestion-title">{title}</div>
-						<div class="suggestion-note">{note}</div>
-					</div>
-					<div class="suggestion-aux" />
-				</div>
-			{/each}
-		</div>
-	</div>
-</Popover>
+	{#each suggestions as { title, note }, i}
+		<SuggestionMenuItem
+			{title}
+			{note}
+			selected={selected === i}
+			onClick={() => {
+				selected = i;
+				value = suggestions[selected]?.title ?? value;
+				isOpen = false;
+			}}
+			onSelect={() => (selected = i)}
+		/>
+	{/each}
+</SuggestionMenu>
 
 <style>
 	input {
+	}
+
+	.embed {
 		all: unset;
 		background-color: var(--background-primary);
-		box-sizing: border-box;
 		width: 100%;
 		padding: 6px;
 		font-weight: 400;

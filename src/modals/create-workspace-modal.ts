@@ -26,6 +26,7 @@ export class CreateWorkspaceModal extends Modal {
 			props: {
 				name: this.defaults?.name ?? "Untitled workspace",
 				path: this.defaults?.path ?? "",
+				noteTemplate: this.defaults?.noteTemplate ?? "",
 				onSave: (workspace: WorkspaceDefinition) => {
 					this.onSave(workspace);
 					this.close();

@@ -6,24 +6,33 @@
 	import { Typography } from "../core/Typography";
 	import { SettingItem, ButtonSetting } from "../core/Setting";
 	import { Checkbox } from "../core/Checkbox";
+	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
+	import Input from "../core/Input/Input.svelte";
 
 	export let onSave: (workspace: WorkspaceDefinition) => void;
 	export let name: string = "Untitled workspace";
 	export let path: string = "";
 	export let recursive: boolean = false;
+	export let noteTemplate: string;
 </script>
 
 <Typography variant="h1">Create new workspace</Typography>
 
 <SettingItem name={"Workspace name"}>
-	<input type="text" bind:value={name} />
+	<Input value={name} onChange={(value) => (name = value)} autofocus />
 </SettingItem>
 
 <SettingItem
 	name={"Workspace path"}
 	description="Path to the folder you want to manage. Leave empty for root folder."
 >
-	<input type="text" bind:value={path} />
+	<FileSuggestInput
+		value={path}
+		onChange={(value) => (path = value)}
+		sourcePath=""
+		include="folders"
+		valueType="path"
+	/>
 </SettingItem>
 
 <SettingItem
@@ -31,6 +40,19 @@
 	description="Manage notes in folders within the workspace path."
 >
 	<Checkbox value={recursive} onChange={(value) => (recursive = value)} />
+</SettingItem>
+
+<SettingItem
+	name="Note template"
+	description={"Note to use when creating new records."}
+>
+	<FileSuggestInput
+		value={noteTemplate}
+		onChange={(value) => (noteTemplate = value)}
+		sourcePath=""
+		include="notes"
+		valueType="path"
+	/>
 </SettingItem>
 
 <ButtonSetting
@@ -42,6 +64,7 @@
 			name,
 			path,
 			recursive,
+			noteTemplate,
 			views: [
 				{
 					id: uuidv4(),

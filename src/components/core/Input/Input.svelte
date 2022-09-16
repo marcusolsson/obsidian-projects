@@ -7,7 +7,7 @@
 	export let onSubmit: (value: string) => void = () => {};
 	export let readonly: boolean = false;
 	export let placeholder: string = "";
-	export let embed: boolean;
+	export let embed: boolean = false;
 	export let autofocus: boolean = false;
 
 	let ref: HTMLInputElement;
