@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let value: Date | null;
 	export let onCommit: (value: Date) => void;
+	export let embed: boolean = false;
 
 	let ref: HTMLInputElement;
 	$: {
@@ -23,7 +24,7 @@
 	}
 </script>
 
-<input bind:this={ref} type="date" on:change={handleChange} />
+<input class:embed bind:this={ref} type="date" on:change={handleChange} />
 
 <style>
 	input {
@@ -32,9 +33,9 @@
 		background-color: var(--background-modifier-hover);
 		font-family: var(--font-default);
 		padding: 0.1em 0.6em;
-		margin: 0;
-		font-size: var(--font-ui-small);
+	}
+
+	.embed {
 		margin: 0 8px;
-		width: 100%;
 	}
 </style>

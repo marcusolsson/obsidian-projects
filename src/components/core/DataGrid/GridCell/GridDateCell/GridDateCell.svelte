@@ -15,8 +15,8 @@
 <GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isDate(value)}
-			<TextLabel slot="read" value={value.toLocaleDateString()} />
+			<TextLabel value={value.toLocaleDateString()} />
 		{/if}
 	</svelte:fragment>
-	<DatePicker slot="edit" value={value ?? null} onCommit={onChange} />
+	<DatePicker slot="edit" embed value={value ?? null} onCommit={onChange} />
 </GridCell>
