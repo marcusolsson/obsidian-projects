@@ -3,7 +3,7 @@
 
 	export let value: string;
 	export let onChange: (value: string) => void;
-	export let onBlur: () => {};
+	export let onBlur: () => void;
 
 	let ref: HTMLInputElement;
 
@@ -21,9 +21,7 @@
 
 <input
 	on:keydown={(event) => {
-		if (event.key === "Escape") {
-			onBlur();
-		} else if (event.key === "Enter") {
+		if (event.key === "Enter") {
 			onBlur();
 		}
 	}}

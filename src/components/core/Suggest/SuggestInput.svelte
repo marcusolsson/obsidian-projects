@@ -59,6 +59,7 @@
 			} else if (event.key === "Enter") {
 				value = suggestions[selected]?.title ?? value;
 				isOpen = false;
+				onChange(value);
 				event.preventDefault();
 			}
 		}

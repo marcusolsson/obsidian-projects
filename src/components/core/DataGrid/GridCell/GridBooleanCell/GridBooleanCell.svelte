@@ -12,7 +12,7 @@
 <GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isBoolean(value)}
-			<Checkbox slot="read" {value} {onChange} />
+			<Checkbox {value} {onChange} />
 		{/if}
 	</svelte:fragment>
 	<Checkbox slot="edit" value={value ?? false} {onChange} />

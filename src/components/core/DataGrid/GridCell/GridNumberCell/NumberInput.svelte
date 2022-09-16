@@ -3,6 +3,7 @@
 
 	export let value: number;
 	export let onChange: (value: number) => void;
+	export let onBlur: () => void;
 
 	let ref: HTMLInputElement;
 
@@ -30,6 +31,12 @@
 	{value}
 	on:input={handleInput}
 	on:keyup={handleKeyup}
+	on:blur={() => onBlur()}
+	on:keydown={(event) => {
+		if (event.key === "Enter") {
+			onBlur();
+		}
+	}}
 />
 
 <style>

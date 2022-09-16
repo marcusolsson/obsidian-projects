@@ -13,9 +13,11 @@
 	export let column: GridColDef;
 
 	const sourcePath = getContext<string>("sourcePath");
+
+	let edit = false;
 </script>
 
-<GridCell {column} on:mousedown>
+<GridCell {edit} onEditChange={(value) => (edit = value)} {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isOptionalLink(value)}
 			<LinkLabel {value} />
@@ -32,6 +34,7 @@
 						linkText: file?.basename ?? value,
 						sourcePath,
 					});
+					edit = false;
 				}}
 				{sourcePath}
 				include="notes"
