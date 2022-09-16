@@ -42,8 +42,23 @@ export class DataApi {
 		}
 	}
 
-	async createRecord(record: DataRecord): Promise<void> {
-		const file = await this.app.vault.create(record.path, "");
+	async createRecord(
+		record: DataRecord,
+		templatePath: string
+	): Promise<void> {
+		let content = "";
+
+		if (templatePath) {
+			const templateFile =
+				this.app.vault.getAbstractFileByPath(templatePath);
+
+			if (templateFile instanceof TFile) {
+				content = await this.app.vault.read(templateFile);
+			}
+		}
+
+		const file = await this.app.vault.create(record.path, content);
+
 		this.updateFile(file, (data) => doUpdateRecord(data, record));
 	}
 

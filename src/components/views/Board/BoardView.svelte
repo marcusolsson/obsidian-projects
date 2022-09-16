@@ -31,6 +31,7 @@
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
 	export let rootPath: string = "";
+	export let templatePath: string = "";
 
 	$: textFields = fields.filter(
 		(field) => field.type === DataFieldType.String
@@ -66,26 +67,29 @@
 	}
 
 	function handleRecordAdd(column: string) {
-		if (groupByField) {
-			new InputDialogModal(
-				$app,
-				"Add record",
-				"Add",
-				(value) => {
-					if (groupByField) {
-						$api.createRecord({
-							name: value,
-							path: normalizePath(rootPath + "/" + value + ".md"),
-							values: {
-								[groupByField.name]:
-									column !== "No status" ? column : undefined,
-							},
-						});
-					}
-				},
-				"Untitled"
-			).open();
-		}
+		new InputDialogModal(
+			$app,
+			"Add record",
+			"Add",
+			(value) => {
+				$api.createRecord(
+					{
+						name: value,
+						path: normalizePath(rootPath + "/" + value + ".md"),
+						values: groupByField
+							? {
+									[groupByField.name]:
+										column !== "No status"
+											? column
+											: undefined,
+							  }
+							: {},
+					},
+					templatePath
+				);
+			},
+			"Untitled"
+		).open();
 	}
 </script>
 

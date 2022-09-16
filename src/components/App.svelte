@@ -137,6 +137,7 @@
 					config={selectedView.config}
 					onConfigChange={handleConfigChange}
 					rootPath={selectedWorkspace?.path ?? ""}
+					templatePath={selectedWorkspace?.noteTemplate ?? ""}
 				/>
 			{/if}
 		</div>

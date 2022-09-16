@@ -25,6 +25,7 @@
 	export let config: GridConfig;
 	export let onConfigChange: (config: GridConfig) => void;
 	export let rootPath: string = "";
+	export let templatePath: string = "";
 
 	$: fieldConfig = config?.fieldConfig ?? {};
 
@@ -98,11 +99,14 @@
 				"Add record",
 				"Add",
 				(value) => {
-					$api.createRecord({
-						name: value,
-						path: normalizePath(rootPath + "/" + value + ".md"),
-						values: {},
-					});
+					$api.createRecord(
+						{
+							name: value,
+							path: normalizePath(rootPath + "/" + value + ".md"),
+							values: {},
+						},
+						templatePath
+					);
 				},
 				"Untitled"
 			).open();

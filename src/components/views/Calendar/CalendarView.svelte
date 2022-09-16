@@ -54,6 +54,7 @@
 	export let onConfigChange: (config: CalendarConfig) => void;
 
 	export let rootPath: string = "";
+	export let templatePath: string = "";
 
 	let anchorDate: dayjs.Dayjs = dayjs();
 
@@ -153,19 +154,22 @@
 										"Add",
 										(value) => {
 											if (dateField) {
-												$api.createRecord({
-													name: value,
-													path: normalizePath(
-														rootPath +
-															"/" +
-															value +
-															".md"
-													),
-													values: {
-														[dateField.name]:
-															date.toDate(),
+												$api.createRecord(
+													{
+														name: value,
+														path: normalizePath(
+															rootPath +
+																"/" +
+																value +
+																".md"
+														),
+														values: {
+															[dateField.name]:
+																date.toDate(),
+														},
 													},
-												});
+													templatePath
+												);
 											}
 										},
 										"Untitled"
