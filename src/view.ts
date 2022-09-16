@@ -1,7 +1,7 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 
 import App from "./components/App.svelte";
-import { app, plugin, view } from "./lib/stores/obsidian";
+import { view } from "./lib/stores/obsidian";
 import type ProjectsPlugin from "./main";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
