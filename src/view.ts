@@ -53,11 +53,13 @@ export class ProjectsView extends ItemView {
 		const views: Record<string, () => Builder> = {};
 
 		for (let plugin in this.app.plugins.plugins) {
-			const creator =
-				this.app.plugins.plugins[plugin]?.onRegisterProjectView;
+			if (this.app.plugins.enabledPlugins.has(plugin)) {
+				const creator =
+					this.app.plugins.plugins[plugin]?.onRegisterProjectView;
 
-			if (creator) {
-				views[plugin] = creator;
+				if (creator) {
+					views[plugin] = creator;
+				}
 			}
 		}
 
