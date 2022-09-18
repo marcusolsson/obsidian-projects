@@ -2,7 +2,7 @@
 	import GridCell from "../GridCell.svelte";
 	import NumberLabel from "./NumberLabel.svelte";
 	import NumberInput from "./NumberInput.svelte";
-	import { isNumber } from "src/lib/data";
+	import { isNumber } from "src/lib/types";
 	import type { GridColDef } from "../../data-grid";
 
 	export let value: number | undefined;

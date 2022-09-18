@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isOptionalLink, type Link } from "src/lib/data";
+	import { isOptionalLink, type Link } from "src/lib/types";
 
 	import { GridCell } from "../";
 	import type { GridColDef } from "../../data-grid";

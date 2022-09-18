@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { DataFieldType } from "../data";
+import { DataFieldType } from "../types";
 import { detectFields } from "./helpers";
 
 describe("Detect fields", () => {
@@ -13,10 +13,6 @@ describe("Detect fields", () => {
 					number: 2.34,
 					boolean: true,
 					date: new Date(),
-					link: {
-						linkText: "Test",
-						sourcePath: "Untitled.md",
-					},
 					tags: ["Foo", "Bar", "Baz"],
 				},
 			},
@@ -27,7 +23,6 @@ describe("Detect fields", () => {
 		expect(fields).toStrictEqual([
 			{ name: "boolean", type: DataFieldType.Boolean },
 			{ name: "date", type: DataFieldType.Date },
-			{ name: "link", type: DataFieldType.Link },
 			{ name: "number", type: DataFieldType.Number },
 			{ name: "string", type: DataFieldType.String },
 			{ name: "tags", type: DataFieldType.List },

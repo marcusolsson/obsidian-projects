@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isDate } from "src/lib/data";
+	import { isDate } from "src/lib/types";
 
 	import { DatePicker } from "../../../../core/DatePicker";
 
@@ -31,7 +31,6 @@
 		<DatePicker
 			value={value ?? null}
 			onCommit={(value) => {
-				console.log(value);
 				edit = false;
 				onChange(value);
 			}}

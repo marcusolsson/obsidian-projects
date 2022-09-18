@@ -8,7 +8,7 @@
 	import { fieldIcon, type GridColDef } from "./data-grid";
 
 	import GridCellGroup from "./GridCellGroup.svelte";
-	import { DataFieldType } from "src/lib/data";
+	import { DataFieldType } from "src/lib/types";
 
 	export let columns: GridColDef[];
 	export let onResize: (name: string, width: number) => void;

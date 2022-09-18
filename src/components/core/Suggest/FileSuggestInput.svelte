@@ -9,8 +9,20 @@
 	export let embed: boolean = false;
 	export let include: "notes" | "files" | "folders" | "all" = "all";
 	export let valueType: "path" | "name" = "name";
+	export let files: TFile[] | undefined = undefined;
 
 	function handleSuggest(value: string) {
+		if (files) {
+			return files.map((file) => ({
+				id: file.path,
+				title: valueType === "name" ? file.basename : file.path,
+				note:
+					valueType === "name"
+						? file.path.split("/").slice(0, -1).join("/")
+						: "",
+			}));
+		}
+
 		const values: { id: string; title: string; note: string }[] = [];
 
 		Vault.recurseChildren($app.vault.getRoot(), (file) => {

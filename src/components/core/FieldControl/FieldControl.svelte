@@ -1,5 +1,4 @@
 <script lang="ts">
-	import AddView from "src/components/modals/AddView.svelte";
 	import {
 		DataFieldType,
 		isBoolean,
@@ -9,28 +8,17 @@
 		isOptionalList,
 		isString,
 		type DataValue,
-	} from "src/lib/data";
+	} from "src/lib/types";
 
 	import { Checkbox } from "../Checkbox";
 	import TagList from "../DataGrid/GridCell/GridListCell/TagList.svelte";
 	import { DatePicker } from "../DatePicker";
 	import { Input } from "../Input";
-	import { InternalLink } from "../InternalLink";
 
 	export let type: DataFieldType;
 	export let value: DataValue;
 	export let onChange: (value: DataValue) => void;
 	export let readonly: boolean = false;
-
-	function aliasify(linkText: string) {
-		const splt = linkText.indexOf("|");
-
-		if (splt < 0) {
-			return linkText;
-		}
-
-		return linkText.substring(splt + 1);
-	}
 </script>
 
 {#if type === DataFieldType.Boolean}

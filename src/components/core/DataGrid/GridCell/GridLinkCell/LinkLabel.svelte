@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Link } from "src/lib/data";
+	import type { Link } from "src/lib/types";
 	import { InternalLink } from "../../../../core/InternalLink";
 
 	export let value: Link | undefined;

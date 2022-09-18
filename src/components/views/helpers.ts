@@ -1,4 +1,4 @@
-import { DataFieldType, type DataField } from "../../lib/data";
+import { DataFieldType, type DataField } from "../../lib/types";
 
 export function fieldIcon(field: DataFieldType): string {
 	switch (field) {

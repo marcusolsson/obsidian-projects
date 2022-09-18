@@ -1,6 +1,6 @@
 import { derived } from "svelte/store";
 
-import type { DataFrame } from "../data";
+import type { DataFrame } from "../types";
 import { api } from "./api";
 import { fileIndex } from "./file-index";
 

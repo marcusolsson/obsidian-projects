@@ -1,31 +1,36 @@
 <script lang="ts">
-	import DataGrid from "src/components/core/DataGrid/DataGrid.svelte";
+	import { normalizePath } from "obsidian";
 	import type {
 		GridColDef,
 		GridRowProps,
 	} from "src/components/core/DataGrid/data-grid";
+
+	import DataGrid from "src/components/core/DataGrid/DataGrid.svelte";
+	import HorizontalGroup from "src/components/core/HorizontalGroup/HorizontalGroup.svelte";
+	import SwitchSelect from "src/components/core/SwitchSelect/SwitchSelect.svelte";
+	import ToolBar from "src/components/core/ToolBar/ToolBar.svelte";
+
+	import { api } from "src/lib/stores/api";
+	import { app } from "src/lib/stores/obsidian";
 	import {
 		DataFieldType,
 		type DataField,
 		type DataRecord,
-	} from "src/lib/data";
-	import { app } from "src/lib/stores/obsidian";
-	import { api } from "src/lib/stores/api";
-	import { ConfigureRecord } from "src/modals/record-modal";
-	import type { GridConfig } from "./types";
+	} from "src/lib/types";
+
+	import { CreateRecordModal } from "src/modals/create-record-modal";
 	import { InputDialogModal } from "src/modals/input-dialog";
-	import { normalizePath } from "obsidian";
-	import ToolBar from "src/components/core/ToolBar/ToolBar.svelte";
-	import SwitchSelect from "src/components/core/SwitchSelect/SwitchSelect.svelte";
-	import HorizontalGroup from "src/components/core/HorizontalGroup/HorizontalGroup.svelte";
+	import { ConfigureRecord } from "src/modals/record-modal";
+	import type { WorkspaceDefinition } from "src/main";
+	import type { GridConfig } from "./types";
 
 	export let records: DataRecord[];
 	export let fields: DataField[];
 
 	export let config: GridConfig;
 	export let onConfigChange: (config: GridConfig) => void;
+	export let workspace: WorkspaceDefinition;
 	export let rootPath: string = "";
-	export let templatePath: string = "";
 
 	$: fieldConfig = config?.fieldConfig ?? {};
 
@@ -94,22 +99,16 @@
 		{columns}
 		{rows}
 		onRowAdd={() => {
-			new InputDialogModal(
-				$app,
-				"Add record",
-				"Add",
-				(value) => {
-					$api.createRecord(
-						{
-							name: value,
-							path: normalizePath(rootPath + "/" + value + ".md"),
-							values: {},
-						},
-						templatePath
-					);
-				},
-				"Untitled"
-			).open();
+			new CreateRecordModal($app, workspace, (name, templatePath) => {
+				$api.createRecord(
+					{
+						name,
+						path: normalizePath(rootPath + "/" + name + ".md"),
+						values: {},
+					},
+					templatePath
+				);
+			}).open();
 		}}
 		onRowEdit={(id, row) => {
 			const { name, path, ...values } = row;

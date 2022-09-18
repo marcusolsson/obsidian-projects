@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { isDate, type DataRecord } from "src/lib/data";
+import { isDate, type DataRecord } from "src/lib/types";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";
 

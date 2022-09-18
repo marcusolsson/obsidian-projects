@@ -3,7 +3,7 @@
 	import type { Menu } from "obsidian";
 
 	import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
-	import type { DataValue } from "src/lib/data";
+	import type { DataValue } from "src/lib/types";
 	import { IconButton } from "../IconButton";
 	import GridCellGroup from "./GridCellGroup.svelte";
 

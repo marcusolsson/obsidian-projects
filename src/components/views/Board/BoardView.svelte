@@ -1,24 +1,26 @@
 <script lang="ts">
+	import { normalizePath } from "obsidian";
+
 	import {
 		DataFieldType,
 		type DataField,
 		type DataRecord,
-	} from "../../../lib/data";
+	} from "../../../lib/types";
 
 	import { Field } from "../../core/Field";
 	import { HorizontalGroup } from "../../core/HorizontalGroup";
 	import { Select } from "../../core/Select";
 	import { ToolBar } from "../../core/ToolBar";
-
-	import { ConfigureRecord } from "../../../modals/record-modal";
-
-	import { app } from "../../../lib/stores/obsidian";
-	import { api } from "../../../lib/stores/api";
-	import { fieldToSelectableValue } from "src/components/views/helpers";
-	import { groupRecordsByField } from "./board";
 	import Board from "./Board.svelte";
-	import { InputDialogModal } from "src/modals/input-dialog";
-	import { normalizePath } from "obsidian";
+
+	import { api } from "../../../lib/stores/api";
+	import { app } from "../../../lib/stores/obsidian";
+
+	import { fieldToSelectableValue } from "src/components/views/helpers";
+	import type { WorkspaceDefinition } from "src/main";
+	import { CreateRecordModal } from "src/modals/create-record-modal";
+	import { ConfigureRecord } from "../../../modals/record-modal";
+	import { groupRecordsByField } from "./board";
 
 	interface BoardConfig {
 		groupByField?: string;
@@ -30,8 +32,7 @@
 
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
-	export let rootPath: string = "";
-	export let templatePath: string = "";
+	export let workspace: WorkspaceDefinition;
 
 	$: textFields = fields.filter(
 		(field) => field.type === DataFieldType.String
@@ -67,15 +68,14 @@
 	}
 
 	function handleRecordAdd(column: string) {
-		new InputDialogModal(
-			$app,
-			"Add record",
-			"Add",
-			(value) => {
+		new CreateRecordModal($app, workspace, (name, templatePath) => {
+			if (groupByField) {
 				$api.createRecord(
 					{
-						name: value,
-						path: normalizePath(rootPath + "/" + value + ".md"),
+						name,
+						path: normalizePath(
+							workspace.path + "/" + name + ".md"
+						),
 						values: groupByField
 							? {
 									[groupByField.name]:
@@ -87,9 +87,8 @@
 					},
 					templatePath
 				);
-			},
-			"Untitled"
-		).open();
+			}
+		}).open();
 	}
 </script>
 

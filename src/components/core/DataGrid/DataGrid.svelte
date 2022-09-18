@@ -2,7 +2,7 @@
 	import produce from "immer";
 
 	import { Menu } from "obsidian";
-	import type { DataValue } from "src/lib/data";
+	import type { DataValue } from "src/lib/types";
 	import GridHeader from "./GridHeader.svelte";
 
 	import GridRow from "./GridRow.svelte";

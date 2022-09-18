@@ -1,15 +1,17 @@
 <script lang="ts">
+	import { normalizePath } from "obsidian";
 	import dayjs from "dayjs";
 	import { get } from "svelte/store";
 
 	import { app } from "../../../lib/stores/obsidian";
 	import { api } from "../../../lib/stores/api";
-	import { fieldToSelectableValue } from "src/components/views/helpers";
 	import {
 		DataFieldType,
 		type DataField,
 		type DataRecord,
-	} from "../../../lib/data";
+	} from "../../../lib/types";
+
+	import { fieldToSelectableValue } from "src/components/views/helpers";
 	import { ConfigureRecord } from "../../../modals/record-modal";
 
 	import { Select } from "../../core/Select";
@@ -23,10 +25,9 @@
 		TableHead,
 		TableRow,
 	} from "../../core/Table";
-
 	import CalendarDay from "./CalendarDay.svelte";
 	import Navigation from "./Navigation.svelte";
-	import Field from "src/components/core/Field/Field.svelte";
+	import { Field } from "../../core/Field";
 
 	import {
 		addInterval,
@@ -39,8 +40,8 @@
 		subtractInterval,
 		type CalendarInterval,
 	} from "./calendar";
-	import { InputDialogModal } from "src/modals/input-dialog";
-	import { normalizePath } from "obsidian";
+	import type { WorkspaceDefinition } from "src/main";
+	import { CreateRecordModal } from "src/modals/create-record-modal";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
@@ -53,8 +54,7 @@
 	export let config: CalendarConfig;
 	export let onConfigChange: (config: CalendarConfig) => void;
 
-	export let rootPath: string = "";
-	export let templatePath: string = "";
+	export let workspace: WorkspaceDefinition;
 
 	let anchorDate: dayjs.Dayjs = dayjs();
 
@@ -148,19 +148,18 @@
 							}}
 							onEntryAdd={() => {
 								if (dateField) {
-									new InputDialogModal(
+									new CreateRecordModal(
 										$app,
-										"Add record",
-										"Add",
-										(value) => {
+										workspace,
+										(name, templatePath) => {
 											if (dateField) {
 												$api.createRecord(
 													{
-														name: value,
+														name,
 														path: normalizePath(
-															rootPath +
+															workspace.path +
 																"/" +
-																value +
+																name +
 																".md"
 														),
 														values: {
@@ -171,8 +170,7 @@
 													templatePath
 												);
 											}
-										},
-										"Untitled"
+										}
 									).open();
 								}
 							}}

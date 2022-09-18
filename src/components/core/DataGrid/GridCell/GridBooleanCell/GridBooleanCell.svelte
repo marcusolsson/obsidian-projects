@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isBoolean } from "src/lib/data";
+	import { isBoolean } from "src/lib/types";
 	import { Checkbox } from "../../../../core/Checkbox";
 	import { GridCell } from "../";
 	import type { GridColDef } from "../../data-grid";

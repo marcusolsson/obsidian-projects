@@ -29,6 +29,7 @@ export interface WorkspaceDefinition {
 	recursive: boolean;
 	views: ViewDefinition[];
 	noteTemplate: string;
+	templateFolder: string;
 }
 
 export interface ProjectsPluginSettings {

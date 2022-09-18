@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { DataRecord } from "src/lib/data";
+	import type { DataRecord } from "src/lib/types";
 
 	export let record: DataRecord;
 </script>

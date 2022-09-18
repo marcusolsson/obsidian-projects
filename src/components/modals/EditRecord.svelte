@@ -6,7 +6,7 @@
 		isString,
 		type DataField,
 		type DataRecord,
-	} from "../../lib/data";
+	} from "../../lib/types";
 
 	import { FieldControl } from "../core/FieldControl";
 	import { Typography } from "../core/Typography";

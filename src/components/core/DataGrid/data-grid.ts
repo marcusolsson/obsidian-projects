@@ -1,4 +1,4 @@
-import { DataFieldType, isNumber } from "src/lib/data";
+import { DataFieldType, isNumber } from "src/lib/types";
 
 export type GridValidRowModel = { [key: string]: any };
 export type GridRowModel<R extends GridValidRowModel = GridValidRowModel> = R;

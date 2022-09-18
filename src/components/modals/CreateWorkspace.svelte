@@ -14,6 +14,7 @@
 	export let path: string = "";
 	export let recursive: boolean = false;
 	export let noteTemplate: string;
+	export let templateFolder: string;
 </script>
 
 <Typography variant="h1">Create new workspace</Typography>
@@ -43,15 +44,26 @@
 </SettingItem>
 
 <SettingItem
-	name="Note template"
-	description={"Note to use when creating new records."}
+	name="Template folder"
+	description={"Folder containing templates to use for new records."}
 >
 	<FileSuggestInput
+		value={templateFolder}
+		onChange={(value) => (templateFolder = value)}
+		sourcePath=""
+		include="folders"
+		valueType="path"
+	/>
+</SettingItem>
+
+<SettingItem
+	name="Note template"
+	description={"Template to use when creating new records."}
+>
+	<Input
 		value={noteTemplate}
 		onChange={(value) => (noteTemplate = value)}
-		sourcePath=""
-		include="notes"
-		valueType="path"
+		placeholder={`{{title}}`}
 	/>
 </SettingItem>
 
@@ -64,6 +76,7 @@
 			name,
 			path,
 			recursive,
+			templateFolder,
 			noteTemplate,
 			views: [
 				{
