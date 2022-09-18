@@ -10,6 +10,7 @@
 	import SwitchSelect from "src/components/core/SwitchSelect/SwitchSelect.svelte";
 	import ToolBar from "src/components/core/ToolBar/ToolBar.svelte";
 
+	import { i18n } from "src/lib/stores/i18n";
 	import { api } from "src/lib/stores/api";
 	import { app } from "src/lib/stores/obsidian";
 	import {
@@ -30,7 +31,6 @@
 	export let config: GridConfig;
 	export let onConfigChange: (config: GridConfig) => void;
 	export let workspace: WorkspaceDefinition;
-	export let rootPath: string = "";
 
 	$: fieldConfig = config?.fieldConfig ?? {};
 
@@ -84,7 +84,7 @@
 	<p />
 	<HorizontalGroup>
 		<SwitchSelect
-			label="Hide fields"
+			label={$i18n.t("hide-fields")}
 			items={columns.map((column) => ({
 				label: column.field,
 				value: column.field,
@@ -103,7 +103,9 @@
 				$api.createRecord(
 					{
 						name,
-						path: normalizePath(rootPath + "/" + name + ".md"),
+						path: normalizePath(
+							workspace.path + "/" + name + ".md"
+						),
 						values: {},
 					},
 					templatePath
@@ -141,8 +143,8 @@
 		onColumnRename={(field) => {
 			new InputDialogModal(
 				$app,
-				"Rename field",
-				"Rename",
+				$i18n.t("rename-field"),
+				$i18n.t("rename"),
 				(value) => {
 					$api.renameField(field, value);
 				},

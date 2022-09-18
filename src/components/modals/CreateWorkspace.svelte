@@ -8,11 +8,12 @@
 	import { Checkbox } from "../core/Checkbox";
 	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import Input from "../core/Input/Input.svelte";
+	import { i18n } from "../../lib/stores/i18n";
 
 	export let title: string;
 	export let cta: string;
 	export let onSave: (workspace: WorkspaceDefinition) => void;
-	export let name: string = "Untitled workspace";
+	export let name: string = $i18n.t("untitled-workspace");
 	export let path: string = "";
 	export let recursive: boolean = false;
 	export let noteTemplate: string;
@@ -21,13 +22,13 @@
 
 <Typography variant="h1">{title}</Typography>
 
-<SettingItem name={"Workspace name"}>
+<SettingItem name={$i18n.t("workspace-name")}>
 	<Input value={name} onChange={(value) => (name = value)} autofocus />
 </SettingItem>
 
 <SettingItem
-	name={"Workspace path"}
-	description="Path to the folder you want to manage. Leave empty for root folder."
+	name={$i18n.t("workspace-modal.path") ?? ""}
+	description={$i18n.t("workspace-modal.path-help") ?? ""}
 >
 	<FileSuggestInput
 		value={path}
@@ -39,15 +40,15 @@
 </SettingItem>
 
 <SettingItem
-	name={"Recursive"}
-	description="Manage notes in folders within the workspace path."
+	name={$i18n.t("workspace-modal.recursive") ?? ""}
+	description={$i18n.t("workspace-modal.recursive-help") ?? ""}
 >
 	<Checkbox value={recursive} onChange={(value) => (recursive = value)} />
 </SettingItem>
 
 <SettingItem
-	name="Template folder"
-	description={"Folder containing templates to use for new records."}
+	name={$i18n.t("workspace-modal.template-folder") ?? ""}
+	description={$i18n.t("workspace-modal.template-folder-help") ?? ""}
 >
 	<FileSuggestInput
 		value={templateFolder}
@@ -59,8 +60,8 @@
 </SettingItem>
 
 <SettingItem
-	name="Note template"
-	description={"Template to use when creating new records."}
+	name={$i18n.t("workspace-modal.note-template") ?? ""}
+	description={$i18n.t("workspace-modal.note-template-help") ?? ""}
 >
 	<Input
 		value={noteTemplate}

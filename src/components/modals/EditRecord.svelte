@@ -11,6 +11,7 @@
 	import { FieldControl } from "../core/FieldControl";
 	import { Typography } from "../core/Typography";
 	import { SettingItem, ButtonSetting } from "../core/Setting";
+	import { i18n } from "src/lib/stores/i18n";
 
 	export let fields: DataField[];
 	export let record: DataRecord;
@@ -18,7 +19,7 @@
 	export let onSave: (record: DataRecord) => void;
 </script>
 
-<Typography variant="h1">Edit record</Typography>
+<Typography variant="h1">{$i18n.t("edit-record")}</Typography>
 
 <SettingItem name="name">
 	<FieldControl
@@ -50,4 +51,4 @@
 	</SettingItem>
 {/each}
 
-<ButtonSetting name="Save" cta onClick={() => onSave(record)} />
+<ButtonSetting name={$i18n.t("save")} cta onClick={() => onSave(record)} />

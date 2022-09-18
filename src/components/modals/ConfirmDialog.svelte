@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from "../core/Button";
 	import { Typography } from "../core/Typography";
+	import { i18n } from "../../lib/stores/i18n";
 
 	export let title: string;
 	export let message: string;
@@ -15,7 +16,7 @@
 </div>
 <div class="modal-button-container">
 	<Button
-		variant={cta === "Delete" ? "destructive" : "primary"}
+		variant={cta === $i18n.t("delete") ? "destructive" : "primary"}
 		on:click={() => {
 			onConfirm();
 		}}>{cta}</Button
@@ -23,6 +24,8 @@
 	<Button
 		on:click={() => {
 			onCancel();
-		}}>Cancel</Button
+		}}
 	>
+		{$i18n.t("cancel")}
+	</Button>
 </div>

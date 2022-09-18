@@ -14,6 +14,7 @@
 	import Board from "./Board.svelte";
 
 	import { api } from "../../../lib/stores/api";
+	import { i18n } from "../../../lib/stores/i18n";
 	import { app } from "../../../lib/stores/obsidian";
 
 	import { fieldToSelectableValue } from "src/components/views/helpers";
@@ -79,7 +80,7 @@
 						values: groupByField
 							? {
 									[groupByField.name]:
-										column !== "No status"
+										column !== $i18n.t("no-status")
 											? column
 											: undefined,
 							  }
@@ -95,7 +96,7 @@
 <ToolBar>
 	<p />
 	<HorizontalGroup>
-		<Field name="Status field">
+		<Field name={$i18n.t("status-field")}>
 			<Select
 				value={groupByField?.name ?? ""}
 				options={textFields.map(fieldToSelectableValue)}
@@ -104,11 +105,11 @@
 						...config,
 						groupByField: value,
 					})}
-				placeholder="None"
+				placeholder={$i18n.t("none") ?? ""}
 				allowEmpty
 			/>
 		</Field>
-		<Field name="Priority field">
+		<Field name={$i18n.t("priority-field")}>
 			<Select
 				value={priorityField?.name ?? ""}
 				options={numberFields.map(fieldToSelectableValue)}
@@ -118,7 +119,7 @@
 						priorityField: value,
 					});
 				}}
-				placeholder="None"
+				placeholder={$i18n.t("none") ?? ""}
 				allowEmpty
 			/>
 		</Field>
@@ -128,9 +129,9 @@
 	<Board
 		columns={columns
 			.sort((a, b) => {
-				if (a === "No status") return -1;
-				if (b === "No status") return 1;
-				if (a === "No status" && a === b) return 0;
+				if (a === $i18n.t("no-status")) return -1;
+				if (b === $i18n.t("no-status")) return 1;
+				if (a === $i18n.t("no-status") && a === b) return 0;
 
 				return a.localeCompare(b);
 			})

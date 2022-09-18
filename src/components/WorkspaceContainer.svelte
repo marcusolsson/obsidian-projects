@@ -12,6 +12,7 @@
 	import { Select } from "./core/Select";
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
+	import { i18n } from "src/lib/stores/i18n";
 
 	export let workspaces: WorkspaceDefinition[];
 	export let workspace: string | undefined;
@@ -57,8 +58,8 @@
 			on:click={() => {
 				new CreateWorkspaceModal(
 					$app,
-					"Edit workspace",
-					"Save",
+					$i18n.t("edit-workspace"),
+					$i18n.t("save"),
 					(value) => {
 						settings.update((state) => {
 							return produce(state, (draft) => {
@@ -78,9 +79,9 @@
 			on:click={() => {
 				new ConfirmDialogModal(
 					$app,
-					"Delete workspace",
-					"Are you sure you want to delete this workspace?",
-					"Delete",
+					$i18n.t("delete-workspace"),
+					$i18n.t("confirm-delete-workspace"),
+					$i18n.t("delete"),
 					() => {
 						settings.update((state) => {
 							return produce(state, (draft) => {
@@ -131,9 +132,9 @@
 						onDelete={() => {
 							new ConfirmDialogModal(
 								$app,
-								"Delete view",
-								"Are you sure you want to delete this view?",
-								"Delete",
+								$i18n.t("delete-view"),
+								$i18n.t("confirm-delete-view"),
+								$i18n.t("delete"),
 								() => {
 									settings.update((state) => {
 										return produce(state, (draft) => {
@@ -174,7 +175,7 @@
 			<ViewItem
 				variant="link"
 				icon="plus"
-				name="Add view"
+				name={$i18n.t("add-view")}
 				on:click={() => {
 					new AddViewModal($app, (view) => {
 						settings.update((state) => {

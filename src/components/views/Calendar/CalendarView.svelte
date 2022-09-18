@@ -42,6 +42,7 @@
 	} from "./calendar";
 	import type { WorkspaceDefinition } from "src/main";
 	import { CreateRecordModal } from "src/modals/create-record-modal";
+	import { i18n } from "src/lib/stores/i18n";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
@@ -98,22 +99,28 @@
 		/>
 		<Typography variant="h2" nomargin>{title}</Typography>
 		<HorizontalGroup>
-			<Field name="Date field">
+			<Field name={$i18n.t("date-field")}>
 				<Select
 					value={dateField?.name ?? ""}
 					options={dateFields.map(fieldToSelectableValue)}
 					onChange={handleDateFieldChange}
-					placeholder="No date fields"
+					placeholder={$i18n.t("no-date-fields") ?? ""}
 				/>
 			</Field>
 			<Select
 				value={config?.interval ?? "week"}
 				options={[
-					{ label: "Month", value: "month" },
-					{ label: "2 weeks", value: "2weeks" },
-					{ label: "Week", value: "week" },
-					{ label: "3 days", value: "3days" },
-					{ label: "Day", value: "day" },
+					{ label: $i18n.t("month", { count: 1 }), value: "month" },
+					{
+						label: $i18n.t("weekWithCount", { count: 2 }),
+						value: "2weeks",
+					},
+					{ label: $i18n.t("week", { count: 1 }), value: "week" },
+					{
+						label: $i18n.t("dayWithCount", { count: 3 }),
+						value: "3days",
+					},
+					{ label: $i18n.t("day", { count: 1 }), value: "day" },
 				]}
 				onChange={handleIntervalChange}
 			/>

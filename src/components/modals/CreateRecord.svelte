@@ -9,8 +9,9 @@
 
 	import moment from "moment";
 	import { TAbstractFile, TFile, TFolder } from "obsidian";
+	import { i18n } from "src/lib/stores/i18n";
 
-	export let name: string = "Untitled workspace";
+	export let name: string = $i18n.t("untitled-workspace");
 	export let noteTemplate: string;
 	export let templateFolder: string;
 	export let onSave: (name: string, templatePath: string) => void;
@@ -36,9 +37,9 @@
 	}
 </script>
 
-<Typography variant="h1">Create new record</Typography>
+<Typography variant="h1">{$i18n.t("create-new-record")}</Typography>
 
-<SettingItem name={"Name"}>
+<SettingItem name={$i18n.t("name")}>
 	{#if noteTemplate}
 		<div>
 			<Input
@@ -57,7 +58,7 @@
 	{/if}
 </SettingItem>
 
-<SettingItem name={"Template"}>
+<SettingItem name={$i18n.t("template")}>
 	<FileSuggestInput
 		value={templatePath}
 		onChange={(value) => (templatePath = value)}
@@ -69,7 +70,7 @@
 </SettingItem>
 
 <ButtonSetting
-	name="Create record"
+	name={$i18n.t("Create record")}
 	cta
 	onClick={() => onSave(interpolatedName, templatePath)}
 />

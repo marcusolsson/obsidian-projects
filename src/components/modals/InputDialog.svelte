@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { i18n } from "src/lib/stores/i18n";
 	import Button from "../core/Button/Button.svelte";
 
 	export let value: string;
@@ -31,7 +32,7 @@
 	<Button
 		on:click={() => {
 			onCancel();
-		}}>Cancel</Button
+		}}>{$i18n.t("cancel")}</Button
 	>
 </div>
 

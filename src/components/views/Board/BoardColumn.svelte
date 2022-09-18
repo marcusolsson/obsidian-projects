@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Button } from "src/components/core/Button";
+	import { i18n } from "src/lib/stores/i18n";
 
 	import { isNumber, type DataRecord } from "src/lib/types";
 	import { Typography } from "../../core/Typography";
@@ -45,7 +46,7 @@
 		{/if}
 		{#if unprioritized.length}
 			<div class="column-section unprio">
-				<p>Unprioritized</p>
+				<p>{$i18n.t("unprioritized")}</p>
 				<CardList>
 					{#each unprioritized as record}
 						<Card {record} on:click={() => onRecordClick(record)} />
@@ -69,7 +70,7 @@
 				onRecordAdd();
 			}}
 		>
-			Add a record
+			{$i18n.t("add-record")}
 		</Button>
 	</div>
 </div>

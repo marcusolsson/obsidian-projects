@@ -8,6 +8,7 @@
 	import { Select } from "../core/Select";
 	import Input from "../core/Input/Input.svelte";
 	import { customViews } from "../../lib/stores/custom-views";
+	import { i18n } from "../../lib/stores/i18n";
 
 	export let onSave: (view: ViewDefinition) => void;
 
@@ -24,18 +25,18 @@
 		}
 	);
 	const options = [
-		{ label: "Table", value: "table" },
-		{ label: "Board", value: "board" },
-		{ label: "Calendar", value: "calendar" },
+		{ label: $i18n.t("table"), value: "table" },
+		{ label: $i18n.t("board"), value: "board" },
+		{ label: $i18n.t("calendar"), value: "calendar" },
 		...selectableCustomViews,
 	];
 
 	$: selectedOption = options.find((option) => option.value === type);
 </script>
 
-<Typography variant="h1">Add view</Typography>
+<Typography variant="h1">{$i18n.t("add-view")}</Typography>
 
-<SettingItem name={"View type"}>
+<SettingItem name={$i18n.t("view-type")}>
 	<Select
 		value={type}
 		{options}
@@ -45,16 +46,16 @@
 	/>
 </SettingItem>
 
-<SettingItem name={"View name"}>
+<SettingItem name={$i18n.t("view-name")}>
 	<Input
 		value={name}
 		onChange={(value) => (name = value)}
-		placeholder="Optional"
+		placeholder={$i18n.t("optional") ?? ""}
 	/>
 </SettingItem>
 
 <ButtonSetting
-	name="Add workspace"
+	name={$i18n.t("add-view")}
 	cta
 	onClick={() =>
 		onSave({
