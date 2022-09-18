@@ -12,7 +12,6 @@
 	import { Select } from "./core/Select";
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
-	import { InputDialogModal } from "src/modals/input-dialog";
 
 	export let workspaces: WorkspaceDefinition[];
 	export let workspace: string | undefined;
@@ -37,40 +36,40 @@
 	<IconButton
 		icon="plus"
 		on:click={() => {
-			new CreateWorkspaceModal($app, (value) => {
-				settings.update((state) => {
-					return produce(state, (draft) => {
-						draft.workspaces.push(value);
-						return draft;
+			new CreateWorkspaceModal(
+				$app,
+				"Create new workspace",
+				"Create workspace",
+				(value) => {
+					settings.update((state) => {
+						return produce(state, (draft) => {
+							draft.workspaces.push(value);
+							return draft;
+						});
 					});
-				});
-			}).open();
+				}
+			).open();
 		}}
 	/>
 	{#if workspaceDef}
 		<IconButton
 			icon="edit"
 			on:click={() => {
-				new InputDialogModal(
+				new CreateWorkspaceModal(
 					$app,
-					"Workspace name",
-					"Rename",
+					"Edit workspace",
+					"Save",
 					(value) => {
 						settings.update((state) => {
 							return produce(state, (draft) => {
 								draft.workspaces = draft.workspaces.map((w) =>
-									w.id === workspace
-										? {
-												...w,
-												name: value,
-										  }
-										: w
+									w.id === workspace ? value : w
 								);
 								return draft;
 							});
 						});
 					},
-					workspaceDef?.name ?? ""
+					workspaceDef
 				).open();
 			}}
 		/>

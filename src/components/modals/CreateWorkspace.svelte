@@ -9,6 +9,8 @@
 	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import Input from "../core/Input/Input.svelte";
 
+	export let title: string;
+	export let cta: string;
 	export let onSave: (workspace: WorkspaceDefinition) => void;
 	export let name: string = "Untitled workspace";
 	export let path: string = "";
@@ -17,7 +19,7 @@
 	export let templateFolder: string;
 </script>
 
-<Typography variant="h1">Create new workspace</Typography>
+<Typography variant="h1">{title}</Typography>
 
 <SettingItem name={"Workspace name"}>
 	<Input value={name} onChange={(value) => (name = value)} autofocus />
@@ -68,7 +70,7 @@
 </SettingItem>
 
 <ButtonSetting
-	name="Create workspace"
+	name={cta}
 	cta
 	onClick={() =>
 		onSave({
