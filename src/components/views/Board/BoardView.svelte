@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { normalizePath } from "obsidian";
-
 	import {
 		DataFieldType,
 		type DataField,
@@ -22,6 +20,7 @@
 	import { CreateRecordModal } from "src/modals/create-record-modal";
 	import { ConfigureRecord } from "../../../modals/record-modal";
 	import { groupRecordsByField } from "./board";
+	import { createDataRecord } from "src/lib/api";
 
 	interface BoardConfig {
 		groupByField?: string;
@@ -72,12 +71,10 @@
 		new CreateRecordModal($app, workspace, (name, templatePath) => {
 			if (groupByField) {
 				$api.createRecord(
-					{
+					createDataRecord(
 						name,
-						path: normalizePath(
-							workspace.path + "/" + name + ".md"
-						),
-						values: groupByField
+						workspace,
+						groupByField
 							? {
 									[groupByField.name]:
 										column !==
@@ -85,8 +82,8 @@
 											? column
 											: undefined,
 							  }
-							: {},
-					},
+							: {}
+					),
 					templatePath
 				);
 			}

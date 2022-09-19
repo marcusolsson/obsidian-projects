@@ -3,12 +3,14 @@ import produce from "immer";
 import moment from "moment";
 import {
 	MetadataCache,
+	normalizePath,
 	parseYaml,
 	stringifyYaml,
 	TFile,
 	type App,
 	type FrontMatterCache,
 } from "obsidian";
+import type { WorkspaceDefinition } from "src/main";
 import { get } from "svelte/store";
 import { fileIndex } from "./stores/file-index";
 import { detectFields } from "./stores/helpers";
@@ -21,8 +23,21 @@ import {
 	isString,
 	type DataFrame,
 	type DataRecord,
+	type DataValue,
 	type Link,
 } from "./types";
+
+export function createDataRecord(
+	name: string,
+	workspace: WorkspaceDefinition,
+	values?: Record<string, DataValue>
+): DataRecord {
+	return {
+		name,
+		path: normalizePath(workspace.path + "/" + name + ".md"),
+		values: values ?? {},
+	};
+}
 
 export class DataApi {
 	private app: App;

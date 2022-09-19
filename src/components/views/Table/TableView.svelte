@@ -24,6 +24,7 @@
 	import { ConfigureRecord } from "src/modals/record-modal";
 	import type { WorkspaceDefinition } from "src/main";
 	import type { GridConfig } from "./types";
+	import { createDataRecord } from "src/lib/api";
 
 	export let records: DataRecord[];
 	export let fields: DataField[];
@@ -104,13 +105,7 @@
 				workspace,
 				(name, templatePath, workspace) => {
 					$api.createRecord(
-						{
-							name,
-							path: normalizePath(
-								workspace.path + "/" + name + ".md"
-							),
-							values: {},
-						},
+						createDataRecord(name, workspace),
 						templatePath
 					);
 				}

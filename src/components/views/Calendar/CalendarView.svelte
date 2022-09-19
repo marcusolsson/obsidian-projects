@@ -43,6 +43,7 @@
 	import type { WorkspaceDefinition } from "src/main";
 	import { CreateRecordModal } from "src/modals/create-record-modal";
 	import { i18n } from "src/lib/stores/i18n";
+	import { createDataRecord } from "src/lib/api";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
@@ -189,19 +190,14 @@
 										(name, templatePath) => {
 											if (dateField) {
 												$api.createRecord(
-													{
+													createDataRecord(
 														name,
-														path: normalizePath(
-															workspace.path +
-																"/" +
-																name +
-																".md"
-														),
-														values: {
+														workspace,
+														{
 															[dateField.name]:
 																date.toDate(),
-														},
-													},
+														}
+													),
 													templatePath
 												);
 											}

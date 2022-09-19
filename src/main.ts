@@ -1,4 +1,4 @@
-import { addIcon, normalizePath, Plugin, TFolder } from "obsidian";
+import { addIcon, Plugin, TFolder } from "obsidian";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 import isoWeek from "dayjs/plugin/isoWeek";
@@ -13,6 +13,7 @@ import { i18n } from "./lib/stores/i18n";
 import { get } from "svelte/store";
 import { CreateRecordModal } from "./modals/create-record-modal";
 import { api } from "./lib/stores/api";
+import { createDataRecord } from "./lib/api";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -143,13 +144,7 @@ export default class ProjectsPlugin extends Plugin {
 							workspace,
 							(name, templatePath, workspace) => {
 								get(api).createRecord(
-									{
-										name,
-										path: normalizePath(
-											workspace.path + "/" + name + ".md"
-										),
-										values: {},
-									},
+									createDataRecord(name, workspace),
 									templatePath
 								);
 							}
