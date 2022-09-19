@@ -3,9 +3,6 @@
 	import { ButtonSetting, SettingItem } from "../core/Setting";
 	import { Typography } from "../core/Typography";
 
-	import { app } from "../../lib/stores/obsidian";
-
-	import { TAbstractFile, TFile, TFolder } from "obsidian";
 	import { i18n } from "src/lib/stores/i18n";
 	import type { WorkspaceDefinition } from "src/main";
 	import { settings } from "src/lib/stores/settings";
@@ -20,20 +17,6 @@
 	) => void;
 
 	let templatePath = "";
-
-	$: templates = filesInFolder(workspace.templateFolder);
-
-	function isTFile(file: TAbstractFile): file is TFile {
-		return file instanceof TFile;
-	}
-
-	function filesInFolder(folderPath: string): TFile[] {
-		const folder = $app.vault.getAbstractFileByPath(folderPath);
-		if (folder instanceof TFolder) {
-			return folder.children.filter(isTFile);
-		}
-		return [];
-	}
 </script>
 
 <Typography variant="h1">{$i18n.t("modals.record.create.title")}</Typography>
@@ -64,7 +47,7 @@
 	/>
 </SettingItem>
 
-{#if templates.length}
+{#if workspace.templates?.length}
 	<SettingItem
 		name={$i18n.t("modals.record.create.templatePath.name")}
 		description={$i18n.t("modals.record.create.templatePath.description") ??
@@ -73,9 +56,9 @@
 		<Select
 			value={templatePath}
 			onChange={(value) => (templatePath = value)}
-			options={templates.map((template) => ({
-				label: template.basename,
-				value: template.path,
+			options={workspace.templates.map((path) => ({
+				label: path,
+				value: path,
 			}))}
 			placeholder={$i18n.t("modals.record.create.templatePath.none") ??
 				""}

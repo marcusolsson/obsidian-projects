@@ -36,7 +36,7 @@ export function createWorkspace(): WorkspaceDefinition {
 		path: "",
 		recursive: false,
 		defaultName: "",
-		templateFolder: "",
+		templates: [],
 		views: [
 			{
 				id: uuidv4(),

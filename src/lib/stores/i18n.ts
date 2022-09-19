@@ -60,15 +60,14 @@ i18next.init({
 							description:
 								"Manage notes in folders within the project path.",
 						},
-						templateFolder: {
-							name: "Template folder",
-							description:
-								"Folder containing templates to use for new notes.",
+						templates: {
+							name: "Templates",
+							description: "Templates for creating new notes.",
 						},
 						defaultName: {
 							name: "Default name",
 							description:
-								"Default name to use for new notes. Supports {{date}} and {{time}} template variables.",
+								"Default name for new notes. Supports {{date}} and {{time}} template variables.",
 						},
 					},
 					view: {

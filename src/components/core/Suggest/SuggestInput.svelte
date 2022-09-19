@@ -16,6 +16,7 @@
 	export let embed: boolean = false;
 	export let disabled: boolean = false;
 	export let placeholder: string = "";
+	export let fullWidth: boolean = false;
 
 	let isOpen = false;
 
@@ -32,6 +33,7 @@
 <input
 	bind:value
 	class:embed
+	class:fullWidth
 	type="text"
 	{disabled}
 	{placeholder}
@@ -94,6 +96,10 @@
 
 <style>
 	input {
+	}
+
+	.fullWidth {
+		width: 100%;
 	}
 
 	.embed {

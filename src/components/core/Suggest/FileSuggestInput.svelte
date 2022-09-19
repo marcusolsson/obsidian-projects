@@ -12,6 +12,7 @@
 	export let files: TFile[] | undefined = undefined;
 	export let disabled: boolean = false;
 	export let placeholder: string = "";
+	export let fullWidth: boolean = false;
 
 	function handleSuggest(value: string) {
 		if (files) {
@@ -112,4 +113,5 @@
 	{embed}
 	{disabled}
 	{placeholder}
+	{fullWidth}
 />

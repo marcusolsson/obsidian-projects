@@ -34,7 +34,7 @@ export interface WorkspaceDefinition {
 	recursive: boolean;
 	views: ViewDefinition[];
 	defaultName: string;
-	templateFolder: string;
+	templates: string[];
 }
 
 export interface ProjectsPluginSettings {

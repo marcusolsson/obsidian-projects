@@ -7,6 +7,8 @@
 	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import Input from "../core/Input/Input.svelte";
 	import { i18n } from "../../lib/stores/i18n";
+	import { FileListInput } from "../core/FileListInput";
+	import { notEmpty } from "../views/Board/board";
 
 	export let title: string;
 	export let cta: string;
@@ -51,20 +53,6 @@
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("modals.workspace.templateFolder.name")}
-	description={$i18n.t("modals.workspace.templateFolder.description") ?? ""}
->
-	<FileSuggestInput
-		value={workspace.templateFolder}
-		onChange={(templateFolder) =>
-			(workspace = { ...workspace, templateFolder })}
-		sourcePath=""
-		include="folders"
-		valueType="path"
-	/>
-</SettingItem>
-
-<SettingItem
 	name={$i18n.t("modals.workspace.defaultName.name")}
 	description={$i18n.t("modals.workspace.defaultName.description") ?? ""}
 >
@@ -74,4 +62,22 @@
 	/>
 </SettingItem>
 
-<ButtonSetting name={cta} cta onClick={() => onSave(workspace)} />
+<SettingItem
+	name={$i18n.t("modals.workspace.templates.name")}
+	description={$i18n.t("modals.workspace.templates.description") ?? ""}
+/>
+
+<FileListInput
+	paths={workspace.templates}
+	onPathsChange={(templates) => (workspace = { ...workspace, templates })}
+/>
+
+<ButtonSetting
+	name={cta}
+	cta
+	onClick={() =>
+		onSave({
+			...workspace,
+			templates: workspace.templates.filter(notEmpty),
+		})}
+/>
