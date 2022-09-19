@@ -13,7 +13,7 @@ import { i18n } from "./lib/stores/i18n";
 import { get } from "svelte/store";
 import { CreateRecordModal } from "./modals/create-record-modal";
 import { api } from "./lib/stores/api";
-import { createDataRecord } from "./lib/api";
+import { createDataRecord, createWorkspace } from "./lib/api";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -66,6 +66,7 @@ export default class ProjectsPlugin extends Plugin {
 						item.setTitle(t("menus.workspace.create.title"))
 							.setIcon("folder-plus")
 							.onClick(async () => {
+								const workspace = createWorkspace();
 								new CreateWorkspaceModal(
 									this.app,
 									t("modals.workspace.create.title"),
@@ -81,6 +82,7 @@ export default class ProjectsPlugin extends Plugin {
 										});
 									},
 									{
+										...workspace,
 										name: file.name,
 										path: file.path,
 									}
@@ -114,7 +116,8 @@ export default class ProjectsPlugin extends Plugin {
 								return draft;
 							});
 						});
-					}
+					},
+					createWorkspace()
 				).open();
 			},
 		});

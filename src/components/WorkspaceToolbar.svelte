@@ -20,7 +20,7 @@
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
 
-	import { createDataRecord } from "src/lib/api";
+	import { createDataRecord, createWorkspace } from "src/lib/api";
 	import type { WorkspaceDefinition } from "src/main";
 
 	export let workspaces: WorkspaceDefinition[];
@@ -69,26 +69,33 @@
 						)
 							.setIcon("edit")
 							.onClick(() => {
-								new CreateWorkspaceModal(
-									$app,
-									$i18n.t("modals.workspace.edit.title"),
-									$i18n.t("modals.workspace.edit.cta"),
-									(value) => {
-										settings.update((state) => {
-											return produce(state, (draft) => {
-												draft.workspaces =
-													draft.workspaces.map((w) =>
-														w.id === workspace
-															? value
-															: w
-													);
+								if (workspaceDef) {
+									new CreateWorkspaceModal(
+										$app,
+										$i18n.t("modals.workspace.edit.title"),
+										$i18n.t("modals.workspace.edit.cta"),
+										(value) => {
+											settings.update((state) => {
+												return produce(
+													state,
+													(draft) => {
+														draft.workspaces =
+															draft.workspaces.map(
+																(w) =>
+																	w.id ===
+																	workspace
+																		? value
+																		: w
+															);
 
-												return draft;
+														return draft;
+													}
+												);
 											});
-										});
-									},
-									workspaceDef
-								).open();
+										},
+										workspaceDef
+									).open();
+								}
 							});
 					});
 					menu.addItem((item) => {
@@ -219,7 +226,8 @@
 										return draft;
 									});
 								});
-							}
+							},
+							createWorkspace()
 						).open();
 					});
 			});

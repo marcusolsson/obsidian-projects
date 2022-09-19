@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { v4 as uuidv4 } from "uuid";
-
 	import type { WorkspaceDefinition } from "src/main";
 
 	import { Typography } from "../core/Typography";
@@ -13,11 +11,7 @@
 	export let title: string;
 	export let cta: string;
 	export let onSave: (workspace: WorkspaceDefinition) => void;
-	export let name: string = $i18n.t("untitled-workspace");
-	export let path: string = "";
-	export let recursive: boolean = false;
-	export let noteTemplate: string;
-	export let templateFolder: string;
+	export let workspace: WorkspaceDefinition;
 </script>
 
 <Typography variant="h1">{title}</Typography>
@@ -26,7 +20,11 @@
 	name={$i18n.t("modals.workspace.name.name")}
 	description={$i18n.t("modals.workspace.name.description") ?? ""}
 >
-	<Input value={name} onChange={(value) => (name = value)} autofocus />
+	<Input
+		value={workspace.name}
+		onChange={(name) => (workspace = { ...workspace, name })}
+		autofocus
+	/>
 </SettingItem>
 
 <SettingItem
@@ -34,8 +32,8 @@
 	description={$i18n.t("modals.workspace.path.description") ?? ""}
 >
 	<FileSuggestInput
-		value={path}
-		onChange={(value) => (path = value)}
+		value={workspace.path}
+		onChange={(path) => (workspace = { ...workspace, path })}
 		sourcePath=""
 		include="folders"
 		valueType="path"
@@ -46,7 +44,10 @@
 	name={$i18n.t("modals.workspace.recursive.name")}
 	description={$i18n.t("modals.workspace.recursive.description") ?? ""}
 >
-	<Checkbox value={recursive} onChange={(value) => (recursive = value)} />
+	<Checkbox
+		value={workspace.recursive}
+		onChange={(recursive) => (workspace = { ...workspace, recursive })}
+	/>
 </SettingItem>
 
 <SettingItem
@@ -54,8 +55,9 @@
 	description={$i18n.t("modals.workspace.templateFolder.description") ?? ""}
 >
 	<FileSuggestInput
-		value={templateFolder}
-		onChange={(value) => (templateFolder = value)}
+		value={workspace.templateFolder}
+		onChange={(templateFolder) =>
+			(workspace = { ...workspace, templateFolder })}
 		sourcePath=""
 		include="folders"
 		valueType="path"
@@ -67,30 +69,11 @@
 	description={$i18n.t("modals.workspace.noteTemplate.description") ?? ""}
 >
 	<Input
-		value={noteTemplate}
-		onChange={(value) => (noteTemplate = value)}
+		value={workspace.noteTemplate}
+		onChange={(noteTemplate) =>
+			(workspace = { ...workspace, noteTemplate })}
 		placeholder={`{{title}}`}
 	/>
 </SettingItem>
 
-<ButtonSetting
-	name={cta}
-	cta
-	onClick={() =>
-		onSave({
-			id: uuidv4(),
-			name,
-			path,
-			recursive,
-			templateFolder,
-			noteTemplate,
-			views: [
-				{
-					id: uuidv4(),
-					name: $i18n.t("views.table.name"),
-					type: "table",
-					config: {},
-				},
-			],
-		})}
-/>
+<ButtonSetting name={cta} cta onClick={() => onSave(workspace)} />

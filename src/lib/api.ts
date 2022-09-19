@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import produce from "immer";
 import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 import {
 	MetadataCache,
 	normalizePath,
@@ -26,6 +27,26 @@ import {
 	type DataValue,
 	type Link,
 } from "./types";
+import { i18n } from "./stores/i18n";
+
+export function createWorkspace(): WorkspaceDefinition {
+	return {
+		id: uuidv4(),
+		name: get(i18n).t("modals.workspace.create.untitled"),
+		path: "",
+		recursive: false,
+		noteTemplate: "",
+		templateFolder: "",
+		views: [
+			{
+				id: uuidv4(),
+				name: get(i18n).t("views.table.name"),
+				type: "table",
+				config: {},
+			},
+		],
+	};
+}
 
 export function createDataRecord(
 	name: string,
