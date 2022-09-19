@@ -52,6 +52,8 @@ export default class ProjectsPlugin extends Plugin {
 	unsubscribeSettings: Unsubscriber;
 
 	async onload() {
+		const t = get(i18n).t;
+
 		this.registerView(
 			VIEW_TYPE_PROJECTS,
 			(leaf) => new ProjectsView(leaf, this)
@@ -61,17 +63,13 @@ export default class ProjectsPlugin extends Plugin {
 			this.app.workspace.on("file-menu", (menu, file) => {
 				if (file instanceof TFolder) {
 					menu.addItem((item) => {
-						item.setTitle(
-							get(i18n).t("menus.workspace.create.title")
-						)
+						item.setTitle(t("menus.workspace.create.title"))
 							.setIcon("folder-plus")
 							.onClick(async () => {
 								new CreateWorkspaceModal(
 									this.app,
-									get(i18n).t(
-										"modals.workspace.create.title"
-									),
-									get(i18n).t("modals.workspace.create.cta"),
+									t("modals.workspace.create.title"),
+									t("modals.workspace.create.cta"),
 									(workspace) => {
 										settings.update((state) => {
 											return produce(state, (draft) => {
@@ -93,19 +91,9 @@ export default class ProjectsPlugin extends Plugin {
 			})
 		);
 
-		app.set(this.app);
-		plugin.set(this);
-		settings.set(
-			Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
-		);
-
-		this.unsubscribeSettings = settings.subscribe((value) => {
-			this.saveData(value);
-		});
-
 		this.addCommand({
 			id: "show-projects",
-			name: get(i18n).t("commands.show-projects.name"),
+			name: t("commands.show-projects.name"),
 			callback: () => {
 				this.activateView();
 			},
@@ -113,12 +101,12 @@ export default class ProjectsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "create-workspace",
-			name: get(i18n).t("commands.create-workspace.name"),
+			name: t("commands.create-workspace.name"),
 			callback: () => {
 				new CreateWorkspaceModal(
 					this.app,
-					get(i18n).t("modals.workspace.create.title"),
-					get(i18n).t("modals.workspace.create.cta"),
+					t("modals.workspace.create.title"),
+					t("modals.workspace.create.cta"),
 					(workspace) => {
 						settings.update((state) => {
 							return produce(state, (draft) => {
@@ -133,7 +121,9 @@ export default class ProjectsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "create-record",
-			name: get(i18n).t("commands.create-record.name"),
+			name: t("commands.create-record.name"),
+			// checkCallback because we don't want to create records if there are no
+			// workspaces.
 			checkCallback: (checking) => {
 				const workspace = get(settings).workspaces[0];
 
@@ -158,9 +148,24 @@ export default class ProjectsPlugin extends Plugin {
 			},
 		});
 
-		this.addIcons();
+		addIcon(
+			"text",
+			`<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
+		);
 
 		registerFileEvents(this);
+
+		// Initialize Svelte stores.
+		app.set(this.app);
+		plugin.set(this);
+		settings.set(
+			Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
+		);
+
+		// Save settings to disk whenever settings has been updated.
+		this.unsubscribeSettings = settings.subscribe((value) => {
+			this.saveData(value);
+		});
 	}
 
 	async onunload() {
@@ -169,6 +174,7 @@ export default class ProjectsPlugin extends Plugin {
 		this.unsubscribeSettings();
 	}
 
+	// activateView opens the main Projects view in a new workspace leaf.
 	async activateView() {
 		this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
 
@@ -182,12 +188,5 @@ export default class ProjectsPlugin extends Plugin {
 		if (leaves[0]) {
 			this.app.workspace.revealLeaf(leaves[0]);
 		}
-	}
-
-	addIcons() {
-		addIcon(
-			"text",
-			`<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
-		);
 	}
 }

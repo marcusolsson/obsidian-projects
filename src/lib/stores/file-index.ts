@@ -3,6 +3,7 @@ import { TFile, type Plugin } from "obsidian";
 import { get, writable } from "svelte/store";
 import { app } from "./obsidian";
 
+// registerFileEvents keeps the file index up-to-date while plugin is running.
 export function registerFileEvents(plugin: Plugin) {
 	plugin.registerEvent(
 		plugin.app.vault.on("create", (file) => {
@@ -42,6 +43,8 @@ export interface FileIndex {
 	files: Record<string, TFile>;
 }
 
+// createFileIndex returns a custom Svelte stores to manage the files managed
+// by the workspace.
 function createFileIndex() {
 	const { subscribe, set, update } = writable<FileIndex>({
 		workspaceFilter: () => false,
@@ -100,6 +103,8 @@ function createFileIndex() {
 	};
 }
 
+// createWorkspaceFilter returns a filter function to avoid indexing files
+// outside of the workspace.
 function createWorkspaceFilter(
 	workspacePath: string,
 	recursive: boolean
