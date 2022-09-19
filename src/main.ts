@@ -148,6 +148,10 @@ export default class ProjectsPlugin extends Plugin {
 			},
 		});
 
+		this.addRibbonIcon("table-2", "Open projects", () => {
+			this.activateView();
+		});
+
 		addIcon(
 			"text",
 			`<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`

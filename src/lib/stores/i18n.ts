@@ -178,7 +178,7 @@ i18next.init({
 						column: {
 							rename: "Rename field",
 							delete: "Delete field",
-							hide: "Hide column",
+							hide: "Hide field",
 						},
 						row: {
 							add: "Add note",

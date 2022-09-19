@@ -31,6 +31,19 @@
 	export let onViewChange: (view: string) => void;
 
 	$: workspaceDef = workspaces.find((w) => w.id === workspace);
+
+	function iconFromViewType(type: string) {
+		switch (type) {
+			case "table":
+				return "table";
+			case "board":
+				return "columns";
+			case "calendar":
+				return "calendar";
+			default:
+				return "";
+		}
+	}
 </script>
 
 <div>
@@ -116,6 +129,7 @@
 				<ViewItem
 					selected={view === v.id}
 					name={v.name}
+					icon={iconFromViewType(v.type)}
 					variant="secondary"
 					on:click={() => onViewChange(v.id)}
 					onRename={(name) => {

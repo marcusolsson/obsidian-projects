@@ -50,7 +50,7 @@
 	}}
 >
 	{#if icon}
-		<Icon name={icon} />
+		<Icon name={icon} size={18} />
 	{/if}
 	{#if editing}
 		<Input
@@ -79,7 +79,7 @@
 
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 4px;
 
 		background: none;
 		height: 1.8rem;
