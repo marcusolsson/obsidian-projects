@@ -1,4 +1,4 @@
-import { addIcon, Plugin, TFolder } from "obsidian";
+import { addIcon, normalizePath, Plugin, TFolder } from "obsidian";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 import isoWeek from "dayjs/plugin/isoWeek";
@@ -11,6 +11,8 @@ import { app, plugin } from "./lib/stores/obsidian";
 import produce from "immer";
 import { i18n } from "./lib/stores/i18n";
 import { get } from "svelte/store";
+import { CreateRecordModal } from "./modals/create-record-modal";
+import { api } from "./lib/stores/api";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -103,7 +105,7 @@ export default class ProjectsPlugin extends Plugin {
 		this.addCommand({
 			id: "show-projects",
 			name: get(i18n).t("commands.show-projects.name"),
-			callback: async () => {
+			callback: () => {
 				this.activateView();
 			},
 		});
@@ -111,7 +113,7 @@ export default class ProjectsPlugin extends Plugin {
 		this.addCommand({
 			id: "create-workspace",
 			name: get(i18n).t("commands.create-workspace.name"),
-			callback: async () => {
+			callback: () => {
 				new CreateWorkspaceModal(
 					this.app,
 					get(i18n).t("modals.workspace.create.title"),
@@ -125,6 +127,39 @@ export default class ProjectsPlugin extends Plugin {
 						});
 					}
 				).open();
+			},
+		});
+
+		this.addCommand({
+			id: "create-record",
+			name: get(i18n).t("commands.create-record.name"),
+			checkCallback: (checking) => {
+				const workspace = get(settings).workspaces[0];
+
+				if (workspace) {
+					if (!checking) {
+						new CreateRecordModal(
+							this.app,
+							workspace,
+							(name, templatePath, workspace) => {
+								get(api).createRecord(
+									{
+										name,
+										path: normalizePath(
+											workspace.path + "/" + name + ".md"
+										),
+										values: {},
+									},
+									templatePath
+								);
+							}
+						).open();
+					}
+
+					return true;
+				}
+
+				return false;
 			},
 		});
 

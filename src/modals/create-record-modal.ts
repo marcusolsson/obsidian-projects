@@ -8,12 +8,20 @@ export class CreateRecordModal extends Modal {
 
 	workspace: WorkspaceDefinition;
 
-	onSave: (name: string, templatePath: string) => void;
+	onSave: (
+		name: string,
+		templatePath: string,
+		workspace: WorkspaceDefinition
+	) => void;
 
 	constructor(
 		app: App,
 		workspace: WorkspaceDefinition,
-		onSave: (name: string, templatePath: string) => void
+		onSave: (
+			name: string,
+			templatePath: string,
+			workspace: WorkspaceDefinition
+		) => void
 	) {
 		super(app);
 
@@ -26,10 +34,13 @@ export class CreateRecordModal extends Modal {
 			target: this.contentEl,
 			props: {
 				name: "",
-				noteTemplate: this.workspace.noteTemplate,
-				templateFolder: this.workspace.templateFolder,
-				onSave: (name: string, templatePath: string) => {
-					this.onSave(name, templatePath);
+				workspace: this.workspace,
+				onSave: (
+					name: string,
+					templatePath: string,
+					workspace: WorkspaceDefinition
+				) => {
+					this.onSave(name, templatePath, workspace);
 					this.close();
 				},
 			},

@@ -14,6 +14,8 @@
 	export let onChange: (value: string) => void;
 	export let onSuggest: (value: string) => Suggestion[];
 	export let embed: boolean = false;
+	export let disabled: boolean = false;
+	export let placeholder: string = "";
 
 	let isOpen = false;
 
@@ -31,6 +33,8 @@
 	bind:value
 	class:embed
 	type="text"
+	{disabled}
+	{placeholder}
 	on:input={() => {
 		suggestions = onSuggest(value);
 		isOpen = !!suggestions.length;

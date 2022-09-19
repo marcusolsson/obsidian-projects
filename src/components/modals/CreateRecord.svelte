@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Input from "../core/Input/Input.svelte";
 	import { ButtonSetting, SettingItem } from "../core/Setting";
-	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import { Typography } from "../core/Typography";
 
 	import { interpolateTemplate } from "src/lib/template";
@@ -10,19 +9,30 @@
 	import moment from "moment";
 	import { TAbstractFile, TFile, TFolder } from "obsidian";
 	import { i18n } from "src/lib/stores/i18n";
+	import type { WorkspaceDefinition } from "src/main";
+	import { settings } from "src/lib/stores/settings";
+	import Select from "../core/Select/Select.svelte";
 
-	export let name: string = $i18n.t("untitled-workspace");
-	export let noteTemplate: string;
-	export let templateFolder: string;
-	export let onSave: (name: string, templatePath: string) => void;
+	export let name: string = "";
+	export let workspace: WorkspaceDefinition;
+	export let onSave: (
+		name: string,
+		templatePath: string,
+		workspace: WorkspaceDefinition
+	) => void;
 
 	let templatePath = "";
 
-	$: interpolatedName = interpolateTemplate(noteTemplate, {
-		title: () => name,
-		date: (format) => moment().format(format),
-		time: (format) => moment().format(format),
-	});
+	$: interpolatedName = interpolateTemplate(
+		workspace.noteTemplate || "{{title}}",
+		{
+			title: () => name,
+			date: (format) => moment().format(format),
+			time: (format) => moment().format(format),
+		}
+	);
+
+	$: templates = filesInFolder(workspace.templateFolder);
 
 	function isTFile(file: TAbstractFile): file is TFile {
 		return file instanceof TFile;
@@ -43,7 +53,7 @@
 	name={$i18n.t("modals.record.create.name.name")}
 	description={$i18n.t("modals.record.create.name.description") ?? ""}
 >
-	{#if noteTemplate}
+	{#if workspace.noteTemplate}
 		<div>
 			<Input
 				value={name}
@@ -62,21 +72,46 @@
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("modals.record.create.templatePath.name")}
-	description={$i18n.t("modals.record.create.templatePath.description") ?? ""}
+	name={$i18n.t("modals.record.create.workspace.name")}
+	description={$i18n.t("modals.record.create.workspace.description") ?? ""}
 >
-	<FileSuggestInput
-		value={templatePath}
-		onChange={(value) => (templatePath = value)}
-		sourcePath=""
-		include="files"
-		valueType="path"
-		files={filesInFolder(templateFolder)}
+	<Select
+		value={workspace.id}
+		onChange={(id) => {
+			const res = $settings.workspaces.find((w) => w.id === id);
+			if (res) {
+				workspace = res;
+			}
+		}}
+		options={$settings.workspaces.map((workspace) => ({
+			label: workspace.name,
+			value: workspace.id,
+		}))}
 	/>
 </SettingItem>
+
+{#if templates.length}
+	<SettingItem
+		name={$i18n.t("modals.record.create.templatePath.name")}
+		description={$i18n.t("modals.record.create.templatePath.description") ??
+			""}
+	>
+		<Select
+			value={templatePath}
+			onChange={(value) => (templatePath = value)}
+			options={templates.map((template) => ({
+				label: template.basename,
+				value: template.path,
+			}))}
+			placeholder={$i18n.t("modals.record.create.templatePath.none") ??
+				""}
+			allowEmpty
+		/>
+	</SettingItem>
+{/if}
 
 <ButtonSetting
 	name={$i18n.t("modals.record.create.create")}
 	cta
-	onClick={() => onSave(interpolatedName, templatePath)}
+	onClick={() => onSave(interpolatedName, templatePath, workspace)}
 />

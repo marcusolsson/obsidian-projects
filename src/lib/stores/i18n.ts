@@ -9,11 +9,14 @@ i18next.init({
 		en: {
 			translation: {
 				commands: {
+					"show-projects": {
+						name: "Show Projects",
+					},
 					"create-workspace": {
 						name: "Create new workspace",
 					},
-					"show-projects": {
-						name: "Show Projects",
+					"create-record": {
+						name: "Create new record",
 					},
 				},
 				menus: {
@@ -94,6 +97,11 @@ i18next.init({
 							},
 							templatePath: {
 								name: "Template",
+								description: "",
+								none: "None",
+							},
+							workspace: {
+								name: "Workspace",
 								description: "",
 							},
 							create: "Create record",

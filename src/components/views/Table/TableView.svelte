@@ -99,18 +99,22 @@
 		{columns}
 		{rows}
 		onRowAdd={() => {
-			new CreateRecordModal($app, workspace, (name, templatePath) => {
-				$api.createRecord(
-					{
-						name,
-						path: normalizePath(
-							workspace.path + "/" + name + ".md"
-						),
-						values: {},
-					},
-					templatePath
-				);
-			}).open();
+			new CreateRecordModal(
+				$app,
+				workspace,
+				(name, templatePath, workspace) => {
+					$api.createRecord(
+						{
+							name,
+							path: normalizePath(
+								workspace.path + "/" + name + ".md"
+							),
+							values: {},
+						},
+						templatePath
+					);
+				}
+			).open();
 		}}
 		onRowEdit={(id, row) => {
 			const { name, path, ...values } = row;

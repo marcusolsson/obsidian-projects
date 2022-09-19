@@ -10,6 +10,8 @@
 	export let include: "notes" | "files" | "folders" | "all" = "all";
 	export let valueType: "path" | "name" = "name";
 	export let files: TFile[] | undefined = undefined;
+	export let disabled: boolean = false;
+	export let placeholder: string = "";
 
 	function handleSuggest(value: string) {
 		if (files) {
@@ -108,4 +110,6 @@
 	onSuggest={handleSuggest}
 	onChange={handleSelect}
 	{embed}
+	{disabled}
+	{placeholder}
 />
