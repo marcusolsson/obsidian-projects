@@ -10,65 +10,70 @@ i18next.init({
 			translation: {
 				commands: {
 					"show-projects": {
-						name: "Show Projects",
+						name: "Show projects",
 					},
 					"create-workspace": {
-						name: "Create new workspace",
+						name: "Create new project",
 					},
 					"create-record": {
-						name: "Create new record",
+						name: "Create new note",
 					},
 				},
 				menus: {
 					workspace: {
 						create: {
-							title: "Create workspace in folder",
+							title: "Create project in folder",
 						},
 					},
 				},
 				modals: {
 					workspace: {
 						create: {
-							title: "Create new workspace",
-							cta: "Create",
+							"short-title": "New project",
+							untitled: "Untitled project",
+							title: "Create new project",
+							cta: "Create project",
 						},
 						edit: {
-							title: "Edit workspace",
+							"short-title": "Edit project",
+							title: "Edit project",
 							cta: "Save",
 						},
 						delete: {
-							title: "Delete workspace",
+							"short-title": "Delete project",
+							title: "Delete project",
 							message:
-								"Are you sure you want to delete the workspace?",
+								"Are you sure you want to delete the project?",
 							cta: "Delete",
 						},
 						name: {
-							name: "Workspace name",
+							name: "Name",
 							description: "",
 						},
 						path: {
-							name: "Workspace path",
+							name: "Path",
 							description:
 								"Path to the folder you want to manage. Leave empty for root folder.",
 						},
 						recursive: {
 							name: "Recursive",
 							description:
-								"Manage notes in folders within the workspace path.",
+								"Manage notes in folders within the project path.",
 						},
 						templateFolder: {
 							name: "Template folder",
 							description:
-								"Folder containing templates to use for new records.",
+								"Folder containing templates to use for new notes.",
 						},
 						noteTemplate: {
 							name: "Note template",
 							description:
-								"Template to use when creating new records.",
+								"Template to use when creating new notes.",
 						},
 					},
 					view: {
 						create: {
+							"short-title": "New view",
 							title: "Add new view",
 							optional: "Optional",
 							type: {
@@ -82,6 +87,7 @@ i18next.init({
 							cta: "Add view",
 						},
 						delete: {
+							"short-title": "Delete view",
 							title: "Delete view",
 							message:
 								"Are you sure you want to delete the view?",
@@ -90,7 +96,8 @@ i18next.init({
 					},
 					record: {
 						create: {
-							title: "Create new record",
+							"short-title": "New note",
+							title: "Create new note",
 							name: {
 								name: "Name",
 								description: "",
@@ -101,13 +108,14 @@ i18next.init({
 								none: "None",
 							},
 							workspace: {
-								name: "Workspace",
+								name: "Project",
 								description: "",
 							},
-							create: "Create record",
+							create: "Create note",
 						},
 						edit: {
-							title: "Edit record",
+							"short-title": "Edit note",
+							title: "Edit note",
 							save: "Save",
 						},
 					},
@@ -136,7 +144,7 @@ i18next.init({
 						},
 						unprioritized: "Unprioritized",
 						record: {
-							add: "Add record",
+							add: "Add note",
 						},
 					},
 					calendar: {
@@ -173,9 +181,9 @@ i18next.init({
 							hide: "Hide column",
 						},
 						row: {
-							add: "Add row",
-							edit: "Edit record",
-							delete: "Delete record",
+							add: "Add note",
+							edit: "Edit note",
+							delete: "Delete note",
 						},
 						cell: {
 							clear: "Clear value",
@@ -191,7 +199,7 @@ i18next.init({
 						add: "Add view",
 					},
 					workspaces: {
-						none: "No workspaces",
+						none: "No projects",
 					},
 				},
 			},

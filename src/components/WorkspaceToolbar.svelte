@@ -1,24 +1,27 @@
 <script lang="ts">
-	import { CreateWorkspaceModal } from "../modals/create-workspace-modal";
-
-	import type { WorkspaceDefinition } from "src/main";
 	import { Menu as ObsidianMenu } from "obsidian";
-
 	import produce from "immer";
-	import { settings } from "src/lib/stores/settings";
+
+	import { CreateWorkspaceModal } from "../modals/create-workspace-modal";
 	import { AddViewModal } from "src/modals/add-view-modal";
 	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
+	import { CreateRecordModal } from "src/modals/create-record-modal";
+
 	import { app } from "../lib/stores/obsidian";
 	import { api } from "../lib/stores/api";
+	import { i18n } from "src/lib/stores/i18n";
+	import { settings } from "src/lib/stores/settings";
+
 	import { IconButton } from "./core/IconButton";
 	import { Select } from "./core/Select";
+	import { Button } from "./core/Button";
+	import { Icon } from "./core/Icon";
+
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
-	import { i18n } from "src/lib/stores/i18n";
-	import Button from "./core/Button/Button.svelte";
-	import { Icon } from "./core/Icon";
-	import { CreateRecordModal } from "src/modals/create-record-modal";
+
 	import { createDataRecord } from "src/lib/api";
+	import type { WorkspaceDefinition } from "src/main";
 
 	export let workspaces: WorkspaceDefinition[];
 	export let workspace: string | undefined;
@@ -48,7 +51,9 @@
 					const menu = new ObsidianMenu();
 
 					menu.addItem((item) => {
-						item.setTitle("Edit workspace")
+						item.setTitle(
+							$i18n.t("modals.workspace.edit.short-title")
+						)
 							.setIcon("edit")
 							.onClick(() => {
 								new CreateWorkspaceModal(
@@ -74,7 +79,9 @@
 							});
 					});
 					menu.addItem((item) => {
-						item.setTitle("Delete workspace")
+						item.setTitle(
+							$i18n.t("modals.workspace.delete.short-title")
+						)
 							.setIcon("trash")
 							.onClick(() => {
 								new ConfirmDialogModal(
@@ -184,7 +191,7 @@
 			const menu = new ObsidianMenu();
 
 			menu.addItem((item) => {
-				item.setTitle("New workspace")
+				item.setTitle($i18n.t("modals.workspace.create.short-title"))
 					.setIcon("folder")
 					.onClick(() => {
 						new CreateWorkspaceModal(
@@ -205,7 +212,7 @@
 
 			if (workspaceDef) {
 				menu.addItem((item) => {
-					item.setTitle("New view")
+					item.setTitle($i18n.t("modals.view.create.short-title"))
 						.setIcon("table")
 						.onClick(() => {
 							new AddViewModal($app, (view) => {
@@ -239,7 +246,7 @@
 						});
 				});
 				menu.addItem((item) => {
-					item.setTitle("New record")
+					item.setTitle($i18n.t("modals.record.create.short-title"))
 						.setIcon("file")
 						.onClick(() => {
 							if (workspaceDef) {
