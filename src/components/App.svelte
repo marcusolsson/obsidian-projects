@@ -9,7 +9,7 @@
 	import { CalendarView } from "./views/Calendar";
 	import { TableView } from "./views/Table";
 
-	import WorkspaceContainer from "./WorkspaceContainer.svelte";
+	import WorkspaceToolbar from "./WorkspaceToolbar.svelte";
 	import { LoaderCube } from "./core/LoaderCube";
 
 	import { customViews } from "../lib/stores/custom-views";
@@ -136,7 +136,7 @@
 </script>
 
 <div class="projects-container">
-	<WorkspaceContainer
+	<WorkspaceToolbar
 		{workspaces}
 		workspace={selectedWorkspace?.id}
 		onWorkspaceChange={(workspaceId) => handleWorkspaceChange(workspaceId)}
