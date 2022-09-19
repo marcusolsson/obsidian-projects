@@ -135,11 +135,13 @@ export default class ProjectsPlugin extends Plugin {
 						new CreateRecordModal(
 							this.app,
 							workspace,
-							(name, templatePath, workspace) => {
-								get(api).createRecord(
+							async (name, templatePath, workspace) => {
+								const file = await get(api).createRecord(
 									createDataRecord(name, workspace),
 									templatePath
 								);
+
+								this.app.workspace.getLeaf(true).openFile(file);
 							}
 						).open();
 					}

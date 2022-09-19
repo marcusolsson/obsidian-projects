@@ -90,7 +90,7 @@ export class DataApi {
 	async createRecord(
 		record: DataRecord,
 		templatePath: string
-	): Promise<void> {
+	): Promise<TFile> {
 		let content = "";
 
 		if (templatePath) {
@@ -110,6 +110,8 @@ export class DataApi {
 		const file = await this.app.vault.create(record.path, content);
 
 		this.updateFile(file, (data) => doUpdateRecord(data, record));
+
+		return file;
 	}
 
 	async updateFile(file: TFile, cb: (data: string) => string) {
