@@ -37,9 +37,12 @@
 	}
 </script>
 
-<Typography variant="h1">{$i18n.t("create-new-record")}</Typography>
+<Typography variant="h1">{$i18n.t("modals.record.create.title")}</Typography>
 
-<SettingItem name={$i18n.t("name")}>
+<SettingItem
+	name={$i18n.t("modals.record.create.name.name")}
+	description={$i18n.t("modals.record.create.name.description") ?? ""}
+>
 	{#if noteTemplate}
 		<div>
 			<Input
@@ -58,7 +61,10 @@
 	{/if}
 </SettingItem>
 
-<SettingItem name={$i18n.t("template")}>
+<SettingItem
+	name={$i18n.t("modals.record.create.templatePath.name")}
+	description={$i18n.t("modals.record.create.templatePath.description") ?? ""}
+>
 	<FileSuggestInput
 		value={templatePath}
 		onChange={(value) => (templatePath = value)}
@@ -70,7 +76,7 @@
 </SettingItem>
 
 <ButtonSetting
-	name={$i18n.t("Create record")}
+	name={$i18n.t("modals.record.create.create")}
 	cta
 	onClick={() => onSave(interpolatedName, templatePath)}
 />

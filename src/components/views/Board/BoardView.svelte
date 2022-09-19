@@ -80,7 +80,8 @@
 						values: groupByField
 							? {
 									[groupByField.name]:
-										column !== $i18n.t("no-status")
+										column !==
+										$i18n.t("views.board.no-status")
 											? column
 											: undefined,
 							  }
@@ -96,7 +97,7 @@
 <ToolBar>
 	<p />
 	<HorizontalGroup>
-		<Field name={$i18n.t("status-field")}>
+		<Field name={$i18n.t("views.board.fields.status")}>
 			<Select
 				value={groupByField?.name ?? ""}
 				options={textFields.map(fieldToSelectableValue)}
@@ -105,11 +106,11 @@
 						...config,
 						groupByField: value,
 					})}
-				placeholder={$i18n.t("none") ?? ""}
+				placeholder={$i18n.t("views.board.fields.none") ?? ""}
 				allowEmpty
 			/>
 		</Field>
-		<Field name={$i18n.t("priority-field")}>
+		<Field name={$i18n.t("views.board.fields.priority")}>
 			<Select
 				value={priorityField?.name ?? ""}
 				options={numberFields.map(fieldToSelectableValue)}
@@ -119,7 +120,7 @@
 						priorityField: value,
 					});
 				}}
-				placeholder={$i18n.t("none") ?? ""}
+				placeholder={$i18n.t("views.board.fields.none") ?? ""}
 				allowEmpty
 			/>
 		</Field>
@@ -129,9 +130,9 @@
 	<Board
 		columns={columns
 			.sort((a, b) => {
-				if (a === $i18n.t("no-status")) return -1;
-				if (b === $i18n.t("no-status")) return 1;
-				if (a === $i18n.t("no-status") && a === b) return 0;
+				if (a === $i18n.t("views.board.no-status")) return -1;
+				if (b === $i18n.t("views.board.no-status")) return 1;
+				if (a === $i18n.t("views.board.no-status") && a === b) return 0;
 
 				return a.localeCompare(b);
 			})

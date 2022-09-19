@@ -16,7 +16,9 @@
 </div>
 <div class="modal-button-container">
 	<Button
-		variant={cta === $i18n.t("delete") ? "destructive" : "primary"}
+		variant={cta === $i18n.t("modals.confirm.delete")
+			? "destructive"
+			: "primary"}
 		on:click={() => {
 			onConfirm();
 		}}>{cta}</Button
@@ -26,6 +28,6 @@
 			onCancel();
 		}}
 	>
-		{$i18n.t("cancel")}
+		{$i18n.t("modals.confirm.cancel")}
 	</Button>
 </div>

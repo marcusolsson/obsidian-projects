@@ -84,7 +84,7 @@
 	<p />
 	<HorizontalGroup>
 		<SwitchSelect
-			label={$i18n.t("hide-fields")}
+			label={$i18n.t("views.table.hide-fields")}
 			items={columns.map((column) => ({
 				label: column.field,
 				value: column.field,
@@ -143,8 +143,8 @@
 		onColumnRename={(field) => {
 			new InputDialogModal(
 				$app,
-				$i18n.t("rename-field"),
-				$i18n.t("rename"),
+				$i18n.t("views.table.rename-field"),
+				$i18n.t("views.table.rename"),
 				(value) => {
 					$api.renameField(field, value);
 				},

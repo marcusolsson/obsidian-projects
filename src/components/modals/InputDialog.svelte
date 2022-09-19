@@ -32,7 +32,7 @@
 	<Button
 		on:click={() => {
 			onCancel();
-		}}>{$i18n.t("cancel")}</Button
+		}}>{$i18n.t("modals.input.cancel")}</Button
 	>
 </div>
 

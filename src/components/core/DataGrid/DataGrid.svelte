@@ -5,6 +5,8 @@
 	import type { DataValue } from "src/lib/types";
 	import GridHeader from "./GridHeader.svelte";
 
+	import { i18n } from "src/lib/stores/i18n";
+
 	import GridRow from "./GridRow.svelte";
 
 	import {
@@ -38,6 +40,8 @@
 	export let onRowDelete: (rowId: GridRowId) => void;
 	export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
 
+	$: t = $i18n.t;
+
 	$: visibleColumns = columns.filter((column) => !column.hide);
 	$: sortedRows = sortRows(rows, sortModel);
 
@@ -46,12 +50,12 @@
 
 		if (column.editable) {
 			menu.addItem((item) => {
-				item.setTitle("Rename field")
+				item.setTitle(t("components.data-grid.column.rename"))
 					.setIcon("edit")
 					.onClick(() => onColumnRename(column.field));
 			});
 			menu.addItem((item) => {
-				item.setTitle("Delete field")
+				item.setTitle(t("components.data-grid.column.delete"))
 					.setIcon("trash")
 					.onClick(() => onColumnDelete(column.field));
 			});
@@ -60,12 +64,12 @@
 		}
 
 		menu.addItem((item) => {
-			item.setTitle("Sort A → Z")
+			item.setTitle(t("components.data-grid.sort.asc"))
 				.setIcon("up-and-down-arrows")
 				.onClick(() => onSortModelChange(column.field, "asc"));
 		});
 		menu.addItem((item) => {
-			item.setTitle("Sort Z → A")
+			item.setTitle(t("components.data-grid.sort.desc"))
 				.setIcon("up-and-down-arrows")
 				.onClick(() => onSortModelChange(column.field, "desc"));
 		});
@@ -73,7 +77,7 @@
 		menu.addSeparator();
 
 		menu.addItem((item) => {
-			item.setTitle("Hide column")
+			item.setTitle(t("components.data-grid.column.hide"))
 				.setIcon("eye-off")
 				.onClick(() => {
 					onColumnHide(column);
@@ -87,7 +91,7 @@
 		const menu = new Menu();
 
 		menu.addItem((item) => {
-			item.setTitle("Edit record")
+			item.setTitle(t("components.data-grid.row.edit"))
 				.setIcon("edit")
 				.onClick(() => onRowEdit(rowId, row));
 		});
@@ -95,7 +99,7 @@
 		menu.addSeparator();
 
 		menu.addItem((item) => {
-			item.setTitle("Delete record")
+			item.setTitle(t("components.data-grid.row.delete"))
 				.setIcon("trash")
 				.onClick(() => onRowDelete(rowId));
 		});
@@ -113,7 +117,7 @@
 
 		if (column.editable) {
 			menu.addItem((item) => {
-				item.setTitle("Clear value")
+				item.setTitle(t("components.data-grid.cell.clear"))
 					.setIcon("cross")
 					.onClick(() => {
 						onRowChange(
@@ -162,7 +166,7 @@
 		<span style={`width: ${60 + (visibleColumns[0]?.width ?? 0)}`}>
 			<Button variant="plain" on:click={() => onRowAdd()}>
 				<Icon name="plus" />
-				Add row
+				{t("components.data-grid.row.add")}
 			</Button>
 		</span>
 	</GridCellGroup>

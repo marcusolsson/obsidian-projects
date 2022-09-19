@@ -32,15 +32,15 @@
 			value: workspace.id,
 		}))}
 		onChange={onWorkspaceChange}
-		placeholder="No workspaces"
+		placeholder={$i18n.t("toolbar.workspaces.none") ?? ""}
 	/>
 	<IconButton
 		icon="plus"
 		on:click={() => {
 			new CreateWorkspaceModal(
 				$app,
-				"Create new workspace",
-				"Create workspace",
+				$i18n.t("modals.workspace.create.title"),
+				$i18n.t("modals.workspace.create.cta"),
 				(value) => {
 					settings.update((state) => {
 						return produce(state, (draft) => {
@@ -58,8 +58,8 @@
 			on:click={() => {
 				new CreateWorkspaceModal(
 					$app,
-					$i18n.t("edit-workspace"),
-					$i18n.t("save"),
+					$i18n.t("modals.workspace.edit.title"),
+					$i18n.t("modals.workspace.edit.cta"),
 					(value) => {
 						settings.update((state) => {
 							return produce(state, (draft) => {
@@ -79,9 +79,9 @@
 			on:click={() => {
 				new ConfirmDialogModal(
 					$app,
-					$i18n.t("delete-workspace"),
-					$i18n.t("confirm-delete-workspace"),
-					$i18n.t("delete"),
+					$i18n.t("modals.workspace.delete.title"),
+					$i18n.t("modals.workspace.delete.message"),
+					$i18n.t("modals.workspace.delete.cta"),
 					() => {
 						settings.update((state) => {
 							return produce(state, (draft) => {
@@ -132,9 +132,9 @@
 						onDelete={() => {
 							new ConfirmDialogModal(
 								$app,
-								$i18n.t("delete-view"),
-								$i18n.t("confirm-delete-view"),
-								$i18n.t("delete"),
+								$i18n.t("modals.view.delete.title"),
+								$i18n.t("modals.view.delete.message"),
+								$i18n.t("modals.view.delete.cta"),
 								() => {
 									settings.update((state) => {
 										return produce(state, (draft) => {
@@ -175,7 +175,7 @@
 			<ViewItem
 				variant="link"
 				icon="plus"
-				name={$i18n.t("add-view")}
+				name={$i18n.t("toolbar.view.add")}
 				on:click={() => {
 					new AddViewModal($app, (view) => {
 						settings.update((state) => {

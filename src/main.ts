@@ -9,6 +9,8 @@ import { CreateWorkspaceModal } from "./modals/create-workspace-modal";
 import { settings } from "./lib/stores/settings";
 import { app, plugin } from "./lib/stores/obsidian";
 import produce from "immer";
+import { i18n } from "./lib/stores/i18n";
+import { get } from "svelte/store";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -56,11 +58,17 @@ export default class ProjectsPlugin extends Plugin {
 			this.app.workspace.on("file-menu", (menu, file) => {
 				if (file instanceof TFolder) {
 					menu.addItem((item) => {
-						item.setTitle("Create new workspace in folder")
+						item.setTitle(
+							get(i18n).t("menus.workspace.create.title")
+						)
 							.setIcon("folder-plus")
 							.onClick(async () => {
 								new CreateWorkspaceModal(
 									this.app,
+									get(i18n).t(
+										"modals.workspace.create.title"
+									),
+									get(i18n).t("modals.workspace.create.cta"),
 									(workspace) => {
 										settings.update((state) => {
 											return produce(state, (draft) => {
@@ -94,7 +102,7 @@ export default class ProjectsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "show-projects",
-			name: "Show Projects",
+			name: get(i18n).t("commands.show-projects.name"),
 			callback: async () => {
 				this.activateView();
 			},
@@ -102,16 +110,21 @@ export default class ProjectsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "create-workspace",
-			name: "Create new workspace",
+			name: get(i18n).t("commands.create-workspace.name"),
 			callback: async () => {
-				new CreateWorkspaceModal(this.app, (workspace) => {
-					settings.update((state) => {
-						return produce(state, (draft) => {
-							draft.workspaces.push(workspace);
-							return draft;
+				new CreateWorkspaceModal(
+					this.app,
+					get(i18n).t("modals.workspace.create.title"),
+					get(i18n).t("modals.workspace.create.cta"),
+					(workspace) => {
+						settings.update((state) => {
+							return produce(state, (draft) => {
+								draft.workspaces.push(workspace);
+								return draft;
+							});
 						});
-					});
-				}).open();
+					}
+				).open();
 			},
 		});
 

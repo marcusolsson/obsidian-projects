@@ -19,7 +19,7 @@
 	export let onSave: (record: DataRecord) => void;
 </script>
 
-<Typography variant="h1">{$i18n.t("edit-record")}</Typography>
+<Typography variant="h1">{$i18n.t("modals.record.edit.title")}</Typography>
 
 <SettingItem name="name">
 	<FieldControl
@@ -51,4 +51,8 @@
 	</SettingItem>
 {/each}
 
-<ButtonSetting name={$i18n.t("save")} cta onClick={() => onSave(record)} />
+<ButtonSetting
+	name={$i18n.t("modals.record.edit.save")}
+	cta
+	onClick={() => onSave(record)}
+/>

@@ -46,7 +46,7 @@
 		{/if}
 		{#if unprioritized.length}
 			<div class="column-section unprio">
-				<p>{$i18n.t("unprioritized")}</p>
+				<p>{$i18n.t("views.board.unprioritized")}</p>
 				<CardList>
 					{#each unprioritized as record}
 						<Card {record} on:click={() => onRecordClick(record)} />
@@ -70,7 +70,7 @@
 				onRecordAdd();
 			}}
 		>
-			{$i18n.t("add-record")}
+			{$i18n.t("views.board.record.add")}
 		</Button>
 	</div>
 </div>

@@ -22,13 +22,16 @@
 
 <Typography variant="h1">{title}</Typography>
 
-<SettingItem name={$i18n.t("workspace-name")}>
+<SettingItem
+	name={$i18n.t("modals.workspace.name.name")}
+	description={$i18n.t("modals.workspace.name.description") ?? ""}
+>
 	<Input value={name} onChange={(value) => (name = value)} autofocus />
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("workspace-modal.path") ?? ""}
-	description={$i18n.t("workspace-modal.path-help") ?? ""}
+	name={$i18n.t("modals.workspace.path.name")}
+	description={$i18n.t("modals.workspace.path.description") ?? ""}
 >
 	<FileSuggestInput
 		value={path}
@@ -40,15 +43,15 @@
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("workspace-modal.recursive") ?? ""}
-	description={$i18n.t("workspace-modal.recursive-help") ?? ""}
+	name={$i18n.t("modals.workspace.recursive.name")}
+	description={$i18n.t("modals.workspace.recursive.description") ?? ""}
 >
 	<Checkbox value={recursive} onChange={(value) => (recursive = value)} />
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("workspace-modal.template-folder") ?? ""}
-	description={$i18n.t("workspace-modal.template-folder-help") ?? ""}
+	name={$i18n.t("modals.workspace.templateFolder.name")}
+	description={$i18n.t("modals.workspace.templateFolder.description") ?? ""}
 >
 	<FileSuggestInput
 		value={templateFolder}
@@ -60,8 +63,8 @@
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("workspace-modal.note-template") ?? ""}
-	description={$i18n.t("workspace-modal.note-template-help") ?? ""}
+	name={$i18n.t("modals.workspace.noteTemplate.name")}
+	description={$i18n.t("modals.workspace.noteTemplate.description") ?? ""}
 >
 	<Input
 		value={noteTemplate}
@@ -84,7 +87,7 @@
 			views: [
 				{
 					id: uuidv4(),
-					name: "Table",
+					name: $i18n.t("views.table.name"),
 					type: "table",
 					config: {},
 				},

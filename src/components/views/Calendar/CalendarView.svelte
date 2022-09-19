@@ -77,7 +77,14 @@
 
 	$: numColumns = Math.min(dates.length, 7);
 	$: weeks = chunkDates(dates, numColumns);
-	$: weekDays = dates.slice(0, numColumns).map((date) => date.format("ddd"));
+	$: weekDays = dates.slice(0, numColumns).map((date) =>
+		$i18n.t("views.calendar.weekday", {
+			value: date.toDate(),
+			formatParams: {
+				value: { weekday: "short" },
+			},
+		})
+	);
 
 	function handleIntervalChange(interval: string) {
 		if (isCalendarInterval(interval)) {
@@ -99,28 +106,49 @@
 		/>
 		<Typography variant="h2" nomargin>{title}</Typography>
 		<HorizontalGroup>
-			<Field name={$i18n.t("date-field")}>
+			<Field name={$i18n.t("views.calendar.fields.date")}>
 				<Select
 					value={dateField?.name ?? ""}
 					options={dateFields.map(fieldToSelectableValue)}
 					onChange={handleDateFieldChange}
-					placeholder={$i18n.t("no-date-fields") ?? ""}
+					placeholder={$i18n.t("views.calendar.fields.none") ?? ""}
 				/>
 			</Field>
 			<Select
 				value={config?.interval ?? "week"}
 				options={[
-					{ label: $i18n.t("month", { count: 1 }), value: "month" },
 					{
-						label: $i18n.t("weekWithCount", { count: 2 }),
+						label: $i18n.t("views.calendar.intervals.month", {
+							count: 1,
+						}),
+						value: "month",
+					},
+					{
+						label: $i18n.t(
+							"views.calendar.intervals.weekWithCount",
+							{ count: 2 }
+						),
 						value: "2weeks",
 					},
-					{ label: $i18n.t("week", { count: 1 }), value: "week" },
 					{
-						label: $i18n.t("dayWithCount", { count: 3 }),
+						label: $i18n.t("views.calendar.intervals.week", {
+							count: 1,
+						}),
+						value: "week",
+					},
+					{
+						label: $i18n.t(
+							"views.calendar.intervals.dayWithCount",
+							{ count: 3 }
+						),
 						value: "3days",
 					},
-					{ label: $i18n.t("day", { count: 1 }), value: "day" },
+					{
+						label: $i18n.t("views.calendar.intervals.day", {
+							count: 1,
+						}),
+						value: "day",
+					},
 				]}
 				onChange={handleIntervalChange}
 			/>

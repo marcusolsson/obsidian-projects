@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
+import { i18n } from "src/lib/stores/i18n";
 import { isDate, type DataRecord } from "src/lib/types";
+import { get } from "svelte/store";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";
 
@@ -103,12 +105,22 @@ export function computeDateInterval(
 
 export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
 	if (dateInterval[0].startOf("day").isSame(dateInterval[1].startOf("day"))) {
-		return dateInterval[0].format("LL");
+		return get(i18n).t("views.calendar.date", {
+			value: dateInterval[0],
+			formatParams: {
+				value: { year: "numeric", month: "long", day: "numeric" },
+			},
+		});
 	}
 
-	return `${dateInterval[0].format("MMM D")} – ${dateInterval[1].format(
-		"MMM D"
-	)}`;
+	return get(i18n).t("views.calendar.interval", {
+		from: dateInterval[0],
+		to: dateInterval[1],
+		formatParams: {
+			from: { month: "short", day: "numeric" },
+			to: { month: "short", day: "numeric" },
+		},
+	});
 }
 
 export function generateDates(

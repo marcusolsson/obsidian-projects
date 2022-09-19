@@ -1,4 +1,6 @@
+import { i18n } from "src/lib/stores/i18n";
 import { isString, type DataRecord } from "src/lib/types";
+import { get } from "svelte/store";
 
 export function notEmpty<T>(value: T | null | undefined): value is T {
 	return value !== null && value !== undefined;
@@ -19,13 +21,17 @@ export function groupRecordsByField(
 	records: DataRecord[],
 	fieldName: string | undefined
 ): Record<string, Array<DataRecord>> {
+	const noStatus = get(i18n).t("views.board.no-status");
+
 	if (!fieldName) {
-		return { "No status": records };
+		return { [noStatus]: records };
 	}
 
 	const keys = unique(records, fieldName);
 
-	const res: Record<string, Array<DataRecord>> = { "No status": [] };
+	const res: Record<string, Array<DataRecord>> = {
+		[noStatus]: [],
+	};
 	for (let key of keys) {
 		res[key] = [];
 	}
@@ -36,7 +42,7 @@ export function groupRecordsByField(
 		if (value && isString(value)) {
 			res[value]?.push(record);
 		} else {
-			res["No status"]?.push(record);
+			res[noStatus]?.push(record);
 		}
 	});
 

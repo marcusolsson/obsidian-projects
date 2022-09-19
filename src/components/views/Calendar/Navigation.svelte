@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { i18n } from "src/lib/stores/i18n";
 	import { Button } from "../../core/Button";
 	import { IconButton } from "../../core/IconButton";
 
@@ -9,7 +10,7 @@
 
 <div>
 	<IconButton icon="chevron-left" on:click={onPrevious} />
-	<Button on:click={onToday}>Today</Button>
+	<Button on:click={onToday}>{$i18n.t("views.calendar.today")}</Button>
 	<IconButton icon="chevron-right" on:click={onNext} />
 </div>
 

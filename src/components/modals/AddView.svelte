@@ -25,18 +25,21 @@
 		}
 	);
 	const options = [
-		{ label: $i18n.t("table"), value: "table" },
-		{ label: $i18n.t("board"), value: "board" },
-		{ label: $i18n.t("calendar"), value: "calendar" },
+		{ label: $i18n.t("views.table.name"), value: "table" },
+		{ label: $i18n.t("views.board.name"), value: "board" },
+		{ label: $i18n.t("views.calendar.name"), value: "calendar" },
 		...selectableCustomViews,
 	];
 
 	$: selectedOption = options.find((option) => option.value === type);
 </script>
 
-<Typography variant="h1">{$i18n.t("add-view")}</Typography>
+<Typography variant="h1">{$i18n.t("modals.view.create.title")}</Typography>
 
-<SettingItem name={$i18n.t("view-type")}>
+<SettingItem
+	name={$i18n.t("modals.view.create.type.name")}
+	description={$i18n.t("modals.view.create.type.description") ?? ""}
+>
 	<Select
 		value={type}
 		{options}
@@ -46,16 +49,19 @@
 	/>
 </SettingItem>
 
-<SettingItem name={$i18n.t("view-name")}>
+<SettingItem
+	name={$i18n.t("modals.view.create.name.name")}
+	description={$i18n.t("modals.view.create.name.description") ?? ""}
+>
 	<Input
 		value={name}
 		onChange={(value) => (name = value)}
-		placeholder={$i18n.t("optional") ?? ""}
+		placeholder={$i18n.t("modals.view.create.optional") ?? ""}
 	/>
 </SettingItem>
 
 <ButtonSetting
-	name={$i18n.t("add-view")}
+	name={$i18n.t("modals.view.create.cta")}
 	cta
 	onClick={() =>
 		onSave({
