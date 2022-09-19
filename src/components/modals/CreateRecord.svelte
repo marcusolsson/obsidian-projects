@@ -3,17 +3,15 @@
 	import { ButtonSetting, SettingItem } from "../core/Setting";
 	import { Typography } from "../core/Typography";
 
-	import { interpolateTemplate } from "src/lib/template";
 	import { app } from "../../lib/stores/obsidian";
 
-	import moment from "moment";
 	import { TAbstractFile, TFile, TFolder } from "obsidian";
 	import { i18n } from "src/lib/stores/i18n";
 	import type { WorkspaceDefinition } from "src/main";
 	import { settings } from "src/lib/stores/settings";
 	import Select from "../core/Select/Select.svelte";
 
-	export let name: string = "";
+	export let name: string;
 	export let workspace: WorkspaceDefinition;
 	export let onSave: (
 		name: string,
@@ -22,15 +20,6 @@
 	) => void;
 
 	let templatePath = "";
-
-	$: interpolatedName = interpolateTemplate(
-		workspace.noteTemplate || "{{title}}",
-		{
-			title: () => name,
-			date: (format) => moment().format(format),
-			time: (format) => moment().format(format),
-		}
-	);
 
 	$: templates = filesInFolder(workspace.templateFolder);
 
@@ -53,22 +42,7 @@
 	name={$i18n.t("modals.record.create.name.name")}
 	description={$i18n.t("modals.record.create.name.description") ?? ""}
 >
-	{#if workspace.noteTemplate}
-		<div>
-			<Input
-				value={name}
-				onChange={(value) => (name = value)}
-				autofocus
-			/>
-			<div
-				style="color: var(--text-faint); font-size: var(--font-ui-smaller); margin-top: 8px;"
-			>
-				{interpolatedName}
-			</div>
-		</div>
-	{:else}
-		<Input value={name} onChange={(value) => (name = value)} autofocus />
-	{/if}
+	<Input value={name} onChange={(value) => (name = value)} autofocus />
 </SettingItem>
 
 <SettingItem
@@ -113,5 +87,5 @@
 <ButtonSetting
 	name={$i18n.t("modals.record.create.create")}
 	cta
-	onClick={() => onSave(interpolatedName, templatePath, workspace)}
+	onClick={() => onSave(name, templatePath, workspace)}
 />

@@ -65,14 +65,12 @@
 </SettingItem>
 
 <SettingItem
-	name={$i18n.t("modals.workspace.noteTemplate.name")}
-	description={$i18n.t("modals.workspace.noteTemplate.description") ?? ""}
+	name={$i18n.t("modals.workspace.defaultName.name")}
+	description={$i18n.t("modals.workspace.defaultName.description") ?? ""}
 >
 	<Input
-		value={workspace.noteTemplate}
-		onChange={(noteTemplate) =>
-			(workspace = { ...workspace, noteTemplate })}
-		placeholder={`{{title}}`}
+		value={workspace.defaultName}
+		onChange={(defaultName) => (workspace = { ...workspace, defaultName })}
 	/>
 </SettingItem>
 

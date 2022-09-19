@@ -33,7 +33,7 @@ export interface WorkspaceDefinition {
 	path: string;
 	recursive: boolean;
 	views: ViewDefinition[];
-	noteTemplate: string;
+	defaultName: string;
 	templateFolder: string;
 }
 

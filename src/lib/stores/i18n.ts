@@ -65,10 +65,10 @@ i18next.init({
 							description:
 								"Folder containing templates to use for new notes.",
 						},
-						noteTemplate: {
-							name: "Note template",
+						defaultName: {
+							name: "Default name",
 							description:
-								"Template to use when creating new notes.",
+								"Default name to use for new notes. Supports {{date}} and {{time}} template variables.",
 						},
 					},
 					view: {

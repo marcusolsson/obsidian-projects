@@ -35,7 +35,7 @@ export function createWorkspace(): WorkspaceDefinition {
 		name: get(i18n).t("modals.workspace.create.untitled"),
 		path: "",
 		recursive: false,
-		noteTemplate: "",
+		defaultName: "",
 		templateFolder: "",
 		views: [
 			{
@@ -101,8 +101,8 @@ export class DataApi {
 				content = await this.app.vault.read(templateFile);
 				content = interpolateTemplate(content, {
 					title: () => record.name,
-					date: (format) => moment().format(format),
-					time: (format) => moment().format(format),
+					date: (format) => moment().format(format || "YYYY-MM-DD"),
+					time: (format) => moment().format(format || "HH:mm"),
 				});
 			}
 		}
