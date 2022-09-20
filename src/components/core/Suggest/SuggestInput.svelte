@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
 	import SuggestionMenu from "../Menu/SuggestionMenu.svelte";
 	import SuggestionMenuItem from "../Menu/SuggestionMenuItem.svelte";
 
@@ -12,7 +10,7 @@
 
 	export let value: string;
 	export let onChange: (value: string) => void;
-	export let onSuggest: (value: string) => Suggestion[];
+	export let onSuggest: (value: string) => Promise<Suggestion[]>;
 	export let embed: boolean = false;
 	export let disabled: boolean = false;
 	export let placeholder: string = "";
@@ -24,10 +22,6 @@
 	let suggestions: Suggestion[] = [];
 
 	let selected: number = -1;
-
-	onMount(() => {
-		referenceElement.focus();
-	});
 </script>
 
 <input
@@ -37,14 +31,14 @@
 	type="text"
 	{disabled}
 	{placeholder}
-	on:input={() => {
-		suggestions = onSuggest(value);
+	on:input={async () => {
+		suggestions = await onSuggest(value);
 		isOpen = !!suggestions.length;
 	}}
 	bind:this={referenceElement}
-	on:focus={() => {
+	on:focus={async () => {
 		if (!value) {
-			suggestions = onSuggest(value);
+			suggestions = await onSuggest(value);
 			isOpen = !!suggestions.length;
 		}
 	}}

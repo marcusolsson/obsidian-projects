@@ -57,7 +57,7 @@
 	description={$i18n.t("modals.workspace.defaultName.description") ?? ""}
 >
 	<Input
-		value={workspace.defaultName}
+		value={workspace.defaultName ?? ""}
 		onChange={(defaultName) => (workspace = { ...workspace, defaultName })}
 	/>
 </SettingItem>
@@ -68,7 +68,7 @@
 />
 
 <FileListInput
-	paths={workspace.templates}
+	paths={workspace.templates ?? []}
 	onPathsChange={(templates) => (workspace = { ...workspace, templates })}
 />
 
@@ -78,6 +78,6 @@
 	onClick={() =>
 		onSave({
 			...workspace,
-			templates: workspace.templates.filter(notEmpty),
+			templates: workspace.templates?.filter(notEmpty) ?? [],
 		})}
 />

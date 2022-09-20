@@ -35,7 +35,7 @@ export class CreateRecordModal extends Modal {
 		this.component = new CreateRecord({
 			target: this.contentEl,
 			props: {
-				name: interpolateTemplate(this.workspace.defaultName, {
+				name: interpolateTemplate(this.workspace.defaultName ?? "", {
 					date: (format) => moment().format(format || "YYYY-MM-DD"),
 					time: (format) => moment().format(format || "HH:mm"),
 				}),

@@ -14,7 +14,9 @@
 	export let placeholder: string = "";
 	export let fullWidth: boolean = false;
 
-	function handleSuggest(value: string) {
+	async function handleSuggest(
+		value: string
+	): Promise<Array<{ id: string; title: string; note: string }>> {
 		if (files) {
 			return files.map((file) => ({
 				id: file.path,

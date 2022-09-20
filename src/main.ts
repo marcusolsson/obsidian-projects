@@ -33,8 +33,8 @@ export interface WorkspaceDefinition {
 	path: string;
 	recursive: boolean;
 	views: ViewDefinition[];
-	defaultName: string;
-	templates: string[];
+	defaultName?: string;
+	templates?: string[];
 }
 
 export interface ProjectsPluginSettings {
