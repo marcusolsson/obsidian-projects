@@ -4,18 +4,29 @@
 	export let name: string;
 	export let onClick: (event: MouseEvent) => void;
 	export let cta: boolean = false;
+	export let disabled: boolean = false;
 
-	function setting(node: HTMLElement) {
+	function createSetting(node: HTMLElement, disabled: boolean) {
 		new Setting(node).addButton((button) => {
-			button.onClick(onClick);
+			button.setButtonText(name).setDisabled(disabled).onClick(onClick);
 
 			if (cta) {
 				button.setCta();
 			}
-
-			button.setButtonText(name);
 		});
+	}
+
+	function setting(node: HTMLElement, disabled: boolean) {
+		createSetting(node, disabled);
+
+		return {
+			update(disabled: boolean) {
+				node.empty();
+
+				createSetting(node, disabled);
+			},
+		};
 	}
 </script>
 
-<div use:setting />
+<div use:setting={disabled} />

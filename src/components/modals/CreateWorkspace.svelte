@@ -9,11 +9,19 @@
 	import { i18n } from "../../lib/stores/i18n";
 	import { FileListInput } from "../core/FileListInput";
 	import { notEmpty } from "../views/Board/board";
+	import { isValidPath } from "src/lib/path";
+	import { interpolateTemplate } from "src/lib/template";
+	import moment from "moment";
 
 	export let title: string;
 	export let cta: string;
 	export let onSave: (workspace: WorkspaceDefinition) => void;
 	export let workspace: WorkspaceDefinition;
+
+	$: defaultName = interpolateTemplate(workspace.defaultName ?? "", {
+		date: (format) => moment().format(format || "YYYY-MM-DD"),
+		time: (format) => moment().format(format || "HH:mm"),
+	});
 </script>
 
 <Typography variant="h1">{title}</Typography>
@@ -56,11 +64,26 @@
 	name={$i18n.t("modals.workspace.defaultName.name")}
 	description={$i18n.t("modals.workspace.defaultName.description") ?? ""}
 >
-	<Input
-		value={workspace.defaultName ?? ""}
-		onChange={(defaultName) => (workspace = { ...workspace, defaultName })}
-	/>
-</SettingItem>
+	<div>
+		<Input
+			value={workspace.defaultName ?? ""}
+			onChange={(defaultName) =>
+				(workspace = { ...workspace, defaultName })}
+		/>
+		<div>
+			<small>
+				{defaultName}
+			</small>
+		</div>
+		{#if !isValidPath(defaultName)}
+			<div>
+				<small class="error"
+					>{$i18n.t("modals.workspace.defaultName.invalid")}</small
+				>
+			</div>
+		{/if}
+	</div></SettingItem
+>
 
 <SettingItem
 	name={$i18n.t("modals.workspace.templates.name")}
@@ -81,3 +104,13 @@
 			templates: workspace.templates?.filter(notEmpty) ?? [],
 		})}
 />
+
+<style>
+	small {
+		font-size: var(--font-ui-smaller);
+		color: var(--text-muted);
+	}
+	.error {
+		color: var(--text-error);
+	}
+</style>

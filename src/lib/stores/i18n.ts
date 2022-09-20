@@ -68,6 +68,7 @@ i18next.init({
 							name: "Default name",
 							description:
 								"Default name for new notes. Supports {{date}} and {{time}} template variables.",
+							invalid: "Contains illegal characters.",
 						},
 					},
 					view: {
