@@ -15,6 +15,7 @@
 	export let disabled: boolean = false;
 	export let placeholder: string = "";
 	export let fullWidth: boolean = false;
+	export let maxItems: number = 500;
 
 	let isOpen = false;
 
@@ -32,13 +33,15 @@
 	{disabled}
 	{placeholder}
 	on:input={async () => {
-		suggestions = await onSuggest(value);
+		const suggs = await onSuggest(value);
+		suggestions = suggs.slice(0, Math.min(maxItems, suggs.length));
 		isOpen = !!suggestions.length;
 	}}
 	bind:this={referenceElement}
 	on:focus={async () => {
 		if (!value) {
-			suggestions = await onSuggest(value);
+			const suggs = await onSuggest(value);
+			suggestions = suggs.slice(0, Math.min(maxItems, suggs.length));
 			isOpen = !!suggestions.length;
 		}
 	}}
