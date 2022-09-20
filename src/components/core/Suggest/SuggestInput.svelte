@@ -15,7 +15,7 @@
 	export let disabled: boolean = false;
 	export let placeholder: string = "";
 	export let fullWidth: boolean = false;
-	export let maxItems: number = 500;
+	export let maxItems: number = 50;
 
 	let isOpen = false;
 
