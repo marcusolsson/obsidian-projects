@@ -9,9 +9,19 @@
 		| "body"
 		| "label";
 
+	/**
+	 * Specifies the variant of text.
+	 */
 	export let variant: TypographyVariant;
+
+	/**
+	 * Specifies whether to remove the default margin.
+	 */
 	export let nomargin: boolean = false;
 
+	/**
+	 * Elements to use for each variant.
+	 */
 	const elements = {
 		h1: "h1",
 		h2: "h2",
