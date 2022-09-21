@@ -26,7 +26,7 @@ jobs:
                   yarn workspace obsidian-projects build
                   cd obsidian-projects
                   mkdir ${{ env.PLUGIN_NAME }}
-                  cp main.js manifest.json styles.css ${{ env.PLUGIN_NAME }}
+                  cp main.js ../manifest.json styles.css ${{ env.PLUGIN_NAME }}
                   zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
                   ls
                   echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
@@ -72,7 +72,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ./obsidian-projects/manifest.json
+                  asset_path: ./manifest.json
                   asset_name: manifest.json
                   asset_content_type: application/json
 
