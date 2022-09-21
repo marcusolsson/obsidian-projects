@@ -20,7 +20,16 @@
 	 * Specifies the placeholder text.
 	 */
 	export let placeholder: string = "";
+
+	/**
+	 * Specifices whether to remove decorations so that the input can be embedded
+	 * in other components.
+	 */
 	export let embed: boolean = false;
+
+	/**
+	 * Specifices whether to focus the input when it's mounted.
+	 */
 	export let autofocus: boolean = false;
 
 	let ref: HTMLInputElement;
