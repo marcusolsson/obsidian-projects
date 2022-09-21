@@ -117,7 +117,7 @@
 		if (column.editable) {
 			menu.addItem((item) => {
 				item.setTitle(t("components.data-grid.cell.clear"))
-					.setIcon("cross")
+					.setIcon("x")
 					.onClick(() => {
 						onRowChange(
 							rowId,

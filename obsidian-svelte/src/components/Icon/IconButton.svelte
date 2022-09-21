@@ -11,27 +11,22 @@
 	 * Specifies the width and height of the icon in pixels. Defaults to 16px.
 	 */
 	export let size: number = 16;
+
+	/**
+	 * Specifies whether to remove the default padding.
+	 */
+	export let nopadding: boolean = false;
 </script>
 
 <div
-	style={`width: ${size + 4}px; height: ${size + 4}px`}
+	class:nopadding
+	class="clickable-icon"
 	use:useIcon={{ name: icon, size }}
 	on:click
 />
 
 <style>
-	div {
-		margin: 0;
-		padding: 2px;
-
-		border-radius: var(--radius-s);
-		display: flex;
-		align-items: center;
-		color: var(--text-muted);
-	}
-
-	div:hover {
-		background-color: var(--background-modifier-hover);
-		color: var(--text-normal);
+	.nopadding {
+		padding: 0;
 	}
 </style>

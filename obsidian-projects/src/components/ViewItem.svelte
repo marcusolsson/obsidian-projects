@@ -64,6 +64,7 @@
 	{#if active && selected && onDelete}
 		<IconButton
 			icon="cross"
+			nopadding
 			on:click={() => {
 				onDelete();
 			}}

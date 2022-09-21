@@ -16,7 +16,7 @@
 				{value}
 				<IconButton
 					icon="cross"
-					size={14}
+					nopadding
 					on:click={() => {
 						onChange(values.filter((_, j) => i !== j));
 					}}
@@ -25,6 +25,7 @@
 		{/each}
 		<IconButton
 			icon="plus"
+			nopadding
 			on:click={() => {
 				new InputDialogModal($app, "Add list item", "Add", (value) => {
 					onChange([...values, value]);
