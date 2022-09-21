@@ -22,15 +22,20 @@
 	export let placeholder: string = "";
 
 	/**
-	 * Specifices whether to remove decorations so that the input can be embedded
+	 * Specifies whether to remove decorations so that the input can be embedded
 	 * in other components.
 	 */
 	export let embed: boolean = false;
 
 	/**
-	 * Specifices whether to focus the input when it's mounted.
+	 * Specifies whether to focus the input when it's mounted.
 	 */
 	export let autofocus: boolean = false;
+
+	/**
+	 * Specifices the width of the input.
+	 */
+	export let width: string = "auto";
 
 	let ref: HTMLInputElement;
 
@@ -65,6 +70,7 @@
 	{readonly}
 	on:input={handleInput}
 	on:keydown={handleKeyDown}
+	style={`width: ${width}`}
 />
 
 <style>

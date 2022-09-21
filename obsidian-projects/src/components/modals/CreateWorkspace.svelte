@@ -38,6 +38,7 @@
 <SettingItem
 	name={$i18n.t("modals.workspace.path.name")}
 	description={$i18n.t("modals.workspace.path.description") ?? ""}
+	vertical
 >
 	<FileSuggestInput
 		value={workspace.path}
@@ -45,6 +46,7 @@
 		sourcePath=""
 		include="folders"
 		valueType="path"
+		fullWidth
 	/>
 </SettingItem>
 
@@ -62,27 +64,23 @@
 <SettingItem
 	name={$i18n.t("modals.workspace.defaultName.name")}
 	description={$i18n.t("modals.workspace.defaultName.description") ?? ""}
+	vertical
 >
-	<div>
-		<Input
-			value={workspace.defaultName ?? ""}
-			on:input={({ detail: defaultName }) =>
-				(workspace = { ...workspace, defaultName })}
-		/>
-		<div>
-			<small>
-				{defaultName}
-			</small>
-		</div>
-		{#if !isValidPath(defaultName)}
-			<div>
-				<small class="error"
-					>{$i18n.t("modals.workspace.defaultName.invalid")}</small
-				>
-			</div>
-		{/if}
-	</div></SettingItem
->
+	<Input
+		value={workspace.defaultName ?? ""}
+		on:input={({ detail: defaultName }) =>
+			(workspace = { ...workspace, defaultName })}
+		width="100%"
+	/>
+	<small>
+		{defaultName}
+	</small>
+	{#if !isValidPath(defaultName)}
+		<small class="error"
+			>{$i18n.t("modals.workspace.defaultName.invalid")}</small
+		>
+	{/if}
+</SettingItem>
 
 <SettingItem
 	name={$i18n.t("modals.workspace.templates.name")}
