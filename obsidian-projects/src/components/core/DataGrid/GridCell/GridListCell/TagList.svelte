@@ -14,8 +14,8 @@
 		{#each values as value, i}
 			<Tag
 				{value}
-				deletable={true}
-				onDelete={() => {
+				deletable
+				on:delete={() => {
 					onChange(values.filter((_, j) => i !== j));
 				}}
 			/>

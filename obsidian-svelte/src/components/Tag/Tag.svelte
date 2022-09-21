@@ -1,15 +1,29 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte";
+
 	import { IconButton } from "obsidian-svelte";
 
+	/**
+	 * Specifies the tag value.
+	 */
 	export let value: string;
+
+	/**
+	 * Specifies whether the tag can be deleted.
+	 */
 	export let deletable: boolean = false;
-	export let onDelete: () => void = () => {};
+
+	const dispatch = createEventDispatcher<{ delete: void }>();
 </script>
 
 <div>
 	{value}
 	{#if deletable}
-		<IconButton icon="cross" size={14} on:click={() => onDelete()} />
+		<IconButton
+			icon="cross"
+			size={14}
+			on:click={() => dispatch("delete")}
+		/>
 	{/if}
 </div>
 
