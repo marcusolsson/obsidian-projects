@@ -36,6 +36,9 @@
 		const suggs = await onSuggest(value);
 		suggestions = suggs.slice(0, Math.min(maxItems, suggs.length));
 		isOpen = !!suggestions.length;
+		if (selected < 0 && suggestions.length) {
+			selected = 0;
+		}
 	}}
 	bind:this={referenceElement}
 	on:focus={async () => {
@@ -43,6 +46,9 @@
 			const suggs = await onSuggest(value);
 			suggestions = suggs.slice(0, Math.min(maxItems, suggs.length));
 			isOpen = !!suggestions.length;
+			if (selected < 0 && suggestions.length) {
+				selected = 0;
+			}
 		}
 	}}
 	on:blur={() => {
