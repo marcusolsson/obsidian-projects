@@ -6,6 +6,8 @@
 		type Modifier,
 	} from "@popperjs/core";
 	import { onDestroy } from "svelte";
+	import Portal from "svelte-portal";
+	import { useClickOutside } from "./useClickOutside";
 
 	export let anchorEl: HTMLElement;
 	export let open: boolean;
@@ -22,29 +24,6 @@
 		}
 	}
 
-	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
-		function onClick(event: any) {
-			if (
-				open &&
-				!anchorEl.contains(event.target) &&
-				!element.contains(event.target)
-			) {
-				callbackFunction();
-			}
-		}
-
-		document.body.addEventListener("click", onClick);
-
-		return {
-			update(newCallbackFunction: () => void) {
-				callbackFunction = newCallbackFunction;
-			},
-			destroy() {
-				document.body.removeEventListener("click", onClick);
-			},
-		};
-	}
-
 	onDestroy(() => {
 		if (popper) {
 			popper.destroy();
@@ -53,7 +32,17 @@
 </script>
 
 {#if open}
-	<div bind:this={ref} class="menu" use:clickOutside={() => onClose()}>
-		<slot />
-	</div>
+	<Portal target={document.body}>
+		<div
+			bind:this={ref}
+			class="menu"
+			use:useClickOutside={{
+				open,
+				anchorEl,
+				onClickOutside: () => onClose(),
+			}}
+		>
+			<slot />
+		</div>
+	</Portal>
 {/if}

@@ -7,6 +7,7 @@
 	} from "@popperjs/core";
 	import { onDestroy } from "svelte";
 	import Portal from "svelte-portal";
+	import { useClickOutside } from "./useClickOutside";
 
 	export let anchorEl: HTMLElement;
 	export let open: boolean;
@@ -32,29 +33,6 @@
 		}
 	}
 
-	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
-		function onClick(event: any) {
-			if (
-				open &&
-				!anchorEl.contains(event.target) &&
-				!element.contains(event.target)
-			) {
-				callbackFunction();
-			}
-		}
-
-		document.body.addEventListener("click", onClick);
-
-		return {
-			update(newCallbackFunction: () => void) {
-				callbackFunction = newCallbackFunction;
-			},
-			destroy() {
-				document.body.removeEventListener("click", onClick);
-			},
-		};
-	}
-
 	onDestroy(() => {
 		if (popper) {
 			popper.destroy();
@@ -67,7 +45,11 @@
 		<div
 			bind:this={ref}
 			class="suggestion-container"
-			use:clickOutside={() => onClose()}
+			use:useClickOutside={{
+				open,
+				anchorEl,
+				onClickOutside: () => onClose(),
+			}}
 		>
 			<div class="suggestion" style="max-height: 300px;">
 				<slot />
