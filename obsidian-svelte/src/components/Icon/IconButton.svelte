@@ -18,6 +18,11 @@
 	export let active: boolean = false;
 
 	/**
+	 * Specifies the tooltip.
+	 */
+	export let tooltip: string = "";
+
+	/**
 	 * Specifies whether to remove the default padding.
 	 */
 	export let nopadding: boolean = false;
@@ -29,6 +34,7 @@
 	class="clickable-icon"
 	use:useIcon={{ name: icon, size }}
 	on:click
+	aria-label={tooltip}
 />
 
 <style>
