@@ -12,13 +12,16 @@
 <div class:edit>
 	{#if edit}
 		{#each values as value, i}
-			<Tag
+			<Tag>
 				{value}
-				deletable
-				on:delete={() => {
-					onChange(values.filter((_, j) => i !== j));
-				}}
-			/>
+				<IconButton
+					icon="cross"
+					size={14}
+					on:click={() => {
+						onChange(values.filter((_, j) => i !== j));
+					}}
+				/>
+			</Tag>
 		{/each}
 		<IconButton
 			icon="plus"
@@ -30,7 +33,7 @@
 		/>
 	{:else}
 		{#each values as value}
-			<Tag {value} />
+			<Tag>{value}</Tag>
 		{/each}
 	{/if}
 </div>
