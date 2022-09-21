@@ -4,7 +4,7 @@ import App from "./components/App.svelte";
 import { customViews } from "./lib/stores/custom-views";
 import { view } from "./lib/stores/obsidian";
 import type ProjectsPlugin from "./main";
-import type { Builder } from "./builder";
+import type { ProjectView } from "./builder";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -50,7 +50,7 @@ export class ProjectsView extends ItemView {
 	}
 
 	getViews() {
-		const views: Record<string, () => Builder> = {};
+		const views: Record<string, (view: ProjectView) => void> = {};
 
 		for (let plugin in this.app.plugins.plugins) {
 			if (this.app.plugins.enabledPlugins.has(plugin)) {

@@ -19,6 +19,8 @@
 
 	import { createDataRecord, createWorkspace } from "../lib/api";
 	import type { WorkspaceDefinition } from "../main";
+	import { customViews } from "../lib/stores/custom-views";
+	import { Builder } from "../builder";
 
 	export let workspaces: WorkspaceDefinition[];
 	export let workspace: string | undefined;
@@ -38,6 +40,13 @@
 			case "calendar":
 				return "calendar";
 			default:
+				const builder = $customViews[type];
+
+				if (builder) {
+					const view = new Builder();
+					builder(view);
+					return view.icon ?? "";
+				}
 				return "";
 		}
 	}

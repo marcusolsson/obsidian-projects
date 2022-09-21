@@ -15,6 +15,7 @@
 
 	import { customViews } from "../../lib/stores/custom-views";
 	import { i18n } from "../../lib/stores/i18n";
+	import { Builder } from "obsidian-projects/src/builder";
 
 	export let onSave: (view: ViewDefinition) => void;
 
@@ -23,7 +24,10 @@
 
 	let selectableCustomViews = Object.entries($customViews).map(
 		([id, builder]) => {
-			const view = builder();
+			const view = new Builder();
+
+			builder(view);
+
 			return {
 				label: view.title ?? id,
 				value: id,

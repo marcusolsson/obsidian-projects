@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Builder } from "../../../builder";
+	import { Builder, type ProjectView } from "../../../builder";
 	import type { DataField, DataFrame, DataRecord } from "../../../lib/types";
 	import { customViews } from "../../../lib/stores/custom-views";
 
@@ -7,25 +7,27 @@
 	export let records: DataRecord[];
 	export let fields: DataField[];
 
-	$: viewBuilder = $customViews[type] ?? (() => new Builder());
-	$: value = viewBuilder();
+	let view = new Builder();
+
+	$: viewBuilder = $customViews[type] ?? ((view: ProjectView) => {});
+	$: {
+		view = new Builder();
+		viewBuilder(view);
+	}
 
 	function useCustomView(node: HTMLElement, frame: DataFrame) {
-		value.onOpen?.(frame, node);
+		view.onOpen?.(frame, node);
 
 		return {
 			update(frame: DataFrame) {
 				node.empty();
-				value.onOpen?.(frame, node);
+				view.onOpen?.(frame, node);
 			},
 		};
 	}
 </script>
 
-<div
-	class:noPadding={value.noPadding}
-	use:useCustomView={{ fields, records }}
-/>
+<div class:noPadding={view.noPadding} use:useCustomView={{ fields, records }} />
 
 <style>
 	div {
