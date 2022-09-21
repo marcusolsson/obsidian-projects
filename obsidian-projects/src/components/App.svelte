@@ -10,7 +10,7 @@
 	import { TableView } from "./views/Table";
 
 	import WorkspaceToolbar from "./WorkspaceToolbar.svelte";
-	import { LoaderCube } from "./core/LoaderCube";
+	import { Progress } from "obsidian-svelte";
 
 	import { customViews } from "../lib/stores/custom-views";
 	import CustomView from "./CustomView.svelte";
@@ -145,7 +145,7 @@
 	/>
 
 	{#await indexing}
-		<LoaderCube />
+		<Progress />
 	{:then}
 		<div class="projects-main">
 			{#if selectedView && viewComponent}

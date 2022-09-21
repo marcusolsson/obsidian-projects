@@ -4,4 +4,5 @@ export { Icon, IconButton } from "./Icon";
 export { Input } from "./Input";
 export { Select } from "./Select";
 export { Tag } from "./Tag";
+export { Progress } from "./Progress";
 export { Typography } from "./Typography";
