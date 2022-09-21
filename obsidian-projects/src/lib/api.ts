@@ -192,10 +192,14 @@ export function parseRecords(
 			const { position, ...values }: { [key: string]: any } =
 				cache.frontmatter ?? {};
 
+			const filteredValues = Object.fromEntries(
+				Object.entries(values).filter(([key, value]) => !!value)
+			);
+
 			records.push({
 				name: file.basename,
 				path: file.path,
-				values,
+				values: filteredValues,
 			});
 		}
 	}
