@@ -14,4 +14,4 @@ mkdir -p "$PROJECTS_PATH"
 
 ln -sf "$(pwd)"/obsidian-projects/main.js "$PROJECTS_PATH"
 ln -sf "$(pwd)"/obsidian-projects/styles.css "$PROJECTS_PATH"
-ln -sf "$(pwd)"/obsidian-projects/manifest.json "$PROJECTS_PATH"
+ln -sf "$(pwd)"/manifest.json "$PROJECTS_PATH"

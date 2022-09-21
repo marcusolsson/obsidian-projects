@@ -37,6 +37,7 @@
 		flex-direction: column;
 		gap: 4px;
 		align-items: start;
+		overflow: scroll;
 	}
 
 	.weekend {
