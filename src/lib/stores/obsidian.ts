@@ -1,8 +1,0 @@
-import type { App } from "obsidian";
-import type ProjectsPlugin from "src/main";
-import type { ProjectsView } from "src/view";
-import { writable } from "svelte/store";
-
-export const app = writable<App>();
-export const view = writable<ProjectsView>();
-export const plugin = writable<ProjectsPlugin>();
