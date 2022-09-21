@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Typography } from "obsidian-ui";
+	import { Typography } from "obsidian-svelte";
 
 	export let name: string;
 </script>

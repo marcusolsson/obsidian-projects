@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Input, Select, Typography } from "obsidian-ui";
+	import { Input, Select, Typography } from "obsidian-svelte";
 
 	import { ButtonSetting, SettingItem } from "../core/Setting";
 

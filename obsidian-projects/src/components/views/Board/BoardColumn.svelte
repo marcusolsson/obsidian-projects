@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { Button } from "obsidian-ui";
+	import { Button, Typography } from "obsidian-svelte";
 	import { i18n } from "../../../lib/stores/i18n";
 
 	import { isNumber, type DataRecord } from "../../../lib/types";
-	import { Typography } from "obsidian-ui";
 	import Card from "./Card.svelte";
 	import CardList from "./CardList.svelte";
 

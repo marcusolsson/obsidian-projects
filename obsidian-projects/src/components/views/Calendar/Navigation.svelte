@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { i18n } from "../../../lib/stores/i18n";
-	import { Button, IconButton } from "obsidian-ui";
+	import { Button, IconButton } from "obsidian-svelte";
 
 	export let onNext: () => void;
 	export let onPrevious: () => void;

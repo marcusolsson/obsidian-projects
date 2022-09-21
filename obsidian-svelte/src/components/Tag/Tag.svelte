@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconButton } from "obsidian-ui";
+	import { IconButton } from "obsidian-svelte";
 
 	export let value: string;
 	export let deletable: boolean = false;

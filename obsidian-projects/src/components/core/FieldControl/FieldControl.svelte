@@ -10,7 +10,7 @@
 		type DataValue,
 	} from "../../../lib/types";
 
-	import { Input, Checkbox } from "obsidian-ui";
+	import { Input, Checkbox } from "obsidian-svelte";
 	import TagList from "../DataGrid/GridCell/GridListCell/TagList.svelte";
 	import { DatePicker } from "../DatePicker";
 

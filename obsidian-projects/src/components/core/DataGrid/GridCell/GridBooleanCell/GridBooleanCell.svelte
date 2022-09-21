@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { isBoolean } from "../../../../../lib/types";
-	import { Checkbox } from "obsidian-ui";
+	import { Checkbox } from "obsidian-svelte";
 	import { GridCell } from "..";
 	import type { GridColDef } from "../../data-grid";
 

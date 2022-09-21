@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Typography } from "obsidian-ui";
+	import { Button, Typography } from "obsidian-svelte";
 	import { i18n } from "../../lib/stores/i18n";
 
 	export let title: string;

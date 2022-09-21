@@ -18,7 +18,7 @@
 		type GridSortModel,
 	} from "./data-grid";
 	import GridCellGroup from "./GridCellGroup.svelte";
-	import { Button, Icon } from "obsidian-ui";
+	import { Button, Icon } from "obsidian-svelte";
 
 	export let columns: GridColDef[];
 	export let rows: GridRowProps[];

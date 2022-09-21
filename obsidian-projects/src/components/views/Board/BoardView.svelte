@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Select } from "obsidian-ui";
+	import { Select } from "obsidian-svelte";
 
 	import {
 		DataFieldType,

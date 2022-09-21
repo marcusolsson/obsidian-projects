@@ -1,6 +1,6 @@
 <script lang="ts">
 	import produce from "immer";
-	import { Button, IconButton } from "obsidian-ui";
+	import { Button, IconButton } from "obsidian-svelte";
 	import { FileSuggestInput } from "../Suggest";
 
 	export let paths: string[];

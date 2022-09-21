@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconButton, Tag } from "obsidian-ui";
+	import { IconButton, Tag } from "obsidian-svelte";
 	import { InputDialogModal } from "obsidian-projects/src/modals/input-dialog";
 	import { app } from "obsidian-projects/src/lib/stores/obsidian";
 

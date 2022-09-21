@@ -9,7 +9,7 @@
 	} from "../../lib/types";
 
 	import { FieldControl } from "../core/FieldControl";
-	import { Typography } from "obsidian-ui";
+	import { Typography } from "obsidian-svelte";
 	import { SettingItem, ButtonSetting } from "../core/Setting";
 	import { i18n } from "../../lib/stores/i18n";
 

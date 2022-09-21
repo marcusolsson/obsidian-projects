@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox } from "obsidian-ui";
+	import { Checkbox } from "obsidian-svelte";
 
 	export let label: string;
 	export let value: string;

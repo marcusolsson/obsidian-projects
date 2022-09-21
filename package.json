@@ -5,6 +5,6 @@
 	"private": true,
 	"workspaces": [
 		"obsidian-projects",
-		"obsidian-ui"
+		"obsidian-svelte"
 	]
 }

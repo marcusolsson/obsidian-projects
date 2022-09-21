@@ -4,7 +4,7 @@
 
 	import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
 	import type { DataValue } from "../../../lib/types";
-	import { IconButton } from "obsidian-ui";
+	import { IconButton } from "obsidian-svelte";
 	import GridCellGroup from "./GridCellGroup.svelte";
 
 	import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";

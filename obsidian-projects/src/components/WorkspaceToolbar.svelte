@@ -12,7 +12,7 @@
 	import { i18n } from "../lib/stores/i18n";
 	import { settings } from "../lib/stores/settings";
 
-	import { Select, Button, Icon, IconButton } from "obsidian-ui";
+	import { Select, Button, Icon, IconButton } from "obsidian-svelte";
 
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";

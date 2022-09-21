@@ -13,7 +13,7 @@
 	import { fieldToSelectableValue } from "../../views/helpers";
 	import { ConfigureRecord } from "../../../modals/record-modal";
 
-	import { Select, Typography } from "obsidian-ui";
+	import { Select, Typography } from "obsidian-svelte";
 	import { ToolBar } from "../../core/ToolBar";
 	import { HorizontalGroup } from "../../core/HorizontalGroup";
 	import {

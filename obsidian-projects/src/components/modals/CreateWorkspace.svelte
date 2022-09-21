@@ -1,6 +1,6 @@
 <script lang="ts">
 	import moment from "moment";
-	import { Checkbox, Input, Typography } from "obsidian-ui";
+	import { Checkbox, Input, Typography } from "obsidian-svelte";
 
 	import type { WorkspaceDefinition } from "obsidian-projects/src/main";
 	import { isValidPath } from "../../lib/path";

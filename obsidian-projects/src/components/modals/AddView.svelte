@@ -3,7 +3,7 @@
 
 	import type { ViewDefinition, ViewType } from "../../main";
 
-	import { Input, Select, Typography } from "obsidian-ui";
+	import { Input, Select, Typography } from "obsidian-svelte";
 	import { SettingItem, ButtonSetting } from "../core/Setting";
 	import { customViews } from "../../lib/stores/custom-views";
 	import { i18n } from "../../lib/stores/i18n";

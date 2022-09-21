@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { i18n } from "../../lib/stores/i18n";
-	import { Button } from "obsidian-ui";
+	import { Button } from "obsidian-svelte";
 
 	export let value: string;
 	export let message: string;

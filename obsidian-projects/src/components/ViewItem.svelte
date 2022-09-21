@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Input, Icon, IconButton } from "obsidian-ui";
+	import { Input, Icon, IconButton } from "obsidian-svelte";
 
 	export let name: string;
 	export let selected: boolean = false;
