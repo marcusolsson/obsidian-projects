@@ -13,6 +13,11 @@
 	export let size: number = 16;
 
 	/**
+	 * Specifies whether icon is active.
+	 */
+	export let active: boolean = false;
+
+	/**
 	 * Specifies whether to remove the default padding.
 	 */
 	export let nopadding: boolean = false;
@@ -20,6 +25,7 @@
 
 <div
 	class:nopadding
+	class:is-active={active}
 	class="clickable-icon"
 	use:useIcon={{ name: icon, size }}
 	on:click
