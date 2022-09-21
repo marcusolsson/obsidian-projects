@@ -3,10 +3,18 @@
 
 	import type { ViewDefinition, ViewType } from "../../main";
 
-	import { Input, Select, Typography, SettingItem } from "obsidian-svelte";
+	import {
+		Button,
+		Input,
+		ModalButtonGroup,
+		ModalContent,
+		ModalLayout,
+		Select,
+		SettingItem,
+	} from "obsidian-svelte";
+
 	import { customViews } from "../../lib/stores/custom-views";
 	import { i18n } from "../../lib/stores/i18n";
-	import Button from "obsidian-svelte/src/components/Button/Button.svelte";
 
 	export let onSave: (view: ViewDefinition) => void;
 
@@ -32,42 +40,43 @@
 	$: selectedOption = options.find((option) => option.value === type);
 </script>
 
-<Typography variant="h1">{$i18n.t("modals.view.create.title")}</Typography>
+<ModalLayout title={$i18n.t("modals.view.create.title")}>
+	<ModalContent>
+		<SettingItem
+			name={$i18n.t("modals.view.create.type.name")}
+			description={$i18n.t("modals.view.create.type.description") ?? ""}
+		>
+			<Select
+				value={type}
+				{options}
+				on:change={({ detail: value }) => {
+					type = value;
+				}}
+			/>
+		</SettingItem>
 
-<SettingItem
-	name={$i18n.t("modals.view.create.type.name")}
-	description={$i18n.t("modals.view.create.type.description") ?? ""}
->
-	<Select
-		value={type}
-		{options}
-		on:change={({ detail: value }) => {
-			type = value;
-		}}
-	/>
-</SettingItem>
-
-<SettingItem
-	name={$i18n.t("modals.view.create.name.name")}
-	description={$i18n.t("modals.view.create.name.description") ?? ""}
->
-	<Input
-		value={name}
-		on:input={({ detail: value }) => (name = value)}
-		placeholder={$i18n.t("modals.view.create.optional") ?? ""}
-	/>
-</SettingItem>
-
-<SettingItem>
-	<Button
-		variant="primary"
-		on:click={() => {
-			onSave({
-				id: uuidv4(),
-				name: name || (selectedOption?.label ?? type),
-				type,
-				config: {},
-			});
-		}}>{$i18n.t("modals.view.create.cta")}</Button
-	>
-</SettingItem>
+		<SettingItem
+			name={$i18n.t("modals.view.create.name.name")}
+			description={$i18n.t("modals.view.create.name.description") ?? ""}
+		>
+			<Input
+				value={name}
+				on:input={({ detail: value }) => (name = value)}
+				placeholder={$i18n.t("modals.view.create.optional") ?? ""}
+			/>
+		</SettingItem>
+	</ModalContent>
+	<ModalButtonGroup>
+		<Button
+			variant="primary"
+			on:click={() => {
+				onSave({
+					id: uuidv4(),
+					name: name || (selectedOption?.label ?? type),
+					type,
+					config: {},
+				});
+			}}>{$i18n.t("modals.view.create.cta")}</Button
+		>
+	</ModalButtonGroup>
+</ModalLayout>

@@ -7,3 +7,4 @@ export { Tag } from "./Tag";
 export { Progress } from "./Progress";
 export { SettingItem } from "./Setting";
 export { Typography } from "./Typography";
+export { ModalLayout, ModalButtonGroup, ModalContent } from "./Modal";

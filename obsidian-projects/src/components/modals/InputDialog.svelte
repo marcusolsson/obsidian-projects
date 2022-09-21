@@ -1,6 +1,12 @@
 <script lang="ts">
+	import {
+		Button,
+		ModalButtonGroup,
+		ModalContent,
+		ModalLayout,
+	} from "obsidian-svelte";
+
 	import { i18n } from "../../lib/stores/i18n";
-	import { Button } from "obsidian-svelte";
 
 	export let value: string;
 	export let message: string;
@@ -11,30 +17,29 @@
 	let ref: HTMLInputElement;
 </script>
 
-<div class="modal-title">{message}</div>
-
-<div class="modal-content">
-	<input
-		bind:this={ref}
-		type="text"
-		bind:value
-		on:focus={() => ref.select()}
-	/>
-</div>
-
-<div class="modal-button-container">
-	<Button
-		variant="primary"
-		on:click={() => {
-			onSubmit(value);
-		}}>{cta}</Button
-	>
-	<Button
-		on:click={() => {
-			onCancel();
-		}}>{$i18n.t("modals.input.cancel")}</Button
-	>
-</div>
+<ModalLayout title={message}>
+	<ModalContent>
+		<input
+			bind:this={ref}
+			type="text"
+			bind:value
+			on:focus={() => ref.select()}
+		/>
+	</ModalContent>
+	<ModalButtonGroup>
+		<Button
+			variant="primary"
+			on:click={() => {
+				onSubmit(value);
+			}}>{cta}</Button
+		>
+		<Button
+			on:click={() => {
+				onCancel();
+			}}>{$i18n.t("modals.input.cancel")}</Button
+		>
+	</ModalButtonGroup>
+</ModalLayout>
 
 <style>
 	input {
