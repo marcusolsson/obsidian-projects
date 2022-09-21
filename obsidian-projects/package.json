@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-projects",
-	"version": "0.14.4",
-	"description": "Obsidian plugin for project management",
+	"version": "0.14.5",
+	"description": "Obsidian plugin for project management.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -31,7 +31,6 @@
 		"jest": "^28.1.3",
 		"obsidian": "latest",
 		"svelte": "^3.48.0",
-		"svelte-easy-popover": "^1.0.0",
 		"svelte-i18next": "^1.2.2",
 		"svelte-portal": "^2.2.0",
 		"svelte-preprocess": "^4.10.7",
