@@ -121,7 +121,8 @@
 <style>
 	small {
 		font-size: var(--font-ui-smaller);
-		color: var(--text-muted);
+		color: var(--text-accent);
+		font-weight: var(--font-semibold);
 	}
 	.error {
 		color: var(--text-error);

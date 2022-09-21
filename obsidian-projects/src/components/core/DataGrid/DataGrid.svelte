@@ -64,12 +64,12 @@
 
 		menu.addItem((item) => {
 			item.setTitle(t("components.data-grid.sort.asc"))
-				.setIcon("up-and-down-arrows")
+				.setIcon("sort-asc")
 				.onClick(() => onSortModelChange(column.field, "asc"));
 		});
 		menu.addItem((item) => {
 			item.setTitle(t("components.data-grid.sort.desc"))
-				.setIcon("up-and-down-arrows")
+				.setIcon("sort-desc")
 				.onClick(() => onSortModelChange(column.field, "desc"));
 		});
 

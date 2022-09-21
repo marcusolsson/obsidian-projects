@@ -37,7 +37,7 @@
 <svelte:element
 	this={elements[variant]}
 	class:nomargin
-	class:label={variant === "label"}
+	class:setting-item-name={variant === "label"}
 >
 	<slot />
 </svelte:element>
@@ -45,9 +45,5 @@
 <style>
 	.nomargin {
 		margin: 0;
-	}
-
-	.label {
-		font-weight: 500;
 	}
 </style>

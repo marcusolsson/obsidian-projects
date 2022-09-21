@@ -62,7 +62,7 @@
 		on:mousedown={handleHeaderClick()}
 	>
 		<TextLabel slot="read" value={index.toString()} />
-		<IconButton slot="hover" icon="go-to-file" on:click={onNavigate} />
+		<IconButton slot="hover" icon="link" on:click={onNavigate} />
 	</GridCell>
 
 	{#each columns as column}

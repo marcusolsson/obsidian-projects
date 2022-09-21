@@ -138,8 +138,8 @@ i18next.init({
 						name: "Board",
 						"no-status": "No status",
 						fields: {
-							status: "Status field",
-							priority: "Priority field",
+							status: "Status",
+							priority: "Priority",
 							none: "None",
 						},
 						unprioritized: "Unprioritized",
@@ -150,7 +150,7 @@ i18next.init({
 					calendar: {
 						name: "Calendar",
 						fields: {
-							date: "Date field",
+							date: "Date",
 							none: "None",
 						},
 						today: "Today",
