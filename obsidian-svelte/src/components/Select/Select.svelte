@@ -1,13 +1,33 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte";
+
+	import SelectItem from "./SelectItem.svelte";
+
+	/**
+	 * Specifies the available options.
+	 */
 	export let options: Array<{ label: string; value: string }>;
-	export let onChange: (value: string) => void;
+
+	/**
+	 * Specifies the selected value.
+	 */
 	export let value: string;
+
+	/**
+	 * Specifies the placeholder text.
+	 */
 	export let placeholder: string = "";
+
+	/**
+	 * Specifies whether to allow empty values.
+	 */
 	export let allowEmpty: boolean = false;
+
+	const dispatch = createEventDispatcher<{ change: string }>();
 
 	function handleChange(event: Event) {
 		if (event.currentTarget instanceof HTMLSelectElement) {
-			onChange(event.currentTarget.value);
+			dispatch("change", event.currentTarget.value);
 		}
 	}
 </script>
@@ -19,12 +39,12 @@
 	on:change={handleChange}
 >
 	{#if !options.length && placeholder}
-		<option value="" disabled>{placeholder}</option>
+		<SelectItem text={placeholder} value="" disabled />
 	{/if}
 	{#if allowEmpty}
-		<option value="">{placeholder}</option>
+		<SelectItem text={placeholder} value="" />
 	{/if}
 	{#each options as option}
-		<option value={option.value}>{option.label}</option>
+		<SelectItem text={option.label} value={option.value} />
 	{/each}
 </select>

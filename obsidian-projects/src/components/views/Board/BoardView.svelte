@@ -99,7 +99,7 @@
 			<Select
 				value={groupByField?.name ?? ""}
 				options={textFields.map(fieldToSelectableValue)}
-				onChange={(value) =>
+				on:change={({ detail: value }) =>
 					onConfigChange({
 						...config,
 						groupByField: value,
@@ -112,7 +112,7 @@
 			<Select
 				value={priorityField?.name ?? ""}
 				options={numberFields.map(fieldToSelectableValue)}
-				onChange={(value) => {
+				on:change={({ detail: value }) => {
 					onConfigChange({
 						...config,
 						priorityField: value,

@@ -51,7 +51,7 @@
 				label: workspace.name,
 				value: workspace.id,
 			}))}
-			onChange={onWorkspaceChange}
+			on:change={({ detail: value }) => onWorkspaceChange(value)}
 			placeholder={$i18n.t("toolbar.workspaces.none") ?? ""}
 		/>
 		{#if workspaces.length}

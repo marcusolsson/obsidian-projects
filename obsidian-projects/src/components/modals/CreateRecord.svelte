@@ -49,7 +49,7 @@
 >
 	<Select
 		value={workspace.id}
-		onChange={(id) => {
+		on:change={({ detail: id }) => {
 			const res = $settings.workspaces.find((w) => w.id === id);
 			if (res) {
 				workspace = res;
@@ -70,7 +70,7 @@
 	>
 		<Select
 			value={templatePath}
-			onChange={(value) => (templatePath = value)}
+			on:change={({ detail: value }) => (templatePath = value)}
 			options={workspace.templates.map((path) => ({
 				label: path,
 				value: path,

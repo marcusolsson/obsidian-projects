@@ -109,8 +109,8 @@
 				<Select
 					value={dateField?.name ?? ""}
 					options={dateFields.map(fieldToSelectableValue)}
-					onChange={handleDateFieldChange}
 					placeholder={$i18n.t("views.calendar.fields.none") ?? ""}
+					on:change={({ detail }) => handleDateFieldChange(detail)}
 				/>
 			</Field>
 			<Select
@@ -149,7 +149,7 @@
 						value: "day",
 					},
 				]}
-				onChange={handleIntervalChange}
+				on:change={({ detail }) => handleIntervalChange(detail)}
 			/>
 		</HorizontalGroup>
 	</ToolBar>

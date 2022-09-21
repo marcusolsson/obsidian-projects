@@ -41,7 +41,7 @@
 	<Select
 		value={type}
 		{options}
-		onChange={(value) => {
+		on:change={({ detail: value }) => {
 			type = value;
 		}}
 	/>
