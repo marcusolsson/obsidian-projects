@@ -23,9 +23,10 @@ jobs:
               id: build
               run: |
                   npm install
+                  cd obsidian-projects
                   npm run build
                   mkdir ${{ env.PLUGIN_NAME }}
-                  cp obsidian-projects/main.js obsidian-projects/manifest.json obsidian-projects/styles.css ${{ env.PLUGIN_NAME }}
+                  cp main.js manifest.json styles.css ${{ env.PLUGIN_NAME }}
                   zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
                   ls
                   echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
