@@ -5,4 +5,5 @@ export { Input } from "./Input";
 export { Select } from "./Select";
 export { Tag } from "./Tag";
 export { Progress } from "./Progress";
+export { SettingItem } from "./Setting";
 export { Typography } from "./Typography";

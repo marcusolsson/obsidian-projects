@@ -5,6 +5,11 @@
 	 * Specifies the variant of the button.
 	 */
 	export let variant: ButtonVariant = "default";
+
+	/**
+	 * Specifies whether the button is disabled.
+	 */
+	export let disabled: boolean = false;
 </script>
 
 <button
@@ -12,6 +17,7 @@
 	class:mod-warning={variant === "destructive"}
 	class:mod-plain={variant === "plain"}
 	on:click
+	{disabled}
 >
 	<slot />
 </button>

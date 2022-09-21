@@ -9,9 +9,9 @@
 	} from "../../lib/types";
 
 	import { FieldControl } from "../core/FieldControl";
-	import { Typography } from "obsidian-svelte";
-	import { SettingItem, ButtonSetting } from "../core/Setting";
+	import { Typography, SettingItem } from "obsidian-svelte";
 	import { i18n } from "../../lib/stores/i18n";
+	import Button from "obsidian-svelte/src/components/Button/Button.svelte";
 
 	export let fields: DataField[];
 	export let record: DataRecord;
@@ -51,8 +51,11 @@
 	</SettingItem>
 {/each}
 
-<ButtonSetting
-	name={$i18n.t("modals.record.edit.save")}
-	cta
-	onClick={() => onSave(record)}
-/>
+<SettingItem>
+	<Button
+		variant="primary"
+		on:click={() => {
+			onSave(record);
+		}}>{$i18n.t("modals.record.edit.save")}</Button
+	>
+</SettingItem>

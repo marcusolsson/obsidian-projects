@@ -1,15 +1,15 @@
 <script lang="ts">
 	import moment from "moment";
-	import { Checkbox, Input, Typography } from "obsidian-svelte";
+	import { Checkbox, Input, Typography, SettingItem } from "obsidian-svelte";
 
 	import type { WorkspaceDefinition } from "obsidian-projects/src/main";
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
 	import { interpolateTemplate } from "../../lib/template";
 	import { FileListInput } from "../core/FileListInput";
-	import { ButtonSetting, SettingItem } from "../core/Setting";
 	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import { notEmpty } from "../views/Board/board";
+	import Button from "obsidian-svelte/src/components/Button/Button.svelte";
 
 	export let title: string;
 	export let cta: string;
@@ -87,22 +87,25 @@
 <SettingItem
 	name={$i18n.t("modals.workspace.templates.name")}
 	description={$i18n.t("modals.workspace.templates.description") ?? ""}
-/>
+	vertical
+>
+	<FileListInput
+		paths={workspace.templates ?? []}
+		onPathsChange={(templates) => (workspace = { ...workspace, templates })}
+	/>
+</SettingItem>
 
-<FileListInput
-	paths={workspace.templates ?? []}
-	onPathsChange={(templates) => (workspace = { ...workspace, templates })}
-/>
-
-<ButtonSetting
-	name={cta}
-	cta
-	onClick={() =>
-		onSave({
-			...workspace,
-			templates: workspace.templates?.filter(notEmpty) ?? [],
-		})}
-/>
+<SettingItem>
+	<Button
+		variant="primary"
+		on:click={() => {
+			onSave({
+				...workspace,
+				templates: workspace.templates?.filter(notEmpty) ?? [],
+			});
+		}}>{cta}</Button
+	>
+</SettingItem>
 
 <style>
 	small {

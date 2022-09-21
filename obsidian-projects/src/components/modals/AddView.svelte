@@ -3,10 +3,10 @@
 
 	import type { ViewDefinition, ViewType } from "../../main";
 
-	import { Input, Select, Typography } from "obsidian-svelte";
-	import { SettingItem, ButtonSetting } from "../core/Setting";
+	import { Input, Select, Typography, SettingItem } from "obsidian-svelte";
 	import { customViews } from "../../lib/stores/custom-views";
 	import { i18n } from "../../lib/stores/i18n";
+	import Button from "obsidian-svelte/src/components/Button/Button.svelte";
 
 	export let onSave: (view: ViewDefinition) => void;
 
@@ -58,14 +58,16 @@
 	/>
 </SettingItem>
 
-<ButtonSetting
-	name={$i18n.t("modals.view.create.cta")}
-	cta
-	onClick={() =>
-		onSave({
-			id: uuidv4(),
-			name: name || (selectedOption?.label ?? type),
-			type,
-			config: {},
-		})}
-/>
+<SettingItem>
+	<Button
+		variant="primary"
+		on:click={() => {
+			onSave({
+				id: uuidv4(),
+				name: name || (selectedOption?.label ?? type),
+				type,
+				config: {},
+			});
+		}}>{$i18n.t("modals.view.create.cta")}</Button
+	>
+</SettingItem>

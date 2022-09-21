@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { Input, Select, Typography } from "obsidian-svelte";
-
-	import { ButtonSetting, SettingItem } from "../core/Setting";
+	import { Input, Select, Typography, SettingItem } from "obsidian-svelte";
+	import Button from "obsidian-svelte/src/components/Button/Button.svelte";
 
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
@@ -82,12 +81,15 @@
 	</SettingItem>
 {/if}
 
-<ButtonSetting
-	name={$i18n.t("modals.record.create.create")}
-	cta
-	onClick={() => onSave(name, templatePath, workspace)}
-	disabled={hasErrors}
-/>
+<SettingItem>
+	<Button
+		variant="primary"
+		on:click={() => {
+			onSave(name, templatePath, workspace);
+		}}
+		disabled={hasErrors}>{$i18n.t("modals.record.create.create")}</Button
+	>
+</SettingItem>
 
 <style>
 	small {
