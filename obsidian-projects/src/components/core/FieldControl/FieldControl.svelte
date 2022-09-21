@@ -10,9 +10,8 @@
 		type DataValue,
 	} from "../../../lib/types";
 
-	import { Input, Checkbox } from "obsidian-svelte";
+	import { DateInput, Input, Checkbox } from "obsidian-svelte";
 	import TagList from "../DataGrid/GridCell/GridListCell/TagList.svelte";
-	import { DatePicker } from "../DatePicker";
 
 	export let type: DataFieldType;
 	export let value: DataValue;
@@ -38,7 +37,10 @@
 		on:input={({ detail: value }) => onChange(parseFloat(value))}
 	/>
 {:else if type === DataFieldType.Date}
-	<DatePicker value={isDate(value) ? value : null} onCommit={onChange} />
+	<DateInput
+		value={isDate(value) ? value : null}
+		on:change={({ detail: value }) => onChange(value)}
+	/>
 {:else if type === DataFieldType.List && isOptionalList(value)}
 	<TagList edit={true} values={value ?? []} {onChange} />
 {:else if type === DataFieldType.Link}

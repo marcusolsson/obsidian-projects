@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { isDate } from "../../../../../lib/types";
 
-	import { DatePicker } from "../../../DatePicker";
+	import { DateInput } from "obsidian-svelte";
 
 	import { GridCell } from "..";
 	import { TextLabel } from "..";
@@ -28,9 +28,9 @@
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="edit">
-		<DatePicker
+		<DateInput
 			value={value ?? null}
-			onCommit={(value) => {
+			on:change={({ detail: value }) => {
 				edit = false;
 				onChange(value);
 			}}

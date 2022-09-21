@@ -1,11 +1,22 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte";
+
+	/**
+	 * Specifies the date value.
+	 */
 	export let value: Date | null;
-	export let onCommit: (value: Date) => void;
+
+	/**
+	 * Specifies whether to remove decorations so that it can be embedded in other
+	 * components.
+	 */
 	export let embed: boolean = false;
 
 	let ref: HTMLInputElement;
+
 	$: {
 		if (ref && value) {
+			// Trick to get the time zones right.
 			ref.valueAsDate = new Date(
 				value.getFullYear(),
 				value.getMonth(),
@@ -15,10 +26,12 @@
 		}
 	}
 
+	const dispatch = createEventDispatcher<{ change: Date }>();
+
 	function handleChange(event: Event) {
 		if (event.currentTarget instanceof HTMLInputElement) {
 			if (event.currentTarget.valueAsDate) {
-				onCommit(event.currentTarget.valueAsDate);
+				dispatch("change", event.currentTarget.valueAsDate);
 			}
 		}
 	}
