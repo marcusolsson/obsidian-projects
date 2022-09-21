@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Builder } from "../builder";
-	import type { DataField, DataFrame, DataRecord } from "../lib/types";
-	import { customViews } from "../lib/stores/custom-views";
+	import { Builder } from "../../../builder";
+	import type { DataField, DataFrame, DataRecord } from "../../../lib/types";
+	import { customViews } from "../../../lib/stores/custom-views";
 
 	export let type: string;
 	export let records: DataRecord[];

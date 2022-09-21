@@ -8,12 +8,12 @@
 	import { BoardView } from "./views/Board";
 	import { CalendarView } from "./views/Calendar";
 	import { TableView } from "./views/Table";
+	import { CustomView } from "./views/Custom";
 
 	import WorkspaceToolbar from "./WorkspaceToolbar.svelte";
 	import { Progress } from "obsidian-svelte";
 
 	import { customViews } from "../lib/stores/custom-views";
-	import CustomView from "./CustomView.svelte";
 
 	const standardViewComponents: Record<string, any> = {
 		table: TableView,
