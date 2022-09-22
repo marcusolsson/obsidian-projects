@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-projects",
-	"version": "0.14.8",
+	"version": "0.14.9",
 	"description": "Obsidian plugin for project management",
 	"private": true,
 	"workspaces": [
