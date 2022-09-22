@@ -8,6 +8,7 @@
 	import GridCellGroup from "./GridCellGroup.svelte";
 
 	import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
+	import { menuOnContextMenu } from "./data-grid";
 
 	import { setContext } from "svelte";
 
@@ -30,7 +31,7 @@
 	function handleHeaderClick(): (event: MouseEvent) => void {
 		return (event: MouseEvent) => {
 			if (event.button === 2) {
-				onRowMenu(rowId, row).showAtMouseEvent(event);
+				menuOnContextMenu(event, onRowMenu(rowId, row));
 			}
 		};
 	}
@@ -41,7 +42,7 @@
 	): (event: MouseEvent) => void {
 		return (event: MouseEvent) => {
 			if (event.button === 2) {
-				onCellMenu(rowId, column, value).showAtMouseEvent(event);
+				menuOnContextMenu(event, onCellMenu(rowId, column, value));
 			}
 
 			if (event.target instanceof HTMLTableCellElement) {

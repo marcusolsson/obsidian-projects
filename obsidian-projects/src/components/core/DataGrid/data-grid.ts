@@ -1,3 +1,4 @@
+import type { Menu } from "obsidian";
 import { DataFieldType, isNumber } from "../../../lib/types";
 
 export type GridValidRowModel = { [key: string]: any };
@@ -78,4 +79,14 @@ export function sortRows(
 			return 0;
 		}
 	});
+}
+
+export function menuOnContextMenu(event: MouseEvent, menu: Menu): void {
+	const contextMenuFunc = (event: MouseEvent) => {
+		window.removeEventListener("contextmenu", contextMenuFunc);
+		event.preventDefault();
+		event.stopPropagation();
+		menu.showAtMouseEvent(event);
+	}
+	window.addEventListener('contextmenu', contextMenuFunc, false);
 }
