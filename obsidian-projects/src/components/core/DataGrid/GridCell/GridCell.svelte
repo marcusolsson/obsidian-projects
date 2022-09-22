@@ -118,7 +118,7 @@
 		background-color: var(--background-secondary);
 		font-weight: 500;
 		text-align: center;
-		justify-contenvyt: space-between;
+		justify-content: space-between;
 		padding: 0 4px;
 	}
 
