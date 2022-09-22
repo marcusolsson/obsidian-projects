@@ -4,7 +4,7 @@
 	import { Icon, IconButton } from "obsidian-svelte";
 
 	import { GridCell, TextLabel } from "./GridCell";
-	import { fieldIcon, type GridColDef } from "./data-grid";
+	import { fieldIcon, menuOnContextMenu, type GridColDef } from "./data-grid";
 
 	import GridCellGroup from "./GridCellGroup.svelte";
 	import { DataFieldType } from "../../../lib/types";
@@ -19,7 +19,7 @@
 	): (event: MouseEvent) => void {
 		return (event: MouseEvent) => {
 			if (event.button === 2) {
-				onColumnMenu(column).showAtMouseEvent(event);
+				menuOnContextMenu(event, onColumnMenu(column));
 			}
 		};
 	}
