@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-projects",
 	"name": "Projects",
-	"version": "0.14.9",
+	"version": "0.14.10",
 	"minAppVersion": "0.16.0",
 	"description": "Project management for Obsidian.",
 	"author": "Marcus Olsson",
