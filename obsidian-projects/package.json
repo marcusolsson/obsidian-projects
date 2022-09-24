@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-projects",
-	"version": "0.14.7",
+	"version": "0.14.11",
 	"description": "Obsidian plugin for project management.",
 	"main": "main.js",
 	"scripts": {
