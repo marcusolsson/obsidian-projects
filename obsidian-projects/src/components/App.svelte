@@ -13,7 +13,7 @@
 	import WorkspaceToolbar from "./WorkspaceToolbar.svelte";
 	import { Progress } from "obsidian-svelte";
 
-	import { customViews } from "../lib/stores/custom-views";
+	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 
 	const standardViewComponents: Record<string, any> = {
 		table: TableView,
@@ -70,7 +70,7 @@
 			return standardComponent;
 		}
 
-		if ($customViews[type]) {
+		if ($customViewsV2[type] || $customViews[type]) {
 			return CustomView;
 		}
 

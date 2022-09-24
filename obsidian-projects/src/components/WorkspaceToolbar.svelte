@@ -18,8 +18,8 @@
 	import ViewItem from "./ViewItem.svelte";
 
 	import { createDataRecord, createWorkspace } from "../lib/api";
-	import type { WorkspaceDefinition } from "../main";
-	import { customViews } from "../lib/stores/custom-views";
+	import type { WorkspaceDefinition } from "../types";
+	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 	import { Builder } from "../builder";
 
 	export let workspaces: WorkspaceDefinition[];
@@ -40,9 +40,19 @@
 			case "calendar":
 				return "calendar";
 			default:
+				console.log("custom icon");
+				const createView = $customViewsV2[type];
+
+				if (createView) {
+					console.log("v2");
+					const view = createView();
+					return view.getIcon();
+				}
+
 				const builder = $customViews[type];
 
 				if (builder) {
+					console.log("v1");
 					const view = new Builder();
 					builder(view);
 					return view.icon ?? "";

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { v4 as uuidv4 } from "uuid";
 
-	import type { ViewDefinition, ViewType } from "../../main";
+	import type { ViewDefinition, ViewType } from "../../types";
 
 	import {
 		Button,
@@ -13,7 +13,7 @@
 		SettingItem,
 	} from "obsidian-svelte";
 
-	import { customViews } from "../../lib/stores/custom-views";
+	import { customViews, customViewsV2 } from "../../lib/stores/custom-views";
 	import { i18n } from "../../lib/stores/i18n";
 	import { Builder } from "obsidian-projects/src/builder";
 
@@ -22,18 +22,30 @@
 	let name: string = "";
 	let type: ViewType = "table";
 
-	let selectableCustomViews = Object.entries($customViews).map(
-		([id, builder]) => {
-			const view = new Builder();
+	let v1 = Object.entries($customViews).map(([id, builder]) => {
+		const view = new Builder();
 
-			builder(view);
+		builder(view);
 
-			return {
-				label: view.title ?? id,
-				value: id,
-			};
-		}
-	);
+		return {
+			label: view.title ?? id,
+			value: id,
+		};
+	});
+
+	let v2 = Object.entries($customViewsV2).map(([id, builder]) => {
+		const view = builder();
+
+		return {
+			label: view.getDisplayName(),
+			value: id,
+		};
+	});
+
+	$: console.log(v2);
+
+	let selectableCustomViews = [...v1, ...v2];
+
 	const options = [
 		{ label: $i18n.t("views.table.name"), value: "table" },
 		{ label: $i18n.t("views.board.name"), value: "board" },

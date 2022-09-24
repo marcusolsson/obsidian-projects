@@ -1,41 +1,26 @@
+import { get } from "svelte/store";
 import { addIcon, Plugin, TFolder } from "obsidian";
-import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
+import produce from "immer";
 
+import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import dayjs from "dayjs";
+
+import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
+import { createDataRecord, createWorkspace } from "./lib/api";
+import type { WorkspaceDefinition } from "./types";
+
 import { registerFileEvents } from "./lib/stores/file-index";
-import { CreateWorkspaceModal } from "./modals/create-workspace-modal";
 import { settings } from "./lib/stores/settings";
 import { app, plugin } from "./lib/stores/obsidian";
-import produce from "immer";
-import { i18n } from "./lib/stores/i18n";
-import { get } from "svelte/store";
-import { CreateRecordModal } from "./modals/create-record-modal";
 import { api } from "./lib/stores/api";
-import { createDataRecord, createWorkspace } from "./lib/api";
+import { i18n } from "./lib/stores/i18n";
+
+import { CreateWorkspaceModal } from "./modals/create-workspace-modal";
+import { CreateRecordModal } from "./modals/create-record-modal";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
-
-export type ViewType = string;
-
-export interface ViewDefinition {
-	name: string;
-	id: string;
-	type: ViewType;
-	config: Record<string, any>;
-}
-
-export interface WorkspaceDefinition {
-	name: string;
-	id: string;
-	path: string;
-	recursive: boolean;
-	views: ViewDefinition[];
-	defaultName?: string;
-	templates?: string[];
-}
 
 export interface ProjectsPluginSettings {
 	lastWorkspaceId?: string | undefined;
@@ -153,7 +138,7 @@ export default class ProjectsPlugin extends Plugin {
 			},
 		});
 
-		this.addRibbonIcon("table-2", "Open projects", () => {
+		this.addRibbonIcon("layout", "Open projects", () => {
 			this.activateView();
 		});
 

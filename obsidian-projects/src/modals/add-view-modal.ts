@@ -1,6 +1,6 @@
 import { App, Modal } from "obsidian";
 import AddView from "../components/modals/AddView.svelte";
-import type { ViewDefinition } from "../main";
+import type { ViewDefinition } from "../types";
 
 export class AddViewModal extends Modal {
 	// @ts-expect-error

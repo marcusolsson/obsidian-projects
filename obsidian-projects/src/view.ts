@@ -1,10 +1,10 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 
 import App from "./components/App.svelte";
-import { customViews } from "./lib/stores/custom-views";
+import { customViews, customViewsV2 } from "./lib/stores/custom-views";
 import { view } from "./lib/stores/obsidian";
 import type ProjectsPlugin from "./main";
-import type { ProjectView } from "./builder";
+import type { ProjectView, ProjectViewV2 } from "./builder";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -29,6 +29,10 @@ export class ProjectsView extends ItemView {
 		return "Projects";
 	}
 
+	getIcon() {
+		return "layout";
+	}
+
 	async onload() {
 		view.set(this);
 	}
@@ -37,6 +41,7 @@ export class ProjectsView extends ItemView {
 
 	async onOpen() {
 		customViews.set(this.getViews());
+		customViewsV2.set(this.getViewsV2());
 
 		this.component = new App({
 			target: this.contentEl,
@@ -47,6 +52,26 @@ export class ProjectsView extends ItemView {
 		if (this.component) {
 			this.component.$destroy();
 		}
+	}
+
+	getViewsV2() {
+		const views: Record<string, () => ProjectViewV2> = {};
+
+		for (let pluginId in this.app.plugins.plugins) {
+			if (this.app.plugins.enabledPlugins.has(pluginId)) {
+				const plugin = this.app.plugins.plugins[pluginId];
+
+				const registerView = plugin?.onRegisterProjectViewV2;
+
+				if (registerView) {
+					views[pluginId] = registerView.bind(plugin);
+				}
+			}
+		}
+
+		console.log(views);
+
+		return views;
 	}
 
 	getViews() {

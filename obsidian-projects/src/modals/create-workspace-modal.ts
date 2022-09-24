@@ -1,6 +1,6 @@
 import { App, Modal } from "obsidian";
 import CreateWorkspace from "../components/modals/CreateWorkspace.svelte";
-import type { WorkspaceDefinition } from "../main";
+import type { WorkspaceDefinition } from "../types";
 
 export class CreateWorkspaceModal extends Modal {
 	// @ts-ignore

@@ -1,3 +1,5 @@
+import type { DataFrame } from "./lib/types";
+
 export interface ProjectView {
 	setTitle(title: string): ProjectView;
 	setIcon(icon: string): ProjectView;
@@ -32,4 +34,17 @@ export class Builder {
 		this.onOpen = cb;
 		return this;
 	}
+}
+
+export abstract class ProjectViewV2 {
+	// @ts-expect-error
+	containerEl: HTMLElement;
+
+	async onData(data: DataFrame): Promise<void> {}
+	async onOpen(): Promise<void> {}
+	async onClose(): Promise<void> {}
+
+	abstract getViewType(): string;
+	abstract getDisplayName(): string;
+	abstract getIcon(): string;
 }

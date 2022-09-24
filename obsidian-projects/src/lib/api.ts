@@ -11,7 +11,7 @@ import {
 	type App,
 	type FrontMatterCache,
 } from "obsidian";
-import type { WorkspaceDefinition } from "../main";
+import type { WorkspaceDefinition } from "../types";
 import { get } from "svelte/store";
 import { fileIndex } from "./stores/file-index";
 import { detectFields } from "./stores/helpers";

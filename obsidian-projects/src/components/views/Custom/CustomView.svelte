@@ -1,11 +1,21 @@
 <script lang="ts">
 	import { Builder, type ProjectView } from "../../../builder";
 	import type { DataField, DataFrame, DataRecord } from "../../../lib/types";
-	import { customViews } from "../../../lib/stores/custom-views";
+	import {
+		customViews,
+		customViewsV2,
+	} from "../../../lib/stores/custom-views";
 
 	export let type: string;
 	export let records: DataRecord[];
 	export let fields: DataField[];
+
+	console.log("he");
+
+	$: createView = $customViewsV2[type];
+	$: console.log({ createView });
+	$: viewV2 = createView?.();
+	$: console.log({ viewV2 });
 
 	let view = new Builder();
 
@@ -16,12 +26,25 @@
 	}
 
 	function useCustomView(node: HTMLElement, frame: DataFrame) {
-		view.onOpen?.(frame, node);
+		if (viewV2) {
+			viewV2.containerEl = node;
+			viewV2.onOpen?.();
+			viewV2.onData?.(frame);
+		} else {
+			view.onOpen?.(frame, node);
+		}
 
 		return {
 			update(frame: DataFrame) {
-				node.empty();
-				view.onOpen?.(frame, node);
+				if (viewV2) {
+					viewV2.onData?.(frame);
+				} else {
+					node.empty();
+					view.onOpen?.(frame, node);
+				}
+			},
+			destroy() {
+				viewV2?.onClose();
 			},
 		};
 	}
