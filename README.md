@@ -10,7 +10,7 @@ For example, if you're a content manager, Project can help you manage your conte
 
 Projects uses front matter as the source of data. You can edit front matter directly from each view.
 
-> **Currently in beta:** This plugin is not yet published. To beta test it, you can use [BRAT](https://github.com/TfTHacker/obsidian42-brat).
+> **Currently in beta:** This plugin is not yet published. To beta test it, you can use the [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin.
 
 ## Views
 
