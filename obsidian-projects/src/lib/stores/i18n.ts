@@ -8,6 +8,15 @@ i18next.init({
 	resources: {
 		en: {
 			translation: {
+				"data-types": {
+					string: "Text",
+					number: "Number",
+					boolean: "True or false",
+					date: "Date",
+					link: "Link",
+					list: "List",
+					unknown: "Unknown data type",
+				},
 				commands: {
 					"show-projects": {
 						name: "Show projects",
@@ -54,6 +63,20 @@ i18next.init({
 							name: "Path",
 							description:
 								"Path to the folder you want to manage. Leave empty for root folder.",
+						},
+						dataview: {
+							name: "Use Dataview",
+							description:
+								"Use Dataview to query read-only data instead of using paths.",
+							error: {
+								title: "Dataview is disabled",
+								message:
+									"Enable the Dataview plugin to continue using this workspace.",
+							},
+						},
+						query: {
+							name: "Query",
+							description: "Only supports TABLE queries.",
 						},
 						recursive: {
 							name: "Recursive",
@@ -200,6 +223,13 @@ i18next.init({
 					},
 					workspaces: {
 						none: "No projects",
+					},
+				},
+				errors: {
+					missingDataview: {
+						title: "Dataview is disabled",
+						message:
+							"Enable the Dataview plugin to continue using this workspace.",
 					},
 				},
 			},

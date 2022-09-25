@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Menu as ObsidianMenu } from "obsidian";
-	import produce from "immer";
 
 	import { CreateWorkspaceModal } from "../modals/create-workspace-modal";
 	import { AddViewModal } from "../modals/add-view-modal";
@@ -87,25 +86,7 @@
 										$app,
 										$i18n.t("modals.workspace.edit.title"),
 										$i18n.t("modals.workspace.edit.cta"),
-										(value) => {
-											settings.update((state) => {
-												return produce(
-													state,
-													(draft) => {
-														draft.workspaces =
-															draft.workspaces.map(
-																(w) =>
-																	w.id ===
-																	workspace
-																		? value
-																		: w
-															);
-
-														return draft;
-													}
-												);
-											});
-										},
+										settings.updateWorkspace,
 										workspaceDef
 									).open();
 								}
@@ -123,16 +104,9 @@
 									$i18n.t("modals.workspace.delete.message"),
 									$i18n.t("modals.workspace.delete.cta"),
 									() => {
-										settings.update((state) => {
-											return produce(state, (draft) => {
-												draft.workspaces =
-													draft.workspaces.filter(
-														(w) =>
-															w.id !== workspace
-													);
-												return draft;
-											});
-										});
+										if (workspace) {
+											settings.deleteWorkspace(workspace);
+										}
 									}
 								).open();
 							});
@@ -153,30 +127,9 @@
 					variant="secondary"
 					on:click={() => onViewChange(v.id)}
 					onRename={(name) => {
-						settings.update((state) => {
-							return produce(state, (draft) => {
-								const idx = draft.workspaces.findIndex(
-									(ws) => ws.id === workspace
-								);
-
-								if (idx >= 0) {
-									const ws = draft.workspaces[idx];
-
-									if (ws) {
-										draft.workspaces.splice(idx, 1, {
-											...ws,
-											views: ws.views.map((view) =>
-												view.id === v.id
-													? { ...view, name }
-													: view
-											),
-										});
-									}
-								}
-
-								return draft;
-							});
-						});
+						if (workspace) {
+							settings.renameView(workspace, v.id, name);
+						}
 					}}
 					onDelete={() => {
 						new ConfirmDialogModal(
@@ -185,33 +138,9 @@
 							$i18n.t("modals.view.delete.message"),
 							$i18n.t("modals.view.delete.cta"),
 							() => {
-								settings.update((state) => {
-									return produce(state, (draft) => {
-										const idx = draft.workspaces.findIndex(
-											(ws) => ws.id === workspace
-										);
-
-										if (idx >= 0) {
-											const ws = draft.workspaces[idx];
-
-											if (ws) {
-												draft.workspaces.splice(
-													idx,
-													1,
-													{
-														...ws,
-														views: ws.views.filter(
-															(view) =>
-																view.id !== v.id
-														),
-													}
-												);
-											}
-										}
-
-										return draft;
-									});
-								});
+								if (workspace) {
+									settings.deleteView(workspace, v.id);
+								}
 							}
 						).open();
 					}}
@@ -232,14 +161,7 @@
 							$app,
 							$i18n.t("modals.workspace.create.title"),
 							$i18n.t("modals.workspace.create.cta"),
-							(value) => {
-								settings.update((state) => {
-									return produce(state, (draft) => {
-										draft.workspaces.push(value);
-										return draft;
-									});
-								});
-							},
+							settings.addWorkspace,
 							createWorkspace()
 						).open();
 					});
@@ -251,32 +173,9 @@
 						.setIcon("table")
 						.onClick(() => {
 							new AddViewModal($app, (view) => {
-								settings.update((state) => {
-									return produce(state, (draft) => {
-										const idx = draft.workspaces.findIndex(
-											(ws) => ws.id === workspace
-										);
-
-										if (idx >= 0) {
-											const ws = draft.workspaces[idx];
-											if (ws) {
-												draft.workspaces.splice(
-													idx,
-													1,
-													{
-														...ws,
-														views: [
-															...ws.views,
-															view,
-														],
-													}
-												);
-											}
-										}
-
-										return draft;
-									});
-								});
+								if (workspace) {
+									settings.addView(workspace, view);
+								}
 							}).open();
 						});
 				});

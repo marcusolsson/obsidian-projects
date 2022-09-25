@@ -3,10 +3,9 @@
 	import { get } from "svelte/store";
 
 	import { app } from "../../../lib/stores/obsidian";
-	import { api } from "../../../lib/stores/api";
 	import {
 		DataFieldType,
-		type DataField,
+		type DataFrame,
 		type DataRecord,
 	} from "../../../lib/types";
 
@@ -38,23 +37,29 @@
 		subtractInterval,
 		type CalendarInterval,
 	} from "./calendar";
-	import type { WorkspaceDefinition } from "obsidian-projects/src/main";
-	import { CreateRecordModal } from "obsidian-projects/src/modals/create-record-modal";
-	import { i18n } from "obsidian-projects/src/lib/stores/i18n";
-	import { createDataRecord } from "obsidian-projects/src/lib/api";
+
+	import type { WorkspaceDefinition } from "../../../types";
+
+	import { CreateRecordModal } from "../../../modals/create-record-modal";
+	import { createDataRecord } from "../../../lib/api";
+	import { i18n } from "../../../lib/stores/i18n";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
 		dateField?: string;
 	}
 
-	export let records: DataRecord[];
-	export let fields: DataField[];
-
+	export let frame: DataFrame;
 	export let config: CalendarConfig;
 	export let onConfigChange: (config: CalendarConfig) => void;
-
 	export let workspace: WorkspaceDefinition;
+	export let readonly: boolean;
+
+	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
+	export let onRecordUpdate: (record: DataRecord) => void;
+	// export let onRecordDelete: (id: string) => void;
+
+	$: ({ fields, records } = frame);
 
 	let anchorDate: dayjs.Dayjs = dayjs();
 
@@ -174,20 +179,18 @@
 								new ConfigureRecord(
 									get(app),
 									fields,
-									(record) => {
-										$api.updateRecord(record);
-									},
+									onRecordUpdate,
 									records[id]
 								).open();
 							}}
 							onEntryAdd={() => {
-								if (dateField) {
+								if (dateField && !readonly) {
 									new CreateRecordModal(
 										$app,
 										workspace,
 										(name, templatePath) => {
 											if (dateField) {
-												$api.createRecord(
+												onRecordAdd(
 													createDataRecord(
 														name,
 														workspace,

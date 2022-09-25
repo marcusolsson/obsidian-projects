@@ -6,20 +6,26 @@
 	import CalendarDate from "./CalendarDate.svelte";
 	import CalendarEntry from "./CalendarEntry.svelte";
 	import { TableCell } from "../../core/Table";
+	import path from "path";
 
 	export let date: dayjs.Dayjs;
 	export let records: Array<[number, DataRecord]>;
 	export let onEntryClick: (recordId: number) => void;
 	export let onEntryAdd: () => void;
+
+	function getDisplayName(record: DataRecord): string {
+		const basename = path.basename(record.id);
+		return basename.slice(0, basename.lastIndexOf("."));
+	}
 </script>
 
 <TableCell width="calc(100% / 7)" on:dblclick={() => onEntryAdd()}>
 	<div class:weekend={date.day() === 0 || date.day() === 6}>
 		<CalendarDate {date} />
 		{#each records as recordPair}
-			{#if recordPair[1].name}
+			{#if getDisplayName(recordPair[1])}
 				<CalendarEntry
-					name={recordPair[1].name}
+					name={getDisplayName(recordPair[1])}
 					on:click={() => {
 						onEntryClick(recordPair[0]);
 					}}

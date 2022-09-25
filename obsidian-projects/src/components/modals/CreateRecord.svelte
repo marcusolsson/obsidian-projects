@@ -12,7 +12,7 @@
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
 	import { settings } from "../../lib/stores/settings";
-	import type { WorkspaceDefinition } from "../../main";
+	import type { WorkspaceDefinition } from "../../types";
 
 	export let name: string;
 	export let workspace: WorkspaceDefinition;

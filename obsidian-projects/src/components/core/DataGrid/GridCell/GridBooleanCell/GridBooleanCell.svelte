@@ -15,6 +15,7 @@
 			<Checkbox
 				checked={value}
 				on:check={({ detail: checked }) => onChange(checked)}
+				disabled={!column.editable}
 			/>
 		{/if}
 	</svelte:fragment>

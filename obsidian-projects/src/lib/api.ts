@@ -1,9 +1,7 @@
 import dayjs from "dayjs";
 import produce from "immer";
 import moment from "moment";
-import { v4 as uuidv4 } from "uuid";
 import {
-	MetadataCache,
 	normalizePath,
 	parseYaml,
 	stringifyYaml,
@@ -11,23 +9,18 @@ import {
 	type App,
 	type FrontMatterCache,
 } from "obsidian";
-import type { WorkspaceDefinition } from "../types";
 import { get } from "svelte/store";
-import { fileIndex } from "./stores/file-index";
-import { detectFields } from "./stores/helpers";
-import { interpolateTemplate } from "./template";
+import { v4 as uuidv4 } from "uuid";
+import type { WorkspaceDefinition } from "../types";
+import { i18n } from "./stores/i18n";
+import { interpolateTemplate } from "./templates";
 import {
-	DataFieldType,
 	isDate,
 	isLink,
-	isRawLink,
-	isString,
-	type DataFrame,
+	type DataField,
 	type DataRecord,
 	type DataValue,
-	type Link,
 } from "./types";
-import { i18n } from "./stores/i18n";
 
 export function createWorkspace(): WorkspaceDefinition {
 	return {
@@ -54,8 +47,7 @@ export function createDataRecord(
 	values?: Record<string, DataValue>
 ): DataRecord {
 	return {
-		name,
-		path: normalizePath(workspace.path + "/" + name + ".md"),
+		id: normalizePath(workspace.path + "/" + name + ".md"),
 		values: values ?? {},
 	};
 }
@@ -67,23 +59,25 @@ export class DataApi {
 		this.app = app;
 	}
 
-	async updateRecord(record: DataRecord): Promise<void> {
-		const file = this.app.vault.getAbstractFileByPath(record.path);
+	async updateRecord(fields: DataField[], record: DataRecord): Promise<void> {
+		const file = this.app.vault.getAbstractFileByPath(record.id);
 
 		if (file instanceof TFile) {
-			this.updateFile(file, (data) => doUpdateRecord(data, record));
+			this.updateFile(file, (data) =>
+				doUpdateRecord(data, fields, record)
+			);
 		}
 	}
 
-	async renameField(from: string, to: string): Promise<void> {
-		for (let pair of Object.entries(get(fileIndex).files)) {
-			this.updateFile(pair[1], (data) => doRenameField(data, from, to));
+	async renameField(files: TFile[], from: string, to: string): Promise<void> {
+		for (let file of files) {
+			this.updateFile(file, (data) => doRenameField(data, from, to));
 		}
 	}
 
-	async deleteField(name: string) {
-		for (let pair of Object.entries(get(fileIndex).files)) {
-			this.updateFile(pair[1], (data) => doDeleteField(data, name));
+	async deleteField(files: TFile[], name: string) {
+		for (let file of files) {
+			this.updateFile(file, (data) => doDeleteField(data, name));
 		}
 	}
 
@@ -100,16 +94,17 @@ export class DataApi {
 			if (templateFile instanceof TFile) {
 				content = await this.app.vault.read(templateFile);
 				content = interpolateTemplate(content, {
-					title: () => record.name,
+					title: () =>
+						(record.values["name"] as string | undefined) ?? "",
 					date: (format) => moment().format(format || "YYYY-MM-DD"),
 					time: (format) => moment().format(format || "HH:mm"),
 				});
 			}
 		}
 
-		const file = await this.app.vault.create(record.path, content);
+		const file = await this.app.vault.create(record.id, content);
 
-		this.updateFile(file, (data) => doUpdateRecord(data, record));
+		this.updateFile(file, (data) => doUpdateRecord(data, [], record));
 
 		return file;
 	}
@@ -120,94 +115,19 @@ export class DataApi {
 	}
 
 	async deleteRecord(path: string) {
-		const file = get(fileIndex).files[path];
+		const file = this.app.vault.getAbstractFileByPath(path);
 
 		if (file) {
 			this.app.vault.trash(file, true);
 		}
 	}
-
-	createDataFrame(files: Record<string, TFile>): DataFrame {
-		const records: DataRecord[] = parseRecords(
-			Object.entries(files).map(([_, file]) => file),
-			this.app.metadataCache
-		);
-
-		const fields = detectFields(records);
-
-		// Enrich values based on detected field type.
-		for (let record of records) {
-			for (let field of fields) {
-				const value = record.values[field.name];
-
-				switch (field.type) {
-					case DataFieldType.Link:
-						if (isRawLink(value)) {
-							record.values[field.name] = parseRawLink(
-								value,
-								record.path
-							);
-						}
-						break;
-					case DataFieldType.Date:
-						if (value && isString(value)) {
-							record.values[field.name] = dayjs(value).toDate();
-						}
-						break;
-				}
-			}
-		}
-
-		return { fields, records };
-	}
 }
 
-function parseRawLink(
-	rawLink: Array<Array<string>>,
-	sourcePath: string
-): Link | undefined {
-	if (rawLink[0]) {
-		const linkText = rawLink[0][0];
-
-		if (linkText) {
-			return {
-				linkText,
-				sourcePath,
-			};
-		}
-	}
-	return undefined;
-}
-
-export function parseRecords(
-	files: TFile[],
-	metadataCache: MetadataCache
-): DataRecord[] {
-	const records: DataRecord[] = [];
-
-	for (let file of files) {
-		const cache = metadataCache.getFileCache(file);
-
-		if (cache) {
-			const { position, ...values }: { [key: string]: any } =
-				cache.frontmatter ?? {};
-
-			const filteredValues = Object.fromEntries(
-				Object.entries(values).filter(([key, value]) => !!value)
-			);
-
-			records.push({
-				name: file.basename,
-				path: file.path,
-				values: filteredValues,
-			});
-		}
-	}
-
-	return records;
-}
-
-export function doUpdateRecord(data: string, record: DataRecord): string {
+export function doUpdateRecord(
+	data: string,
+	fields: DataField[],
+	record: DataRecord
+): string {
 	const frontmatter = decodeFrontMatter(data);
 
 	const updated = Object.fromEntries(
@@ -225,6 +145,12 @@ export function doUpdateRecord(data: string, record: DataRecord): string {
 							draft[1] = `[[${draft[1].linkText}]]`;
 					  })
 					: entry
+			)
+			.filter(
+				(entry) =>
+					!fields.find(
+						(field) => field.name === entry[0] && field.derived
+					)
 			)
 			.filter((entry) => entry[1] !== undefined)
 			.filter((entry) => entry[1] !== null)

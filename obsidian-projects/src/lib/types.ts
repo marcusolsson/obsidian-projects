@@ -1,3 +1,6 @@
+import type { TFile } from "obsidian";
+import type { WorkspaceDefinition } from "../types";
+
 export enum DataFieldType {
 	String = "string",
 	Number = "number",
@@ -16,6 +19,8 @@ export interface Link {
 export interface DataField {
 	name: string;
 	type: DataFieldType;
+	identifier: boolean;
+	derived: boolean;
 }
 
 export type DataValue =
@@ -28,8 +33,7 @@ export type DataValue =
 	| undefined;
 
 export interface DataRecord {
-	name: string;
-	path: string;
+	id: string;
 	values: Record<string, DataValue>;
 }
 
@@ -103,4 +107,20 @@ export function isRawLink(value: any): value is Array<Array<string>> {
 		}
 	}
 	return false;
+}
+
+export abstract class DataSource {
+	workspace: WorkspaceDefinition;
+
+	constructor(workspace: WorkspaceDefinition) {
+		this.workspace = workspace;
+	}
+
+	abstract queryAll(): Promise<DataFrame>;
+	abstract queryOne(file: TFile): Promise<DataFrame>;
+	abstract includes(path: string): boolean;
+
+	readonly(): boolean {
+		return false;
+	}
 }

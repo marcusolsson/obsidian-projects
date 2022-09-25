@@ -1,11 +1,9 @@
 <script lang="ts">
-	import type { DataRecord } from "../../../lib/types";
-
-	export let record: DataRecord;
+	export let name: string;
 </script>
 
 <div on:click>
-	{record.name}
+	{name}
 </div>
 
 <style>

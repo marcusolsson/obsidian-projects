@@ -1,6 +1,6 @@
 import moment from "moment";
 import { App, Modal } from "obsidian";
-import { interpolateTemplate } from "../lib/template";
+import { interpolateTemplate } from "../lib/templates";
 import type { WorkspaceDefinition } from "../types";
 import CreateRecord from "../components/modals/CreateRecord.svelte";
 

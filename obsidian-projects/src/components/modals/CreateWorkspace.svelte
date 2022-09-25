@@ -8,15 +8,18 @@
 		ModalButtonGroup,
 		ModalContent,
 		ModalLayout,
+		TextArea,
 	} from "obsidian-svelte";
 
-	import type { WorkspaceDefinition } from "obsidian-projects/src/main";
+	import type { WorkspaceDefinition } from "../../types";
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
-	import { interpolateTemplate } from "../../lib/template";
+	import { interpolateTemplate } from "../../lib/templates";
 	import { FileListInput } from "../core/FileListInput";
 	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import { notEmpty } from "../views/Board/board";
+	import { capabilities } from "obsidian-projects/src/lib/stores/capabilities";
+	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
 
 	export let title: string;
 	export let cta: string;
@@ -43,32 +46,74 @@
 			/>
 		</SettingItem>
 
-		<SettingItem
-			name={$i18n.t("modals.workspace.path.name")}
-			description={$i18n.t("modals.workspace.path.description") ?? ""}
-			vertical
-		>
-			<FileSuggestInput
-				value={workspace.path}
-				onChange={(path) => (workspace = { ...workspace, path })}
-				sourcePath=""
-				include="folders"
-				valueType="path"
-				fullWidth
-			/>
-		</SettingItem>
+		{#if workspace.dataview || $capabilities.dataview}
+			<SettingItem
+				name={$i18n.t("modals.workspace.dataview.name")}
+				description={$i18n.t("modals.workspace.dataview.description") ??
+					""}
+			>
+				<Checkbox
+					checked={!!workspace.dataview}
+					on:check={({ detail: dataview }) =>
+						(workspace = { ...workspace, dataview })}
+				/>
+			</SettingItem>
+		{/if}
 
-		<SettingItem
-			name={$i18n.t("modals.workspace.recursive.name")}
-			description={$i18n.t("modals.workspace.recursive.description") ??
-				""}
-		>
-			<Checkbox
-				checked={workspace.recursive}
-				on:check={({ detail: recursive }) =>
-					(workspace = { ...workspace, recursive })}
-			/>
-		</SettingItem>
+		{#if workspace.dataview && !$capabilities.dataview}
+			<Callout
+				title={$i18n.t("modals.workspace.dataview.error.title")}
+				icon="zap"
+				variant="danger"
+			>
+				{$i18n.t("modals.workspace.dataview.error.message")}
+			</Callout>
+		{/if}
+
+		{#if workspace.dataview}
+			<SettingItem
+				name={$i18n.t("modals.workspace.query.name")}
+				description={$i18n.t("modals.workspace.query.description") ??
+					""}
+				vertical
+			>
+				<TextArea
+					value={workspace.query ?? ""}
+					on:input={({ detail: query }) =>
+						(workspace = { ...workspace, query })}
+					rows={6}
+					width="100%"
+				/>
+			</SettingItem>
+		{:else}
+			<SettingItem
+				name={$i18n.t("modals.workspace.path.name")}
+				description={$i18n.t("modals.workspace.path.description") ?? ""}
+				vertical
+			>
+				<FileSuggestInput
+					value={workspace.path}
+					onChange={(path) => (workspace = { ...workspace, path })}
+					sourcePath=""
+					include="folders"
+					valueType="path"
+					fullWidth
+				/>
+			</SettingItem>
+
+			<SettingItem
+				name={$i18n.t("modals.workspace.recursive.name")}
+				description={$i18n.t(
+					"modals.workspace.recursive.description"
+				) ?? ""}
+			>
+				<Checkbox
+					checked={workspace.recursive}
+					on:check={({ detail: recursive }) =>
+						(workspace = { ...workspace, recursive })}
+				/>
+			</SettingItem>
+		{/if}
 
 		<SettingItem
 			name={$i18n.t("modals.workspace.defaultName.name")}

@@ -8,6 +8,8 @@
 
 	import GridCellGroup from "./GridCellGroup.svelte";
 	import { DataFieldType } from "../../../lib/types";
+	import { i18n } from "obsidian-projects/src/lib/stores/i18n";
+	import { get } from "svelte/store";
 
 	export let columns: GridColDef[];
 	export let onResize: (name: string, width: number) => void;
@@ -51,7 +53,10 @@
 			columnHeader
 		>
 			<svelte:fragment slot="read">
-				<Icon name={fieldIcon(column.type ?? DataFieldType.Unknown)} />
+				<Icon
+					name={fieldIcon(column.type ?? DataFieldType.Unknown)}
+					tooltip={get(i18n).t(`data-types.${column.type}`) ?? ""}
+				/>
 				<TextLabel value={column.field} />
 				<IconButton
 					icon="vertical-three-dots"

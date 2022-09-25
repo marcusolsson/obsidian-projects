@@ -3,7 +3,7 @@
 
 	import {
 		DataFieldType,
-		type DataField,
+		type DataFrame,
 		type DataRecord,
 	} from "../../../lib/types";
 
@@ -12,12 +12,11 @@
 	import { ToolBar } from "../../core/ToolBar";
 	import Board from "./Board.svelte";
 
-	import { api } from "../../../lib/stores/api";
 	import { i18n } from "../../../lib/stores/i18n";
 	import { app } from "../../../lib/stores/obsidian";
 
 	import { fieldToSelectableValue } from "../../views/helpers";
-	import type { WorkspaceDefinition } from "../../../main";
+	import type { WorkspaceDefinition } from "../../../types";
 	import { CreateRecordModal } from "../../../modals/create-record-modal";
 	import { ConfigureRecord } from "../../../modals/record-modal";
 	import { groupRecordsByField } from "./board";
@@ -28,12 +27,17 @@
 		priorityField?: string;
 	}
 
-	export let records: DataRecord[];
-	export let fields: DataField[];
+	export let frame: DataFrame;
 
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
 	export let workspace: WorkspaceDefinition;
+	export let readonly: boolean;
+	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
+	export let onRecordUpdate: (record: DataRecord) => void;
+	// export let onRecordDelete: (id: string) => void;
+
+	$: ({ fields, records } = frame);
 
 	$: textFields = fields.filter(
 		(field) => field.type === DataFieldType.String
@@ -57,21 +61,14 @@
 
 	function handleRecordClick(record: DataRecord): (event: Event) => void {
 		return () => {
-			new ConfigureRecord(
-				$app,
-				fields,
-				(record) => {
-					$api.updateRecord(record);
-				},
-				record
-			).open();
+			new ConfigureRecord($app, fields, onRecordUpdate, record).open();
 		};
 	}
 
 	function handleRecordAdd(column: string) {
 		new CreateRecordModal($app, workspace, (name, templatePath) => {
 			if (groupByField) {
-				$api.createRecord(
+				onRecordAdd(
 					createDataRecord(
 						name,
 						workspace,
@@ -126,6 +123,7 @@
 </ToolBar>
 <div>
 	<Board
+		{readonly}
 		columns={columns
 			.sort((a, b) => {
 				if (a === $i18n.t("views.board.no-status")) return -1;

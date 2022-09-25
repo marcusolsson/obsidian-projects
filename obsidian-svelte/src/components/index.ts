@@ -10,3 +10,5 @@ export { SettingItem } from "./Setting";
 export { Tag } from "./Tag";
 export { Typography } from "./Typography";
 export { InternalLink } from "./InternalLink";
+export { TextArea } from "./TextArea";
+export { Callout } from "./Callout";

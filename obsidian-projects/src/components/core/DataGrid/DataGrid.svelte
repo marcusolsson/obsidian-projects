@@ -11,6 +11,7 @@
 
 	import {
 		sortRows,
+		sortColumns,
 		type GridColDef,
 		type GridRowId,
 		type GridRowModel,
@@ -23,6 +24,8 @@
 	export let columns: GridColDef[];
 	export let rows: GridRowProps[];
 	export let sortModel: GridSortModel;
+
+	export let readonly: boolean;
 
 	export let onSortModelChange: (field: string, sort: string) => void;
 	export let onColumnResize: (field: string, width: number) => void;
@@ -42,12 +45,13 @@
 	$: t = $i18n.t;
 
 	$: visibleColumns = columns.filter((column) => !column.hide);
+	$: sortedColumns = sortColumns(visibleColumns);
 	$: sortedRows = sortRows(rows, sortModel);
 
 	function createColumnMenu(column: GridColDef) {
 		const menu = new Menu();
 
-		if (column.editable) {
+		if (column.editable && !readonly) {
 			menu.addItem((item) => {
 				item.setTitle(t("components.data-grid.column.rename"))
 					.setIcon("edit")
@@ -95,13 +99,15 @@
 				.onClick(() => onRowEdit(rowId, row));
 		});
 
-		menu.addSeparator();
+		if (!readonly) {
+			menu.addSeparator();
 
-		menu.addItem((item) => {
-			item.setTitle(t("components.data-grid.row.delete"))
-				.setIcon("trash")
-				.onClick(() => onRowDelete(rowId));
-		});
+			menu.addItem((item) => {
+				item.setTitle(t("components.data-grid.row.delete"))
+					.setIcon("trash")
+					.onClick(() => onRowDelete(rowId));
+			});
+		}
 
 		return menu;
 	}
@@ -136,7 +142,7 @@
 
 <div>
 	<GridHeader
-		columns={visibleColumns}
+		columns={sortedColumns}
 		onResize={(name, width) => {
 			columns = columns.map((column) =>
 				column.field === name ? { ...column, width } : column
@@ -149,7 +155,7 @@
 	/>
 	{#each sortedRows as { rowId, row }, i}
 		<GridRow
-			columns={visibleColumns}
+			columns={sortedColumns}
 			index={i + 1}
 			{rowId}
 			{row}
@@ -162,11 +168,13 @@
 		/>
 	{/each}
 	<GridCellGroup>
-		<span style={`width: ${60 + (visibleColumns[0]?.width ?? 0)}`}>
-			<Button variant="plain" on:click={() => onRowAdd()}>
-				<Icon name="plus" />
-				{t("components.data-grid.row.add")}
-			</Button>
+		<span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
+			{#if !readonly}
+				<Button variant="plain" on:click={() => onRowAdd()}>
+					<Icon name="plus" />
+					{t("components.data-grid.row.add")}
+				</Button>
+			{/if}
 		</span>
 	</GridCellGroup>
 </div>

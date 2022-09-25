@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { Builder, type ProjectView } from "../../../builder";
-	import type { DataField, DataFrame, DataRecord } from "../../../lib/types";
+	import type { DataFrame } from "../../../lib/types";
 	import {
 		customViews,
 		customViewsV2,
 	} from "../../../lib/stores/custom-views";
 
 	export let type: string;
-	export let records: DataRecord[];
-	export let fields: DataField[];
+	export let frame: DataFrame;
 
+	$: ({ fields, records } = frame);
 
 	$: createView = $customViewsV2[type];
 	$: viewV2 = createView?.();

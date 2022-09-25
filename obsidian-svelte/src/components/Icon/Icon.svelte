@@ -16,12 +16,18 @@
 	 * Specifies whether to invert the icon color on accent backgrounds.
 	 */
 	export let accent: boolean = false;
+
+	/**
+	 * Specifies the tooltip text.
+	 */
+	export let tooltip: string = "";
 </script>
 
 <span
 	style={`width: ${size}px; height: ${size}px`}
 	class:accent
 	use:useIcon={{ name, size }}
+	aria-label={tooltip}
 />
 
 <style>

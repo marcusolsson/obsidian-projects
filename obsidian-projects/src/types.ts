@@ -15,4 +15,6 @@ export interface WorkspaceDefinition {
 	views: ViewDefinition[];
 	defaultName?: string;
 	templates?: string[];
+	dataview?: boolean;
+	query?: string;
 }

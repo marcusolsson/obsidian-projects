@@ -10,6 +10,7 @@
 	}[];
 
 	export let groupByPriority: string | undefined;
+	export let readonly: boolean;
 	export let onRecordClick: (record: DataRecord) => void;
 	export let onRecordAdd: (column: string) => void;
 </script>
@@ -17,6 +18,7 @@
 <div>
 	{#each columns as column (column.name)}
 		<BoardColumn
+			{readonly}
 			name={column.name}
 			records={column.records}
 			{groupByPriority}

@@ -1,9 +1,7 @@
 <script lang="ts">
-	import produce from "immer";
-
-	import { fileIndex } from "../lib/stores/file-index";
-	import { dataFrame } from "../lib/stores/dataframe";
 	import { settings } from "../lib/stores/settings";
+	import { app } from "../lib/stores/obsidian";
+	import { api } from "../lib/stores/api";
 
 	import { BoardView } from "./views/Board";
 	import { CalendarView } from "./views/Calendar";
@@ -11,15 +9,13 @@
 	import { CustomView } from "./views/Custom";
 
 	import WorkspaceToolbar from "./WorkspaceToolbar.svelte";
-	import { Progress } from "obsidian-svelte";
 
 	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
-
-	const standardViewComponents: Record<string, any> = {
-		table: TableView,
-		board: BoardView,
-		calendar: CalendarView,
-	};
+	import { isFile, resolveDataSource } from "./app";
+	import { dataFrame, dataSource } from "../lib/stores/dataframe";
+	import type { DataRecord } from "../lib/types";
+	import type { TFile } from "obsidian";
+	import { Callout, Progress, Typography } from "obsidian-svelte";
 
 	$: workspaces = $settings.workspaces;
 
@@ -34,36 +30,42 @@
 		  ) || selectedWorkspace.views[0]
 		: null;
 
-	// Destructure workspace properties to avoid reindexing whenever view
-	// configuration changes.
-	$: workspacePath = selectedWorkspace?.path;
-	$: workspaceRecursive = selectedWorkspace?.recursive;
-
-	let indexing: Promise<void>;
+	let querying: Promise<void>;
 
 	$: {
-		if (workspacePath !== undefined && workspaceRecursive !== undefined) {
-			indexing = fileIndex.reindex(workspacePath, workspaceRecursive);
+		if (selectedWorkspace) {
+			dataSource.set(resolveDataSource(selectedWorkspace));
 		}
 	}
 
-	$: ({ records, fields } = $dataFrame);
-
 	$: {
-		settings.update((state) => {
-			return produce(state, (draft) => {
-				draft.lastWorkspaceId = selectedWorkspace?.id;
-				draft.lastViewId = selectedView?.id;
-				return draft;
-			});
-		});
+		querying = (async () => {
+			const source = $dataSource;
+			if (source) {
+				dataFrame.set(await source.queryAll());
+			}
+		})();
 	}
+
+	$: frame = $dataFrame;
+
+	// Remember the last view and workspace we opened.
+	$: settings.saveLayout(selectedWorkspace?.id, selectedView?.id);
 
 	$: viewComponent = selectedView
 		? getViewComponent(selectedView.type)
 		: null;
 
+	// getViewComponent returns the Svelte component for the selected view type.
+	// All built-in views have their own components, while custom views share
+	// the CustomView component.
 	function getViewComponent(type: string) {
+		const standardViewComponents: Record<string, any> = {
+			table: TableView,
+			board: BoardView,
+			calendar: CalendarView,
+		};
+
 		const standardComponent = standardViewComponents[type];
 
 		if (standardComponent) {
@@ -109,29 +111,47 @@
 			selectedWorkspace.views[0];
 	}
 
-	function handleConfigChange(config: Record<string, any>) {
-		settings.update((state) =>
-			produce(state, (draft) => {
-				draft.workspaces = draft.workspaces.map((workspace) => {
-					if (workspace.id === selectedWorkspace?.id) {
-						return {
-							...workspace,
-							views: workspace.views.map((view) => {
-								if (view.id === selectedView?.id) {
-									return {
-										...view,
-										config,
-									};
-								}
-								return view;
-							}),
-						};
-					}
-					return workspace;
-				});
-				return draft;
-			})
-		);
+	function handleViewConfigChange(config: Record<string, any>) {
+		if (selectedWorkspace?.id && selectedView?.id) {
+			settings.updateViewConfig(
+				selectedWorkspace.id,
+				selectedView.id,
+				config
+			);
+		}
+	}
+
+	function handleRecordAdd(record: DataRecord, templatePath: string) {
+		if ($dataSource?.includes(record.id)) {
+			dataFrame.addRecord(record);
+		}
+		$api.createRecord(record, templatePath);
+	}
+	function handleRecordUpdate(record: DataRecord) {
+		if ($dataSource?.includes(record.id)) {
+			dataFrame.updateRecord(record);
+		}
+		$api.updateRecord(frame.fields, record);
+	}
+	function handleRecordDelete(id: string) {
+		if ($dataSource?.includes(id)) {
+			dataFrame.deleteRecord(id);
+		}
+		$api.deleteRecord(id);
+	}
+	function handleFieldRename(field: string, name: string) {
+		dataFrame.renameField(field, name);
+		$api.renameField(filesFromRecords($dataFrame.records), field, name);
+	}
+	function handleFieldDelete(field: string) {
+		dataFrame.deleteField(field);
+		$api.deleteField(filesFromRecords($dataFrame.records), field);
+	}
+	function filesFromRecords(records: DataRecord[]): TFile[] {
+		return records
+			.map((record) => record.id)
+			.map($app.vault.getAbstractFileByPath)
+			.filter(isFile);
 	}
 </script>
 
@@ -144,21 +164,32 @@
 		onViewChange={(viewId) => handleViewChange(viewId)}
 	/>
 
-	{#await indexing}
+	{#await querying}
 		<Progress />
 	{:then}
 		<div class="projects-main">
 			{#if selectedView && viewComponent}
 				<svelte:component
 					this={viewComponent}
-					{records}
-					{fields}
+					{frame}
 					type={selectedView.type}
-					config={selectedView.config}
-					onConfigChange={handleConfigChange}
 					workspace={selectedWorkspace}
+					config={selectedView.config}
+					readonly={$dataSource?.readonly() ?? true}
+					onConfigChange={handleViewConfigChange}
+					onRecordAdd={handleRecordAdd}
+					onRecordUpdate={handleRecordUpdate}
+					onRecordDelete={handleRecordDelete}
+					onFieldRename={handleFieldRename}
+					onFieldDelete={handleFieldDelete}
 				/>
 			{/if}
+		</div>
+	{:catch error}
+		<div style="padding: var(--size-4-3)">
+			<Callout title={error.name} icon="zap" variant="danger">
+				<Typography variant="body">{error.message}</Typography>
+			</Callout>
 		</div>
 	{/await}
 </div>

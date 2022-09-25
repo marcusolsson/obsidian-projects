@@ -12,6 +12,7 @@ export interface GridColDef {
 	hide?: boolean;
 	editable?: boolean;
 	header?: boolean;
+	weight?: number;
 }
 
 export type GridRowId = string;
@@ -41,7 +42,7 @@ export function fieldIcon(field: DataFieldType): string {
 		case DataFieldType.List:
 			return "list";
 	}
-	return "info";
+	return "alert-triangle";
 }
 
 export function sortRows(
@@ -81,12 +82,27 @@ export function sortRows(
 	});
 }
 
+export function sortColumns(columns: GridColDef[]): GridColDef[] {
+	return columns.sort((a, b): number => {
+		let left = a.weight ?? 9999;
+		let right = b.weight ?? 9999;
+
+		if (left < right) {
+			return -1;
+		} else if (left > right) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
+}
+
 export function menuOnContextMenu(event: MouseEvent, menu: Menu): void {
 	const contextMenuFunc = (event: MouseEvent) => {
 		window.removeEventListener("contextmenu", contextMenuFunc);
 		event.preventDefault();
 		event.stopPropagation();
 		menu.showAtMouseEvent(event);
-	}
-	window.addEventListener('contextmenu', contextMenuFunc, false);
+	};
+	window.addEventListener("contextmenu", contextMenuFunc, false);
 }

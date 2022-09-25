@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { addIcon, Plugin, TFolder } from "obsidian";
-import produce from "immer";
 
+import "obsidian-dataview";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -10,7 +10,7 @@ import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 import { createDataRecord, createWorkspace } from "./lib/api";
 import type { WorkspaceDefinition } from "./types";
 
-import { registerFileEvents } from "./lib/stores/file-index";
+import { registerFileEvents } from "./events";
 import { settings } from "./lib/stores/settings";
 import { app, plugin } from "./lib/stores/obsidian";
 import { api } from "./lib/stores/api";
@@ -56,16 +56,7 @@ export default class ProjectsPlugin extends Plugin {
 									this.app,
 									t("modals.workspace.create.title"),
 									t("modals.workspace.create.cta"),
-									(workspace) => {
-										settings.update((state) => {
-											return produce(state, (draft) => {
-												draft.workspaces.push(
-													workspace
-												);
-												return draft;
-											});
-										});
-									},
+									settings.addWorkspace,
 									{
 										...workspace,
 										name: file.name,
@@ -94,14 +85,7 @@ export default class ProjectsPlugin extends Plugin {
 					this.app,
 					t("modals.workspace.create.title"),
 					t("modals.workspace.create.cta"),
-					(workspace) => {
-						settings.update((state) => {
-							return produce(state, (draft) => {
-								draft.workspaces.push(workspace);
-								return draft;
-							});
-						});
-					},
+					settings.addWorkspace,
 					createWorkspace()
 				).open();
 			},
@@ -147,14 +131,14 @@ export default class ProjectsPlugin extends Plugin {
 			`<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
 		);
 
-		registerFileEvents(this);
-
 		// Initialize Svelte stores.
 		app.set(this.app);
 		plugin.set(this);
 		settings.set(
 			Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
 		);
+
+		registerFileEvents(this);
 
 		// Save settings to disk whenever settings has been updated.
 		this.unsubscribeSettings = settings.subscribe((value) => {
