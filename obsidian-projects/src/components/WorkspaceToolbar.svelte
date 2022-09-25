@@ -40,11 +40,9 @@
 			case "calendar":
 				return "calendar";
 			default:
-				console.log("custom icon");
 				const createView = $customViewsV2[type];
 
 				if (createView) {
-					console.log("v2");
 					const view = createView();
 					return view.getIcon();
 				}
@@ -52,7 +50,6 @@
 				const builder = $customViews[type];
 
 				if (builder) {
-					console.log("v1");
 					const view = new Builder();
 					builder(view);
 					return view.icon ?? "";

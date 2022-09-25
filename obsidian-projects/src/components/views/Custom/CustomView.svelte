@@ -10,12 +10,9 @@
 	export let records: DataRecord[];
 	export let fields: DataField[];
 
-	console.log("he");
 
 	$: createView = $customViewsV2[type];
-	$: console.log({ createView });
 	$: viewV2 = createView?.();
-	$: console.log({ viewV2 });
 
 	let view = new Builder();
 

@@ -42,7 +42,6 @@
 		};
 	});
 
-	$: console.log(v2);
 
 	let selectableCustomViews = [...v1, ...v2];
 

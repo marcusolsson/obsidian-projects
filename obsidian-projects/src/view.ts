@@ -37,7 +37,7 @@ export class ProjectsView extends ItemView {
 		view.set(this);
 	}
 
-	onunload(): void {}
+	onunload(): void { }
 
 	async onOpen() {
 		customViews.set(this.getViews());
@@ -68,8 +68,6 @@ export class ProjectsView extends ItemView {
 				}
 			}
 		}
-
-		console.log(views);
 
 		return views;
 	}
