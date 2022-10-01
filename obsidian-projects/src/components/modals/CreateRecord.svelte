@@ -8,6 +8,7 @@
 		ModalContent,
 		ModalLayout,
 	} from "obsidian-svelte";
+	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
 
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
@@ -91,14 +92,25 @@
 				/>
 			</SettingItem>
 		{/if}
+		{#if workspace.dataview}
+			<Callout
+				title={$i18n.t("modals.record.create.readonly.title")}
+				icon="alert-triangle"
+				variant="danger"
+			>
+				{$i18n.t("modals.record.create.readonly.message", {
+					workspace: workspace.name,
+				})}
+			</Callout>
+		{/if}
 	</ModalContent>
 	<ModalButtonGroup>
 		<Button
-			variant="primary"
+			variant={hasErrors || !!workspace.dataview ? "default" : "primary"}
 			on:click={() => {
 				onSave(name, templatePath, workspace);
 			}}
-			disabled={hasErrors}
+			disabled={hasErrors || !!workspace.dataview}
 			>{$i18n.t("modals.record.create.create")}</Button
 		>
 	</ModalButtonGroup>

@@ -135,6 +135,11 @@ i18next.init({
 								description: "",
 							},
 							create: "Create note",
+							readonly: {
+								title: "Read-only workspace",
+								message:
+									"{{workspace}} is a read-only workspace. Select another workspace to create a note.",
+							},
 						},
 						edit: {
 							"short-title": "Edit note",
