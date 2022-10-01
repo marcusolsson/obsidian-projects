@@ -13,29 +13,39 @@
 
 	import { FieldControl } from "../core/FieldControl";
 	import { i18n } from "../../lib/stores/i18n";
+	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
 
 	export let fields: DataField[];
 	export let record: DataRecord;
+
+	$: editableFields = fields.filter((field) => !field.derived);
 
 	export let onSave: (record: DataRecord) => void;
 </script>
 
 <ModalLayout title={$i18n.t("modals.record.edit.title")}>
 	<ModalContent>
-		{#each fields as field}
-			{#if !field.derived}
-				<SettingItem name={field.name}>
-					<FieldControl
-						value={record.values[field.name]}
-						onChange={(value) => {
-							record = produce(record, (draft) => {
-								draft.values[field.name] = value;
-							});
-						}}
-						type={field.type}
-					/>
-				</SettingItem>
-			{/if}
+		{#if !editableFields.length}
+			<Callout
+				title={$i18n.t("modals.record.edit.no-editable-fields.title")}
+				icon="info"
+				variant="info"
+			>
+				{$i18n.t("modals.record.edit.no-editable-fields.message")}
+			</Callout>
+		{/if}
+		{#each editableFields as field}
+			<SettingItem name={field.name}>
+				<FieldControl
+					value={record.values[field.name]}
+					onChange={(value) => {
+						record = produce(record, (draft) => {
+							draft.values[field.name] = value;
+						});
+					}}
+					type={field.type}
+				/>
+			</SettingItem>
 		{/each}
 	</ModalContent>
 	<ModalButtonGroup>

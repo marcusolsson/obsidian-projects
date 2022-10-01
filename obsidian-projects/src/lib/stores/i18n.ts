@@ -140,6 +140,10 @@ i18next.init({
 							"short-title": "Edit note",
 							title: "Edit note",
 							save: "Save",
+							"no-editable-fields": {
+								title: "No editable fields",
+								message: "This note has no editable fields.",
+							},
 						},
 					},
 					input: {

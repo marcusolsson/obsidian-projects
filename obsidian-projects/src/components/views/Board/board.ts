@@ -46,5 +46,9 @@ export function groupRecordsByField(
 		}
 	});
 
+	if (!res[noStatus]?.length) {
+		delete res[noStatus];
+	}
+
 	return res;
 }

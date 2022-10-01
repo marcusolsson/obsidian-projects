@@ -13,4 +13,8 @@
 		border: 1px solid var(--background-modifier-border);
 		padding: var(--size-4-2);
 	}
+
+	div:hover {
+		border: 1px solid var(--background-modifier-border-hover);
+	}
 </style>

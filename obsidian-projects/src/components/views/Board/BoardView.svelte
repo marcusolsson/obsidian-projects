@@ -59,10 +59,8 @@
 
 	$: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
 
-	function handleRecordClick(record: DataRecord): (event: Event) => void {
-		return () => {
-			new ConfigureRecord($app, fields, onRecordUpdate, record).open();
-		};
+	function handleRecordClick(record: DataRecord) {
+		new ConfigureRecord($app, fields, onRecordUpdate, record).open();
 	}
 
 	function handleRecordAdd(column: string) {
@@ -138,8 +136,8 @@
 				records: groupedRecords[column] ?? [],
 			}))}
 		groupByPriority={priorityField?.name}
-		onRecordClick={(record) => handleRecordClick(record)}
-		onRecordAdd={(column) => handleRecordAdd(column)}
+		onRecordClick={handleRecordClick}
+		onRecordAdd={handleRecordAdd}
 	/>
 </div>
 
