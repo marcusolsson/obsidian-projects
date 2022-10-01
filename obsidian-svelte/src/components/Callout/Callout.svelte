@@ -1,9 +1,31 @@
 <script lang="ts">
 	import { useIcon } from "../Icon/useIcon";
 
+	/**
+	 * Specifies the title of the callout.
+	 */
 	export let title: string;
+
+	/**
+	 * Specifies the icon next to the title.
+	 */
 	export let icon: string;
-	export let variant: string;
+
+	/**
+	 * Specifies the variant of callout, which determines the color.
+	 */
+	export let variant:
+		| "info"
+		| "todo"
+		| "tip"
+		| "success"
+		| "question"
+		| "warning"
+		| "failure"
+		| "danger"
+		| "bug"
+		| "example"
+		| "quote";
 </script>
 
 <div
