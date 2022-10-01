@@ -134,6 +134,8 @@ i18next.init({
 								name: "Project",
 								description: "",
 							},
+							"name-taken-error":
+								"A note with that name already exists.",
 							create: "Create note",
 							readonly: {
 								title: "Read-only project",

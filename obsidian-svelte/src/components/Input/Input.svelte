@@ -37,6 +37,8 @@
 	 */
 	export let width: string = "auto";
 
+	export let status: "default" | "error" = "default";
+
 	let ref: HTMLInputElement;
 
 	const dispatch = createEventDispatcher<{ input: string; submit: string }>();
@@ -63,6 +65,7 @@
 
 <input
 	class:embed
+	class:error={status === "error"}
 	bind:this={ref}
 	{value}
 	{type}
@@ -83,5 +86,13 @@
 
 	.embed:focus {
 		box-shadow: none;
+	}
+
+	.error,
+	.error:focus {
+		border: 1px solid var(--background-modifier-error);
+	}
+	.error:hover {
+		border: 1px solid var(--background-modifier-error-hover);
 	}
 </style>

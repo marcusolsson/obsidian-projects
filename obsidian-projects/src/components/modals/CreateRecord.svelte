@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { normalizePath, TFile } from "obsidian";
 	import {
 		Button,
 		Input,
@@ -12,6 +13,7 @@
 
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
+	import { app } from "../../lib/stores/obsidian";
 	import { settings } from "../../lib/stores/settings";
 	import type { WorkspaceDefinition } from "../../types";
 
@@ -26,6 +28,17 @@
 	let templatePath = "";
 
 	$: hasErrors = !isValidPath(name ?? "");
+
+	$: nameError = !isNameValid(name)
+		? $i18n.t("modals.record.create.name-taken-error")
+		: "";
+
+	function isNameValid(name: string) {
+		const existingFile = $app.vault.getAbstractFileByPath(
+			normalizePath(workspace.path + "/" + name + ".md")
+		);
+		return !(existingFile instanceof TFile);
+	}
 </script>
 
 <ModalLayout title={$i18n.t("modals.record.create.title")}>
@@ -39,7 +52,15 @@
 					value={name}
 					on:input={({ detail: value }) => (name = value)}
 					autofocus
+					status={nameError ? "error" : "default"}
 				/>
+				{#if nameError}
+					<div>
+						<small class="error">
+							{nameError}
+						</small>
+					</div>
+				{/if}
 				{#if !isValidPath(name ?? "")}
 					<div>
 						<small class="error">
@@ -99,18 +120,20 @@
 				variant="danger"
 			>
 				{$i18n.t("modals.record.create.readonly.message", {
-					workspace: workspace.name,
+					project: workspace.name,
 				})}
 			</Callout>
 		{/if}
 	</ModalContent>
 	<ModalButtonGroup>
 		<Button
-			variant={hasErrors || !!workspace.dataview ? "default" : "primary"}
+			variant={!!nameError || hasErrors || !!workspace.dataview
+				? "default"
+				: "primary"}
 			on:click={() => {
 				onSave(name, templatePath, workspace);
 			}}
-			disabled={hasErrors || !!workspace.dataview}
+			disabled={!!nameError || hasErrors || !!workspace.dataview}
 			>{$i18n.t("modals.record.create.create")}</Button
 		>
 	</ModalButtonGroup>
