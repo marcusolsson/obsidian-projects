@@ -110,7 +110,6 @@
 
 	.unprio {
 		border-top: 1px solid var(--background-modifier-border);
-		border-bottom: 1px solid var(--background-modifier-border);
 	}
 
 	p {
