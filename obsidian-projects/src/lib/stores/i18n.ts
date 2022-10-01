@@ -71,7 +71,7 @@ i18next.init({
 							error: {
 								title: "Dataview is disabled",
 								message:
-									"Enable the Dataview plugin to continue using this workspace.",
+									"Enable the Dataview plugin to continue using this project.",
 							},
 						},
 						query: {
@@ -136,9 +136,9 @@ i18next.init({
 							},
 							create: "Create note",
 							readonly: {
-								title: "Read-only workspace",
+								title: "Read-only project",
 								message:
-									"{{workspace}} is a read-only workspace. Select another workspace to create a note.",
+									"{{project}} is a read-only project. Select another project to create a note.",
 							},
 						},
 						edit: {
@@ -238,7 +238,7 @@ i18next.init({
 					missingDataview: {
 						title: "Dataview is disabled",
 						message:
-							"Enable the Dataview plugin to continue using this workspace.",
+							"Enable the Dataview plugin to continue using this project.",
 					},
 				},
 			},
