@@ -19,6 +19,7 @@
 	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
 	import { notEmpty } from "../views/Board/board";
 	import { capabilities } from "obsidian-projects/src/lib/stores/capabilities";
+	import { settings } from "obsidian-projects/src/lib/stores/settings";
 	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
 
 	export let title: string;
@@ -26,10 +27,27 @@
 	export let onSave: (workspace: WorkspaceDefinition) => void;
 	export let workspace: WorkspaceDefinition;
 
+	$: workspaces = $settings.workspaces;
+
 	$: defaultName = interpolateTemplate(workspace.defaultName ?? "", {
 		date: (format) => moment().format(format || "YYYY-MM-DD"),
 		time: (format) => moment().format(format || "HH:mm"),
 	});
+
+	$: ({ name } = workspace);
+	$: nameError = validateName(name);
+
+	function validateName(name: string) {
+		if (name === "") {
+			return $i18n.t("modals.workspace.create.empty-name-error");
+		}
+
+		if (workspaces.find((workspace) => workspace.name === name)) {
+			return $i18n.t("modals.workspace.create.existing-name-error");
+		}
+
+		return "";
+	}
 </script>
 
 <ModalLayout {title}>
@@ -43,6 +61,8 @@
 				on:input={({ detail: name }) =>
 					(workspace = { ...workspace, name })}
 				autofocus
+				error={!!nameError}
+				helperText={nameError}
 			/>
 		</SettingItem>
 
@@ -153,6 +173,7 @@
 	<ModalButtonGroup>
 		<Button
 			variant="primary"
+			disabled={!!nameError}
 			on:click={() => {
 				onSave({
 					...workspace,

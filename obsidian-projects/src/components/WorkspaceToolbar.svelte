@@ -172,11 +172,15 @@
 					item.setTitle($i18n.t("modals.view.create.short-title"))
 						.setIcon("table")
 						.onClick(() => {
-							new AddViewModal($app, (view) => {
-								if (workspace) {
-									settings.addView(workspace, view);
-								}
-							}).open();
+							if (workspaceDef) {
+								new AddViewModal(
+									$app,
+									workspaceDef,
+									(workspaceId, view) => {
+										settings.addView(workspaceId, view);
+									}
+								).open();
+							}
 						});
 				});
 				menu.addItem((item) => {

@@ -27,17 +27,26 @@
 
 	let templatePath = "";
 
-	$: hasErrors = !isValidPath(name ?? "");
+	$: nameError = validateName(name);
 
-	$: nameError = !isNameValid(name)
-		? $i18n.t("modals.record.create.name-taken-error")
-		: "";
+	function validateName(name: string) {
+		if (name === "") {
+			return $i18n.t("modals.record.create.empty-name-error");
+		}
 
-	function isNameValid(name: string) {
 		const existingFile = $app.vault.getAbstractFileByPath(
 			normalizePath(workspace.path + "/" + name + ".md")
 		);
-		return !(existingFile instanceof TFile);
+
+		if (existingFile instanceof TFile) {
+			return $i18n.t("modals.record.create.name-taken-error");
+		}
+
+		if (!isValidPath(name)) {
+			return $i18n.t("modals.workspace.defaultName.invalid");
+		}
+
+		return "";
 	}
 </script>
 
@@ -47,28 +56,13 @@
 			name={$i18n.t("modals.record.create.name.name")}
 			description={$i18n.t("modals.record.create.name.description") ?? ""}
 		>
-			<div>
-				<Input
-					value={name}
-					on:input={({ detail: value }) => (name = value)}
-					autofocus
-					status={nameError ? "error" : "default"}
-				/>
-				{#if nameError}
-					<div>
-						<small class="error">
-							{nameError}
-						</small>
-					</div>
-				{/if}
-				{#if !isValidPath(name ?? "")}
-					<div>
-						<small class="error">
-							{$i18n.t("modals.workspace.defaultName.invalid")}
-						</small>
-					</div>
-				{/if}
-			</div>
+			<Input
+				value={name}
+				on:input={({ detail: value }) => (name = value)}
+				autofocus
+				error={!!nameError}
+				helperText={nameError}
+			/>
 		</SettingItem>
 
 		<SettingItem
@@ -127,24 +121,13 @@
 	</ModalContent>
 	<ModalButtonGroup>
 		<Button
-			variant={!!nameError || hasErrors || !!workspace.dataview
-				? "default"
-				: "primary"}
+			variant={"primary"}
+			disabled={!!nameError || !!workspace.dataview}
 			on:click={() => {
 				onSave(name, templatePath, workspace);
 			}}
-			disabled={!!nameError || hasErrors || !!workspace.dataview}
-			>{$i18n.t("modals.record.create.create")}</Button
 		>
+			{$i18n.t("modals.record.create.create")}
+		</Button>
 	</ModalButtonGroup>
 </ModalLayout>
-
-<style>
-	small {
-		font-size: var(--font-ui-smaller);
-		color: var(--text-muted);
-	}
-	.error {
-		color: var(--text-error);
-	}
-</style>

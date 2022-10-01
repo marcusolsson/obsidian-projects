@@ -12,7 +12,9 @@ import {
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 import type { WorkspaceDefinition } from "../types";
+import { nextUniqueProjectName } from "./path";
 import { i18n } from "./stores/i18n";
+import { settings } from "./stores/settings";
 import { interpolateTemplate } from "./templates";
 import {
 	isDate,
@@ -25,7 +27,10 @@ import {
 export function createWorkspace(): WorkspaceDefinition {
 	return {
 		id: uuidv4(),
-		name: get(i18n).t("modals.workspace.create.untitled"),
+		name: nextUniqueProjectName(
+			get(settings).workspaces,
+			get(i18n).t("modals.workspace.create.untitled")
+		),
 		path: "",
 		recursive: false,
 		defaultName: "",

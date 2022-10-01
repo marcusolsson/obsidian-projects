@@ -3,6 +3,9 @@ import { App, Modal } from "obsidian";
 import { interpolateTemplate } from "../lib/templates";
 import type { WorkspaceDefinition } from "../types";
 import CreateRecord from "../components/modals/CreateRecord.svelte";
+import { nextUniqueFileName } from "../lib/path";
+import { i18n } from "../lib/stores/i18n";
+import { get } from "svelte/store";
 
 export class CreateRecordModal extends Modal {
 	// @ts-ignore
@@ -35,10 +38,17 @@ export class CreateRecordModal extends Modal {
 		this.component = new CreateRecord({
 			target: this.contentEl,
 			props: {
-				name: interpolateTemplate(this.workspace.defaultName ?? "", {
-					date: (format) => moment().format(format || "YYYY-MM-DD"),
-					time: (format) => moment().format(format || "HH:mm"),
-				}),
+				name: this.workspace.defaultName
+					? interpolateTemplate(this.workspace.defaultName ?? "", {
+							date: (format) =>
+								moment().format(format || "YYYY-MM-DD"),
+							time: (format) =>
+								moment().format(format || "HH:mm"),
+					  })
+					: nextUniqueFileName(
+							this.workspace.path,
+							get(i18n).t("modals.record.create.untitled")
+					  ),
 				workspace: this.workspace,
 				onSave: (
 					name: string,

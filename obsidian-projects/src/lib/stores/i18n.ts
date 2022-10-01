@@ -42,6 +42,9 @@ i18next.init({
 							untitled: "Untitled project",
 							title: "Create new project",
 							cta: "Create project",
+							"existing-name-error":
+								"A project with that name already exists.",
+							"empty-name-error": "Project name can't be empty.",
 						},
 						edit: {
 							"short-title": "Edit project",
@@ -108,6 +111,8 @@ i18next.init({
 								description: "",
 							},
 							cta: "Add view",
+							"existing-name-error":
+								"A view with that name already exists.",
 						},
 						delete: {
 							"short-title": "Delete view",
@@ -136,12 +141,14 @@ i18next.init({
 							},
 							"name-taken-error":
 								"A note with that name already exists.",
+							"empty-name-error": "Name can't be empty.",
 							create: "Create note",
 							readonly: {
 								title: "Read-only project",
 								message:
 									"{{project}} is a read-only project. Select another project to create a note.",
 							},
+							untitled: "Untitled note",
 						},
 						edit: {
 							"short-title": "Edit note",

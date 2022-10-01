@@ -33,11 +33,19 @@
 	export let autofocus: boolean = false;
 
 	/**
-	 * Specifices the width of the input.
+	 * Specifies the width of the input.
 	 */
 	export let width: string = "auto";
 
-	export let status: "default" | "error" = "default";
+	/**
+	 * Specifies whether the input contains an error.
+	 */
+	export let error: boolean = false;
+
+	/**
+	 * Specifies additional information for the input.
+	 */
+	export let helperText: string = "";
 
 	let ref: HTMLInputElement;
 
@@ -63,18 +71,25 @@
 	});
 </script>
 
-<input
-	class:embed
-	class:error={status === "error"}
-	bind:this={ref}
-	{value}
-	{type}
-	{placeholder}
-	{readonly}
-	on:input={handleInput}
-	on:keydown={handleKeyDown}
-	style={`width: ${width}`}
-/>
+<div>
+	<input
+		class:embed
+		class:error
+		bind:this={ref}
+		{value}
+		{type}
+		{placeholder}
+		{readonly}
+		on:input={handleInput}
+		on:keydown={handleKeyDown}
+		style={`width: ${width}`}
+	/>
+	{#if !!helperText}
+		<small class:errorText={error}>
+			{helperText}
+		</small>
+	{/if}
+</div>
 
 <style>
 	.embed {
@@ -88,11 +103,26 @@
 		box-shadow: none;
 	}
 
-	.error,
-	.error:focus {
-		border: 1px solid var(--background-modifier-error);
+	.error {
+		border-color: var(--background-modifier-error);
 	}
+
 	.error:hover {
-		border: 1px solid var(--background-modifier-error-hover);
+		border-color: var(--background-modifier-error-hover);
+	}
+
+	.error:focus {
+		box-shadow: 0 0 0 2px var(--background-modifier-error);
+		border-color: var(--background-modifier-error);
+	}
+
+	small {
+		margin-top: var(--size-4-2);
+		font-size: var(--font-ui-smaller);
+		color: var(--text-muted);
+		display: block;
+	}
+	.errorText {
+		color: var(--text-error);
 	}
 </style>

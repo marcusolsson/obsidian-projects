@@ -1,15 +1,22 @@
 import { App, Modal } from "obsidian";
 import AddView from "../components/modals/AddView.svelte";
-import type { ViewDefinition } from "../types";
+import type { ViewDefinition, WorkspaceDefinition } from "../types";
 
 export class AddViewModal extends Modal {
 	// @ts-expect-error
 	component: AddView;
-	onSave: (view: ViewDefinition) => void;
 
-	constructor(app: App, onSave: (view: ViewDefinition) => void) {
+	workspace: WorkspaceDefinition;
+	onSave: (workspaceId: string, view: ViewDefinition) => void;
+
+	constructor(
+		app: App,
+		workspace: WorkspaceDefinition,
+		onSave: (workspaceId: string, view: ViewDefinition) => void
+	) {
 		super(app);
 
+		this.workspace = workspace;
 		this.onSave = onSave;
 	}
 
@@ -17,8 +24,9 @@ export class AddViewModal extends Modal {
 		this.component = new AddView({
 			target: this.contentEl,
 			props: {
-				onSave: (view: ViewDefinition) => {
-					this.onSave(view);
+				workspace: this.workspace,
+				onSave: (workspaceId: string, view: ViewDefinition) => {
+					this.onSave(workspaceId, view);
 					this.close();
 				},
 			},

@@ -18,6 +18,7 @@
 	class:mod-plain={variant === "plain"}
 	on:click
 	{disabled}
+	class:disabled
 >
 	<slot />
 </button>
@@ -38,5 +39,9 @@
 
 	.mod-plain:hover {
 		color: var(--text-normal);
+	}
+
+	.disabled {
+		opacity: 0.6;
 	}
 </style>
