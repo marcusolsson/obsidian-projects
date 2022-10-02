@@ -7,9 +7,14 @@
 	export let icon: string = "";
 	export let onRename: (value: string) => void = () => {};
 	export let onDelete: () => void = () => {};
+	export let onValidate: (name: string) => boolean;
 
 	let active: boolean = false;
 	let editing: boolean = false;
+
+	let fallback: string = name;
+
+	$: error = !onValidate(name);
 
 	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
 		function onClick(event: any) {
@@ -34,6 +39,7 @@
 <div
 	class:selected
 	on:click
+	class:error
 	class:link={variant === "link"}
 	on:mouseenter={() => (active = true)}
 	on:mouseleave={() => (active = false)}
@@ -41,10 +47,14 @@
 	on:blur={() => {
 		active = false;
 		editing = false;
+
+		name = fallback;
 	}}
 	on:dblclick={() => (editing = true)}
 	use:clickOutside={() => {
 		editing = false;
+
+		name = fallback;
 	}}
 >
 	{#if icon}
@@ -53,8 +63,19 @@
 	{#if editing}
 		<Input
 			value={name}
-			on:input={({ detail: value }) => onRename(value)}
-			on:submit={() => (editing = false)}
+			on:input={({ detail: value }) => {
+				name = value;
+			}}
+			on:submit={() => {
+				editing = false;
+
+				if (!error) {
+					fallback = name;
+					onRename(name);
+				} else {
+					name = fallback;
+				}
+			}}
 			autofocus
 			embed
 		/>
@@ -89,6 +110,8 @@
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+
+		border: 1px solid transparent;
 	}
 
 	div:hover {
@@ -109,5 +132,12 @@
 		background: none;
 		color: var(--text-muted);
 		box-shadow: none;
+	}
+
+	.error {
+		border: 1px solid var(--background-modifier-error);
+	}
+	.error:hover {
+		border: 1px solid var(--background-modifier-error-hover);
 	}
 </style>

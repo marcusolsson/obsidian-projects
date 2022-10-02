@@ -27,6 +27,8 @@
 	export let onSave: (workspace: WorkspaceDefinition) => void;
 	export let workspace: WorkspaceDefinition;
 
+	let originalName = workspace.name;
+
 	$: workspaces = $settings.workspaces;
 
 	$: defaultName = interpolateTemplate(workspace.defaultName ?? "", {
@@ -38,6 +40,10 @@
 	$: nameError = validateName(name);
 
 	function validateName(name: string) {
+		if (name === originalName) {
+			return "";
+		}
+
 		if (name === "") {
 			return $i18n.t("modals.workspace.create.empty-name-error");
 		}

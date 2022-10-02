@@ -144,6 +144,18 @@
 							}
 						).open();
 					}}
+					onValidate={(name) => {
+						if (name === v.name) {
+							return true;
+						}
+
+						return (
+							name !== "" &&
+							!workspaceDef?.views.find(
+								(view) => view.name === name
+							)
+						);
+					}}
 				/>
 			{/each}
 		{/if}
