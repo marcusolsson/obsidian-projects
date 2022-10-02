@@ -97,13 +97,14 @@
 	div {
 		margin: 0;
 
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		gap: 4px;
 
 		background: none;
 		height: 1.8rem;
 		padding: 0 8px;
+		min-width: min-content;
 		font-size: var(--font-ui-small);
 		border-radius: var(--radius-s);
 

@@ -195,6 +195,10 @@
 </div>
 
 <style>
+	:global(*) {
+		box-sizing: border-box;
+	}
+
 	.projects-container {
 		display: flex;
 		flex-direction: column;
