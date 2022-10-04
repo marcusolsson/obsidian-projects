@@ -8,14 +8,19 @@
 	export let value: string | undefined;
 	export let onChange: (value: string) => void;
 	export let column: GridColDef;
-	let edit = false;
+
+	let edit: boolean = false;
+	let selected: boolean = false;
 </script>
 
-<GridCell {edit} onEditChange={(value) => (edit = value)} {column} on:mousedown>
+<GridCell bind:edit bind:selected {column} on:mousedown>
 	<TextLabel slot="read" value={value || ""} />
 	<TextInput
+		on:blur={() => {
+			selected = false;
+			edit = false;
+		}}
 		slot="edit"
-		onBlur={() => (edit = false)}
 		value={value || ""}
 		{onChange}
 	/>

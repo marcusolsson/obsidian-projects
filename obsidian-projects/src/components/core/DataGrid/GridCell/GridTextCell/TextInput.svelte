@@ -18,7 +18,14 @@
 	});
 </script>
 
-<input type="text" bind:this={ref} {value} on:change={handleInput} />
+<input
+	tabindex={-1}
+	type="text"
+	bind:this={ref}
+	{value}
+	on:change={handleInput}
+	on:blur
+/>
 
 <style>
 	input {

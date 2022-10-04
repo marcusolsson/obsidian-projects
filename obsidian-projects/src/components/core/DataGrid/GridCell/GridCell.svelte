@@ -60,8 +60,24 @@
 				break;
 			case "Escape":
 				onEditChange(false);
+				ref.focus();
 				break;
 		}
+	}
+
+	function handleBlur(event: FocusEvent) {
+		hover = false;
+
+		if (
+			event.currentTarget instanceof HTMLDivElement &&
+			event.relatedTarget instanceof HTMLElement &&
+			event.currentTarget.contains(event.relatedTarget)
+		) {
+			return;
+		}
+
+		onEditChange(false);
+		selected = false;
 	}
 </script>
 
@@ -72,14 +88,17 @@
 	class:selected
 	class:rowHeader
 	style={`width: ${column.width}px`}
-	tabindex={1}
+	tabindex={!columnHeader && !rowHeader ? 1 : undefined}
 	on:click={handleClick}
 	on:dblclick={handleDoubleClick}
 	on:mousedown
 	on:mouseenter={() => (hover = true)}
 	on:mouseleave={() => (hover = false)}
-	on:focus={() => (hover = true)}
-	on:blur={() => (hover = false)}
+	on:focus={() => {
+		hover = true;
+		selected = true;
+	}}
+	on:blur={handleBlur}
 	on:keydown={handleKeyPress}
 	use:clickOutside={() => {
 		onEditChange(false);

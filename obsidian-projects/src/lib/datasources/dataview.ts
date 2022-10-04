@@ -81,7 +81,7 @@ function parseRecords(rows: Array<Record<string, any>>): DataRecord[] {
 		const id = values["File"];
 
 		if (id && isString(id)) {
-			records.push({ id, values: standardizeValues(row) });
+			records.push({ id, values });
 		}
 	});
 

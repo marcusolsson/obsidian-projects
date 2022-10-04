@@ -1,4 +1,5 @@
 import type { App, MetadataCache, TFile } from "obsidian";
+import { notEmpty } from "obsidian-projects/src/components/views/Board/board";
 import type { WorkspaceDefinition } from "obsidian-projects/src/types";
 import {
 	DataFieldType,
@@ -82,7 +83,7 @@ export function parseRecords(
 				cache.frontmatter ?? {};
 
 			const filteredValues = Object.fromEntries(
-				Object.entries(values).filter(([_, value]) => !!value)
+				Object.entries(values).filter(([_, value]) => notEmpty(value))
 			);
 
 			filteredValues["path"] = file.path;

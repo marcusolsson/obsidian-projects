@@ -25,11 +25,13 @@
 </script>
 
 <input
+	tabindex={-1}
 	type="number"
 	bind:this={ref}
 	{value}
 	on:input={handleInput}
 	on:keypress={handleKeyup}
+	on:blur
 />
 
 <style>

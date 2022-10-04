@@ -9,10 +9,11 @@
 	export let onChange: (value: number) => void;
 	export let column: GridColDef;
 
-	let edit = false;
+	let edit: boolean = false;
+	let selected: boolean = false;
 </script>
 
-<GridCell {edit} onEditChange={(value) => (edit = value)} {column} on:mousedown>
+<GridCell bind:edit bind:selected {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isNumber(value)}
 			<NumberLabel {value} />
@@ -20,12 +21,13 @@
 	</svelte:fragment>
 	<NumberInput
 		slot="edit"
+		on:blur={() => {
+			selected = false;
+			edit = false;
+		}}
 		value={value ?? 0}
 		onChange={(value) => {
 			onChange(value);
-		}}
-		onBlur={() => {
-			edit = false;
 		}}
 	/>
 </GridCell>
