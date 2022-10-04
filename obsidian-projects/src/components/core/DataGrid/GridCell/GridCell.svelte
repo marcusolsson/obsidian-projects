@@ -17,6 +17,8 @@
 
 	let hover: boolean = false;
 
+	let ref: HTMLDivElement;
+
 	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
 		function onClick(event: any) {
 			if (!element.contains(event.target)) {
@@ -46,14 +48,31 @@
 			onEditChange(true);
 		}
 	}
+	function handleKeyPress(event: KeyboardEvent) {
+		switch (event.key) {
+			case "Enter":
+				if (edit) {
+					onEditChange(false);
+					ref.focus();
+				} else {
+					onEditChange(true);
+				}
+				break;
+			case "Escape":
+				onEditChange(false);
+				break;
+		}
+	}
 </script>
 
 <div
+	bind:this={ref}
 	class:columnHeader
 	class:header={column.header}
 	class:selected
 	class:rowHeader
 	style={`width: ${column.width}px`}
+	tabindex={1}
 	on:click={handleClick}
 	on:dblclick={handleDoubleClick}
 	on:mousedown
@@ -61,6 +80,7 @@
 	on:mouseleave={() => (hover = false)}
 	on:focus={() => (hover = true)}
 	on:blur={() => (hover = false)}
+	on:keydown={handleKeyPress}
 	use:clickOutside={() => {
 		onEditChange(false);
 		selected = false;
