@@ -65,7 +65,7 @@ i18next.init({
 						path: {
 							name: "Path",
 							description:
-								"Path to the folder you want to manage. Leave empty for root folder.",
+								"Path to the folder you want to manage. Leave empty to use root folder.",
 						},
 						dataview: {
 							name: "Use Dataview",
@@ -88,7 +88,8 @@ i18next.init({
 						},
 						templates: {
 							name: "Templates",
-							description: "Templates for creating new notes.",
+							description:
+								"Templates to choose from when you create new notes.",
 						},
 						defaultName: {
 							name: "Default name",

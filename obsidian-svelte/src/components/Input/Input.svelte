@@ -71,7 +71,7 @@
 	});
 </script>
 
-<div>
+<div style={`width: ${width}`}>
 	<input
 		class:embed
 		class:error
