@@ -88,7 +88,10 @@ export function computeDateInterval(
 ): [dayjs.Dayjs, dayjs.Dayjs] {
 	switch (interval) {
 		case "month":
-			return [anchor.startOf("month"), anchor.endOf("month")];
+			return [
+				anchor.startOf("month").startOf("isoWeek"),
+				anchor.endOf("month").endOf("isoWeek"),
+			];
 		case "2weeks":
 			return [
 				anchor.startOf("isoWeek"),
