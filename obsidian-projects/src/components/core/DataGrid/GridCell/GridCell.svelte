@@ -14,6 +14,9 @@
 	export let onEditChange: (value: boolean) => void = (value: boolean) => {
 		edit = value;
 	};
+	export let onCopy: () => void = () => {};
+	export let onCut: () => void = () => {};
+	export let onPaste: () => void = () => {};
 
 	let hover: boolean = false;
 
@@ -49,6 +52,19 @@
 		}
 	}
 	function handleKeyPress(event: KeyboardEvent) {
+		if (event.metaKey || event.ctrlKey) {
+			switch (event.key) {
+				case "c":
+					onCopy();
+					break;
+				case "x":
+					onCut();
+					break;
+				case "v":
+					onPaste();
+					break;
+			}
+		}
 		switch (event.key) {
 			case "Enter":
 				if (edit) {

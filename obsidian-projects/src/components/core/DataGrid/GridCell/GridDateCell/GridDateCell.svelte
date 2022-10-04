@@ -21,9 +21,14 @@
 	}}
 	{column}
 	on:mousedown
+	onCopy={() => {
+		if (value) {
+			navigator.clipboard.writeText(value.toLocaleDateString());
+		}
+	}}
 >
 	<svelte:fragment slot="read">
-		{#if isDate(value)}
+		{#if value}
 			<TextLabel value={value.toLocaleDateString()} />
 		{/if}
 	</svelte:fragment>

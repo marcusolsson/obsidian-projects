@@ -6,14 +6,29 @@
 	import type { GridColDef } from "../../data-grid";
 
 	export let value: number | undefined;
-	export let onChange: (value: number) => void;
+	export let onChange: (value: number | undefined) => void;
 	export let column: GridColDef;
 
 	let edit: boolean = false;
 	let selected: boolean = false;
 </script>
 
-<GridCell bind:edit bind:selected {column} on:mousedown>
+<GridCell
+	bind:edit
+	bind:selected
+	{column}
+	on:mousedown
+	onCopy={() => {
+		navigator.clipboard.writeText(value?.toString() ?? "");
+	}}
+	onCut={() => {
+		navigator.clipboard.writeText(value?.toString() ?? "");
+		onChange(undefined);
+	}}
+	onPaste={async () => {
+		onChange(parseFloat(await navigator.clipboard.readText()));
+	}}
+>
 	<svelte:fragment slot="read">
 		{#if isNumber(value)}
 			<NumberLabel {value} />
@@ -21,9 +36,15 @@
 	</svelte:fragment>
 	<NumberInput
 		slot="edit"
-		on:blur={() => {
-			selected = false;
-			edit = false;
+		on:blur={(event) => {
+			if (
+				event.currentTarget instanceof HTMLInputElement &&
+				event.relatedTarget instanceof HTMLDivElement &&
+				!event.relatedTarget.contains(event.currentTarget)
+			) {
+				selected = false;
+				edit = false;
+			}
 		}}
 		value={value ?? 0}
 		onChange={(value) => {

@@ -6,19 +6,40 @@
 	import TextLabel from "./TextLabel.svelte";
 
 	export let value: string | undefined;
-	export let onChange: (value: string) => void;
+	export let onChange: (value: string | undefined) => void;
 	export let column: GridColDef;
 
 	let edit: boolean = false;
 	let selected: boolean = false;
 </script>
 
-<GridCell bind:edit bind:selected {column} on:mousedown>
+<GridCell
+	bind:edit
+	bind:selected
+	{column}
+	on:mousedown
+	onCopy={() => {
+		navigator.clipboard.writeText(value?.toString() ?? "");
+	}}
+	onCut={() => {
+		navigator.clipboard.writeText(value?.toString() ?? "");
+		onChange(undefined);
+	}}
+	onPaste={async () => {
+		onChange(await navigator.clipboard.readText());
+	}}
+>
 	<TextLabel slot="read" value={value || ""} />
 	<TextInput
-		on:blur={() => {
-			selected = false;
-			edit = false;
+		on:blur={(event) => {
+			if (
+				event.currentTarget instanceof HTMLInputElement &&
+				event.relatedTarget instanceof HTMLDivElement &&
+				!event.relatedTarget.contains(event.currentTarget)
+			) {
+				selected = false;
+				edit = false;
+			}
 		}}
 		slot="edit"
 		value={value || ""}
