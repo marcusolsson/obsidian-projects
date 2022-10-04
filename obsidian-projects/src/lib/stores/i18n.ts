@@ -82,9 +82,9 @@ i18next.init({
 							description: "Only supports TABLE queries.",
 						},
 						recursive: {
-							name: "Recursive",
+							name: "Include subfolders",
 							description:
-								"Manage notes in folders within the project path.",
+								"Manage notes in subfolders within the project path.",
 						},
 						templates: {
 							name: "Templates",
