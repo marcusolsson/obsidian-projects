@@ -4,7 +4,7 @@
 	import type {
 		ViewDefinition,
 		ViewType,
-		WorkspaceDefinition,
+		ProjectDefinition,
 	} from "../../types";
 
 	import {
@@ -23,8 +23,8 @@
 	import { Builder } from "obsidian-projects/src/builder";
 	import { nextUniqueViewName } from "obsidian-projects/src/lib/path";
 
-	export let onSave: (workspaceId: string, view: ViewDefinition) => void;
-	export let workspace: WorkspaceDefinition;
+	export let onSave: (projectId: string, view: ViewDefinition) => void;
+	export let project: ProjectDefinition;
 
 	let name: string = "";
 	let type: ViewType = "table";
@@ -63,7 +63,7 @@
 	$: nameError = validateName(name);
 
 	function validateName(name: string) {
-		if (workspace.views.find((view) => view.name === name)) {
+		if (project.views.find((view) => view.name === name)) {
 			return $i18n.t("modals.view.create.existing-name-error");
 		}
 		return "";
@@ -99,22 +99,21 @@
 		</SettingItem>
 
 		<SettingItem
-			name={$i18n.t("modals.record.create.workspace.name")}
-			description={$i18n.t(
-				"modals.record.create.workspace.description"
-			) ?? ""}
+			name={$i18n.t("modals.note.create.project.name")}
+			description={$i18n.t("modals.note.create.project.description") ??
+				""}
 		>
 			<Select
-				value={workspace.id}
+				value={project.id}
 				on:change={({ detail: id }) => {
-					const res = $settings.workspaces.find((w) => w.id === id);
+					const res = $settings.projects.find((w) => w.id === id);
 					if (res) {
-						workspace = res;
+						project = res;
 					}
 				}}
-				options={$settings.workspaces.map((workspace) => ({
-					label: workspace.name,
-					value: workspace.id,
+				options={$settings.projects.map((project) => ({
+					label: project.name,
+					value: project.id,
 				}))}
 			/>
 		</SettingItem>
@@ -123,12 +122,12 @@
 		<Button
 			variant="primary"
 			on:click={() => {
-				onSave(workspace.id, {
+				onSave(project.id, {
 					id: uuidv4(),
 					name:
 						name ||
 						nextUniqueViewName(
-							workspace.views,
+							project.views,
 							selectedOption?.label ?? type
 						),
 					type,

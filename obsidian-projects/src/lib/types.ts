@@ -1,5 +1,5 @@
 import type { TFile } from "obsidian";
-import type { WorkspaceDefinition } from "../types";
+import type { ProjectDefinition } from "../types";
 
 export enum DataFieldType {
 	String = "string",
@@ -110,10 +110,10 @@ export function isRawLink(value: any): value is Array<Array<string>> {
 }
 
 export abstract class DataSource {
-	workspace: WorkspaceDefinition;
+	project: ProjectDefinition;
 
-	constructor(workspace: WorkspaceDefinition) {
-		this.workspace = workspace;
+	constructor(project: ProjectDefinition) {
+		this.project = project;
 	}
 
 	abstract queryAll(): Promise<DataFrame>;

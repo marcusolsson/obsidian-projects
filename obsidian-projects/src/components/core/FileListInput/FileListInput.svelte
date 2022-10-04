@@ -1,7 +1,7 @@
 <script lang="ts">
 	import produce from "immer";
 	import { Button, IconButton } from "obsidian-svelte";
-	import { FileSuggestInput } from "../Suggest";
+	import { FileSuggestInput } from "../SuggestInput";
 
 	export let paths: string[];
 	export let onPathsChange: (value: string[]) => void;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { GridCell } from "..";
 	import type { GridColDef } from "../../data-grid";
-	import TagList from "./TagList.svelte";
+	import { TagList } from "../../../../../../core/TagList";
 
 	export let value: string[] | undefined;
 	export let onChange: (values: string[]) => void;

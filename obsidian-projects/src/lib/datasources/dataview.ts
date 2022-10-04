@@ -28,7 +28,7 @@ export class DataviewDataSource extends DataSource {
 	async queryAll(): Promise<DataFrame> {
 		const api = getDataviewAPI();
 
-		const result = await api?.query(this.workspace.query ?? "", undefined, {
+		const result = await api?.query(this.project.query ?? "", undefined, {
 			forceId: true,
 		});
 

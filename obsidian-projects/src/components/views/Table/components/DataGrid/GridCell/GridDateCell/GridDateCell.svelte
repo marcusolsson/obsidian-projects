@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { isDate } from "../../../../../lib/types";
-
 	import { DateInput } from "obsidian-svelte";
 
 	import { GridCell } from "..";

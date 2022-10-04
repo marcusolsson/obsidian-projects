@@ -1,61 +1,61 @@
 import moment from "moment";
 import { App, Modal } from "obsidian";
 import { interpolateTemplate } from "../lib/templates";
-import type { WorkspaceDefinition } from "../types";
-import CreateRecord from "../components/modals/CreateRecord.svelte";
+import type { ProjectDefinition } from "../types";
+import CreateNote from "../components/modals/CreateNote.svelte";
 import { nextUniqueFileName } from "../lib/path";
 import { i18n } from "../lib/stores/i18n";
 import { get } from "svelte/store";
 
-export class CreateRecordModal extends Modal {
+export class CreateNoteModal extends Modal {
 	// @ts-ignore
-	component: CreateRecord;
+	component: CreateNote;
 
-	workspace: WorkspaceDefinition;
+	project: ProjectDefinition;
 
 	onSave: (
 		name: string,
 		templatePath: string,
-		workspace: WorkspaceDefinition
+		project: ProjectDefinition
 	) => void;
 
 	constructor(
 		app: App,
-		workspace: WorkspaceDefinition,
+		project: ProjectDefinition,
 		onSave: (
 			name: string,
 			templatePath: string,
-			workspace: WorkspaceDefinition
+			project: ProjectDefinition
 		) => void
 	) {
 		super(app);
 
 		this.onSave = onSave;
-		this.workspace = workspace;
+		this.project = project;
 	}
 
 	onOpen() {
-		this.component = new CreateRecord({
+		this.component = new CreateNote({
 			target: this.contentEl,
 			props: {
-				name: this.workspace.defaultName
-					? interpolateTemplate(this.workspace.defaultName ?? "", {
+				name: this.project.defaultName
+					? interpolateTemplate(this.project.defaultName ?? "", {
 							date: (format) =>
 								moment().format(format || "YYYY-MM-DD"),
 							time: (format) =>
 								moment().format(format || "HH:mm"),
 					  })
 					: nextUniqueFileName(
-							this.workspace.path,
-							get(i18n).t("modals.record.create.untitled")
+							this.project.path,
+							get(i18n).t("modals.note.create.untitled")
 					  ),
-				workspace: this.workspace,
+				project: this.project,
 				onSave: (
 					name: string,
 					templatePath: string,
-					workspace: WorkspaceDefinition
+					project: ProjectDefinition
 				) => {
-					this.onSave(name, templatePath, workspace);
+					this.onSave(name, templatePath, project);
 					this.close();
 				},
 			},

@@ -86,7 +86,7 @@
 					onRecordAdd();
 				}}
 			>
-				{$i18n.t("views.board.record.add")}
+				{$i18n.t("views.board.note.add")}
 			</Button>
 		</div>
 	{/if}

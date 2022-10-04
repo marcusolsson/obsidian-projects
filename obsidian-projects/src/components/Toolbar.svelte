@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { Menu as ObsidianMenu } from "obsidian";
 
-	import { CreateWorkspaceModal } from "../modals/create-workspace-modal";
+	import { CreateProjectModal } from "../modals/create-project-modal";
 	import { AddViewModal } from "../modals/add-view-modal";
 	import { ConfirmDialogModal } from "../modals/confirm-dialog";
-	import { CreateRecordModal } from "../modals/create-record-modal";
+	import { CreateNoteModal } from "../modals/create-note-modal";
 
 	import { app } from "../lib/stores/obsidian";
 	import { api } from "../lib/stores/api";
@@ -16,19 +16,19 @@
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
 
-	import { createDataRecord, createWorkspace } from "../lib/api";
-	import type { WorkspaceDefinition } from "../types";
+	import { createDataRecord, createProject } from "../lib/api";
+	import type { ProjectDefinition } from "../types";
 	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 	import { Builder } from "../builder";
 
-	export let workspaces: WorkspaceDefinition[];
-	export let workspace: string | undefined;
-	export let onWorkspaceChange: (workspace: string) => void;
+	export let projects: ProjectDefinition[];
+	export let project: string | undefined;
+	export let onProjectChange: (project: string) => void;
 
 	export let view: string | undefined;
 	export let onViewChange: (view: string) => void;
 
-	$: workspaceDef = workspaces.find((w) => w.id === workspace);
+	$: projectDefinition = projects.find((w) => w.id === project);
 
 	function iconFromViewType(type: string) {
 		switch (type) {
@@ -61,15 +61,15 @@
 <div>
 	<span>
 		<Select
-			value={workspace ?? ""}
-			options={workspaces.map((workspace) => ({
-				label: workspace.name,
-				value: workspace.id,
+			value={project ?? ""}
+			options={projects.map((project) => ({
+				label: project.name,
+				value: project.id,
 			}))}
-			on:change={({ detail: value }) => onWorkspaceChange(value)}
-			placeholder={$i18n.t("toolbar.workspaces.none") ?? ""}
+			on:change={({ detail: value }) => onProjectChange(value)}
+			placeholder={$i18n.t("toolbar.projects.none") ?? ""}
 		/>
-		{#if workspaces.length}
+		{#if projects.length}
 			<IconButton
 				icon="more-vertical"
 				on:click={(event) => {
@@ -77,35 +77,35 @@
 
 					menu.addItem((item) => {
 						item.setTitle(
-							$i18n.t("modals.workspace.edit.short-title")
+							$i18n.t("modals.project.edit.short-title")
 						)
 							.setIcon("edit")
 							.onClick(() => {
-								if (workspaceDef) {
-									new CreateWorkspaceModal(
+								if (projectDefinition) {
+									new CreateProjectModal(
 										$app,
-										$i18n.t("modals.workspace.edit.title"),
-										$i18n.t("modals.workspace.edit.cta"),
-										settings.updateWorkspace,
-										workspaceDef
+										$i18n.t("modals.project.edit.title"),
+										$i18n.t("modals.project.edit.cta"),
+										settings.updateProject,
+										projectDefinition
 									).open();
 								}
 							});
 					});
 					menu.addItem((item) => {
 						item.setTitle(
-							$i18n.t("modals.workspace.delete.short-title")
+							$i18n.t("modals.project.delete.short-title")
 						)
 							.setIcon("trash")
 							.onClick(() => {
 								new ConfirmDialogModal(
 									$app,
-									$i18n.t("modals.workspace.delete.title"),
-									$i18n.t("modals.workspace.delete.message"),
-									$i18n.t("modals.workspace.delete.cta"),
+									$i18n.t("modals.project.delete.title"),
+									$i18n.t("modals.project.delete.message"),
+									$i18n.t("modals.project.delete.cta"),
 									() => {
-										if (workspace) {
-											settings.deleteWorkspace(workspace);
+										if (project) {
+											settings.deleteProject(project);
 										}
 									}
 								).open();
@@ -118,8 +118,8 @@
 		{/if}
 	</span>
 	<ViewContainer>
-		{#if workspaceDef}
-			{#each workspaceDef.views as v}
+		{#if projectDefinition}
+			{#each projectDefinition.views as v}
 				<ViewItem
 					selected={view === v.id}
 					name={v.name}
@@ -127,8 +127,8 @@
 					variant="secondary"
 					on:click={() => onViewChange(v.id)}
 					onRename={(name) => {
-						if (workspace) {
-							settings.renameView(workspace, v.id, name);
+						if (project) {
+							settings.renameView(project, v.id, name);
 						}
 					}}
 					onDelete={() => {
@@ -138,8 +138,8 @@
 							$i18n.t("modals.view.delete.message"),
 							$i18n.t("modals.view.delete.cta"),
 							() => {
-								if (workspace) {
-									settings.deleteView(workspace, v.id);
+								if (project) {
+									settings.deleteView(project, v.id);
 								}
 							}
 						).open();
@@ -151,7 +151,7 @@
 
 						return (
 							name !== "" &&
-							!workspaceDef?.views.find(
+							!projectDefinition?.views.find(
 								(view) => view.name === name
 							)
 						);
@@ -166,46 +166,46 @@
 			const menu = new ObsidianMenu();
 
 			menu.addItem((item) => {
-				item.setTitle($i18n.t("modals.workspace.create.short-title"))
+				item.setTitle($i18n.t("modals.project.create.short-title"))
 					.setIcon("folder")
 					.onClick(() => {
-						new CreateWorkspaceModal(
+						new CreateProjectModal(
 							$app,
-							$i18n.t("modals.workspace.create.title"),
-							$i18n.t("modals.workspace.create.cta"),
-							settings.addWorkspace,
-							createWorkspace()
+							$i18n.t("modals.project.create.title"),
+							$i18n.t("modals.project.create.cta"),
+							settings.addProject,
+							createProject()
 						).open();
 					});
 			});
 
-			if (workspaceDef) {
+			if (projectDefinition) {
 				menu.addItem((item) => {
 					item.setTitle($i18n.t("modals.view.create.short-title"))
 						.setIcon("table")
 						.onClick(() => {
-							if (workspaceDef) {
+							if (projectDefinition) {
 								new AddViewModal(
 									$app,
-									workspaceDef,
-									(workspaceId, view) => {
-										settings.addView(workspaceId, view);
+									projectDefinition,
+									(projectId, view) => {
+										settings.addView(projectId, view);
 									}
 								).open();
 							}
 						});
 				});
 				menu.addItem((item) => {
-					item.setTitle($i18n.t("modals.record.create.short-title"))
+					item.setTitle($i18n.t("modals.note.create.short-title"))
 						.setIcon("file")
 						.onClick(() => {
-							if (workspaceDef) {
-								new CreateRecordModal(
+							if (projectDefinition) {
+								new CreateNoteModal(
 									$app,
-									workspaceDef,
-									(name, templatePath, workspace) => {
-										$api.createRecord(
-											createDataRecord(name, workspace),
+									projectDefinition,
+									(name, templatePath, project) => {
+										$api.createNote(
+											createDataRecord(name, project),
 											templatePath
 										);
 									}

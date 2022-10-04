@@ -2,7 +2,7 @@ import { normalizePath, TFile } from "obsidian";
 import os from "os";
 import { get } from "svelte/store";
 import { app } from "../lib/stores/obsidian";
-import type { ViewDefinition, WorkspaceDefinition } from "../types";
+import type { ViewDefinition, ProjectDefinition } from "../types";
 
 export function isValidPath(path: string) {
 	const illegalCharacters: Record<string, RegExp> = {
@@ -30,11 +30,11 @@ export function nextUniqueFileName(path: string, name: string) {
 }
 
 export function nextUniqueProjectName(
-	workspaces: WorkspaceDefinition[],
+	projects: ProjectDefinition[],
 	name: string
 ) {
 	return uniquify(name, (candidate) => {
-		return !!workspaces.find((workspace) => workspace.name === candidate);
+		return !!projects.find((project) => project.name === candidate);
 	});
 }
 

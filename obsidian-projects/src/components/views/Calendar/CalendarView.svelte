@@ -10,7 +10,7 @@
 	} from "../../../lib/types";
 
 	import { fieldToSelectableValue } from "../../views/helpers";
-	import { ConfigureRecord } from "../../../modals/record-modal";
+	import { EditNoteModal } from "../../../modals/edit-note-modal";
 
 	import { Select, Typography } from "obsidian-svelte";
 	import { ToolBar } from "../../core/ToolBar";
@@ -21,7 +21,7 @@
 		TableColumnHeaderCell,
 		TableHead,
 		TableRow,
-	} from "../../core/Table";
+	} from "./components/Table";
 	import CalendarDay from "./CalendarDay.svelte";
 	import Navigation from "./Navigation.svelte";
 	import { Field } from "../../core/Field";
@@ -38,9 +38,9 @@
 		type CalendarInterval,
 	} from "./calendar";
 
-	import type { WorkspaceDefinition } from "../../../types";
+	import type { ProjectDefinition } from "../../../types";
 
-	import { CreateRecordModal } from "../../../modals/create-record-modal";
+	import { CreateNoteModal } from "../../../modals/create-note-modal";
 	import { createDataRecord } from "../../../lib/api";
 	import { i18n } from "../../../lib/stores/i18n";
 
@@ -52,7 +52,7 @@
 	export let frame: DataFrame;
 	export let config: CalendarConfig;
 	export let onConfigChange: (config: CalendarConfig) => void;
-	export let workspace: WorkspaceDefinition;
+	export let project: ProjectDefinition;
 	export let readonly: boolean;
 
 	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
@@ -176,7 +176,7 @@
 								date.format("YYYY-MM-DD")
 							] || []}
 							onEntryClick={(id) => {
-								new ConfigureRecord(
+								new EditNoteModal(
 									get(app),
 									fields,
 									onRecordUpdate,
@@ -185,15 +185,15 @@
 							}}
 							onEntryAdd={() => {
 								if (dateField && !readonly) {
-									new CreateRecordModal(
+									new CreateNoteModal(
 										$app,
-										workspace,
+										project,
 										(name, templatePath) => {
 											if (dateField) {
 												onRecordAdd(
 													createDataRecord(
 														name,
-														workspace,
+														project,
 														{
 															[dateField.name]:
 																date.toDate(),

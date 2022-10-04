@@ -5,7 +5,7 @@
 
 	import CalendarDate from "./CalendarDate.svelte";
 	import CalendarEntry from "./CalendarEntry.svelte";
-	import { TableCell } from "../../core/Table";
+	import { TableCell } from "./components/Table";
 	import path from "path";
 
 	export let date: dayjs.Dayjs;

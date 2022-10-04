@@ -21,22 +21,22 @@ i18next.init({
 					"show-projects": {
 						name: "Show projects",
 					},
-					"create-workspace": {
+					"create-project": {
 						name: "Create new project",
 					},
-					"create-record": {
+					"create-note": {
 						name: "Create new note",
 					},
 				},
 				menus: {
-					workspace: {
+					project: {
 						create: {
 							title: "Create project in folder",
 						},
 					},
 				},
 				modals: {
-					workspace: {
+					project: {
 						create: {
 							"short-title": "New project",
 							untitled: "Untitled project",
@@ -123,7 +123,7 @@ i18next.init({
 							cta: "Delete",
 						},
 					},
-					record: {
+					note: {
 						create: {
 							"short-title": "New note",
 							title: "Create new note",
@@ -136,7 +136,7 @@ i18next.init({
 								description: "",
 								none: "None",
 							},
-							workspace: {
+							project: {
 								name: "Project",
 								description: "",
 							},
@@ -185,7 +185,7 @@ i18next.init({
 							none: "None",
 						},
 						unprioritized: "Unprioritized",
-						record: {
+						note: {
 							add: "Add note",
 						},
 					},
@@ -240,7 +240,7 @@ i18next.init({
 					view: {
 						add: "Add view",
 					},
-					workspaces: {
+					projects: {
 						none: "No projects",
 					},
 				},

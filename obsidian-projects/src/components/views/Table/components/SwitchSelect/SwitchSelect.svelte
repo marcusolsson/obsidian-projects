@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Menu, MenuItem } from "../Menu";
+	import { Menu, MenuItem } from "../../../../core/Menu";
 	interface SwitchItem {
 		label: string;
 		value: string;

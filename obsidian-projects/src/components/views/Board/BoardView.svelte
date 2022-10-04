@@ -16,9 +16,9 @@
 	import { app } from "../../../lib/stores/obsidian";
 
 	import { fieldToSelectableValue } from "../../views/helpers";
-	import type { WorkspaceDefinition } from "../../../types";
-	import { CreateRecordModal } from "../../../modals/create-record-modal";
-	import { ConfigureRecord } from "../../../modals/record-modal";
+	import type { ProjectDefinition } from "../../../types";
+	import { CreateNoteModal } from "../../../modals/create-note-modal";
+	import { EditNoteModal } from "../../../modals/edit-note-modal";
 	import { groupRecordsByField } from "./board";
 	import { createDataRecord } from "../../../lib/api";
 
@@ -31,7 +31,7 @@
 
 	export let config: BoardConfig;
 	export let onConfigChange: (config: BoardConfig) => void;
-	export let workspace: WorkspaceDefinition;
+	export let project: ProjectDefinition;
 	export let readonly: boolean;
 	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
 	export let onRecordUpdate: (record: DataRecord) => void;
@@ -60,16 +60,16 @@
 	$: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
 
 	function handleRecordClick(record: DataRecord) {
-		new ConfigureRecord($app, fields, onRecordUpdate, record).open();
+		new EditNoteModal($app, fields, onRecordUpdate, record).open();
 	}
 
 	function handleRecordAdd(column: string) {
-		new CreateRecordModal($app, workspace, (name, templatePath) => {
+		new CreateNoteModal($app, project, (name, templatePath) => {
 			if (groupByField) {
 				onRecordAdd(
 					createDataRecord(
 						name,
-						workspace,
+						project,
 						groupByField
 							? {
 									[groupByField.name]:

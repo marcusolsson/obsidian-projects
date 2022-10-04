@@ -11,7 +11,7 @@ import {
 } from "obsidian";
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
-import type { WorkspaceDefinition } from "../types";
+import type { ProjectDefinition } from "../types";
 import { nextUniqueProjectName } from "./path";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
@@ -24,12 +24,12 @@ import {
 	type DataValue,
 } from "./types";
 
-export function createWorkspace(): WorkspaceDefinition {
+export function createProject(): ProjectDefinition {
 	return {
 		id: uuidv4(),
 		name: nextUniqueProjectName(
-			get(settings).workspaces,
-			get(i18n).t("modals.workspace.create.untitled")
+			get(settings).projects,
+			get(i18n).t("modals.project.create.untitled")
 		),
 		path: "",
 		recursive: false,
@@ -48,11 +48,11 @@ export function createWorkspace(): WorkspaceDefinition {
 
 export function createDataRecord(
 	name: string,
-	workspace: WorkspaceDefinition,
+	project: ProjectDefinition,
 	values?: Record<string, DataValue>
 ): DataRecord {
 	return {
-		id: normalizePath(workspace.path + "/" + name + ".md"),
+		id: normalizePath(project.path + "/" + name + ".md"),
 		values: values ?? {},
 	};
 }
@@ -86,10 +86,7 @@ export class DataApi {
 		}
 	}
 
-	async createRecord(
-		record: DataRecord,
-		templatePath: string
-	): Promise<TFile> {
+	async createNote(record: DataRecord, templatePath: string): Promise<TFile> {
 		let content = "";
 
 		if (templatePath) {

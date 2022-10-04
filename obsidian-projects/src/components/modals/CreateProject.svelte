@@ -11,12 +11,12 @@
 		TextArea,
 	} from "obsidian-svelte";
 
-	import type { WorkspaceDefinition } from "../../types";
+	import type { ProjectDefinition } from "../../types";
 	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
 	import { interpolateTemplate } from "../../lib/templates";
 	import { FileListInput } from "../core/FileListInput";
-	import FileSuggestInput from "../core/Suggest/FileSuggestInput.svelte";
+	import FileSuggestInput from "../core/SuggestInput/FileSuggestInput.svelte";
 	import { notEmpty } from "../views/Board/board";
 	import { capabilities } from "obsidian-projects/src/lib/stores/capabilities";
 	import { settings } from "obsidian-projects/src/lib/stores/settings";
@@ -24,19 +24,19 @@
 
 	export let title: string;
 	export let cta: string;
-	export let onSave: (workspace: WorkspaceDefinition) => void;
-	export let workspace: WorkspaceDefinition;
+	export let onSave: (project: ProjectDefinition) => void;
+	export let project: ProjectDefinition;
 
-	let originalName = workspace.name;
+	let originalName = project.name;
 
-	$: workspaces = $settings.workspaces;
+	$: projects = $settings.projects;
 
-	$: defaultName = interpolateTemplate(workspace.defaultName ?? "", {
+	$: defaultName = interpolateTemplate(project.defaultName ?? "", {
 		date: (format) => moment().format(format || "YYYY-MM-DD"),
 		time: (format) => moment().format(format || "HH:mm"),
 	});
 
-	$: ({ name } = workspace);
+	$: ({ name } = project);
 	$: nameError = validateName(name);
 
 	function validateName(name: string) {
@@ -45,11 +45,11 @@
 		}
 
 		if (name === "") {
-			return $i18n.t("modals.workspace.create.empty-name-error");
+			return $i18n.t("modals.project.create.empty-name-error");
 		}
 
-		if (workspaces.find((workspace) => workspace.name === name)) {
-			return $i18n.t("modals.workspace.create.existing-name-error");
+		if (projects.find((project) => project.name === name)) {
+			return $i18n.t("modals.project.create.existing-name-error");
 		}
 
 		return "";
@@ -59,67 +59,66 @@
 <ModalLayout {title}>
 	<ModalContent>
 		<SettingItem
-			name={$i18n.t("modals.workspace.name.name")}
-			description={$i18n.t("modals.workspace.name.description") ?? ""}
+			name={$i18n.t("modals.project.name.name")}
+			description={$i18n.t("modals.project.name.description") ?? ""}
 		>
 			<Input
-				value={workspace.name}
+				value={project.name}
 				on:input={({ detail: name }) =>
-					(workspace = { ...workspace, name })}
+					(project = { ...project, name })}
 				autofocus
 				error={!!nameError}
 				helperText={nameError}
 			/>
 		</SettingItem>
 
-		{#if workspace.dataview || $capabilities.dataview}
+		{#if project.dataview || $capabilities.dataview}
 			<SettingItem
-				name={$i18n.t("modals.workspace.dataview.name")}
-				description={$i18n.t("modals.workspace.dataview.description") ??
+				name={$i18n.t("modals.project.dataview.name")}
+				description={$i18n.t("modals.project.dataview.description") ??
 					""}
 			>
 				<Checkbox
-					checked={!!workspace.dataview}
+					checked={!!project.dataview}
 					on:check={({ detail: dataview }) =>
-						(workspace = { ...workspace, dataview })}
+						(project = { ...project, dataview })}
 				/>
 			</SettingItem>
 		{/if}
 
-		{#if workspace.dataview && !$capabilities.dataview}
+		{#if project.dataview && !$capabilities.dataview}
 			<Callout
-				title={$i18n.t("modals.workspace.dataview.error.title")}
+				title={$i18n.t("modals.project.dataview.error.title")}
 				icon="zap"
 				variant="danger"
 			>
-				{$i18n.t("modals.workspace.dataview.error.message")}
+				{$i18n.t("modals.project.dataview.error.message")}
 			</Callout>
 		{/if}
 
-		{#if workspace.dataview}
+		{#if project.dataview}
 			<SettingItem
-				name={$i18n.t("modals.workspace.query.name")}
-				description={$i18n.t("modals.workspace.query.description") ??
-					""}
+				name={$i18n.t("modals.project.query.name")}
+				description={$i18n.t("modals.project.query.description") ?? ""}
 				vertical
 			>
 				<TextArea
-					value={workspace.query ?? ""}
+					value={project.query ?? ""}
 					on:input={({ detail: query }) =>
-						(workspace = { ...workspace, query })}
+						(project = { ...project, query })}
 					rows={6}
 					width="100%"
 				/>
 			</SettingItem>
 		{:else}
 			<SettingItem
-				name={$i18n.t("modals.workspace.path.name")}
-				description={$i18n.t("modals.workspace.path.description") ?? ""}
+				name={$i18n.t("modals.project.path.name")}
+				description={$i18n.t("modals.project.path.description") ?? ""}
 				vertical
 			>
 				<FileSuggestInput
-					value={workspace.path}
-					onChange={(path) => (workspace = { ...workspace, path })}
+					value={project.path}
+					onChange={(path) => (project = { ...project, path })}
 					sourcePath=""
 					include="folders"
 					valueType="path"
@@ -128,29 +127,28 @@
 			</SettingItem>
 
 			<SettingItem
-				name={$i18n.t("modals.workspace.recursive.name")}
-				description={$i18n.t(
-					"modals.workspace.recursive.description"
-				) ?? ""}
+				name={$i18n.t("modals.project.recursive.name")}
+				description={$i18n.t("modals.project.recursive.description") ??
+					""}
 			>
 				<Checkbox
-					checked={workspace.recursive}
+					checked={project.recursive}
 					on:check={({ detail: recursive }) =>
-						(workspace = { ...workspace, recursive })}
+						(project = { ...project, recursive })}
 				/>
 			</SettingItem>
 		{/if}
 
 		<SettingItem
-			name={$i18n.t("modals.workspace.defaultName.name")}
-			description={$i18n.t("modals.workspace.defaultName.description") ??
+			name={$i18n.t("modals.project.defaultName.name")}
+			description={$i18n.t("modals.project.defaultName.description") ??
 				""}
 			vertical
 		>
 			<Input
-				value={workspace.defaultName ?? ""}
+				value={project.defaultName ?? ""}
 				on:input={({ detail: defaultName }) =>
-					(workspace = { ...workspace, defaultName })}
+					(project = { ...project, defaultName })}
 				width="100%"
 			/>
 			<small>
@@ -158,21 +156,20 @@
 			</small>
 			{#if !isValidPath(defaultName)}
 				<small class="error"
-					>{$i18n.t("modals.workspace.defaultName.invalid")}</small
+					>{$i18n.t("modals.project.defaultName.invalid")}</small
 				>
 			{/if}
 		</SettingItem>
 
 		<SettingItem
-			name={$i18n.t("modals.workspace.templates.name")}
-			description={$i18n.t("modals.workspace.templates.description") ??
-				""}
+			name={$i18n.t("modals.project.templates.name")}
+			description={$i18n.t("modals.project.templates.description") ?? ""}
 			vertical
 		>
 			<FileListInput
-				paths={workspace.templates ?? []}
+				paths={project.templates ?? []}
 				onPathsChange={(templates) =>
-					(workspace = { ...workspace, templates })}
+					(project = { ...project, templates })}
 			/>
 		</SettingItem>
 	</ModalContent>
@@ -182,8 +179,8 @@
 			disabled={!!nameError}
 			on:click={() => {
 				onSave({
-					...workspace,
-					templates: workspace.templates?.filter(notEmpty) ?? [],
+					...project,
+					templates: project.templates?.filter(notEmpty) ?? [],
 				});
 			}}>{cta}</Button
 		>

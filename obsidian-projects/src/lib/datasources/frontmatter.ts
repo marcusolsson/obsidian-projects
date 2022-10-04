@@ -1,6 +1,6 @@
 import type { App, MetadataCache, TFile } from "obsidian";
 import { notEmpty } from "obsidian-projects/src/components/views/Board/board";
-import type { WorkspaceDefinition } from "obsidian-projects/src/types";
+import type { ProjectDefinition } from "obsidian-projects/src/types";
 import {
 	DataFieldType,
 	DataSource,
@@ -14,8 +14,8 @@ import { detectFields, stringFallback } from "./helpers";
 export class FrontMatterDataSource extends DataSource {
 	app: App;
 
-	constructor(app: App, workspace: WorkspaceDefinition) {
-		super(workspace);
+	constructor(app: App, project: ProjectDefinition) {
+		super(project);
 
 		this.app = app;
 	}
@@ -47,22 +47,22 @@ export class FrontMatterDataSource extends DataSource {
 	}
 
 	includes(path: string): boolean {
-		const trimmedWorkspacePath = this.workspace.path.startsWith("/")
-			? this.workspace.path.slice(1)
-			: this.workspace.path;
+		const trimmedPath = this.project.path.startsWith("/")
+			? this.project.path.slice(1)
+			: this.project.path;
 
-		// No need to continue if file is not below the workspace path.
-		if (!path.startsWith(trimmedWorkspacePath)) {
+		// No need to continue if file is not below the project path.
+		if (!path.startsWith(trimmedPath)) {
 			return false;
 		}
 
-		if (!this.workspace.recursive) {
+		if (!this.project.recursive) {
 			const pathElements = path.split("/").slice(0, -1);
-			const workspacePathElements = trimmedWorkspacePath
+			const projectPathElements = trimmedPath
 				.split("/")
 				.filter((el) => el);
 
-			return pathElements.join("/") === workspacePathElements.join("/");
+			return pathElements.join("/") === projectPathElements.join("/");
 		}
 
 		return true;

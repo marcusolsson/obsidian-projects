@@ -7,17 +7,17 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
-import { createDataRecord, createWorkspace } from "./lib/api";
-import type { WorkspaceDefinition } from "./types";
+import { createDataRecord, createProject } from "./lib/api";
+import type { ProjectDefinition, WorkspaceDefinitionV0 } from "./types";
 
 import { registerFileEvents } from "./events";
-import { settings } from "./lib/stores/settings";
+import { migrateAny, settings } from "./lib/stores/settings";
 import { app, plugin } from "./lib/stores/obsidian";
 import { api } from "./lib/stores/api";
 import { i18n } from "./lib/stores/i18n";
 
-import { CreateWorkspaceModal } from "./modals/create-workspace-modal";
-import { CreateRecordModal } from "./modals/create-record-modal";
+import { CreateProjectModal } from "./modals/create-project-modal";
+import { CreateNoteModal } from "./modals/create-note-modal";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -25,11 +25,17 @@ dayjs.extend(localizedFormat);
 export interface ProjectsPluginSettings {
 	lastWorkspaceId?: string | undefined;
 	lastViewId?: string | undefined;
-	workspaces: WorkspaceDefinition[];
+	workspaces: WorkspaceDefinitionV0[];
+}
+export interface ProjectsPluginSettingsV1 {
+	version: number;
+	lastProjectId?: string | undefined;
+	lastViewId?: string | undefined;
+	projects: ProjectDefinition[];
 }
 
-export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettings> = {
-	workspaces: [],
+export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettingsV1> = {
+	projects: [],
 };
 
 export default class ProjectsPlugin extends Plugin {
@@ -48,17 +54,17 @@ export default class ProjectsPlugin extends Plugin {
 			this.app.workspace.on("file-menu", (menu, file) => {
 				if (file instanceof TFolder) {
 					menu.addItem((item) => {
-						item.setTitle(t("menus.workspace.create.title"))
+						item.setTitle(t("menus.project.create.title"))
 							.setIcon("folder-plus")
 							.onClick(async () => {
-								const workspace = createWorkspace();
-								new CreateWorkspaceModal(
+								const project = createProject();
+								new CreateProjectModal(
 									this.app,
-									t("modals.workspace.create.title"),
-									t("modals.workspace.create.cta"),
-									settings.addWorkspace,
+									t("modals.project.create.title"),
+									t("modals.project.create.cta"),
+									settings.addProject,
 									{
-										...workspace,
+										...project,
 										name: file.name,
 										path: file.path,
 									}
@@ -78,35 +84,35 @@ export default class ProjectsPlugin extends Plugin {
 		});
 
 		this.addCommand({
-			id: "create-workspace",
-			name: t("commands.create-workspace.name"),
+			id: "create-project",
+			name: t("commands.create-project.name"),
 			callback: () => {
-				new CreateWorkspaceModal(
+				new CreateProjectModal(
 					this.app,
-					t("modals.workspace.create.title"),
-					t("modals.workspace.create.cta"),
-					settings.addWorkspace,
-					createWorkspace()
+					t("modals.project.create.title"),
+					t("modals.project.create.cta"),
+					settings.addProject,
+					createProject()
 				).open();
 			},
 		});
 
 		this.addCommand({
-			id: "create-record",
-			name: t("commands.create-record.name"),
-			// checkCallback because we don't want to create records if there are no
-			// workspaces.
+			id: "create-note",
+			name: t("commands.create-note.name"),
+			// checkCallback because we don't want to create notes if there are
+			// no projects.
 			checkCallback: (checking) => {
-				const workspace = get(settings).workspaces[0];
+				const projectDefinition = get(settings).projects[0];
 
-				if (workspace) {
+				if (projectDefinition) {
 					if (!checking) {
-						new CreateRecordModal(
+						new CreateNoteModal(
 							this.app,
-							workspace,
-							async (name, templatePath, workspace) => {
-								const file = await get(api).createRecord(
-									createDataRecord(name, workspace),
+							projectDefinition,
+							async (name, templatePath, project) => {
+								const file = await get(api).createNote(
+									createDataRecord(name, project),
 									templatePath
 								);
 
@@ -134,9 +140,7 @@ export default class ProjectsPlugin extends Plugin {
 		// Initialize Svelte stores.
 		app.set(this.app);
 		plugin.set(this);
-		settings.set(
-			Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
-		);
+		settings.set(migrateAny(await this.loadData()));
 
 		registerFileEvents(this);
 

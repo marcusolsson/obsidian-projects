@@ -7,7 +7,7 @@ export interface ViewDefinition {
 	config: Record<string, any>;
 }
 
-export interface WorkspaceDefinition {
+export interface WorkspaceDefinitionV0 {
 	name: string;
 	id: string;
 	path: string;
@@ -18,3 +18,5 @@ export interface WorkspaceDefinition {
 	dataview?: boolean;
 	query?: string;
 }
+
+export interface ProjectDefinition extends WorkspaceDefinitionV0 {}

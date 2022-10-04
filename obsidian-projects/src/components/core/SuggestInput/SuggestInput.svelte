@@ -98,9 +98,6 @@
 </SuggestionMenu>
 
 <style>
-	input {
-	}
-
 	.fullWidth {
 		width: 100%;
 	}

@@ -1,8 +1,8 @@
 import { App, Modal } from "obsidian";
 import type { DataField, DataRecord } from "../lib/types";
-import EditRecord from "../components/modals/EditRecord.svelte";
+import EditRecord from "../components/modals/EditNote.svelte";
 
-export class ConfigureRecord extends Modal {
+export class EditNoteModal extends Modal {
 	fields: DataField[];
 	onSave: (record: DataRecord) => void;
 	defaults?: DataRecord | undefined;

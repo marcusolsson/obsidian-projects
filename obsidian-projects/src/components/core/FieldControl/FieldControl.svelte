@@ -11,7 +11,7 @@
 	} from "../../../lib/types";
 
 	import { DateInput, Input, Checkbox } from "obsidian-svelte";
-	import TagList from "../DataGrid/GridCell/GridListCell/TagList.svelte";
+	import { TagList } from "../TagList";
 
 	export let type: DataFieldType;
 	export let value: DataValue;

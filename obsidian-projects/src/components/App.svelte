@@ -8,7 +8,7 @@
 	import { TableView } from "./views/Table";
 	import { CustomView } from "./views/Custom";
 
-	import WorkspaceToolbar from "./WorkspaceToolbar.svelte";
+	import Toolbar from "./Toolbar.svelte";
 
 	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 	import { isFile, resolveDataSource } from "./app";
@@ -17,24 +17,22 @@
 	import type { TFile } from "obsidian";
 	import { Callout, Progress, Typography } from "obsidian-svelte";
 
-	$: workspaces = $settings.workspaces;
+	$: projects = $settings.projects;
 
-	$: selectedWorkspace = workspaces?.length
-		? workspaces.find((w) => w.id === $settings.lastWorkspaceId) ||
-		  workspaces[0]
+	$: selectedProject = projects?.length
+		? projects.find((w) => w.id === $settings.lastProjectId) || projects[0]
 		: null;
 
-	$: selectedView = selectedWorkspace?.views?.length
-		? selectedWorkspace?.views?.find(
-				(v) => v.id === $settings.lastViewId
-		  ) || selectedWorkspace.views[0]
+	$: selectedView = selectedProject?.views?.length
+		? selectedProject?.views?.find((v) => v.id === $settings.lastViewId) ||
+		  selectedProject.views[0]
 		: null;
 
 	let querying: Promise<void>;
 
 	$: {
-		if (selectedWorkspace) {
-			dataSource.set(resolveDataSource(selectedWorkspace));
+		if (selectedProject) {
+			dataSource.set(resolveDataSource(selectedProject));
 		}
 	}
 
@@ -49,8 +47,8 @@
 
 	$: frame = $dataFrame;
 
-	// Remember the last view and workspace we opened.
-	$: settings.saveLayout(selectedWorkspace?.id, selectedView?.id);
+	// Remember the last view and project we opened.
+	$: settings.saveLayout(selectedProject?.id, selectedView?.id);
 
 	$: viewComponent = selectedView
 		? getViewComponent(selectedView.type)
@@ -79,42 +77,42 @@
 		return null;
 	}
 
-	function handleWorkspaceChange(workspaceId: string) {
-		if (!workspaces.length) {
-			selectedWorkspace = null;
+	function handleProjectChange(projectId: string) {
+		if (!projects.length) {
+			selectedProject = null;
 			selectedView = null;
 			return;
 		}
 
-		const workspace = workspaces.find((ws) => ws.id === workspaceId);
+		const project = projects.find((p) => p.id === projectId);
 
-		selectedWorkspace = workspace ? workspace : workspaces[0];
+		selectedProject = project ? project : projects[0];
 
-		if (selectedWorkspace) {
-			if (!selectedWorkspace.views.length) {
+		if (selectedProject) {
+			if (!selectedProject.views.length) {
 				selectedView = null;
 				return;
 			}
 
-			selectedView = selectedWorkspace.views[0];
+			selectedView = selectedProject.views[0];
 		}
 	}
 
 	function handleViewChange(viewId: string) {
-		if (!selectedWorkspace || !selectedWorkspace.views.length) {
+		if (!selectedProject || !selectedProject.views.length) {
 			selectedView = null;
 			return;
 		}
 
 		selectedView =
-			selectedWorkspace.views.find((v) => v.id === viewId) ??
-			selectedWorkspace.views[0];
+			selectedProject.views.find((v) => v.id === viewId) ??
+			selectedProject.views[0];
 	}
 
 	function handleViewConfigChange(config: Record<string, any>) {
-		if (selectedWorkspace?.id && selectedView?.id) {
+		if (selectedProject?.id && selectedView?.id) {
 			settings.updateViewConfig(
-				selectedWorkspace.id,
+				selectedProject.id,
 				selectedView.id,
 				config
 			);
@@ -125,7 +123,7 @@
 		if ($dataSource?.includes(record.id)) {
 			dataFrame.addRecord(record);
 		}
-		$api.createRecord(record, templatePath);
+		$api.createNote(record, templatePath);
 	}
 	function handleRecordUpdate(record: DataRecord) {
 		if ($dataSource?.includes(record.id)) {
@@ -156,10 +154,10 @@
 </script>
 
 <div class="projects-container">
-	<WorkspaceToolbar
-		{workspaces}
-		workspace={selectedWorkspace?.id}
-		onWorkspaceChange={(workspaceId) => handleWorkspaceChange(workspaceId)}
+	<Toolbar
+		{projects}
+		project={selectedProject?.id}
+		onProjectChange={(projectId) => handleProjectChange(projectId)}
 		view={selectedView?.id}
 		onViewChange={(viewId) => handleViewChange(viewId)}
 	/>
@@ -173,7 +171,7 @@
 					this={viewComponent}
 					{frame}
 					type={selectedView.type}
-					workspace={selectedWorkspace}
+					project={selectedProject}
 					config={selectedView.config}
 					readonly={$dataSource?.readonly() ?? true}
 					onConfigChange={handleViewConfigChange}

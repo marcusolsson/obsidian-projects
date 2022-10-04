@@ -1,67 +1,72 @@
-import type { ProjectsPluginSettings } from "../../main";
+import {
+	DEFAULT_SETTINGS,
+	type ProjectsPluginSettings,
+	type ProjectsPluginSettingsV1,
+} from "../../main";
 import { writable } from "svelte/store";
 import type {
-	WorkspaceDefinition,
 	ViewDefinition,
+	ProjectDefinition,
 } from "obsidian-projects/src/types";
 import produce from "immer";
 
 function createSettings() {
-	const { set, update, subscribe } = writable<ProjectsPluginSettings>({
-		workspaces: [],
+	const { set, update, subscribe } = writable<ProjectsPluginSettingsV1>({
+		version: 1,
+		projects: [],
 	});
 
 	return {
 		set,
 		subscribe,
-		saveLayout(workspaceId?: string, viewId?: string) {
+		saveLayout(projectId?: string, viewId?: string) {
 			update((state) => {
 				return produce(state, (draft) => {
-					(draft.lastWorkspaceId = workspaceId),
+					(draft.lastProjectId = projectId),
 						(draft.lastViewId = viewId);
 					return draft;
 				});
 			});
 		},
-		addWorkspace(workspace: WorkspaceDefinition) {
+		addProject(project: ProjectDefinition) {
 			update((state) => {
 				return produce(state, (draft) => {
-					draft.workspaces.push(workspace);
+					draft.projects.push(project);
 					return draft;
 				});
 			});
 		},
-		updateWorkspace(workspace: WorkspaceDefinition) {
+		updateProject(project: ProjectDefinition) {
 			update((state) => {
 				return produce(state, (draft) => {
-					draft.workspaces = draft.workspaces.map((w) =>
-						w.id === workspace.id ? workspace : w
+					draft.projects = draft.projects.map((w) =>
+						w.id === project.id ? project : w
 					);
 					return draft;
 				});
 			});
 		},
-		deleteWorkspace(workspaceId: string) {
+		deleteProject(projectId: string) {
 			update((state) => {
 				return produce(state, (draft) => {
-					draft.workspaces = draft.workspaces.filter(
-						(w) => w.id !== workspaceId
+					draft.projects = draft.projects.filter(
+						(w) => w.id !== projectId
 					);
 					return draft;
 				});
 			});
 		},
-		addView(workspaceId: string, view: ViewDefinition) {
+		addView(projectId: string, view: ViewDefinition) {
 			update((state) => {
 				return produce(state, (draft) => {
-					const idx = draft.workspaces.findIndex(
-						(ws) => ws.id === workspaceId
+					const idx = draft.projects.findIndex(
+						(ws) => ws.id === projectId
 					);
 
 					if (idx >= 0) {
-						const ws = draft.workspaces[idx];
+						const ws = draft.projects[idx];
 						if (ws) {
-							draft.workspaces.splice(idx, 1, {
+							draft.projects.splice(idx, 1, {
 								...ws,
 								views: [...ws.views, view],
 							});
@@ -72,20 +77,20 @@ function createSettings() {
 				});
 			});
 		},
-		renameView(workspaceId: string, viewId: string, name: string) {
+		renameView(projectId: string, viewId: string, name: string) {
 			update((state) => {
 				return produce(state, (draft) => {
-					const idx = draft.workspaces.findIndex(
-						(ws) => ws.id === workspaceId
+					const idx = draft.projects.findIndex(
+						(p) => p.id === projectId
 					);
 
 					if (idx >= 0) {
-						const ws = draft.workspaces[idx];
+						const p = draft.projects[idx];
 
-						if (ws) {
-							draft.workspaces.splice(idx, 1, {
-								...ws,
-								views: ws.views.map<ViewDefinition>((view) =>
+						if (p) {
+							draft.projects.splice(idx, 1, {
+								...p,
+								views: p.views.map<ViewDefinition>((view) =>
 									view.id === viewId
 										? { ...view, name }
 										: view
@@ -98,18 +103,18 @@ function createSettings() {
 				});
 			});
 		},
-		deleteView(workspaceId: string, viewId: string) {
+		deleteView(projectId: string, viewId: string) {
 			update((state) => {
 				return produce(state, (draft) => {
-					const idx = draft.workspaces.findIndex(
-						(ws) => ws.id === workspaceId
+					const idx = draft.projects.findIndex(
+						(ws) => ws.id === projectId
 					);
 
 					if (idx >= 0) {
-						const ws = draft.workspaces[idx];
+						const ws = draft.projects[idx];
 
 						if (ws) {
-							draft.workspaces.splice(idx, 1, {
+							draft.projects.splice(idx, 1, {
 								...ws,
 								views: ws.views.filter(
 									(view) => view.id !== viewId
@@ -123,17 +128,17 @@ function createSettings() {
 			});
 		},
 		updateViewConfig(
-			workspaceId: string,
+			projectId: string,
 			viewId: string,
 			config: Record<string, any>
 		) {
 			update((state) =>
 				produce(state, (draft) => {
-					draft.workspaces = draft.workspaces.map((workspace) => {
-						if (workspace.id === workspaceId) {
+					draft.projects = draft.projects.map((project) => {
+						if (project.id === projectId) {
 							return {
-								...workspace,
-								views: workspace.views.map((view) => {
+								...project,
+								views: project.views.map((view) => {
 									if (view.id === viewId) {
 										return {
 											...view,
@@ -144,7 +149,7 @@ function createSettings() {
 								}),
 							};
 						}
-						return workspace;
+						return project;
 					});
 					return draft;
 				})
@@ -153,3 +158,29 @@ function createSettings() {
 	};
 }
 export const settings = createSettings();
+
+export function migrateAny(settings: any): ProjectsPluginSettingsV1 {
+	if (!settings) {
+		return { version: 1, projects: [] };
+	}
+
+	if ("version" in settings) {
+		return Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			settings as ProjectsPluginSettingsV1
+		);
+	}
+
+	// If there's no version in the settings, then assume it's a pre-release (v0).
+	return migrate(settings as ProjectsPluginSettings);
+}
+
+function migrate(v0: ProjectsPluginSettings): ProjectsPluginSettingsV1 {
+	return {
+		version: 1,
+		lastProjectId: v0.lastWorkspaceId,
+		lastViewId: v0.lastViewId,
+		projects: v0.workspaces,
+	};
+}

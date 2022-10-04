@@ -2,29 +2,29 @@
 	import type {
 		GridColDef,
 		GridRowProps,
-	} from "../../core/DataGrid/data-grid";
+	} from "./components/DataGrid/data-grid";
 
-	import DataGrid from "../../core/DataGrid/DataGrid.svelte";
+	import DataGrid from "./components/DataGrid/DataGrid.svelte";
 	import HorizontalGroup from "../../core/HorizontalGroup/HorizontalGroup.svelte";
-	import SwitchSelect from "../../core/SwitchSelect/SwitchSelect.svelte";
+	import SwitchSelect from "./components/SwitchSelect/SwitchSelect.svelte";
 	import ToolBar from "../../core/ToolBar/ToolBar.svelte";
 
 	import { i18n } from "../../../lib/stores/i18n";
 	import { app } from "../../../lib/stores/obsidian";
 
-	import { CreateRecordModal } from "../../../modals/create-record-modal";
+	import { CreateNoteModal } from "../../../modals/create-note-modal";
 	import { InputDialogModal } from "../../../modals/input-dialog";
-	import { ConfigureRecord } from "../../../modals/record-modal";
+	import { EditNoteModal } from "../../../modals/edit-note-modal";
 	import { createDataRecord } from "../../../lib/api";
 
 	import type { DataFrame, DataRecord } from "../../../lib/types";
-	import type { WorkspaceDefinition } from "../../../types";
+	import type { ProjectDefinition } from "../../../types";
 	import type { GridConfig } from "./types";
 
 	export let frame: DataFrame;
 	export let config: GridConfig;
 	export let onConfigChange: (config: GridConfig) => void;
-	export let workspace: WorkspaceDefinition;
+	export let project: ProjectDefinition;
 	export let readonly: boolean;
 
 	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
@@ -122,19 +122,16 @@
 		{rows}
 		{readonly}
 		onRowAdd={() => {
-			new CreateRecordModal(
+			new CreateNoteModal(
 				$app,
-				workspace,
-				(name, templatePath, workspace) => {
-					onRecordAdd(
-						createDataRecord(name, workspace),
-						templatePath
-					);
+				project,
+				(name, templatePath, project) => {
+					onRecordAdd(createDataRecord(name, project), templatePath);
 				}
 			).open();
 		}}
 		onRowEdit={(id, values) => {
-			new ConfigureRecord($app, fields, onRecordUpdate, {
+			new EditNoteModal($app, fields, onRecordUpdate, {
 				id,
 				values,
 			}).open();

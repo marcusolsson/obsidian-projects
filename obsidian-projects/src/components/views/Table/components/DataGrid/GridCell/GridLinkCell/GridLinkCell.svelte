@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getContext } from "svelte";
-	import { isOptionalLink, type Link } from "../../../../../lib/types";
+	import { isOptionalLink, type Link } from "../../../../../../../lib/types";
 
 	import type { GridColDef } from "../../data-grid";
 
-	import { FileSuggestInput } from "../../../Suggest";
+	import { FileSuggestInput } from "../../../../../../core/SuggestInput";
 	import LinkLabel from "./LinkLabel.svelte";
 	import { GridCell } from "..";
 

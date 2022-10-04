@@ -31,7 +31,7 @@ export class InputDialogModal extends Modal {
 			props: {
 				message: this.message,
 				cta: this.cta,
-				value: this.value,
+				value: this.value ?? "",
 				onSubmit: (value: string) => {
 					this.onSubmit(value);
 					this.close();

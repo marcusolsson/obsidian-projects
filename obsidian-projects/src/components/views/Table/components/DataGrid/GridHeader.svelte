@@ -7,7 +7,7 @@
 	import { fieldIcon, menuOnContextMenu, type GridColDef } from "./data-grid";
 
 	import GridCellGroup from "./GridCellGroup.svelte";
-	import { DataFieldType } from "../../../lib/types";
+	import { DataFieldType } from "../../../../../lib/types";
 	import { i18n } from "obsidian-projects/src/lib/stores/i18n";
 	import { get } from "svelte/store";
 
