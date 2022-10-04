@@ -84,7 +84,7 @@ i18next.init({
 						recursive: {
 							name: "Include subfolders",
 							description:
-								"Manage notes in subfolders within the project path.",
+								"Manage notes inside subfolders within the project path.",
 						},
 						templates: {
 							name: "Templates",
