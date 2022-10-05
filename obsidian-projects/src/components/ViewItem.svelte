@@ -66,6 +66,7 @@
 			on:input={({ detail: value }) => {
 				name = value;
 			}}
+			width={`${name.length}ch`}
 			on:submit={() => {
 				editing = false;
 
