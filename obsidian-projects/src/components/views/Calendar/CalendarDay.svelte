@@ -6,7 +6,9 @@
 	import CalendarDate from "./CalendarDate.svelte";
 	import CalendarEntry from "./CalendarEntry.svelte";
 	import { TableCell } from "./components/Table";
+	import { i18n } from "../../../lib/stores/i18n";
 	import path from "path";
+	import { Menu } from "obsidian";
 
 	export let date: dayjs.Dayjs;
 	export let records: Array<[number, DataRecord]>;
@@ -19,7 +21,23 @@
 	}
 </script>
 
-<TableCell width="calc(100% / 7)" on:dblclick={() => onEntryAdd()}>
+<TableCell
+	width="calc(100% / 7)"
+	on:dblclick={() => onEntryAdd()}
+	on:mousedown={(event) => {
+		if (event.button === 2) {
+			const menu = new Menu();
+
+			menu.addItem((item) => {
+				item.setTitle($i18n.t("views.calendar.new-note"))
+					.setIcon("file")
+					.onClick(onEntryAdd);
+			});
+
+			menu.showAtMouseEvent(event);
+		}
+	}}
+>
 	<div class:weekend={date.day() === 0 || date.day() === 6}>
 		<CalendarDate {date} />
 		{#each records as recordPair}

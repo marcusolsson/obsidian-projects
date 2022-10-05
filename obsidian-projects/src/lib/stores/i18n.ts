@@ -191,6 +191,7 @@ i18next.init({
 					},
 					calendar: {
 						name: "Calendar",
+						"new-note": "New note",
 						fields: {
 							date: "Date",
 							none: "None",
