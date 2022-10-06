@@ -23,7 +23,7 @@
 	/**
 	 * Specifies whether the class name to use for the popover element.
 	 */
-	export let className: string = "menu";
+	export let className: string = "popover";
 
 	/**
 	 * Specifices where to place the menu in relation to the anchor element.

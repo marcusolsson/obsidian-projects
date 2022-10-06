@@ -12,4 +12,4 @@ export { Typography } from "./Typography";
 export { InternalLink } from "./InternalLink";
 export { TextArea } from "./TextArea";
 export { Callout } from "./Callout";
-export { Menu, MenuItem, Suggestion, SuggestionItem } from "./Popover";
+export { Popover, Menu, MenuItem, Suggestion, SuggestionItem } from "./Popover";
