@@ -14,7 +14,7 @@
 	/**
 	 * Specifies whether the suggestion is selected.
 	 */
-	export let selected: boolean;
+	export let selected: boolean = false;
 
 	const dispatch = createEventDispatcher<{ click: void; select: boolean }>();
 

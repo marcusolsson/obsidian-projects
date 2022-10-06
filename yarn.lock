@@ -315,9 +315,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codemirror/language@git+https://github.com/lishid/cm-language.git":
+"@codemirror/language@https://github.com/lishid/cm-language":
   version "6.2.1"
-  resolved "git+https://github.com/lishid/cm-language.git#073afd8e6bc4d8e5cf6170a50f9b668a98c39f1c"
+  resolved "https://github.com/lishid/cm-language#073afd8e6bc4d8e5cf6170a50f9b668a98c39f1c"
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
@@ -3056,17 +3056,17 @@ obsidian-dataview@^0.5.46:
     parsimmon "^1.18.0"
     preact "^10.6.5"
 
-"obsidian@github:obsidianmd/obsidian-api#master":
-  version "0.16.3"
-  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/1b4f6e2e5753c8ac2d538bc5d55c38f228450cb2"
-  dependencies:
-    "@types/codemirror" "0.0.108"
-    moment "2.29.4"
-
 obsidian@latest:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-0.16.3.tgz#137b7e91f949517a1bc817b1d7ef9b8aefb219bc"
   integrity sha512-hal9qk1A0GMhHSeLr2/+o3OpLmImiP+Y+sx2ewP13ds76KXsziG96n+IPFT0mSkup1zSwhEu+DeRhmbcyCCXWw==
+  dependencies:
+    "@types/codemirror" "0.0.108"
+    moment "2.29.4"
+
+obsidian@obsidianmd/obsidian-api#master:
+  version "0.16.3"
+  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/1b4f6e2e5753c8ac2d538bc5d55c38f228450cb2"
   dependencies:
     "@types/codemirror" "0.0.108"
     moment "2.29.4"

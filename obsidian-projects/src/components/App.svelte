@@ -16,6 +16,7 @@
 	import type { DataRecord } from "../lib/types";
 	import type { TFile } from "obsidian";
 	import { Callout, Progress, Typography } from "obsidian-svelte";
+	import Book from "./sveltebook/Book.svelte";
 
 	$: projects = $settings.projects;
 
@@ -151,6 +152,8 @@
 			.map($app.vault.getAbstractFileByPath)
 			.filter(isFile);
 	}
+
+	let test = true;
 </script>
 
 <div class="projects-container">
@@ -166,7 +169,9 @@
 		<Progress />
 	{:then}
 		<div class="projects-main">
-			{#if selectedView && viewComponent}
+			{#if test}
+				<Book />
+			{:else if selectedView && viewComponent}
 				<svelte:component
 					this={viewComponent}
 					{frame}
