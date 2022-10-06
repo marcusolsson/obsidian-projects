@@ -1,11 +1,11 @@
 <script lang="ts">
-	import SuggestionMenu from "../Menu/SuggestionMenu.svelte";
-	import SuggestionMenuItem from "../Menu/SuggestionMenuItem.svelte";
+	import { onMount } from "svelte";
+	import { Suggestion, SuggestionItem } from "obsidian-svelte";
 
 	interface Suggestion {
 		id: string;
-		title: string;
-		note: string;
+		label: string;
+		description: string;
 	}
 
 	export let value: string;
@@ -23,6 +23,10 @@
 	let suggestions: Suggestion[] = [];
 
 	let selected: number = -1;
+
+	onMount(() => {
+		referenceElement.focus();
+	});
 </script>
 
 <input
@@ -53,7 +57,6 @@
 	}}
 	on:blur={() => {
 		isOpen = false;
-		onChange(value);
 	}}
 	on:keydown={(event) => {
 		if (isOpen) {
@@ -66,7 +69,7 @@
 				selected = next > suggestions.length - 1 ? 0 : next;
 				event.preventDefault();
 			} else if (event.key === "Enter") {
-				value = suggestions[selected]?.title ?? value;
+				value = suggestions[selected]?.label ?? value;
 				isOpen = false;
 				onChange(value);
 				event.preventDefault();
@@ -75,27 +78,32 @@
 	}}
 />
 
-<SuggestionMenu
+<Suggestion
 	anchorEl={referenceElement}
 	open={isOpen}
-	onClose={() => {
+	on:close={() => {
 		isOpen = false;
 	}}
 >
-	{#each suggestions as { title, note }, i}
-		<SuggestionMenuItem
-			{title}
-			{note}
+	{#each suggestions as { label, description }, i}
+		<SuggestionItem
+			{label}
+			{description}
 			selected={selected === i}
-			onClick={() => {
+			on:click={() => {
 				selected = i;
-				value = suggestions[selected]?.title ?? value;
+				value = suggestions[selected]?.label ?? value;
 				isOpen = false;
+				onChange(value);
 			}}
-			onSelect={() => (selected = i)}
+			on:select={({ detail }) => {
+				if (detail) {
+					selected = i;
+				}
+			}}
 		/>
 	{/each}
-</SuggestionMenu>
+</Suggestion>
 
 <style>
 	.fullWidth {

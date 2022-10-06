@@ -1,7 +1,7 @@
 export { Button } from "./Button";
 export { Checkbox } from "./Checkbox";
 export { DateInput } from "./DateInput";
-export { Icon, IconButton } from "./Icon";
+export { Icon, IconButton, useIcon } from "./Icon";
 export { Input } from "./Input";
 export { ModalLayout, ModalButtonGroup, ModalContent } from "./Modal";
 export { Progress } from "./Progress";
@@ -12,3 +12,4 @@ export { Typography } from "./Typography";
 export { InternalLink } from "./InternalLink";
 export { TextArea } from "./TextArea";
 export { Callout } from "./Callout";
+export { Menu, MenuItem, Suggestion, SuggestionItem } from "./Popover";

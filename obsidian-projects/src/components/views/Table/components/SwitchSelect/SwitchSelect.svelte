@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Menu, MenuItem } from "../../../../core/Menu";
+	import { Menu, MenuItem } from "obsidian-svelte";
 	interface SwitchItem {
 		label: string;
 		value: string;
@@ -19,28 +19,12 @@
 	{label}
 </div>
 
-<Menu
-	open={isOpen}
-	onClose={() => (isOpen = false)}
-	anchorEl={ref}
-	params={{
-		placement: "bottom-start",
-		modifiers: [
-			{
-				name: "offset",
-				options: {
-					offset: [0, 4],
-				},
-			},
-		],
-	}}
->
+<Menu anchorEl={ref} open={isOpen} on:close={() => (isOpen = false)}>
 	{#each items as { label, value, enabled }}
 		<MenuItem
 			{label}
-			{value}
-			{enabled}
-			onChange={(value, enabled) => onChange(value, enabled)}
+			checked={enabled}
+			on:check={({ detail: checked }) => onChange(value, checked)}
 		/>
 	{/each}
 </Menu>

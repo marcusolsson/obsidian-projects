@@ -33,19 +33,19 @@
 
 	async function handleSuggest(
 		query: string
-	): Promise<Array<{ id: string; title: string; note: string }>> {
+	): Promise<Array<{ id: string; label: string; description: string }>> {
 		if (files) {
 			return files.map((file) => ({
 				id: file.path,
-				title: valueType === "name" ? file.basename : file.path,
-				note:
+				label: valueType === "name" ? file.basename : file.path,
+				description:
 					valueType === "name"
 						? file.path.split("/").slice(0, -1).join("/")
 						: "",
 			}));
 		}
 
-		const values: { id: string; title: string; note: string }[] = [];
+		const values: { id: string; label: string; description: string }[] = [];
 
 		const filteredFiles = filesInFolder($app.vault.getRoot(), (file) => {
 			if (valueType === "name") {
@@ -68,11 +68,11 @@
 					if (file instanceof TFile && file.extension === "md") {
 						values.push({
 							id: file.path,
-							title:
+							label:
 								valueType === "name"
 									? file.basename
 									: file.path,
-							note:
+							description:
 								valueType === "name"
 									? file.path
 											.split("/")
@@ -86,11 +86,11 @@
 					if (file instanceof TFile) {
 						values.push({
 							id: file.path,
-							title:
+							label:
 								valueType === "name"
 									? file.basename
 									: file.path,
-							note:
+							description:
 								valueType === "name"
 									? file.path
 											.split("/")
@@ -104,8 +104,8 @@
 					if (file instanceof TFolder) {
 						values.push({
 							id: file.path,
-							title: valueType === "name" ? file.name : file.path,
-							note:
+							label: valueType === "name" ? file.name : file.path,
+							description:
 								valueType === "name"
 									? file.path
 											.split("/")
@@ -118,8 +118,8 @@
 				case "all":
 					values.push({
 						id: file.path,
-						title: valueType === "name" ? file.name : file.path,
-						note:
+						label: valueType === "name" ? file.name : file.path,
+						description:
 							valueType === "name"
 								? file.path.split("/").slice(0, -1).join("/")
 								: "",
