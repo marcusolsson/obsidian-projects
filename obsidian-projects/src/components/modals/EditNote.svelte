@@ -23,7 +23,7 @@
 	export let onSave: (record: DataRecord) => void;
 </script>
 
-<ModalLayout title={$i18n.t("modals.record.edit.title")}>
+<ModalLayout title={$i18n.t("modals.note.edit.title")}>
 	<ModalContent>
 		{#if !editableFields.length}
 			<Callout
@@ -31,7 +31,7 @@
 				icon="info"
 				variant="info"
 			>
-				{$i18n.t("modals.record.edit.no-editable-fields.message")}
+				{$i18n.t("modals.note.edit.no-editable-fields.message")}
 			</Callout>
 		{/if}
 		{#each editableFields as field}
@@ -53,7 +53,7 @@
 			variant="primary"
 			on:click={() => {
 				onSave(record);
-			}}>{$i18n.t("modals.record.edit.save")}</Button
+			}}>{$i18n.t("modals.note.edit.save")}</Button
 		>
 	</ModalButtonGroup>
 </ModalLayout>

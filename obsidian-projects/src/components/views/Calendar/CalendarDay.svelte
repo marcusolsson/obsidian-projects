@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type dayjs from "dayjs";
 
-	import type { DataRecord } from "../../../lib/types";
+	import type { DataRecord, DataValue } from "../../../lib/types";
 
 	import CalendarDate from "./CalendarDate.svelte";
 	import CalendarEntry from "./CalendarEntry.svelte";
@@ -12,12 +12,21 @@
 
 	export let date: dayjs.Dayjs;
 	export let records: Array<[number, DataRecord]>;
+	export let checkField: string | undefined;
 	export let onEntryClick: (recordId: number) => void;
 	export let onEntryAdd: () => void;
+	export let onRecordUpdate: (record: DataRecord) => void;
 
 	function getDisplayName(record: DataRecord): string {
 		const basename = path.basename(record.id);
 		return basename.slice(0, basename.lastIndexOf("."));
+	}
+
+	function asOptionalBoolean(value: DataValue): boolean | null {
+		if (typeof value === "boolean") {
+			return value;
+		}
+		return null;
 	}
 </script>
 
@@ -44,6 +53,20 @@
 			{#if getDisplayName(recordPair[1])}
 				<CalendarEntry
 					name={getDisplayName(recordPair[1])}
+					checked={checkField !== undefined
+						? asOptionalBoolean(recordPair[1].values[checkField])
+						: undefined}
+					on:check={({ detail: checked }) => {
+						if (checkField) {
+							onRecordUpdate({
+								...recordPair[1],
+								values: {
+									...recordPair[1].values,
+									[checkField]: checked,
+								},
+							});
+						}
+					}}
 					on:click={() => {
 						onEntryClick(recordPair[0]);
 					}}

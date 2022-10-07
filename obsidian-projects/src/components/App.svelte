@@ -150,7 +150,9 @@
 	function filesFromRecords(records: DataRecord[]): TFile[] {
 		return records
 			.map((record) => record.id)
-			.map($app.vault.getAbstractFileByPath)
+			.map((path) => {
+				return $app.vault.getAbstractFileByPath(path);
+			})
 			.filter(isFile);
 	}
 </script>

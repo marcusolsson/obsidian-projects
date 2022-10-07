@@ -47,6 +47,7 @@
 	interface CalendarConfig {
 		interval?: CalendarInterval;
 		dateField?: string;
+		checkField?: string;
 	}
 
 	export let frame: DataFrame;
@@ -64,10 +65,14 @@
 	let anchorDate: dayjs.Dayjs = dayjs();
 
 	$: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
-
 	$: dateField =
 		dateFields.find((field) => config?.dateField === field.name) ??
 		dateFields[0];
+
+	$: booleanFields = fields.filter(
+		(field) => field.type === DataFieldType.Boolean
+	);
+	$: booleanField = fields.find((field) => config?.checkField === field.name);
 
 	$: interval = config?.interval ?? "week";
 
@@ -98,6 +103,9 @@
 	function handleDateFieldChange(dateField: string) {
 		onConfigChange({ ...config, dateField });
 	}
+	function handleCheckFieldChange(checkField: string) {
+		onConfigChange({ ...config, checkField });
+	}
 </script>
 
 <div>
@@ -116,6 +124,15 @@
 					options={dateFields.map(fieldToSelectableValue)}
 					placeholder={$i18n.t("views.calendar.fields.none") ?? ""}
 					on:change={({ detail }) => handleDateFieldChange(detail)}
+				/>
+			</Field>
+			<Field name={$i18n.t("views.calendar.fields.check")}>
+				<Select
+					allowEmpty
+					value={booleanField?.name ?? ""}
+					options={booleanFields.map(fieldToSelectableValue)}
+					placeholder={$i18n.t("views.calendar.fields.none") ?? ""}
+					on:change={({ detail }) => handleCheckFieldChange(detail)}
 				/>
 			</Field>
 			<Select
@@ -172,6 +189,8 @@
 					{#each week as date}
 						<CalendarDay
 							{date}
+							checkField={booleanField?.name}
+							{onRecordUpdate}
 							records={groupedRecords[
 								date.format("YYYY-MM-DD")
 							] || []}

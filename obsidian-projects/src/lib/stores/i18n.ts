@@ -197,6 +197,7 @@ i18next.init({
 						"new-note": "New note",
 						fields: {
 							date: "Date",
+							check: "Check",
 							none: "None",
 						},
 						today: "Today",
