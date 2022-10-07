@@ -92,6 +92,10 @@
 </div>
 
 <style>
+	input {
+		all: unset;
+	}
+
 	div {
 		margin: 0;
 
