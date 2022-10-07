@@ -23,12 +23,6 @@
 	 */
 	export let open: boolean = false;
 
-	export function focus() {
-		inputRef.focus();
-	}
-
-	$: console.log("auto", options);
-
 	/**
 	 * TextInput props
 	 */
@@ -89,19 +83,23 @@
 	on:input={() => (open = true)}
 	on:keydown={(event) => {
 		if (open) {
-			if (event.key === "ArrowUp") {
-				const prev = selected - 1;
-				selected = prev < 0 ? filteredOptions.length - 1 : prev;
-				event.preventDefault();
-			} else if (event.key === "ArrowDown") {
-				const next = selected + 1;
-				selected = next > filteredOptions.length - 1 ? 0 : next;
-				event.preventDefault();
-			} else if (event.key === "Enter") {
-				value = filteredOptions[selected]?.label ?? value;
-				willClose = true;
-				dispatch("change", value);
-				event.preventDefault();
+			switch (event.key) {
+				case "ArrowUp":
+					const prev = selected - 1;
+					selected = prev < 0 ? filteredOptions.length - 1 : prev;
+					event.preventDefault();
+					break;
+				case "ArrowDown":
+					const next = selected + 1;
+					selected = next > filteredOptions.length - 1 ? 0 : next;
+					event.preventDefault();
+					break;
+				case "Enter":
+					value = filteredOptions[selected]?.label ?? value;
+					willClose = true;
+					dispatch("change", value);
+					event.preventDefault();
+					break;
 			}
 		}
 	}}

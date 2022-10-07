@@ -14,23 +14,9 @@
 	export let autoFocus: boolean = false;
 
 	$: options = files.map((file) => ({
-		id: file.path,
 		label: getOptionLabel(file),
 		description: getOptionDescription(file),
 	}));
-
-	// return files.map((file) => {
-	// 	if (file instanceof TFile) {
-	// 		return {
-	// 			id: file.path,
-	// 			label: valueType === "name" ? file.basename : file.path,
-	// 			description:
-	// 				valueType === "name"
-	// 					? file.path.split("/").slice(0, -1).join("/")
-	// 					: "",
-	// 		};
-	// 	}
-	// });
 </script>
 
 <Autocomplete
