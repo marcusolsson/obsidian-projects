@@ -1,14 +1,15 @@
 <script lang="ts">
 	import produce from "immer";
-	import type { Menu } from "obsidian";
+	import { TFile, type Menu } from "obsidian";
 
 	import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
-	import type { DataValue } from "../../../lib/types";
+	import type { DataValue } from "../../../../../lib/types";
 	import { IconButton } from "obsidian-svelte";
 	import GridCellGroup from "./GridCellGroup.svelte";
 
 	import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
 	import { menuOnContextMenu } from "./data-grid";
+	import { app } from "../../../../../lib/stores/obsidian";
 
 	import { setContext } from "svelte";
 
@@ -53,9 +54,32 @@
 			}
 		};
 	}
+
+	function handleHoverLink(event: MouseEvent) {
+		if (!event.ctrlKey && !event.metaKey) {
+			return;
+		}
+
+		const targetEl = event.target;
+
+		if (targetEl instanceof HTMLDivElement) {
+			const file = $app.vault.getAbstractFileByPath(rowId);
+
+			if (file instanceof TFile) {
+				$app.workspace.trigger("hover-link", {
+					event,
+					source: "obsidian-projects-table-view",
+					hoverParent: targetEl.parentElement,
+					targetEl,
+					linktext: file.name,
+					sourcePath: file.path,
+				});
+			}
+		}
+	}
 </script>
 
-<GridCellGroup>
+<GridCellGroup on:mouseover={handleHoverLink}>
 	<GridCell
 		column={{ field: "", header: true, width: 60, editable: false }}
 		columnHeader

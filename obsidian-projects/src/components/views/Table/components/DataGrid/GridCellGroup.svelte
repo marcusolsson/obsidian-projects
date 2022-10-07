@@ -2,7 +2,7 @@
 	export let header: boolean = false;
 </script>
 
-<div class:header>
+<div class:header on:mouseover on:focus>
 	<slot />
 </div>
 
