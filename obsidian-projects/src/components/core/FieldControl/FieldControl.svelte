@@ -10,12 +10,7 @@
 		type DataValue,
 	} from "../../../lib/types";
 
-	import {
-		DateInput,
-		TextInput,
-		Checkbox,
-		NumberInput,
-	} from "obsidian-svelte";
+	import { DateInput, TextInput, Switch, NumberInput } from "obsidian-svelte";
 	import { TagList } from "../TagList";
 
 	export let type: DataFieldType;
@@ -25,7 +20,7 @@
 </script>
 
 {#if type === DataFieldType.Boolean}
-	<Checkbox
+	<Switch
 		checked={isBoolean(value) ? value : false}
 		on:check={({ detail }) => onChange(detail)}
 	/>

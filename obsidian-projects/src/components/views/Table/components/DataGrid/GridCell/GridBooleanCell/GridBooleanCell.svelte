@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { isBoolean } from "../../../../../../../lib/types";
-	import { Checkbox } from "obsidian-svelte";
+	import { Switch } from "obsidian-svelte";
 	import { GridCell } from "..";
 	import type { GridColDef } from "../../data-grid";
 
@@ -12,14 +12,14 @@
 <GridCell {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isBoolean(value)}
-			<Checkbox
+			<Switch
 				checked={value}
 				on:check={({ detail: checked }) => onChange(checked)}
 				disabled={!column.editable}
 			/>
 		{/if}
 	</svelte:fragment>
-	<Checkbox
+	<Switch
 		slot="edit"
 		checked={value ?? false}
 		on:check={({ detail: checked }) => onChange(checked)}

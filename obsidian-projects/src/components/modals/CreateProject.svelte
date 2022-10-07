@@ -2,7 +2,7 @@
 	import moment from "moment";
 	import {
 		Button,
-		Checkbox,
+		Switch,
 		TextInput,
 		SettingItem,
 		ModalButtonGroup,
@@ -80,7 +80,7 @@
 				description={$i18n.t("modals.project.dataview.description") ??
 					""}
 			>
-				<Checkbox
+				<Switch
 					checked={!!project.dataview}
 					on:check={({ detail: dataview }) =>
 						(project = { ...project, dataview })}
@@ -133,7 +133,7 @@
 				description={$i18n.t("modals.project.recursive.description") ??
 					""}
 			>
-				<Checkbox
+				<Switch
 					checked={project.recursive}
 					on:check={({ detail: recursive }) =>
 						(project = { ...project, recursive })}

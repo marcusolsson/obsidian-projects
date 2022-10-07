@@ -38,6 +38,8 @@
 				return "columns";
 			case "calendar":
 				return "calendar";
+			case "developer":
+				return "wrench";
 			default:
 				const createView = $customViewsV2[type];
 

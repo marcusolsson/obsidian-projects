@@ -4,7 +4,7 @@
 		Typography,
 		Button,
 		TextInput,
-		Checkbox,
+		Switch,
 		Popover,
 		Menu,
 		MenuItem,
@@ -46,12 +46,12 @@
 		</div>
 	</Card>
 
-	<Typography variant="h2">Checkbox</Typography>
+	<Typography variant="h2">Switch</Typography>
 
 	<Card>
 		<div>
-			<Checkbox checked={true} />
-			<Checkbox checked={false} />
+			<Switch checked={true} />
+			<Switch checked={false} />
 		</div>
 	</Card>
 

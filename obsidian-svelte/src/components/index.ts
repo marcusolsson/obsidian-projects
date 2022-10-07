@@ -1,5 +1,5 @@
 export { Button } from "./Button";
-export { Checkbox } from "./Checkbox";
+export { Switch } from "./Switch";
 export { DateInput } from "./DateInput";
 export { Card } from "./Card";
 export { Icon, IconButton, useIcon } from "./Icon";

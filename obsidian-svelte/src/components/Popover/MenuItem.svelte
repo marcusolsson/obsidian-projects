@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, useIcon } from "obsidian-svelte";
+	import { Switch, useIcon } from "obsidian-svelte";
 
 	import { createEventDispatcher } from "svelte";
 
@@ -33,7 +33,7 @@
 	on:click
 >
 	{#if checked !== undefined}
-		<Checkbox
+		<Switch
 			{checked}
 			on:check={({ detail: enabled }) => (checked = enabled)}
 		/>
