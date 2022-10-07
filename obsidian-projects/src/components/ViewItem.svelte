@@ -14,6 +14,13 @@
 
 	let fallback: string = name;
 
+	let inputRef: HTMLInputElement;
+
+	$: if (editing && inputRef) {
+		inputRef.focus();
+		inputRef.select();
+	}
+
 	$: error = !onValidate(name);
 
 	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
@@ -62,6 +69,7 @@
 	{/if}
 	{#if editing}
 		<input
+			bind:this={inputRef}
 			bind:value={name}
 			style={`width: ${name.length}ch`}
 			on:keydown={(event) => {
@@ -93,7 +101,14 @@
 
 <style>
 	input {
-		all: unset;
+		background: none;
+		border: none;
+		padding: 0;
+		margin: 0;
+		font-size: inherit;
+		font-family: inherit;
+		font-weight: inherit;
+		line-height: inherit;
 	}
 
 	div {
