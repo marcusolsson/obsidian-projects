@@ -13,6 +13,7 @@
 		NumberInput,
 		Card,
 		Loading,
+		Checkbox,
 		Autocomplete,
 	} from "obsidian-svelte";
 	import { getNotesInFolder } from "../../app";
@@ -49,10 +50,12 @@
 	<Typography variant="h2">Switch</Typography>
 
 	<Card>
-		<div>
+		<HorizontalGroup>
 			<Switch checked={true} />
 			<Switch checked={false} />
-		</div>
+			<Checkbox checked={true} />
+			<Checkbox checked={false} />
+		</HorizontalGroup>
 	</Card>
 
 	<Typography variant="h2">Popover</Typography>
