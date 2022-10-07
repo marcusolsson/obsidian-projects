@@ -1,7 +1,9 @@
 <script lang="ts">
 	import produce from "immer";
 	import { Button, IconButton } from "obsidian-svelte";
-	import { FileSuggestInput } from "../SuggestInput";
+	import { getFilesInFolder } from "../../app";
+	import { FileAutocomplete } from "../SuggestInput";
+	import { app } from "../../../lib/stores/obsidian";
 
 	export let paths: string[];
 	export let onPathsChange: (value: string[]) => void;
@@ -9,9 +11,9 @@
 
 {#each paths as path, i}
 	<div>
-		<FileSuggestInput
+		<FileAutocomplete
 			value={path}
-			onChange={(value) => {
+			on:change={({ detail: value }) => {
 				onPathsChange(
 					produce(paths, (draft) => {
 						draft[i] = value;
@@ -19,10 +21,9 @@
 					})
 				);
 			}}
-			sourcePath=""
-			include="files"
-			valueType="path"
-			fullWidth
+			files={getFilesInFolder($app.vault.getRoot(), false)}
+			getOptionLabel={(file) => file.path}
+			width="100%"
 		/>
 		<IconButton
 			size={24}

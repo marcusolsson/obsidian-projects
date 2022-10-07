@@ -2,7 +2,7 @@
 	import { normalizePath, TFile } from "obsidian";
 	import {
 		Button,
-		Input,
+		TextInput,
 		Select,
 		SettingItem,
 		ModalButtonGroup,
@@ -56,10 +56,10 @@
 			name={$i18n.t("modals.note.create.name.name")}
 			description={$i18n.t("modals.note.create.name.description") ?? ""}
 		>
-			<Input
+			<TextInput
 				value={name}
 				on:input={({ detail: value }) => (name = value)}
-				autofocus
+				autoFocus
 				error={!!nameError}
 				helperText={nameError}
 			/>

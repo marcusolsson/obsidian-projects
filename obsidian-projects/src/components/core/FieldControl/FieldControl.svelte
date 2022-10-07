@@ -10,7 +10,12 @@
 		type DataValue,
 	} from "../../../lib/types";
 
-	import { DateInput, Input, Checkbox } from "obsidian-svelte";
+	import {
+		DateInput,
+		TextInput,
+		Checkbox,
+		NumberInput,
+	} from "obsidian-svelte";
 	import { TagList } from "../TagList";
 
 	export let type: DataFieldType;
@@ -25,16 +30,16 @@
 		on:check={({ detail }) => onChange(detail)}
 	/>
 {:else if type === DataFieldType.String}
-	<Input
+	<TextInput
 		value={isString(value) ? value : ""}
 		on:input={({ detail: value }) => onChange(value)}
 		{readonly}
 	/>
 {:else if type === DataFieldType.Number}
-	<Input
-		type="number"
-		value={isNumber(value) ? value.toString() : ""}
-		on:input={({ detail: value }) => onChange(parseFloat(value))}
+	<NumberInput
+		value={isNumber(value) ? value : null}
+		on:input={({ detail: value }) =>
+			onChange(value !== null ? value : undefined)}
 	/>
 {:else if type === DataFieldType.Date}
 	<DateInput
@@ -44,7 +49,7 @@
 {:else if type === DataFieldType.List && isOptionalList(value)}
 	<TagList edit={true} values={value ?? []} {onChange} />
 {:else if type === DataFieldType.Link}
-	<Input
+	<TextInput
 		value={isLink(value) ? value.linkText : ""}
 		on:input={({ detail: val }) => {
 			if (isLink(value)) {

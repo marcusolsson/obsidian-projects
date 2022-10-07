@@ -9,7 +9,7 @@
 
 	import {
 		Button,
-		Input,
+		TextInput,
 		ModalButtonGroup,
 		ModalContent,
 		ModalLayout,
@@ -55,6 +55,7 @@
 		{ label: $i18n.t("views.table.name"), value: "table" },
 		{ label: $i18n.t("views.board.name"), value: "board" },
 		{ label: $i18n.t("views.calendar.name"), value: "calendar" },
+		{ label: $i18n.t("views.developer.name"), value: "developer" },
 		...selectableCustomViews,
 	];
 
@@ -89,7 +90,7 @@
 			name={$i18n.t("modals.view.create.name.name")}
 			description={$i18n.t("modals.view.create.name.description") ?? ""}
 		>
-			<Input
+			<TextInput
 				value={name}
 				on:input={({ detail: value }) => (name = value)}
 				placeholder={$i18n.t("modals.view.create.optional") ?? ""}

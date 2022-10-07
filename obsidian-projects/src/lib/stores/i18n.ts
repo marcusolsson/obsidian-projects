@@ -170,6 +170,9 @@ i18next.init({
 					},
 				},
 				views: {
+					developer: {
+						name: "Developer",
+					},
 					table: {
 						name: "Table",
 						"hide-fields": "Hide fields",

@@ -4,12 +4,17 @@
 	/**
 	 * Specifies the type of input.
 	 */
-	export let type: string = "text";
+	export let type: "text" | "number";
 
 	/**
 	 * Specifies the input value.
 	 */
-	export let value: string;
+	export let value: any;
+
+	/**
+	 * Specifies the reference for the underlying input element.
+	 */
+	export let ref: HTMLInputElement | null = null;
 
 	/**
 	 * Specifies whether the input is readonly.
@@ -22,15 +27,9 @@
 	export let placeholder: string = "";
 
 	/**
-	 * Specifies whether to remove decorations so that the input can be embedded
-	 * in other components.
-	 */
-	export let embed: boolean = false;
-
-	/**
 	 * Specifies whether to focus the input when it's mounted.
 	 */
-	export let autofocus: boolean = false;
+	export let autoFocus: boolean = false;
 
 	/**
 	 * Specifies the width of the input.
@@ -43,45 +42,41 @@
 	export let error: boolean = false;
 
 	/**
-	 * Specifies additional information for the input.
+	 * Specifies whether to remove styles to embed the input in another
+	 * component.
+	 */
+	export let embed: boolean = false;
+
+	/**
+	 * Specifies an message for the input.
 	 */
 	export let helperText: string = "";
 
-	let ref: HTMLInputElement;
+	const dispatch = createEventDispatcher<{ input: string | number | null }>();
 
-	const dispatch = createEventDispatcher<{ input: string; submit: string }>();
-
-	function handleInput(event: Event) {
-		if (event.currentTarget instanceof HTMLInputElement) {
-			dispatch("input", event.currentTarget.value);
-		}
-	}
-
-	function handleKeyDown(event: KeyboardEvent) {
-		if (event.key === "Enter") {
-			dispatch("submit", value);
-		}
-	}
+	$: dispatch("input", value);
 
 	onMount(() => {
-		if (autofocus && ref) {
+		if (autoFocus && ref) {
 			ref.focus();
-			ref.select();
 		}
 	});
 </script>
 
 <div style={`width: ${width}`}>
 	<input
-		class:embed
 		class:error
+		class:embed
 		bind:this={ref}
 		{value}
 		{type}
 		{placeholder}
 		{readonly}
-		on:input={handleInput}
-		on:keydown={handleKeyDown}
+		on:input
+		on:focus
+		on:blur
+		on:keydown
+		on:keyup
 		style={`width: ${width}`}
 	/>
 	{#if !!helperText}
@@ -93,12 +88,10 @@
 
 <style>
 	.embed {
-		border: 0;
-		margin: 0;
-		padding: 0;
+		border: none;
 		background: none;
+		font-size: inherit;
 	}
-
 	.embed:focus {
 		box-shadow: none;
 	}
@@ -117,7 +110,7 @@
 	}
 
 	small {
-		margin-top: var(--size-4-2);
+		margin-top: var(--size-4-1);
 		font-size: var(--font-ui-smaller);
 		color: var(--text-muted);
 		display: block;

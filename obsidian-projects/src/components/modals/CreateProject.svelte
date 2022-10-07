@@ -3,7 +3,7 @@
 	import {
 		Button,
 		Checkbox,
-		Input,
+		TextInput,
 		SettingItem,
 		ModalButtonGroup,
 		ModalContent,
@@ -16,11 +16,13 @@
 	import { i18n } from "../../lib/stores/i18n";
 	import { interpolateTemplate } from "../../lib/templates";
 	import { FileListInput } from "../core/FileListInput";
-	import FileSuggestInput from "../core/SuggestInput/FileSuggestInput.svelte";
+	import FileAutocomplete from "../core/SuggestInput/FileAutocomplete.svelte";
 	import { notEmpty } from "../views/Board/board";
 	import { capabilities } from "obsidian-projects/src/lib/stores/capabilities";
 	import { settings } from "obsidian-projects/src/lib/stores/settings";
 	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
+	import { getFoldersInFolder } from "../app";
+	import { app } from "../../lib/stores/obsidian";
 
 	export let title: string;
 	export let cta: string;
@@ -62,11 +64,11 @@
 			name={$i18n.t("modals.project.name.name")}
 			description={$i18n.t("modals.project.name.description") ?? ""}
 		>
-			<Input
+			<TextInput
 				value={project.name}
 				on:input={({ detail: name }) =>
 					(project = { ...project, name })}
-				autofocus
+				autoFocus
 				error={!!nameError}
 				helperText={nameError}
 			/>
@@ -116,13 +118,13 @@
 				description={$i18n.t("modals.project.path.description") ?? ""}
 				vertical
 			>
-				<FileSuggestInput
+				<FileAutocomplete
+					files={getFoldersInFolder($app.vault.getRoot(), false)}
 					value={project.path}
-					onChange={(path) => (project = { ...project, path })}
-					sourcePath=""
-					include="folders"
-					valueType="path"
-					fullWidth
+					on:change={({ detail: path }) =>
+						(project = { ...project, path })}
+					getOptionLabel={(file) => file.path}
+					width="100%"
 				/>
 			</SettingItem>
 
@@ -145,7 +147,7 @@
 				""}
 			vertical
 		>
-			<Input
+			<TextInput
 				value={project.defaultName ?? ""}
 				on:input={({ detail: defaultName }) =>
 					(project = { ...project, defaultName })}

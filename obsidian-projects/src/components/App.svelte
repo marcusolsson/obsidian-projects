@@ -15,8 +15,8 @@
 	import { dataFrame, dataSource } from "../lib/stores/dataframe";
 	import type { DataRecord } from "../lib/types";
 	import type { TFile } from "obsidian";
-	import { Callout, Progress, Typography } from "obsidian-svelte";
-	import Book from "./sveltebook/Book.svelte";
+	import { Callout, Loading, Typography } from "obsidian-svelte";
+	import DeveloperView from "./views/Developer/DeveloperView.svelte";
 
 	$: projects = $settings.projects;
 
@@ -63,6 +63,7 @@
 			table: TableView,
 			board: BoardView,
 			calendar: CalendarView,
+			developer: DeveloperView,
 		};
 
 		const standardComponent = standardViewComponents[type];
@@ -152,8 +153,6 @@
 			.map($app.vault.getAbstractFileByPath)
 			.filter(isFile);
 	}
-
-	let test = true;
 </script>
 
 <div class="projects-container">
@@ -166,12 +165,10 @@
 	/>
 
 	{#await querying}
-		<Progress />
+		<Loading />
 	{:then}
 		<div class="projects-main">
-			{#if test}
-				<Book />
-			{:else if selectedView && viewComponent}
+			{#if selectedView && viewComponent}
 				<svelte:component
 					this={viewComponent}
 					{frame}

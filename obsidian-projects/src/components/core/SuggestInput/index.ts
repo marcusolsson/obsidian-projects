@@ -1,2 +1,1 @@
-export { default as FileSuggestInput } from "./FileSuggestInput.svelte";
-export { default as SuggestInput } from "./SuggestInput.svelte";
+export { default as FileAutocomplete } from "./FileAutocomplete.svelte";

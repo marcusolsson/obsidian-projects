@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Input, Icon, IconButton } from "obsidian-svelte";
+	import { Icon, IconButton } from "obsidian-svelte";
 
 	export let name: string;
 	export let selected: boolean = false;
@@ -61,24 +61,21 @@
 		<Icon name={icon} size={18} />
 	{/if}
 	{#if editing}
-		<Input
-			value={name}
-			on:input={({ detail: value }) => {
-				name = value;
-			}}
-			width={`${name.length}ch`}
-			on:submit={() => {
-				editing = false;
+		<input
+			bind:value={name}
+			style={`width: ${name.length}ch`}
+			on:keydown={(event) => {
+				if (event.key === "Enter") {
+					editing = false;
 
-				if (!error) {
-					fallback = name;
-					onRename(name);
-				} else {
-					name = fallback;
+					if (!error) {
+						fallback = name;
+						onRename(name);
+					} else {
+						name = fallback;
+					}
 				}
 			}}
-			autofocus
-			embed
 		/>
 	{:else}
 		{name}
