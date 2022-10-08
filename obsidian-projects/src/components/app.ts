@@ -23,7 +23,7 @@ export function isFolder(value: TAbstractFile | null): value is TFolder {
 	return value instanceof TFolder;
 }
 
-export function getFilesInFolder(folder: TFolder, recursive: boolean): TFile[] {
+export function getFilesInFolder(folder: TFolder): TFile[] {
 	const result: TFile[] = [];
 	Vault.recurseChildren(folder, (file) => {
 		if (file instanceof TFile) {
@@ -33,16 +33,11 @@ export function getFilesInFolder(folder: TFolder, recursive: boolean): TFile[] {
 	return result;
 }
 
-export function getNotesInFolder(folder: TFolder, recursive: boolean): TFile[] {
-	return getFilesInFolder(folder, recursive).filter(
-		(file) => file.extension === "md"
-	);
+export function getNotesInFolder(folder: TFolder): TFile[] {
+	return getFilesInFolder(folder).filter((file) => file.extension === "md");
 }
 
-export function getFoldersInFolder(
-	folder: TFolder,
-	recursive: boolean
-): TFolder[] {
+export function getFoldersInFolder(folder: TFolder): TFolder[] {
 	const result: TFolder[] = [];
 	Vault.recurseChildren(folder, (file) => {
 		if (file instanceof TFolder) {

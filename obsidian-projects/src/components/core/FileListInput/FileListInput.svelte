@@ -21,7 +21,7 @@
 					})
 				);
 			}}
-			files={getFilesInFolder($app.vault.getRoot(), false)}
+			files={getFilesInFolder($app.vault.getRoot())}
 			getOptionLabel={(file) => file.path}
 			width="100%"
 		/>

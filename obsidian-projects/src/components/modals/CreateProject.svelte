@@ -119,7 +119,7 @@
 				vertical
 			>
 				<FileAutocomplete
-					files={getFoldersInFolder($app.vault.getRoot(), false)}
+					files={getFoldersInFolder($app.vault.getRoot())}
 					value={project.path}
 					on:change={({ detail: path }) =>
 						(project = { ...project, path })}

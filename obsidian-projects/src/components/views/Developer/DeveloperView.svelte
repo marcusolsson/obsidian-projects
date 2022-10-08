@@ -123,7 +123,7 @@
 		<SettingItem name="FileAutocomplete">
 			<FileAutocomplete
 				value=""
-				files={getNotesInFolder($app.vault.getRoot(), false)}
+				files={getNotesInFolder($app.vault.getRoot())}
 				getOptionLabel={(file) =>
 					file instanceof TFile ? file.basename : file.name}
 				getOptionDescription={(file) =>

@@ -30,7 +30,7 @@
 	<svelte:fragment slot="edit">
 		{#if isOptionalLink(value)}
 			<FileAutocomplete
-				files={getNotesInFolder($app.vault.getRoot(), false)}
+				files={getNotesInFolder($app.vault.getRoot())}
 				embed
 				value={value?.linkText ?? ""}
 				autoFocus
