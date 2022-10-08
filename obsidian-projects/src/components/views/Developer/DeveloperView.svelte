@@ -257,7 +257,7 @@
 	}
 
 	.container {
-		width: 500px;
-		margin: 0 auto;
+		padding: 0 20%;
+		overflow: auto;
 	}
 </style>
