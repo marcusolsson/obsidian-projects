@@ -91,6 +91,7 @@
 		border: none;
 		background: none;
 		font-size: inherit;
+		padding: 0;
 	}
 	.embed:focus {
 		box-shadow: none;

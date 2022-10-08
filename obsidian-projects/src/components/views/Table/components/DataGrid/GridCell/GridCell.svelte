@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { clickOutside } from "../../../../../app";
 	import type { GridColDef } from "../data-grid";
 
 	import Resizer from "./Resizer.svelte";
@@ -21,25 +22,6 @@
 	let hover: boolean = false;
 
 	let ref: HTMLDivElement;
-
-	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
-		function onClick(event: any) {
-			if (!element.contains(event.target)) {
-				callbackFunction();
-			}
-		}
-
-		document.body.addEventListener("click", onClick);
-
-		return {
-			update(newCallbackFunction: () => void) {
-				callbackFunction = newCallbackFunction;
-			},
-			destroy() {
-				document.body.removeEventListener("click", onClick);
-			},
-		};
-	}
 
 	function handleClick(event: Event) {
 		if (!column.header && !columnHeader && !rowHeader) {

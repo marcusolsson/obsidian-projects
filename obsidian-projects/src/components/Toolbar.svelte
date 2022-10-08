@@ -123,17 +123,16 @@
 		{#if projectDefinition}
 			{#each projectDefinition.views as v}
 				<ViewItem
-					selected={view === v.id}
-					name={v.name}
+					active={view === v.id}
+					label={v.name}
 					icon={iconFromViewType(v.type)}
-					variant="secondary"
 					on:click={() => onViewChange(v.id)}
-					onRename={(name) => {
+					on:rename={({ detail: name }) => {
 						if (project) {
 							settings.renameView(project, v.id, name);
 						}
 					}}
-					onDelete={() => {
+					on:delete={() => {
 						new ConfirmDialogModal(
 							$app,
 							$i18n.t("modals.view.delete.title"),

@@ -1,127 +1,117 @@
 <script lang="ts">
-	import { Icon, IconButton } from "obsidian-svelte";
+	import { Icon, IconButton, TextInput } from "obsidian-svelte";
+	import { createEventDispatcher } from "svelte";
+	import { clickOutside } from "./app";
 
-	export let name: string;
-	export let selected: boolean = false;
-	export let variant: string;
+	/**
+	 * Specifies the button label.
+	 */
+	export let label: string;
+
+	/**
+	 *  Specifies whether the button is active.
+	 */
+	export let active: boolean = false;
+
+	/**
+	 * Specifies an optional icon.
+	 */
 	export let icon: string = "";
-	export let onRename: (value: string) => void = () => {};
-	export let onDelete: () => void = () => {};
+
+	/**
+	 * Specifies a function to determine if the label is valid.
+	 */
 	export let onValidate: (name: string) => boolean;
 
-	let active: boolean = false;
-	let editing: boolean = false;
+	// Store original value to be able to roll back.
+	let fallback: string = label;
 
-	let fallback: string = name;
+	function rollback() {
+		label = fallback;
+	}
+
+	let hovering: boolean = false;
+	let editing: boolean = false;
 
 	let inputRef: HTMLInputElement;
 
-	$: if (editing && inputRef) {
+	$: if (inputRef && editing) {
 		inputRef.focus();
 		inputRef.select();
 	}
 
-	$: error = !onValidate(name);
+	$: error = !onValidate(label);
 
-	function clickOutside(element: HTMLElement, callbackFunction: () => void) {
-		function onClick(event: any) {
-			if (!element.contains(event.target)) {
-				callbackFunction();
-			}
-		}
-
-		document.body.addEventListener("click", onClick);
-
-		return {
-			update(newCallbackFunction: () => void) {
-				callbackFunction = newCallbackFunction;
-			},
-			destroy() {
-				document.body.removeEventListener("click", onClick);
-			},
-		};
-	}
+	const dispatch = createEventDispatcher<{ rename: string; delete: void }>();
 </script>
 
 <div
-	class:selected
-	on:click
+	class:active
 	class:error
-	class:link={variant === "link"}
-	on:mouseenter={() => (active = true)}
-	on:mouseleave={() => (active = false)}
-	on:focus={() => (active = true)}
+	on:mouseenter={() => (hovering = true)}
+	on:mouseleave={() => (hovering = false)}
+	on:focus={() => (hovering = true)}
 	on:blur={() => {
-		active = false;
+		hovering = false;
 		editing = false;
 
-		name = fallback;
+		rollback();
 	}}
 	on:dblclick={() => (editing = true)}
+	on:click
 	use:clickOutside={() => {
 		editing = false;
 
-		name = fallback;
+		rollback();
 	}}
 >
 	{#if icon}
 		<Icon name={icon} size={18} />
 	{/if}
+
 	{#if editing}
-		<input
-			bind:this={inputRef}
-			bind:value={name}
-			style={`width: ${name.length}ch`}
+		<TextInput
+			embed
+			bind:ref={inputRef}
+			bind:value={label}
+			width={label.length + "ch"}
 			on:keydown={(event) => {
 				if (event.key === "Enter") {
 					editing = false;
 
 					if (!error) {
-						fallback = name;
-						onRename(name);
+						fallback = label;
+
+						dispatch("rename", label);
 					} else {
-						name = fallback;
+						rollback();
 					}
 				}
 			}}
 		/>
 	{:else}
-		{name}
+		{label}
 	{/if}
-	{#if active && selected && onDelete}
+
+	{#if hovering && active}
 		<IconButton
 			icon="cross"
 			nopadding
-			on:click={() => {
-				onDelete();
-			}}
+			on:click={() => dispatch("delete")}
 		/>
 	{/if}
 </div>
 
 <style>
-	input {
-		background: none;
-		border: none;
-		padding: 0;
-		margin: 0;
-		font-size: inherit;
-		font-family: inherit;
-		font-weight: inherit;
-		line-height: inherit;
-	}
-
 	div {
-		margin: 0;
-
 		display: inline-flex;
 		align-items: center;
 		gap: 4px;
 
-		background: none;
 		height: 1.8rem;
 		padding: 0 8px;
 		min-width: min-content;
+
 		font-size: var(--font-ui-small);
 		border-radius: var(--radius-s);
 
@@ -131,31 +121,13 @@
 
 		border: 1px solid transparent;
 	}
-
 	div:hover {
 		background-color: var(--background-modifier-hover);
 	}
-
-	.selected {
+	.active {
 		background-color: var(--background-modifier-hover);
 	}
-
-	.link {
-		background: none;
-		border: none;
-		color: var(--text-faint);
-	}
-
-	.link:hover {
-		background: none;
-		color: var(--text-muted);
-		box-shadow: none;
-	}
-
 	.error {
 		border: 1px solid var(--background-modifier-error);
-	}
-	.error:hover {
-		border: 1px solid var(--background-modifier-error-hover);
 	}
 </style>
