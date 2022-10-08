@@ -15,12 +15,24 @@
 		Loading,
 		Checkbox,
 		Autocomplete,
+		DateInput,
+		Icon,
+		IconButton,
+		Link,
+		Callout,
+		SettingItem,
+		Tag,
+		InternalLink,
+		Select,
+		ColorInput,
+		Slider,
 	} from "obsidian-svelte";
-	import { getNotesInFolder } from "../../app";
-	import HorizontalGroup from "../../core/HorizontalGroup/HorizontalGroup.svelte";
 
-	import FileAutocomplete from "../../core/SuggestInput/FileAutocomplete.svelte";
+	import { getNotesInFolder } from "../../app";
 	import { app } from "../../../lib/stores/obsidian";
+
+	import HorizontalGroup from "../../core/HorizontalGroup/HorizontalGroup.svelte";
+	import FileAutocomplete from "../../core/SuggestInput/FileAutocomplete.svelte";
 
 	let btn1: HTMLButtonElement;
 	let btn1Open = false;
@@ -36,9 +48,11 @@
 </script>
 
 <div class="container">
-	<Typography variant="h2">Buttons</Typography>
+	<Typography variant="h2">Inputs</Typography>
 
 	<Card>
+		<Typography variant="h3">Buttons</Typography>
+
 		<div>
 			<Button>Default</Button>
 			<Button variant="primary">Primary</Button>
@@ -47,20 +61,90 @@
 		</div>
 	</Card>
 
-	<Typography variant="h2">Switch</Typography>
-
 	<Card>
-		<HorizontalGroup>
-			<Switch checked={true} />
+		<Typography variant="h3">Toggles</Typography>
+
+		<SettingItem name="Switch">
 			<Switch checked={false} />
-			<Checkbox checked={true} />
+		</SettingItem>
+		<SettingItem name="Checkbox">
 			<Checkbox checked={false} />
-		</HorizontalGroup>
+		</SettingItem>
 	</Card>
 
-	<Typography variant="h2">Popover</Typography>
+	<Card>
+		<Typography variant="h3">Input</Typography>
+
+		<SettingItem name="TextInput">
+			<TextInput bind:value={textValue} helperText={textValue} />
+		</SettingItem>
+		<SettingItem name="NumberInput">
+			<NumberInput
+				bind:value={numberValue}
+				helperText={textValue}
+				error
+			/>
+		</SettingItem>
+		<SettingItem name="DateInput">
+			<DateInput value={new Date()} />
+		</SettingItem>
+		<SettingItem name="Select">
+			<Select
+				value="bar"
+				options={[
+					{ label: "Foo", value: "foo" },
+					{ label: "Bar", value: "bar" },
+					{ label: "Baz", value: "baz" },
+				]}
+			/>
+		</SettingItem>
+	</Card>
 
 	<Card>
+		<SettingItem name="Color">
+			<ColorInput value="#ff0000" />
+		</SettingItem>
+		<SettingItem name="Slider">
+			<Slider value={3} min={1} max={30} step={1} />
+		</SettingItem>
+	</Card>
+
+	<Card>
+		<Typography variant="h3">Autocomplete</Typography>
+
+		<SettingItem name="Autocomplete">
+			<Autocomplete
+				value=""
+				options={[{ label: "Foo", description: "Description" }]}
+				on:change={({ detail }) =>
+					new Notice(`Autocomplete changed: ${detail}`)}
+			/>
+		</SettingItem>
+		<SettingItem name="FileAutocomplete">
+			<FileAutocomplete
+				value=""
+				files={getNotesInFolder($app.vault.getRoot(), false)}
+				getOptionLabel={(file) =>
+					file instanceof TFile ? file.basename : file.name}
+				getOptionDescription={(file) =>
+					file.path.split("/").slice(0, -1).join("/")}
+				on:change={({ detail }) =>
+					new Notice(`FileAutocomplete changed: ${detail}`)}
+			/>
+		</SettingItem>
+	</Card>
+
+	<Typography variant="h2">Data display</Typography>
+
+	<Card>
+		<SettingItem name="Tag">
+			<Tag>#tag</Tag>
+		</SettingItem>
+	</Card>
+
+	<Card>
+		<Typography variant="h3">Popover</Typography>
+
 		<HorizontalGroup>
 			<button bind:this={btn1} on:click={() => (btn1Open = !btn1Open)}>
 				Popover
@@ -93,54 +177,76 @@
 		</HorizontalGroup>
 	</Card>
 
-	<Typography variant="h2">Input</Typography>
-
 	<Card>
+		<Typography variant="h3">Icons</Typography>
 		<HorizontalGroup>
-			<TextInput bind:value={textValue} helperText={textValue} />
-			<NumberInput
-				bind:value={numberValue}
-				helperText={textValue}
-				error
-			/>
+			<Icon name="heart" size={16} />
+			<Icon name="heart" size={24} />
+			<Icon name="heart" size={32} />
+		</HorizontalGroup>
+		<HorizontalGroup>
+			<IconButton icon="heart" size={16} />
+			<IconButton icon="heart" size={24} active />
+			<IconButton icon="cross" size={32} nopadding />
 		</HorizontalGroup>
 	</Card>
 
-	<Typography variant="h2">Autocomplete</Typography>
-
 	<Card>
-		<Typography variant="h3">Plain</Typography>
+		<Typography variant="h3">Links</Typography>
 
-		<HorizontalGroup>
-			<Autocomplete
-				value=""
-				options={[
-					{ id: "foo", label: "Foo", description: "Description" },
-				]}
-				on:change={({ detail }) =>
-					new Notice(`Autocomplete changed: ${detail}`)}
-			/>
-		</HorizontalGroup>
-		<Typography variant="h3">Files and folders</Typography>
-
-		<HorizontalGroup>
-			<FileAutocomplete
-				value=""
-				files={getNotesInFolder($app.vault.getRoot(), false)}
-				getOptionLabel={(file) =>
-					file instanceof TFile ? file.basename : file.name}
-				getOptionDescription={(file) =>
-					file.path.split("/").slice(0, -1).join("/")}
-				on:change={({ detail }) =>
-					new Notice(`FileAutocomplete changed: ${detail}`)}
-			/>
-		</HorizontalGroup>
+		<ul>
+			<li><Link href="image.png">Image</Link></li>
+			<li><Link href="https://google.com">Google</Link></li>
+			<li>
+				<InternalLink
+					linkText="Untitled 1"
+					sourcePath="Untitled.md"
+					on:open={({
+						detail: { linkText, sourcePath, newLeaf },
+					}) => {
+						$app.workspace.openLinkText(
+							linkText,
+							sourcePath,
+							newLeaf
+						);
+					}}
+					resolved={true}>Resolved internal link</InternalLink
+				>
+			</li>
+			<li>
+				<InternalLink
+					linkText="Untitled 1"
+					sourcePath="Untitled.md"
+					on:open={({
+						detail: { linkText, sourcePath, newLeaf },
+					}) => {
+						$app.workspace.openLinkText(
+							linkText,
+							sourcePath,
+							newLeaf
+						);
+					}}
+					resolved={false}>Unresolved internal link</InternalLink
+				>
+			</li>
+		</ul>
 	</Card>
 
-	<Typography variant="h2">Loading</Typography>
+	<Typography variant="h2">Feedback</Typography>
 
 	<Card>
+		<Typography variant="h3">Loading</Typography>
+
 		<Loading />
+	</Card>
+
+	<Card>
+		<Typography variant="h3">Callout</Typography>
+
+		<Callout title="Info" icon="star" variant="info">Lorem ipsum</Callout>
+		<Callout title="Danger" icon="alert-circle" variant="danger"
+			>Lorem ipsum</Callout
+		>
 	</Card>
 </div>
 
@@ -151,6 +257,7 @@
 	}
 
 	.container {
-		padding: 10px;
+		width: 500px;
+		margin: 0 auto;
 	}
 </style>

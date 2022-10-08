@@ -26,7 +26,7 @@
 	data-href={linkText}
 	class={`internal-link`}
 	class:is-unresolved={!resolved}
-	target="blank"
+	target="_blank"
 	rel="noopener"
 	on:click={(event) => {
 		dispatch("open", {
@@ -34,7 +34,6 @@
 			sourcePath,
 			newLeaf: event.ctrlKey || event.metaKey,
 		});
-
 		event.preventDefault();
 	}}
 >
