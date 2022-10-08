@@ -1,38 +1,38 @@
 <script lang="ts">
 	import { Notice, TFile } from "obsidian";
 	import {
-		Typography,
-		Button,
-		TextInput,
-		Switch,
-		Popover,
-		Menu,
-		MenuItem,
-		Suggestion,
-		SuggestionItem,
-		NumberInput,
-		Card,
-		Loading,
-		Checkbox,
 		Autocomplete,
+		Button,
+		Callout,
+		Card,
+		Checkbox,
+		ColorInput,
 		DateInput,
+		FileAutocomplete,
 		Icon,
 		IconButton,
-		Link,
-		Callout,
-		SettingItem,
-		Tag,
 		InternalLink,
+		Link,
+		Loading,
+		Menu,
+		MenuItem,
+		NumberInput,
+		Popover,
 		Select,
-		ColorInput,
+		SettingItem,
 		Slider,
+		Suggestion,
+		SuggestionItem,
+		Switch,
+		Tag,
+		TextInput,
+		Typography,
 	} from "obsidian-svelte";
 
-	import { getNotesInFolder } from "../../app";
 	import { app } from "../../../lib/stores/obsidian";
+	import { getNotesInFolder } from "../../app";
 
 	import HorizontalGroup from "../../core/HorizontalGroup/HorizontalGroup.svelte";
-	import FileAutocomplete from "../../core/SuggestInput/FileAutocomplete.svelte";
 
 	let btn1: HTMLButtonElement;
 	let btn1Open = false;
@@ -124,9 +124,9 @@
 			<FileAutocomplete
 				value=""
 				files={getNotesInFolder($app.vault.getRoot())}
-				getOptionLabel={(file) =>
+				getLabel={(file) =>
 					file instanceof TFile ? file.basename : file.name}
-				getOptionDescription={(file) =>
+				getDescription={(file) =>
 					file.path.split("/").slice(0, -1).join("/")}
 				on:change={({ detail }) =>
 					new Notice(`FileAutocomplete changed: ${detail}`)}

@@ -2,11 +2,29 @@
 	import { Autocomplete } from "obsidian-svelte";
 	import type { TAbstractFile } from "obsidian";
 
+	/**
+	 * Specify the text input value.
+	 */
 	export let value: string;
+
+	/**
+	 * Specify the files to select from.
+	 */
 	export let files: TAbstractFile[];
-	export let getOptionLabel: (file: TAbstractFile) => string = (file) =>
-		file.name;
-	export let getOptionDescription: (file: TAbstractFile) => string = () => "";
+
+	/**
+	 * Specify a function to format the label.
+	 */
+	export let getLabel: (file: TAbstractFile) => string = (file) => file.name;
+
+	/**
+	 * Specify a function to format the description.
+	 */
+	export let getDescription: (file: TAbstractFile) => string = () => "";
+
+	/**
+	 * Input props.
+	 */
 	export let embed: boolean = false;
 	export let readonly: boolean = false;
 	export let placeholder: string = "";
@@ -14,16 +32,16 @@
 	export let autoFocus: boolean = false;
 
 	$: options = files.map((file) => ({
-		label: getOptionLabel(file),
-		description: getOptionDescription(file),
+		label: getLabel(file),
+		description: getDescription(file),
 	}));
 </script>
 
 <Autocomplete
 	bind:value
 	bind:options
-	{readonly}
 	on:change
+	{readonly}
 	{placeholder}
 	{width}
 	{embed}

@@ -1,6 +1,6 @@
 import type { App, MetadataCache, TFile } from "obsidian";
-import { notEmpty } from "obsidian-projects/src/components/views/Board/board";
-import type { ProjectDefinition } from "obsidian-projects/src/types";
+import { notEmpty } from "../../components/app";
+import type { ProjectDefinition } from "../../types";
 import {
 	DataFieldType,
 	DataSource,

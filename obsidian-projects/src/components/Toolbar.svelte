@@ -13,7 +13,7 @@
 	import { settings } from "../lib/stores/settings";
 	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 
-	import ViewContainer from "./ViewContainer.svelte";
+	import ViewItemList from "./ViewItemList.svelte";
 	import ViewItem from "./ViewItem.svelte";
 
 	import { createDataRecord, createProject } from "../lib/api";
@@ -123,7 +123,7 @@
 		{/if}
 	</span>
 
-	<ViewContainer>
+	<ViewItemList>
 		{#if projectDefinition}
 			{#each projectDefinition.views as v}
 				<ViewItem
@@ -164,7 +164,7 @@
 				/>
 			{/each}
 		{/if}
-	</ViewContainer>
+	</ViewItemList>
 
 	<Button
 		variant="primary"

@@ -2,27 +2,28 @@
 	import moment from "moment";
 	import {
 		Button,
-		Switch,
-		TextInput,
-		SettingItem,
+		FileAutocomplete,
 		ModalButtonGroup,
 		ModalContent,
 		ModalLayout,
+		SettingItem,
+		Switch,
 		TextArea,
+		TextInput,
+		Callout,
 	} from "obsidian-svelte";
 
-	import type { ProjectDefinition } from "../../types";
-	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
-	import { interpolateTemplate } from "../../lib/templates";
-	import { FileListInput } from "../core/FileListInput";
-	import FileAutocomplete from "../core/SuggestInput/FileAutocomplete.svelte";
-	import { notEmpty } from "../views/Board/board";
-	import { capabilities } from "obsidian-projects/src/lib/stores/capabilities";
-	import { settings } from "obsidian-projects/src/lib/stores/settings";
-	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
-	import { getFoldersInFolder } from "../app";
 	import { app } from "../../lib/stores/obsidian";
+	import { capabilities } from "../../lib/stores/capabilities";
+	import { settings } from "../../lib/stores/settings";
+
+	import { isValidPath } from "../../lib/path";
+	import { interpolateTemplate } from "../../lib/templates";
+	import type { ProjectDefinition } from "../../types";
+	import { getFoldersInFolder, notEmpty } from "../app";
+
+	import { FileListInput } from "../core/FileListInput";
 
 	export let title: string;
 	export let cta: string;
@@ -123,7 +124,7 @@
 					value={project.path}
 					on:change={({ detail: path }) =>
 						(project = { ...project, path })}
-					getOptionLabel={(file) => file.path}
+					getLabel={(file) => file.path}
 					width="100%"
 				/>
 			</SettingItem>

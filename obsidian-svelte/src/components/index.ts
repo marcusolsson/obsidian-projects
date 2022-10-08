@@ -1,4 +1,4 @@
-export { Autocomplete } from "./Autocomplete";
+export { Autocomplete, FileAutocomplete } from "./Autocomplete";
 export { Button } from "./Button";
 export { Callout } from "./Callout";
 export { Card } from "./Card";

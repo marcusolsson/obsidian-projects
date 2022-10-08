@@ -1,8 +1,7 @@
 <script lang="ts">
 	import produce from "immer";
-	import { Button, IconButton } from "obsidian-svelte";
+	import { Button, IconButton, FileAutocomplete } from "obsidian-svelte";
 	import { getFilesInFolder } from "../../app";
-	import { FileAutocomplete } from "../SuggestInput";
 	import { app } from "../../../lib/stores/obsidian";
 
 	export let paths: string[];
@@ -22,7 +21,7 @@
 				);
 			}}
 			files={getFilesInFolder($app.vault.getRoot())}
-			getOptionLabel={(file) => file.path}
+			getLabel={(file) => file.path}
 			width="100%"
 		/>
 		<IconButton

@@ -1,10 +1,7 @@
 import { i18n } from "../../../lib/stores/i18n";
 import { isString, type DataRecord } from "../../../lib/types";
 import { get } from "svelte/store";
-
-export function notEmpty<T>(value: T | null | undefined): value is T {
-	return value !== null && value !== undefined;
-}
+import { notEmpty } from "../../app";
 
 export function unique(records: DataRecord[], fieldName: string): string[] {
 	const keys = records
