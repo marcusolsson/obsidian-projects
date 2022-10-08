@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Menu as ObsidianMenu } from "obsidian";
+	import { Menu } from "obsidian";
+	import { Select, Button, Icon, IconButton } from "obsidian-svelte";
 
 	import { CreateProjectModal } from "../modals/create-project-modal";
 	import { AddViewModal } from "../modals/add-view-modal";
@@ -10,18 +11,18 @@
 	import { api } from "../lib/stores/api";
 	import { i18n } from "../lib/stores/i18n";
 	import { settings } from "../lib/stores/settings";
-
-	import { Select, Button, Icon, IconButton } from "obsidian-svelte";
+	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 
 	import ViewContainer from "./ViewContainer.svelte";
 	import ViewItem from "./ViewItem.svelte";
 
 	import { createDataRecord, createProject } from "../lib/api";
+
 	import type { ProjectDefinition } from "../types";
-	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 	import { Builder } from "../builder";
 
 	export let projects: ProjectDefinition[];
+
 	export let project: string | undefined;
 	export let onProjectChange: (project: string) => void;
 
@@ -71,11 +72,12 @@
 			on:change={({ detail: value }) => onProjectChange(value)}
 			placeholder={$i18n.t("toolbar.projects.none") ?? ""}
 		/>
+
 		{#if projects.length}
 			<IconButton
 				icon="more-vertical"
 				on:click={(event) => {
-					const menu = new ObsidianMenu();
+					const menu = new Menu();
 
 					menu.addItem((item) => {
 						item.setTitle(
@@ -94,6 +96,7 @@
 								}
 							});
 					});
+
 					menu.addItem((item) => {
 						item.setTitle(
 							$i18n.t("modals.project.delete.short-title")
@@ -119,6 +122,7 @@
 			/>
 		{/if}
 	</span>
+
 	<ViewContainer>
 		{#if projectDefinition}
 			{#each projectDefinition.views as v}
@@ -161,10 +165,11 @@
 			{/each}
 		{/if}
 	</ViewContainer>
+
 	<Button
 		variant="primary"
 		on:click={(event) => {
-			const menu = new ObsidianMenu();
+			const menu = new Menu();
 
 			menu.addItem((item) => {
 				item.setTitle($i18n.t("modals.project.create.short-title"))
@@ -218,7 +223,7 @@
 			menu.showAtMouseEvent(event);
 		}}
 	>
-		New<Icon accent name="chevron-down" />
+		{$i18n.t("toolbar.new")}<Icon accent name="chevron-down" />
 	</Button>
 </div>
 

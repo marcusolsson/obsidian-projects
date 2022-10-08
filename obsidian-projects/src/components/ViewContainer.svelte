@@ -7,10 +7,11 @@
 <style>
 	div {
 		display: flex;
-		gap: 4px;
 		justify-content: center;
+		gap: var(--size-4-1);
 		min-width: min-content;
 	}
+
 	section {
 		flex: 1;
 		overflow-x: auto;

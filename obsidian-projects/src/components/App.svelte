@@ -1,41 +1,45 @@
 <script lang="ts">
+	import type { TFile } from "obsidian";
+
+	import { Callout, Loading, Typography } from "obsidian-svelte";
+
 	import { settings } from "../lib/stores/settings";
 	import { app } from "../lib/stores/obsidian";
 	import { api } from "../lib/stores/api";
+	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
+	import { dataFrame, dataSource } from "../lib/stores/dataframe";
 
 	import { BoardView } from "./views/Board";
 	import { CalendarView } from "./views/Calendar";
 	import { TableView } from "./views/Table";
 	import { CustomView } from "./views/Custom";
+	import { DeveloperView } from "./views/Developer";
 
 	import Toolbar from "./Toolbar.svelte";
 
-	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 	import { isFile, resolveDataSource } from "./app";
-	import { dataFrame, dataSource } from "../lib/stores/dataframe";
 	import type { DataRecord } from "../lib/types";
-	import type { TFile } from "obsidian";
-	import { Callout, Loading, Typography } from "obsidian-svelte";
-	import DeveloperView from "./views/Developer/DeveloperView.svelte";
 
 	$: projects = $settings.projects;
 
 	$: selectedProject = projects?.length
-		? projects.find((w) => w.id === $settings.lastProjectId) || projects[0]
+		? projects.find((project) => project.id === $settings.lastProjectId) ||
+		  projects[0]
 		: null;
 
-	$: selectedView = selectedProject?.views?.length
-		? selectedProject?.views?.find((v) => v.id === $settings.lastViewId) ||
-		  selectedProject.views[0]
-		: null;
+	$: views = selectedProject?.views;
 
-	let querying: Promise<void>;
+	$: selectedView = views?.length
+		? views.find((view) => view.id === $settings.lastViewId) || views[0]
+		: null;
 
 	$: {
 		if (selectedProject) {
 			dataSource.set(resolveDataSource(selectedProject));
 		}
 	}
+
+	let querying: Promise<void>;
 
 	$: {
 		querying = (async () => {
@@ -86,9 +90,8 @@
 			return;
 		}
 
-		const project = projects.find((p) => p.id === projectId);
-
-		selectedProject = project ? project : projects[0];
+		selectedProject =
+			projects.find((project) => project.id === projectId) || projects[0];
 
 		if (selectedProject) {
 			if (!selectedProject.views.length) {

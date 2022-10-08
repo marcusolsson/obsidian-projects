@@ -242,6 +242,7 @@ i18next.init({
 					},
 				},
 				toolbar: {
+					new: "New",
 					view: {
 						add: "Add view",
 					},
