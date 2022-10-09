@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import AddView from "../components/modals/AddView.svelte";
+import AddView from "./components/AddView.svelte";
 import type { ViewDefinition, ProjectDefinition } from "../types";
 
 export class AddViewModal extends Modal {

@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import ConfirmDialog from "../components/modals/ConfirmDialog.svelte";
+import ConfirmDialog from "./components/ConfirmDialog.svelte";
 
 export class ConfirmDialogModal extends Modal {
 	// @ts-ignore

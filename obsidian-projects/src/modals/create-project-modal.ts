@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import CreateProject from "../components/modals/CreateProject.svelte";
+import CreateProject from "./components/CreateProject.svelte";
 import type { ProjectDefinition } from "../types";
 
 export class CreateProjectModal extends Modal {

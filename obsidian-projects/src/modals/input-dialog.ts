@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import InputDialog from "../components/modals/InputDialog.svelte";
+import InputDialog from "./components/InputDialog.svelte";
 
 export class InputDialogModal extends Modal {
 	// @ts-ignore
