@@ -27,7 +27,7 @@
 	<ModalContent>
 		{#if !editableFields.length}
 			<Callout
-				title={$i18n.t("modals.record.edit.no-editable-fields.title")}
+				title={$i18n.t("modals.note.edit.no-editable-fields.title")}
 				icon="info"
 				variant="info"
 			>
