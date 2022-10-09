@@ -3,9 +3,9 @@ import { App, Modal } from "obsidian";
 import { interpolateTemplate } from "../lib/templates";
 import type { ProjectDefinition } from "../types";
 import CreateNote from "./components/CreateNote.svelte";
-import { nextUniqueFileName } from "../lib/path";
 import { i18n } from "../lib/stores/i18n";
 import { get } from "svelte/store";
+import { nextUniqueFileName } from "../lib/obsidian";
 
 export class CreateNoteModal extends Modal {
 	// @ts-ignore

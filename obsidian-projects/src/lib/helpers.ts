@@ -1,22 +1,26 @@
 import { normalizePath, TFile } from "obsidian";
-import os from "os";
 import { get } from "svelte/store";
-import { app } from "../lib/stores/obsidian";
-import type { ViewDefinition, ProjectDefinition } from "../types";
+import type { ProjectDefinition, ViewDefinition } from "../types";
+import { app } from "obsidian-projects/src/lib/stores/obsidian";
 
-export function isValidPath(path: string) {
-	const illegalCharacters: Record<string, RegExp> = {
-		darwin: /[\\\/\|\#\^\[\]]/,
-		win32: /[\\\/\|\:\<\>\*\"\?]/,
-	};
+/**
+ * notEmpty is a convenience function for filtering arrays with optional values.
+ */
+export function notEmpty<T>(value: T | null | undefined): value is T {
+	return value !== null && value !== undefined;
+}
 
-	const expr = illegalCharacters[os.platform()];
-
-	if (!expr) {
-		return true;
+export function uniquify(name: string, exists: (name: string) => boolean) {
+	if (!exists(name)) {
+		return name;
 	}
 
-	return !expr.test(path);
+	let num: number = 1;
+	while (exists(name + " " + num)) {
+		num++;
+	}
+
+	return name + " " + num;
 }
 
 export function nextUniqueFileName(path: string, name: string) {
@@ -42,17 +46,4 @@ export function nextUniqueViewName(views: ViewDefinition[], name: string) {
 	return uniquify(name, (candidate) => {
 		return !!views.find((view) => view.name === candidate);
 	});
-}
-
-export function uniquify(name: string, exists: (name: string) => boolean) {
-	if (!exists(name)) {
-		return name;
-	}
-
-	let num: number = 1;
-	while (exists(name + " " + num)) {
-		num++;
-	}
-
-	return name + " " + num;
 }

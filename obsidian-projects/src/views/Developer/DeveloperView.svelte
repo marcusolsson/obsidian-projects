@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Notice, TFile } from "obsidian";
-	import { getNotesInFolder } from "obsidian-projects/src/app/app";
 	import { HorizontalGroup } from "obsidian-projects/src/components/HorizontalGroup";
+	import { getNotesInFolder } from "obsidian-projects/src/lib/obsidian";
 	import {
 		Autocomplete,
 		Button,

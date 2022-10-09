@@ -1,5 +1,4 @@
 import type { App, MetadataCache, TFile } from "obsidian";
-import { notEmpty } from "obsidian-projects/src/app/app";
 import type { ProjectDefinition } from "../../types";
 import {
 	DataFieldType,
@@ -7,7 +6,8 @@ import {
 	type DataField,
 	type DataFrame,
 	type DataRecord,
-} from "../types";
+} from "../data";
+import { notEmpty } from "../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
 import { detectFields, stringFallback } from "./helpers";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clickOutside } from "obsidian-projects/src/app/app";
+	import { useClickOutside } from "obsidian-svelte";
 	import type { GridColDef } from "../data-grid";
 
 	import Resizer from "./Resizer.svelte";
@@ -98,7 +98,7 @@
 	}}
 	on:blur={handleBlur}
 	on:keydown={handleKeyPress}
-	use:clickOutside={() => {
+	use:useClickOutside={() => {
 		onEditChange(false);
 		selected = false;
 	}}

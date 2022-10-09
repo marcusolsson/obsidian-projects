@@ -9,7 +9,7 @@ import {
 	type DataField,
 	type DataFrame,
 	type DataRecord,
-} from "../types";
+} from "../data";
 import { standardizeValues } from "./dataview-helpers";
 import { detectFields } from "./helpers";
 

@@ -2,7 +2,7 @@
 	import produce from "immer";
 
 	import { Menu } from "obsidian";
-	import type { DataValue } from "../../../../lib/types";
+	import type { DataValue } from "../../../../lib/data";
 	import GridHeader from "./GridHeader.svelte";
 
 	import { i18n } from "../../../../lib/stores/i18n";

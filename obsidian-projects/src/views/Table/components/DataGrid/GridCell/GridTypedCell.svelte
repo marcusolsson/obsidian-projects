@@ -7,7 +7,7 @@
 		isOptionalNumber,
 		isOptionalString,
 		type DataValue,
-	} from "../../../../../lib/types";
+	} from "../../../../../lib/data";
 
 	import GridCell from "./GridCell.svelte";
 

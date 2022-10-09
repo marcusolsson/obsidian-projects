@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import type { DataField, DataRecord } from "../lib/types";
+import type { DataField, DataRecord } from "../lib/data";
 import EditRecord from "./components/EditNote.svelte";
 
 export class EditNoteModal extends Modal {

@@ -18,3 +18,4 @@ export { Tag } from "./Tag";
 export { TextArea } from "./TextArea";
 export { TextInput, NumberInput } from "./Input";
 export { Typography } from "./Typography";
+export { useClickOutside } from "./useClickOutside";

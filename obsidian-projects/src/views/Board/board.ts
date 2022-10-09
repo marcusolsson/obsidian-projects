@@ -1,7 +1,7 @@
 import { i18n } from "../../lib/stores/i18n";
-import { isString, type DataRecord } from "../../lib/types";
+import { isString, type DataRecord } from "../../lib/data";
 import { get } from "svelte/store";
-import { notEmpty } from "obsidian-projects/src/app/app";
+import { notEmpty } from "obsidian-projects/src/lib/helpers";
 
 export function unique(records: DataRecord[], fieldName: string): string[] {
 	const keys = records

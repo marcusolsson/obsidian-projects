@@ -12,7 +12,6 @@ import {
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 import type { ProjectDefinition } from "../types";
-import { nextUniqueProjectName } from "./path";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
 import { interpolateTemplate } from "./templates";
@@ -22,7 +21,8 @@ import {
 	type DataField,
 	type DataRecord,
 	type DataValue,
-} from "./types";
+} from "./data";
+import { nextUniqueProjectName } from "./helpers";
 
 export function createProject(): ProjectDefinition {
 	return {

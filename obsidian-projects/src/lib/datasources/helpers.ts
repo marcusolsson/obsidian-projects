@@ -6,7 +6,7 @@ import {
 	type DataField,
 	type DataRecord,
 	type DataValue,
-} from "../types";
+} from "../data";
 
 export function detectFields(records: DataRecord[]): DataField[] {
 	const valuesByField: Record<string, DataValue[]> = {};

@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { Icon, IconButton, TextInput } from "obsidian-svelte";
+	import {
+		Icon,
+		IconButton,
+		TextInput,
+		useClickOutside,
+	} from "obsidian-svelte";
 	import { createEventDispatcher } from "svelte";
-	import { clickOutside } from "./app";
 
 	/**
 	 * Specifies the button label.
@@ -59,7 +63,7 @@
 	}}
 	on:dblclick={() => (editing = true)}
 	on:click
-	use:clickOutside={() => {
+	use:useClickOutside={() => {
 		editing = false;
 
 		rollback();

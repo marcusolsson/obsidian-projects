@@ -8,7 +8,7 @@
 
 	import GridCellGroup from "./GridCellGroup.svelte";
 
-	import { DataFieldType } from "obsidian-projects/src/lib/types";
+	import { DataFieldType } from "obsidian-projects/src/lib/data";
 	import { i18n } from "obsidian-projects/src/lib/stores/i18n";
 
 	export let columns: GridColDef[];

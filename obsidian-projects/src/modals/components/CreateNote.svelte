@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { normalizePath, TFile } from "obsidian";
+	import { isValidPath } from "obsidian-projects/src/lib/obsidian";
 	import {
 		Button,
 		TextInput,
@@ -11,7 +12,6 @@
 	} from "obsidian-svelte";
 	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
 
-	import { isValidPath } from "../../lib/path";
 	import { i18n } from "../../lib/stores/i18n";
 	import { app } from "../../lib/stores/obsidian";
 	import { settings } from "../../lib/stores/settings";

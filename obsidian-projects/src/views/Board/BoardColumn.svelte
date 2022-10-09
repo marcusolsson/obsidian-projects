@@ -3,7 +3,7 @@
 	import path from "path";
 	import { i18n } from "../../lib/stores/i18n";
 
-	import { isNumber, type DataRecord } from "../../lib/types";
+	import { isNumber, type DataRecord } from "../../lib/data";
 	import Card from "./Card.svelte";
 	import CardList from "./CardList.svelte";
 

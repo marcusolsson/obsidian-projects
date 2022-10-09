@@ -15,7 +15,7 @@
 	import { EditNoteModal } from "../../modals/edit-note-modal";
 	import { createDataRecord } from "../../lib/api";
 
-	import type { DataFrame, DataRecord } from "../../lib/types";
+	import type { DataFrame, DataRecord } from "../../lib/data";
 	import type { ProjectDefinition } from "../../types";
 	import type { GridConfig } from "./types";
 	import { HorizontalGroup } from "obsidian-projects/src/components/HorizontalGroup";

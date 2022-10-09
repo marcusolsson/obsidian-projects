@@ -1,4 +1,4 @@
-import type { DataFrame } from "./lib/types";
+import type { DataFrame } from "./lib/data";
 
 declare module "obsidian" {
 	interface App {

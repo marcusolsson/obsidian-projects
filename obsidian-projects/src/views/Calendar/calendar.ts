@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { i18n } from "../../lib/stores/i18n";
-import { isDate, type DataRecord } from "obsidian-projects/src/lib/types";
+import { isDate, type DataRecord } from "obsidian-projects/src/lib/data";
 import { get } from "svelte/store";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";

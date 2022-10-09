@@ -1,4 +1,4 @@
-import type { DataFrame } from "./lib/types";
+import type { DataFrame } from "./lib/data";
 
 export interface ProjectView {
 	setTitle(title: string): ProjectView;

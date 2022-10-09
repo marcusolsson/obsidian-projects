@@ -5,7 +5,7 @@
 		DataFieldType,
 		type DataFrame,
 		type DataRecord,
-	} from "../../lib/types";
+	} from "../../lib/data";
 
 	import Board from "./Board.svelte";
 

@@ -3,14 +3,14 @@
 	import { TFile } from "obsidian";
 	import { FileAutocomplete } from "obsidian-svelte";
 
-	import { isOptionalLink, type Link } from "../../../../../../lib/types";
+	import { isOptionalLink, type Link } from "../../../../../../lib/data";
 
 	import type { GridColDef } from "../../data-grid";
 
 	import LinkLabel from "./LinkLabel.svelte";
 	import { GridCell } from "..";
-	import { getNotesInFolder } from "obsidian-projects/src/app/app";
 	import { app } from "../../../../../../lib/stores/obsidian";
+	import { getNotesInFolder } from "obsidian-projects/src/lib/obsidian";
 
 	export let value: Link | undefined;
 	export let onChange: (value: Link | undefined) => void;

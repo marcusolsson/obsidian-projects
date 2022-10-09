@@ -21,7 +21,7 @@
 	import { i18n } from "../../lib/stores/i18n";
 	import { settings } from "../../lib/stores/settings";
 	import { Builder } from "obsidian-projects/src/builder";
-	import { nextUniqueViewName } from "obsidian-projects/src/lib/path";
+	import { nextUniqueViewName } from "obsidian-projects/src/lib/obsidian";
 
 	export let onSave: (projectId: string, view: ViewDefinition) => void;
 	export let project: ProjectDefinition;

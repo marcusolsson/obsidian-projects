@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { DataValue } from "../types";
+import type { DataValue } from "../data";
 
 export function standardizeValues(
 	values: Record<string, any>

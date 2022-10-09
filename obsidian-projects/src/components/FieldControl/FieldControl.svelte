@@ -8,7 +8,7 @@
 		isOptionalList,
 		isString,
 		type DataValue,
-	} from "../../lib/types";
+	} from "../../lib/data";
 
 	import { DateInput, TextInput, Switch, NumberInput } from "obsidian-svelte";
 	import { TagList } from "../TagList";

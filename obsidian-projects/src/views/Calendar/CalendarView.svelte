@@ -7,7 +7,7 @@
 		DataFieldType,
 		type DataFrame,
 		type DataRecord,
-	} from "../../lib/types";
+	} from "../../lib/data";
 
 	import { fieldToSelectableValue } from "../../views/helpers";
 	import { EditNoteModal } from "../../modals/edit-note-modal";

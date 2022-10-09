@@ -17,8 +17,11 @@
 
 	import Toolbar from "./Toolbar.svelte";
 
-	import { isFile, resolveDataSource } from "./app";
-	import type { DataRecord } from "../lib/types";
+	import type { DataRecord, DataSource } from "../lib/data";
+	import type { ProjectDefinition } from "../types";
+	import { DataviewDataSource } from "../lib/datasources/dataview";
+	import { FrontMatterDataSource } from "../lib/datasources/frontmatter";
+	import { isTFile } from "../lib/obsidian";
 
 	$: projects = $settings.projects;
 
@@ -156,7 +159,14 @@
 			.map((path) => {
 				return $app.vault.getAbstractFileByPath(path);
 			})
-			.filter(isFile);
+			.filter(isTFile);
+	}
+
+	function resolveDataSource(project: ProjectDefinition): DataSource {
+		if (project.dataview) {
+			return new DataviewDataSource(project);
+		}
+		return new FrontMatterDataSource($app, project);
 	}
 </script>
 

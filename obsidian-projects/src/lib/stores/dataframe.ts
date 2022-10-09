@@ -6,7 +6,7 @@ import {
 	type DataFrame,
 	type DataRecord,
 	DataFieldType,
-} from "../types";
+} from "../data";
 
 export const dataSource = writable<DataSource | undefined>();
 export const dataFrame = createDataFrame();

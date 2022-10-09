@@ -18,14 +18,14 @@
 	import { capabilities } from "../../lib/stores/capabilities";
 	import { settings } from "../../lib/stores/settings";
 
-	import { isValidPath } from "../../lib/path";
 	import { interpolateTemplate } from "../../lib/templates";
 	import type { ProjectDefinition } from "../../types";
+	import { FileListInput } from "obsidian-projects/src/components/FileListInput";
 	import {
 		getFoldersInFolder,
-		notEmpty,
-	} from "obsidian-projects/src/app/app";
-	import { FileListInput } from "obsidian-projects/src/components/FileListInput";
+		isValidPath,
+	} from "obsidian-projects/src/lib/obsidian";
+	import { notEmpty } from "obsidian-projects/src/lib/helpers";
 
 	export let title: string;
 	export let cta: string;

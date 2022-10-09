@@ -5,7 +5,7 @@ import {
 	type DataRecord,
 	type DataValue,
 	type Link,
-} from "../types";
+} from "../data";
 
 export function standardizeRecord(
 	id: string,

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Builder, type ProjectView } from "../../builder";
-	import type { DataFrame } from "../../lib/types";
+	import type { DataFrame } from "../../lib/data";
 	import { customViews, customViewsV2 } from "../../lib/stores/custom-views";
 
 	export let type: string;

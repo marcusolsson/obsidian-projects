@@ -12,7 +12,7 @@
 
 	import { FieldControl } from "obsidian-projects/src/components/FieldControl";
 
-	import type { DataField, DataRecord } from "../../lib/types";
+	import type { DataField, DataRecord } from "../../lib/data";
 	import { i18n } from "../../lib/stores/i18n";
 
 	export let fields: DataField[];
