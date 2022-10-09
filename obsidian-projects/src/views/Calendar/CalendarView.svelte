@@ -3,11 +3,7 @@
 	import { get } from "svelte/store";
 
 	import { app } from "../../lib/stores/obsidian";
-	import {
-		DataFieldType,
-		type DataFrame,
-		type DataRecord,
-	} from "../../lib/data";
+	import { DataFieldType, type DataFrame } from "../../lib/data";
 
 	import { fieldToSelectableValue } from "../../views/helpers";
 	import { EditNoteModal } from "../../modals/edit-note-modal";
@@ -43,6 +39,7 @@
 	import { ToolBar } from "obsidian-projects/src/components/ToolBar";
 	import { HorizontalGroup } from "obsidian-projects/src/components/HorizontalGroup";
 	import { Field } from "obsidian-projects/src/components/Field";
+	import type { ViewApi } from "obsidian-projects/src/app/view-api";
 
 	interface CalendarConfig {
 		interval?: CalendarInterval;
@@ -50,15 +47,13 @@
 		checkField?: string;
 	}
 
-	export let frame: DataFrame;
-	export let config: CalendarConfig;
-	export let onConfigChange: (config: CalendarConfig) => void;
 	export let project: ProjectDefinition;
+	export let frame: DataFrame;
 	export let readonly: boolean;
+	export let api: ViewApi;
 
-	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
-	export let onRecordUpdate: (record: DataRecord) => void;
-	// export let onRecordDelete: (id: string) => void;
+	export let config: CalendarConfig | undefined;
+	export let onConfigChange: (cfg: CalendarConfig) => void;
 
 	$: ({ fields, records } = frame);
 
@@ -190,7 +185,9 @@
 						<CalendarDay
 							{date}
 							checkField={booleanField?.name}
-							{onRecordUpdate}
+							onRecordUpdate={(record) => {
+								api.updateRecord(record, fields);
+							}}
 							records={groupedRecords[
 								date.format("YYYY-MM-DD")
 							] || []}
@@ -198,7 +195,9 @@
 								new EditNoteModal(
 									get(app),
 									fields,
-									onRecordUpdate,
+									(record) => {
+										api.updateRecord(record, fields);
+									},
 									records[id]
 								).open();
 							}}
@@ -209,7 +208,7 @@
 										project,
 										(name, templatePath) => {
 											if (dateField) {
-												onRecordAdd(
+												api.addRecord(
 													createDataRecord(
 														name,
 														project,

@@ -11,12 +11,12 @@
 	$: createView = $customViewsV2[type];
 	$: viewV2 = createView?.();
 
-	let view = new Builder();
+	let builder = new Builder();
 
 	$: viewBuilder = $customViews[type] ?? ((view: ProjectView) => {});
 	$: {
-		view = new Builder();
-		viewBuilder(view);
+		builder = new Builder();
+		viewBuilder(builder);
 	}
 
 	function useCustomView(node: HTMLElement, frame: DataFrame) {
@@ -25,7 +25,7 @@
 			viewV2.onOpen?.();
 			viewV2.onData?.(frame);
 		} else {
-			view.onOpen?.(frame, node);
+			builder.onOpen?.(frame, node);
 		}
 
 		return {
@@ -34,7 +34,7 @@
 					viewV2.onData?.(frame);
 				} else {
 					node.empty();
-					view.onOpen?.(frame, node);
+					builder.onOpen?.(frame, node);
 				}
 			},
 			destroy() {
@@ -44,7 +44,10 @@
 	}
 </script>
 
-<div class:noPadding={view.noPadding} use:useCustomView={{ fields, records }} />
+<div
+	class:noPadding={builder.noPadding}
+	use:useCustomView={{ fields, records }}
+/>
 
 <style>
 	div {

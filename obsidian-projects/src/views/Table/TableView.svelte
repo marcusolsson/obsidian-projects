@@ -15,23 +15,20 @@
 	import { EditNoteModal } from "../../modals/edit-note-modal";
 	import { createDataRecord } from "../../lib/api";
 
-	import type { DataFrame, DataRecord } from "../../lib/data";
+	import type { DataFrame } from "../../lib/data";
 	import type { ProjectDefinition } from "../../types";
 	import type { GridConfig } from "./types";
 	import { HorizontalGroup } from "obsidian-projects/src/components/HorizontalGroup";
 	import { ToolBar } from "obsidian-projects/src/components/ToolBar";
+	import type { ViewApi } from "obsidian-projects/src/app/view-api";
 
-	export let frame: DataFrame;
-	export let config: GridConfig;
-	export let onConfigChange: (config: GridConfig) => void;
 	export let project: ProjectDefinition;
+	export let frame: DataFrame;
 	export let readonly: boolean;
+	export let api: ViewApi;
 
-	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
-	export let onRecordUpdate: (record: DataRecord) => void;
-	export let onRecordDelete: (id: string) => void;
-	export let onFieldRename: (from: string, to: string) => void;
-	export let onFieldDelete: (field: string) => void;
+	export let config: GridConfig | undefined;
+	export let onConfigChange: (cfg: GridConfig) => void;
 
 	$: ({ fields, records } = frame);
 
@@ -126,19 +123,31 @@
 				$app,
 				project,
 				(name, templatePath, project) => {
-					onRecordAdd(createDataRecord(name, project), templatePath);
+					api.addRecord(
+						createDataRecord(name, project),
+						templatePath
+					);
 				}
 			).open();
 		}}
 		onRowEdit={(id, values) => {
-			new EditNoteModal($app, fields, onRecordUpdate, {
-				id,
-				values,
-			}).open();
+			new EditNoteModal(
+				$app,
+				fields,
+				(record) => {
+					api.updateRecord(record, fields);
+				},
+				{
+					id,
+					values,
+				}
+			).open();
 		}}
-		onRowDelete={onRecordDelete}
+		onRowDelete={(id) => {
+			api.deleteRecord(id);
+		}}
 		onColumnHide={(column) => {
-			const fieldConfig = config.fieldConfig;
+			const fieldConfig = config?.fieldConfig;
 
 			onConfigChange({
 				...config,
@@ -157,14 +166,16 @@
 				$i18n.t("views.table.rename-field"),
 				$i18n.t("views.table.rename"),
 				(value) => {
-					onFieldRename(field, value);
+					api.renameField(field, value);
 				},
 				field
 			).open();
 		}}
-		onColumnDelete={onFieldDelete}
+		onColumnDelete={(field) => {
+			api.deleteField(field);
+		}}
 		onRowChange={(rowId, row) => {
-			onRecordUpdate({ id: rowId, values: row });
+			api.updateRecord({ id: rowId, values: row }, fields);
 		}}
 		onColumnResize={handleWidthChange}
 		onRowNavigate={(rowId, row, openNew) => {

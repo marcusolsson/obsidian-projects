@@ -1,27 +1,20 @@
 <script lang="ts">
-	import type { TFile } from "obsidian";
-
 	import { Callout, Loading, Typography } from "obsidian-svelte";
 
 	import { settings } from "../lib/stores/settings";
 	import { app } from "../lib/stores/obsidian";
 	import { api } from "../lib/stores/api";
-	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 	import { dataFrame, dataSource } from "../lib/stores/dataframe";
-
-	import { BoardView } from "../views/Board";
-	import { CalendarView } from "../views/Calendar";
-	import { TableView } from "../views/Table";
-	import { CustomView } from "../views/Custom";
-	import { DeveloperView } from "../views/Developer";
 
 	import Toolbar from "./Toolbar.svelte";
 
-	import type { DataRecord, DataSource } from "../lib/data";
+	import type { DataSource } from "../lib/data";
 	import type { ProjectDefinition } from "../types";
 	import { DataviewDataSource } from "../lib/datasources/dataview";
 	import { FrontMatterDataSource } from "../lib/datasources/frontmatter";
-	import { isTFile } from "../lib/obsidian";
+	import View from "./View.svelte";
+	import { ViewApi } from "./view-api";
+	import type { App } from "obsidian";
 
 	$: projects = $settings.projects;
 
@@ -38,9 +31,11 @@
 
 	$: {
 		if (selectedProject) {
-			dataSource.set(resolveDataSource(selectedProject));
+			dataSource.set(resolveDataSource(selectedProject, $app));
 		}
 	}
+
+	$: viewApi = $dataSource ? new ViewApi($app, $dataSource, $api) : null;
 
 	let querying: Promise<void>;
 
@@ -57,34 +52,6 @@
 
 	// Remember the last view and project we opened.
 	$: settings.saveLayout(selectedProject?.id, selectedView?.id);
-
-	$: viewComponent = selectedView
-		? getViewComponent(selectedView.type)
-		: null;
-
-	// getViewComponent returns the Svelte component for the selected view type.
-	// All built-in views have their own components, while custom views share
-	// the CustomView component.
-	function getViewComponent(type: string) {
-		const standardViewComponents: Record<string, any> = {
-			table: TableView,
-			board: BoardView,
-			calendar: CalendarView,
-			developer: DeveloperView,
-		};
-
-		const standardComponent = standardViewComponents[type];
-
-		if (standardComponent) {
-			return standardComponent;
-		}
-
-		if ($customViewsV2[type] || $customViews[type]) {
-			return CustomView;
-		}
-
-		return null;
-	}
 
 	function handleProjectChange(projectId: string) {
 		if (!projects.length) {
@@ -127,46 +94,14 @@
 		}
 	}
 
-	function handleRecordAdd(record: DataRecord, templatePath: string) {
-		if ($dataSource?.includes(record.id)) {
-			dataFrame.addRecord(record);
-		}
-		$api.createNote(record, templatePath);
-	}
-	function handleRecordUpdate(record: DataRecord) {
-		if ($dataSource?.includes(record.id)) {
-			dataFrame.updateRecord(record);
-		}
-		$api.updateRecord(frame.fields, record);
-	}
-	function handleRecordDelete(id: string) {
-		if ($dataSource?.includes(id)) {
-			dataFrame.deleteRecord(id);
-		}
-		$api.deleteRecord(id);
-	}
-	function handleFieldRename(field: string, name: string) {
-		dataFrame.renameField(field, name);
-		$api.renameField(filesFromRecords($dataFrame.records), field, name);
-	}
-	function handleFieldDelete(field: string) {
-		dataFrame.deleteField(field);
-		$api.deleteField(filesFromRecords($dataFrame.records), field);
-	}
-	function filesFromRecords(records: DataRecord[]): TFile[] {
-		return records
-			.map((record) => record.id)
-			.map((path) => {
-				return $app.vault.getAbstractFileByPath(path);
-			})
-			.filter(isTFile);
-	}
-
-	function resolveDataSource(project: ProjectDefinition): DataSource {
+	function resolveDataSource(
+		project: ProjectDefinition,
+		app: App
+	): DataSource {
 		if (project.dataview) {
 			return new DataviewDataSource(project);
 		}
-		return new FrontMatterDataSource($app, project);
+		return new FrontMatterDataSource(app, project);
 	}
 </script>
 
@@ -183,20 +118,14 @@
 		<Loading />
 	{:then}
 		<div class="projects-main">
-			{#if selectedView && viewComponent}
-				<svelte:component
-					this={viewComponent}
-					{frame}
-					type={selectedView.type}
+			{#if selectedProject && selectedView && viewApi}
+				<View
 					project={selectedProject}
-					config={selectedView.config}
+					view={selectedView}
 					readonly={$dataSource?.readonly() ?? true}
+					api={viewApi}
 					onConfigChange={handleViewConfigChange}
-					onRecordAdd={handleRecordAdd}
-					onRecordUpdate={handleRecordUpdate}
-					onRecordDelete={handleRecordDelete}
-					onFieldRename={handleFieldRename}
-					onFieldDelete={handleFieldDelete}
+					{frame}
 				/>
 			{/if}
 		</div>

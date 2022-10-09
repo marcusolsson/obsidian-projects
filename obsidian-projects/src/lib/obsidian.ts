@@ -1,5 +1,6 @@
-import { TFile, TFolder, Vault, type TAbstractFile } from "obsidian";
+import { App, TFile, TFolder, Vault, type TAbstractFile } from "obsidian";
 import os from "os";
+import type { DataRecord } from "./data";
 
 /**
  * isTFile is a convenience function for filtering arrays of TAbstractFile.
@@ -13,6 +14,15 @@ export function isTFile(value: TAbstractFile | null): value is TFile {
  */
 export function isTFolder(value: TAbstractFile | null): value is TFolder {
 	return value instanceof TFolder;
+}
+
+export function filesFromRecords(app: App, records: DataRecord[]): TFile[] {
+	return records
+		.map((record) => record.id)
+		.map((path) => {
+			return app.vault.getAbstractFileByPath(path);
+		})
+		.filter(isTFile);
 }
 
 export function getFilesInFolder(folder: TFolder): TFile[] {

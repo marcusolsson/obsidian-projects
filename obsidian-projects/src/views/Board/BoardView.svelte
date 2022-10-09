@@ -21,21 +21,20 @@
 	import { HorizontalGroup } from "obsidian-projects/src/components/HorizontalGroup";
 	import { Field } from "obsidian-projects/src/components/Field";
 	import { ToolBar } from "obsidian-projects/src/components/ToolBar";
+	import type { ViewApi } from "obsidian-projects/src/app/view-api";
 
 	interface BoardConfig {
 		groupByField?: string;
 		priorityField?: string;
 	}
 
-	export let frame: DataFrame;
-
-	export let config: BoardConfig;
-	export let onConfigChange: (config: BoardConfig) => void;
 	export let project: ProjectDefinition;
+	export let frame: DataFrame;
 	export let readonly: boolean;
-	export let onRecordAdd: (record: DataRecord, templatePath: string) => void;
-	export let onRecordUpdate: (record: DataRecord) => void;
-	// export let onRecordDelete: (id: string) => void;
+	export let api: ViewApi;
+
+	export let config: BoardConfig | undefined;
+	export let onConfigChange: (cfg: BoardConfig) => void;
 
 	$: ({ fields, records } = frame);
 
@@ -60,13 +59,18 @@
 	$: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
 
 	function handleRecordClick(record: DataRecord) {
-		new EditNoteModal($app, fields, onRecordUpdate, record).open();
+		new EditNoteModal(
+			$app,
+			fields,
+			(record) => api.updateRecord(record, fields),
+			record
+		).open();
 	}
 
 	function handleRecordAdd(column: string) {
 		new CreateNoteModal($app, project, (name, templatePath) => {
 			if (groupByField) {
-				onRecordAdd(
+				api.addRecord(
 					createDataRecord(
 						name,
 						project,
