@@ -5,7 +5,7 @@ import type { ProjectDefinition } from "../types";
 import CreateNote from "./components/CreateNote.svelte";
 import { i18n } from "../lib/stores/i18n";
 import { get } from "svelte/store";
-import { nextUniqueFileName } from "../lib/obsidian";
+import { nextUniqueFileName } from "../lib/helpers";
 
 export class CreateNoteModal extends Modal {
 	// @ts-ignore

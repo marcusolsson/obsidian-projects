@@ -5,7 +5,7 @@
 		ViewDefinition,
 		ViewType,
 		ProjectDefinition,
-	} from "../../types";
+	} from "obsidian-projects/src/types";
 
 	import {
 		Button,
@@ -17,11 +17,15 @@
 		SettingItem,
 	} from "obsidian-svelte";
 
-	import { customViews, customViewsV2 } from "../../lib/stores/custom-views";
-	import { i18n } from "../../lib/stores/i18n";
-	import { settings } from "../../lib/stores/settings";
+	import {
+		customViews,
+		customViewsV2,
+	} from "obsidian-projects/src/lib/stores/custom-views";
+	import { i18n } from "obsidian-projects/src/lib/stores/i18n";
+	import { settings } from "obsidian-projects/src/lib/stores/settings";
+
 	import { Builder } from "obsidian-projects/src/builder";
-	import { nextUniqueViewName } from "obsidian-projects/src/lib/obsidian";
+	import { nextUniqueViewName } from "obsidian-projects/src/lib/helpers";
 
 	export let onSave: (projectId: string, view: ViewDefinition) => void;
 	export let project: ProjectDefinition;
