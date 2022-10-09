@@ -8,9 +8,9 @@
 	export let name: string;
 
 	/**
-	 * Specifies the width and height of the icon in pixels. Defaults to 16px.
+	 * Specifies the icon size.
 	 */
-	export let size: number = 16;
+	export let size: "xs" | "sm" | "md" | "lg" = "md";
 
 	/**
 	 * Specifies whether to invert the icon color on accent backgrounds.
@@ -24,16 +24,38 @@
 </script>
 
 <span
-	style={`width: ${size}px; height: ${size}px`}
 	class:accent
-	use:useIcon={{ name, size }}
+	class:icon-xs={size === "xs"}
+	class:icon-sm={size === "sm"}
+	class:icon-md={size === "md"}
+	class:icon-lg={size === "lg"}
 	aria-label={tooltip}
+	use:useIcon={name}
 />
 
 <style>
 	span {
-		color: var(--text-muted);
-		fill: var(--text-muted);
+		color: var(--icon-color);
+		opacity: var(--icon-opacity);
+		display: flex;
+		flex: 0 1 auto;
+	}
+
+	.icon-xs {
+		--icon-size: var(--icon-xs);
+		--icon-stroke: var(--icon-xs-stroke-width);
+	}
+	.icon-sm {
+		--icon-size: var(--icon-s);
+		--icon-stroke: var(--icon-s-stroke-width);
+	}
+	.icon-md {
+		--icon-size: var(--icon-m);
+		--icon-stroke: var(--icon-m-stroke-width);
+	}
+	.icon-lg {
+		--icon-size: var(--icon-l);
+		--icon-stroke: var(--icon-l-stroke-width);
 	}
 
 	.accent {

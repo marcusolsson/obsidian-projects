@@ -180,14 +180,16 @@
 	<Card>
 		<Typography variant="h3">Icons</Typography>
 		<HorizontalGroup>
-			<Icon name="heart" size={16} />
-			<Icon name="heart" size={24} />
-			<Icon name="heart" size={32} />
+			<Icon name="heart" size="xs" />
+			<Icon name="heart" size="sm" />
+			<Icon name="heart" size="md" />
+			<Icon name="heart" size="lg" />
 		</HorizontalGroup>
 		<HorizontalGroup>
-			<IconButton icon="heart" size={16} />
-			<IconButton icon="heart" size={24} active />
-			<IconButton icon="cross" size={32} nopadding />
+			<IconButton icon="heart" size={"xs"} />
+			<IconButton icon="heart" size={"sm"} />
+			<IconButton icon="heart" size={"md"} active />
+			<IconButton icon="heart" size={"lg"} />
 		</HorizontalGroup>
 	</Card>
 

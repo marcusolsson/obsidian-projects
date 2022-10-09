@@ -39,7 +39,7 @@
 		/>
 	{/if}
 	{#if icon}
-		<div class="menu-item-icon" use:useIcon={{ name: icon, size: 16 }} />
+		<div class="menu-item-icon" use:useIcon={icon} />
 	{/if}
 	<div class="menu-item-title">{label}</div>
 </div>

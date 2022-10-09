@@ -66,7 +66,7 @@
 	}}
 >
 	{#if icon}
-		<Icon name={icon} size={18} />
+		<Icon name={icon} />
 	{/if}
 
 	{#if editing}
@@ -96,6 +96,7 @@
 	{#if hovering && active}
 		<IconButton
 			icon="cross"
+			size="sm"
 			nopadding
 			on:click={() => dispatch("delete")}
 		/>

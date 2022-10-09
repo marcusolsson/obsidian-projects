@@ -16,6 +16,7 @@
 				{value}
 				<IconButton
 					icon="cross"
+					size="xs"
 					nopadding
 					on:click={() => {
 						onChange(values.filter((_, j) => i !== j));

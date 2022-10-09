@@ -25,7 +25,6 @@
 			width="100%"
 		/>
 		<IconButton
-			size={24}
 			icon="x"
 			on:click={() => {
 				onPathsChange(paths.filter((_, j) => j !== i));

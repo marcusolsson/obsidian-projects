@@ -35,7 +35,7 @@
 	class="callout"
 >
 	<div class="callout-title">
-		<div use:useIcon={{ name: icon, size: 16 }} class="callout-icon" />
+		<div use:useIcon={icon} class="callout-icon" />
 		<div class="callout-title-inner">{title}</div>
 	</div>
 	<div class="callout-content">

@@ -76,6 +76,7 @@
 		{#if projects.length}
 			<IconButton
 				icon="more-vertical"
+				size="sm"
 				on:click={(event) => {
 					const menu = new Menu();
 

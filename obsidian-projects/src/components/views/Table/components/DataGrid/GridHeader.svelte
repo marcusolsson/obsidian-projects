@@ -59,6 +59,7 @@
 				/>
 				<TextLabel value={column.field} />
 				<IconButton
+					size="sm"
 					icon="vertical-three-dots"
 					on:click={handleFieldClick(column)}
 				/>
