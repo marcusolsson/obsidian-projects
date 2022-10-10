@@ -52,17 +52,19 @@
 		return colDef;
 	});
 
-	$: rows = records.map<GridRowProps>((record) => ({
-		rowId: record.id,
-		row: record.values,
+	$: rows = records.map<GridRowProps>(({ id, values }) => ({
+		rowId: id,
+		row: values,
 	}));
 
 	function defaultWeight(field: string): number | undefined {
 		switch (field) {
+			// Special fields from FrontMatterDataSource
 			case "name":
 				return 1;
 			case "path":
 				return 2;
+			// Special field from DataviewDataSource
 			case "Field":
 				return 1;
 			default:
@@ -71,7 +73,7 @@
 	}
 
 	function handleVisibilityChange(field: string, enabled: boolean) {
-		const newconfig = {
+		onConfigChange({
 			...config,
 			fieldConfig: {
 				...fieldConfig,
@@ -80,9 +82,7 @@
 					hide: !enabled,
 				},
 			},
-		};
-
-		onConfigChange(newconfig);
+		});
 	}
 
 	function handleWidthChange(field: string, width: number) {
@@ -143,23 +143,8 @@
 				}
 			).open();
 		}}
-		onRowDelete={(id) => {
-			api.deleteRecord(id);
-		}}
-		onColumnHide={(column) => {
-			const fieldConfig = config?.fieldConfig;
-
-			onConfigChange({
-				...config,
-				fieldConfig: {
-					...fieldConfig,
-					[column.field]: {
-						...fieldConfig?.[column.field],
-						hide: true,
-					},
-				},
-			});
-		}}
+		onRowDelete={(id) => api.deleteRecord(id)}
+		onColumnHide={(column) => handleVisibilityChange(column.field, false)}
 		onColumnRename={(field) => {
 			new InputDialogModal(
 				$app,
@@ -171,16 +156,12 @@
 				field
 			).open();
 		}}
-		onColumnDelete={(field) => {
-			api.deleteField(field);
-		}}
-		onRowChange={(rowId, row) => {
-			api.updateRecord({ id: rowId, values: row }, fields);
-		}}
+		onColumnDelete={(field) => api.deleteField(field)}
+		onRowChange={(rowId, row) =>
+			api.updateRecord({ id: rowId, values: row }, fields)}
 		onColumnResize={handleWidthChange}
-		onRowNavigate={(rowId, row, openNew) => {
-			$app.workspace.openLinkText(rowId, "", openNew);
-		}}
+		onRowNavigate={(rowId, row, openNew) =>
+			$app.workspace.openLinkText(rowId, "", openNew)}
 		sortModel={{
 			field: config?.sortField ?? "name",
 			sort: config?.sortAsc ? "asc" : "desc",
