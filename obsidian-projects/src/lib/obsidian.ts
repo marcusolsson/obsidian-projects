@@ -16,6 +16,9 @@ export function isTFolder(value: TAbstractFile | null): value is TFolder {
 	return value instanceof TFolder;
 }
 
+/**
+ * filesFromRecords converts an array of records to their corresponding TFiles.
+ */
 export function filesFromRecords(app: App, records: DataRecord[]): TFile[] {
 	return records
 		.map((record) => record.id)
@@ -25,6 +28,9 @@ export function filesFromRecords(app: App, records: DataRecord[]): TFile[] {
 		.filter(isTFile);
 }
 
+/**
+ * getFilesInFolder recursively looks for all files in a given folder.
+ */
 export function getFilesInFolder(folder: TFolder): TFile[] {
 	const result: TFile[] = [];
 	Vault.recurseChildren(folder, (file) => {
@@ -35,10 +41,16 @@ export function getFilesInFolder(folder: TFolder): TFile[] {
 	return result;
 }
 
+/**
+ * getNotesInFolder recursively looks for all Markdown files in a given folder.
+ */
 export function getNotesInFolder(folder: TFolder): TFile[] {
 	return getFilesInFolder(folder).filter((file) => file.extension === "md");
 }
 
+/**
+ * getFoldersInFolder recursively looks for all folders under a given folder.
+ */
 export function getFoldersInFolder(folder: TFolder): TFolder[] {
 	const result: TFolder[] = [];
 	Vault.recurseChildren(folder, (file) => {

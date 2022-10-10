@@ -7,6 +7,10 @@ import {
 	type Link,
 } from "../data";
 
+/**
+ * standardizeValues converts front matter YAML data to the common DataValue
+ * format.
+ */
 export function standardizeRecord(
 	id: string,
 	values: Record<string, any>
@@ -34,6 +38,12 @@ export function standardizeRecord(
 	};
 }
 
+/**
+ * parseRawLink parses internal links in the front matter.
+ *
+ * Values in the form of "[[My note]]" get parsed as a two-dimensional array
+ * with a single string value.
+ */
 function parseRawLink(
 	rawLink: Array<Array<string>>,
 	sourcePath: string

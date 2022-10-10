@@ -20,6 +20,9 @@ export class UnsupportedCapability extends Error {
 	}
 }
 
+/**
+ * DataviewDataSource converts Dataview queries to DataFrames.
+ */
 export class DataviewDataSource extends DataSource {
 	async queryOne(_: TFile): Promise<DataFrame> {
 		return this.queryAll();

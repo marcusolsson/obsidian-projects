@@ -1,6 +1,52 @@
 import type { TFile } from "obsidian";
 import type { ProjectDefinition } from "../types";
 
+/**
+ * DataFrame is the core data structure that contains structured data for a
+ * collection of notes.
+ */
+export interface DataFrame {
+	/**
+	 * fields defines the schema for the data frame. Each field describes the
+	 * values in each DataRecord.
+	 */
+	fields: DataField[];
+
+	/**
+	 * records holds the data from each note.
+	 */
+	records: DataRecord[];
+}
+
+/**
+ * DataField holds metadata for a value in DataRecord, for example a front
+ * matter property.
+ */
+export interface DataField {
+	/**
+	 * name references the a property (key) in the DataRecord values object.
+	 */
+	name: string;
+
+	/**
+	 * type defines the data type for the field.
+	 */
+	type: DataFieldType;
+
+	/**
+	 * identifier defines whether this field identifies a DataRecord.
+	 */
+	identifier: boolean;
+
+	/**
+	 * derived defines whether this field has been derived from another field.
+	 *
+	 * Since derived fields are computed from other fields, they can't be
+	 * modified.
+	 */
+	derived: boolean;
+}
+
 export enum DataFieldType {
 	String = "string",
 	Number = "number",
@@ -11,16 +57,9 @@ export enum DataFieldType {
 	Unknown = "unknown",
 }
 
-export interface Link {
-	linkText: string;
-	sourcePath: string;
-}
-
-export interface DataField {
-	name: string;
-	type: DataFieldType;
-	identifier: boolean;
-	derived: boolean;
+export interface DataRecord {
+	id: string;
+	values: Record<string, DataValue>;
 }
 
 export type DataValue =
@@ -32,31 +71,71 @@ export type DataValue =
 	| Array<string>
 	| undefined;
 
-export interface DataRecord {
-	id: string;
-	values: Record<string, DataValue>;
+export interface Link {
+	linkText: string;
+	sourcePath: string;
 }
 
-export interface DataFrame {
-	fields: DataField[];
-	records: DataRecord[];
+export const emptyDataFrame: DataFrame = {
+	records: [],
+	fields: [],
+};
+
+/**
+ * DataSource reads data frames from a project.
+ */
+export abstract class DataSource {
+	project: ProjectDefinition;
+
+	constructor(project: ProjectDefinition) {
+		this.project = project;
+	}
+
+	/**
+	 * queryAll returns a DataFrame with all records in the project.
+	 */
+	abstract queryAll(): Promise<DataFrame>;
+
+	/**
+	 * queryOne returns a DataFrame with a single record for the given file.
+	 */
+	abstract queryOne(file: TFile): Promise<DataFrame>;
+
+	/**
+	 * includes returns whether a path belongs to the current project.
+	 */
+	abstract includes(path: string): boolean;
+
+	/**
+	 * readonly returns whether the data source is read-only.
+	 *
+	 * Read-only data sources are typically derived records where the data
+	 * source can't determine the original names of the fields.
+	 */
+	readonly(): boolean {
+		return false;
+	}
 }
 
 export function isBoolean(value: DataValue): value is boolean {
 	return typeof value === "boolean";
 }
+
 export function isString(value: DataValue): value is string {
 	return typeof value === "string";
 }
+
 export function isLink(value: DataValue): value is Link {
 	if (value && typeof value === "object") {
 		return "linkText" in value && "sourcePath" in value;
 	}
 	return false;
 }
+
 export function isNumber(value: DataValue): value is number {
 	return typeof value === "number";
 }
+
 export function isDate(value: DataValue): value is Date {
 	return value instanceof Date;
 }
@@ -66,35 +145,35 @@ export function isOptionalBoolean(
 ): value is boolean | undefined {
 	return typeof value === "boolean" || value === undefined;
 }
+
 export function isOptionalString(
 	value: DataValue
 ): value is string | undefined {
 	return typeof value === "string" || value === undefined;
 }
+
 export function isOptionalLink(value: DataValue): value is Link | undefined {
 	if (typeof value === "object") {
 		return "linkText" in value && "sourcePath" in value;
 	}
 	return value === undefined;
 }
+
 export function isOptionalList(
 	value: DataValue
 ): value is Array<string> | undefined {
 	return Array.isArray(value) || value === undefined;
 }
+
 export function isOptionalNumber(
 	value: DataValue
 ): value is number | undefined {
 	return typeof value === "number" || value === undefined;
 }
+
 export function isOptionalDate(value: DataValue): value is Date | undefined {
 	return value instanceof Date || value === undefined;
 }
-
-export const emptyDataFrame: DataFrame = {
-	records: [],
-	fields: [],
-};
 
 export function isRawLink(value: any): value is Array<Array<string>> {
 	if (value && Array.isArray(value)) {
@@ -107,20 +186,4 @@ export function isRawLink(value: any): value is Array<Array<string>> {
 		}
 	}
 	return false;
-}
-
-export abstract class DataSource {
-	project: ProjectDefinition;
-
-	constructor(project: ProjectDefinition) {
-		this.project = project;
-	}
-
-	abstract queryAll(): Promise<DataFrame>;
-	abstract queryOne(file: TFile): Promise<DataFrame>;
-	abstract includes(path: string): boolean;
-
-	readonly(): boolean {
-		return false;
-	}
 }

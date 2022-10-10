@@ -11,6 +11,9 @@ import { notEmpty } from "../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
 import { detectFields, stringFallback } from "./helpers";
 
+/**
+ * FrontMatterDataSource converts Markdown front matter to DataFrames.
+ */
 export class FrontMatterDataSource extends DataSource {
 	app: App;
 

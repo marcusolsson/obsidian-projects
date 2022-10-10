@@ -10,7 +10,17 @@ export function notEmpty<T>(value: T | null | undefined): value is T {
 	return value !== null && value !== undefined;
 }
 
-export function uniquify(name: string, exists: (name: string) => boolean) {
+/**
+ * uniquify appends a sequence number to a string, where the number is the
+ * lowest available according to a callback function.
+ *
+ * @param name is the preferred name.
+ * @param exists is a predicate for whether a candidate string is already taken.
+ */
+export function uniquify(
+	name: string,
+	exists: (name: string) => boolean
+): string {
 	if (!exists(name)) {
 		return name;
 	}
@@ -33,6 +43,10 @@ export function nextUniqueFileName(path: string, name: string) {
 	});
 }
 
+/**
+ * nextUniqueProjectName returns the given project name with the lowest
+ * available sequence number appended to it.
+ */
 export function nextUniqueProjectName(
 	projects: ProjectDefinition[],
 	name: string
@@ -42,6 +56,10 @@ export function nextUniqueProjectName(
 	});
 }
 
+/**
+ * nextUniqueViewName returns the given project name with the lowest
+ * available sequence number appended to it.
+ */
 export function nextUniqueViewName(views: ViewDefinition[], name: string) {
 	return uniquify(name, (candidate) => {
 		return !!views.find((view) => view.name === candidate);

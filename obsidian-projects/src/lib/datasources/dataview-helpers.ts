@@ -1,6 +1,10 @@
 import dayjs from "dayjs";
 import type { DataValue } from "../data";
 
+/**
+ * standardizeValues converts a Dataview data structure of values to the common
+ * DataValue format.
+ */
 export function standardizeValues(
 	values: Record<string, any>
 ): Record<string, DataValue> {

@@ -24,39 +24,9 @@ import {
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
 
-export function createProject(): ProjectDefinition {
-	return {
-		id: uuidv4(),
-		name: nextUniqueProjectName(
-			get(settings).projects,
-			get(i18n).t("modals.project.create.untitled")
-		),
-		path: "",
-		recursive: false,
-		defaultName: "",
-		templates: [],
-		views: [
-			{
-				id: uuidv4(),
-				name: get(i18n).t("views.table.name"),
-				type: "table",
-				config: {},
-			},
-		],
-	};
-}
-
-export function createDataRecord(
-	name: string,
-	project: ProjectDefinition,
-	values?: Record<string, DataValue>
-): DataRecord {
-	return {
-		id: normalizePath(project.path + "/" + name + ".md"),
-		values: values ?? {},
-	};
-}
-
+/**
+ * DataApi writes records to file.
+ */
 export class DataApi {
 	private app: App;
 
@@ -240,4 +210,37 @@ function encodeFrontMatter(
 		? data.slice(0, startPosition - delim.length) +
 				data.slice(endPosition + delim.length + 1)
 		: data;
+}
+
+export function createProject(): ProjectDefinition {
+	return {
+		id: uuidv4(),
+		name: nextUniqueProjectName(
+			get(settings).projects,
+			get(i18n).t("modals.project.create.untitled")
+		),
+		path: "",
+		recursive: false,
+		defaultName: "",
+		templates: [],
+		views: [
+			{
+				id: uuidv4(),
+				name: get(i18n).t("views.table.name"),
+				type: "table",
+				config: {},
+			},
+		],
+	};
+}
+
+export function createDataRecord(
+	name: string,
+	project: ProjectDefinition,
+	values?: Record<string, DataValue>
+): DataRecord {
+	return {
+		id: normalizePath(project.path + "/" + name + ".md"),
+		values: values ?? {},
+	};
 }
