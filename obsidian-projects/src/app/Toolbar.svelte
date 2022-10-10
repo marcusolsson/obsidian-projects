@@ -61,6 +61,11 @@
 	}
 </script>
 
+<!--
+	@component
+
+	Toolbar lets the user manage projects and views.
+-->
 <div>
 	<span>
 		<Select

@@ -5,6 +5,9 @@ import { filesFromRecords } from "../lib/obsidian";
 import { dataFrame } from "../lib/stores/dataframe";
 import { get } from "svelte/store";
 
+/**
+ * ViewApi provides an write API for views.
+ */
 export class ViewApi {
 	app: App;
 	dataSource: DataSource;

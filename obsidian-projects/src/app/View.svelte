@@ -45,6 +45,11 @@
 	}
 </script>
 
+<!--
+	@component
+
+	View dynamically selects the component to use based on a ViewDefinition.
+-->
 <svelte:component
 	this={viewComponent}
 	{frame}

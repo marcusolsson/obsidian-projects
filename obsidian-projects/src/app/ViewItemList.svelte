@@ -1,3 +1,9 @@
+<!--
+	@component
+
+	ViewItemList lays out ViewItems and makes sure the user can scroll them for
+	small screens.
+-->
 <section>
 	<div>
 		<slot />

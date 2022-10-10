@@ -49,6 +49,11 @@
 	const dispatch = createEventDispatcher<{ rename: string; delete: void }>();
 </script>
 
+<!--
+	@component
+
+	ViewItem is a button that can be renamed and deleted.
+-->
 <div
 	class:active
 	class:error

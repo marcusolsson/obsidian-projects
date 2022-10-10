@@ -31,6 +31,7 @@
 
 	$: {
 		if (selectedProject) {
+			// Different projects can have different data sources.
 			dataSource.set(resolveDataSource(selectedProject, $app));
 		}
 	}
@@ -40,15 +41,14 @@
 	let querying: Promise<void>;
 
 	$: {
+		// Perform a full refresh of the data frame whenever the data source
+		// changes.
 		querying = (async () => {
-			const source = $dataSource;
-			if (source) {
-				dataFrame.set(await source.queryAll());
+			if ($dataSource) {
+				dataFrame.set(await $dataSource.queryAll());
 			}
 		})();
 	}
-
-	$: frame = $dataFrame;
 
 	// Remember the last view and project we opened.
 	$: settings.saveLayout(selectedProject?.id, selectedView?.id);
@@ -105,6 +105,12 @@
 	}
 </script>
 
+<!--
+	@component
+
+	App is the main application component and coordinates between the View and
+	the Toolbar.
+-->
 <div class="projects-container">
 	<Toolbar
 		{projects}
@@ -125,7 +131,7 @@
 					readonly={$dataSource?.readonly() ?? true}
 					api={viewApi}
 					onConfigChange={handleViewConfigChange}
-					{frame}
+					frame={$dataFrame}
 				/>
 			{/if}
 		</div>

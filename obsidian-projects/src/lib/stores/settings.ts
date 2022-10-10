@@ -159,6 +159,10 @@ function createSettings() {
 }
 export const settings = createSettings();
 
+/**
+ * migrateAny accepts the value from Plugin.loadData() and returns the most
+ * recent settings. If needed, it applies any necessary migrations.
+ */
 export function migrateAny(settings: any): ProjectsPluginSettingsV1 {
 	if (!settings) {
 		return { version: 1, projects: [] };
@@ -176,6 +180,7 @@ export function migrateAny(settings: any): ProjectsPluginSettingsV1 {
 	return migrate(settings as ProjectsPluginSettings);
 }
 
+// migrate migrates settings version 0 to version 1.
 function migrate(v0: ProjectsPluginSettings): ProjectsPluginSettingsV1 {
 	return {
 		version: 1,
