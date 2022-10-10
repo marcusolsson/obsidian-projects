@@ -1,15 +1,15 @@
 import type { App, MetadataCache, TFile } from "obsidian";
-import type { ProjectDefinition } from "../../types";
+import type { ProjectDefinition } from "../../../types";
 import {
 	DataFieldType,
 	DataSource,
 	type DataField,
 	type DataFrame,
 	type DataRecord,
-} from "../data";
-import { notEmpty } from "../helpers";
+} from "../../data";
+import { notEmpty } from "../../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
-import { detectFields, stringFallback } from "./helpers";
+import { detectFields, stringFallback } from "../helpers";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.

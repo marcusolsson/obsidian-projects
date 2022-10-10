@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { DataValue } from "../data";
+import type { DataValue } from "../../data";
 
 /**
  * standardizeValues converts a Dataview data structure of values to the common

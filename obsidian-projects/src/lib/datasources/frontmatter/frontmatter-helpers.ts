@@ -5,7 +5,7 @@ import {
 	type DataRecord,
 	type DataValue,
 	type Link,
-} from "../data";
+} from "../../data";
 
 /**
  * standardizeValues converts front matter YAML data to the common DataValue

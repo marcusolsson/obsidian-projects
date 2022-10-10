@@ -2,16 +2,16 @@ import type { TFile } from "obsidian";
 import { DataviewApi, getAPI, isPluginEnabled } from "obsidian-dataview";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import { get } from "svelte/store";
-import { i18n } from "../stores/i18n";
+import { i18n } from "../../stores/i18n";
 import {
 	DataSource,
 	isString,
 	type DataField,
 	type DataFrame,
 	type DataRecord,
-} from "../data";
+} from "../../data";
 import { standardizeValues } from "./dataview-helpers";
-import { detectFields } from "./helpers";
+import { detectFields } from "../helpers";
 
 export class UnsupportedCapability extends Error {
 	constructor(message: string) {

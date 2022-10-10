@@ -10,8 +10,8 @@
 
 	import type { DataSource } from "../lib/data";
 	import type { ProjectDefinition } from "../types";
-	import { DataviewDataSource } from "../lib/datasources/dataview";
-	import { FrontMatterDataSource } from "../lib/datasources/frontmatter";
+	import { DataviewDataSource } from "../lib/datasources/dataview/dataview";
+	import { FrontMatterDataSource } from "../lib/datasources/frontmatter/frontmatter";
 	import View from "./View.svelte";
 	import { ViewApi } from "./view-api";
 	import type { App } from "obsidian";
