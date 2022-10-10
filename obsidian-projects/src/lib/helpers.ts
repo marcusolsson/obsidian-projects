@@ -33,6 +33,10 @@ export function uniquify(
 	return name + " " + num;
 }
 
+/**
+ * nextUniqueFileName returns the given file name with the lowest available
+ * sequence number appended to it.
+ */
 export function nextUniqueFileName(path: string, name: string) {
 	return uniquify(name, (name) => {
 		return (
