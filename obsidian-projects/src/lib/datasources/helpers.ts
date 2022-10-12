@@ -37,7 +37,9 @@ export function parseRecords(records: DataRecord[], fields: DataField[]) {
 					}
 					break;
 				case DataFieldType.String:
-					record.values[field.name] = value?.toLocaleString();
+					if (typeof value !== "object") {
+						record.values[field.name] = value?.toLocaleString();
+					}
 					break;
 			}
 		}
