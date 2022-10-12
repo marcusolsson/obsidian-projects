@@ -36,6 +36,7 @@
 <style>
 	span {
 		color: var(--icon-color);
+		fill: var(--icon-color);
 		opacity: var(--icon-opacity);
 		display: flex;
 		flex: 0 1 auto;
