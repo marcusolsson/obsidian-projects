@@ -51,6 +51,9 @@ function typeFromValues(values: DataValue[]): DataFieldType {
 	if (values.every((value) => value === "null" || value === "undefined")) {
 		return DataFieldType.Unknown;
 	}
+	if (values.some((value) => typeof value === "object")) {
+		return DataFieldType.Unknown;
+	}
 	return DataFieldType.String;
 }
 
