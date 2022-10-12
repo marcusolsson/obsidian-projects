@@ -30,6 +30,7 @@
 	export let onViewChange: (view: string) => void;
 
 	$: projectDefinition = projects.find((w) => w.id === project);
+	$: views = projectDefinition?.views ?? [];
 
 	function iconFromViewType(type: string) {
 		switch (type) {
@@ -129,48 +130,50 @@
 		{/if}
 	</span>
 
-	<ViewItemList>
-		{#if projectDefinition}
-			{#each projectDefinition.views as v}
-				<ViewItem
-					active={view === v.id}
-					label={v.name}
-					icon={iconFromViewType(v.type)}
-					on:click={() => onViewChange(v.id)}
-					on:rename={({ detail: name }) => {
-						if (project) {
-							settings.renameView(project, v.id, name);
-						}
-					}}
-					on:delete={() => {
-						new ConfirmDialogModal(
-							$app,
-							$i18n.t("modals.view.delete.title"),
-							$i18n.t("modals.view.delete.message"),
-							$i18n.t("modals.view.delete.cta"),
-							() => {
-								if (project) {
-									settings.deleteView(project, v.id);
-								}
+	{#if projectDefinition}
+		<ViewItemList>
+			{#key views}
+				{#each views as v}
+					<ViewItem
+						active={view === v.id}
+						label={v.name}
+						icon={iconFromViewType(v.type)}
+						on:click={() => onViewChange(v.id)}
+						on:rename={({ detail: name }) => {
+							if (project) {
+								settings.renameView(project, v.id, name);
 							}
-						).open();
-					}}
-					onValidate={(name) => {
-						if (name === v.name) {
-							return true;
-						}
+						}}
+						on:delete={() => {
+							new ConfirmDialogModal(
+								$app,
+								$i18n.t("modals.view.delete.title"),
+								$i18n.t("modals.view.delete.message"),
+								$i18n.t("modals.view.delete.cta"),
+								() => {
+									if (project) {
+										settings.deleteView(project, v.id);
+									}
+								}
+							).open();
+						}}
+						onValidate={(name) => {
+							if (name === v.name) {
+								return true;
+							}
 
-						return (
-							name !== "" &&
-							!projectDefinition?.views.find(
-								(view) => view.name === name
-							)
-						);
-					}}
-				/>
-			{/each}
-		{/if}
-	</ViewItemList>
+							return (
+								name !== "" &&
+								!projectDefinition?.views.find(
+									(view) => view.name === name
+								)
+							);
+						}}
+					/>
+				{/each}
+			{/key}
+		</ViewItemList>
+	{/if}
 
 	<Button
 		variant="primary"
