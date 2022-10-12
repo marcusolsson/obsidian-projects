@@ -41,9 +41,9 @@ export class DataviewDataSource extends DataSource {
 
 		const rows = parseTableResult(result.value);
 
-		let records = standardizeRecords(rows);
-		const fields = detectSchema(records);
-		records = parseRecords(records, fields);
+		const standardizedRecords = standardizeRecords(rows);
+		const fields = detectSchema(standardizedRecords);
+		const records = parseRecords(standardizedRecords, fields);
 
 		return { fields, records };
 	}

@@ -35,9 +35,12 @@ export class FrontMatterDataSource extends DataSource {
 	}
 
 	async queryFiles(files: TFile[]) {
-		let records = standardizeRecords(files, this.app.metadataCache);
-		const fields = detectSchema(records);
-		records = parseRecords(records, fields);
+		const standardizedRecords = standardizeRecords(
+			files,
+			this.app.metadataCache
+		);
+		const fields = detectSchema(standardizedRecords);
+		const records = parseRecords(standardizedRecords, fields);
 
 		return { fields, records };
 	}

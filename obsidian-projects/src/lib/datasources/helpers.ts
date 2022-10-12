@@ -8,9 +8,22 @@ import {
 } from "../data";
 
 /**
- * parseRecords parses each record based on the detected field type.
+ * parseRecords parses the values for each record based on the detected field
+ * types.
+ *
+ * If field types matches with the corresponding data types in the records,
+ * this function does nothing.
+ *
+ * In the case where a field contains more than one data type, this function
+ * tries to parse the value in each record to match the field type.
+ *
+ * For example, if the record contains { "weight": 12 }, and the field type is
+ * DataFieldType.String, the resulting record has { "weight": "12"}.
  */
-export function parseRecords(records: DataRecord[], fields: DataField[]) {
+export function parseRecords(
+	records: DataRecord[],
+	fields: DataField[]
+): DataRecord[] {
 	for (let field of fields) {
 		for (let record of records) {
 			const value = record.values[field.name];
