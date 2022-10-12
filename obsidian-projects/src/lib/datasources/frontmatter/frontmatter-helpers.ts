@@ -1,7 +1,5 @@
-import dayjs from "dayjs";
 import {
 	isRawLink,
-	isString,
 	type DataRecord,
 	type DataValue,
 	type Link,
@@ -22,12 +20,6 @@ export function standardizeRecord(
 
 		if (isRawLink(value)) {
 			res[field] = parseRawLink(value, "");
-		} else if (isString(value)) {
-			if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-				res[field] = dayjs(value).toDate();
-			} else {
-				res[field] = value;
-			}
 		} else {
 			res[field] = value;
 		}

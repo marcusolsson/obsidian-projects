@@ -22,7 +22,7 @@ export function standardizeValues(
 				res[field] = value.path;
 			}
 			if ("ts" in value) {
-				res[field] = dayjs(value.ts).toDate();
+				res[field] = dayjs(value.ts).format("YYYY-MM-DD");
 			}
 		} else {
 			res[field] = value;

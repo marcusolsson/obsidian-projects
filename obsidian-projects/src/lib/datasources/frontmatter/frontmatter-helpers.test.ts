@@ -1,9 +1,8 @@
 import { describe, it, expect } from "@jest/globals";
-import dayjs from "dayjs";
 import { standardizeRecord } from "./frontmatter-helpers";
 
-describe("something", () => {
-	it("bar", () => {
+describe("frontmatter", () => {
+	it("standardize", () => {
 		const record = standardizeRecord("foo.md", {
 			link: [["Foo"]],
 			status: "done",
@@ -22,7 +21,7 @@ describe("something", () => {
 				status: "done",
 				weight: 12,
 				published: true,
-				due: dayjs("2022-08-31T22:00:00.000Z").toDate(),
+				due: "2022-09-01",
 			},
 		});
 	});

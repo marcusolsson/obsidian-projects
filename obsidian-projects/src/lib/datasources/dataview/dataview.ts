@@ -11,7 +11,7 @@ import {
 	type DataRecord,
 } from "../../data";
 import { standardizeValues } from "./dataview-helpers";
-import { detectFields } from "../helpers";
+import { detectFields, parseRecords } from "../helpers";
 
 export class UnsupportedCapability extends Error {
 	constructor(message: string) {
@@ -41,8 +41,9 @@ export class DataviewDataSource extends DataSource {
 
 		const rows = parseTableResult(result.value);
 
-		const records = parseRecords(rows);
+		let records = standardizeRecords(rows);
 		const fields = detectSchema(records);
+		records = parseRecords(records, fields);
 
 		return { fields, records };
 	}
@@ -75,7 +76,7 @@ function parseTableResult(value: TableResult): Array<Record<string, any>> {
 	return rows;
 }
 
-function parseRecords(rows: Array<Record<string, any>>): DataRecord[] {
+function standardizeRecords(rows: Array<Record<string, any>>): DataRecord[] {
 	const records: DataRecord[] = [];
 
 	rows.forEach((row) => {

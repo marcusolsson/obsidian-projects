@@ -1,7 +1,6 @@
 import type { App, MetadataCache, TFile } from "obsidian";
 import type { ProjectDefinition } from "../../../types";
 import {
-	DataFieldType,
 	DataSource,
 	type DataField,
 	type DataFrame,
@@ -9,7 +8,7 @@ import {
 } from "../../data";
 import { notEmpty } from "../../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
-import { detectFields, stringFallback } from "../helpers";
+import { detectFields, parseRecords } from "../helpers";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
@@ -36,15 +35,9 @@ export class FrontMatterDataSource extends DataSource {
 	}
 
 	async queryFiles(files: TFile[]) {
-		let records = parseRecords(files, this.app.metadataCache);
+		let records = standardizeRecords(files, this.app.metadataCache);
 		const fields = detectSchema(records);
-
-		fields
-			.filter((field) => field.type === DataFieldType.String)
-			.map((field) => field.name)
-			.forEach((field) => {
-				records = stringFallback(records, field);
-			});
+		records = parseRecords(records, fields);
 
 		return { fields, records };
 	}
@@ -72,7 +65,7 @@ export class FrontMatterDataSource extends DataSource {
 	}
 }
 
-export function parseRecords(
+export function standardizeRecords(
 	files: TFile[],
 	metadataCache: MetadataCache
 ): DataRecord[] {

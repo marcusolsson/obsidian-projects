@@ -1,8 +1,8 @@
 import { describe, it, expect } from "@jest/globals";
 import { standardizeValues } from "./dataview-helpers";
 
-describe("something", () => {
-	it("bar", () => {
+describe("dataview", () => {
+	it("standardize", () => {
 		const record = standardizeValues({
 			File: {
 				path: "foo.md",
