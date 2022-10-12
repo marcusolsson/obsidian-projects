@@ -78,12 +78,17 @@ function typeFromValues(values: DataValue[]): DataFieldType {
 		result[type]++;
 	}
 
-	const dominantType = Object.entries(result).reduce(
-		(acc, curr) => (curr[1] > acc[1] ? curr : acc),
-		[DataFieldType.Unknown, 0]
+	const detectedTypes = Object.keys(result).filter(
+		(type) => type !== DataFieldType.Unknown
 	);
 
-	return dominantType[0] as DataFieldType;
+	if (detectedTypes.length === 1) {
+		return detectedTypes[0] as DataFieldType;
+	} else if (detectedTypes.length > 1) {
+		return DataFieldType.String;
+	} else {
+		return DataFieldType.Unknown;
+	}
 }
 
 export function detectCellType(value: unknown): DataFieldType {
