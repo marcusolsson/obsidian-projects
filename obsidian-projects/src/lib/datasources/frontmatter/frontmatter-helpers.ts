@@ -41,13 +41,23 @@ function parseRawLink(
 	sourcePath: string
 ): Link | undefined {
 	if (rawLink[0]) {
-		const linkText = rawLink[0][0];
+		const text = rawLink[0][0];
 
-		if (linkText) {
-			return {
+		if (text) {
+			const split = text.split("|");
+
+			const linkText = split[0] ?? "";
+
+			const link: Link = {
 				linkText,
 				sourcePath,
 			};
+
+			if (split[1]) {
+				link.displayName = split[1];
+			}
+
+			return link;
 		}
 	}
 	return undefined;

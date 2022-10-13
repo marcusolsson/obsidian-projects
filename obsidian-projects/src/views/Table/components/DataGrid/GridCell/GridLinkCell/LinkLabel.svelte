@@ -20,7 +20,7 @@
 				$app.workspace.openLinkText(linkText, sourcePath, newLeaf);
 			}}
 		>
-			{value.linkText}
+			{value.displayName ?? value.linkText}
 		</InternalLink>
 	{/if}
 </div>

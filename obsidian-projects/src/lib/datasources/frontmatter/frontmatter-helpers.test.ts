@@ -15,6 +15,7 @@ describe("frontmatter", () => {
 			id: "foo.md",
 			values: {
 				link: {
+					displayName: "Foo",
 					linkText: "Foo",
 					sourcePath: "",
 				},

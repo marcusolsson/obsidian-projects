@@ -99,7 +99,7 @@
 		app: App
 	): DataSource {
 		if (project.dataview) {
-			return new DataviewDataSource(project);
+			return new DataviewDataSource(app, project);
 		}
 		return new FrontMatterDataSource(app, project);
 	}

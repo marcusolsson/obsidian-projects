@@ -1,17 +1,17 @@
-import type { TFile } from "obsidian";
+import type { App, TFile } from "obsidian";
 import { DataviewApi, getAPI, isPluginEnabled } from "obsidian-dataview";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import { get } from "svelte/store";
 import { i18n } from "../../stores/i18n";
 import {
 	DataSource,
-	isString,
 	type DataField,
 	type DataFrame,
 	type DataRecord,
 } from "../../data";
 import { standardizeValues } from "./dataview-helpers";
-import { detectFields, parseRecords } from "../helpers";
+import { detectFields, isLink, parseRecords } from "../helpers";
+import type { ProjectDefinition } from "obsidian-projects/src/types";
 
 export class UnsupportedCapability extends Error {
 	constructor(message: string) {
@@ -24,12 +24,20 @@ export class UnsupportedCapability extends Error {
  * DataviewDataSource converts Dataview queries to DataFrames.
  */
 export class DataviewDataSource extends DataSource {
+	app: App;
+
+	constructor(app: App, project: ProjectDefinition) {
+		super(project);
+
+		this.app = app;
+	}
+
 	async queryOne(_: TFile): Promise<DataFrame> {
 		return this.queryAll();
 	}
 
 	async queryAll(): Promise<DataFrame> {
-		const api = getDataviewAPI();
+		const api = this.getDataviewAPI();
 
 		const result = await api?.query(this.project.query ?? "", undefined, {
 			forceId: true,
@@ -41,7 +49,7 @@ export class DataviewDataSource extends DataSource {
 
 		const rows = parseTableResult(result.value);
 
-		const standardizedRecords = standardizeRecords(rows);
+		const standardizedRecords = this.standardizeRecords(rows);
 		const fields = detectSchema(standardizedRecords);
 		const records = parseRecords(standardizedRecords, fields);
 
@@ -54,6 +62,32 @@ export class DataviewDataSource extends DataSource {
 
 	readonly(): boolean {
 		return true;
+	}
+
+	getDataviewAPI(): DataviewApi | undefined {
+		if (isPluginEnabled(this.app)) {
+			return getAPI(this.app);
+		} else {
+			throw new UnsupportedCapability(
+				get(i18n).t("errors.missingDataview.message")
+			);
+		}
+	}
+
+	standardizeRecords(rows: Array<Record<string, any>>): DataRecord[] {
+		const records: DataRecord[] = [];
+
+		rows.forEach((row) => {
+			const values = standardizeValues(this.app, row);
+
+			const id = values["File"];
+
+			if (id && isLink(id) && id.fullPath) {
+				records.push({ id: id.fullPath, values });
+			}
+		});
+
+		return records;
 	}
 }
 
@@ -76,36 +110,10 @@ function parseTableResult(value: TableResult): Array<Record<string, any>> {
 	return rows;
 }
 
-function standardizeRecords(rows: Array<Record<string, any>>): DataRecord[] {
-	const records: DataRecord[] = [];
-
-	rows.forEach((row) => {
-		const values = standardizeValues(row);
-
-		const id = values["File"];
-
-		if (id && isString(id)) {
-			records.push({ id, values });
-		}
-	});
-
-	return records;
-}
-
 function detectSchema(records: DataRecord[]): DataField[] {
 	return detectFields(records)
 		.map((field) => ({ ...field, derived: true }))
 		.map((field) =>
 			field.name === "File" ? { ...field, identifier: true } : field
 		);
-}
-
-function getDataviewAPI(): DataviewApi | undefined {
-	if (isPluginEnabled(app)) {
-		return getAPI(app);
-	} else {
-		throw new UnsupportedCapability(
-			get(i18n).t("errors.missingDataview.message")
-		);
-	}
 }

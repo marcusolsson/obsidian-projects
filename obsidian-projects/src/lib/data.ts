@@ -72,7 +72,9 @@ export type DataValue =
 	| undefined;
 
 export interface Link {
+	displayName?: string;
 	linkText: string;
+	fullPath?: string;
 	sourcePath: string;
 }
 
