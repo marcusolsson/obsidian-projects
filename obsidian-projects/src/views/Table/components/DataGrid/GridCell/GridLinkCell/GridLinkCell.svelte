@@ -32,9 +32,10 @@
 		{#if isOptionalLink(value)}
 			<FileAutocomplete
 				files={getNotesInFolder($app.vault.getRoot())}
-				embed
 				value={value?.linkText ?? ""}
+				embed
 				autoFocus
+				width="100%"
 				on:change={({ detail: linkText }) => {
 					onChange(
 						linkText

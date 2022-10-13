@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
 	import { Suggestion, SuggestionItem, TextInput } from "obsidian-svelte";
-	import type { Option } from "../../../../obsidian-projects/src/components/core/SuggestInput/types";
+	import type { Option } from "./types";
 
 	/**
 	 * Specifies the text input value.

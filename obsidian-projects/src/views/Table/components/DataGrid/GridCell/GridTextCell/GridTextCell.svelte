@@ -2,7 +2,7 @@
 	import { GridCell } from "..";
 	import type { GridColDef } from "../../data-grid";
 
-	import TextInput from "./TextInput.svelte";
+	import { TextInput } from "obsidian-svelte";
 	import TextLabel from "./TextLabel.svelte";
 
 	export let value: string | undefined;
@@ -31,6 +31,11 @@
 >
 	<TextLabel slot="read" value={value || ""} />
 	<TextInput
+		autoFocus
+		slot="edit"
+		value={value || ""}
+		embed
+		on:input={({ detail }) => (value = detail)}
 		on:blur={(event) => {
 			if (
 				event.currentTarget instanceof HTMLInputElement &&
@@ -39,10 +44,9 @@
 			) {
 				selected = false;
 				edit = false;
+
+				onChange(value);
 			}
 		}}
-		slot="edit"
-		value={value || ""}
-		{onChange}
 	/>
 </GridCell>
