@@ -42,7 +42,7 @@
 	/>
 	{#each columns as column, i}
 		<GridCell
-			colindex={i + 1}
+			colindex={i + 2}
 			{column}
 			resizable
 			onResize={(width) => {

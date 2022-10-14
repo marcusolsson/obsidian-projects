@@ -93,7 +93,7 @@
 <div
 	bind:this={ref}
 	role={role()}
-	aria-selected={selected}
+	aria-selected={rowHeader || columnHeader ? undefined : selected}
 	aria-colindex={colindex}
 	class:columnHeader
 	class:header={column.header}
