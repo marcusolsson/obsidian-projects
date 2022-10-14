@@ -48,6 +48,9 @@
 	$: sortedColumns = sortColumns(visibleColumns);
 	$: sortedRows = sortRows(rows, sortModel);
 
+	// [column, row]
+	let activeCell: [number, number] = [3, 3];
+
 	function createColumnMenu(column: GridColDef) {
 		const menu = new Menu();
 
@@ -138,6 +141,9 @@
 
 		return menu;
 	}
+
+	const clamp = (num: number, min: number, max: number) =>
+		Math.min(Math.max(num, min), max);
 </script>
 
 <div
@@ -163,12 +169,19 @@
 			index={i + 2}
 			{rowId}
 			{row}
+			{activeCell}
 			{onRowChange}
 			onRowMenu={(rowId, row) => createRowMenu(rowId, row)}
 			onCellMenu={(rowId, column, value) =>
 				createCellMenu(rowId, row, column, value)}
 			onNavigate={(event) =>
 				onRowNavigate(rowId, row, event.ctrlKey || event.metaKey)}
+			on:navigate={({ detail: cell }) => {
+				activeCell = [
+					clamp(cell[0], 2, sortedColumns.length + 1),
+					clamp(cell[1], 4, sortedRows.length + 3),
+				];
+			}}
 		/>
 	{/each}
 	<GridCellGroup index={sortedRows.length + 2}>

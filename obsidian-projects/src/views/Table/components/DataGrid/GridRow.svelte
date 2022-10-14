@@ -17,6 +17,7 @@
 	export let index: number;
 	export let row: GridRowModel;
 	export let columns: GridColDef[];
+	export let activeCell: [number, number];
 
 	setContext<string>("sourcePath", row["path"]);
 
@@ -81,6 +82,7 @@
 
 <GridCellGroup on:mouseover={handleHoverLink} {index}>
 	<GridCell
+		rowindex={1}
 		colindex={1}
 		column={{ field: "", header: true, width: 60, editable: false }}
 		rowHeader
@@ -92,6 +94,8 @@
 
 	{#each columns as column, i}
 		<GridTypedCell
+			selected={activeCell[0] === i + 2 && activeCell[1] === index + 2}
+			rowindex={index + 2}
 			colindex={i + 2}
 			value={row[column.field]}
 			{column}
@@ -105,6 +109,7 @@
 				);
 			}}
 			on:mousedown={handleCellClick(column, row[column.field])}
+			on:navigate
 		/>
 	{/each}
 </GridCellGroup>

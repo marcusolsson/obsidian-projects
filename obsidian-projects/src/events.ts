@@ -23,7 +23,10 @@ export function registerFileEvents(plugin: Plugin) {
 							switch (type) {
 								case "update":
 									dataFrame.merge(
-										await source.queryOne(file)
+										await source.queryOne(
+											file,
+											get(dataFrame).fields
+										)
 									);
 									break;
 								case "delete":
@@ -32,7 +35,10 @@ export function registerFileEvents(plugin: Plugin) {
 								case "rename":
 									dataFrame.deleteRecord(oldPath);
 									dataFrame.merge(
-										await source.queryOne(file)
+										await source.queryOne(
+											file,
+											get(dataFrame).fields
+										)
 									);
 									break;
 							}
@@ -47,7 +53,9 @@ export function registerFileEvents(plugin: Plugin) {
 				if (file instanceof TFile) {
 					const source = get(dataSource);
 					if (source?.includes(file.path)) {
-						dataFrame.merge(await source.queryOne(file));
+						dataFrame.merge(
+							await source.queryOne(file, get(dataFrame).fields)
+						);
 					}
 				}
 			})
@@ -59,7 +67,9 @@ export function registerFileEvents(plugin: Plugin) {
 					const source = get(dataSource);
 					if (source?.includes(file.path)) {
 						dataFrame.deleteRecord(oldPath);
-						dataFrame.merge(await source.queryOne(file));
+						dataFrame.merge(
+							await source.queryOne(file, get(dataFrame).fields)
+						);
 					}
 				}
 			})
@@ -81,7 +91,9 @@ export function registerFileEvents(plugin: Plugin) {
 				if (file instanceof TFile) {
 					const source = get(dataSource);
 					if (source?.includes(file.path)) {
-						dataFrame.merge(await source.queryOne(file));
+						dataFrame.merge(
+							await source.queryOne(file, get(dataFrame).fields)
+						);
 					}
 				}
 			})

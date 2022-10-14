@@ -22,21 +22,84 @@
 	export let value: DataValue;
 	export let onChange: (value: DataValue) => void;
 	export let column: GridColDef;
+	export let rowindex: number;
 	export let colindex: number;
+	export let selected: boolean;
 </script>
 
 {#if column.type === "string" && isOptionalString(value)}
-	<GridTextCell {colindex} {value} {onChange} {column} on:mousedown />
+	<GridTextCell
+		{selected}
+		{rowindex}
+		{colindex}
+		{value}
+		{onChange}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {:else if column.type === "boolean" && isOptionalBoolean(value)}
-	<GridBooleanCell {colindex} {value} {onChange} {column} on:mousedown />
+	<GridBooleanCell
+		{selected}
+		{rowindex}
+		{colindex}
+		{value}
+		{onChange}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {:else if column.type === "number" && isOptionalNumber(value)}
-	<GridNumberCell {colindex} {value} {onChange} {column} on:mousedown />
+	<GridNumberCell
+		{selected}
+		{rowindex}
+		{colindex}
+		{value}
+		{onChange}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {:else if column.type === "date" && isOptionalDate(value)}
-	<GridDateCell {colindex} {value} {onChange} {column} on:mousedown />
+	<GridDateCell
+		{selected}
+		{rowindex}
+		{colindex}
+		{value}
+		{onChange}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {:else if column.type === "link" && isOptionalLink(value)}
-	<GridLinkCell {colindex} {value} {onChange} {column} on:mousedown />
+	<GridLinkCell
+		{selected}
+		{rowindex}
+		{colindex}
+		{value}
+		{onChange}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {:else if column.type === "list" && isOptionalList(value)}
-	<GridListCell {colindex} {value} {onChange} {column} on:mousedown />
+	<GridListCell
+		{selected}
+		{rowindex}
+		{colindex}
+		{value}
+		{onChange}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {:else}
-	<GridCell {colindex} {column} on:mousedown />
+	<GridCell
+		{rowindex}
+		{selected}
+		{colindex}
+		{column}
+		on:mousedown
+		on:navigate
+	/>
 {/if}

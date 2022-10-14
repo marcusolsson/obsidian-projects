@@ -1,4 +1,4 @@
-import type { App, TFile } from "obsidian";
+import type { App } from "obsidian";
 import { DataviewApi, getAPI, isPluginEnabled } from "obsidian-dataview";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import { get } from "svelte/store";
@@ -32,7 +32,7 @@ export class DataviewDataSource extends DataSource {
 		this.app = app;
 	}
 
-	async queryOne(_: TFile): Promise<DataFrame> {
+	async queryOne(): Promise<DataFrame> {
 		return this.queryAll();
 	}
 

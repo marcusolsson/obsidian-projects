@@ -49,9 +49,8 @@
 		change: string;
 		open: void;
 		close: void;
+		blur: FocusEvent;
 	}>();
-
-	$: dispatch("change", value);
 
 	$: if (open) {
 		dispatch("open");
@@ -76,9 +75,10 @@
 	{autoFocus}
 	{embed}
 	on:focus={() => (open = true)}
-	on:blur={() => {
+	on:blur={(event) => {
 		open = false;
 		dispatch("change", value);
+		dispatch("blur", event);
 	}}
 	on:input={() => (open = true)}
 	on:keydown={(event) => {
@@ -87,18 +87,16 @@
 				case "ArrowUp":
 					const prev = selected - 1;
 					selected = prev < 0 ? filteredOptions.length - 1 : prev;
-					event.preventDefault();
+					event.stopPropagation();
 					break;
 				case "ArrowDown":
 					const next = selected + 1;
 					selected = next > filteredOptions.length - 1 ? 0 : next;
-					event.preventDefault();
+					event.stopPropagation();
 					break;
 				case "Enter":
 					value = filteredOptions[selected]?.label ?? value;
 					willClose = true;
-					dispatch("change", value);
-					event.preventDefault();
 					break;
 			}
 		}

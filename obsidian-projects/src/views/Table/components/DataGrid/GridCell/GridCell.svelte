@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { useClickOutside } from "obsidian-svelte";
+	import { createEventDispatcher } from "svelte";
 	import type { GridColDef } from "../data-grid";
 
 	import Resizer from "./Resizer.svelte";
@@ -10,6 +11,7 @@
 	export let onResize: (width: number) => void = () => {};
 	export let onFinalizeResize: (width: number) => void = () => {};
 	export let column: GridColDef;
+	export let rowindex: number;
 	export let colindex: number;
 	export let columnHeader: boolean = false;
 	export let rowHeader: boolean = false;
@@ -20,9 +22,19 @@
 	export let onCut: () => void = () => {};
 	export let onPaste: () => void = () => {};
 
+	const dispatch = createEventDispatcher<{ navigate: [number, number] }>();
+
 	let hover: boolean = false;
 
 	let ref: HTMLDivElement;
+
+	$: if (selected && ref) {
+		ref.focus();
+		ref.scrollIntoView({
+			block: "nearest",
+			inline: "nearest",
+		});
+	}
 
 	function handleClick(event: Event) {
 		if (!column.header && !columnHeader && !rowHeader) {
@@ -34,7 +46,7 @@
 			onEditChange(true);
 		}
 	}
-	function handleKeyPress(event: KeyboardEvent) {
+	function handleKeyDown(event: KeyboardEvent) {
 		if (event.metaKey || event.ctrlKey) {
 			switch (event.key) {
 				case "c":
@@ -61,6 +73,30 @@
 				onEditChange(false);
 				ref.focus();
 				break;
+			case "ArrowLeft":
+				dispatch("navigate", [colindex - 1, rowindex]);
+				event.preventDefault();
+				break;
+			case "ArrowRight":
+				dispatch("navigate", [colindex + 1, rowindex]);
+				event.preventDefault();
+				break;
+			case "ArrowUp":
+				dispatch("navigate", [colindex, rowindex - 1]);
+				event.preventDefault();
+				break;
+			case "ArrowDown":
+				dispatch("navigate", [colindex, rowindex + 1]);
+				event.preventDefault();
+				break;
+			case "Tab":
+				if (event.shiftKey) {
+					dispatch("navigate", [colindex - 1, rowindex]);
+				} else {
+					dispatch("navigate", [colindex + 1, rowindex]);
+				}
+				event.preventDefault();
+				break;
 		}
 	}
 
@@ -70,13 +106,11 @@
 		if (
 			event.currentTarget instanceof HTMLDivElement &&
 			event.relatedTarget instanceof HTMLElement &&
-			event.currentTarget.contains(event.relatedTarget)
+			!event.currentTarget.contains(event.relatedTarget)
 		) {
-			return;
+			selected = false;
+			onEditChange(false);
 		}
-
-		onEditChange(false);
-		selected = false;
 	}
 
 	function role() {
@@ -111,7 +145,7 @@
 		selected = true;
 	}}
 	on:blur={handleBlur}
-	on:keydown={handleKeyPress}
+	on:keydown={handleKeyDown}
 	use:useClickOutside={() => {
 		onEditChange(false);
 		selected = false;

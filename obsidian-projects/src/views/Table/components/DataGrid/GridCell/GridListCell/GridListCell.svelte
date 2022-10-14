@@ -6,10 +6,12 @@
 	export let value: string[] | undefined;
 	export let onChange: (values: string[]) => void;
 	export let column: GridColDef;
+	export let rowindex: number;
 	export let colindex: number;
+	export let selected: boolean;
 </script>
 
-<GridCell {colindex} {column} on:mousedown>
+<GridCell {selected} {rowindex} {colindex} {column} on:mousedown on:navigate>
 	<TagList slot="read" edit={false} values={value ?? []} />
 	<TagList slot="edit" edit={true} values={value ?? []} {onChange} />
 </GridCell>

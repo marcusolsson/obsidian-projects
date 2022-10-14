@@ -157,8 +157,9 @@
 			).open();
 		}}
 		onColumnDelete={(field) => api.deleteField(field)}
-		onRowChange={(rowId, row) =>
-			api.updateRecord({ id: rowId, values: row }, fields)}
+		onRowChange={(rowId, row) => {
+			api.updateRecord({ id: rowId, values: row }, fields);
+		}}
 		onColumnResize={handleWidthChange}
 		onRowNavigate={(rowId, row, openNew) =>
 			$app.workspace.openLinkText(rowId, "", openNew)}

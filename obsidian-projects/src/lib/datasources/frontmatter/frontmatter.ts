@@ -22,8 +22,8 @@ export class FrontMatterDataSource extends DataSource {
 		this.app = app;
 	}
 
-	async queryOne(file: TFile): Promise<DataFrame> {
-		return this.queryFiles([file]);
+	async queryOne(file: TFile, fields: DataField[]): Promise<DataFrame> {
+		return this.queryFiles([file], fields);
 	}
 
 	async queryAll(): Promise<DataFrame> {
@@ -34,12 +34,25 @@ export class FrontMatterDataSource extends DataSource {
 		return this.queryFiles(files);
 	}
 
-	async queryFiles(files: TFile[]) {
+	async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
 		const standardizedRecords = standardizeRecords(
 			files,
 			this.app.metadataCache
 		);
-		const fields = detectSchema(standardizedRecords);
+		let fields = detectSchema(standardizedRecords);
+
+		for (let predefinedField of predefinedFields ?? []) {
+			const currentFieldIdx = fields.findIndex(
+				(field) => field.name === predefinedField.name
+			);
+
+			if (currentFieldIdx >= 0) {
+				if (fields[currentFieldIdx]) {
+					fields[currentFieldIdx]!.type = predefinedField.type;
+				}
+			}
+		}
+
 		const records = parseRecords(standardizedRecords, fields);
 
 		return { fields, records };

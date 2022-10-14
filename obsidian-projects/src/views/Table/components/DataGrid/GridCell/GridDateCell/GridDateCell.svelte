@@ -8,12 +8,16 @@
 	export let value: Date | undefined;
 	export let onChange: (value: Date) => void;
 	export let column: GridColDef;
+	export let rowindex: number;
 	export let colindex: number;
+	export let selected: boolean;
 
 	let edit = false;
 </script>
 
 <GridCell
+	{selected}
+	{rowindex}
 	{colindex}
 	{edit}
 	onEditChange={(mode) => {
@@ -21,6 +25,7 @@
 	}}
 	{column}
 	on:mousedown
+	on:navigate
 	onCopy={() => {
 		if (value) {
 			navigator.clipboard.writeText(value.toLocaleDateString());

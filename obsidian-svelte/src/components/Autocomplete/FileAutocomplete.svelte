@@ -41,6 +41,7 @@
 	bind:value
 	bind:options
 	on:change
+	on:blur
 	{readonly}
 	{placeholder}
 	{width}

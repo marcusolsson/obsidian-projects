@@ -36,6 +36,7 @@
 <GridCellGroup index={1} header>
 	<GridCell
 		colindex={1}
+		rowindex={1}
 		column={{ field: "", width: 60, header: true, editable: false }}
 		columnHeader
 		rowHeader
@@ -43,6 +44,7 @@
 	{#each columns as column, i}
 		<GridCell
 			colindex={i + 2}
+			rowindex={1}
 			{column}
 			resizable
 			onResize={(width) => {

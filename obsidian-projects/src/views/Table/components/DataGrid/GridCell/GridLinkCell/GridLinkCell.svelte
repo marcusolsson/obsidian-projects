@@ -15,7 +15,9 @@
 	export let value: Link | undefined;
 	export let onChange: (value: Link | undefined) => void;
 	export let column: GridColDef;
+	export let rowindex: number;
 	export let colindex: number;
+	export let selected: boolean;
 
 	const sourcePath = getContext<string>("sourcePath");
 
@@ -23,11 +25,14 @@
 </script>
 
 <GridCell
+	{selected}
+	{rowindex}
 	{colindex}
 	{edit}
 	onEditChange={(value) => (edit = value)}
 	{column}
 	on:mousedown
+	on:navigate
 >
 	<svelte:fragment slot="read">
 		{#if isOptionalLink(value)}
@@ -43,6 +48,9 @@
 				embed
 				autoFocus
 				width="100%"
+				on:blur={() => {
+					edit = false;
+				}}
 				on:change={({ detail: linkText }) => {
 					onChange(
 						linkText

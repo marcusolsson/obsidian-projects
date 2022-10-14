@@ -100,8 +100,10 @@ export abstract class DataSource {
 
 	/**
 	 * queryOne returns a DataFrame with a single record for the given file.
+	 *
+	 * @param fields contains existing fields, to be able to parse file into the existing schema.
 	 */
-	abstract queryOne(file: TFile): Promise<DataFrame>;
+	abstract queryOne(file: TFile, fields: DataField[]): Promise<DataFrame>;
 
 	/**
 	 * includes returns whether a path belongs to the current project.

@@ -8,10 +8,11 @@
 	export let value: number | undefined;
 	export let onChange: (value: number | undefined) => void;
 	export let column: GridColDef;
+	export let rowindex: number;
 	export let colindex: number;
+	export let selected: boolean;
 
 	let edit: boolean = false;
-	let selected: boolean = false;
 </script>
 
 <GridCell
@@ -19,6 +20,8 @@
 	bind:selected
 	{column}
 	on:mousedown
+	on:navigate
+	{rowindex}
 	{colindex}
 	onCopy={() => {
 		navigator.clipboard.writeText(value?.toString() ?? "");
