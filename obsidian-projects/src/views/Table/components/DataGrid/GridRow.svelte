@@ -79,19 +79,20 @@
 	}
 </script>
 
-<GridCellGroup on:mouseover={handleHoverLink}>
+<GridCellGroup on:mouseover={handleHoverLink} {index}>
 	<GridCell
+		colindex={1}
 		column={{ field: "", header: true, width: 60, editable: false }}
-		columnHeader
 		rowHeader
 		on:mousedown={handleHeaderClick()}
 	>
-		<TextLabel slot="read" value={index.toString()} />
+		<TextLabel slot="read" value={(index - 1).toString()} />
 		<IconButton slot="hover" icon="link" size="sm" on:click={onNavigate} />
 	</GridCell>
 
-	{#each columns as column}
+	{#each columns as column, i}
 		<GridTypedCell
+			colindex={i + 2}
 			value={row[column.field]}
 			{column}
 			onChange={(value) => {

@@ -8,11 +8,13 @@
 	export let value: Date | undefined;
 	export let onChange: (value: Date) => void;
 	export let column: GridColDef;
+	export let colindex: number;
 
 	let edit = false;
 </script>
 
 <GridCell
+	{colindex}
 	{edit}
 	onEditChange={(mode) => {
 		edit = mode;

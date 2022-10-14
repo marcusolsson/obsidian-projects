@@ -22,20 +22,21 @@
 	export let value: DataValue;
 	export let onChange: (value: DataValue) => void;
 	export let column: GridColDef;
+	export let colindex: number;
 </script>
 
 {#if column.type === "string" && isOptionalString(value)}
-	<GridTextCell {value} {onChange} {column} on:mousedown />
+	<GridTextCell {colindex} {value} {onChange} {column} on:mousedown />
 {:else if column.type === "boolean" && isOptionalBoolean(value)}
-	<GridBooleanCell {value} {onChange} {column} on:mousedown />
+	<GridBooleanCell {colindex} {value} {onChange} {column} on:mousedown />
 {:else if column.type === "number" && isOptionalNumber(value)}
-	<GridNumberCell {value} {onChange} {column} on:mousedown />
+	<GridNumberCell {colindex} {value} {onChange} {column} on:mousedown />
 {:else if column.type === "date" && isOptionalDate(value)}
-	<GridDateCell {value} {onChange} {column} on:mousedown />
+	<GridDateCell {colindex} {value} {onChange} {column} on:mousedown />
 {:else if column.type === "link" && isOptionalLink(value)}
-	<GridLinkCell {value} {onChange} {column} on:mousedown />
+	<GridLinkCell {colindex} {value} {onChange} {column} on:mousedown />
 {:else if column.type === "list" && isOptionalList(value)}
-	<GridListCell {value} {onChange} {column} on:mousedown />
+	<GridListCell {colindex} {value} {onChange} {column} on:mousedown />
 {:else}
-	<GridCell {column} on:mousedown />
+	<GridCell {colindex} {column} on:mousedown />
 {/if}

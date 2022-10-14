@@ -8,6 +8,7 @@
 	export let value: number | undefined;
 	export let onChange: (value: number | undefined) => void;
 	export let column: GridColDef;
+	export let colindex: number;
 
 	let edit: boolean = false;
 	let selected: boolean = false;
@@ -18,6 +19,7 @@
 	bind:selected
 	{column}
 	on:mousedown
+	{colindex}
 	onCopy={() => {
 		navigator.clipboard.writeText(value?.toString() ?? "");
 	}}

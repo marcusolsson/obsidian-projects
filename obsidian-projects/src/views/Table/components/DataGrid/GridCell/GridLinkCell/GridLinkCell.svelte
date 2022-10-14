@@ -15,13 +15,20 @@
 	export let value: Link | undefined;
 	export let onChange: (value: Link | undefined) => void;
 	export let column: GridColDef;
+	export let colindex: number;
 
 	const sourcePath = getContext<string>("sourcePath");
 
 	let edit = false;
 </script>
 
-<GridCell {edit} onEditChange={(value) => (edit = value)} {column} on:mousedown>
+<GridCell
+	{colindex}
+	{edit}
+	onEditChange={(value) => (edit = value)}
+	{column}
+	on:mousedown
+>
 	<svelte:fragment slot="read">
 		{#if isOptionalLink(value)}
 			<LinkLabel {value} />

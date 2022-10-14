@@ -7,9 +7,10 @@
 	export let value: boolean | undefined;
 	export let onChange: (value: boolean) => void;
 	export let column: GridColDef;
+	export let colindex: number;
 </script>
 
-<GridCell {column} on:mousedown>
+<GridCell {colindex} {column} on:mousedown>
 	<svelte:fragment slot="read">
 		{#if isBoolean(value)}
 			<Switch

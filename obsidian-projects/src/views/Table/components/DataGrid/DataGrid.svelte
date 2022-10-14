@@ -140,7 +140,11 @@
 	}
 </script>
 
-<div>
+<div
+	role="grid"
+	aria-colcount={sortedColumns.length + 1}
+	aria-rowcount={sortedRows.length + 2}
+>
 	<GridHeader
 		columns={sortedColumns}
 		onResize={(name, width) => {
@@ -156,7 +160,7 @@
 	{#each sortedRows as { rowId, row }, i}
 		<GridRow
 			columns={sortedColumns}
-			index={i + 1}
+			index={i + 2}
 			{rowId}
 			{row}
 			{onRowChange}
@@ -167,7 +171,7 @@
 				onRowNavigate(rowId, row, event.ctrlKey || event.metaKey)}
 		/>
 	{/each}
-	<GridCellGroup>
+	<GridCellGroup index={sortedRows.length + 2}>
 		<span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
 			{#if !readonly}
 				<Button variant="plain" on:click={() => onRowAdd()}>

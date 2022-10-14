@@ -33,14 +33,16 @@
 	}
 </script>
 
-<GridCellGroup header>
+<GridCellGroup index={1} header>
 	<GridCell
+		colindex={1}
 		column={{ field: "", width: 60, header: true, editable: false }}
 		columnHeader
 		rowHeader
 	/>
-	{#each columns as column}
+	{#each columns as column, i}
 		<GridCell
+			colindex={i + 1}
 			{column}
 			resizable
 			onResize={(width) => {

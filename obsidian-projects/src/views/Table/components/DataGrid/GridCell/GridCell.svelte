@@ -10,6 +10,7 @@
 	export let onResize: (width: number) => void = () => {};
 	export let onFinalizeResize: (width: number) => void = () => {};
 	export let column: GridColDef;
+	export let colindex: number;
 	export let columnHeader: boolean = false;
 	export let rowHeader: boolean = false;
 	export let onEditChange: (value: boolean) => void = (value: boolean) => {
@@ -77,10 +78,23 @@
 		onEditChange(false);
 		selected = false;
 	}
+
+	function role() {
+		if (columnHeader) {
+			return "columnheader";
+		} else if (rowHeader) {
+			return "rowheader";
+		} else {
+			return "gridcell";
+		}
+	}
 </script>
 
 <div
 	bind:this={ref}
+	role={role()}
+	aria-selected={selected}
+	aria-colindex={colindex}
 	class:columnHeader
 	class:header={column.header}
 	class:selected
@@ -170,5 +184,9 @@
 		left: 0px;
 		justify-content: center;
 		z-index: 1;
+		background-color: var(--background-secondary);
+		font-weight: 500;
+		text-align: center;
+		padding: 0 4px;
 	}
 </style>
