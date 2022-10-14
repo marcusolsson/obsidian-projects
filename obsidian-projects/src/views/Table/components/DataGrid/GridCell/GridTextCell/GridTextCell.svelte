@@ -40,6 +40,7 @@
 		slot="edit"
 		value={value || ""}
 		embed
+		width="100%"
 		on:input={({ detail }) => (value = detail)}
 		on:blur={(event) => {
 			if (

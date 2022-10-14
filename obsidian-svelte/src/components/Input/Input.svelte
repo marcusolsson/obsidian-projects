@@ -91,7 +91,6 @@
 		all: unset;
 		background-color: var(--background-primary);
 		box-sizing: border-box;
-		width: 100%;
 		padding: 6px;
 		font-weight: 400;
 		font-family: var(--font-default);
