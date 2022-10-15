@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Checkbox from "obsidian-svelte/src/components/Checkbox/Checkbox.svelte";
+	import { Checkbox } from "obsidian-svelte";
 
 	export let name: string;
 	export let checked: boolean | null | undefined = undefined;

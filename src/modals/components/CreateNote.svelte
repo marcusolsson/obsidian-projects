@@ -10,7 +10,7 @@
 		ModalContent,
 		ModalLayout,
 	} from "obsidian-svelte";
-	import Callout from "obsidian-svelte/src/components/Callout/Callout.svelte";
+	import { Callout } from "obsidian-svelte";
 
 	import { i18n } from "../../lib/stores/i18n";
 	import { app } from "../../lib/stores/obsidian";

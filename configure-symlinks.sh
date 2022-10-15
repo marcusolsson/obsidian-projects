@@ -12,6 +12,6 @@ PROJECTS_PATH="$PLUGINS_PATH"/obsidian-projects
 
 mkdir -p "$PROJECTS_PATH"
 
-ln -sf "$(pwd)"/obsidian-projects/main.js "$PROJECTS_PATH"
-ln -sf "$(pwd)"/obsidian-projects/styles.css "$PROJECTS_PATH"
+ln -sf "$(pwd)"/main.js "$PROJECTS_PATH"
+ln -sf "$(pwd)"/styles.css "$PROJECTS_PATH"
 ln -sf "$(pwd)"/manifest.json "$PROJECTS_PATH"
