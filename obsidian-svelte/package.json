@@ -1,6 +1,0 @@
-{
-	"name": "obsidian-svelte",
-	"version": "0.0.9",
-	"main": "src/index.ts",
-	"types": "src/index.ts"
-}

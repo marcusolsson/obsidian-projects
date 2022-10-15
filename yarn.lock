@@ -3096,6 +3096,11 @@ obsidian-dataview@^0.5.46:
     parsimmon "^1.18.0"
     preact "^10.6.5"
 
+obsidian-svelte@0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/obsidian-svelte/-/obsidian-svelte-0.0.9.tgz#2627591b3328e7df7170422e4bb32db84429b5be"
+  integrity sha512-s8RCm0j/BPnspzzqGC8eM6VUcZSFZefnSh4l3/UQap7ijMG2rXcIDcQwm72HL9vbWI4PMPCG9FGfbpNVi8MEUg==
+
 obsidian@latest:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-0.16.3.tgz#137b7e91f949517a1bc817b1d7ef9b8aefb219bc"
