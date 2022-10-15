@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Builder, type ProjectView } from "../../builder";
+	import { Builder } from "../../builder";
 	import type { DataFrame } from "../../lib/data";
 	import { customViews, customViewsV2 } from "../../lib/stores/custom-views";
 
@@ -13,7 +13,7 @@
 
 	let builder = new Builder();
 
-	$: viewBuilder = $customViews[type] ?? ((view: ProjectView) => {});
+	$: viewBuilder = $customViews[type] ?? (() => {});
 	$: {
 		builder = new Builder();
 		viewBuilder(builder);

@@ -36,12 +36,12 @@
 		});
 	}
 
-	function handleClick(event: Event) {
+	function handleClick() {
 		if (!column.header && !columnHeader && !rowHeader) {
 			selected = true;
 		}
 	}
-	function handleDoubleClick(event: Event) {
+	function handleDoubleClick() {
 		if (!column.header && !columnHeader && !rowHeader) {
 			onEditChange(true);
 		}

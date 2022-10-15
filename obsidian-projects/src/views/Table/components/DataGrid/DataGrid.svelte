@@ -2,7 +2,6 @@
 	import produce from "immer";
 
 	import { Menu } from "obsidian";
-	import type { DataValue } from "../../../../lib/data";
 	import GridHeader from "./GridHeader.svelte";
 
 	import { i18n } from "../../../../lib/stores/i18n";
@@ -31,11 +30,7 @@
 	export let onColumnResize: (field: string, width: number) => void;
 	export let onRowAdd: () => void;
 	export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
-	export let onRowNavigate: (
-		rowId: GridRowId,
-		row: GridRowModel,
-		openNew: boolean
-	) => void;
+	export let onRowNavigate: (rowId: GridRowId, openNew: boolean) => void;
 	export let onColumnRename: (field: string) => void;
 	export let onColumnDelete: (field: string) => void;
 	export let onColumnHide: (column: GridColDef) => void;
@@ -118,8 +113,7 @@
 	function createCellMenu(
 		rowId: GridRowId,
 		row: GridRowModel,
-		column: GridColDef,
-		value: DataValue
+		column: GridColDef
 	) {
 		const menu = new Menu();
 
@@ -172,10 +166,9 @@
 			{activeCell}
 			{onRowChange}
 			onRowMenu={(rowId, row) => createRowMenu(rowId, row)}
-			onCellMenu={(rowId, column, value) =>
-				createCellMenu(rowId, row, column, value)}
+			onCellMenu={(rowId, column) => createCellMenu(rowId, row, column)}
 			onNavigate={(event) =>
-				onRowNavigate(rowId, row, event.ctrlKey || event.metaKey)}
+				onRowNavigate(rowId, event.ctrlKey || event.metaKey)}
 			on:navigate={({ detail: cell }) => {
 				activeCell = [
 					clamp(cell[0], 2, sortedColumns.length + 1),

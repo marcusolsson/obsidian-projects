@@ -161,7 +161,7 @@
 			api.updateRecord({ id: rowId, values: row }, fields);
 		}}
 		onColumnResize={handleWidthChange}
-		onRowNavigate={(rowId, row, openNew) =>
+		onRowNavigate={(rowId, openNew) =>
 			$app.workspace.openLinkText(rowId, "", openNew)}
 		sortModel={{
 			field: config?.sortField ?? "name",
