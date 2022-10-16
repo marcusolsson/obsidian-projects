@@ -1,9 +1,5 @@
-<script lang="ts">
-	export let name: string;
-</script>
-
 <div on:click>
-	{name}
+	<slot />
 </div>
 
 <style>

@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Button, Typography } from "obsidian-svelte";
+	import { Button, InternalLink, Typography } from "obsidian-svelte";
 	import path from "path";
 	import { i18n } from "../../lib/stores/i18n";
+	import { app } from "../../lib/stores/obsidian";
 
 	import { isNumber, type DataRecord } from "../../lib/data";
 	import Card from "./Card.svelte";
@@ -45,10 +46,28 @@
 			<div class="column-section">
 				<CardList>
 					{#each prioritized as record}
-						<Card
-							name={getDisplayName(record)}
-							on:click={() => onRecordClick(record)}
-						/>
+						<Card on:click={() => onRecordClick(record)}>
+							<InternalLink
+								linkText={record.id}
+								sourcePath=""
+								resolved
+								on:open={({
+									detail: { linkText, sourcePath, newLeaf },
+								}) => {
+									if (newLeaf) {
+										$app.workspace.openLinkText(
+											linkText,
+											sourcePath,
+											newLeaf
+										);
+									} else {
+										onRecordClick(record);
+									}
+								}}
+							>
+								{getDisplayName(record)}
+							</InternalLink>
+						</Card>
 					{/each}
 				</CardList>
 			</div>
@@ -58,10 +77,28 @@
 				<p>{$i18n.t("views.board.unprioritized")}</p>
 				<CardList>
 					{#each unprioritized as record}
-						<Card
-							name={getDisplayName(record)}
-							on:click={() => onRecordClick(record)}
-						/>
+						<Card on:click={() => onRecordClick(record)}>
+							<InternalLink
+								linkText={record.id}
+								sourcePath=""
+								resolved
+								on:open={({
+									detail: { linkText, sourcePath, newLeaf },
+								}) => {
+									if (newLeaf) {
+										$app.workspace.openLinkText(
+											linkText,
+											sourcePath,
+											newLeaf
+										);
+									} else {
+										onRecordClick(record);
+									}
+								}}
+							>
+								{getDisplayName(record)}
+							</InternalLink>
+						</Card>
 					{/each}
 				</CardList>
 			</div>
@@ -70,10 +107,28 @@
 		<div class="column-section">
 			<CardList>
 				{#each records as record}
-					<Card
-						name={getDisplayName(record)}
-						on:click={() => onRecordClick(record)}
-					/>
+					<Card on:click={() => onRecordClick(record)}>
+						<InternalLink
+							linkText={record.id}
+							sourcePath=""
+							resolved
+							on:open={({
+								detail: { linkText, sourcePath, newLeaf },
+							}) => {
+								if (newLeaf) {
+									$app.workspace.openLinkText(
+										linkText,
+										sourcePath,
+										newLeaf
+									);
+								} else {
+									onRecordClick(record);
+								}
+							}}
+						>
+							{getDisplayName(record)}
+						</InternalLink>
+					</Card>
 				{/each}
 			</CardList>
 		</div>

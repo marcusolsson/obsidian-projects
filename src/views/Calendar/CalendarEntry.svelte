@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Checkbox } from "obsidian-svelte";
 
-	export let name: string;
 	export let checked: boolean | null | undefined = undefined;
 
 	let hover: boolean = false;
@@ -19,7 +18,9 @@
 	{:else if checked === null && hover}
 		<Checkbox checked={false} on:check />
 	{/if}
-	{name}
+	<span>
+		<slot />
+	</span>
 </div>
 
 <style>
@@ -30,11 +31,17 @@
 		padding: 0.2em 0.4em;
 		font-size: var(--font-ui-small);
 		width: 100%;
-		display: flex;
-		align-items: center;
+		display: grid;
+		grid-template-columns: auto 1fr;
 	}
 
 	div:hover {
-		background-color: var(--background-modifier-hover);
+		border: 1px solid var(--background-modifier-border-hover);
+	}
+
+	span {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 </style>

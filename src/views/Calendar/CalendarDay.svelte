@@ -7,8 +7,10 @@
 	import CalendarEntry from "./CalendarEntry.svelte";
 	import { TableCell } from "./components/Table";
 	import { i18n } from "../../lib/stores/i18n";
+	import { app } from "../../lib/stores/obsidian";
 	import path from "path";
 	import { Menu } from "obsidian";
+	import { InternalLink } from "obsidian-svelte";
 
 	export let date: dayjs.Dayjs;
 	export let records: Array<[number, DataRecord]>;
@@ -52,7 +54,6 @@
 		{#each records as recordPair}
 			{#if getDisplayName(recordPair[1])}
 				<CalendarEntry
-					name={getDisplayName(recordPair[1])}
 					checked={checkField !== undefined
 						? asOptionalBoolean(recordPair[1].values[checkField])
 						: undefined}
@@ -70,7 +71,28 @@
 					on:click={() => {
 						onEntryClick(recordPair[0]);
 					}}
-				/>
+				>
+					<InternalLink
+						linkText={recordPair[1].id}
+						sourcePath=""
+						resolved
+						on:open={({
+							detail: { linkText, sourcePath, newLeaf },
+						}) => {
+							if (newLeaf) {
+								$app.workspace.openLinkText(
+									linkText,
+									sourcePath,
+									newLeaf
+								);
+							} else {
+								onEntryClick(recordPair[0]);
+							}
+						}}
+					>
+						{getDisplayName(recordPair[1])}
+					</InternalLink>
+				</CalendarEntry>
 			{/if}
 		{/each}
 	</div>
