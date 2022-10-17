@@ -80,6 +80,7 @@
 
 	{#if editing}
 		<TextInput
+			noPadding
 			embed
 			bind:ref={inputRef}
 			bind:value={label}
