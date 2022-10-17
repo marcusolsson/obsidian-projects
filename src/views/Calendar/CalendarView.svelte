@@ -28,7 +28,6 @@
 		isCalendarInterval,
 		chunkDates,
 		subtractInterval,
-		type CalendarInterval,
 	} from "./calendar";
 
 	import type { ProjectDefinition } from "../../types";
