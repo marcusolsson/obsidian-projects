@@ -22,11 +22,7 @@
 	import { Field } from "src/components/Field";
 	import { ToolBar } from "src/components/ToolBar";
 	import type { ViewApi } from "src/app/view-api";
-
-	interface BoardConfig {
-		groupByField?: string;
-		priorityField?: string;
-	}
+	import type { BoardConfig } from "./types";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;

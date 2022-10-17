@@ -3,6 +3,7 @@
 
 	import { settings } from "../lib/stores/settings";
 	import { app } from "../lib/stores/obsidian";
+	import { i18n } from "../lib/stores/i18n";
 	import { api } from "../lib/stores/api";
 	import { dataFrame, dataSource } from "../lib/stores/dataframe";
 
@@ -15,6 +16,11 @@
 	import View from "./View.svelte";
 	import { ViewApi } from "./view-api";
 	import type { App } from "obsidian";
+	import { onMount } from "svelte";
+	import { OnboardingModal } from "./onboarding/onboarding-modal";
+	import { CreateProjectModal } from "src/modals/create-project-modal";
+	import { createProject } from "src/lib/api";
+	import { createDemoProject } from "./onboarding/demo-project";
 
 	$: projects = $settings.projects;
 
@@ -37,6 +43,26 @@
 	}
 
 	$: viewApi = $dataSource ? new ViewApi($app, $dataSource, $api) : null;
+
+	onMount(() => {
+		if (!projects.length) {
+			new OnboardingModal(
+				$app,
+				() => {
+					new CreateProjectModal(
+						$app,
+						$i18n.t("modals.project.create.title"),
+						$i18n.t("modals.project.create.cta"),
+						settings.addProject,
+						createProject()
+					).open();
+				},
+				() => {
+					createDemoProject($app.vault);
+				}
+			).open();
+		}
+	});
 
 	let querying: Promise<void>;
 

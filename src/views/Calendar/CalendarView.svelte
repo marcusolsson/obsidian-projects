@@ -40,12 +40,7 @@
 	import { HorizontalGroup } from "src/components/HorizontalGroup";
 	import { Field } from "src/components/Field";
 	import type { ViewApi } from "src/app/view-api";
-
-	interface CalendarConfig {
-		interval?: CalendarInterval;
-		dateField?: string;
-		checkField?: string;
-	}
+	import type { CalendarConfig } from "./types";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;
