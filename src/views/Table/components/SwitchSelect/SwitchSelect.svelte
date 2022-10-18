@@ -19,7 +19,7 @@
 	{label}
 </div>
 
-<Menu anchorEl={ref} open={isOpen} on:close={() => (isOpen = false)}>
+<Menu anchorEl={ref} open={isOpen} onClose={() => (isOpen = false)}>
 	{#each items as { label, value, enabled }}
 		<MenuItem
 			{label}
