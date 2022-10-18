@@ -140,9 +140,9 @@
 <div class="projects-container">
 	<Toolbar
 		{projects}
-		project={selectedProject?.id}
+		projectId={selectedProject?.id}
 		onProjectChange={(projectId) => handleProjectChange(projectId)}
-		view={selectedView?.id}
+		viewId={selectedView?.id}
 		onViewChange={(viewId) => handleViewChange(viewId)}
 	/>
 
