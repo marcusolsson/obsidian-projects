@@ -195,7 +195,7 @@
 
 	.selected {
 		box-shadow: 0 0 0 3px var(--interactive-accent);
-		z-index: 9;
+		z-index: 4;
 		padding: 0;
 	}
 
@@ -211,13 +211,12 @@
 		background-color: var(--background-secondary);
 		position: sticky;
 		left: 60px;
-		/* z-index: 10; */
 	}
 
 	.rowHeader {
 		left: 0px;
 		justify-content: center;
-		z-index: 1;
+		z-index: 5;
 		background-color: var(--background-secondary);
 		font-weight: 500;
 		text-align: center;

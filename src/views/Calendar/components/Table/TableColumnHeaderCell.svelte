@@ -30,7 +30,6 @@
 		vertical-align: top;
 		position: sticky !important;
 		top: 0;
-		z-index: 1;
 		padding: 0.3em;
 	}
 
