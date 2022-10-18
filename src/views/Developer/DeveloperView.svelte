@@ -148,7 +148,12 @@
 			<button bind:this={btn1} on:click={() => (btn1Open = !btn1Open)}>
 				Popover
 			</button>
-			<Popover anchorEl={btn1} open={btn1Open} placement="auto">
+			<Popover
+				anchorEl={btn1}
+				open={btn1Open}
+				placement="auto"
+				onClose={() => {}}
+			>
 				<Button variant="primary">Click me</Button>
 			</Popover>
 
