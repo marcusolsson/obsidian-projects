@@ -1,9 +1,9 @@
 import type { App } from "obsidian";
 import { get } from "svelte/store";
-import type { DataApi } from "../lib/api";
-import type { DataField, DataRecord, DataSource } from "../lib/data";
-import { filesFromRecords } from "../lib/obsidian";
-import { dataFrame } from "../lib/stores/dataframe";
+import type { DataApi } from "./api";
+import type { DataField, DataRecord, DataSource } from "./data";
+import { filesFromRecords } from "./obsidian";
+import { dataFrame } from "./stores/dataframe";
 
 /**
  * ViewApi provides an write API for views.

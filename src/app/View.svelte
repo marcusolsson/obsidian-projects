@@ -9,7 +9,7 @@
 	import { CustomView } from "../views/Custom";
 	import { DeveloperView } from "../views/Developer";
 	import { TableView } from "../views/Table";
-	import type { ViewApi } from "./view-api";
+	import type { ViewApi } from "../lib/view-api";
 
 	export let project: ProjectDefinition;
 	export let view: ViewDefinition;

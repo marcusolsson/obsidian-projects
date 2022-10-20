@@ -20,7 +20,7 @@
 	import type { GridConfig } from "./types";
 	import { HorizontalGroup } from "src/components/HorizontalGroup";
 	import { ToolBar } from "src/components/ToolBar";
-	import type { ViewApi } from "src/app/view-api";
+	import type { ViewApi } from "src/lib/view-api";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;

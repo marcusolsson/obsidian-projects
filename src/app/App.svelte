@@ -14,7 +14,7 @@
 
 	import { createProject } from "src/lib/api";
 
-	import { ViewApi } from "./view-api";
+	import { ViewApi } from "../lib/view-api";
 
 	import AppContainer from "./AppContainer.svelte";
 	import View from "./View.svelte";

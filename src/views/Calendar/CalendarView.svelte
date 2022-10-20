@@ -38,7 +38,7 @@
 	import { ToolBar } from "src/components/ToolBar";
 	import { HorizontalGroup } from "src/components/HorizontalGroup";
 	import { Field } from "src/components/Field";
-	import type { ViewApi } from "src/app/view-api";
+	import type { ViewApi } from "src/lib/view-api";
 	import type { CalendarConfig } from "./types";
 
 	export let project: ProjectDefinition;
