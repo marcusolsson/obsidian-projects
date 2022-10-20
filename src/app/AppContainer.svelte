@@ -1,12 +1,16 @@
 <script lang="ts">
 	import type { App } from "obsidian";
-	import type { DataSource } from "src/lib/data";
+
 	import { DataviewDataSource } from "src/lib/datasources/dataview/dataview";
 	import { FrontMatterDataSource } from "src/lib/datasources/frontmatter/frontmatter";
+
 	import { dataSource } from "src/lib/stores/dataframe";
+	import { app } from "src/lib/stores/obsidian";
+
+	import type { DataSource } from "src/lib/data";
 	import type { ProjectDefinition } from "src/types";
-	import Toolbar from "./Toolbar.svelte";
-	import { app } from "../lib/stores/obsidian";
+
+	import Toolbar from "./toolbar/Toolbar.svelte";
 
 	export let projects: ProjectDefinition[];
 
@@ -21,14 +25,15 @@
 		}
 	}
 
+	// resolveDataSource selects the data source to use based on the project
+	// settings.
 	function resolveDataSource(
 		project: ProjectDefinition,
 		app: App
 	): DataSource {
-		if (project.dataview) {
-			return new DataviewDataSource(app, project);
-		}
-		return new FrontMatterDataSource(app, project);
+		return project.dataview
+			? new DataviewDataSource(app, project)
+			: new FrontMatterDataSource(app, project);
 	}
 </script>
 

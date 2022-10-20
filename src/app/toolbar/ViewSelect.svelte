@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { customViews, customViewsV2 } from "src/lib/stores/custom-views";
+	import { Builder } from "src/builder";
+	import type { ViewDefinition } from "src/types";
+
 	import ViewItemList from "./ViewItemList.svelte";
 	import ViewItem from "./ViewItem.svelte";
-	import type { ViewDefinition } from "src/types";
-	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
-	import { Builder } from "../builder";
 
 	export let viewId: string | undefined;
 	export let views: ViewDefinition[];

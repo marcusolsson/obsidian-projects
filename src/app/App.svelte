@@ -1,17 +1,22 @@
 <script lang="ts">
 	import { Callout, Loading, Typography } from "obsidian-svelte";
-	import { createProject } from "src/lib/api";
-	import { CreateProjectModal } from "src/modals/create-project-modal";
 	import { onMount } from "svelte";
-	import { api } from "../lib/stores/api";
-	import { dataFrame, dataSource } from "../lib/stores/dataframe";
-	import { i18n } from "../lib/stores/i18n";
-	import { app } from "../lib/stores/obsidian";
-	import { settings } from "../lib/stores/settings";
-	import AppContainer from "./AppContainer.svelte";
+
+	import { api } from "src/lib/stores/api";
+	import { dataFrame, dataSource } from "src/lib/stores/dataframe";
+	import { i18n } from "src/lib/stores/i18n";
+	import { app } from "src/lib/stores/obsidian";
+	import { settings } from "src/lib/stores/settings";
+
+	import { CreateProjectModal } from "src/modals/create-project-modal";
 	import { createDemoProject } from "./onboarding/demo-project";
 	import { OnboardingModal } from "./onboarding/onboarding-modal";
+
+	import { createProject } from "src/lib/api";
+
 	import { ViewApi } from "./view-api";
+
+	import AppContainer from "./AppContainer.svelte";
 	import View from "./View.svelte";
 
 	$: ({ projects } = $settings);

@@ -3,12 +3,12 @@
 
 	import { customViews, customViewsV2 } from "../lib/stores/custom-views";
 
+	import type { DataFrame } from "../lib/data";
 	import { BoardView } from "../views/Board";
 	import { CalendarView } from "../views/Calendar";
-	import { TableView } from "../views/Table";
 	import { CustomView } from "../views/Custom";
 	import { DeveloperView } from "../views/Developer";
-	import type { DataFrame } from "../lib/data";
+	import { TableView } from "../views/Table";
 	import type { ViewApi } from "./view-api";
 
 	export let project: ProjectDefinition;

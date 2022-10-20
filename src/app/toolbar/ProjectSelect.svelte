@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { Menu } from "obsidian";
 	import { Select, IconButton } from "obsidian-svelte";
-	import { settings } from "src/lib/stores/settings";
+
 	import { ConfirmDialogModal } from "src/modals/confirm-dialog";
 	import { CreateProjectModal } from "src/modals/create-project-modal";
+
+	import { settings } from "src/lib/stores/settings";
+	import { i18n } from "src/lib/stores/i18n";
+	import { app } from "src/lib/stores/obsidian";
+
 	import type { ProjectDefinition } from "src/types";
-	import { i18n } from "../lib/stores/i18n";
-	import { app } from "../lib/stores/obsidian";
 
 	export let projectId: string | undefined;
 	export let projects: ProjectDefinition[];
