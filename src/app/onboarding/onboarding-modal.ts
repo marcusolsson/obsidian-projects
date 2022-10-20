@@ -2,17 +2,15 @@ import { App, Modal } from "obsidian";
 import Onboarding from "./Onboarding.svelte";
 
 export class OnboardingModal extends Modal {
-	// @ts-expect-error
+	// @ts-ignore
 	component: Onboarding;
 
-	onCreate: () => void;
-	onTry: () => void;
-
-	constructor(app: App, onCreate: () => void, onTry: () => void) {
+	constructor(
+		app: App,
+		readonly onCreate: () => void,
+		readonly onTry: () => void
+	) {
 		super(app);
-
-		this.onCreate = onCreate;
-		this.onTry = onTry;
 	}
 
 	onOpen() {

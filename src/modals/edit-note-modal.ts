@@ -3,24 +3,16 @@ import type { DataField, DataRecord } from "../lib/data";
 import EditRecord from "./components/EditNote.svelte";
 
 export class EditNoteModal extends Modal {
-	fields: DataField[];
-	onSave: (record: DataRecord) => void;
-	defaults?: DataRecord | undefined;
-
 	// @ts-ignore
 	component: EditRecord;
 
 	constructor(
 		app: App,
-		fields: DataField[],
-		onSave: (record: DataRecord) => void,
-		defaults?: DataRecord
+		readonly fields: DataField[],
+		readonly onSave: (record: DataRecord) => void,
+		readonly defaults?: DataRecord
 	) {
 		super(app);
-
-		this.defaults = defaults;
-		this.fields = fields;
-		this.onSave = onSave;
 	}
 
 	onOpen() {

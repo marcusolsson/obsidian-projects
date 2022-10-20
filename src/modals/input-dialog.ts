@@ -5,24 +5,14 @@ export class InputDialogModal extends Modal {
 	// @ts-ignore
 	component: InputDialog;
 
-	message: string;
-	cta: string;
-	onSubmit: (value: string) => void;
-	value: string | undefined;
-
 	constructor(
 		app: App,
-		message: string,
-		cta: string,
-		onSubmit: (value: string) => void,
-		value?: string | undefined
+		readonly message: string,
+		readonly cta: string,
+		readonly onSubmit: (value: string) => void,
+		readonly value?: string | undefined
 	) {
 		super(app);
-
-		this.message = message;
-		this.cta = cta;
-		this.onSubmit = onSubmit;
-		this.value = value;
 	}
 
 	onOpen() {

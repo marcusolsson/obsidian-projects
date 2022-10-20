@@ -9,15 +9,12 @@ import type { ProjectView, ProjectViewV2 } from "./builder";
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
 export class ProjectsView extends ItemView {
-	plugin: ProjectsPlugin;
-
 	// @ts-ignore
 	component: App;
 
-	constructor(leaf: WorkspaceLeaf, plugin: ProjectsPlugin) {
+	constructor(leaf: WorkspaceLeaf, readonly plugin: ProjectsPlugin) {
 		super(leaf);
 
-		this.plugin = plugin;
 		this.navigation = true;
 	}
 

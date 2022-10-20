@@ -9,15 +9,11 @@ import { get } from "svelte/store";
  * ViewApi provides an write API for views.
  */
 export class ViewApi {
-	app: App;
-	dataSource: DataSource;
-	dataApi: DataApi;
-
-	constructor(app: App, dataSource: DataSource, dataApi: DataApi) {
-		this.app = app;
-		this.dataSource = dataSource;
-		this.dataApi = dataApi;
-	}
+	constructor(
+		readonly app: App,
+		readonly dataSource: DataSource,
+		readonly dataApi: DataApi
+	) {}
 
 	addRecord(record: DataRecord, templatePath: string) {
 		if (this.dataSource.includes(record.id)) {

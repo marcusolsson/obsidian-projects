@@ -28,11 +28,7 @@ import { nextUniqueProjectName } from "./helpers";
  * DataApi writes records to file.
  */
 export class DataApi {
-	private app: App;
-
-	constructor(app: App) {
-		this.app = app;
-	}
+	constructor(readonly app: App) {}
 
 	async updateRecord(fields: DataField[], record: DataRecord): Promise<void> {
 		const file = this.app.vault.getAbstractFileByPath(record.id);

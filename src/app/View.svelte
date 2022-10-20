@@ -16,7 +16,17 @@
 	export let frame: DataFrame;
 	export let readonly: boolean;
 	export let api: ViewApi;
-	export let onConfigChange: (cfg: Record<string, any>) => void;
+	export let onConfigChange: (
+		projectId: string,
+		viewId: string,
+		cfg: Record<string, any>
+	) => void;
+
+	function handleConfigChange(config: Record<string, any>) {
+		if (project.id && view.id) {
+			onConfigChange(project.id, view.id, config);
+		}
+	}
 
 	$: viewComponent = view ? getViewComponent(view.type) : null;
 
@@ -58,5 +68,5 @@
 	config={view.config}
 	{readonly}
 	{api}
-	{onConfigChange}
+	onConfigChange={handleConfigChange}
 />

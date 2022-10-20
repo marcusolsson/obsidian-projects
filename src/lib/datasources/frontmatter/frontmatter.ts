@@ -14,12 +14,8 @@ import { detectFields, parseRecords } from "../helpers";
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
  */
 export class FrontMatterDataSource extends DataSource {
-	app: App;
-
-	constructor(app: App, project: ProjectDefinition) {
+	constructor(readonly app: App, project: ProjectDefinition) {
 		super(project);
-
-		this.app = app;
 	}
 
 	async queryOne(file: TFile, fields: DataField[]): Promise<DataFrame> {

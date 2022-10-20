@@ -6,24 +6,14 @@ export class CreateProjectModal extends Modal {
 	// @ts-ignore
 	component: CreateProject;
 
-	title: string;
-	cta: string;
-	onSave: (project: ProjectDefinition) => void;
-	defaults: ProjectDefinition;
-
 	constructor(
 		app: App,
-		title: string,
-		cta: string,
-		onSave: (project: ProjectDefinition) => void,
-		defaults: ProjectDefinition
+		readonly title: string,
+		readonly cta: string,
+		readonly onSave: (project: ProjectDefinition) => void,
+		readonly defaults: ProjectDefinition
 	) {
 		super(app);
-
-		this.title = title;
-		this.cta = cta;
-		this.onSave = onSave;
-		this.defaults = defaults;
 	}
 
 	onOpen() {

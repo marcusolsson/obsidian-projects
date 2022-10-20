@@ -11,27 +11,16 @@ export class CreateNoteModal extends Modal {
 	// @ts-ignore
 	component: CreateNote;
 
-	project: ProjectDefinition;
-
-	onSave: (
-		name: string,
-		templatePath: string,
-		project: ProjectDefinition
-	) => void;
-
 	constructor(
 		app: App,
-		project: ProjectDefinition,
-		onSave: (
+		readonly project: ProjectDefinition,
+		readonly onSave: (
 			name: string,
 			templatePath: string,
 			project: ProjectDefinition
 		) => void
 	) {
 		super(app);
-
-		this.onSave = onSave;
-		this.project = project;
 	}
 
 	onOpen() {

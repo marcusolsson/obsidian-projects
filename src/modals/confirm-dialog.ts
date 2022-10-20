@@ -5,24 +5,14 @@ export class ConfirmDialogModal extends Modal {
 	// @ts-ignore
 	component: ConfirmDialog;
 
-	title: string;
-	message: string;
-	cta: string;
-	onConfirm: () => void;
-
 	constructor(
 		app: App,
-		title: string,
-		message: string,
-		cta: string,
-		onConfirm: () => void
+		readonly title: string,
+		readonly message: string,
+		readonly cta: string,
+		readonly onConfirm: () => void
 	) {
 		super(app);
-
-		this.title = title;
-		this.message = message;
-		this.cta = cta;
-		this.onConfirm = onConfirm;
 	}
 
 	onOpen() {

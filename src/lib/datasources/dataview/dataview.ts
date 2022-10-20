@@ -24,12 +24,8 @@ export class UnsupportedCapability extends Error {
  * DataviewDataSource converts Dataview queries to DataFrames.
  */
 export class DataviewDataSource extends DataSource {
-	app: App;
-
-	constructor(app: App, project: ProjectDefinition) {
+	constructor(readonly app: App, project: ProjectDefinition) {
 		super(project);
-
-		this.app = app;
 	}
 
 	async queryOne(): Promise<DataFrame> {
