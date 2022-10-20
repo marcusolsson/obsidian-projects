@@ -124,6 +124,27 @@ function createSettings() {
 				});
 			});
 		},
+		updateView(projectId: string, updatedView: ViewDefinition) {
+			update((state) =>
+				produce(state, (draft) => {
+					draft.projects = draft.projects.map((project) => {
+						if (project.id === projectId) {
+							return {
+								...project,
+								views: project.views.map((view) => {
+									if (view.id === updatedView.id) {
+										return updatedView;
+									}
+									return view;
+								}),
+							};
+						}
+						return project;
+					});
+					return draft;
+				})
+			);
+		},
 		updateViewConfig(
 			projectId: string,
 			viewId: string,

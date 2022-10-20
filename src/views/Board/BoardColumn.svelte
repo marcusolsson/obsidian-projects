@@ -12,6 +12,7 @@
 	export let records: DataRecord[];
 	export let groupByPriority: string | undefined;
 	export let readonly: boolean;
+	export let width: number;
 
 	$: prioritized = getPrioritizedRecords(records);
 	$: unprioritized = getUnprioritizedRecords(records);
@@ -37,7 +38,7 @@
 	}
 </script>
 
-<div class="column">
+<div class="column" style={`width: ${width}px`}>
 	<div class="column-section">
 		<Typography variant="label" nomargin>{name}</Typography>
 	</div>
@@ -149,7 +150,6 @@
 
 <style>
 	.column {
-		min-width: 350px;
 		border: 1px solid var(--background-modifier-border);
 		border-radius: var(--radius-m);
 		background-color: var(--background-secondary);

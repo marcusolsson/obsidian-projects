@@ -13,6 +13,7 @@
 	export let readonly: boolean;
 	export let onRecordClick: (record: DataRecord) => void;
 	export let onRecordAdd: (column: string) => void;
+	export let columnWidth: number;
 </script>
 
 <div>
@@ -24,6 +25,7 @@
 			{groupByPriority}
 			{onRecordClick}
 			onRecordAdd={() => onRecordAdd(column.name)}
+			width={columnWidth}
 		/>
 	{/each}
 </div>

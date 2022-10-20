@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Select } from "obsidian-svelte";
+	import { IconButton, Select } from "obsidian-svelte";
 
 	import {
 		DataFieldType,
@@ -23,6 +23,7 @@
 	import { ToolBar } from "src/components/ToolBar";
 	import type { ViewApi } from "src/app/view-api";
 	import type { BoardConfig } from "./types";
+	import { BoardSettingsModal } from "./settings/settings-modal";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;
@@ -117,6 +118,15 @@
 				allowEmpty
 			/>
 		</Field>
+		<IconButton
+			icon="settings"
+			on:click={() => {
+				new BoardSettingsModal($app, config ?? {}, (value) => {
+					config = value;
+					onConfigChange(value);
+				}).open();
+			}}
+		/>
 	</HorizontalGroup>
 </ToolBar>
 <div>
@@ -138,6 +148,7 @@
 		groupByPriority={priorityField?.name}
 		onRecordClick={handleRecordClick}
 		onRecordAdd={handleRecordAdd}
+		columnWidth={config?.listWidth ?? 270}
 	/>
 </div>
 
