@@ -156,5 +156,6 @@
 	div {
 		background-color: var(--background-primary);
 		overflow: auto;
+		padding: 8px;
 	}
 </style>

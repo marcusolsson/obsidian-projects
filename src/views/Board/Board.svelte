@@ -16,7 +16,9 @@
 	export let columnWidth: number;
 </script>
 
-<div>
+<div
+	style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
+>
 	{#each columns as column (column.name)}
 		<BoardColumn
 			{readonly}
@@ -25,16 +27,14 @@
 			{groupByPriority}
 			{onRecordClick}
 			onRecordAdd={() => onRecordAdd(column.name)}
-			width={columnWidth}
 		/>
 	{/each}
 </div>
 
 <style>
 	div {
-		display: flex;
+		display: grid;
+		column-gap: 8px;
 		align-items: flex-start;
-		gap: 8px;
-		padding: 8px;
 	}
 </style>
