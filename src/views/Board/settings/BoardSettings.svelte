@@ -11,23 +11,26 @@
 	export let config: BoardConfig;
 	export let onSave: (config: BoardConfig) => void;
 
-	let listWidthValue = config.listWidth ?? null;
+	let columnWidthValue = config.columnWidth ?? null;
 </script>
 
 <ModalLayout title="Board settings">
 	<ModalContent>
-		<SettingItem name="List width" description="Width of list in pixels.">
+		<SettingItem
+			name="Column width"
+			description="Width of each column in pixels."
+		>
 			<NumberInput
 				placeholder="270"
-				bind:value={listWidthValue}
+				bind:value={columnWidthValue}
 				on:blur={() =>
 					onSave(
 						produce(config, (draft) => {
-							const { listWidth, ...rest } = draft;
-							if (!listWidthValue) {
+							const { columnWidth, ...rest } = draft;
+							if (!columnWidthValue) {
 								return rest;
 							}
-							return { ...rest, listWidth: listWidthValue };
+							return { ...rest, columnWidth: columnWidthValue };
 						})
 					)}
 			/>

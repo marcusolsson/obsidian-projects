@@ -148,7 +148,7 @@
 		groupByPriority={priorityField?.name}
 		onRecordClick={handleRecordClick}
 		onRecordAdd={handleRecordAdd}
-		columnWidth={config?.listWidth ?? 270}
+		columnWidth={config?.columnWidth ?? 270}
 	/>
 </div>
 
