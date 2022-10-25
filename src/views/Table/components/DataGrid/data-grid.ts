@@ -6,25 +6,25 @@ export type GridRowModel<R extends GridValidRowModel = GridValidRowModel> = R;
 export type GridColType = DataFieldType;
 
 export interface GridColDef {
-	field: string;
-	width?: number;
-	type?: GridColType;
-	hide?: boolean;
-	editable?: boolean;
-	header?: boolean;
-	weight?: number;
+	readonly field: string;
+	readonly width?: number;
+	readonly type?: GridColType;
+	readonly hide?: boolean;
+	readonly editable?: boolean;
+	readonly header?: boolean;
+	readonly weight?: number;
 }
 
 export type GridRowId = string;
 
 export interface GridRowProps {
-	rowId: GridRowId;
-	row: GridRowModel;
+	readonly rowId: GridRowId;
+	readonly row: GridRowModel;
 }
 
 export interface GridSortModel {
-	field: string;
-	sort?: "asc" | "desc";
+	readonly field: string;
+	readonly sort?: "asc" | "desc";
 }
 
 export function fieldIcon(field: DataFieldType): string {

@@ -1,22 +1,22 @@
 export type ViewType = string;
 
 export interface ViewDefinition {
-	name: string;
-	id: string;
-	type: ViewType;
-	config: Record<string, any>;
+	readonly name: string;
+	readonly id: string;
+	readonly type: ViewType;
+	readonly config: Record<string, any>;
 }
 
 export interface WorkspaceDefinitionV0 {
-	name: string;
-	id: string;
-	path: string;
-	recursive: boolean;
-	views: ViewDefinition[];
-	defaultName?: string;
-	templates?: string[];
-	dataview?: boolean;
-	query?: string;
+	readonly name: string;
+	readonly id: string;
+	readonly path: string;
+	readonly recursive: boolean;
+	readonly views: ViewDefinition[];
+	readonly defaultName?: string;
+	readonly templates?: string[];
+	readonly dataview?: boolean;
+	readonly query?: string;
 }
 
 export interface ProjectDefinition extends WorkspaceDefinitionV0 {}

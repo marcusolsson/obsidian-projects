@@ -38,15 +38,11 @@ export class FrontMatterDataSource extends DataSource {
 		let fields = detectSchema(standardizedRecords);
 
 		for (let predefinedField of predefinedFields ?? []) {
-			const currentFieldIdx = fields.findIndex(
-				(field) => field.name === predefinedField.name
+			fields = fields.map((field) =>
+				field.name !== predefinedField.name
+					? field
+					: { ...field, type: predefinedField.type }
 			);
-
-			if (currentFieldIdx >= 0) {
-				if (fields[currentFieldIdx]) {
-					fields[currentFieldIdx]!.type = predefinedField.type;
-				}
-			}
 		}
 
 		const records = parseRecords(standardizedRecords, fields);

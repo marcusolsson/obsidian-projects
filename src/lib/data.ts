@@ -10,12 +10,12 @@ export interface DataFrame {
 	 * fields defines the schema for the data frame. Each field describes the
 	 * values in each DataRecord.
 	 */
-	fields: DataField[];
+	readonly fields: DataField[];
 
 	/**
 	 * records holds the data from each note.
 	 */
-	records: DataRecord[];
+	readonly records: DataRecord[];
 }
 
 /**
@@ -26,17 +26,17 @@ export interface DataField {
 	/**
 	 * name references the a property (key) in the DataRecord values object.
 	 */
-	name: string;
+	readonly name: string;
 
 	/**
 	 * type defines the data type for the field.
 	 */
-	type: DataFieldType;
+	readonly type: DataFieldType;
 
 	/**
 	 * identifier defines whether this field identifies a DataRecord.
 	 */
-	identifier: boolean;
+	readonly identifier: boolean;
 
 	/**
 	 * derived defines whether this field has been derived from another field.
@@ -44,7 +44,7 @@ export interface DataField {
 	 * Since derived fields are computed from other fields, they can't be
 	 * modified.
 	 */
-	derived: boolean;
+	readonly derived: boolean;
 }
 
 export enum DataFieldType {
@@ -58,8 +58,8 @@ export enum DataFieldType {
 }
 
 export interface DataRecord {
-	id: string;
-	values: Record<string, DataValue>;
+	readonly id: string;
+	readonly values: Record<string, DataValue>;
 }
 
 export type DataValue =
@@ -72,10 +72,10 @@ export type DataValue =
 	| undefined;
 
 export interface Link {
-	displayName?: string;
-	linkText: string;
-	fullPath?: string;
-	sourcePath: string;
+	readonly displayName?: string;
+	readonly linkText: string;
+	readonly fullPath?: string;
+	readonly sourcePath: string;
 }
 
 export const emptyDataFrame: DataFrame = {
@@ -87,7 +87,7 @@ export const emptyDataFrame: DataFrame = {
  * DataSource reads data frames from a project.
  */
 export abstract class DataSource {
-	project: ProjectDefinition;
+	readonly project: ProjectDefinition;
 
 	constructor(project: ProjectDefinition) {
 		this.project = project;

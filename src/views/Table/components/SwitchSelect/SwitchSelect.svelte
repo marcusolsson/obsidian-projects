@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Menu, MenuItem } from "obsidian-svelte";
 	interface SwitchItem {
-		label: string;
-		value: string;
-		enabled: boolean;
+		readonly label: string;
+		readonly value: string;
+		readonly enabled: boolean;
 	}
 
 	export let items: SwitchItem[];

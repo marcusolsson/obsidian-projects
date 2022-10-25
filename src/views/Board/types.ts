@@ -1,5 +1,5 @@
 export interface BoardConfig {
-	groupByField?: string;
-	priorityField?: string;
-	listWidth?: number;
+	readonly groupByField?: string;
+	readonly priorityField?: string;
+	readonly listWidth?: number;
 }

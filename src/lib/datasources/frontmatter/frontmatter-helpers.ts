@@ -53,11 +53,7 @@ function parseRawLink(
 				sourcePath,
 			};
 
-			if (split[1]) {
-				link.displayName = split[1];
-			}
-
-			return link;
+			return split[1] ? { ...link, displayName: split[1] } : link;
 		}
 	}
 	return undefined;

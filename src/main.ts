@@ -23,15 +23,15 @@ dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
 export interface ProjectsPluginSettings {
-	lastWorkspaceId?: string | undefined;
-	lastViewId?: string | undefined;
-	workspaces: WorkspaceDefinitionV0[];
+	readonly lastWorkspaceId?: string | undefined;
+	readonly lastViewId?: string | undefined;
+	readonly workspaces: WorkspaceDefinitionV0[];
 }
 export interface ProjectsPluginSettingsV1 {
-	version: number;
-	lastProjectId?: string | undefined;
-	lastViewId?: string | undefined;
-	projects: ProjectDefinition[];
+	readonly version: number;
+	readonly lastProjectId?: string | undefined;
+	readonly lastViewId?: string | undefined;
+	readonly projects: ProjectDefinition[];
 }
 
 export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettingsV1> = {
