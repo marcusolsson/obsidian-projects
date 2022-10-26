@@ -13,7 +13,7 @@
 	import { CreateNoteModal } from "../../modals/create-note-modal";
 	import { InputDialogModal } from "../../modals/input-dialog";
 	import { EditNoteModal } from "../../modals/edit-note-modal";
-	import { createDataRecord } from "../../lib/api";
+	import { createDataRecord } from "../../lib/data-api";
 
 	import type { DataFrame } from "../../lib/data";
 	import type { ProjectDefinition } from "../../types";

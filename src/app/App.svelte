@@ -12,7 +12,7 @@
 	import { createDemoProject } from "./onboarding/demo-project";
 	import { OnboardingModal } from "./onboarding/onboarding-modal";
 
-	import { createProject } from "src/lib/api";
+	import { createProject } from "src/lib/data-api";
 
 	import { ViewApi } from "../lib/view-api";
 

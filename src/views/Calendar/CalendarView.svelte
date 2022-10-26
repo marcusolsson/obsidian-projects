@@ -13,7 +13,7 @@
 	import { HorizontalGroup } from "src/components/HorizontalGroup";
 	import { ToolBar } from "src/components/ToolBar";
 
-	import { createDataRecord } from "src/lib/api";
+	import { createDataRecord } from "src/lib/data-api";
 	import { DataFieldType, type DataFrame } from "src/lib/data";
 	import type { ViewApi } from "src/lib/view-api";
 	import type { ProjectDefinition } from "src/types";

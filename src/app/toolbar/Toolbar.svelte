@@ -11,7 +11,7 @@
 	import { i18n } from "src/lib/stores/i18n";
 	import { settings } from "src/lib/stores/settings";
 
-	import { createDataRecord, createProject } from "src/lib/api";
+	import { createDataRecord, createProject } from "src/lib/data-api";
 
 	import type { ProjectDefinition } from "src/types";
 	import { ConfirmDialogModal } from "src/modals/confirm-dialog";

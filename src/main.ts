@@ -7,7 +7,7 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
-import { createDataRecord, createProject } from "./lib/api";
+import { createDataRecord, createProject } from "./lib/data-api";
 import type { ProjectDefinition, WorkspaceDefinitionV0 } from "./types";
 
 import { registerFileEvents } from "./events";
@@ -158,10 +158,10 @@ export default class ProjectsPlugin extends Plugin {
 
 	// activateView opens the main Projects view in a new workspace leaf.
 	async activateView() {
-		this.app.workspace.revealLeaf(this.getOrCreateLeaf());
+		this.app.workspace.revealLeaf(await this.getOrCreateLeaf());
 	}
 
-	getOrCreateLeaf(): WorkspaceLeaf {
+	async getOrCreateLeaf(): Promise<WorkspaceLeaf> {
 		const existingLeaves =
 			this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
 
@@ -171,7 +171,7 @@ export default class ProjectsPlugin extends Plugin {
 
 		const leaf = this.app.workspace.getLeaf(true);
 
-		leaf.setViewState({
+		await leaf.setViewState({
 			type: VIEW_TYPE_PROJECTS,
 		});
 

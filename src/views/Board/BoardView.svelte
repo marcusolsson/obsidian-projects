@@ -15,7 +15,7 @@
 	import { ToolBar } from "src/components/ToolBar";
 
 	import type { ViewApi } from "src/lib/view-api";
-	import { createDataRecord } from "src/lib/api";
+	import { createDataRecord } from "src/lib/data-api";
 
 	import { CreateNoteModal } from "src/modals/create-note-modal";
 	import { EditNoteModal } from "src/modals/edit-note-modal";
