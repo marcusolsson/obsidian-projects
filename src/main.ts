@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { addIcon, Plugin, TFolder } from "obsidian";
+import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
 
 import "obsidian-dataview";
 import dayjs from "dayjs";
@@ -158,17 +158,23 @@ export default class ProjectsPlugin extends Plugin {
 
 	// activateView opens the main Projects view in a new workspace leaf.
 	async activateView() {
-		this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
+		this.app.workspace.revealLeaf(this.getOrCreateLeaf());
+	}
 
-		await this.app.workspace.getLeaf(true).setViewState({
+	getOrCreateLeaf(): WorkspaceLeaf {
+		const existingLeaves =
+			this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
+
+		if (existingLeaves[0]) {
+			return existingLeaves[0];
+		}
+
+		const leaf = this.app.workspace.getLeaf(true);
+
+		leaf.setViewState({
 			type: VIEW_TYPE_PROJECTS,
-			active: true,
 		});
 
-		const leaves = this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
-
-		if (leaves[0]) {
-			this.app.workspace.revealLeaf(leaves[0]);
-		}
+		return leaf;
 	}
 }
