@@ -21,40 +21,33 @@ function createDataFrame() {
 		set,
 		subscribe,
 		addRecord(record: DataRecord) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.records.push(record);
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		updateRecord(record: DataRecord) {
-			update((state) => {
-				return produce(state, (draft) => {
-					draft.records = draft.records.map((r) => {
-						if (r.id === record.id) {
-							return record;
-						}
-						return r;
-					});
-					return draft;
-				});
-			});
+			update((state) =>
+				produce(state, (draft) => {
+					draft.records = draft.records.map((r) =>
+						r.id === record.id ? record : r
+					);
+				})
+			);
 		},
 		deleteRecord(id: string) {
-			update((state) => {
-				const res = produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.records = draft.records.filter(
 						(record) => record.id !== id
 					);
-					return draft;
-				});
-				return res;
-			});
+				})
+			);
 		},
 		renameField(from: string, to: string) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.fields = draft.fields.map((field) =>
 						field.name === from
 							? {
@@ -63,23 +56,21 @@ function createDataFrame() {
 							  }
 							: field
 					);
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		deleteField(fieldName: string) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.fields = draft.fields.filter(
 						(field) => field.name !== fieldName
 					);
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		merge(frame: DataFrame) {
-			update((existing) => {
-				const frame2 = produce(existing, (draft) => {
+			update((existing) =>
+				produce(existing, (draft) => {
 					// Merge records.
 					const recordSet = Object.fromEntries(
 						existing.records.map((record) => [record.id, record])
@@ -110,12 +101,8 @@ function createDataFrame() {
 							draft.fields.push(newField);
 						}
 					});
-
-					return draft;
-				});
-
-				return frame2;
-			});
+				})
+			);
 		},
 	};
 }

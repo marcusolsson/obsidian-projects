@@ -13,10 +13,15 @@
 	import Toolbar from "./toolbar/Toolbar.svelte";
 
 	export let projects: ProjectDefinition[];
+	export let projectId: string | undefined;
+	export let viewId: string | undefined;
 
-	$: selectedProject = projects[0];
+	$: selectedProject =
+		projects.find((project) => projectId === project.id) || projects[0];
+
 	$: views = selectedProject?.views || [];
-	$: selectedView = views[0];
+
+	$: selectedView = views.find((view) => viewId === view.id) || views[0];
 
 	$: {
 		if (selectedProject) {
@@ -46,17 +51,9 @@
 	<Toolbar
 		{projects}
 		projectId={selectedProject?.id}
-		onProjectChange={(projectId) => {
-			selectedProject =
-				projects.find((project) => project.id === projectId) ||
-				projects[0];
-		}}
+		onProjectChange={(id) => (projectId = id)}
 		viewId={selectedView?.id}
-		onViewChange={(viewId) => {
-			if (views) {
-				selectedView = views.find((v) => v.id === viewId) ?? views[0];
-			}
-		}}
+		onViewChange={(id) => (viewId = id)}
 	/>
 
 	<div class="projects-main">

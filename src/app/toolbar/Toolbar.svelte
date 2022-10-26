@@ -80,7 +80,10 @@
 							$app,
 							$i18n.t("modals.project.create.title"),
 							$i18n.t("modals.project.create.cta"),
-							settings.addProject,
+							(project) => {
+								settings.addProject(project);
+								onProjectChange(project.id);
+							},
 							createProject()
 						).open();
 					});
@@ -97,6 +100,7 @@
 									project,
 									(projectId, view) => {
 										settings.addView(projectId, view);
+										onViewChange(view.id);
 									}
 								).open();
 							}

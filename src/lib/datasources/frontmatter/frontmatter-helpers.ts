@@ -1,9 +1,4 @@
-import {
-	isRawLink,
-	type DataRecord,
-	type DataValue,
-	type Link,
-} from "../../data";
+import { isRawLink, type DataRecord, type Link } from "../../data";
 
 /**
  * standardizeValues converts front matter YAML data to the common DataValue
@@ -13,20 +8,16 @@ export function standardizeRecord(
 	id: string,
 	values: Record<string, any>
 ): DataRecord {
-	const res: Record<string, DataValue> = {};
-
-	Object.keys(values).forEach((field) => {
-		const value = values[field];
-
-		if (isRawLink(value)) {
-			res[field] = parseRawLink(value, "");
-		} else {
-			res[field] = value;
-		}
-	});
 	return {
 		id,
-		values: res,
+		values: Object.fromEntries(
+			Object.entries(values).map(([field, value]) => {
+				return [
+					field,
+					isRawLink(value) ? parseRawLink(value, "") : value,
+				];
+			})
+		),
 	};
 }
 

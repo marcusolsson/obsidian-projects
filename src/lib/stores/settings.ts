@@ -17,45 +17,41 @@ function createSettings() {
 		set,
 		subscribe,
 		saveLayout(projectId?: string, viewId?: string) {
-			update((state) => {
-				return produce(state, (draft) => {
-					(draft.lastProjectId = projectId),
-						(draft.lastViewId = viewId);
-					return draft;
-				});
-			});
+			update((state) =>
+				produce(state, (draft) => {
+					draft.lastProjectId = projectId;
+					draft.lastViewId = viewId;
+				})
+			);
 		},
 		addProject(project: ProjectDefinition) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.projects.push(project);
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		updateProject(project: ProjectDefinition) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.projects = draft.projects.map((w) =>
 						w.id === project.id ? project : w
 					);
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		deleteProject(projectId: string) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					draft.projects = draft.projects.filter(
 						(w) => w.id !== projectId
 					);
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		addView(projectId: string, view: ViewDefinition) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					const idx = draft.projects.findIndex(
 						(ws) => ws.id === projectId
 					);
@@ -71,12 +67,12 @@ function createSettings() {
 					}
 
 					return draft;
-				});
-			});
+				})
+			);
 		},
 		renameView(projectId: string, viewId: string, name: string) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					const idx = draft.projects.findIndex(
 						(p) => p.id === projectId
 					);
@@ -95,14 +91,12 @@ function createSettings() {
 							});
 						}
 					}
-
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		deleteView(projectId: string, viewId: string) {
-			update((state) => {
-				return produce(state, (draft) => {
+			update((state) =>
+				produce(state, (draft) => {
 					const idx = draft.projects.findIndex(
 						(ws) => ws.id === projectId
 					);
@@ -119,10 +113,8 @@ function createSettings() {
 							});
 						}
 					}
-
-					return draft;
-				});
-			});
+				})
+			);
 		},
 		updateView(projectId: string, updatedView: ViewDefinition) {
 			update((state) =>
@@ -141,7 +133,6 @@ function createSettings() {
 						}
 						return project;
 					});
-					return draft;
 				})
 			);
 		},
@@ -169,7 +160,6 @@ function createSettings() {
 						}
 						return project;
 					});
-					return draft;
 				})
 			);
 		},

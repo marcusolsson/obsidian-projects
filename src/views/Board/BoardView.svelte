@@ -7,23 +7,26 @@
 		type DataRecord,
 	} from "../../lib/data";
 
-	import Board from "./Board.svelte";
+	import Board from "./components/Board/Board.svelte";
 
-	import { i18n } from "../../lib/stores/i18n";
-	import { app } from "../../lib/stores/obsidian";
+	import { i18n } from "src/lib/stores/i18n";
+	import { app } from "src/lib/stores/obsidian";
 
-	import { fieldToSelectableValue } from "../../views/helpers";
-	import type { ProjectDefinition } from "../../types";
-	import { CreateNoteModal } from "../../modals/create-note-modal";
-	import { EditNoteModal } from "../../modals/edit-note-modal";
-	import { groupRecordsByField } from "./board";
-	import { createDataRecord } from "../../lib/api";
-	import { HorizontalGroup } from "src/components/HorizontalGroup";
 	import { Field } from "src/components/Field";
+	import { HorizontalGroup } from "src/components/HorizontalGroup";
 	import { ToolBar } from "src/components/ToolBar";
+
 	import type { ViewApi } from "src/lib/view-api";
-	import type { BoardConfig } from "./types";
+	import { createDataRecord } from "src/lib/api";
+
+	import { CreateNoteModal } from "src/modals/create-note-modal";
+	import { EditNoteModal } from "src/modals/edit-note-modal";
+
+	import type { ProjectDefinition } from "src/types";
+	import { fieldToSelectableValue } from "src/views/helpers";
+	import { groupRecordsByField } from "./board";
 	import { BoardSettingsModal } from "./settings/settings-modal";
+	import type { BoardConfig } from "./types";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;

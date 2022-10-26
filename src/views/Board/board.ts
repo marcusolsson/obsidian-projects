@@ -1,6 +1,7 @@
-import { i18n } from "../../lib/stores/i18n";
-import { isString, type DataRecord } from "../../lib/data";
 import { get } from "svelte/store";
+
+import { i18n } from "src/lib/stores/i18n";
+import { isString, type DataRecord } from "src/lib/data";
 import { notEmpty } from "src/lib/helpers";
 
 export function unique(records: DataRecord[], fieldName: string): string[] {

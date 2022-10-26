@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { Button, InternalLink, Typography } from "obsidian-svelte";
 	import path from "path";
-	import { i18n } from "../../lib/stores/i18n";
-	import { app } from "../../lib/stores/obsidian";
+	import { i18n } from "src/lib/stores/i18n";
+	import { app } from "src/lib/stores/obsidian";
 
-	import { isNumber, type DataRecord } from "../../lib/data";
-	import Card from "./Card.svelte";
-	import CardList from "./CardList.svelte";
+	import { isNumber, type DataRecord } from "src/lib/data";
+	import Card from "../Card/Card.svelte";
+	import CardList from "../Card/CardList.svelte";
 
 	export let name: string;
 	export let records: DataRecord[];

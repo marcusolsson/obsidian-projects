@@ -17,7 +17,11 @@
 	import { ViewApi } from "../lib/view-api";
 
 	import AppContainer from "./AppContainer.svelte";
-	import View from "./View.svelte";
+
+	import { View } from "../views";
+
+	let projectId: string | undefined;
+	let viewId: string | undefined;
 
 	$: ({ projects } = $settings);
 
@@ -62,7 +66,7 @@
 	App is the main application component and coordinates between the View and
 	the Toolbar.
 -->
-<AppContainer {projects} let:project let:view>
+<AppContainer {projects} bind:projectId bind:viewId let:project let:view>
 	{#await querying}
 		<Loading />
 	{:then}
