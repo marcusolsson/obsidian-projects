@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { i18n } from "../../lib/stores/i18n";
+	import { i18n } from "src/lib/stores/i18n";
 	import { Button, IconButton } from "obsidian-svelte";
 
 	export let onNext: () => void;

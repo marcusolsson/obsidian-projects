@@ -1,16 +1,17 @@
 <script lang="ts">
-	import type dayjs from "dayjs";
-
-	import type { DataRecord, DataValue } from "../../lib/data";
-
-	import CalendarDate from "./CalendarDate.svelte";
-	import CalendarEntry from "./CalendarEntry.svelte";
-	import { TableCell } from "./components/Table";
-	import { i18n } from "../../lib/stores/i18n";
-	import { app } from "../../lib/stores/obsidian";
 	import path from "path";
+	import type dayjs from "dayjs";
 	import { Menu } from "obsidian";
 	import { InternalLink } from "obsidian-svelte";
+
+	import { i18n } from "src/lib/stores/i18n";
+	import { app } from "src/lib/stores/obsidian";
+
+	import type { DataRecord, DataValue } from "src/lib/data";
+
+	import { TableCell } from "../Table";
+	import CalendarDate from "./CalendarDate.svelte";
+	import CalendarEntry from "./CalendarEntry.svelte";
 
 	export let date: dayjs.Dayjs;
 	export let records: Array<[number, DataRecord]>;

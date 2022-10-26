@@ -45,11 +45,7 @@
 
 		const weight = defaultWeight(field.name);
 
-		if (weight) {
-			colDef.weight = weight;
-		}
-
-		return colDef;
+		return weight ? { ...colDef, weight } : colDef;
 	});
 
 	$: rows = records.map<GridRowProps>(({ id, values }) => ({
@@ -73,7 +69,7 @@
 	}
 
 	function handleVisibilityChange(field: string, enabled: boolean) {
-		onConfigChange({
+		config = {
 			...config,
 			fieldConfig: {
 				...fieldConfig,
@@ -82,11 +78,13 @@
 					hide: !enabled,
 				},
 			},
-		});
+		};
+
+		onConfigChange(config);
 	}
 
 	function handleWidthChange(field: string, width: number) {
-		onConfigChange({
+		config = {
 			...config,
 			fieldConfig: {
 				...fieldConfig,
@@ -95,7 +93,9 @@
 					width,
 				},
 			},
-		});
+		};
+
+		onConfigChange(config);
 	}
 </script>
 

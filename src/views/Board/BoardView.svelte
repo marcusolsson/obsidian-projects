@@ -7,8 +7,6 @@
 		type DataRecord,
 	} from "../../lib/data";
 
-	import Board from "./components/Board/Board.svelte";
-
 	import { i18n } from "src/lib/stores/i18n";
 	import { app } from "src/lib/stores/obsidian";
 
@@ -27,6 +25,8 @@
 	import { groupRecordsByField } from "./board";
 	import { BoardSettingsModal } from "./settings/settings-modal";
 	import type { BoardConfig } from "./types";
+
+	import { Board } from "./components";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;

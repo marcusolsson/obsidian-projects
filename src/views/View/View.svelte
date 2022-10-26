@@ -36,7 +36,7 @@
 	export let onConfigChange: (
 		projectId: string,
 		viewId: string,
-		config: Record<string, any>
+		cfg: Record<string, any>
 	) => void;
 
 	$: viewComponent = view ? getViewComponent(view.type) : null;

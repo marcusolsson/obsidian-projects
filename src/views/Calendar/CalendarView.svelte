@@ -1,45 +1,45 @@
 <script lang="ts">
 	import dayjs from "dayjs";
+	import { Select, Typography } from "obsidian-svelte";
 	import { get } from "svelte/store";
 
-	import { app } from "../../lib/stores/obsidian";
-	import { DataFieldType, type DataFrame } from "../../lib/data";
+	import { i18n } from "src/lib/stores/i18n";
+	import { app } from "src/lib/stores/obsidian";
 
-	import { fieldToSelectableValue } from "../../views/helpers";
-	import { EditNoteModal } from "../../modals/edit-note-modal";
+	import { CreateNoteModal } from "src/modals/create-note-modal";
+	import { EditNoteModal } from "src/modals/edit-note-modal";
 
-	import { Select, Typography } from "obsidian-svelte";
+	import { Field } from "src/components/Field";
+	import { HorizontalGroup } from "src/components/HorizontalGroup";
+	import { ToolBar } from "src/components/ToolBar";
+
+	import { createDataRecord } from "src/lib/api";
+	import { DataFieldType, type DataFrame } from "src/lib/data";
+	import type { ViewApi } from "src/lib/view-api";
+	import type { ProjectDefinition } from "src/types";
+	import { fieldToSelectableValue } from "src/views/helpers";
+	import type { CalendarConfig } from "./types";
+
 	import {
+		CalendarDay,
+		Navigation,
 		Table,
 		TableBody,
 		TableColumnHeaderCell,
 		TableHead,
 		TableRow,
-	} from "./components/Table";
-	import CalendarDay from "./CalendarDay.svelte";
-	import Navigation from "./Navigation.svelte";
+	} from "./components";
 
 	import {
 		addInterval,
+		chunkDates,
 		computeDateInterval,
 		generateDates,
 		generateTitle,
 		groupRecordsByField,
 		isCalendarInterval,
-		chunkDates,
 		subtractInterval,
 	} from "./calendar";
-
-	import type { ProjectDefinition } from "../../types";
-
-	import { CreateNoteModal } from "../../modals/create-note-modal";
-	import { createDataRecord } from "../../lib/api";
-	import { i18n } from "../../lib/stores/i18n";
-	import { ToolBar } from "src/components/ToolBar";
-	import { HorizontalGroup } from "src/components/HorizontalGroup";
-	import { Field } from "src/components/Field";
-	import type { ViewApi } from "src/lib/view-api";
-	import type { CalendarConfig } from "./types";
 
 	export let project: ProjectDefinition;
 	export let frame: DataFrame;
