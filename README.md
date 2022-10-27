@@ -35,18 +35,21 @@ To use the Dataview data source in your project:
 1. In **Query**, enter a Dataview [TABLE query](https://blacksmithgu.github.io/obsidian-dataview/query/queries/#table-queries).
 1. Select **Save**.
 
-## Views
+## Contribute
 
-Obsidian Projects supports three types of views: _Table_, _Board_, and _Calendar_.
+Check out the [roadmap](https://github.com/users/marcusolsson/projects/4) to see what's being worked on at the moment.
 
-### Table
-
-![Table](assets/table.png)
-
-### Board
-
-![Board](assets/board.png)
-
-### Calendar
-
-![Calendar](assets/calendar.png)
+- [Needs triage](https://github.com/users/marcusolsson/projects/4/views/6) lists issues I haven't looked into yet.
+- [Bug hunt](https://github.com/users/marcusolsson/projects/4/views/5) lists open bug reports that have yet to be confirmed. Contribute by providing steps to reproduce the bug.
+  - Issues with `triage/needs-information` lack necessary information for me to make an informed decision.
+    - **Contribute by** adding a comment with more information about the issue or request.
+  - Issues with `triage/not-reproducible` are set to bugs that I haven't been able to confirm yet.
+  	- **Contribute by** adding a comment with clues or steps to reproduce the bug.
+- [Ready to work on](https://github.com/users/marcusolsson/projects/4/views/8) lists issues that have passed triage and are ready to be worked on. Every issue that has passed triage receives a `priority/*` label.
+  - Issues with `priority/awaiting-more-evidence` are possibly useful, but needs more support before being worked on.
+    - **Contribute by** adding a reaction to the issue, or by explaining how the feature would be useful to you.
+  - Issues with `priority/backlog` are ready to be implemented. Add a comment in the issue if you'd like to work on it.
+    - **Contribute by** submitting a pull request with an implementation.
+  - Issues with `priority/critical` are issues that needs fixing before anything else.
+    - **Contribute by** having patience while I'm working on it :heart:
+- [Prioritized](https://github.com/users/marcusolsson/projects/4/views/11) lists issues that I'll actively work on when I find the time.
