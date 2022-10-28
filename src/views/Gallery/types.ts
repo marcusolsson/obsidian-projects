@@ -1,3 +1,3 @@
 export interface GalleryConfig {
-	readonly coverField?: string;
+  readonly coverField?: string;
 }

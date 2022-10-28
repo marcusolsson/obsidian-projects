@@ -9,81 +9,81 @@ import type { ProjectView, ProjectViewV2 } from "./builder";
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
 export class ProjectsView extends ItemView {
-	// @ts-ignore
-	component: App;
+  // @ts-ignore
+  component: App;
 
-	constructor(leaf: WorkspaceLeaf, readonly plugin: ProjectsPlugin) {
-		super(leaf);
+  constructor(leaf: WorkspaceLeaf, readonly plugin: ProjectsPlugin) {
+    super(leaf);
 
-		this.navigation = true;
-	}
+    this.navigation = true;
+  }
 
-	getViewType() {
-		return VIEW_TYPE_PROJECTS;
-	}
+  getViewType() {
+    return VIEW_TYPE_PROJECTS;
+  }
 
-	getDisplayText() {
-		return "Projects";
-	}
+  getDisplayText() {
+    return "Projects";
+  }
 
-	getIcon() {
-		return "layout";
-	}
+  getIcon() {
+    return "layout";
+  }
 
-	async onload() {
-		view.set(this);
-	}
+  async onload() {
+    view.set(this);
+  }
 
-	onunload(): void {}
+  onunload(): void {}
 
-	async onOpen() {
-		customViews.set(this.getViews());
-		customViewsV2.set(this.getViewsV2());
+  async onOpen() {
+    customViews.set(this.getViews());
+    customViewsV2.set(this.getViewsV2());
 
-		this.component = new App({
-			target: this.contentEl,
-		});
-	}
+    this.component = new App({
+      target: this.contentEl,
+    });
+  }
 
-	async onClose() {
-		if (this.component) {
-			this.component.$destroy();
-		}
-	}
+  async onClose() {
+    if (this.component) {
+      this.component.$destroy();
+    }
+  }
 
-	getViewsV2() {
-		const views: Record<string, () => ProjectViewV2> = {};
+  getViewsV2() {
+    const views: Record<string, () => ProjectViewV2> = {};
 
-		for (let pluginId in this.app.plugins.plugins) {
-			if (this.app.plugins.enabledPlugins.has(pluginId)) {
-				const plugin = this.app.plugins.plugins[pluginId];
+    for (let pluginId in this.app.plugins.plugins) {
+      if (this.app.plugins.enabledPlugins.has(pluginId)) {
+        const plugin = this.app.plugins.plugins[pluginId];
 
-				const registerView = plugin?.onRegisterProjectViewV2;
+        const registerView = plugin?.onRegisterProjectViewV2;
 
-				if (registerView) {
-					views[pluginId] = registerView.bind(plugin);
-				}
-			}
-		}
+        if (registerView) {
+          views[pluginId] = registerView.bind(plugin);
+        }
+      }
+    }
 
-		return views;
-	}
+    return views;
+  }
 
-	getViews() {
-		const views: Record<string, (view: ProjectView) => void> = {};
+  getViews() {
+    const views: Record<string, (view: ProjectView) => void> = {};
 
-		for (let pluginId in this.app.plugins.plugins) {
-			if (this.app.plugins.enabledPlugins.has(pluginId)) {
-				const plugin = this.app.plugins.plugins[pluginId];
+    for (let pluginId in this.app.plugins.plugins) {
+      if (this.app.plugins.enabledPlugins.has(pluginId)) {
+        const plugin = this.app.plugins.plugins[pluginId];
 
-				const registerView = plugin?.onRegisterProjectView;
+        const registerView = plugin?.onRegisterProjectView;
 
-				if (registerView) {
-					views[pluginId] = registerView.bind(plugin);
-				}
-			}
-		}
+        if (registerView) {
+          views[pluginId] = registerView.bind(plugin);
+        }
+      }
+    }
 
-		return views;
-	}
+    return views;
+  }
 }

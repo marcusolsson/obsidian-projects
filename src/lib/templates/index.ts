@@ -8,12 +8,12 @@
  * The argument is any text after an optional colon, e.g. {{date:YYYY-MM-DD}}.
  */
 export function interpolateTemplate(
-	template: string,
-	data: Record<string, (arg?: string) => string>
+  template: string,
+  data: Record<string, (arg?: string) => string>
 ): string {
-	return template.replace(/\{\{\s*(.*?)\s*\}\}/g, (_, name) => {
-		const [func, arg] = name.split(/:(.*)/s);
-		const f = data[func];
-		return f ? f(arg) : "";
-	});
+  return template.replace(/\{\{\s*(.*?)\s*\}\}/g, (_, name) => {
+    const [func, arg] = name.split(/:(.*)/s);
+    const f = data[func];
+    return f ? f(arg) : "";
+  });
 }

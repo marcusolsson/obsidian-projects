@@ -3,35 +3,35 @@ import type { DataField, DataRecord } from "../lib/data";
 import EditRecord from "./components/EditNote.svelte";
 
 export class EditNoteModal extends Modal {
-	// @ts-ignore
-	component: EditRecord;
+  // @ts-ignore
+  component: EditRecord;
 
-	constructor(
-		app: App,
-		readonly fields: DataField[],
-		readonly onSave: (record: DataRecord) => void,
-		readonly defaults?: DataRecord
-	) {
-		super(app);
-	}
+  constructor(
+    app: App,
+    readonly fields: DataField[],
+    readonly onSave: (record: DataRecord) => void,
+    readonly defaults?: DataRecord
+  ) {
+    super(app);
+  }
 
-	onOpen() {
-		this.component = new EditRecord({
-			target: this.contentEl,
-			props: {
-				record: this.defaults,
-				fields: this.fields,
-				onSave: (record: DataRecord) => {
-					this.onSave(record);
-					this.close();
-				},
-			},
-		});
-	}
+  onOpen() {
+    this.component = new EditRecord({
+      target: this.contentEl,
+      props: {
+        record: this.defaults,
+        fields: this.fields,
+        onSave: (record: DataRecord) => {
+          this.onSave(record);
+          this.close();
+        },
+      },
+    });
+  }
 
-	onClose() {
-		if (this.component) {
-			this.component.$destroy();
-		}
-	}
+  onClose() {
+    if (this.component) {
+      this.component.$destroy();
+    }
+  }
 }

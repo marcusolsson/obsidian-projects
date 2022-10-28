@@ -12,23 +12,23 @@ import { GalleryView } from "../Gallery";
 // All built-in views have their own components, while custom views share
 // the CustomView component.
 export function getViewComponent(type: string) {
-	const standardViewComponents: Record<string, any> = {
-		table: TableView,
-		board: BoardView,
-		calendar: CalendarView,
-		developer: DeveloperView,
-		gallery: GalleryView,
-	};
+  const standardViewComponents: Record<string, any> = {
+    table: TableView,
+    board: BoardView,
+    calendar: CalendarView,
+    developer: DeveloperView,
+    gallery: GalleryView,
+  };
 
-	const standardComponent = standardViewComponents[type];
+  const standardComponent = standardViewComponents[type];
 
-	if (standardComponent) {
-		return standardComponent;
-	}
+  if (standardComponent) {
+    return standardComponent;
+  }
 
-	if (get(customViewsV2)[type] || get(customViews)[type]) {
-		return CustomView;
-	}
+  if (get(customViewsV2)[type] || get(customViews)[type]) {
+    return CustomView;
+  }
 
-	return null;
+  return null;
 }

@@ -5,12 +5,12 @@ import { get, writable } from "svelte/store";
 export const events = writable<Events>(new Events());
 
 export function onEvent(type: string, cb: (...data: any) => void) {
-	let eventRef: EventRef;
+  let eventRef: EventRef;
 
-	onMount(() => {
-		eventRef = get(events).on(type, cb);
-	});
-	onDestroy(() => {
-		get(events).offref(eventRef);
-	});
+  onMount(() => {
+    eventRef = get(events).on(type, cb);
+  });
+  onDestroy(() => {
+    get(events).offref(eventRef);
+  });
 }

@@ -5,48 +5,48 @@ import { isString, type DataRecord } from "src/lib/data";
 import { notEmpty } from "src/lib/helpers";
 
 export function unique(records: DataRecord[], fieldName: string): string[] {
-	const keys = records
-		.map((record) => record.values[fieldName])
-		.map((value) => (value && isString(value) ? value : null))
-		.filter(notEmpty);
+  const keys = records
+    .map((record) => record.values[fieldName])
+    .map((value) => (value && isString(value) ? value : null))
+    .filter(notEmpty);
 
-	const set = new Set(keys);
+  const set = new Set(keys);
 
-	return [...set];
+  return [...set];
 }
 
 export function groupRecordsByField(
-	records: DataRecord[],
-	fieldName: string | undefined
+  records: DataRecord[],
+  fieldName: string | undefined
 ): Record<string, Array<DataRecord>> {
-	const noStatus = get(i18n).t("views.board.no-status");
+  const noStatus = get(i18n).t("views.board.no-status");
 
-	if (!fieldName) {
-		return { [noStatus]: records };
-	}
+  if (!fieldName) {
+    return { [noStatus]: records };
+  }
 
-	const keys = unique(records, fieldName);
+  const keys = unique(records, fieldName);
 
-	const res: Record<string, Array<DataRecord>> = {
-		[noStatus]: [],
-	};
-	for (let key of keys) {
-		res[key] = [];
-	}
+  const res: Record<string, Array<DataRecord>> = {
+    [noStatus]: [],
+  };
+  for (let key of keys) {
+    res[key] = [];
+  }
 
-	records.forEach((record, id) => {
-		const value = record.values[fieldName];
+  records.forEach((record, id) => {
+    const value = record.values[fieldName];
 
-		if (value && isString(value)) {
-			res[value]?.push(record);
-		} else {
-			res[noStatus]?.push(record);
-		}
-	});
+    if (value && isString(value)) {
+      res[value]?.push(record);
+    } else {
+      res[noStatus]?.push(record);
+    }
+  });
 
-	if (!res[noStatus]?.length) {
-		delete res[noStatus];
-	}
+  if (!res[noStatus]?.length) {
+    delete res[noStatus];
+  }
 
-	return res;
+  return res;
 }

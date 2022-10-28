@@ -52,7 +52,7 @@ Check out the [roadmap](https://github.com/users/marcusolsson/projects/4) to see
   - Issues with `triage/needs-information` lack necessary information for me to make an informed decision.
     - **Contribute by** adding a comment with more information about the issue or request.
   - Issues with `triage/not-reproducible` are set to bugs that I haven't been able to confirm yet.
-  	- **Contribute by** adding a comment with clues or steps to reproduce the bug.
+    - **Contribute by** adding a comment with clues or steps to reproduce the bug.
 - [Ready to work on](https://github.com/users/marcusolsson/projects/4/views/8) lists issues that have passed triage and are ready to be worked on. Every issue that has passed triage receives a `priority/*` label.
   - Issues with `priority/awaiting-more-evidence` are possibly useful, but needs more support before being worked on.
     - **Contribute by** adding a reaction to the issue, or by explaining how the feature would be useful to you.

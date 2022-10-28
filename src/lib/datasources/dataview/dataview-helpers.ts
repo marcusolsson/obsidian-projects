@@ -7,52 +7,48 @@ import { App, TFile } from "obsidian";
  * DataValue format.
  */
 export function standardizeValues(
-	app: App,
-	values: Record<string, any>
+  app: App,
+  values: Record<string, any>
 ): Record<string, DataValue> {
-	const res: Record<string, DataValue> = {};
+  const res: Record<string, DataValue> = {};
 
-	Object.keys(values).forEach((field) => {
-		const value = values[field];
+  Object.keys(values).forEach((field) => {
+    const value = values[field];
 
-		if (!value) {
-			return;
-		}
+    if (!value) {
+      return;
+    }
 
-		if (typeof value === "object") {
-			if ("path" in value && "display" in value) {
-				const file = app.vault.getAbstractFileByPath(value.path);
+    if (typeof value === "object") {
+      if ("path" in value && "display" in value) {
+        const file = app.vault.getAbstractFileByPath(value.path);
 
-				if (file instanceof TFile) {
-					const linkText = app.metadataCache.fileToLinktext(
-						file,
-						"",
-						true
-					);
+        if (file instanceof TFile) {
+          const linkText = app.metadataCache.fileToLinktext(file, "", true);
 
-					res[field] = {
-						displayName: value.display ?? linkText,
-						fullPath: value.path,
-						linkText,
-						sourcePath: "",
-					};
-				} else {
-					res[field] = {
-						displayName: value.display ?? value.path,
-						fullPath: value.path,
-						linkText: value.path,
-						sourcePath: "",
-					};
-				}
-			}
+          res[field] = {
+            displayName: value.display ?? linkText,
+            fullPath: value.path,
+            linkText,
+            sourcePath: "",
+          };
+        } else {
+          res[field] = {
+            displayName: value.display ?? value.path,
+            fullPath: value.path,
+            linkText: value.path,
+            sourcePath: "",
+          };
+        }
+      }
 
-			if ("ts" in value) {
-				res[field] = dayjs(value.ts).format("YYYY-MM-DD");
-			}
-		} else {
-			res[field] = value;
-		}
-	});
+      if ("ts" in value) {
+        res[field] = dayjs(value.ts).format("YYYY-MM-DD");
+      }
+    } else {
+      res[field] = value;
+    }
+  });
 
-	return res;
+  return res;
 }

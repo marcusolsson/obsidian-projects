@@ -5,20 +5,17 @@ import { isRawLink, type DataRecord, type Link } from "../../data";
  * format.
  */
 export function standardizeRecord(
-	id: string,
-	values: Record<string, any>
+  id: string,
+  values: Record<string, any>
 ): DataRecord {
-	return {
-		id,
-		values: Object.fromEntries(
-			Object.entries(values).map(([field, value]) => {
-				return [
-					field,
-					isRawLink(value) ? parseRawLink(value, "") : value,
-				];
-			})
-		),
-	};
+  return {
+    id,
+    values: Object.fromEntries(
+      Object.entries(values).map(([field, value]) => {
+        return [field, isRawLink(value) ? parseRawLink(value, "") : value];
+      })
+    ),
+  };
 }
 
 /**
@@ -28,24 +25,24 @@ export function standardizeRecord(
  * with a single string value.
  */
 function parseRawLink(
-	rawLink: Array<Array<string>>,
-	sourcePath: string
+  rawLink: Array<Array<string>>,
+  sourcePath: string
 ): Link | undefined {
-	if (rawLink[0]) {
-		const text = rawLink[0][0];
+  if (rawLink[0]) {
+    const text = rawLink[0][0];
 
-		if (text) {
-			const split = text.split("|");
+    if (text) {
+      const split = text.split("|");
 
-			const linkText = split[0] ?? "";
+      const linkText = split[0] ?? "";
 
-			const link: Link = {
-				linkText,
-				sourcePath,
-			};
+      const link: Link = {
+        linkText,
+        sourcePath,
+      };
 
-			return split[1] ? { ...link, displayName: split[1] } : link;
-		}
-	}
-	return undefined;
+      return split[1] ? { ...link, displayName: split[1] } : link;
+    }
+  }
+  return undefined;
 }
