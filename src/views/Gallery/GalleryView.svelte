@@ -44,18 +44,26 @@
 
 		const coverPath = record.values[coverField.name];
 
-		const linkPath =
-			coverPath && isString(coverPath)
-				? $app.metadataCache.getFirstLinkpathDest(coverPath, "")
-				: null;
+		if (!coverPath || !isString(coverPath)) {
+			return null;
+		}
 
-		if (linkPath) {
+		if (
+			coverPath.startsWith("http://") ||
+			coverPath.startsWith("https://")
+		) {
+			return coverPath;
+		}
+
+		const file = $app.metadataCache.getFirstLinkpathDest(coverPath, "");
+
+		if (file) {
 			if (
 				["png", "jpg", "jpeg", "gif", "bmp", "svg"].includes(
-					linkPath.extension
+					file.extension
 				)
 			) {
-				return $app.vault.getResourcePath(linkPath);
+				return $app.vault.getResourcePath(file);
 			}
 		}
 
