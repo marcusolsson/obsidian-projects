@@ -30,11 +30,11 @@ export function groupRecordsByField(
   const res: Record<string, Array<DataRecord>> = {
     [noStatus]: [],
   };
-  for (let key of keys) {
+  for (const key of keys) {
     res[key] = [];
   }
 
-  records.forEach((record, id) => {
+  records.forEach((record) => {
     const value = record.values[fieldName];
 
     if (value && isString(value)) {

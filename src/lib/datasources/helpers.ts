@@ -24,8 +24,8 @@ export function parseRecords(
   records: DataRecord[],
   fields: DataField[]
 ): DataRecord[] {
-  for (let field of fields) {
-    for (let record of records) {
+  for (const field of fields) {
+    for (const record of records) {
       const value = record.values[field.name];
 
       switch (field.type) {
@@ -84,7 +84,7 @@ function typeFromValues(values: DataValue[]): DataFieldType {
 
   const result: Record<string, number> = {};
 
-  for (let type of types) {
+  for (const type of types) {
     if (!result[type]) {
       result[type] = 0;
     }

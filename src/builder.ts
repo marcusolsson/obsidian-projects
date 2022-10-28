@@ -13,8 +13,6 @@ export class Builder {
   noPadding?: boolean;
   onOpen?: (data: any, contentEl: HTMLElement) => void;
 
-  constructor() {}
-
   setTitle(title: string): Builder {
     this.title = title;
     return this;

@@ -37,7 +37,7 @@ export class FrontMatterDataSource extends DataSource {
     );
     let fields = detectSchema(standardizedRecords);
 
-    for (let predefinedField of predefinedFields ?? []) {
+    for (const predefinedField of predefinedFields ?? []) {
       fields = fields.map((field) =>
         field.name !== predefinedField.name
           ? field
@@ -77,7 +77,7 @@ export function standardizeRecords(
 ): DataRecord[] {
   const records: DataRecord[] = [];
 
-  for (let file of files) {
+  for (const file of files) {
     const cache = metadataCache.getFileCache(file);
 
     if (cache) {

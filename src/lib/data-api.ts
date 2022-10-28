@@ -39,13 +39,13 @@ export class DataApi {
   }
 
   async renameField(files: TFile[], from: string, to: string): Promise<void> {
-    for (let file of files) {
+    for (const file of files) {
       this.updateFile(file, (data) => doRenameField(data, from, to));
     }
   }
 
   async deleteField(files: TFile[], name: string) {
-    for (let file of files) {
+    for (const file of files) {
       this.updateFile(file, (data) => doDeleteField(data, name));
     }
   }
@@ -120,7 +120,7 @@ export function doUpdateRecord(
 
   const encoded = encodeFrontMatter(data, updated);
 
-  return encoded.replace(/\"\[\[(.*)\]\]\"/, (_, p1) => {
+  return encoded.replace(/"\[\[(.*)\]\]"/, (_, p1) => {
     return `[[${p1}]]`;
   });
 }
@@ -157,11 +157,11 @@ export function doRenameField(data: string, from: string, to: string) {
 function decodeFrontMatter(data: string): Omit<FrontMatterCache, "position"> {
   const delim = "---";
 
-  var startPosition = data.indexOf(delim) + delim.length;
+  const startPosition = data.indexOf(delim) + delim.length;
 
   const isStart = data.slice(0, startPosition).trim() === delim;
 
-  var endPosition = data.slice(startPosition).indexOf(delim) + startPosition;
+  const endPosition = data.slice(startPosition).indexOf(delim) + startPosition;
 
   const hasFrontMatter = isStart && endPosition > startPosition;
 
@@ -178,11 +178,11 @@ function encodeFrontMatter(
 ): string {
   const delim = "---";
 
-  var startPosition = data.indexOf(delim) + delim.length;
+  const startPosition = data.indexOf(delim) + delim.length;
 
   const isStart = data.slice(0, startPosition).trim() === delim;
 
-  var endPosition = data.slice(startPosition).indexOf(delim) + startPosition;
+  const endPosition = data.slice(startPosition).indexOf(delim) + startPosition;
 
   const hasFrontMatter = isStart && endPosition > startPosition;
 

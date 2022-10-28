@@ -1,21 +1,25 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "env": { "node": true },
-  "plugins": ["@typescript-eslint"],
+  "env": {
+    "node": true
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
     "sourceType": "module"
   },
   "rules": {
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
     "@typescript-eslint/ban-ts-comment": "off",
-    "no-prototype-builtins": "off",
-    "@typescript-eslint/no-empty-function": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-useless-escape": "off"
   }
 }

@@ -9,10 +9,6 @@ export function registerFileEvents(plugin: Plugin) {
   // Use Dataview as index if enabled.
   if (get(capabilities).dataview) {
     plugin.registerEvent(
-      // @ts-ignore
-      plugin.app.metadataCache.on("dataview:index-ready", () => {})
-    );
-    plugin.registerEvent(
       plugin.app.metadataCache.on(
         // @ts-ignore
         "dataview:metadata-change",

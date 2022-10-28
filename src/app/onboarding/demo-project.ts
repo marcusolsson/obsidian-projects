@@ -55,7 +55,7 @@ export async function createDemoProject(vault: Vault) {
       image: "https://source.unsplash.com/random",
     },
   };
-  for (let [linkText, data] of Object.entries(files)) {
+  for (const [linkText, data] of Object.entries(files)) {
     const content = "---\n" + stringifyYaml(data) + "---\n\n" + "# " + linkText;
 
     await vault.create(

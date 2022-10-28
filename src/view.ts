@@ -34,8 +34,6 @@ export class ProjectsView extends ItemView {
     view.set(this);
   }
 
-  onunload(): void {}
-
   async onOpen() {
     customViews.set(this.getViews());
     customViewsV2.set(this.getViewsV2());
@@ -54,7 +52,7 @@ export class ProjectsView extends ItemView {
   getViewsV2() {
     const views: Record<string, () => ProjectViewV2> = {};
 
-    for (let pluginId in this.app.plugins.plugins) {
+    for (const pluginId in this.app.plugins.plugins) {
       if (this.app.plugins.enabledPlugins.has(pluginId)) {
         const plugin = this.app.plugins.plugins[pluginId];
 
@@ -72,7 +70,7 @@ export class ProjectsView extends ItemView {
   getViews() {
     const views: Record<string, (view: ProjectView) => void> = {};
 
-    for (let pluginId in this.app.plugins.plugins) {
+    for (const pluginId in this.app.plugins.plugins) {
       if (this.app.plugins.enabledPlugins.has(pluginId)) {
         const plugin = this.app.plugins.plugins[pluginId];
 

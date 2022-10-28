@@ -25,7 +25,7 @@ export function uniquify(
     return name;
   }
 
-  let num: number = 1;
+  let num = 1;
   while (exists(name + " " + num)) {
     num++;
   }

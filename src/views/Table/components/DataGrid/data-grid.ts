@@ -84,8 +84,8 @@ export function sortRows(
 
 export function sortColumns(columns: GridColDef[]): GridColDef[] {
   return columns.sort((a, b): number => {
-    let left = a.weight ?? 9999;
-    let right = b.weight ?? 9999;
+    const left = a.weight ?? 9999;
+    const right = b.weight ?? 9999;
 
     if (left < right) {
       return -1;

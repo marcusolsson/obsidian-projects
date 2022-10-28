@@ -23,5 +23,7 @@ jobs:
         run: yarn build
       - name: Test plugin
         run: yarn test
-      - name: Lint plugin
+      - name: Lint plugin (ESLint)
+        run: yarn lint
+      - name: Check plugin (Svelte)
         run: yarn run svelte-check

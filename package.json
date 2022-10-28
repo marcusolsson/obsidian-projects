@@ -8,7 +8,8 @@
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
     "version": "node version-bump.mjs && git add manifest.json versions.json",
     "test": "jest --config jest.config.js",
-    "svelte-check": "svelte-check"
+    "svelte-check": "svelte-check",
+    "lint": "eslint ./src"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "esbuild": "0.13.12",
     "esbuild-jest": "^0.5.0",
     "esbuild-svelte": "^0.7.1",
+    "eslint": "^8.26.0",
     "i18next": "^21.9.2",
     "immer": "^9.0.15",
     "jest": "^28.1.3",
