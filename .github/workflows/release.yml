@@ -13,9 +13,9 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Use Node.js
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: "18.x"
 
@@ -28,7 +28,7 @@ jobs:
                   cp main.js manifest.json styles.css ${{ env.PLUGIN_NAME }}
                   zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
                   ls
-                  echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+                  echo "tag_name=$(git tag --sort version:refname | tail -n 1)" >> $GITHUB_OUTPUT
 
             - name: Create Release
               id: create_release
