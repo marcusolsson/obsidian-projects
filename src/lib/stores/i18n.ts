@@ -1,5 +1,4 @@
 import i18next from "i18next";
-// import { moment } from "obsidian";
 import { createI18nStore } from "svelte-i18next";
 
 i18next.init({
@@ -218,6 +217,14 @@ i18next.init({
 							dayWithCount_one: "{{count}} day",
 							dayWithCount_other: "{{count}} days",
 						},
+					},
+					gallery: {
+						name: "Gallery",
+						fields: {
+							cover: "Cover",
+							none: "None",
+						},
+						empty: "This view is empty.",
 					},
 				},
 				components: {

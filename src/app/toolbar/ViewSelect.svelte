@@ -23,6 +23,8 @@
 				return "calendar";
 			case "developer":
 				return "wrench";
+			case "gallery":
+				return "grid";
 			default:
 				const createView = $customViewsV2[type];
 

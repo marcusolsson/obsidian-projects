@@ -6,6 +6,7 @@ import { CalendarView } from "../Calendar";
 import { CustomView } from "../Custom";
 import { DeveloperView } from "../Developer";
 import { TableView } from "../Table";
+import { GalleryView } from "../Gallery";
 
 // getViewComponent returns the Svelte component for the selected view type.
 // All built-in views have their own components, while custom views share
@@ -16,6 +17,7 @@ export function getViewComponent(type: string) {
 		board: BoardView,
 		calendar: CalendarView,
 		developer: DeveloperView,
+		gallery: GalleryView,
 	};
 
 	const standardComponent = standardViewComponents[type];
