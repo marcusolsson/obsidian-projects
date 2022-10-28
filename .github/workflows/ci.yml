@@ -1,25 +1,25 @@
 name: Node.js CI
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js
-          uses: actions/setup-node@v3
-          with:
-              node-version: "18.x"
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
 
-        - name: Build plugin
-          run: yarn build
-        - name: Test plugin
-          run: yarn test
-        - name: Lint plugin
-          run: yarn run svelte-check
+      - name: Build plugin
+        run: yarn build
+      - name: Test plugin
+        run: yarn test
+      - name: Lint plugin
+        run: yarn run svelte-check
