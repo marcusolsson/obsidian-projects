@@ -24,7 +24,7 @@
       case "developer":
         return "wrench";
       case "gallery":
-        return "grid";
+        return "layout-grid";
       default:
         const createView = $customViewsV2[type];
 
