@@ -1,164 +1,159 @@
 <script lang="ts">
-	import { IconButton, Select } from "obsidian-svelte";
+  import { IconButton, Select } from "obsidian-svelte";
 
-	import {
-		DataFieldType,
-		type DataFrame,
-		type DataRecord,
-	} from "../../lib/data";
+  import {
+    DataFieldType,
+    type DataFrame,
+    type DataRecord,
+  } from "../../lib/data";
 
-	import { i18n } from "src/lib/stores/i18n";
-	import { app } from "src/lib/stores/obsidian";
+  import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
 
-	import { Field } from "src/components/Field";
-	import { HorizontalGroup } from "src/components/HorizontalGroup";
-	import { ToolBar } from "src/components/ToolBar";
+  import { Field } from "src/components/Field";
+  import { HorizontalGroup } from "src/components/HorizontalGroup";
+  import { ToolBar } from "src/components/ToolBar";
 
-	import type { ViewApi } from "src/lib/view-api";
-	import { createDataRecord } from "src/lib/data-api";
+  import type { ViewApi } from "src/lib/view-api";
+  import { createDataRecord } from "src/lib/data-api";
 
-	import { CreateNoteModal } from "src/modals/create-note-modal";
-	import { EditNoteModal } from "src/modals/edit-note-modal";
+  import { CreateNoteModal } from "src/modals/create-note-modal";
+  import { EditNoteModal } from "src/modals/edit-note-modal";
 
-	import type { ProjectDefinition } from "src/types";
-	import { fieldToSelectableValue } from "src/views/helpers";
-	import { groupRecordsByField } from "./board";
-	import { BoardSettingsModal } from "./settings/settings-modal";
-	import type { BoardConfig } from "./types";
+  import type { ProjectDefinition } from "src/types";
+  import { fieldToSelectableValue } from "src/views/helpers";
+  import { groupRecordsByField } from "./board";
+  import { BoardSettingsModal } from "./settings/settings-modal";
+  import type { BoardConfig } from "./types";
 
-	import { Board } from "./components";
+  import { Board } from "./components";
 
-	export let project: ProjectDefinition;
-	export let frame: DataFrame;
-	export let readonly: boolean;
-	export let api: ViewApi;
+  export let project: ProjectDefinition;
+  export let frame: DataFrame;
+  export let readonly: boolean;
+  export let api: ViewApi;
 
-	export let config: BoardConfig | undefined;
-	export let onConfigChange: (cfg: BoardConfig) => void;
+  export let config: BoardConfig | undefined;
+  export let onConfigChange: (cfg: BoardConfig) => void;
 
-	$: ({ fields, records } = frame);
+  $: ({ fields, records } = frame);
 
-	$: textFields = fields.filter(
-		(field) => field.type === DataFieldType.String
-	);
+  $: textFields = fields.filter((field) => field.type === DataFieldType.String);
 
-	$: groupByField = fields.find(
-		(field) => config?.groupByField === field.name
-	);
+  $: groupByField = fields.find((field) => config?.groupByField === field.name);
 
-	$: numberFields = fields.filter(
-		(field) => field.type === DataFieldType.Number
-	);
+  $: numberFields = fields.filter(
+    (field) => field.type === DataFieldType.Number
+  );
 
-	$: priorityField = fields.find(
-		(field) => config?.priorityField === field.name
-	);
+  $: priorityField = fields.find(
+    (field) => config?.priorityField === field.name
+  );
 
-	$: groupedRecords = groupRecordsByField(records, groupByField?.name);
+  $: groupedRecords = groupRecordsByField(records, groupByField?.name);
 
-	$: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
+  $: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
 
-	function handleRecordClick(record: DataRecord) {
-		new EditNoteModal(
-			$app,
-			fields,
-			(record) => api.updateRecord(record, fields),
-			record
-		).open();
-	}
+  function handleRecordClick(record: DataRecord) {
+    new EditNoteModal(
+      $app,
+      fields,
+      (record) => api.updateRecord(record, fields),
+      record
+    ).open();
+  }
 
-	function handleRecordAdd(column: string) {
-		new CreateNoteModal($app, project, (name, templatePath) => {
-			if (groupByField) {
-				api.addRecord(
-					createDataRecord(
-						name,
-						project,
-						groupByField
-							? {
-									[groupByField.name]:
-										column !==
-										$i18n.t("views.board.no-status")
-											? column
-											: undefined,
-							  }
-							: {}
-					),
-					templatePath
-				);
-			}
-		}).open();
-	}
+  function handleRecordAdd(column: string) {
+    new CreateNoteModal($app, project, (name, templatePath) => {
+      if (groupByField) {
+        api.addRecord(
+          createDataRecord(
+            name,
+            project,
+            groupByField
+              ? {
+                  [groupByField.name]:
+                    column !== $i18n.t("views.board.no-status")
+                      ? column
+                      : undefined,
+                }
+              : {}
+          ),
+          templatePath
+        );
+      }
+    }).open();
+  }
 </script>
 
 <ToolBar>
-	<p />
-	<HorizontalGroup>
-		<Field name={$i18n.t("views.board.fields.status")}>
-			<Select
-				value={groupByField?.name ?? ""}
-				options={textFields.map(fieldToSelectableValue)}
-				on:change={({ detail: value }) =>
-					onConfigChange({
-						...config,
-						groupByField: value,
-					})}
-				placeholder={$i18n.t("views.board.fields.none") ?? ""}
-				allowEmpty
-			/>
-		</Field>
-		<Field name={$i18n.t("views.board.fields.priority")}>
-			<Select
-				value={priorityField?.name ?? ""}
-				options={numberFields.map(fieldToSelectableValue)}
-				on:change={({ detail: value }) => {
-					onConfigChange({
-						...config,
-						priorityField: value,
-					});
-				}}
-				placeholder={$i18n.t("views.board.fields.none") ?? ""}
-				allowEmpty
-			/>
-		</Field>
-		<IconButton
-			icon="settings"
-			on:click={() => {
-				new BoardSettingsModal($app, config ?? {}, (value) => {
-					config = value;
-					onConfigChange(value);
-				}).open();
-			}}
-		/>
-	</HorizontalGroup>
+  <p />
+  <HorizontalGroup>
+    <Field name={$i18n.t("views.board.fields.status")}>
+      <Select
+        value={groupByField?.name ?? ""}
+        options={textFields.map(fieldToSelectableValue)}
+        on:change={({ detail: value }) =>
+          onConfigChange({
+            ...config,
+            groupByField: value,
+          })}
+        placeholder={$i18n.t("views.board.fields.none") ?? ""}
+        allowEmpty
+      />
+    </Field>
+    <Field name={$i18n.t("views.board.fields.priority")}>
+      <Select
+        value={priorityField?.name ?? ""}
+        options={numberFields.map(fieldToSelectableValue)}
+        on:change={({ detail: value }) => {
+          onConfigChange({
+            ...config,
+            priorityField: value,
+          });
+        }}
+        placeholder={$i18n.t("views.board.fields.none") ?? ""}
+        allowEmpty
+      />
+    </Field>
+    <IconButton
+      icon="settings"
+      on:click={() => {
+        new BoardSettingsModal($app, config ?? {}, (value) => {
+          config = value;
+          onConfigChange(value);
+        }).open();
+      }}
+    />
+  </HorizontalGroup>
 </ToolBar>
 <div>
-	<Board
-		{readonly}
-		columns={columns
-			.sort((a, b) => {
-				if (a === $i18n.t("views.board.no-status")) return -1;
-				if (b === $i18n.t("views.board.no-status")) return 1;
-				if (a === $i18n.t("views.board.no-status") && a === b) return 0;
+  <Board
+    {readonly}
+    columns={columns
+      .sort((a, b) => {
+        if (a === $i18n.t("views.board.no-status")) return -1;
+        if (b === $i18n.t("views.board.no-status")) return 1;
+        if (a === $i18n.t("views.board.no-status") && a === b) return 0;
 
-				return a.localeCompare(b);
-			})
-			.map((column) => ({
-				id: column,
-				name: column,
-				records: groupedRecords[column] ?? [],
-			}))}
-		groupByPriority={priorityField?.name}
-		onRecordClick={handleRecordClick}
-		onRecordAdd={handleRecordAdd}
-		columnWidth={config?.columnWidth ?? 270}
-	/>
+        return a.localeCompare(b);
+      })
+      .map((column) => ({
+        id: column,
+        name: column,
+        records: groupedRecords[column] ?? [],
+      }))}
+    groupByPriority={priorityField?.name}
+    onRecordClick={handleRecordClick}
+    onRecordAdd={handleRecordAdd}
+    columnWidth={config?.columnWidth ?? 270}
+  />
 </div>
 
 <style>
-	div {
-		background-color: var(--background-primary);
-		overflow: auto;
-		padding: 8px;
-	}
+  div {
+    background-color: var(--background-primary);
+    overflow: auto;
+    padding: 8px;
+  }
 </style>

@@ -1,11 +1,11 @@
 <div>
-	<slot />
+  <slot />
 </div>
 
 <style>
-	div {
-		/* display: flex;
+  div {
+    /* display: flex;
 		flex-direction: column; */
-		border: 2px solid red;
-	}
+    border: 2px solid red;
+  }
 </style>

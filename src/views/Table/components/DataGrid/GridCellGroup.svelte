@@ -1,20 +1,20 @@
 <script lang="ts">
-	export let index: number;
-	export let header: boolean = false;
+  export let index: number;
+  export let header: boolean = false;
 </script>
 
 <div role="row" aria-rowindex={index} class:header on:mouseover on:focus>
-	<slot />
+  <slot />
 </div>
 
 <style>
-	div {
-		display: flex;
-	}
+  div {
+    display: flex;
+  }
 
-	.header {
-		position: sticky;
-		top: 0;
-		z-index: 10;
-	}
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 </style>

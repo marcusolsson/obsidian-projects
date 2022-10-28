@@ -1,3 +1,3 @@
 <tfoot>
-	<slot />
+  <slot />
 </tfoot>

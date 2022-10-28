@@ -36,6 +36,7 @@
     "obsidian-dataview": "^0.5.46",
     "obsidian-svelte": "0.0.28",
     "prettier": "2.7.1",
+    "prettier-plugin-svelte": "^2.8.0",
     "svelte": "^3.48.0",
     "svelte-check": "^2.9.2",
     "svelte-i18next": "^1.2.2",
