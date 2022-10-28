@@ -21,7 +21,8 @@ export async function createDemoProject(vault: Vault) {
       published: true,
       weight: 1,
       tags: ["note-taking"],
-      image: "https://source.unsplash.com/random",
+      image:
+        "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80",
     },
     "The Easiest Way to Start Taking Notes": {
       status: "Done",
@@ -29,7 +30,8 @@ export async function createDemoProject(vault: Vault) {
       published: true,
       weight: 2,
       tags: ["note-taking", "obsidian"],
-      image: "https://source.unsplash.com/random",
+      image:
+        "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80",
     },
     "Why You Should Be Taking More Notes": {
       status: "Doing",
@@ -37,7 +39,8 @@ export async function createDemoProject(vault: Vault) {
       published: false,
       weight: 3,
       tags: ["note-taking", "pkm"],
-      image: "https://source.unsplash.com/random",
+      image:
+        "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80",
     },
     "What I Learned From Taking 15,000 Notes": {
       status: "Backlog",
@@ -45,14 +48,16 @@ export async function createDemoProject(vault: Vault) {
       published: false,
       weight: 4,
       tags: ["pkm", "obsidian"],
-      image: "https://source.unsplash.com/random",
+      image:
+        "https://images.unsplash.com/photo-1550592704-6c76defa9985?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80",
     },
     "5 Mistake I Made When I Started Using Obsidian": {
       status: "Backlog",
       due: startDate.add(2, "weeks").format("YYYY-MM-DD"),
       published: false,
       tags: ["obsidian"],
-      image: "https://source.unsplash.com/random",
+      image:
+        "https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80",
     },
   };
   for (const [linkText, data] of Object.entries(files)) {
