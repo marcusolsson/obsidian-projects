@@ -47,17 +47,20 @@ Design decisions are guided by the following principles:
 
 Check out the [roadmap](https://github.com/users/marcusolsson/projects/4) to see what's being worked on at the moment.
 
-- [Triage](https://github.com/users/marcusolsson/projects/4/views/6) lists issues I haven't looked into yet.
-- [Bug hunt](https://github.com/users/marcusolsson/projects/4/views/5) lists open bug reports that have yet to be confirmed. Contribute by providing steps to reproduce the bug.
+- [Triage](https://github.com/users/marcusolsson/projects/4/views/6) lists issues I haven't looked into yet. Once I have, they'll receive one or more of the following labels:
   - Issues with `triage/needs-information` lack necessary information for me to make an informed decision.
     - **Contribute by** adding a comment with more information about the issue or request.
   - Issues with `triage/not-reproducible` are set to bugs that I haven't been able to confirm yet.
     - **Contribute by** adding a comment with clues or steps to reproduce the bug.
-- [Ideas](https://github.com/users/marcusolsson/projects/4/views/8) lists issues that have passed triage and are ready to be worked on. Every issue that has passed triage receives a `priority/*` label.
+  - Issues with `triage/accepted` are considered confirmed and receive a `priority/*` label based on how important it is.
   - Issues with `priority/awaiting-more-evidence` are possibly useful, but needs more support before being worked on.
     - **Contribute by** adding a reaction to the issue, or by explaining how the feature would be useful to you.
   - Issues with `priority/backlog` are ready to be implemented. Add a comment in the issue if you'd like to work on it.
     - **Contribute by** submitting a pull request with an implementation.
   - Issues with `priority/critical` are issues that needs fixing before anything else.
     - **Contribute by** having patience while I'm working on it :heart:
+- [Bug hunt](https://github.com/users/marcusolsson/projects/4/views/5) lists open bug reports that have yet to be confirmed. Contribute by providing steps to reproduce the bug.
+- [Ideas](https://github.com/users/marcusolsson/projects/4/views/8) lists features that are likely within scope of the plugin but needs more support from the community.
 - [Ready to work on](https://github.com/users/marcusolsson/projects/4/views/11) lists issues that I'll actively work on when I find the time.
+
+
