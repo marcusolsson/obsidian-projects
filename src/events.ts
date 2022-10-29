@@ -10,7 +10,7 @@ export function registerFileEvents(plugin: Plugin) {
   if (get(capabilities).dataview) {
     plugin.registerEvent(
       plugin.app.metadataCache.on(
-        // @ts-ignore
+        // @ts-expect-error
         "dataview:metadata-change",
         async (type: string, file: TAbstractFile, oldPath: string) => {
           if (file instanceof TFile) {

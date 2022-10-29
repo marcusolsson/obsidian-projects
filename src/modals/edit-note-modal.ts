@@ -3,8 +3,7 @@ import type { DataField, DataRecord } from "../lib/data";
 import EditRecord from "./components/EditNote.svelte";
 
 export class EditNoteModal extends Modal {
-  // @ts-ignore
-  component: EditRecord;
+  component?: EditRecord;
 
   constructor(
     app: App,

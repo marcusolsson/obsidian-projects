@@ -8,8 +8,7 @@ import { get } from "svelte/store";
 import { nextUniqueFileName } from "../lib/helpers";
 
 export class CreateNoteModal extends Modal {
-  // @ts-ignore
-  component: CreateNote;
+  component?: CreateNote;
 
   constructor(
     app: App,

@@ -2,8 +2,7 @@ import { App, Modal } from "obsidian";
 import Onboarding from "./Onboarding.svelte";
 
 export class OnboardingModal extends Modal {
-  // @ts-ignore
-  component: Onboarding;
+  component?: Onboarding;
 
   constructor(
     app: App,

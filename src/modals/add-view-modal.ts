@@ -3,8 +3,7 @@ import AddView from "./components/AddView.svelte";
 import type { ViewDefinition, ProjectDefinition } from "../types";
 
 export class AddViewModal extends Modal {
-  // @ts-ignore
-  component: AddView;
+  component?: AddView;
 
   constructor(
     app: App,

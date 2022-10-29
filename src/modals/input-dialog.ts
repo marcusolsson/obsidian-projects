@@ -2,8 +2,7 @@ import { App, Modal } from "obsidian";
 import InputDialog from "./components/InputDialog.svelte";
 
 export class InputDialogModal extends Modal {
-  // @ts-ignore
-  component: InputDialog;
+  component?: InputDialog;
 
   constructor(
     app: App,

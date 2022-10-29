@@ -3,8 +3,7 @@ import CreateProject from "./components/CreateProject.svelte";
 import type { ProjectDefinition } from "../types";
 
 export class CreateProjectModal extends Modal {
-  // @ts-ignore
-  component: CreateProject;
+  component?: CreateProject;
 
   constructor(
     app: App,

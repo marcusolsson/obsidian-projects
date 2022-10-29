@@ -1,4 +1,4 @@
-import { get } from "svelte/store";
+import { get, type Unsubscriber } from "svelte/store";
 import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
 
 import "obsidian-dataview";
@@ -39,8 +39,7 @@ export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettingsV1> = {
 };
 
 export default class ProjectsPlugin extends Plugin {
-  // @ts-ignore
-  unsubscribeSettings: Unsubscriber;
+  unsubscribeSettings?: Unsubscriber;
 
   async onload() {
     const t = get(i18n).t;
@@ -154,7 +153,7 @@ export default class ProjectsPlugin extends Plugin {
   async onunload() {
     this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
 
-    this.unsubscribeSettings();
+    this.unsubscribeSettings?.();
   }
 
   // activateView opens the main Projects view in a new workspace leaf.

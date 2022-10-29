@@ -3,8 +3,7 @@ import type { BoardConfig } from "../types";
 import BoardSettings from "./BoardSettings.svelte";
 
 export class BoardSettingsModal extends Modal {
-  // @ts-ignore
-  component: BoardSettings;
+  component?: BoardSettings;
 
   constructor(
     app: App,
