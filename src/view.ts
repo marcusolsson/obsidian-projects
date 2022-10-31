@@ -5,6 +5,7 @@ import { customViews, customViewsV2 } from "./lib/stores/custom-views";
 import { view } from "./lib/stores/obsidian";
 import type ProjectsPlugin from "./main";
 import type { ProjectView, ProjectViewV2 } from "./builder";
+import { GalleryView } from "./views/Gallery/gallery-view";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -50,6 +51,8 @@ export class ProjectsView extends ItemView {
 
   getViewsV2() {
     const views: Record<string, () => ProjectViewV2> = {};
+
+    views["obsidian-projects"] = () => new GalleryView();
 
     for (const pluginId in this.app.plugins.plugins) {
       if (this.app.plugins.enabledPlugins.has(pluginId)) {

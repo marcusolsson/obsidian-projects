@@ -25,7 +25,7 @@
 
   export let frame: DataFrame;
   export let config: GalleryConfig | undefined;
-  export let onConfigChange: (config: GalleryConfig) => {};
+  export let onConfigChange: (config: GalleryConfig) => void;
   export let api: ViewApi;
 
   $: ({ fields, records } = frame);
