@@ -20,10 +20,6 @@
         return "columns";
       case "calendar":
         return "calendar";
-      case "developer":
-        return "wrench";
-      case "gallery":
-        return "layout-grid";
       default:
         return $customViews[type]?.()?.getIcon() ?? "";
     }

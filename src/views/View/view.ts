@@ -16,8 +16,6 @@ export function getViewComponent(type: string) {
     table: TableView,
     board: BoardView,
     calendar: CalendarView,
-    developer: DeveloperView,
-    // gallery: GalleryView,
   };
 
   const standardComponent = standardViewComponents[type];

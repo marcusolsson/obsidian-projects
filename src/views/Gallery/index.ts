@@ -1,1 +1,1 @@
-export { default as GalleryView } from "./GalleryView.svelte";
+export { GalleryView } from "./gallery-view";

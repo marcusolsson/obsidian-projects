@@ -40,7 +40,6 @@
     { label: $i18n.t("views.table.name"), value: "table" },
     { label: $i18n.t("views.board.name"), value: "board" },
     { label: $i18n.t("views.calendar.name"), value: "calendar" },
-    // { label: $i18n.t("views.developer.name"), value: "developer" },
     ...selectableCustomViews,
   ];
 
