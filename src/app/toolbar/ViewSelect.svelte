@@ -16,8 +16,6 @@
     switch (type) {
       case "table":
         return "table";
-      case "board":
-        return "columns";
       default:
         return $customViews[type]?.()?.getIcon() ?? "";
     }

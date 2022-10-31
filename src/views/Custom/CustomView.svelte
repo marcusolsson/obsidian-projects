@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ViewApi } from "src/lib/view-api";
+  import type { ProjectDefinition } from "src/types";
   import type { DataFrame } from "../../lib/data";
   import { customViews } from "../../lib/stores/custom-views";
 
@@ -8,6 +9,8 @@
   export let config: Record<string, any>;
   export let onConfigChange: (config: Record<string, any>) => void;
   export let frame: DataFrame;
+  export let project: ProjectDefinition;
+  export let readonly: boolean;
 
   $: view = $customViews[type]?.();
 
@@ -18,6 +21,8 @@
     if (view) {
       view.contentEl = node;
       view.viewApi = api;
+      view.project = project;
+      view.readonly = readonly;
       view.saveConfig = onConfigChange;
       view.onOpen(config);
       view.onData(frame);

@@ -11,7 +11,6 @@ import { TableView } from "../Table";
 export function getViewComponent(type: string) {
   const standardViewComponents: Record<string, any> = {
     table: TableView,
-    board: BoardView,
   };
 
   const standardComponent = standardViewComponents[type];
