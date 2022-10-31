@@ -1,4 +1,4 @@
-import { ProjectViewV2 } from "src/builder";
+import { ProjectViewV2 } from "src/custom-view-api";
 import type { DataFrame } from "src/lib/data";
 import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
@@ -31,9 +31,7 @@ export class GalleryView extends ProjectViewV2<GalleryConfig> {
       props: {
         frame: this.data ?? { fields: [], records: [] },
         config: config,
-        onConfigChange: (config) => {
-          this.saveConfig(config);
-        },
+        onConfigChange: this.saveConfig.bind(this),
         api: this.viewApi,
       },
     });

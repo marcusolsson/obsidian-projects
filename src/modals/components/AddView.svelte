@@ -13,11 +13,10 @@
     SettingItem,
   } from "obsidian-svelte";
 
-  import { customViews, customViewsV2 } from "src/lib/stores/custom-views";
+  import { customViews } from "src/lib/stores/custom-views";
   import { i18n } from "src/lib/stores/i18n";
   import { settings } from "src/lib/stores/settings";
 
-  import { Builder } from "src/builder";
   import { nextUniqueViewName } from "src/lib/helpers";
 
   export let onSave: (projectId: string, view: ViewDefinition) => void;
@@ -26,33 +25,21 @@
   let name: string = "";
   let type: ViewType = "table";
 
-  let v1 = Object.entries($customViews).map(([id, builder]) => {
-    const view = new Builder();
+  const selectableCustomViews = Object.entries($customViews).map(
+    ([id, create]) => {
+      const view = create();
 
-    builder(view);
-
-    return {
-      label: view.title ?? id,
-      value: id,
-    };
-  });
-
-  let v2 = Object.entries($customViewsV2).map(([id, builder]) => {
-    const view = builder();
-
-    return {
-      label: view.getDisplayName(),
-      value: id,
-    };
-  });
-
-  let selectableCustomViews = [...v1, ...v2];
+      return {
+        label: view.getDisplayName(),
+        value: id,
+      };
+    }
+  );
 
   const options = [
     { label: $i18n.t("views.table.name"), value: "table" },
     { label: $i18n.t("views.board.name"), value: "board" },
     { label: $i18n.t("views.calendar.name"), value: "calendar" },
-    // { label: $i18n.t("views.gallery.name"), value: "gallery" },
     // { label: $i18n.t("views.developer.name"), value: "developer" },
     ...selectableCustomViews,
   ];

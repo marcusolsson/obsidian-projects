@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { customViews, customViewsV2 } from "src/lib/stores/custom-views";
+import { customViews } from "src/lib/stores/custom-views";
 
 import { BoardView } from "../Board";
 import { CalendarView } from "../Calendar";
@@ -26,7 +26,7 @@ export function getViewComponent(type: string) {
     return standardComponent;
   }
 
-  if (get(customViewsV2)[type] || get(customViews)[type]) {
+  if (get(customViews)[type]) {
     return CustomView;
   }
 
