@@ -22,6 +22,9 @@ export class BoardView extends ProjectViewV2<BoardConfig> {
 
     this.view?.$set({
       frame: this.data,
+      api: this.viewApi,
+      project: this.project,
+      readonly: this.readonly,
     });
   }
 

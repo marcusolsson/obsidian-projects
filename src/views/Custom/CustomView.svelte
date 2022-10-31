@@ -1,10 +1,13 @@
-<script lang="ts">
-  import type { ViewApi } from "src/lib/view-api";
-  import type { ProjectDefinition } from "src/types";
-  import type { DataFrame } from "../../lib/data";
-  import { customViews } from "../../lib/stores/custom-views";
+<svelte:options immutable />
 
-  export let type: string;
+<script lang="ts">
+  import type { ProjectViewV2 } from "src/custom-view-api";
+  import { customViews } from "src/lib/stores/custom-views";
+  import type { ViewApi } from "src/lib/view-api";
+  import type { ProjectDefinition, ViewDefinition } from "src/types";
+  import type { DataFrame } from "../../lib/data";
+
+  export let view: ViewDefinition;
   export let api: ViewApi;
   export let config: Record<string, any>;
   export let onConfigChange: (config: Record<string, any>) => void;
@@ -12,39 +15,71 @@
   export let project: ProjectDefinition;
   export let readonly: boolean;
 
-  $: view = $customViews[type]?.();
+  interface ViewProps {
+    view: ViewDefinition;
+    api: ViewApi;
+    config: Record<string, any>;
+    onConfigChange: (config: Record<string, any>) => void;
+    frame: DataFrame;
+    project: ProjectDefinition;
+    readonly: boolean;
+  }
 
-  function useCustomView(
-    node: HTMLElement,
-    { api, frame }: { api: ViewApi; frame: DataFrame }
-  ) {
-    if (view) {
-      view.contentEl = node;
-      view.viewApi = api;
-      view.project = project;
-      view.readonly = readonly;
-      view.saveConfig = onConfigChange;
-      view.onOpen(config);
-      view.onData(frame);
+  let projectView: ProjectViewV2 | undefined;
+
+  function updateView(node: HTMLElement, props: ViewProps) {
+    if (projectView) {
+      projectView.contentEl = node;
+      projectView.project = props.project;
+      projectView.readonly = props.readonly;
+      projectView.viewApi = props.api;
+      projectView.saveConfig = props.onConfigChange;
+      projectView.onData(props.frame);
+    }
+  }
+
+  function useView(node: HTMLElement, props: ViewProps) {
+    let viewId = props.view.id;
+
+    projectView = $customViews[props.view.type]?.();
+
+    updateView(node, props);
+
+    if (projectView) {
+      projectView.onOpen(props.config);
     }
 
     return {
-      update({ api, frame }: { api: ViewApi; frame: DataFrame }) {
-        if (view) {
-          view.viewApi = api;
-          view.onData(frame);
+      update(newprops: ViewProps) {
+        if (newprops.view.id !== viewId) {
+          if (projectView) {
+            projectView.onClose();
+            projectView = $customViews[newprops.view.type]?.();
+          }
         }
+
+        updateView(node, newprops);
+
+        if (newprops.view.id !== viewId) {
+          if (projectView) {
+            projectView.onOpen(newprops.config);
+          }
+        }
+
+        viewId = newprops.view.id;
       },
       destroy() {
-        if (view) {
-          view.onClose();
+        if (projectView) {
+          projectView.onClose();
         }
       },
     };
   }
 </script>
 
-<div use:useCustomView={{ api, frame }} />
+<div
+  use:useView={{ view, frame, config, onConfigChange, api, project, readonly }}
+/>
 
 <style>
   div {

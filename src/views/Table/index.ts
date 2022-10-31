@@ -1,1 +1,1 @@
-export { default as TableView } from "./TableView.svelte";
+export { TableView } from "./table-view";

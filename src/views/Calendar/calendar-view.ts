@@ -22,6 +22,9 @@ export class CalendarView extends ProjectViewV2<CalendarConfig> {
 
     this.view?.$set({
       frame: this.data,
+      api: this.viewApi,
+      project: this.project,
+      readonly: this.readonly,
     });
   }
 

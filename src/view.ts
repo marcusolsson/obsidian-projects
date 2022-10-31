@@ -9,6 +9,7 @@ import { GalleryView } from "./views/Gallery";
 import { DeveloperView } from "./views/Developer";
 import { CalendarView } from "./views/Calendar";
 import { BoardView } from "./views/Board";
+import { TableView } from "./views/Table";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -67,10 +68,11 @@ export class ProjectsView extends ItemView {
       }
     }
 
+    views["table"] = () => new TableView();
+    views["board"] = () => new BoardView();
+    views["calendar"] = () => new CalendarView();
     views["gallery"] = () => new GalleryView();
     views["developer"] = () => new DeveloperView();
-    views["calendar"] = () => new CalendarView();
-    views["board"] = () => new BoardView();
 
     return views;
   }

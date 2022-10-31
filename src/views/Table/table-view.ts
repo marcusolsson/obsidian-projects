@@ -1,26 +1,26 @@
 import { ProjectViewV2 } from "src/custom-view-api";
 import type { DataFrame } from "src/lib/data";
-import GalleryViewSvelte from "./GalleryView.svelte";
-import type { GalleryConfig } from "./types";
+import TableViewSvelte from "./TableView.svelte";
+import type { GridConfig } from "./types";
 
-export class GalleryView extends ProjectViewV2<GalleryConfig> {
-  gallery?: GalleryViewSvelte;
+export class TableView extends ProjectViewV2<GridConfig> {
+  view?: TableViewSvelte;
   data?: DataFrame;
 
   getViewType(): string {
-    return "gallery";
+    return "table";
   }
   getDisplayName(): string {
-    return "Gallery";
+    return "Table";
   }
   getIcon(): string {
-    return "layout-grid";
+    return "table";
   }
 
   async onData(data: DataFrame) {
     this.data = data;
 
-    this.gallery?.$set({
+    this.view?.$set({
       frame: this.data,
       api: this.viewApi,
       project: this.project,
@@ -28,19 +28,21 @@ export class GalleryView extends ProjectViewV2<GalleryConfig> {
     });
   }
 
-  async onOpen(config: GalleryConfig) {
-    this.gallery = new GalleryViewSvelte({
+  async onOpen(config: GridConfig) {
+    this.view = new TableViewSvelte({
       target: this.contentEl,
       props: {
         frame: this.data ?? { fields: [], records: [] },
         config: config,
         onConfigChange: this.saveConfig.bind(this),
         api: this.viewApi,
+        project: this.project,
+        readonly: this.readonly,
       },
     });
   }
 
   async onClose() {
-    this.gallery?.$destroy();
+    this.view?.$destroy();
   }
 }
