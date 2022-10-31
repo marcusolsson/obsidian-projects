@@ -9,38 +9,42 @@
   export let onConfigChange: (config: Record<string, any>) => void;
   export let frame: DataFrame;
 
-  $: ({ fields, records } = frame);
+  $: view = $customViews[type]?.();
 
-  $: createView = $customViews[type];
-  $: viewV2 = createView?.();
-
-  function useCustomView(node: HTMLElement, frame: DataFrame) {
-    if (viewV2) {
-      viewV2.contentEl = node;
-      viewV2.viewApi = api;
-      viewV2.saveConfig = onConfigChange;
-      viewV2.onOpen?.(config);
-      viewV2.onData?.(frame);
+  function useCustomView(
+    node: HTMLElement,
+    { api, frame }: { api: ViewApi; frame: DataFrame }
+  ) {
+    if (view) {
+      view.contentEl = node;
+      view.viewApi = api;
+      view.saveConfig = onConfigChange;
+      view.onOpen(config);
+      view.onData(frame);
     }
 
     return {
-      update(frame: DataFrame) {
-        if (viewV2) {
-          viewV2.onData?.(frame);
+      update({ api, frame }: { api: ViewApi; frame: DataFrame }) {
+        if (view) {
+          view.viewApi = api;
+          view.onData(frame);
         }
       },
       destroy() {
-        viewV2?.onClose();
+        if (view) {
+          view.onClose();
+        }
       },
     };
   }
 </script>
 
-<div use:useCustomView={{ fields, records }} />
+<div use:useCustomView={{ api, frame }} />
 
 <style>
   div {
     width: 100%;
     height: 100%;
+    overflow: auto;
   }
 </style>

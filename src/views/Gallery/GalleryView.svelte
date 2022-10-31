@@ -143,6 +143,7 @@
 
 <style>
   div {
+    height: 100%;
     padding: 24px;
     overflow: auto;
   }
