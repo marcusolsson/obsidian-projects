@@ -7,6 +7,7 @@ import type ProjectsPlugin from "./main";
 import type { ProjectViewV2 } from "./custom-view-api";
 import { GalleryView } from "./views/Gallery";
 import { DeveloperView } from "./views/Developer";
+import { CalendarView } from "./views/Calendar";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -55,6 +56,7 @@ export class ProjectsView extends ItemView {
 
     views["gallery"] = () => new GalleryView();
     views["developer"] = () => new DeveloperView();
+    views["calendar"] = () => new CalendarView();
 
     for (const pluginId in this.app.plugins.plugins) {
       if (this.app.plugins.enabledPlugins.has(pluginId)) {

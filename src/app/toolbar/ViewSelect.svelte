@@ -18,8 +18,6 @@
         return "table";
       case "board":
         return "columns";
-      case "calendar":
-        return "calendar";
       default:
         return $customViews[type]?.()?.getIcon() ?? "";
     }

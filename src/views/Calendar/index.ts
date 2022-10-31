@@ -1,1 +1,1 @@
-export { default as CalendarView } from "./CalendarView.svelte";
+export { CalendarView } from "./calendar-view";
