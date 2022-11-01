@@ -11,11 +11,11 @@ With the Custom View API you can add your own custom views to the Projects plugi
 ### Install dependencies
 
 ```bash
-npm install --save-dev obsidian-projects-types
+npm install --save-dev obsidian-projects-types@latest
 ```
 
 ```bash
-yarn add --dev obsidian-projects-types
+yarn add --dev obsidian-projects-types@latest
 ```
 
 ### Register a custom view

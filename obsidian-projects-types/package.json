@@ -1,6 +1,6 @@
 {
   "name": "obsidian-projects-types",
-  "version": "0.4.9",
+  "version": "0.5.0",
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc"

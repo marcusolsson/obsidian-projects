@@ -1,19 +1,49 @@
-export interface Link {
-  linkText: string;
-  sourcePath: string;
+/**
+ * DataFrame is the core data structure that contains structured data for a
+ * collection of notes.
+ */
+export interface DataFrame {
+  /**
+   * fields defines the schema for the data frame. Each field describes the
+   * values in each DataRecord.
+   */
+  readonly fields: DataField[];
+
+  /**
+   * records holds the data from each note.
+   */
+  readonly records: DataRecord[];
 }
-export type DataValue =
-  | string
-  | number
-  | boolean
-  | Date
-  | Link
-  | Array<string>
-  | undefined;
-export interface DataRecord {
-  readonly id: string;
-  readonly values: Record<string, DataValue>;
+
+/**
+ * DataField holds metadata for a value in DataRecord, for example a front
+ * matter property.
+ */
+export interface DataField {
+  /**
+   * name references the a property (key) in the DataRecord values object.
+   */
+  readonly name: string;
+
+  /**
+   * type defines the data type for the field.
+   */
+  readonly type: DataFieldType;
+
+  /**
+   * identifier defines whether this field identifies a DataRecord.
+   */
+  readonly identifier: boolean;
+
+  /**
+   * derived defines whether this field has been derived from another field.
+   *
+   * Since derived fields are computed from other fields, they can't be
+   * modified.
+   */
+  readonly derived: boolean;
 }
+
 export enum DataFieldType {
   String = "string",
   Number = "number",
@@ -23,13 +53,26 @@ export enum DataFieldType {
   List = "list",
   Unknown = "unknown",
 }
-export interface DataField {
-  name: string;
-  type: DataFieldType;
+
+export interface DataRecord {
+  readonly id: string;
+  readonly values: Record<string, DataValue>;
 }
-export interface DataFrame {
-  fields: DataField[];
-  records: DataRecord[];
+
+export type DataValue =
+  | string
+  | number
+  | boolean
+  | Date
+  | Link
+  | Array<string>
+  | undefined;
+
+export interface Link {
+  readonly displayName?: string;
+  readonly linkText: string;
+  readonly fullPath?: string;
+  readonly sourcePath: string;
 }
 
 export class ViewApi {
