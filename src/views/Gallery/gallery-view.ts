@@ -7,7 +7,7 @@ import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
 
 export class GalleryView extends ProjectView<GalleryConfig> {
-  view?: GalleryViewSvelte;
+  view: GalleryViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {
@@ -49,5 +49,6 @@ export class GalleryView extends ProjectView<GalleryConfig> {
 
   async onClose() {
     this.view?.$destroy();
+    this.view = null;
   }
 }

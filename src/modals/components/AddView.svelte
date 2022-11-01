@@ -25,12 +25,10 @@
   let name: string = "";
   let type: ViewType = "table";
 
-  const options = Object.entries($customViews).map(([id, create]) => {
-    const view = create();
-
+  const options = Object.values($customViews).map((view) => {
     return {
       label: view.getDisplayName(),
-      value: id,
+      value: view.getViewType(),
     };
   });
 

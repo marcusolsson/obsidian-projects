@@ -7,7 +7,7 @@ import TableViewSvelte from "./TableView.svelte";
 import type { GridConfig } from "./types";
 
 export class TableView extends ProjectView<GridConfig> {
-  view?: TableViewSvelte;
+  view: TableViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {
@@ -49,5 +49,6 @@ export class TableView extends ProjectView<GridConfig> {
 
   async onClose() {
     this.view?.$destroy();
+    this.view = null;
   }
 }

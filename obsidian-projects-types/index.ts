@@ -11,9 +11,8 @@ export type DataValue =
   | Array<string>
   | undefined;
 export interface DataRecord {
-  name: string;
-  path: string;
-  values: Record<string, DataValue>;
+  readonly id: string;
+  readonly values: Record<string, DataValue>;
 }
 export enum DataFieldType {
   String = "string",

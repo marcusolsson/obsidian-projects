@@ -54,7 +54,7 @@ export class ProjectsView extends ItemView {
   }
 
   getViews() {
-    const views: Record<string, () => ProjectView> = {};
+    const views: Record<string, ProjectView> = {};
 
     for (const pluginId in this.app.plugins.plugins) {
       if (this.app.plugins.enabledPlugins.has(pluginId)) {
@@ -63,15 +63,18 @@ export class ProjectsView extends ItemView {
         const registerView = plugin?.onRegisterProjectView;
 
         if (registerView) {
-          views[pluginId] = registerView.bind(plugin);
+          const create = registerView.bind(plugin);
+          const instance = create();
+
+          views[instance.getViewType()] = instance;
         }
       }
     }
 
-    views["table"] = () => new TableView();
-    views["board"] = () => new BoardView();
-    views["calendar"] = () => new CalendarView();
-    views["gallery"] = () => new GalleryView();
+    views["table"] = new TableView();
+    views["board"] = new BoardView();
+    views["calendar"] = new CalendarView();
+    views["gallery"] = new GalleryView();
     // views["developer"] = () => new DeveloperView();
 
     return views;

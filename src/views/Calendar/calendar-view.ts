@@ -7,7 +7,7 @@ import CalendarViewSvelte from "./CalendarView.svelte";
 import type { CalendarConfig } from "./types";
 
 export class CalendarView extends ProjectView<CalendarConfig> {
-  view?: CalendarViewSvelte;
+  view: CalendarViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {
@@ -49,5 +49,6 @@ export class CalendarView extends ProjectView<CalendarConfig> {
 
   async onClose() {
     this.view?.$destroy();
+    this.view = null;
   }
 }

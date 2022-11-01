@@ -26,7 +26,7 @@
     // Keep track of previous view id to determine if view should be invalidated.
     let viewId = props.view.id;
 
-    let projectView = $customViews[props.view.type]?.();
+    let projectView = $customViews[props.view.type];
 
     if (projectView) {
       // Component just mounted, so treat all properties as dirty.
@@ -50,7 +50,7 @@
           node.empty();
 
           // Look up the next view.
-          projectView = $customViews[newprops.view.type]?.();
+          projectView = $customViews[newprops.view.type];
 
           if (projectView) {
             projectView.onOpen({
@@ -60,11 +60,11 @@
             });
             projectView.onData(newprops.dataProps);
           }
+
+          viewId = newprops.view.id;
         } else {
           projectView?.onData(newprops.dataProps);
         }
-
-        viewId = newprops.view.id;
       },
       destroy() {
         projectView?.onClose();

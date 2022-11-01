@@ -13,7 +13,7 @@
   export let viewExists: (name: string) => boolean;
 
   function iconFromViewType(type: string) {
-    return $customViews[type]?.()?.getIcon() ?? "";
+    return $customViews[type]?.getIcon() ?? "";
   }
 </script>
 

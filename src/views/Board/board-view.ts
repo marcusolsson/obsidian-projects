@@ -7,7 +7,7 @@ import BoardViewSvelte from "./BoardView.svelte";
 import type { BoardConfig } from "./types";
 
 export class BoardView extends ProjectView<BoardConfig> {
-  view?: BoardViewSvelte;
+  view: BoardViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {
@@ -49,5 +49,6 @@ export class BoardView extends ProjectView<BoardConfig> {
 
   async onClose() {
     this.view?.$destroy();
+    this.view = null;
   }
 }
