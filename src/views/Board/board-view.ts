@@ -8,7 +8,7 @@ import type { BoardConfig } from "./types";
 
 export class BoardView extends ProjectView<BoardConfig> {
   view?: BoardViewSvelte;
-  queryResult?: DataQueryResult;
+  props?: ProjectViewProps;
 
   getViewType(): string {
     return "board";
@@ -21,34 +21,30 @@ export class BoardView extends ProjectView<BoardConfig> {
   }
 
   async onData(result: DataQueryResult) {
-    this.queryResult = result;
-
-    this.view?.$set({
-      frame: result.data,
-      api: result.viewApi,
-      project: result.project,
-      readonly: result.readonly,
-    });
-  }
-
-  async onOpen({
-    contentEl,
-    config,
-    saveConfig,
-  }: ProjectViewProps<BoardConfig>) {
-    if (this.queryResult) {
+    if (!this.view && this.props) {
       this.view = new BoardViewSvelte({
-        target: contentEl,
+        target: this.props.contentEl,
         props: {
-          frame: this.queryResult.data ?? { fields: [], records: [] },
-          api: this.queryResult.viewApi,
-          project: this.queryResult.project,
-          readonly: this.queryResult.readonly,
-          config,
-          onConfigChange: saveConfig,
+          frame: result.data ?? { fields: [], records: [] },
+          api: result.viewApi,
+          project: result.project,
+          readonly: result.readonly,
+          config: this.props.config,
+          onConfigChange: this.props.saveConfig,
         },
       });
+    } else {
+      this.view?.$set({
+        frame: result.data,
+        api: result.viewApi,
+        project: result.project,
+        readonly: result.readonly,
+      });
     }
+  }
+
+  async onOpen(props: ProjectViewProps<BoardConfig>) {
+    this.props = props;
   }
 
   async onClose() {

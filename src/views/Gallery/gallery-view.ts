@@ -8,7 +8,7 @@ import type { GalleryConfig } from "./types";
 
 export class GalleryView extends ProjectView<GalleryConfig> {
   view?: GalleryViewSvelte;
-  queryResult?: DataQueryResult;
+  props?: ProjectViewProps;
 
   getViewType(): string {
     return "gallery";
@@ -21,30 +21,30 @@ export class GalleryView extends ProjectView<GalleryConfig> {
   }
 
   async onData(result: DataQueryResult) {
-    this.queryResult = result;
-
-    this.view?.$set({
-      frame: result.data,
-      api: result.viewApi,
-    });
-  }
-
-  async onOpen({
-    contentEl,
-    config,
-    saveConfig,
-  }: ProjectViewProps<GalleryConfig>) {
-    if (this.queryResult) {
+    if (!this.view && this.props) {
       this.view = new GalleryViewSvelte({
-        target: contentEl,
+        target: this.props.contentEl,
         props: {
-          config,
-          onConfigChange: saveConfig,
-          frame: this.queryResult.data ?? { fields: [], records: [] },
-          api: this.queryResult.viewApi,
+          frame: result.data ?? { fields: [], records: [] },
+          api: result.viewApi,
+          project: result.project,
+          readonly: result.readonly,
+          config: this.props.config,
+          onConfigChange: this.props.saveConfig,
         },
       });
+    } else {
+      this.view?.$set({
+        frame: result.data,
+        api: result.viewApi,
+        project: result.project,
+        readonly: result.readonly,
+      });
     }
+  }
+
+  async onOpen(props: ProjectViewProps<GalleryConfig>) {
+    this.props = props;
   }
 
   async onClose() {

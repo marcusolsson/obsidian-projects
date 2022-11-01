@@ -30,12 +30,12 @@
 
     if (projectView) {
       // Component just mounted, so treat all properties as dirty.
-      projectView.onData(props.dataProps);
       projectView.onOpen({
         contentEl: node,
         config: props.config,
         saveConfig: props.onConfigChange,
       });
+      projectView.onData(props.dataProps);
     }
 
     return {
@@ -47,16 +47,18 @@
           // Clean up previous view.
           projectView?.onClose();
 
+          node.empty();
+
           // Look up the next view.
           projectView = $customViews[newprops.view.type]?.();
 
           if (projectView) {
-            projectView.onData(newprops.dataProps);
             projectView.onOpen({
               contentEl: node,
               config: newprops.config,
               saveConfig: newprops.onConfigChange,
             });
+            projectView.onData(newprops.dataProps);
           }
         } else {
           projectView?.onData(newprops.dataProps);

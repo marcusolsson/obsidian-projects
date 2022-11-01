@@ -8,7 +8,7 @@ import type { CalendarConfig } from "./types";
 
 export class CalendarView extends ProjectView<CalendarConfig> {
   view?: CalendarViewSvelte;
-  queryResult?: DataQueryResult;
+  props?: ProjectViewProps;
 
   getViewType(): string {
     return "calendar";
@@ -21,34 +21,30 @@ export class CalendarView extends ProjectView<CalendarConfig> {
   }
 
   async onData(result: DataQueryResult) {
-    this.queryResult = result;
-
-    this.view?.$set({
-      frame: result.data,
-      api: result.viewApi,
-      project: result.project,
-      readonly: result.readonly,
-    });
-  }
-
-  async onOpen({
-    contentEl,
-    config,
-    saveConfig,
-  }: ProjectViewProps<CalendarConfig>) {
-    if (this.queryResult) {
+    if (!this.view && this.props) {
       this.view = new CalendarViewSvelte({
-        target: contentEl,
+        target: this.props.contentEl,
         props: {
-          frame: this.queryResult.data ?? { fields: [], records: [] },
-          api: this.queryResult.viewApi,
-          project: this.queryResult.project,
-          readonly: this.queryResult.readonly,
-          config,
-          onConfigChange: saveConfig,
+          frame: result.data ?? { fields: [], records: [] },
+          api: result.viewApi,
+          project: result.project,
+          readonly: result.readonly,
+          config: this.props.config,
+          onConfigChange: this.props.saveConfig,
         },
       });
+    } else {
+      this.view?.$set({
+        frame: result.data,
+        api: result.viewApi,
+        project: result.project,
+        readonly: result.readonly,
+      });
     }
+  }
+
+  async onOpen(props: ProjectViewProps<CalendarConfig>) {
+    this.props = props;
   }
 
   async onClose() {
