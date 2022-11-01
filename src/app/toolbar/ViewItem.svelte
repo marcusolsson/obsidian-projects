@@ -109,7 +109,7 @@
     {label}
   {/if}
 
-  {#if active}
+  {#if hovering && active}
     <IconButton
       icon="cross"
       size="sm"
