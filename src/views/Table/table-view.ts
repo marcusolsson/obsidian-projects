@@ -1,4 +1,8 @@
-import { ProjectView, type DataQueryResult } from "src/custom-view-api";
+import {
+  ProjectView,
+  type DataQueryResult,
+  type ProjectViewProps,
+} from "src/custom-view-api";
 import TableViewSvelte from "./TableView.svelte";
 import type { GridConfig } from "./types";
 
@@ -27,17 +31,21 @@ export class TableView extends ProjectView<GridConfig> {
     });
   }
 
-  async onOpen(config: GridConfig) {
+  async onOpen({
+    contentEl,
+    config,
+    saveConfig,
+  }: ProjectViewProps<GridConfig>) {
     if (this.dataProps) {
       this.view = new TableViewSvelte({
-        target: this.contentEl,
+        target: contentEl,
         props: {
+          config,
+          onConfigChange: saveConfig,
           frame: this.dataProps.data ?? { fields: [], records: [] },
           api: this.dataProps.viewApi,
           project: this.dataProps.project,
           readonly: this.dataProps.readonly,
-          config: config,
-          onConfigChange: this.saveConfig.bind(this),
         },
       });
     }

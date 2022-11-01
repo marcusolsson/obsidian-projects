@@ -1,4 +1,4 @@
-import { ProjectView } from "src/custom-view-api";
+import { ProjectView, type ProjectViewProps } from "src/custom-view-api";
 import DeveloperViewSvelte from "./DeveloperView.svelte";
 
 export class DeveloperView extends ProjectView {
@@ -14,9 +14,9 @@ export class DeveloperView extends ProjectView {
     return "wrench";
   }
 
-  async onOpen() {
+  async onOpen({ contentEl }: ProjectViewProps) {
     this.view = new DeveloperViewSvelte({
-      target: this.contentEl,
+      target: contentEl,
     });
   }
 

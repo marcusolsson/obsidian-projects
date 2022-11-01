@@ -1,4 +1,8 @@
-import { ProjectView, type DataQueryResult } from "src/custom-view-api";
+import {
+  ProjectView,
+  type DataQueryResult,
+  type ProjectViewProps,
+} from "src/custom-view-api";
 import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
 
@@ -25,15 +29,19 @@ export class GalleryView extends ProjectView<GalleryConfig> {
     });
   }
 
-  async onOpen(config: GalleryConfig) {
+  async onOpen({
+    contentEl,
+    config,
+    saveConfig,
+  }: ProjectViewProps<GalleryConfig>) {
     if (this.queryResult) {
       this.view = new GalleryViewSvelte({
-        target: this.contentEl,
+        target: contentEl,
         props: {
+          config,
+          onConfigChange: saveConfig,
           frame: this.queryResult.data ?? { fields: [], records: [] },
           api: this.queryResult.viewApi,
-          config: config,
-          onConfigChange: this.saveConfig.bind(this),
         },
       });
     }

@@ -1,4 +1,8 @@
-import { ProjectView, type DataQueryResult } from "src/custom-view-api";
+import {
+  ProjectView,
+  type DataQueryResult,
+  type ProjectViewProps,
+} from "src/custom-view-api";
 import CalendarViewSvelte from "./CalendarView.svelte";
 import type { CalendarConfig } from "./types";
 
@@ -27,17 +31,21 @@ export class CalendarView extends ProjectView<CalendarConfig> {
     });
   }
 
-  async onOpen(config: CalendarConfig) {
+  async onOpen({
+    contentEl,
+    config,
+    saveConfig,
+  }: ProjectViewProps<CalendarConfig>) {
     if (this.queryResult) {
       this.view = new CalendarViewSvelte({
-        target: this.contentEl,
+        target: contentEl,
         props: {
           frame: this.queryResult.data ?? { fields: [], records: [] },
           api: this.queryResult.viewApi,
           project: this.queryResult.project,
           readonly: this.queryResult.readonly,
-          config: config,
-          onConfigChange: this.saveConfig.bind(this),
+          config,
+          onConfigChange: saveConfig,
         },
       });
     }

@@ -2,22 +2,22 @@ import type { DataFrame } from "./lib/data";
 import type { ViewApi } from "./lib/view-api";
 import type { ProjectDefinition } from "./types";
 
-export interface DataQueryResult<T = Record<string, any>> {
+export interface DataQueryResult {
   viewApi: ViewApi;
   project: ProjectDefinition;
   readonly: boolean;
   data: DataFrame;
 }
 
-export abstract class ProjectView<T = Record<string, any>> {
-  // @ts-expect-error
-  contentEl: HTMLElement;
-
-  // @ts-expect-error
+export interface ProjectViewProps<T = Record<string, any>> {
+  config: T;
   saveConfig: (config: T) => void;
+  contentEl: HTMLElement;
+}
 
+export abstract class ProjectView<T = Record<string, any>> {
   async onData(result: DataQueryResult): Promise<void> {}
-  async onOpen(config: T): Promise<void> {}
+  async onOpen(props: ProjectViewProps<T>): Promise<void> {}
   async onClose(): Promise<void> {}
 
   abstract getViewType(): string;

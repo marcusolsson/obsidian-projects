@@ -1,0 +1,14 @@
+{
+	"name": "obsidian-projects-types",
+	"version": "0.3.3",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"scripts": {
+		"build": "tsc"
+	},
+	"author": "Marcus Olsson",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^4.8.3"
+	}
+}

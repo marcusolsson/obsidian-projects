@@ -1,4 +1,8 @@
-import { ProjectView, type DataQueryResult } from "src/custom-view-api";
+import {
+  ProjectView,
+  type DataQueryResult,
+  type ProjectViewProps,
+} from "src/custom-view-api";
 import BoardViewSvelte from "./BoardView.svelte";
 import type { BoardConfig } from "./types";
 
@@ -27,17 +31,21 @@ export class BoardView extends ProjectView<BoardConfig> {
     });
   }
 
-  async onOpen(config: BoardConfig) {
+  async onOpen({
+    contentEl,
+    config,
+    saveConfig,
+  }: ProjectViewProps<BoardConfig>) {
     if (this.queryResult) {
       this.view = new BoardViewSvelte({
-        target: this.contentEl,
+        target: contentEl,
         props: {
           frame: this.queryResult.data ?? { fields: [], records: [] },
           api: this.queryResult.viewApi,
           project: this.queryResult.project,
           readonly: this.queryResult.readonly,
-          config: config,
-          onConfigChange: this.saveConfig.bind(this),
+          config,
+          onConfigChange: saveConfig,
         },
       });
     }
