@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": ["dom", "es6"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "declaration": true,
+    "baseUrl": "../",
+    "typeRoots": ["../"],
+    "types": [],
+    "forceConsistentCasingInFileNames": true
+  },
+  "files": ["index.ts"]
+}

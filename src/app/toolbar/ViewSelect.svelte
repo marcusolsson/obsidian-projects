@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { customViews, customViewsV2 } from "src/lib/stores/custom-views";
-  import { Builder } from "src/builder";
+  import { customViews } from "src/lib/stores/custom-views";
   import type { ViewDefinition } from "src/types";
 
   import ViewItemList from "./ViewItemList.svelte";
@@ -14,34 +13,7 @@
   export let viewExists: (name: string) => boolean;
 
   function iconFromViewType(type: string) {
-    switch (type) {
-      case "table":
-        return "table";
-      case "board":
-        return "columns";
-      case "calendar":
-        return "calendar";
-      case "developer":
-        return "wrench";
-      case "gallery":
-        return "layout-grid";
-      default:
-        const createView = $customViewsV2[type];
-
-        if (createView) {
-          const view = createView();
-          return view.getIcon();
-        }
-
-        const builder = $customViews[type];
-
-        if (builder) {
-          const view = new Builder();
-          builder(view);
-          return view.icon ?? "";
-        }
-        return "";
-    }
+    return $customViews[type]?.getIcon() ?? "";
   }
 </script>
 

@@ -6,8 +6,7 @@ declare module "obsidian" {
       enabledPlugins: Set<string>;
       plugins: {
         [id: string]: {
-          onRegisterProjectView?: (builder: Builder) => void;
-          onRegisterProjectViewV2?: () => ProjectViewV2;
+          onRegisterProjectView?: () => ProjectView;
         };
       };
     };

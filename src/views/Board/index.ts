@@ -1,1 +1,1 @@
-export { default as BoardView } from "./BoardView.svelte";
+export { BoardView } from "./board-view";

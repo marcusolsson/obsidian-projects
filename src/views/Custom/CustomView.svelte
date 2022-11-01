@@ -1,62 +1,96 @@
+<svelte:options immutable />
+
 <script lang="ts">
-  import { Builder } from "../../builder";
+  import type { DataQueryResult } from "src/custom-view-api";
+  import { customViews } from "src/lib/stores/custom-views";
+  import type { ViewApi } from "src/lib/view-api";
+  import type { ProjectDefinition, ViewDefinition } from "src/types";
   import type { DataFrame } from "../../lib/data";
-  import { customViews, customViewsV2 } from "../../lib/stores/custom-views";
 
-  export let type: string;
+  export let view: ViewDefinition;
+  export let api: ViewApi;
+  export let config: Record<string, any>;
+  export let onConfigChange: (config: Record<string, any>) => void;
   export let frame: DataFrame;
+  export let project: ProjectDefinition;
+  export let readonly: boolean;
 
-  $: ({ fields, records } = frame);
-
-  $: createView = $customViewsV2[type];
-  $: viewV2 = createView?.();
-
-  let builder = new Builder();
-
-  $: viewBuilder = $customViews[type] ?? (() => {});
-  $: {
-    builder = new Builder();
-    viewBuilder(builder);
+  interface ViewProps {
+    view: ViewDefinition;
+    dataProps: DataQueryResult;
+    config: Record<string, any>;
+    onConfigChange: (config: Record<string, any>) => void;
   }
 
-  function useCustomView(node: HTMLElement, frame: DataFrame) {
-    if (viewV2) {
-      viewV2.containerEl = node;
-      viewV2.onOpen?.();
-      viewV2.onData?.(frame);
-    } else {
-      builder.onOpen?.(frame, node);
+  function useView(node: HTMLElement, props: ViewProps) {
+    // Keep track of previous view id to determine if view should be invalidated.
+    let viewId = props.view.id;
+
+    let projectView = $customViews[props.view.type];
+
+    if (projectView) {
+      // Component just mounted, so treat all properties as dirty.
+      projectView.onOpen({
+        contentEl: node,
+        config: props.config,
+        saveConfig: props.onConfigChange,
+      });
+      projectView.onData(props.dataProps);
     }
 
     return {
-      update(frame: DataFrame) {
-        if (viewV2) {
-          viewV2.onData?.(frame);
-        } else {
+      update(newprops: ViewProps) {
+        // User switched to a different view.
+        const dirty = newprops.view.id !== viewId;
+
+        if (dirty) {
+          // Clean up previous view.
+          projectView?.onClose();
+
           node.empty();
-          builder.onOpen?.(frame, node);
+
+          // Look up the next view.
+          projectView = $customViews[newprops.view.type];
+
+          if (projectView) {
+            projectView.onOpen({
+              contentEl: node,
+              config: newprops.config,
+              saveConfig: newprops.onConfigChange,
+            });
+            projectView.onData(newprops.dataProps);
+          }
+
+          viewId = newprops.view.id;
+        } else {
+          projectView?.onData(newprops.dataProps);
         }
       },
       destroy() {
-        viewV2?.onClose();
+        projectView?.onClose();
       },
     };
   }
 </script>
 
 <div
-  class:noPadding={builder.noPadding}
-  use:useCustomView={{ fields, records }}
+  use:useView={{
+    view,
+    dataProps: {
+      data: frame,
+      viewApi: api,
+      project,
+      readonly,
+    },
+    config,
+    onConfigChange,
+  }}
 />
 
 <style>
   div {
     width: 100%;
     height: 100%;
-    padding: var(--size-4-3);
-  }
-
-  .noPadding {
-    padding: 0;
+    overflow: auto;
   }
 </style>

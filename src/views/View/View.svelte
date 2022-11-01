@@ -3,7 +3,7 @@
 
   import type { DataFrame } from "../../lib/data";
   import type { ViewApi } from "../../lib/view-api";
-  import { getViewComponent } from "./view";
+  import { CustomView } from "../Custom";
 
   /**
    * Specify the project.
@@ -39,8 +39,6 @@
     cfg: Record<string, any>
   ) => void;
 
-  $: viewComponent = view ? getViewComponent(view.type) : null;
-
   function handleConfigChange(config: Record<string, any>) {
     onConfigChange(project.id, view.id, config);
   }
@@ -51,11 +49,10 @@
 
 	View dynamically selects the component to use based on a ViewDefinition.
 -->
-<svelte:component
-  this={viewComponent}
+<CustomView
   {frame}
   {project}
-  type={view.type}
+  {view}
   config={view.config}
   {readonly}
   {api}
