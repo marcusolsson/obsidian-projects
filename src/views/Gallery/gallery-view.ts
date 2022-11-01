@@ -7,7 +7,7 @@ import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
 
 export class GalleryView extends ProjectView<GalleryConfig> {
-  view: GalleryViewSvelte | null;
+  view?: GalleryViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {

@@ -2,7 +2,7 @@ import { ProjectView, type ProjectViewProps } from "src/custom-view-api";
 import DeveloperViewSvelte from "./DeveloperView.svelte";
 
 export class DeveloperView extends ProjectView {
-  view: DeveloperViewSvelte | null;
+  view?: DeveloperViewSvelte | null;
 
   getViewType(): string {
     return "developer";

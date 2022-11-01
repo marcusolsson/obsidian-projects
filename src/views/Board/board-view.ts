@@ -7,7 +7,7 @@ import BoardViewSvelte from "./BoardView.svelte";
 import type { BoardConfig } from "./types";
 
 export class BoardView extends ProjectView<BoardConfig> {
-  view: BoardViewSvelte | null;
+  view?: BoardViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {

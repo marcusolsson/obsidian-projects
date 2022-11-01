@@ -7,7 +7,7 @@ import TableViewSvelte from "./TableView.svelte";
 import type { GridConfig } from "./types";
 
 export class TableView extends ProjectView<GridConfig> {
-  view: TableViewSvelte | null;
+  view?: TableViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {

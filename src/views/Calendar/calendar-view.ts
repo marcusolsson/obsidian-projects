@@ -7,7 +7,7 @@ import CalendarViewSvelte from "./CalendarView.svelte";
 import type { CalendarConfig } from "./types";
 
 export class CalendarView extends ProjectView<CalendarConfig> {
-  view: CalendarViewSvelte | null;
+  view?: CalendarViewSvelte | null;
   props?: ProjectViewProps;
 
   getViewType(): string {
