@@ -25,21 +25,14 @@
   let name: string = "";
   let type: ViewType = "table";
 
-  const selectableCustomViews = Object.entries($customViews).map(
-    ([id, create]) => {
-      const view = create();
+  const options = Object.entries($customViews).map(([id, create]) => {
+    const view = create();
 
-      return {
-        label: view.getDisplayName(),
-        value: id,
-      };
-    }
-  );
-
-  const options = [
-    { label: $i18n.t("views.table.name"), value: "table" },
-    ...selectableCustomViews,
-  ];
+    return {
+      label: view.getDisplayName(),
+      value: id,
+    };
+  });
 
   $: selectedOption = options.find((option) => option.value === type);
 

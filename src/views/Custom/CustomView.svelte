@@ -23,11 +23,13 @@
   }
 
   function useView(node: HTMLElement, props: ViewProps) {
+    // Keep track of previous view id to determine if view should be invalidated.
     let viewId = props.view.id;
 
     let projectView = $customViews[props.view.type]?.();
 
     if (projectView) {
+      // Component just mounted, so treat all properties as dirty.
       projectView.contentEl = node;
       projectView.saveConfig = props.onConfigChange;
       projectView.onData(props.dataProps);
@@ -36,35 +38,30 @@
 
     return {
       update(newprops: ViewProps) {
-        if (newprops.view.id !== viewId) {
-          if (projectView) {
-            projectView.onClose();
-          }
+        // User switched to a different view.
+        const dirty = newprops.view.id !== viewId;
 
+        if (dirty) {
+          // Clean up previous view.
+          projectView?.onClose();
+
+          // Look up the next view.
           projectView = $customViews[newprops.view.type]?.();
 
           if (projectView) {
             projectView.contentEl = node;
-          }
-        }
-
-        if (projectView) {
-          projectView.onData(newprops.dataProps);
-        }
-
-        if (newprops.view.id !== viewId) {
-          if (projectView) {
             projectView.saveConfig = newprops.onConfigChange;
+            projectView.onData(newprops.dataProps);
             projectView.onOpen(newprops.config);
           }
+        } else {
+          projectView?.onData(newprops.dataProps);
         }
 
         viewId = newprops.view.id;
       },
       destroy() {
-        if (projectView) {
-          projectView.onClose();
-        }
+        projectView?.onClose();
       },
     };
   }
