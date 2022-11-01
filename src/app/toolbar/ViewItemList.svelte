@@ -1,3 +1,26 @@
+<script lang="ts">
+  import { onDestroy, onMount } from "svelte";
+  import Sortable from "sortablejs";
+
+  export let onSort: (ids: string[]) => void;
+
+  let ref: HTMLDivElement;
+  let sortable: Sortable;
+
+  onMount(() => {
+    sortable = Sortable.create(ref, {
+      direction: () => "horizontal",
+      animation: 100,
+      dataIdAttr: "data-id",
+      onSort: () => onSort(sortable.toArray()),
+    });
+  });
+
+  onDestroy(() => {
+    sortable.destroy();
+  });
+</script>
+
 <!--
 	@component
 
@@ -5,7 +28,7 @@
 	small screens.
 -->
 <section>
-  <div>
+  <div bind:this={ref}>
     <slot />
   </div>
 </section>

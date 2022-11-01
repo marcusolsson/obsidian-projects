@@ -44,6 +44,11 @@
       {viewId}
       {views}
       viewExists={(name) => !!project?.views.find((view) => view.name === name)}
+      onViewSort={(viewIds) => {
+        if (projectId) {
+          settings.sortViews(projectId, viewIds);
+        }
+      }}
       onViewRename={(viewId, name) => {
         if (projectId) {
           settings.renameView(projectId, viewId, name);

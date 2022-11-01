@@ -6,6 +6,7 @@ import {
 import { writable } from "svelte/store";
 import type { ViewDefinition, ProjectDefinition } from "src/types";
 import produce from "immer";
+import { notEmpty } from "../helpers";
 
 function createSettings() {
   const { set, update, subscribe } = writable<ProjectsPluginSettingsV1>({
@@ -63,6 +64,21 @@ function createSettings() {
           }
 
           return draft;
+        })
+      );
+    },
+    sortViews(projectId: string, viewIds: string[]) {
+      update((state) =>
+        produce(state, (draft) => {
+          draft.projects = draft.projects.map((p) =>
+            p.id !== projectId
+              ? p
+              : produce(p, (draft) => {
+                  draft.views = viewIds
+                    .map((id) => draft.views.find((v) => v.id === id))
+                    .filter(notEmpty);
+                })
+          );
         })
       );
     },

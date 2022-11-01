@@ -10,6 +10,7 @@
   export let onViewChange: (viewId: string) => void;
   export let onViewDelete: (viewId: string) => void;
   export let onViewRename: (viewId: string, name: string) => void;
+  export let onViewSort: (viewIds: string[]) => void;
   export let viewExists: (name: string) => boolean;
 
   function iconFromViewType(type: string) {
@@ -17,14 +18,15 @@
   }
 </script>
 
-<ViewItemList>
+<ViewItemList onSort={onViewSort}>
   {#key views}
     {#each views as v}
       <ViewItem
+        id={v.id}
         active={viewId === v.id}
         label={v.name}
         icon={iconFromViewType(v.type)}
-        on:click={() => onViewChange(v.id)}
+        on:mousedown={() => onViewChange(v.id)}
         on:rename={({ detail: name }) => {
           onViewRename(v.id, name);
         }}

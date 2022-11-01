@@ -13,6 +13,11 @@
   export let label: string;
 
   /**
+   * Specifies the button id.
+   */
+  export let id: string;
+
+  /**
    *  Specifies whether the button is active.
    */
   export let active: boolean = false;
@@ -55,6 +60,7 @@
 	ViewItem is a button that can be renamed and deleted.
 -->
 <div
+  data-id={id}
   class:active
   class:error
   on:mouseenter={() => (hovering = true)}
@@ -67,7 +73,7 @@
     rollback();
   }}
   on:dblclick={() => (editing = true)}
-  on:click
+  on:mousedown
   use:useClickOutside={() => {
     editing = false;
 
@@ -103,7 +109,7 @@
     {label}
   {/if}
 
-  {#if hovering && active}
+  {#if active}
     <IconButton
       icon="cross"
       size="sm"
