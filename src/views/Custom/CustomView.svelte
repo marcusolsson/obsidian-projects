@@ -1,7 +1,7 @@
 <svelte:options immutable />
 
 <script lang="ts">
-  import type { ProjectViewV2 } from "src/custom-view-api";
+  import type { DataQueryResult } from "src/custom-view-api";
   import { customViews } from "src/lib/stores/custom-views";
   import type { ViewApi } from "src/lib/view-api";
   import type { ProjectDefinition, ViewDefinition } from "src/types";
@@ -17,35 +17,20 @@
 
   interface ViewProps {
     view: ViewDefinition;
-    api: ViewApi;
+    dataProps: DataQueryResult;
     config: Record<string, any>;
     onConfigChange: (config: Record<string, any>) => void;
-    frame: DataFrame;
-    project: ProjectDefinition;
-    readonly: boolean;
-  }
-
-  let projectView: ProjectViewV2 | undefined;
-
-  function updateView(node: HTMLElement, props: ViewProps) {
-    if (projectView) {
-      projectView.contentEl = node;
-      projectView.project = props.project;
-      projectView.readonly = props.readonly;
-      projectView.viewApi = props.api;
-      projectView.saveConfig = props.onConfigChange;
-      projectView.onData(props.frame);
-    }
   }
 
   function useView(node: HTMLElement, props: ViewProps) {
     let viewId = props.view.id;
 
-    projectView = $customViews[props.view.type]?.();
-
-    updateView(node, props);
+    let projectView = $customViews[props.view.type]?.();
 
     if (projectView) {
+      projectView.contentEl = node;
+      projectView.saveConfig = props.onConfigChange;
+      projectView.onData(props.dataProps);
       projectView.onOpen(props.config);
     }
 
@@ -54,14 +39,22 @@
         if (newprops.view.id !== viewId) {
           if (projectView) {
             projectView.onClose();
-            projectView = $customViews[newprops.view.type]?.();
+          }
+
+          projectView = $customViews[newprops.view.type]?.();
+
+          if (projectView) {
+            projectView.contentEl = node;
           }
         }
 
-        updateView(node, newprops);
+        if (projectView) {
+          projectView.onData(newprops.dataProps);
+        }
 
         if (newprops.view.id !== viewId) {
           if (projectView) {
+            projectView.saveConfig = newprops.onConfigChange;
             projectView.onOpen(newprops.config);
           }
         }
@@ -78,7 +71,17 @@
 </script>
 
 <div
-  use:useView={{ view, frame, config, onConfigChange, api, project, readonly }}
+  use:useView={{
+    view,
+    dataProps: {
+      data: frame,
+      viewApi: api,
+      project,
+      readonly,
+    },
+    config,
+    onConfigChange,
+  }}
 />
 
 <style>

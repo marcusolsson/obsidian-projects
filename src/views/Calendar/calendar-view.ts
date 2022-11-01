@@ -1,11 +1,10 @@
-import { ProjectView } from "src/custom-view-api";
-import type { DataFrame } from "src/lib/data";
+import { ProjectView, type DataQueryResult } from "src/custom-view-api";
 import CalendarViewSvelte from "./CalendarView.svelte";
 import type { CalendarConfig } from "./types";
 
 export class CalendarView extends ProjectView<CalendarConfig> {
   view?: CalendarViewSvelte;
-  data?: DataFrame;
+  queryResult?: DataQueryResult;
 
   getViewType(): string {
     return "calendar";
@@ -17,29 +16,31 @@ export class CalendarView extends ProjectView<CalendarConfig> {
     return "calendar";
   }
 
-  async onData(data: DataFrame) {
-    this.data = data;
+  async onData(result: DataQueryResult) {
+    this.queryResult = result;
 
     this.view?.$set({
-      frame: this.data,
-      api: this.viewApi,
-      project: this.project,
-      readonly: this.readonly,
+      frame: result.data,
+      api: result.viewApi,
+      project: result.project,
+      readonly: result.readonly,
     });
   }
 
   async onOpen(config: CalendarConfig) {
-    this.view = new CalendarViewSvelte({
-      target: this.contentEl,
-      props: {
-        frame: this.data ?? { fields: [], records: [] },
-        config: config,
-        onConfigChange: this.saveConfig.bind(this),
-        api: this.viewApi,
-        project: this.project,
-        readonly: this.readonly,
-      },
-    });
+    if (this.queryResult) {
+      this.view = new CalendarViewSvelte({
+        target: this.contentEl,
+        props: {
+          frame: this.queryResult.data ?? { fields: [], records: [] },
+          api: this.queryResult.viewApi,
+          project: this.queryResult.project,
+          readonly: this.queryResult.readonly,
+          config: config,
+          onConfigChange: this.saveConfig.bind(this),
+        },
+      });
+    }
   }
 
   async onClose() {

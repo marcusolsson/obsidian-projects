@@ -1,11 +1,10 @@
-import { ProjectView } from "src/custom-view-api";
-import type { DataFrame } from "src/lib/data";
+import { ProjectView, type DataQueryResult } from "src/custom-view-api";
 import TableViewSvelte from "./TableView.svelte";
 import type { GridConfig } from "./types";
 
 export class TableView extends ProjectView<GridConfig> {
   view?: TableViewSvelte;
-  data?: DataFrame;
+  dataProps?: DataQueryResult;
 
   getViewType(): string {
     return "table";
@@ -17,29 +16,31 @@ export class TableView extends ProjectView<GridConfig> {
     return "table";
   }
 
-  async onData(data: DataFrame) {
-    this.data = data;
+  async onData(result: DataQueryResult) {
+    this.dataProps = result;
 
     this.view?.$set({
-      frame: this.data,
-      api: this.viewApi,
-      project: this.project,
-      readonly: this.readonly,
+      frame: result.data,
+      api: result.viewApi,
+      project: result.project,
+      readonly: result.readonly,
     });
   }
 
   async onOpen(config: GridConfig) {
-    this.view = new TableViewSvelte({
-      target: this.contentEl,
-      props: {
-        frame: this.data ?? { fields: [], records: [] },
-        config: config,
-        onConfigChange: this.saveConfig.bind(this),
-        api: this.viewApi,
-        project: this.project,
-        readonly: this.readonly,
-      },
-    });
+    if (this.dataProps) {
+      this.view = new TableViewSvelte({
+        target: this.contentEl,
+        props: {
+          frame: this.dataProps.data ?? { fields: [], records: [] },
+          api: this.dataProps.viewApi,
+          project: this.dataProps.project,
+          readonly: this.dataProps.readonly,
+          config: config,
+          onConfigChange: this.saveConfig.bind(this),
+        },
+      });
+    }
   }
 
   async onClose() {

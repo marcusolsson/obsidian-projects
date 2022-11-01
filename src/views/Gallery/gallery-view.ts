@@ -1,11 +1,10 @@
-import { ProjectView } from "src/custom-view-api";
-import type { DataFrame } from "src/lib/data";
+import { ProjectView, type DataQueryResult } from "src/custom-view-api";
 import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
 
 export class GalleryView extends ProjectView<GalleryConfig> {
-  gallery?: GalleryViewSvelte;
-  data?: DataFrame;
+  view?: GalleryViewSvelte;
+  queryResult?: DataQueryResult;
 
   getViewType(): string {
     return "gallery";
@@ -17,30 +16,30 @@ export class GalleryView extends ProjectView<GalleryConfig> {
     return "layout-grid";
   }
 
-  async onData(data: DataFrame) {
-    this.data = data;
+  async onData(result: DataQueryResult) {
+    this.queryResult = result;
 
-    this.gallery?.$set({
-      frame: this.data,
-      api: this.viewApi,
-      project: this.project,
-      readonly: this.readonly,
+    this.view?.$set({
+      frame: result.data,
+      api: result.viewApi,
     });
   }
 
   async onOpen(config: GalleryConfig) {
-    this.gallery = new GalleryViewSvelte({
-      target: this.contentEl,
-      props: {
-        frame: this.data ?? { fields: [], records: [] },
-        config: config,
-        onConfigChange: this.saveConfig.bind(this),
-        api: this.viewApi,
-      },
-    });
+    if (this.queryResult) {
+      this.view = new GalleryViewSvelte({
+        target: this.contentEl,
+        props: {
+          frame: this.queryResult.data ?? { fields: [], records: [] },
+          api: this.queryResult.viewApi,
+          config: config,
+          onConfigChange: this.saveConfig.bind(this),
+        },
+      });
+    }
   }
 
   async onClose() {
-    this.gallery?.$destroy();
+    this.view?.$destroy();
   }
 }

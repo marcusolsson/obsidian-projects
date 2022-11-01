@@ -2,7 +2,7 @@ import { ProjectView } from "src/custom-view-api";
 import DeveloperViewSvelte from "./DeveloperView.svelte";
 
 export class DeveloperView extends ProjectView {
-  developer?: DeveloperViewSvelte;
+  view?: DeveloperViewSvelte;
 
   getViewType(): string {
     return "developer";
@@ -15,12 +15,12 @@ export class DeveloperView extends ProjectView {
   }
 
   async onOpen() {
-    this.developer = new DeveloperViewSvelte({
+    this.view = new DeveloperViewSvelte({
       target: this.contentEl,
     });
   }
 
   async onClose() {
-    this.developer?.$destroy();
+    this.view?.$destroy();
   }
 }

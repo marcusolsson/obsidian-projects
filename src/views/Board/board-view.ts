@@ -1,11 +1,10 @@
-import { ProjectView } from "src/custom-view-api";
-import type { DataFrame } from "src/lib/data";
+import { ProjectView, type DataQueryResult } from "src/custom-view-api";
 import BoardViewSvelte from "./BoardView.svelte";
 import type { BoardConfig } from "./types";
 
 export class BoardView extends ProjectView<BoardConfig> {
   view?: BoardViewSvelte;
-  data?: DataFrame;
+  queryResult?: DataQueryResult;
 
   getViewType(): string {
     return "board";
@@ -17,29 +16,31 @@ export class BoardView extends ProjectView<BoardConfig> {
     return "columns";
   }
 
-  async onData(data: DataFrame) {
-    this.data = data;
+  async onData(result: DataQueryResult) {
+    this.queryResult = result;
 
     this.view?.$set({
-      frame: this.data,
-      api: this.viewApi,
-      project: this.project,
-      readonly: this.readonly,
+      frame: result.data,
+      api: result.viewApi,
+      project: result.project,
+      readonly: result.readonly,
     });
   }
 
   async onOpen(config: BoardConfig) {
-    this.view = new BoardViewSvelte({
-      target: this.contentEl,
-      props: {
-        frame: this.data ?? { fields: [], records: [] },
-        config: config,
-        onConfigChange: this.saveConfig.bind(this),
-        api: this.viewApi,
-        project: this.project,
-        readonly: this.readonly,
-      },
-    });
+    if (this.queryResult) {
+      this.view = new BoardViewSvelte({
+        target: this.contentEl,
+        props: {
+          frame: this.queryResult.data ?? { fields: [], records: [] },
+          api: this.queryResult.viewApi,
+          project: this.queryResult.project,
+          readonly: this.queryResult.readonly,
+          config: config,
+          onConfigChange: this.saveConfig.bind(this),
+        },
+      });
+    }
   }
 
   async onClose() {
