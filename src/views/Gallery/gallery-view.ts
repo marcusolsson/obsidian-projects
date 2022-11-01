@@ -1,9 +1,9 @@
-import { ProjectViewV2 } from "src/custom-view-api";
+import { ProjectView } from "src/custom-view-api";
 import type { DataFrame } from "src/lib/data";
 import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
 
-export class GalleryView extends ProjectViewV2<GalleryConfig> {
+export class GalleryView extends ProjectView<GalleryConfig> {
   gallery?: GalleryViewSvelte;
   data?: DataFrame;
 

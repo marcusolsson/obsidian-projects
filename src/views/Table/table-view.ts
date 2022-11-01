@@ -1,9 +1,9 @@
-import { ProjectViewV2 } from "src/custom-view-api";
+import { ProjectView } from "src/custom-view-api";
 import type { DataFrame } from "src/lib/data";
 import TableViewSvelte from "./TableView.svelte";
 import type { GridConfig } from "./types";
 
-export class TableView extends ProjectViewV2<GridConfig> {
+export class TableView extends ProjectView<GridConfig> {
   view?: TableViewSvelte;
   data?: DataFrame;
 

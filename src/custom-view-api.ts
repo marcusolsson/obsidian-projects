@@ -2,7 +2,7 @@ import type { DataFrame } from "./lib/data";
 import type { ViewApi } from "./lib/view-api";
 import type { ProjectDefinition } from "./types";
 
-export abstract class ProjectViewV2<T = Record<string, any>> {
+export abstract class ProjectView<T = Record<string, any>> {
   // @ts-expect-error
   contentEl: HTMLElement;
 

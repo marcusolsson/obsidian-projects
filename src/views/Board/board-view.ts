@@ -1,9 +1,9 @@
-import { ProjectViewV2 } from "src/custom-view-api";
+import { ProjectView } from "src/custom-view-api";
 import type { DataFrame } from "src/lib/data";
 import BoardViewSvelte from "./BoardView.svelte";
 import type { BoardConfig } from "./types";
 
-export class BoardView extends ProjectViewV2<BoardConfig> {
+export class BoardView extends ProjectView<BoardConfig> {
   view?: BoardViewSvelte;
   data?: DataFrame;
 

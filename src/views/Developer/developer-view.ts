@@ -1,7 +1,7 @@
-import { ProjectViewV2 } from "src/custom-view-api";
+import { ProjectView } from "src/custom-view-api";
 import DeveloperViewSvelte from "./DeveloperView.svelte";
 
-export class DeveloperView extends ProjectViewV2 {
+export class DeveloperView extends ProjectView {
   developer?: DeveloperViewSvelte;
 
   getViewType(): string {

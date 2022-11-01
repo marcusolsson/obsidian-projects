@@ -1,9 +1,9 @@
-import { ProjectViewV2 } from "src/custom-view-api";
+import { ProjectView } from "src/custom-view-api";
 import type { DataFrame } from "src/lib/data";
 import CalendarViewSvelte from "./CalendarView.svelte";
 import type { CalendarConfig } from "./types";
 
-export class CalendarView extends ProjectViewV2<CalendarConfig> {
+export class CalendarView extends ProjectView<CalendarConfig> {
   view?: CalendarViewSvelte;
   data?: DataFrame;
 

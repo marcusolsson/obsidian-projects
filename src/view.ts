@@ -4,7 +4,7 @@ import App from "./app/App.svelte";
 import { customViews } from "./lib/stores/custom-views";
 import { view } from "./lib/stores/obsidian";
 import type ProjectsPlugin from "./main";
-import type { ProjectViewV2 } from "./custom-view-api";
+import type { ProjectView } from "./custom-view-api";
 import { GalleryView } from "./views/Gallery";
 import { DeveloperView } from "./views/Developer";
 import { CalendarView } from "./views/Calendar";
@@ -54,13 +54,13 @@ export class ProjectsView extends ItemView {
   }
 
   getViews() {
-    const views: Record<string, () => ProjectViewV2> = {};
+    const views: Record<string, () => ProjectView> = {};
 
     for (const pluginId in this.app.plugins.plugins) {
       if (this.app.plugins.enabledPlugins.has(pluginId)) {
         const plugin = this.app.plugins.plugins[pluginId];
 
-        const registerView = plugin?.onRegisterProjectViewV2;
+        const registerView = plugin?.onRegisterProjectView;
 
         if (registerView) {
           views[pluginId] = registerView.bind(plugin);
