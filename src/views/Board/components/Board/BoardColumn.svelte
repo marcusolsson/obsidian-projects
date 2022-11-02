@@ -37,7 +37,7 @@
   }
 </script>
 
-<div class="column">
+<div data-id={name} class="column">
   <div class="column-section">
     <Typography variant="label" nomargin>{name}</Typography>
   </div>

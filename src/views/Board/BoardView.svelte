@@ -129,14 +129,29 @@
 </ToolBar>
 <div>
   <Board
+    onSortColumns={(names) => {
+      onConfigChange({
+        ...config,
+        columns: Object.fromEntries(
+          names.map((name, i) => {
+            return [name, { weight: i }];
+          })
+        ),
+      });
+    }}
     {readonly}
     columns={columns
       .sort((a, b) => {
-        if (a === $i18n.t("views.board.no-status")) return -1;
-        if (b === $i18n.t("views.board.no-status")) return 1;
-        if (a === $i18n.t("views.board.no-status") && a === b) return 0;
+        const aweight = config?.columns?.[a]?.weight ?? 0;
+        const bweight = config?.columns?.[b]?.weight ?? 0;
 
-        return a.localeCompare(b);
+        if (aweight < bweight) {
+          return -1;
+        } else if (aweight > bweight) {
+          return 1;
+        } else {
+          return 0;
+        }
       })
       .map((column) => ({
         id: column,
