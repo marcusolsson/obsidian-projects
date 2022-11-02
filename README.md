@@ -11,8 +11,6 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Project can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
-> **Currently in beta:** This plugin is not yet published. To beta test it, you can use the [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin.
-
 ## Data sources
 
 Projects uses _data sources_ to query the notes to include in your project. By default, Projects uses the _front matter data source_.
