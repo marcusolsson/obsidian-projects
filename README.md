@@ -40,7 +40,7 @@ To use the Dataview data source in your project:
 Design decisions are guided by the following principles:
 
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
-- **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.\
+- **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
 - **Stability over features:** This plugin prioritizes bug reports and usability issues over working on new features.
 
 ## Contribute
