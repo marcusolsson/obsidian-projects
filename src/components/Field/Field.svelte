@@ -14,6 +14,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--spacing-md);
+    gap: 8px;
   }
 </style>
