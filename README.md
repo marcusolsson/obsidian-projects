@@ -10,17 +10,17 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 - Switch between four different views: _Table_, _Board_, _Calendar_, and _Gallery_.
 - Configure note templates for each project.
 
-For example, if you're a content manager, Project can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
+For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
 ## Data sources
 
-Projects uses _data sources_ to query the notes to include in your project. By default, Projects uses the _front matter data source_.
+Projects uses _data sources_ to query the notes to include in your project. 
 
 Data sources try to detect the type of each property in your notes, such as numbers or lists. If the data source detects multiple data types for a property, it falls back to use a text field.
 
 ### Front matter
 
-Collects note data from the [YAML front matter](https://help.obsidian.md/Advanced+topics/YAML+front+matter) in your notes.
+Collects note data from the [YAML front matter](https://help.obsidian.md/Advanced+topics/YAML+front+matter) in your notes. This is the default data source.
 
 ### Dataview
 
@@ -40,11 +40,11 @@ Design decisions are guided by the following principles:
 
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
 - **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
-- **Stability over features:** This plugin prioritizes bug reports and usability issues over working on new features.
+- **Stability over features:** This plugin is geared towards professionals with high demands on reliability. Any bug reports and usability issues will be prioritized over new features.
 
 ## Contribute
 
-Check out the [roadmap](https://github.com/users/marcusolsson/projects/4) to see what's being worked on at the moment.
+Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) to see what's being worked on at the moment.
 
 - [Triage](https://github.com/users/marcusolsson/projects/4/views/6) lists issues I haven't looked into yet. Once I have, they'll receive one or more of the following labels:
   - Issues with `triage/needs-information` lack necessary information for me to make an informed decision.
