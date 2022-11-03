@@ -3,16 +3,17 @@ import type { ViewApi } from "./lib/view-api";
 import type { ProjectDefinition } from "./types";
 
 export interface DataQueryResult {
-  viewApi: ViewApi;
-  project: ProjectDefinition;
-  readonly: boolean;
   data: DataFrame;
 }
 
 export interface ProjectViewProps<T = Record<string, any>> {
+  viewId: string;
+  project: ProjectDefinition;
   config: T;
   saveConfig: (config: T) => void;
   contentEl: HTMLElement;
+  viewApi: ViewApi;
+  readonly: boolean;
 }
 
 export abstract class ProjectView<T = Record<string, any>> {

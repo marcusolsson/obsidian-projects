@@ -5,7 +5,7 @@ export interface FieldConfig {
   };
 }
 
-export interface GridConfig {
+export interface TableConfig {
   readonly fieldConfig?: FieldConfig;
   readonly sortField?: string;
   readonly sortAsc?: boolean;
