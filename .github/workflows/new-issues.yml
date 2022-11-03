@@ -15,5 +15,5 @@ jobs:
           labels: needs-triage
       - uses: actions/add-to-project@v0.3.0
         with:
-          project-url: https://github.com/orgs/marcusolsson/projects/4
+          project-url: https://github.com/users/marcusolsson/projects/4
           github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
