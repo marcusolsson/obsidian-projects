@@ -1,0 +1,10 @@
+name: Support Request
+description: Support request or question related to the Projects plugin
+labels: ["kind/support", "needs-triage"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: What would you like help with?
+    validations:
+      required: true
