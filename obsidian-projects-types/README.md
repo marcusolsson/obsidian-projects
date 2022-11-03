@@ -54,10 +54,7 @@ class MySampleView extends ProjectView {
   // Whenever this function is called, you should invalidate previous data.
   //
   // `data`        Contains the parsed data.
-  // `readonly`    If true, you should disable any UI features that updates the
-  //               underlying data. Currently, readonly is only true for
-  //               Dataview projects, where fields may be computed.
-  async onData({ data, readonly }: DataQueryResult) {
+  async onData({ data }: DataQueryResult) {
     if (this.dataEl) {
       this.dataEl.empty();
       this.dataEl.createDiv({ text: JSON.stringify(data.fields) });
@@ -70,7 +67,10 @@ class MySampleView extends ProjectView {
   // `contentEl`    HTML element where you can attach your view.
   // `config`       JSON object with optional view configuration.
   // `saveConfig`   Callback to save configuration changes.
-  async onOpen({ contentEl, config, saveConfig }: ProjectViewProps) {
+  // `readonly`     If true, you should disable any UI features that updates the
+  //                underlying data. Currently, readonly is only true for
+  //                Dataview projects, where fields may be computed.
+  async onOpen({ contentEl, config, saveConfig, readonly }: ProjectViewProps) {
     console.log("Opening ", this.getDisplayName());
 
     contentEl.createEl("h1", { text: "My Sample View" });
