@@ -17,7 +17,7 @@
 
   import type { DataFrame } from "../../lib/data";
   import type { ProjectDefinition } from "../../types";
-  import type { GridConfig } from "./types";
+  import type { TableConfig } from "./types";
   import { HorizontalGroup } from "src/components/HorizontalGroup";
   import { ToolBar } from "src/components/ToolBar";
   import type { ViewApi } from "src/lib/view-api";
@@ -27,8 +27,8 @@
   export let readonly: boolean;
   export let api: ViewApi;
 
-  export let config: GridConfig | undefined;
-  export let onConfigChange: (cfg: GridConfig) => void;
+  export let config: TableConfig | undefined;
+  export let onConfigChange: (cfg: TableConfig) => void;
 
   $: ({ fields, records } = frame);
 

@@ -20,31 +20,22 @@ export class GalleryView extends ProjectView<GalleryConfig> {
     return "layout-grid";
   }
 
-  async onData(result: DataQueryResult) {
-    if (!this.view && this.props) {
-      this.view = new GalleryViewSvelte({
-        target: this.props.contentEl,
-        props: {
-          frame: result.data ?? { fields: [], records: [] },
-          api: result.viewApi,
-          project: result.project,
-          readonly: result.readonly,
-          config: this.props.config,
-          onConfigChange: this.props.saveConfig,
-        },
-      });
-    } else {
-      this.view?.$set({
-        frame: result.data,
-        api: result.viewApi,
-        project: result.project,
-        readonly: result.readonly,
-      });
-    }
+  async onData({ data }: DataQueryResult) {
+    this.view?.$set({ frame: data });
   }
 
   async onOpen(props: ProjectViewProps<GalleryConfig>) {
-    this.props = props;
+    this.view = new GalleryViewSvelte({
+      target: props.contentEl,
+      props: {
+        frame: { fields: [], records: [] },
+        api: props.viewApi,
+        project: props.project,
+        readonly: props.readonly,
+        config: props.config,
+        onConfigChange: props.saveConfig,
+      },
+    });
   }
 
   async onClose() {

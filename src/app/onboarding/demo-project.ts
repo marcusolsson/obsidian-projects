@@ -4,7 +4,7 @@ import { settings } from "src/lib/stores/settings";
 import type { BoardConfig } from "src/views/Board/types";
 import type { CalendarConfig } from "src/views/Calendar/types";
 import type { GalleryConfig } from "src/views/Gallery/types";
-import type { GridConfig } from "src/views/Table/types";
+import type { TableConfig } from "src/views/Table/types";
 import { v4 as uuidv4 } from "uuid";
 
 export async function createDemoProject(vault: Vault) {
@@ -69,7 +69,7 @@ export async function createDemoProject(vault: Vault) {
     );
   }
 
-  const tableConfig: GridConfig = {
+  const tableConfig: TableConfig = {
     fieldConfig: {
       name: {
         width: 360,
