@@ -12,6 +12,7 @@
 
   import { DateInput, TextInput, Switch, NumberInput } from "obsidian-svelte";
   import { TagList } from "../TagList";
+  import dayjs from "dayjs";
 
   export let type: DataFieldType;
   export let value: DataValue;
@@ -38,8 +39,8 @@
   />
 {:else if type === DataFieldType.Date}
   <DateInput
-    value={isDate(value) ? value : null}
-    on:change={({ detail: value }) => onChange(value)}
+    value={isDate(value) ? dayjs(value) : null}
+    on:change={({ detail: value }) => onChange(value?.toDate())}
   />
 {:else if type === DataFieldType.List && isOptionalList(value)}
   <TagList edit={true} values={value ?? []} {onChange} />

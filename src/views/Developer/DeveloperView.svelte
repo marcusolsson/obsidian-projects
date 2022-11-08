@@ -32,6 +32,7 @@
   } from "obsidian-svelte";
 
   import { app } from "../../lib/stores/obsidian";
+  import dayjs from "dayjs";
 
   let btn1: HTMLButtonElement;
   let btn1Open = false;
@@ -81,7 +82,7 @@
       <NumberInput bind:value={numberValue} helperText={textValue} error />
     </SettingItem>
     <SettingItem name="DateInput">
-      <DateInput value={new Date()} />
+      <DateInput value={dayjs()} />
     </SettingItem>
     <SettingItem name="Select">
       <Select
