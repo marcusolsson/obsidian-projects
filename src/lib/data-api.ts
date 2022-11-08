@@ -118,11 +118,7 @@ export function doUpdateRecord(
       .filter((entry) => entry[1] !== null)
   );
 
-  const encoded = encodeFrontMatter(data, updated);
-
-  return encoded.replace(/"\[\[(.*)\]\]"/, (_, p1) => {
-    return `[[${p1}]]`;
-  });
+  return encodeFrontMatter(data, updated);
 }
 
 export function doDeleteField(data: string, field: string) {
@@ -174,7 +170,7 @@ function decodeFrontMatter(data: string): Omit<FrontMatterCache, "position"> {
 
 function encodeFrontMatter(
   data: string,
-  frontmatter: Omit<FrontMatterCache, "position>">
+  frontmatter: Omit<FrontMatterCache, "position">
 ): string {
   const delim = "---";
 
