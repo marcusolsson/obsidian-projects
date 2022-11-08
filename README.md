@@ -47,7 +47,9 @@ Design decisions are guided by the following principles:
 
 Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) to see what's being worked on at the moment.
 
-For ideas on how you can contribute, check the label on the issue:
+Help me prioritize work by adding reactions to issues that are important to you ([issues sorted by number of reactions](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-desc+)).
+
+For other ideas on how you can contribute, check the label on the issue:
 
 | Label                             | Valid for      | Description                                                                                               | Contribute                                                                    |
 | --------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
