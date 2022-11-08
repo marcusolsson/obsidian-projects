@@ -4,7 +4,6 @@ import moment from "moment";
 import {
   normalizePath,
   parseYaml,
-  stringifyYaml,
   TFile,
   type App,
   type FrontMatterCache,
@@ -23,6 +22,7 @@ import {
   type DataValue,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
+import { stringifyData } from "./metadata/metadata";
 
 /**
  * DataApi writes records to file.
@@ -118,11 +118,7 @@ export function doUpdateRecord(
       .filter((entry) => entry[1] !== null)
   );
 
-  const encoded = encodeFrontMatter(data, updated);
-
-  return encoded.replace(/"\[\[(.*)\]\]"/, (_, p1) => {
-    return `[[${p1}]]`;
-  });
+  return encodeFrontMatter(data, updated);
 }
 
 export function doDeleteField(data: string, field: string) {
@@ -174,7 +170,7 @@ function decodeFrontMatter(data: string): Omit<FrontMatterCache, "position"> {
 
 function encodeFrontMatter(
   data: string,
-  frontmatter: Omit<FrontMatterCache, "position>">
+  frontmatter: Omit<FrontMatterCache, "position">
 ): string {
   const delim = "---";
 
@@ -189,9 +185,9 @@ function encodeFrontMatter(
   if (Object.entries(frontmatter).length) {
     const res = hasFrontMatter
       ? data.slice(0, startPosition + 1) +
-        stringifyYaml(frontmatter) +
+        stringifyData(frontmatter) +
         data.slice(endPosition)
-      : delim + "\n" + stringifyYaml(frontmatter) + delim + "\n\n" + data;
+      : delim + "\n" + stringifyData(frontmatter) + delim + "\n\n" + data;
 
     return res;
   }
