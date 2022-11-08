@@ -47,7 +47,7 @@ Design decisions are guided by the following principles:
 
 Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) to see what's being worked on at the moment.
 
-Help me prioritize work by adding reactions to issues that are important to you ([issues sorted by number of reactions](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-desc+)).
+Help me prioritize work by adding a :+1: reaction to issues that are important to you ([see the most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc)).
 
 For other ideas on how you can contribute, check the label on the issue:
 
