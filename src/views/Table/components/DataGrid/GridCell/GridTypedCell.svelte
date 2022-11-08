@@ -18,6 +18,7 @@
   import { GridTextCell } from "./GridTextCell";
   import { GridLinkCell } from "./GridLinkCell";
   import { GridListCell } from "./GridListCell";
+  import dayjs from "dayjs";
 
   export let value: DataValue;
   export let onChange: (value: DataValue) => void;
@@ -65,8 +66,8 @@
     {selected}
     {rowindex}
     {colindex}
-    {value}
-    {onChange}
+    value={value ? dayjs(value) : undefined}
+    onChange={(value) => onChange(value ? value.toDate() : undefined)}
     {column}
     on:mousedown
     on:navigate
