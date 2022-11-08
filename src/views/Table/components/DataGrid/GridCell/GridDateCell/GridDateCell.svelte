@@ -43,7 +43,7 @@
       value={value ?? null}
       on:change={({ detail: value }) => {
         edit = false;
-        onChange(value);
+        onChange(value != null ? value : undefined);
       }}
       embed
     />
