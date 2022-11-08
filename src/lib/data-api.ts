@@ -4,7 +4,6 @@ import moment from "moment";
 import {
   normalizePath,
   parseYaml,
-  stringifyYaml,
   TFile,
   type App,
   type FrontMatterCache,
@@ -23,6 +22,7 @@ import {
   type DataValue,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
+import { stringifyData } from "./metadata/metadata";
 
 /**
  * DataApi writes records to file.
@@ -189,9 +189,9 @@ function encodeFrontMatter(
   if (Object.entries(frontmatter).length) {
     const res = hasFrontMatter
       ? data.slice(0, startPosition + 1) +
-        stringifyYaml(frontmatter) +
+        stringifyData(frontmatter) +
         data.slice(endPosition)
-      : delim + "\n" + stringifyYaml(frontmatter) + delim + "\n\n" + data;
+      : delim + "\n" + stringifyData(frontmatter) + delim + "\n\n" + data;
 
     return res;
   }
