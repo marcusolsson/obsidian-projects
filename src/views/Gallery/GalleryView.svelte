@@ -6,6 +6,7 @@
   import { ToolBar } from "src/components/ToolBar";
   import {
     DataFieldType,
+    isLink,
     isString,
     type DataFrame,
     type DataRecord,
@@ -30,7 +31,10 @@
 
   $: ({ fields, records } = frame);
 
-  $: textFields = fields.filter((field) => field.type === DataFieldType.String);
+  $: textFields = fields.filter(
+    (field) =>
+      field.type === DataFieldType.String || field.type === DataFieldType.Link
+  );
   $: coverField = textFields.find((field) => config?.coverField === field.name);
 
   function getCoverRealPath(record: DataRecord) {
@@ -40,15 +44,26 @@
 
     const coverPath = record.values[coverField.name];
 
-    if (!coverPath || !isString(coverPath)) {
+    if (!coverPath) {
       return null;
     }
 
-    if (coverPath.startsWith("http://") || coverPath.startsWith("https://")) {
-      return coverPath;
+    if (isString(coverPath)) {
+      if (coverPath.startsWith("http://") || coverPath.startsWith("https://")) {
+        return coverPath;
+      }
+      return getResourcePathFromLinkText(coverPath);
     }
 
-    const file = $app.metadataCache.getFirstLinkpathDest(coverPath, "");
+    if (isLink(coverPath)) {
+      return getResourcePathFromLinkText(coverPath.linkText);
+    }
+
+    return null;
+  }
+
+  function getResourcePathFromLinkText(text: string) {
+    const file = $app.metadataCache.getFirstLinkpathDest(text, "");
 
     if (file) {
       if (
