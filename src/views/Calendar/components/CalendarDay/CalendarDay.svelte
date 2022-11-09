@@ -101,7 +101,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     align-items: start;
     overflow: scroll;
   }

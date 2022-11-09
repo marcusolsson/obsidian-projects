@@ -25,18 +25,14 @@
 
 <style>
   div {
-    border-radius: 4px;
-    border: 1px solid var(--background-modifier-border);
-    background-color: var(--background-secondary);
+    border-radius: 2px;
+    background-color: hsla(var(--interactive-accent-hsl), 0.1);
     padding: 0.2em 0.4em;
-    font-size: var(--font-ui-small);
+    font-size: var(--font-ui-smaller);
     width: 100%;
     display: grid;
     grid-template-columns: auto 1fr;
-  }
-
-  div:hover {
-    border: 1px solid var(--background-modifier-border-hover);
+    border-left: 3px solid hsla(var(--interactive-accent-hsl), 0.5);
   }
 
   span {
