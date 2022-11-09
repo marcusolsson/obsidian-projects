@@ -103,6 +103,7 @@
         vertical
       >
         <TextArea
+          placeholder={`TABLE status AS "Status" FROM "Work"`}
           value={project.query ?? ""}
           on:input={({ detail: query }) => (project = { ...project, query })}
           rows={6}
