@@ -4,7 +4,7 @@ import { standardizeRecord } from "./frontmatter-helpers";
 describe("frontmatter", () => {
   it("standardize", () => {
     const record = standardizeRecord("foo.md", {
-      link: [["Foo"]],
+      link: "[[Foo]]",
       status: "done",
       weight: 12,
       published: true,

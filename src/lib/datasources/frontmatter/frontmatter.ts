@@ -1,4 +1,4 @@
-import type { App, MetadataCache, TFile } from "obsidian";
+import type { App, TFile, Vault } from "obsidian";
 import type { ProjectDefinition } from "../../../types";
 import {
   DataSource,
@@ -9,6 +9,7 @@ import {
 import { notEmpty } from "../../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
 import { detectFields, parseRecords } from "../helpers";
+import { decodeFrontMatter } from "src/lib/metadata/metadata";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
@@ -31,11 +32,8 @@ export class FrontMatterDataSource extends DataSource {
   }
 
   async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
-    const standardizedRecords = standardizeRecords(
-      files,
-      this.app.metadataCache
-    );
-    let fields = detectSchema(standardizedRecords);
+    const standardizedRecords = standardizeRecords(files, this.app.vault);
+    let fields = detectSchema(await standardizedRecords);
 
     for (const predefinedField of predefinedFields ?? []) {
       fields = fields.map((field) =>
@@ -45,7 +43,7 @@ export class FrontMatterDataSource extends DataSource {
       );
     }
 
-    const records = parseRecords(standardizedRecords, fields);
+    const records = parseRecords(await standardizedRecords, fields);
 
     return { fields, records };
   }
@@ -71,31 +69,24 @@ export class FrontMatterDataSource extends DataSource {
   }
 }
 
-export function standardizeRecords(
+export async function standardizeRecords(
   files: TFile[],
-  metadataCache: MetadataCache
-): DataRecord[] {
-  const records: DataRecord[] = [];
-
-  for (const file of files) {
-    const cache = metadataCache.getFileCache(file);
-
-    if (cache) {
-      const { position, ...values }: { [key: string]: any } =
-        cache.frontmatter ?? {};
+  vault: Vault
+): Promise<DataRecord[]> {
+  return Promise.all(
+    files.map(async (file) => {
+      const values = decodeFrontMatter(await vault.read(file));
 
       const filteredValues = Object.fromEntries(
-        Object.entries(values).filter(([_, value]) => notEmpty(value))
+        Object.entries(values).filter(([_key, value]) => notEmpty(value))
       );
 
       filteredValues["path"] = file.path;
       filteredValues["name"] = file.basename;
 
-      records.push(standardizeRecord(file.path, filteredValues));
-    }
-  }
-
-  return records;
+      return standardizeRecord(file.path, filteredValues);
+    })
+  );
 }
 
 export function detectSchema(records: DataRecord[]): DataField[] {

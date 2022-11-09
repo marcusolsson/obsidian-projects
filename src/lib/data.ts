@@ -179,15 +179,9 @@ export function isOptionalDate(value: DataValue): value is Date | undefined {
   return value instanceof Date || value === undefined;
 }
 
-export function isRawLink(value: any): value is Array<Array<string>> {
-  if (value && Array.isArray(value)) {
-    if (value.length === 1) {
-      const nextValue = value[0];
-
-      if (nextValue && Array.isArray(nextValue)) {
-        return nextValue.length === 1;
-      }
-    }
+export function isStringLink(value: any): boolean {
+  if (isString(value)) {
+    return /^\[\[(.*)\]\]$/.test(value);
   }
   return false;
 }

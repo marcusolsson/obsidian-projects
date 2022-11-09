@@ -133,7 +133,7 @@
             onRowChange(
               rowId,
               produce(row, (draft) => {
-                draft[column.field] = null;
+                draft[column.field] = undefined;
                 return draft;
               })
             );

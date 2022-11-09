@@ -1,13 +1,7 @@
 import dayjs from "dayjs";
 import produce from "immer";
 import moment from "moment";
-import {
-  normalizePath,
-  parseYaml,
-  TFile,
-  type App,
-  type FrontMatterCache,
-} from "obsidian";
+import { normalizePath, TFile, type App } from "obsidian";
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 import type { ProjectDefinition } from "../types";
@@ -22,7 +16,7 @@ import {
   type DataValue,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
-import { stringifyData } from "./metadata/metadata";
+import { encodeFrontMatter, decodeFrontMatter } from "./metadata/metadata";
 
 /**
  * DataApi writes records to file.
@@ -148,54 +142,6 @@ export function doRenameField(data: string, from: string, to: string) {
   );
 
   return encodeFrontMatter(data, updated);
-}
-
-function decodeFrontMatter(data: string): Omit<FrontMatterCache, "position"> {
-  const delim = "---";
-
-  const startPosition = data.indexOf(delim) + delim.length;
-
-  const isStart = data.slice(0, startPosition).trim() === delim;
-
-  const endPosition = data.slice(startPosition).indexOf(delim) + startPosition;
-
-  const hasFrontMatter = isStart && endPosition > startPosition;
-
-  const { position, ...cache }: FrontMatterCache = hasFrontMatter
-    ? parseYaml(data.slice(startPosition, endPosition))
-    : {};
-
-  return cache;
-}
-
-function encodeFrontMatter(
-  data: string,
-  frontmatter: Omit<FrontMatterCache, "position">
-): string {
-  const delim = "---";
-
-  const startPosition = data.indexOf(delim) + delim.length;
-
-  const isStart = data.slice(0, startPosition).trim() === delim;
-
-  const endPosition = data.slice(startPosition).indexOf(delim) + startPosition;
-
-  const hasFrontMatter = isStart && endPosition > startPosition;
-
-  if (Object.entries(frontmatter).length) {
-    const res = hasFrontMatter
-      ? data.slice(0, startPosition + 1) +
-        stringifyData(frontmatter) +
-        data.slice(endPosition)
-      : delim + "\n" + stringifyData(frontmatter) + delim + "\n\n" + data;
-
-    return res;
-  }
-
-  return hasFrontMatter
-    ? data.slice(0, startPosition - delim.length) +
-        data.slice(endPosition + delim.length + 1)
-    : data;
 }
 
 export function createProject(): ProjectDefinition {
