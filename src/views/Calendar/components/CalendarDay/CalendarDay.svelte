@@ -78,6 +78,7 @@
             linkText={recordPair[1].id}
             sourcePath=""
             resolved
+            tooltip={getDisplayName(recordPair[1])}
             on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
               if (newLeaf) {
                 $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
@@ -100,7 +101,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     align-items: start;
     overflow: scroll;
   }
