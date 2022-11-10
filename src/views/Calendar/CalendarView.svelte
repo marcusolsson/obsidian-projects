@@ -51,6 +51,8 @@
 
   $: ({ fields, records } = frame);
 
+  $: console.log({ records });
+
   let anchorDate: dayjs.Dayjs = dayjs();
 
   $: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
@@ -175,13 +177,32 @@
           {#each week as date}
             <CalendarDay
               {date}
+              onReschedule={(recordId, date) => {
+                if (dateField) {
+                  const record = records.find(
+                    (record) => record.id === recordId
+                  );
+
+                  if (record) {
+                    const rec = {
+                      ...record,
+                      values: {
+                        ...record.values,
+                        [dateField.name]: date.toDate(),
+                      },
+                    };
+
+                    api.updateRecord(rec, fields);
+                  }
+                }
+              }}
               checkField={booleanField?.name}
               onRecordUpdate={(record) => {
                 api.updateRecord(record, fields);
               }}
               records={groupedRecords[date.format("YYYY-MM-DD")] || []}
-              onEntryClick={(id) => {
-                const rec = records[id];
+              onEntryClick={(recordId) => {
+                const rec = records.find((r) => r.id === recordId);
                 if (rec) {
                   new EditNoteModal(
                     get(app),

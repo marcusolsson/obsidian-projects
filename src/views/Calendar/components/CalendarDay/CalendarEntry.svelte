@@ -1,12 +1,14 @@
 <script lang="ts">
   import { Checkbox } from "obsidian-svelte";
 
+  export let id: string;
   export let checked: boolean | null | undefined = undefined;
 
   let hover: boolean = false;
 </script>
 
 <div
+  data-id={id}
   on:click
   on:mouseenter={() => (hover = true)}
   on:mouseleave={() => (hover = false)}

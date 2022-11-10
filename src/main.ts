@@ -158,12 +158,13 @@ export default class ProjectsPlugin extends Plugin {
 
   // activateView opens the main Projects view in a new workspace leaf.
   async activateView() {
-    this.app.workspace.revealLeaf(await this.getOrCreateLeaf());
+    this.app.workspace.revealLeaf(
+      await this.getOrCreateLeaf(VIEW_TYPE_PROJECTS)
+    );
   }
 
-  async getOrCreateLeaf(): Promise<WorkspaceLeaf> {
-    const existingLeaves =
-      this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
+  async getOrCreateLeaf(type: string): Promise<WorkspaceLeaf> {
+    const existingLeaves = this.app.workspace.getLeavesOfType(type);
 
     if (existingLeaves[0]) {
       return existingLeaves[0];

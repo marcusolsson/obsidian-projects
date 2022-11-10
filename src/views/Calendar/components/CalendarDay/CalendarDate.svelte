@@ -12,10 +12,10 @@
   span {
     padding: 0.2em 0.4em;
     border-radius: 4px;
+    display: inline-block;
   }
   .today {
     background: var(--interactive-accent);
-    display: inline-block;
     color: var(--text-on-accent);
   }
 </style>

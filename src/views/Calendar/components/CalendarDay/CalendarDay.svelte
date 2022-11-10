@@ -12,13 +12,18 @@
   import { TableCell } from "../Table";
   import CalendarDate from "./CalendarDate.svelte";
   import CalendarEntry from "./CalendarEntry.svelte";
+  import CalendarEntryList from "./CalendarEntryList.svelte";
+  import type { Dayjs } from "dayjs";
 
   export let date: dayjs.Dayjs;
-  export let records: Array<[number, DataRecord]>;
+  export let records: DataRecord[];
+
   export let checkField: string | undefined;
-  export let onEntryClick: (recordId: number) => void;
+
+  export let onEntryClick: (recordId: string) => void;
   export let onEntryAdd: () => void;
   export let onRecordUpdate: (record: DataRecord) => void;
+  export let onReschedule: (recordId: string, date: Dayjs) => void;
 
   function getDisplayName(record: DataRecord): string {
     const basename = path.basename(record.id);
@@ -53,57 +58,67 @@
 >
   <div class:weekend={date.day() === 0 || date.day() === 6}>
     <CalendarDate {date} />
-    {#each records as recordPair}
-      {#if getDisplayName(recordPair[1])}
-        <CalendarEntry
-          checked={checkField !== undefined
-            ? asOptionalBoolean(recordPair[1].values[checkField])
-            : undefined}
-          on:check={({ detail: checked }) => {
-            if (checkField) {
-              onRecordUpdate({
-                ...recordPair[1],
-                values: {
-                  ...recordPair[1].values,
-                  [checkField]: checked,
-                },
-              });
-            }
-          }}
-          on:click={() => {
-            onEntryClick(recordPair[0]);
-          }}
-        >
-          <InternalLink
-            linkText={recordPair[1].id}
-            sourcePath=""
-            resolved
-            tooltip={getDisplayName(recordPair[1])}
-            on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-              if (newLeaf) {
-                $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-              } else {
-                onEntryClick(recordPair[0]);
+    <CalendarEntryList
+      date={date.format("YYYY-MM-DD")}
+      onMoveRecord={(date, id) => {
+        if (date && id) {
+          onReschedule(id, date);
+        }
+      }}
+    >
+      {#each records as record}
+        {#if getDisplayName(record)}
+          <CalendarEntry
+            id={record.id}
+            checked={checkField !== undefined
+              ? asOptionalBoolean(record.values[checkField])
+              : undefined}
+            on:check={({ detail: checked }) => {
+              if (checkField) {
+                onRecordUpdate({
+                  ...record,
+                  values: {
+                    ...record.values,
+                    [checkField]: checked,
+                  },
+                });
               }
             }}
+            on:click={() => {
+              onEntryClick(record.id);
+            }}
           >
-            {getDisplayName(recordPair[1])}
-          </InternalLink>
-        </CalendarEntry>
-      {/if}
-    {/each}
+            <InternalLink
+              linkText={record.id}
+              sourcePath=""
+              resolved
+              tooltip={getDisplayName(record)}
+              on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                if (newLeaf) {
+                  $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
+                } else {
+                  onEntryClick(record.id);
+                }
+              }}
+            >
+              {getDisplayName(record)}
+            </InternalLink>
+          </CalendarEntry>
+        {/if}
+      {/each}
+    </CalendarEntryList>
   </div>
 </TableCell>
 
 <style>
   div {
-    padding: 4px;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    align-items: start;
+    height: 100%;
+    padding: 4px;
     overflow: scroll;
+    gap: 4px;
+    align-items: flex-start;
   }
 
   .weekend {

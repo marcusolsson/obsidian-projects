@@ -2,6 +2,6 @@
   padding: 0;
 }
 
-.sortable-drag {
-  opacity: 0 !important;
+.sortable-fallback {
+	opacity: 0 !important;
 }
