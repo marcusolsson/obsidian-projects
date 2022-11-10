@@ -9,7 +9,7 @@ import {
 import { notEmpty } from "../../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
 import { detectFields, parseRecords } from "../helpers";
-import { decodeFrontMatter } from "src/lib/metadata/metadata";
+import { decodeFrontMatter } from "src/lib/metadata";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.

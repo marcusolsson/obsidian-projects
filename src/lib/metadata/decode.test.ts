@@ -1,33 +1,43 @@
 import { describe, expect, it } from "@jest/globals";
-import {
-  encodeFrontMatter,
-  parseYaml,
-  preprocessYaml,
-  stringifyYaml,
-} from "./metadata";
+import { decodeFrontMatter, parseYaml, preprocessYaml } from "./decode";
 
-describe("encodeFrontMatter", () => {
-  it("should keep existing Markdown content", () => {
+describe("decodeFrontMatter", () => {
+  it("should decode note with Markdown content", () => {
     expect(
-      encodeFrontMatter(
+      decodeFrontMatter(
         `
 ---
 status: In progress
 ---
 
 # My title
-`,
-        {
-          status: "Done",
-        }
+`
       )
-    ).toStrictEqual(`
----
-status: Done
----
+    ).toStrictEqual({ status: "In progress" });
+  });
 
+  it("should ignore non-leading front matter", () => {
+    expect(
+      decodeFrontMatter(
+        `
 # My title
-`);
+
+---
+status: In progress
+---
+`
+      )
+    ).toStrictEqual({});
+  });
+
+  it("should decode note with missing front matter", () => {
+    expect(
+      decodeFrontMatter(
+        `
+# My title
+`
+      )
+    ).toStrictEqual({});
   });
 });
 
@@ -51,7 +61,7 @@ describe("preprocessYaml", () => {
   });
 });
 
-describe("parse", () => {
+describe("parseYaml", () => {
   it("should parse links", () => {
     expect(
       parseYaml(`unquoted: [[Untitled.md]]\nquoted: "[[Untitled.md]]"`)
@@ -95,27 +105,5 @@ foo:
     ).toStrictEqual({
       foo: [null, null, null],
     });
-  });
-});
-
-describe("stringify", () => {
-  it("should strip quotes from string types", () => {
-    expect(
-      stringifyYaml({ bar: "Hello world", foo: "[[Untitled.md]]" })
-    ).toStrictEqual("bar: Hello world\nfoo: [[Untitled.md]]\n");
-  });
-
-  it("should encode non-string types", () => {
-    expect(stringifyYaml({ number: 6.25, boolean: true })).toStrictEqual(
-      "number: 6.25\nboolean: true\n"
-    );
-  });
-});
-
-describe("regression test for issue #95", () => {
-  it("should strip quotes from comma-separated list", () => {
-    expect(stringifyYaml({ tags: "foo, bar, baz" })).toStrictEqual(
-      "tags: foo, bar, baz\n"
-    );
   });
 });

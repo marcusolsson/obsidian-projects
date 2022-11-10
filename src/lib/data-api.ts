@@ -16,7 +16,7 @@ import {
   type DataValue,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
-import { encodeFrontMatter, decodeFrontMatter } from "./metadata/metadata";
+import { encodeFrontMatter, decodeFrontMatter } from "./metadata";
 
 /**
  * DataApi writes records to file.
