@@ -47,3 +47,16 @@ describe("regression test for issue #95", () => {
     );
   });
 });
+
+describe("regression test for issue #134", () => {
+  it("should not fold long strings", () => {
+    expect(
+      stringifyYaml({
+        longstring:
+          "-----------------------------------------------------------------------------------",
+      })
+    ).toStrictEqual(
+      "longstring: -----------------------------------------------------------------------------------\n"
+    );
+  });
+});
