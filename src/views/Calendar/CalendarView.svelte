@@ -181,14 +181,17 @@
               }}
               records={groupedRecords[date.format("YYYY-MM-DD")] || []}
               onEntryClick={(id) => {
-                new EditNoteModal(
-                  get(app),
-                  fields,
-                  (record) => {
-                    api.updateRecord(record, fields);
-                  },
-                  records[id]
-                ).open();
+                const rec = records[id];
+                if (rec) {
+                  new EditNoteModal(
+                    get(app),
+                    fields,
+                    (record) => {
+                      api.updateRecord(record, fields);
+                    },
+                    rec
+                  ).open();
+                }
               }}
               onEntryAdd={() => {
                 if (dateField && !readonly) {
