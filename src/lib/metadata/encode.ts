@@ -37,7 +37,7 @@ export function encodeFrontMatter(
  * stringifyYaml converts a value to YAML.
  */
 export function stringifyYaml(value: any): string {
-  return postprocessYaml(stringify(value));
+  return postprocessYaml(stringify(value, { lineWidth: 0 }));
 }
 
 /**
