@@ -12,6 +12,7 @@
       direction: () => "horizontal",
       animation: 100,
       dataIdAttr: "data-id",
+      forceFallback: true,
       onSort: () => onSort(sortable.toArray()),
     });
   });

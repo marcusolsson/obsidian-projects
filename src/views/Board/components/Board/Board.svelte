@@ -23,9 +23,10 @@
 
   onMount(() => {
     sortable = Sortable.create(ref, {
-      animation: 150,
+      animation: 100,
       direction: "horizontal",
       dataIdAttr: "data-id",
+      forceFallback: true,
       store: {
         get() {
           return columns.map((column) => column.id);
