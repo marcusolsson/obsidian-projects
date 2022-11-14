@@ -1,12 +1,13 @@
 import { get } from "svelte/store";
 
 import { i18n } from "src/lib/stores/i18n";
-import { isString, type DataRecord } from "src/lib/data";
+import { isNumber, isString, type DataRecord } from "src/lib/data";
 import { notEmpty } from "src/lib/helpers";
 
 export function unique(records: DataRecord[], fieldName: string): string[] {
   const keys = records
     .map((record) => record.values[fieldName])
+    .map((value) => (value && isNumber(value) ? value.toLocaleString() : value))
     .map((value) => (value && isString(value) ? value : null))
     .filter(notEmpty);
 
@@ -39,6 +40,8 @@ export function groupRecordsByField(
 
     if (value && isString(value)) {
       res[value]?.push(record);
+    } else if (value && isNumber(value)) {
+      res[value.toLocaleString()]?.push(record);
     } else {
       res[noStatus]?.push(record);
     }
