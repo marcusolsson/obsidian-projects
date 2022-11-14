@@ -17,6 +17,7 @@ export interface WorkspaceDefinitionV0 {
   readonly templates?: string[];
   readonly dataview?: boolean;
   readonly query?: string;
+  readonly excludedNotes?: string[];
 }
 
 export interface ProjectDefinition extends WorkspaceDefinitionV0 {}

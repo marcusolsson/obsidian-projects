@@ -6,6 +6,7 @@
 
   export let paths: string[];
   export let onPathsChange: (value: string[]) => void;
+  export let buttonText: string;
 </script>
 
 {#each paths as path, i}
@@ -36,7 +37,7 @@
 <Button
   on:click={() => {
     onPathsChange([...paths, ""]);
-  }}>Add template</Button
+  }}>{buttonText}</Button
 >
 
 <style>

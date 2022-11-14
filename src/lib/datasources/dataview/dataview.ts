@@ -52,8 +52,8 @@ export class DataviewDataSource extends DataSource {
     return { fields, records };
   }
 
-  includes(_: string): boolean {
-    return true;
+  includes(path: string): boolean {
+    return !this.project.excludedNotes?.includes(path);
   }
 
   readonly(): boolean {

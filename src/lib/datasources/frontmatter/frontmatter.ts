@@ -49,6 +49,10 @@ export class FrontMatterDataSource extends DataSource {
   }
 
   includes(path: string): boolean {
+    if (this.project.excludedNotes?.includes(path)) {
+      return false;
+    }
+
     const trimmedPath = this.project.path.startsWith("/")
       ? this.project.path.slice(1)
       : this.project.path;

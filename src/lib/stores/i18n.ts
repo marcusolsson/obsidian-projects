@@ -88,6 +88,11 @@ i18next.init({
               description:
                 "Templates to choose from when you create new notes.",
             },
+            exclude: {
+              name: "Excluded notes",
+              description:
+                "Notes to exclude even if they would otherwise be part of the project.",
+            },
             defaultName: {
               name: "Default name",
               description:
