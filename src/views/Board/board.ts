@@ -28,8 +28,6 @@ export function groupRecordsByField(
 
   const keys = unique(records, fieldName);
 
-  console.log({ keys });
-
   const res: Record<string, Array<DataRecord>> = {
     [noStatus]: [],
   };
