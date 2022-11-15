@@ -51,8 +51,6 @@
 
   $: ({ fields, records } = frame);
 
-  $: console.log({ records });
-
   let anchorDate: dayjs.Dayjs = dayjs();
 
   $: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
