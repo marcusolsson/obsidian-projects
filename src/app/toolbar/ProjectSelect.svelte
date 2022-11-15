@@ -56,6 +56,18 @@
 
         menu.addItem((item) => {
           item
+            .setTitle($i18n.t("modals.project.duplicate.title"))
+            .setIcon("copy")
+            .onClick(() => {
+              if (projectId) {
+                const id = settings.duplicateProject(projectId);
+                onProjectChange(id);
+              }
+            });
+        });
+
+        menu.addItem((item) => {
+          item
             .setTitle($i18n.t("modals.project.delete.short-title"))
             .setIcon("trash")
             .onClick(() => {
