@@ -6,7 +6,7 @@ import {
 import { writable } from "svelte/store";
 import type { ViewDefinition, ProjectDefinition } from "src/types";
 import produce from "immer";
-import { nextUniqueProjectName, notEmpty } from "../helpers";
+import { notEmpty } from "../helpers";
 import { v4 as uuidv4 } from "uuid";
 
 function createSettings() {
@@ -52,14 +52,7 @@ function createSettings() {
             draft.projects.push({
               ...project,
               id: newId,
-              name: nextUniqueProjectName(
-                draft.projects,
-                project.name.replace(
-                  // Strip existing occurrences of Copy.
-                  /(\s*Copy(\s+[0-9]+)*)$/,
-                  () => ""
-                ) + " Copy"
-              ),
+              name: project.name + " Copy",
               views: project.views.map((v) => ({ ...v, id: uuidv4() })),
             });
           }
@@ -127,6 +120,38 @@ function createSettings() {
           }
         })
       );
+    },
+    duplicateView(projectId: string, viewId: string) {
+      const newId = uuidv4();
+      update((state) =>
+        produce(state, (draft) => {
+          const idx = draft.projects.findIndex((ws) => ws.id === projectId);
+
+          if (idx >= 0) {
+            const p = draft.projects[idx];
+            if (p) {
+              const view = p.views.find((v) => v.id === viewId);
+
+              if (view) {
+                draft.projects.splice(idx, 1, {
+                  ...p,
+                  views: [
+                    ...p.views,
+                    {
+                      ...view,
+                      id: newId,
+                      name: view.name + " Copy",
+                    },
+                  ],
+                });
+              }
+            }
+          }
+
+          return draft;
+        })
+      );
+      return newId;
     },
     deleteView(projectId: string, viewId: string) {
       update((state) =>

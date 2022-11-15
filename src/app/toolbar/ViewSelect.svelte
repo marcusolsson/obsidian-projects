@@ -9,6 +9,7 @@
   export let views: ViewDefinition[];
   export let onViewChange: (viewId: string) => void;
   export let onViewDelete: (viewId: string) => void;
+  export let onViewDuplicate: (viewId: string) => void;
   export let onViewRename: (viewId: string, name: string) => void;
   export let onViewSort: (viewIds: string[]) => void;
   export let viewExists: (name: string) => boolean;
@@ -32,6 +33,9 @@
         }}
         on:delete={() => {
           onViewDelete(v.id);
+        }}
+        on:duplicate={() => {
+          onViewDuplicate(v.id);
         }}
         onValidate={(name) => {
           // Check if view has it's original name.

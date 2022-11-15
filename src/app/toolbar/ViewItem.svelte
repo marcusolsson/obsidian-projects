@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Menu } from "obsidian";
   import {
     Icon,
     IconButton,
@@ -39,7 +40,6 @@
     label = fallback;
   }
 
-  let hovering: boolean = false;
   let editing: boolean = false;
 
   let inputRef: HTMLInputElement;
@@ -51,7 +51,11 @@
 
   $: error = !onValidate(label);
 
-  const dispatch = createEventDispatcher<{ rename: string; delete: void }>();
+  const dispatch = createEventDispatcher<{
+    rename: string;
+    duplicate: void;
+    delete: void;
+  }>();
 </script>
 
 <!--
@@ -63,11 +67,7 @@
   data-id={id}
   class:active
   class:error
-  on:mouseenter={() => (hovering = true)}
-  on:mouseleave={() => (hovering = false)}
-  on:focus={() => (hovering = true)}
   on:blur={() => {
-    hovering = false;
     editing = false;
 
     rollback();
@@ -109,12 +109,32 @@
     {label}
   {/if}
 
-  {#if hovering && active}
+  {#if active}
     <IconButton
-      icon="cross"
+      icon="chevron-down"
       size="sm"
       nopadding
-      on:click={() => dispatch("delete")}
+      on:click={(event) => {
+        const menu = new Menu();
+
+        menu.addItem((item) => {
+          item.setTitle("Duplicate view");
+          item.setIcon("copy");
+          item.onClick(() => {
+            dispatch("duplicate");
+          });
+        });
+
+        menu.addItem((item) => {
+          item.setTitle("Delete view");
+          item.setIcon("trash");
+          item.onClick(() => {
+            dispatch("delete");
+          });
+        });
+
+        menu.showAtMouseEvent(event);
+      }}
     />
   {/if}
 </div>

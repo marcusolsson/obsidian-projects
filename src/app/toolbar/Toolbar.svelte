@@ -55,6 +55,12 @@
         }
       }}
       {onViewChange}
+      onViewDuplicate={(viewId) => {
+        if (projectId) {
+          const id = settings.duplicateView(projectId, viewId);
+          onViewChange(id);
+        }
+      }}
       onViewDelete={(viewId) => {
         new ConfirmDialogModal(
           $app,
