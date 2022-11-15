@@ -6,7 +6,8 @@ import {
 import { writable } from "svelte/store";
 import type { ViewDefinition, ProjectDefinition } from "src/types";
 import produce from "immer";
-import { notEmpty } from "../helpers";
+import { nextUniqueProjectName, notEmpty } from "../helpers";
+import { v4 as uuidv4 } from "uuid";
 
 function createSettings() {
   const { set, update, subscribe } = writable<ProjectsPluginSettingsV1>({
@@ -40,6 +41,31 @@ function createSettings() {
           );
         })
       );
+    },
+    duplicateProject(projectId: string) {
+      const newId = uuidv4();
+      update((state) =>
+        produce(state, (draft) => {
+          const project = draft.projects.find((p) => p.id === projectId);
+
+          if (project) {
+            draft.projects.push({
+              ...project,
+              id: newId,
+              name: nextUniqueProjectName(
+                draft.projects,
+                project.name.replace(
+                  // Strip existing occurrences of Copy.
+                  /(\s*Copy(\s+[0-9]+)*)$/,
+                  () => ""
+                ) + " Copy"
+              ),
+              views: project.views.map((v) => ({ ...v, id: uuidv4() })),
+            });
+          }
+        })
+      );
+      return newId;
     },
     deleteProject(projectId: string) {
       update((state) =>
