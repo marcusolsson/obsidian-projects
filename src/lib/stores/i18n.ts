@@ -49,6 +49,9 @@ i18next.init({
               title: "Edit project",
               cta: "Save",
             },
+            duplicate: {
+              title: "Duplicate project",
+            },
             delete: {
               "short-title": "Delete project",
               title: "Delete project",

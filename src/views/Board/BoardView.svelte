@@ -38,7 +38,10 @@
 
   $: ({ fields, records } = frame);
 
-  $: textFields = fields.filter((field) => field.type === DataFieldType.String);
+  $: textFields = fields.filter(
+    (field) =>
+      field.type === DataFieldType.String || field.type === DataFieldType.Number
+  );
 
   $: groupByField = fields.find((field) => config?.groupByField === field.name);
 

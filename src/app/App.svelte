@@ -58,6 +58,8 @@
       ).open();
     }
   });
+
+  const wait = () => new Promise((res) => setTimeout(res, 500));
 </script>
 
 <!--
@@ -68,7 +70,9 @@
 -->
 <AppContainer {projects} bind:projectId bind:viewId let:project let:view>
   {#await querying}
-    <Loading />
+    {#await wait() then}
+      <Loading />
+    {/await}
   {:then}
     {#if project && view && $dataSource}
       <View
