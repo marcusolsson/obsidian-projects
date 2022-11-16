@@ -250,8 +250,8 @@ i18next.init({
               desc: "Sort Z → A",
             },
 			sortDate: {
-				asc: "Sort Oldest → Newest",
-				desc: "Sort Newest → Oldest"
+				asc: "Sort Old → New",
+				desc: "Sort New → Old"
 			}
           },
         },
