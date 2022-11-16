@@ -1,5 +1,4 @@
 <script lang="ts">
-  import dayjs from "dayjs";
   import { DateInput } from "obsidian-svelte";
 
   import { GridCell } from "..";
@@ -29,13 +28,13 @@
   on:navigate
   onCopy={() => {
     if (value) {
-      navigator.clipboard.writeText(dayjs(value).format("L"));
+      navigator.clipboard.writeText(new Intl.DateTimeFormat().format(value));
     }
   }}
 >
   <svelte:fragment slot="read">
     {#if value}
-      <TextLabel value={dayjs(value).format("L")} />
+      <TextLabel value={new Intl.DateTimeFormat().format(value)} />
     {/if}
   </svelte:fragment>
   <svelte:fragment slot="edit">
