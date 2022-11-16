@@ -249,6 +249,10 @@ i18next.init({
               asc: "Sort A → Z",
               desc: "Sort Z → A",
             },
+			sortDate: {
+				asc: "Sort Oldest → Newest",
+				desc: "Sort Newest → Oldest"
+			}
           },
         },
         toolbar: {
