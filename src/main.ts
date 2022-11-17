@@ -5,6 +5,7 @@ import "obsidian-dataview";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import updateLocale from "dayjs/plugin/updateLocale";
 
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 import { createDataRecord, createProject } from "./lib/data-api";
@@ -21,6 +22,7 @@ import { CreateNoteModal } from "./modals/create-note-modal";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
+dayjs.extend(updateLocale);
 
 export interface ProjectsPluginSettings {
   readonly lastWorkspaceId?: string | undefined;
