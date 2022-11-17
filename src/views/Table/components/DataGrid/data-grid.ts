@@ -70,11 +70,11 @@ export function sortRows(
       }
     }
 
-	if (isDate(aval) && isDate(bval)) {
-		if(aval.getTime() < bval.getTime()) return isAsc ? -1 : 1;
-		if(aval.getTime() > bval.getTime()) return isAsc ? 1 : -1;
-		return 0
-	}
+    if (isDate(aval) && isDate(bval)) {
+      if (aval.getTime() < bval.getTime()) return isAsc ? -1 : 1;
+      if (aval.getTime() > bval.getTime()) return isAsc ? 1 : -1;
+      return 0;
+    }
 
     aval = aval.toString().toLocaleLowerCase();
     bval = bval.toString().toLocaleLowerCase();
