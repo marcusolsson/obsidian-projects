@@ -220,6 +220,11 @@ i18next.init({
               dayWithCount_one: "{{count}} day",
               dayWithCount_other: "{{count}} days",
             },
+            startOfWeek: {
+              name: "Start Week On",
+              sunday: "Sunday",
+              monday: "Monday"
+            }
           },
           gallery: {
             name: "Gallery",

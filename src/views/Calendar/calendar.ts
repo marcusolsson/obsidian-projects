@@ -91,16 +91,16 @@ export function computeDateInterval(
   switch (interval) {
     case "month":
       return [
-        anchor.startOf("month").startOf("isoWeek"),
-        anchor.endOf("month").endOf("isoWeek"),
+        anchor.startOf("month").startOf("week"),
+        anchor.endOf("month").endOf("week"),
       ];
     case "2weeks":
       return [
-        anchor.startOf("isoWeek"),
-        anchor.add(1, "week").endOf("isoWeek"),
+        anchor.startOf("week"),
+        anchor.add(1, "week").endOf("week"),
       ];
     case "week":
-      return [anchor.startOf("isoWeek"), anchor.endOf("isoWeek")];
+      return [anchor.startOf("week"), anchor.endOf("week")];
     case "3days":
       return [anchor, anchor.add(2, "days")];
     case "day":

@@ -39,7 +39,9 @@
     groupRecordsByField,
     isCalendarInterval,
     subtractInterval,
+    type CalendarWeekStart
   } from "./calendar";
+
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -67,7 +69,9 @@
 
   $: dateInterval = computeDateInterval(anchorDate, interval);
 
-  $: weekStart = config?.weekStart ?? "sunday"
+  $: weekStart = config?.weekStart ?? "monday";
+  // $: dayjs.Ls[dayjs.locale()]!.weekStart = weekStart == "sunday" ? 0 : 1
+  $: dayjs.updateLocale(dayjs.locale(), {weekStart: weekStart == "sunday" ? 1 : 0})
 
   $: groupedRecords = dateField
     ? groupRecordsByField(records, dateField.name)
@@ -99,7 +103,9 @@
   }
 
   function handleWeekStartChange(startOn: string) {
-		onConfigChange({...config, weekStart: startOn})
+    if(startOn.toLocaleLowerCase() == "monday" || startOn.toLocaleLowerCase() == "sunday") {
+      onConfigChange({...config, weekStart: startOn as CalendarWeekStart})
+    }
 	}
 
 </script>
@@ -111,6 +117,22 @@
       onPrevious={() => (anchorDate = subtractInterval(anchorDate, interval))}
       onToday={() => (anchorDate = dayjs())}
     />
+    <Field name={$i18n.t("views.calendar.startOfWeek.name")}>
+      <Select
+          value={config?.weekStart ?? "sunday"}
+          options={[
+            {
+              label: $i18n.t("views.calendar.startOfWeek.sunday"),
+              value: "sunday"
+            },
+            {
+              label: $i18n.t("views.calendar.startOfWeek.monday"),
+              value: "monday"
+            }
+          ]}
+          on:change={({detail}) => handleWeekStartChange(detail)}
+      />
+    </Field>
     <Typography variant="h2" nomargin>{title}</Typography>
     <HorizontalGroup>
       <Field name={$i18n.t("views.calendar.fields.date")}>
