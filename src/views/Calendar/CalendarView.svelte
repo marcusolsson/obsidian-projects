@@ -39,9 +39,8 @@
     groupRecordsByField,
     isCalendarInterval,
     subtractInterval,
-    type CalendarWeekStart
+    type CalendarWeekStart,
   } from "./calendar";
-
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -71,7 +70,9 @@
 
   $: weekStart = config?.weekStart ?? "monday";
   // $: dayjs.Ls[dayjs.locale()]!.weekStart = weekStart == "sunday" ? 0 : 1
-  $: dayjs.updateLocale(dayjs.locale(), {weekStart: weekStart == "sunday" ? 1 : 0})
+  $: dayjs.updateLocale(dayjs.locale(), {
+    weekStart: weekStart == "sunday" ? 1 : 0,
+  });
 
   $: groupedRecords = dateField
     ? groupRecordsByField(records, dateField.name)
@@ -103,11 +104,13 @@
   }
 
   function handleWeekStartChange(startOn: string) {
-    if(startOn.toLocaleLowerCase() == "monday" || startOn.toLocaleLowerCase() == "sunday") {
-      onConfigChange({...config, weekStart: startOn as CalendarWeekStart})
+    if (
+      startOn.toLocaleLowerCase() == "monday" ||
+      startOn.toLocaleLowerCase() == "sunday"
+    ) {
+      onConfigChange({ ...config, weekStart: startOn as CalendarWeekStart });
     }
-	}
-
+  }
 </script>
 
 <div>
@@ -119,18 +122,18 @@
     />
     <Field name={$i18n.t("views.calendar.startOfWeek.name")}>
       <Select
-          value={config?.weekStart ?? "sunday"}
-          options={[
-            {
-              label: $i18n.t("views.calendar.startOfWeek.sunday"),
-              value: "sunday"
-            },
-            {
-              label: $i18n.t("views.calendar.startOfWeek.monday"),
-              value: "monday"
-            }
-          ]}
-          on:change={({detail}) => handleWeekStartChange(detail)}
+        value={config?.weekStart ?? "sunday"}
+        options={[
+          {
+            label: $i18n.t("views.calendar.startOfWeek.sunday"),
+            value: "sunday",
+          },
+          {
+            label: $i18n.t("views.calendar.startOfWeek.monday"),
+            value: "monday",
+          },
+        ]}
+        on:change={({ detail }) => handleWeekStartChange(detail)}
       />
     </Field>
     <Typography variant="h2" nomargin>{title}</Typography>

@@ -223,8 +223,8 @@ i18next.init({
             startOfWeek: {
               name: "Start Week On",
               sunday: "Sunday",
-              monday: "Monday"
-            }
+              monday: "Monday",
+            },
           },
           gallery: {
             name: "Gallery",

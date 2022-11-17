@@ -5,7 +5,7 @@ import { get } from "svelte/store";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";
 
-export type CalendarWeekStart = "sunday" | "monday"
+export type CalendarWeekStart = "sunday" | "monday";
 
 export function isCalendarInterval(value: string): value is CalendarInterval {
   switch (value) {
@@ -95,10 +95,7 @@ export function computeDateInterval(
         anchor.endOf("month").endOf("week"),
       ];
     case "2weeks":
-      return [
-        anchor.startOf("week"),
-        anchor.add(1, "week").endOf("week"),
-      ];
+      return [anchor.startOf("week"), anchor.add(1, "week").endOf("week")];
     case "week":
       return [anchor.startOf("week"), anchor.endOf("week")];
     case "3days":
