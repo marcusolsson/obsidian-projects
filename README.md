@@ -13,6 +13,14 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
+If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
+
+- [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8)
+- [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo)
+- [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU)
+
+_Did I miss any? Let me know and I'll add them to the list!_
+
 ## Data sources
 
 Projects uses _data sources_ to query the notes to include in your project.
