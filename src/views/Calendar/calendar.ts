@@ -5,6 +5,8 @@ import { get } from "svelte/store";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";
 
+export type CalendarWeekStart = "sunday" | "monday"
+
 export function isCalendarInterval(value: string): value is CalendarInterval {
   switch (value) {
     case "month":

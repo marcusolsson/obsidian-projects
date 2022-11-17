@@ -67,6 +67,8 @@
 
   $: dateInterval = computeDateInterval(anchorDate, interval);
 
+  $: weekStart = config?.weekStart ?? "sunday"
+
   $: groupedRecords = dateField
     ? groupRecordsByField(records, dateField.name)
     : {};
@@ -95,6 +97,11 @@
   function handleCheckFieldChange(checkField: string) {
     onConfigChange({ ...config, checkField });
   }
+
+  function handleWeekStartChange(startOn: string) {
+		onConfigChange({...config, weekStart: startOn})
+	}
+
 </script>
 
 <div>
