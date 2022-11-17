@@ -17,7 +17,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "allowSyntheticDefaultImports": true,
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
     "lib": ["DOM", "ES5", "ES6", "ES7"]
