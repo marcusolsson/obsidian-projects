@@ -33,7 +33,7 @@ export function parseYaml(data: string): Record<string, any> {
  * arrays.
  */
 export function preprocessYaml(data: string): string {
-  const nonQuotedInternalLinks = /(?<!\")(\[\[.*\]\])(?!\")/g;
+  const nonQuotedInternalLinks = /(?<!\")(\[\[.*\]\])(?!\")$/g;
 
   // Uses negative lookbehind, which isn't supported on iOS.
   const quoteInternalLinks = (line: string) =>
