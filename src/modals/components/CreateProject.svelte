@@ -164,8 +164,22 @@
       vertical
     >
       <FileListInput
+        buttonText="Add template"
         paths={project.templates ?? []}
         onPathsChange={(templates) => (project = { ...project, templates })}
+      />
+    </SettingItem>
+
+    <SettingItem
+      name={$i18n.t("modals.project.exclude.name")}
+      description={$i18n.t("modals.project.exclude.description") ?? ""}
+      vertical
+    >
+      <FileListInput
+        buttonText="Add note"
+        paths={project.excludedNotes ?? []}
+        onPathsChange={(excludedNotes) =>
+          (project = { ...project, excludedNotes })}
       />
     </SettingItem>
   </ModalContent>
