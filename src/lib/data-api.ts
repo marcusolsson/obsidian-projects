@@ -13,7 +13,7 @@ import {
   isLink,
   type DataField,
   type DataRecord,
-  type DataValue,
+  type OptionalDataValue,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
 import { encodeFrontMatter, decodeFrontMatter } from "./metadata";
@@ -108,8 +108,6 @@ export function doUpdateRecord(
         (entry) =>
           !fields.find((field) => field.name === entry[0] && field.derived)
       )
-      .filter((entry) => entry[1] !== undefined)
-      .filter((entry) => entry[1] !== null)
   );
 
   return encodeFrontMatter(data, updated);
@@ -118,30 +116,18 @@ export function doUpdateRecord(
 export function doDeleteField(data: string, field: string) {
   const frontmatter = decodeFrontMatter(data);
 
-  frontmatter[field] = null;
+  frontmatter[field] = undefined;
 
-  const updated = Object.fromEntries(
-    Object.entries(frontmatter)
-      .filter((entry) => entry[1] !== undefined)
-      .filter((entry) => entry[1] !== null)
-  );
-
-  return encodeFrontMatter(data, updated);
+  return encodeFrontMatter(data, frontmatter);
 }
 
 export function doRenameField(data: string, from: string, to: string) {
   const frontmatter = decodeFrontMatter(data);
 
   frontmatter[to] = frontmatter[from];
-  frontmatter[from] = null;
+  frontmatter[from] = undefined;
 
-  const updated = Object.fromEntries(
-    Object.entries(frontmatter)
-      .filter((entry) => entry[1] !== undefined)
-      .filter((entry) => entry[1] !== null)
-  );
-
-  return encodeFrontMatter(data, updated);
+  return encodeFrontMatter(data, frontmatter);
 }
 
 export function createProject(): ProjectDefinition {
@@ -169,7 +155,7 @@ export function createProject(): ProjectDefinition {
 export function createDataRecord(
   name: string,
   project: ProjectDefinition,
-  values?: Record<string, DataValue>
+  values?: Record<string, OptionalDataValue>
 ): DataRecord {
   return {
     id: normalizePath(project.path + "/" + name + ".md"),

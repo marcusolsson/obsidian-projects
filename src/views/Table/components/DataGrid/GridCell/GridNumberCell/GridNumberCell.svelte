@@ -2,11 +2,11 @@
   import GridCell from "../GridCell.svelte";
   import NumberLabel from "./NumberLabel.svelte";
   import NumberInput from "./NumberInput.svelte";
-  import { isNumber } from "../../../../../../lib/data";
+  import { isNumber, type Optional } from "src/lib/data";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: number | undefined;
-  export let onChange: (value: number | undefined) => void;
+  export let value: number | Optional;
+  export let onChange: (value: number | Optional) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;
@@ -24,10 +24,10 @@
   {rowindex}
   {colindex}
   onCopy={() => {
-    navigator.clipboard.writeText(value?.toString() ?? "");
+    navigator.clipboard.writeText(value?.toString() || "");
   }}
   onCut={() => {
-    navigator.clipboard.writeText(value?.toString() ?? "");
+    navigator.clipboard.writeText(value?.toString() || "");
     onChange(undefined);
   }}
   onPaste={async () => {

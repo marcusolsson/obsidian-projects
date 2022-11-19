@@ -1,4 +1,5 @@
 import { stringify } from "yaml";
+import { parseYaml } from "./decode";
 
 /**
  * encodeFrontMatter updates the front matter of a note.
@@ -19,12 +20,16 @@ export function encodeFrontMatter(
   const isStart = data.slice(0, startPosition).trim() === delim;
   const hasFrontMatter = isStart && endPosition > startPosition;
 
-  if (Object.entries(frontmatter).length) {
+  const existing = parseYaml(data.slice(startPosition, endPosition));
+
+  const fm = Object.assign({}, existing, frontmatter);
+
+  if (Object.entries(fm).length) {
     return hasFrontMatter
       ? data.slice(0, startPosition + 1) +
-          stringifyYaml(frontmatter) +
+          stringifyYaml(fm) +
           data.slice(endPosition)
-      : delim + "\n" + stringifyYaml(frontmatter) + delim + "\n\n" + data;
+      : delim + "\n" + stringifyYaml(fm) + delim + "\n\n" + data;
   }
 
   return hasFrontMatter
@@ -37,7 +42,7 @@ export function encodeFrontMatter(
  * stringifyYaml converts a value to YAML.
  */
 export function stringifyYaml(value: any): string {
-  return postprocessYaml(stringify(value, { lineWidth: 0 }));
+  return postprocessYaml(stringify(value, { lineWidth: 0, nullStr: "" }));
 }
 
 /**
