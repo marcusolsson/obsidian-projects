@@ -229,6 +229,14 @@ i18next.init({
             },
             empty: "This view is empty.",
           },
+          timeline: {
+            name: "Timeline",
+            fields: {
+              startDate: "Begin date",
+              endDate: "End date",
+              check: "Check",
+            }
+          }
         },
         components: {
           "data-grid": {

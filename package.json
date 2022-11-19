@@ -52,5 +52,17 @@
     "typescript": "~4.5.0",
     "uuid": "^8.3.2",
     "yaml": "^2.1.3"
+  },
+  "dependencies": {
+    "@interactjs/actions": "^1.10.17",
+    "@interactjs/auto-start": "^1.10.17",
+    "@interactjs/core": "^1.10.17",
+    "@interactjs/dev-tools": "^1.10.17",
+    "@interactjs/modifiers": "^1.10.17",
+    "@interactjs/snappers": "^1.10.17",
+    "@interactjs/utils": "^1.10.17",
+    "interactjs": "^1.10.17",
+    "svelte-grid": "^5.1.1",
+    "svelte-moveable": "^0.31.1"
   }
 }
