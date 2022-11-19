@@ -114,6 +114,6 @@ describe("detectCellType", () => {
     expect(detectCellType({ my: "object" })).toStrictEqual(
       DataFieldType.Unknown
     );
-    expect(detectCellType(null)).toStrictEqual(DataFieldType.Unknown);
+    expect(detectCellType(null)).toStrictEqual(DataFieldType.String);
   });
 });

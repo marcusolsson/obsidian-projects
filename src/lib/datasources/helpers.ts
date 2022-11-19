@@ -3,8 +3,8 @@ import {
   DataFieldType,
   type DataField,
   type DataRecord,
-  type DataValue,
   type Link,
+  type OptionalDataValue,
 } from "../data";
 
 /**
@@ -61,7 +61,7 @@ export function parseRecords(
 }
 
 export function detectFields(records: DataRecord[]): DataField[] {
-  const valuesByField: Record<string, DataValue[]> = {};
+  const valuesByField: Record<string, OptionalDataValue[]> = {};
 
   records.forEach((record) => {
     Object.entries(record.values).forEach(([field, value]) => {
@@ -79,7 +79,7 @@ export function detectFields(records: DataRecord[]): DataField[] {
 
 // typeFromValues returns the field type for a collection of values. This is an
 // incredibly naïve implementation that needs to be optimized.
-function typeFromValues(values: DataValue[]): DataFieldType {
+function typeFromValues(values: OptionalDataValue[]): DataFieldType {
   const types = values.map((value) => detectCellType(value));
 
   const result: Record<string, number> = {};
@@ -123,6 +123,11 @@ export function detectCellType(value: unknown): DataFieldType {
   } else if (Array.isArray(value)) {
     return DataFieldType.List;
   }
+
+  if (value === null) {
+    return DataFieldType.String;
+  }
+
   return DataFieldType.Unknown;
 }
 

@@ -3,7 +3,7 @@
   import { TFile } from "obsidian";
   import { FileAutocomplete } from "obsidian-svelte";
 
-  import { isOptionalLink, type Link } from "../../../../../../lib/data";
+  import { isOptionalLink, type Link, type Optional } from "src/lib/data";
 
   import type { GridColDef } from "../../data-grid";
 
@@ -12,8 +12,8 @@
   import { app } from "../../../../../../lib/stores/obsidian";
   import { getNotesInFolder } from "src/lib/obsidian";
 
-  export let value: Link | undefined;
-  export let onChange: (value: Link | undefined) => void;
+  export let value: Link | Optional;
+  export let onChange: (value: Link | Optional) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;

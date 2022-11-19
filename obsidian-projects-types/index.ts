@@ -56,7 +56,7 @@ export enum DataFieldType {
 
 export interface DataRecord {
   readonly id: string;
-  readonly values: Record<string, DataValue>;
+  readonly values: Record<string, OptionalDataValue>;
 }
 
 export type DataValue =
@@ -67,6 +67,12 @@ export type DataValue =
   | Link
   | Array<string>
   | undefined;
+
+export type Optional =
+  | undefined // removed from front matter
+  | null; // present but empty in front matter
+
+export type OptionalDataValue = DataValue | Optional;
 
 export interface Link {
   readonly displayName?: string;

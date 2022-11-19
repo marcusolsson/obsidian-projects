@@ -1,12 +1,13 @@
 <script lang="ts">
   import { DateInput } from "obsidian-svelte";
+  import type { Optional } from "src/lib/data";
 
   import { GridCell } from "..";
   import { TextLabel } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: Date | undefined;
-  export let onChange: (value: Date | undefined) => void;
+  export let value: Date | Optional;
+  export let onChange: (value: Date | Optional) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;

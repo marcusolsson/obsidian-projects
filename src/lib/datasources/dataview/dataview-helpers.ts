@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import type { DataValue } from "../../data";
+import type { OptionalDataValue } from "../../data";
 import { App, TFile } from "obsidian";
 
 /**
@@ -9,8 +9,8 @@ import { App, TFile } from "obsidian";
 export function standardizeValues(
   app: App,
   values: Record<string, any>
-): Record<string, DataValue> {
-  const res: Record<string, DataValue> = {};
+): Record<string, OptionalDataValue> {
+  const res: Record<string, OptionalDataValue> = {};
 
   Object.keys(values).forEach((field) => {
     const value = values[field];

@@ -1,9 +1,10 @@
 <script lang="ts">
   import { TagList } from "src/components/TagList";
+  import type { Optional } from "src/lib/data";
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: string[] | undefined;
+  export let value: string[] | Optional;
   export let onChange: (values: string[]) => void;
   export let column: GridColDef;
   export let rowindex: number;
@@ -12,6 +13,6 @@
 </script>
 
 <GridCell {selected} {rowindex} {colindex} {column} on:mousedown on:navigate>
-  <TagList slot="read" edit={false} values={value ?? []} />
-  <TagList slot="edit" edit={true} values={value ?? []} {onChange} />
+  <TagList slot="read" edit={false} values={value || []} />
+  <TagList slot="edit" edit={true} values={value || []} {onChange} />
 </GridCell>

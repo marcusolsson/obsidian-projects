@@ -7,15 +7,15 @@
     isNumber,
     isOptionalList,
     isString,
-    type DataValue,
+    type OptionalDataValue,
   } from "../../lib/data";
 
   import { DateInput, TextInput, Switch, NumberInput } from "obsidian-svelte";
   import { TagList } from "../TagList";
 
   export let type: DataFieldType;
-  export let value: DataValue;
-  export let onChange: (value: DataValue) => void;
+  export let value: OptionalDataValue;
+  export let onChange: (value: OptionalDataValue) => void;
   export let readonly: boolean = false;
 </script>
 

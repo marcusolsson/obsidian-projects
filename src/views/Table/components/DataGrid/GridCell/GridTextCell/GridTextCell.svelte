@@ -4,9 +4,10 @@
 
   import { TextInput } from "obsidian-svelte";
   import TextLabel from "./TextLabel.svelte";
+  import type { Optional } from "src/lib/data";
 
-  export let value: string | undefined;
-  export let onChange: (value: string | undefined) => void;
+  export let value: string | Optional;
+  export let onChange: (value: string | Optional) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;
@@ -24,10 +25,10 @@
   on:mousedown
   on:navigate
   onCopy={() => {
-    navigator.clipboard.writeText(value?.toString() ?? "");
+    navigator.clipboard.writeText(value?.toString() || "");
   }}
   onCut={() => {
-    navigator.clipboard.writeText(value?.toString() ?? "");
+    navigator.clipboard.writeText(value?.toString() || "");
     onChange(undefined);
   }}
   onPaste={async () => {
