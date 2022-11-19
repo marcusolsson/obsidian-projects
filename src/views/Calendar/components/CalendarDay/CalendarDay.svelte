@@ -7,7 +7,7 @@
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
 
-  import type { DataRecord, DataValue } from "src/lib/data";
+  import type { DataRecord, Optional, OptionalDataValue } from "src/lib/data";
 
   import { TableCell } from "../Table";
   import CalendarDate from "./CalendarDate.svelte";
@@ -25,7 +25,7 @@
     return basename.slice(0, basename.lastIndexOf("."));
   }
 
-  function asOptionalBoolean(value: DataValue): boolean | null {
+  function asOptionalBoolean(value: OptionalDataValue): boolean | Optional {
     if (typeof value === "boolean") {
       return value;
     }

@@ -19,6 +19,7 @@
   } from "./data-grid";
   import GridCellGroup from "./GridCellGroup.svelte";
   import { Button, Icon } from "obsidian-svelte";
+  import { DataFieldType } from "src/lib/data";
 
   export let columns: GridColDef[];
   export let rows: GridRowProps[];
@@ -66,15 +67,29 @@
       menu.addSeparator();
     }
 
+    let isDateCol = column.type === DataFieldType.Date;
+
     menu.addItem((item) => {
       item
-        .setTitle(t("components.data-grid.sort.asc"))
+        .setTitle(
+          t(
+            isDateCol
+              ? "components.data-grid.sortDate.asc"
+              : "components.data-grid.sort.asc"
+          )
+        )
         .setIcon("sort-asc")
         .onClick(() => onSortModelChange(column.field, "asc"));
     });
     menu.addItem((item) => {
       item
-        .setTitle(t("components.data-grid.sort.desc"))
+        .setTitle(
+          t(
+            isDateCol
+              ? "components.data-grid.sortDate.desc"
+              : "components.data-grid.sort.desc"
+          )
+        )
         .setIcon("sort-desc")
         .onClick(() => onSortModelChange(column.field, "desc"));
     });

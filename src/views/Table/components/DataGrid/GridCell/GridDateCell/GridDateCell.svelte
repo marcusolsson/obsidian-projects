@@ -1,13 +1,13 @@
 <script lang="ts">
-  import dayjs from "dayjs";
   import { DateInput } from "obsidian-svelte";
+  import type { Optional } from "src/lib/data";
 
   import { GridCell } from "..";
   import { TextLabel } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: Date | undefined;
-  export let onChange: (value: Date | undefined) => void;
+  export let value: Date | Optional;
+  export let onChange: (value: Date | Optional) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;
@@ -29,13 +29,13 @@
   on:navigate
   onCopy={() => {
     if (value) {
-      navigator.clipboard.writeText(dayjs(value).format("L"));
+      navigator.clipboard.writeText(new Intl.DateTimeFormat().format(value));
     }
   }}
 >
   <svelte:fragment slot="read">
     {#if value}
-      <TextLabel value={dayjs(value).format("L")} />
+      <TextLabel value={new Intl.DateTimeFormat().format(value)} />
     {/if}
   </svelte:fragment>
   <svelte:fragment slot="edit">

@@ -10,6 +10,10 @@ export function notEmpty<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined;
 }
 
+export function notUndefined<T>(value: T | undefined): value is T {
+  return value !== undefined;
+}
+
 /**
  * uniquify appends a sequence number to a string, where the number is the
  * lowest available according to a callback function.

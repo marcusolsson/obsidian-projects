@@ -6,7 +6,7 @@ import {
   type DataFrame,
   type DataRecord,
 } from "../../data";
-import { notEmpty } from "../../helpers";
+import { notUndefined } from "../../helpers";
 import { standardizeRecord } from "./frontmatter-helpers";
 import { detectFields, parseRecords } from "../helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
@@ -32,8 +32,8 @@ export class FrontMatterDataSource extends DataSource {
   }
 
   async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
-    const standardizedRecords = standardizeRecords(files, this.app.vault);
-    let fields = detectSchema(await standardizedRecords);
+    const standardizedRecords = await standardizeRecords(files, this.app.vault);
+    let fields = detectSchema(standardizedRecords);
 
     for (const predefinedField of predefinedFields ?? []) {
       fields = fields.map((field) =>
@@ -43,7 +43,7 @@ export class FrontMatterDataSource extends DataSource {
       );
     }
 
-    const records = parseRecords(await standardizedRecords, fields);
+    const records = parseRecords(standardizedRecords, fields);
 
     return { fields, records };
   }
@@ -82,7 +82,7 @@ export async function standardizeRecords(
       const values = decodeFrontMatter(await vault.read(file));
 
       const filteredValues = Object.fromEntries(
-        Object.entries(values).filter(([_key, value]) => notEmpty(value))
+        Object.entries(values).filter(([_key, value]) => notUndefined(value))
       );
 
       filteredValues["path"] = file.path;

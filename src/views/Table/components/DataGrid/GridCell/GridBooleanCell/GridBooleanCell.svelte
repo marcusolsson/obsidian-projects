@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { isBoolean } from "../../../../../../lib/data";
+  import { isBoolean, type Optional } from "src/lib/data";
   import { Switch } from "obsidian-svelte";
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: boolean | undefined;
+  export let value: boolean | Optional;
   export let onChange: (value: boolean) => void;
   export let column: GridColDef;
   export let rowindex: number;

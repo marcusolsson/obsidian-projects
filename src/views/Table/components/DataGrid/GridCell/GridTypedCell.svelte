@@ -6,8 +6,8 @@
     isOptionalList,
     isOptionalNumber,
     isOptionalString,
-    type DataValue,
-  } from "../../../../../lib/data";
+    type OptionalDataValue,
+  } from "src/lib/data";
 
   import GridCell from "./GridCell.svelte";
 
@@ -19,8 +19,8 @@
   import { GridLinkCell } from "./GridLinkCell";
   import { GridListCell } from "./GridListCell";
 
-  export let value: DataValue;
-  export let onChange: (value: DataValue) => void;
+  export let value: OptionalDataValue;
+  export let onChange: (value: OptionalDataValue) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;
