@@ -7,9 +7,11 @@ import type ProjectsPlugin from "./main";
 import type { ProjectView } from "./custom-view-api";
 import { GalleryView } from "./views/Gallery";
 // import { DeveloperView } from "./views/Developer";
+import { TimelineView } from "./views/Timeline/timeline-view";
 import { CalendarView } from "./views/Calendar";
 import { BoardView } from "./views/Board";
 import { TableView } from "./views/Table";
+import { DeveloperView } from "./views/Developer/developer-view";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -75,8 +77,8 @@ export class ProjectsView extends ItemView {
     views["board"] = new BoardView();
     views["calendar"] = new CalendarView();
     views["gallery"] = new GalleryView();
-    // views["developer"] = () => new DeveloperView();
-
+    views["timeline"] = new TimelineView()
+    views["developer"] = new DeveloperView();
     return views;
   }
 }
