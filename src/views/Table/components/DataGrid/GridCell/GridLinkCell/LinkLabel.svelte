@@ -1,10 +1,10 @@
 <script lang="ts">
   import { InternalLink } from "obsidian-svelte";
 
-  import type { Link } from "../../../../../../lib/data";
-  import { app } from "../../../../../../lib/stores/obsidian";
+  import type { Link, Optional } from "src/lib/data";
+  import { app } from "src/lib/stores/obsidian";
 
-  export let value: Link | undefined;
+  export let value: Link | Optional;
 </script>
 
 <div>

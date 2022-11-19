@@ -1,4 +1,5 @@
 import type { Menu } from "obsidian";
+import { isDate } from "util/types";
 import { DataFieldType, isNumber } from "../../../../lib/data";
 
 export type GridValidRowModel = { [key: string]: any };
@@ -67,6 +68,12 @@ export function sortRows(
       } else {
         return 0;
       }
+    }
+
+    if (isDate(aval) && isDate(bval)) {
+      if (aval.getTime() < bval.getTime()) return isAsc ? -1 : 1;
+      if (aval.getTime() > bval.getTime()) return isAsc ? 1 : -1;
+      return 0;
     }
 
     aval = aval.toString().toLocaleLowerCase();

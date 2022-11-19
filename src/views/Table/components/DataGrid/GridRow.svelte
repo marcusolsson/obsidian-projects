@@ -3,13 +3,13 @@
   import { TFile, type Menu } from "obsidian";
 
   import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
-  import type { DataValue } from "../../../../lib/data";
+  import type { OptionalDataValue } from "src/lib/data";
   import { IconButton } from "obsidian-svelte";
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
   import { menuOnContextMenu } from "./data-grid";
-  import { app } from "../../../../lib/stores/obsidian";
+  import { app } from "src/lib/stores/obsidian";
 
   import { setContext } from "svelte";
 
@@ -26,7 +26,7 @@
   export let onCellMenu: (
     rowId: GridRowId,
     column: GridColDef,
-    value: DataValue
+    value: OptionalDataValue
   ) => Menu;
   export let onNavigate: (event: MouseEvent) => void;
 
@@ -40,7 +40,7 @@
 
   function handleCellClick(
     column: GridColDef,
-    value: DataValue
+    value: OptionalDataValue
   ): (event: MouseEvent) => void {
     return (event: MouseEvent) => {
       if (event.button === 2) {

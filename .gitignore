@@ -1,5 +1,6 @@
 # vscode
 .vscode
+.history/
 
 # npm
 node_modules

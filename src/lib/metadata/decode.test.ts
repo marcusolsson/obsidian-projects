@@ -107,3 +107,24 @@ foo:
     });
   });
 });
+
+describe("regression test for issue #160", () => {
+  it("should decode space-delimited links", () => {
+    expect(
+      decodeFrontMatter(
+        `
+---
+headings:
+  - "[[testmeet3 note#Summary|📝]] [[testmeet3 note#Ideas|💡]] [[testmeet3 note#Attendees|🧑‍🤝‍🧑]]"
+---
+
+# My title
+`
+      )
+    ).toStrictEqual({
+      headings: [
+        "[[testmeet3 note#Summary|📝]] [[testmeet3 note#Ideas|💡]] [[testmeet3 note#Attendees|🧑‍🤝‍🧑]]",
+      ],
+    });
+  });
+});
