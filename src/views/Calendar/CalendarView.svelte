@@ -42,7 +42,6 @@
   } from "./calendar";
   import { CalendarSettingsModal } from "./settings/settings-modal";
 
-
   export let project: ProjectDefinition;
   export let frame: DataFrame;
   export let readonly: boolean;
@@ -68,8 +67,6 @@
   $: interval = config?.interval ?? "week";
 
   $: dateInterval = computeDateInterval(anchorDate, interval);
-
-  
 
   $: groupedRecords = dateField
     ? groupRecordsByField(records, dateField.name)
@@ -99,7 +96,6 @@
   function handleCheckFieldChange(checkField: string) {
     onConfigChange({ ...config, checkField });
   }
-
 </script>
 
 <div>
@@ -165,14 +161,14 @@
         on:change={({ detail }) => handleIntervalChange(detail)}
       />
       <IconButton
-      icon="settings"
-      on:click={() => {
-        new CalendarSettingsModal($app, config ?? {}, (value) => {
-          config = value;
-          onConfigChange(value);
-        }).open();
-      }}
-    />
+        icon="settings"
+        on:click={() => {
+          new CalendarSettingsModal($app, config ?? {}, (value) => {
+            config = value;
+            onConfigChange(value);
+          }).open();
+        }}
+      />
     </HorizontalGroup>
   </ToolBar>
   <Table grow>
