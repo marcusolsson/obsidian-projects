@@ -15,7 +15,6 @@
 
 
 	$: weekStart = config?.weekStart ?? "monday";
-  // $: dayjs.Ls[dayjs.locale()]!.weekStart = weekStart == "sunday" ? 0 : 1
   $: dayjs.updateLocale(dayjs.locale(), {
     weekStart: weekStart == "sunday" ? 1 : 0,
   });
