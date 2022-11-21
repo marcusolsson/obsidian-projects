@@ -25,10 +25,8 @@
   import TimelineEntry from "./components/TimelineEntry.svelte";
 
   import type { Optional, OptionalDataValue } from "src/lib/data";
-  import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { get } from "svelte/store";
-  import { createDataRecord } from "src/lib/data-api";
 	
 	
 	export let project: ProjectDefinition;
@@ -86,7 +84,6 @@
     }
     return null;
   }
-	let unique = {};
 	let parentwidth;
 </script>
 <div>
@@ -94,11 +91,9 @@
 		<Navigation
       onNext={() =>{ 
 				(anchorDate = addInterval(anchorDate, interval))
-				unique = {three: "four"}
 			}}
       onPrevious={() => {
 				(anchorDate = subtractInterval(anchorDate, interval))
-				unique = {"one": "two"}
 			}}
       onToday={() => (anchorDate = dayjs())}
     />

@@ -3,7 +3,7 @@ import TimelineViewSvelte from "./TimelineView.svelte";
 import type { TimelineConfig } from "./types";
 
 export class TimelineView extends ProjectView<TimelineConfig> {
-	view?: TimelineViewSvelte;
+	view?: TimelineViewSvelte | null;
 	props?: ProjectViewProps;
 
 	getViewType(): string {
