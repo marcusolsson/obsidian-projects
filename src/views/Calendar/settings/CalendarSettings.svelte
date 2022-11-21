@@ -12,19 +12,15 @@
 
   export let config: CalendarConfig;
   export let onSave: (config: CalendarConfig) => void;
-
   $: weekStart = config?.weekStart ?? "monday";
   $: dayjs.updateLocale(dayjs.locale(), {
-    weekStart: weekStart == "sunday" ? 1 : 0,
+    weekStart: weekStart == "sunday" ? 0 : 1,
   });
 
   function handleWeekStartChange(startOn: string) {
-    if (
-      startOn.toLocaleLowerCase() == "monday" ||
-      startOn.toLocaleLowerCase() == "sunday"
-    ) {
-      onSave({ ...config, weekStart: startOn as CalendarWeekStart });
-    }
+    console.log("starton", startOn)
+    weekStart = startOn as CalendarWeekStart
+    onSave({ ...config, weekStart: startOn as CalendarWeekStart });
   }
 </script>
 

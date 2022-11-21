@@ -53,7 +53,7 @@
   $: ({ fields, records } = frame);
 
   let anchorDate: dayjs.Dayjs = dayjs();
-
+  $: config = config
   $: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
   $: dateField =
     dateFields.find((field) => config?.dateField === field.name) ??
