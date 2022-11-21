@@ -101,8 +101,8 @@
           ...modifiers
         ],
       });
-      target.setAttribute("data-basex", baseX)
-    target.setAttribute("data-width", width)
+      target.setAttribute("data-basex", baseX.toPrecision(21))
+    target.setAttribute("data-width", width.toPrecision(21))
     target.style.width = `${width}px`
     target.style.transform = `translate(${baseX * unit}px, 0px)`
     return {
