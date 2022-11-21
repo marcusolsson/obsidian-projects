@@ -84,7 +84,7 @@
     }
     return null;
   }
-	let parentwidth;
+	let parentwidth: number;
 </script>
 <div>
 	<ToolBar>

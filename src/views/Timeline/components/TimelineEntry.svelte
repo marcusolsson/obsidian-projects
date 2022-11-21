@@ -28,7 +28,7 @@
 
   // let target: HTMLElement;
   let position = { x: 0, y: 0 };
-  function action(target) {
+  function action(target: HTMLElement) {
     let unit = (parentwidth || 1) / dates.length;
     let startday = dayjs(record.values[(startDateField as DataField).name] as Date)
     let endday = dayjs(record.values[(endDateField as DataField).name] as Date)
