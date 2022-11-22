@@ -61,8 +61,6 @@
     "@interactjs/modifiers": "^1.10.17",
     "@interactjs/snappers": "^1.10.17",
     "@interactjs/utils": "^1.10.17",
-    "interactjs": "^1.10.17",
-    "svelte-grid": "^5.1.1",
-    "svelte-moveable": "^0.31.1"
+    "interactjs": "^1.10.17"
   }
 }

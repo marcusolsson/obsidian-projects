@@ -235,8 +235,8 @@ i18next.init({
               startDate: "Begin date",
               endDate: "End date",
               check: "Check",
-            }
-          }
+            },
+          },
         },
         components: {
           "data-grid": {

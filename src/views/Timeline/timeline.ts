@@ -2,7 +2,7 @@ import type dayjs from "dayjs";
 import type { CalendarInterval } from "../Calendar/calendar";
 
 export function computeHours(anchor: dayjs.Dayjs): [dayjs.Dayjs, dayjs.Dayjs] {
-	return [anchor.startOf("day"), anchor.endOf("day")]
+  return [anchor.startOf("day"), anchor.endOf("day")];
 }
 
 export function computeDateInterval(
@@ -39,6 +39,14 @@ export function generateHours(
   for (let i = 0; i <= numHours; i++) {
     dates.push(dateInterval[0].add(i, "hour"));
   }
-	// console.log("datesyssss", dates)
+  // console.log("datesyssss", dates)
   return dates;
+}
+export function getTranslateXY(element: HTMLElement) {
+  const style = window.getComputedStyle(element);
+  const matrix = new DOMMatrixReadOnly(style.transform);
+  return {
+    translateX: matrix.m41,
+    translateY: matrix.m42,
+  };
 }
