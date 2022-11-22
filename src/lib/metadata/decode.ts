@@ -18,12 +18,14 @@ export function decodeFrontMatter(data: string): Record<string, any> {
 }
 
 export function parseYaml(data: string): Record<string, any> {
-  return parse(preprocessYaml(data), (_key, value) => {
-    if (typeof value === "string") {
-      return unquoteInternalLinks(value);
-    }
-    return value;
-  });
+  return (
+    parse(preprocessYaml(data), (_key, value) => {
+      if (typeof value === "string") {
+        return unquoteInternalLinks(value);
+      }
+      return value;
+    }) || {}
+  );
 }
 
 /**

@@ -128,3 +128,18 @@ headings:
     });
   });
 });
+
+describe("regression test for issue #175", () => {
+  it("should decode note with empty front matter", () => {
+    expect(
+      decodeFrontMatter(
+        `
+---
+---
+
+# My title
+`
+      )
+    ).toStrictEqual({});
+  });
+});
