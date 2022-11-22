@@ -45,8 +45,9 @@
 
   $: groupByField = fields.find((field) => config?.groupByField === field.name);
 
-  $: numberFields = fields.filter(
-    (field) => field.type === DataFieldType.Number
+  $: priorityFields = fields.filter(
+    (field) =>
+      field.type === DataFieldType.Number || field.type === DataFieldType.Date
   );
 
   $: priorityField = fields.find(
@@ -108,7 +109,7 @@
     <Field name={$i18n.t("views.board.fields.priority")}>
       <Select
         value={priorityField?.name ?? ""}
-        options={numberFields.map(fieldToSelectableValue)}
+        options={priorityFields.map(fieldToSelectableValue)}
         on:change={({ detail: value }) => {
           onConfigChange({
             ...config,

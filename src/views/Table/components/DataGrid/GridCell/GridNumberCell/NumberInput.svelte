@@ -29,7 +29,7 @@
   type="number"
   bind:this={ref}
   {value}
-  on:input={handleInput}
+  on:change={handleInput}
   on:keypress={handleKeyup}
   on:blur
 />

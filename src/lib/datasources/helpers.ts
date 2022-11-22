@@ -82,6 +82,10 @@ export function detectFields(records: DataRecord[]): DataField[] {
 function typeFromValues(values: OptionalDataValue[]): DataFieldType {
   const types = values.map((value) => detectCellType(value));
 
+  if (types.every((t) => t === DataFieldType.Unknown)) {
+    return DataFieldType.String;
+  }
+
   const result: Record<string, number> = {};
 
   for (const type of types) {
@@ -125,7 +129,7 @@ export function detectCellType(value: unknown): DataFieldType {
   }
 
   if (value === null) {
-    return DataFieldType.String;
+    return DataFieldType.Unknown;
   }
 
   return DataFieldType.Unknown;

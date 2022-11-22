@@ -2,6 +2,28 @@ import { describe, expect, it } from "@jest/globals";
 import { encodeFrontMatter, stringifyYaml } from "./encode";
 
 describe("encodeFrontMatter", () => {
+  it("should quote string if it contains illegal characters", () => {
+    expect(
+      encodeFrontMatter(``, {
+        title1: "Notes: Who Needs Them?",
+        title2: "key:value",
+        title3: "key:",
+        title4: "- Title",
+        title5: "Title-",
+        title6: "-Title",
+      })
+    ).toStrictEqual(`---
+title1: "Notes: Who Needs Them?"
+title2: key:value
+title3: key:
+title4: "- Title"
+title5: Title-
+title6: -Title
+---
+
+`);
+  });
+
   it("should keep existing Markdown content", () => {
     expect(
       encodeFrontMatter(

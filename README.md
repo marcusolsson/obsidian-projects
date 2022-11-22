@@ -16,7 +16,8 @@ For example, if you're a content manager, Projects can help you manage your cont
 
 If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
 
-- [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8)
+- [Notion-like content calendar in Obsidian](https://www.youtube.com/watch?v=ny8lksaQ5A8)
+- [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) (interview)
 - [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo)
 - [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU)
 
