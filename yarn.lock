@@ -314,9 +314,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codemirror/language@git+https://github.com/lishid/cm-language.git":
+"@codemirror/language@https://github.com/lishid/cm-language":
   version "6.2.1"
-  resolved "git+https://github.com/lishid/cm-language.git#073afd8e6bc4d8e5cf6170a50f9b668a98c39f1c"
+  resolved "https://github.com/lishid/cm-language#073afd8e6bc4d8e5cf6170a50f9b668a98c39f1c"
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
@@ -3335,17 +3335,17 @@ obsidian-svelte@0.0.37:
   resolved "https://registry.yarnpkg.com/obsidian-svelte/-/obsidian-svelte-0.0.37.tgz#1e9e72197a3b33a184854e62e83617949f0a7c7b"
   integrity sha512-UCzAmyZrZ+W9FlBKnseRtmHuQLcjwRWRA4f7rW7ZYAm5sx9LueEc/EcyFNmkeGzZi1U1UpSheUvd0Kf8ykHmWw==
 
-"obsidian@github:obsidianmd/obsidian-api#master":
-  version "0.16.3"
-  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/902badd38ba907689f0917d7b193f7e33d1284fe"
-  dependencies:
-    "@types/codemirror" "0.0.108"
-    moment "2.29.4"
-
 obsidian@latest:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-0.16.3.tgz#137b7e91f949517a1bc817b1d7ef9b8aefb219bc"
   integrity sha512-hal9qk1A0GMhHSeLr2/+o3OpLmImiP+Y+sx2ewP13ds76KXsziG96n+IPFT0mSkup1zSwhEu+DeRhmbcyCCXWw==
+  dependencies:
+    "@types/codemirror" "0.0.108"
+    moment "2.29.4"
+
+obsidian@obsidianmd/obsidian-api#master:
+  version "0.16.3"
+  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/902badd38ba907689f0917d7b193f7e33d1284fe"
   dependencies:
     "@types/codemirror" "0.0.108"
     moment "2.29.4"
@@ -4000,6 +4000,11 @@ svelte-check@^2.9.2:
     sade "^1.7.4"
     svelte-preprocess "^4.0.0"
     typescript "*"
+
+svelte-dnd-action@^0.9.22:
+  version "0.9.22"
+  resolved "https://registry.yarnpkg.com/svelte-dnd-action/-/svelte-dnd-action-0.9.22.tgz#003eee9dddb31d8c782f6832aec8b1507fff194d"
+  integrity sha512-lOQJsNLM1QWv5mdxIkCVtk6k4lHCtLgfE59y8rs7iOM6erchbLC9hMEFYSveZz7biJV0mpg7yDSs4bj/RT/YkA==
 
 svelte-i18next@^1.2.2:
   version "1.2.2"
