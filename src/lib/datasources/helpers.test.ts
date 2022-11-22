@@ -64,15 +64,15 @@ describe("detectFields", () => {
     const records: DataRecord[] = [
       {
         id: "Foo.md",
-        values: { number: 12, text: "Foo", boolean: true },
+        values: { number: 12, text: "Foo", boolean: true, nullable: null },
       },
       {
         id: "Bar.md",
-        values: { number: 12, text: "Bar", boolean: false },
+        values: { number: 12, text: "Bar", boolean: false, nullable: null },
       },
       {
         id: "Baz.md",
-        values: { number: 12, text: 100, boolean: "false" },
+        values: { number: 12, text: 100, boolean: "false", nullable: null },
       },
     ];
     const fields: DataField[] = [
@@ -90,6 +90,12 @@ describe("detectFields", () => {
       },
       {
         name: "boolean",
+        type: DataFieldType.String,
+        identifier: false,
+        derived: false,
+      },
+      {
+        name: "nullable",
         type: DataFieldType.String,
         identifier: false,
         derived: false,
@@ -114,6 +120,6 @@ describe("detectCellType", () => {
     expect(detectCellType({ my: "object" })).toStrictEqual(
       DataFieldType.Unknown
     );
-    expect(detectCellType(null)).toStrictEqual(DataFieldType.String);
+    expect(detectCellType(null)).toStrictEqual(DataFieldType.Unknown);
   });
 });

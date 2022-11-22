@@ -46,9 +46,16 @@ export function stringifyYaml(value: any): string {
 }
 
 /**
- * postprcessYaml removes quotes from single-line string properties.
+ * postprocessYaml removes quotes from single-line string properties.
  */
 function postprocessYaml(value: string): string {
+  const illegalCharacters = /[:|\-]\s/;
   const quotedProperties = /^(.*):\s*"(.*)"$/gm;
-  return value.replace(quotedProperties, (_match, p1, p2) => p1 + ": " + p2);
+
+  return value.replace(quotedProperties, (_match, key, value) => {
+    if (illegalCharacters.test(value)) {
+      return `${key}: "${value}"`;
+    }
+    return `${key}: ${value}`;
+  });
 }
