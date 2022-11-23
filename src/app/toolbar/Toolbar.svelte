@@ -18,6 +18,7 @@
 
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
+  import ViewToolbar from "../../components/Layout/ViewToolbar.svelte";
 
   export let projects: ProjectDefinition[];
 
@@ -36,48 +37,51 @@
 
 	Toolbar lets the user manage projects and views.
 -->
-<div>
-  <ProjectSelect {projectId} {projects} {onProjectChange} />
+<ViewToolbar variant="primary">
+  <ProjectSelect slot="left" {projectId} {projects} {onProjectChange} />
 
-  {#if project}
-    <ViewSelect
-      {viewId}
-      {views}
-      viewExists={(name) => !!project?.views.find((view) => view.name === name)}
-      onViewSort={(viewIds) => {
-        if (projectId) {
-          settings.sortViews(projectId, viewIds);
-        }
-      }}
-      onViewRename={(viewId, name) => {
-        if (projectId) {
-          settings.renameView(projectId, viewId, name);
-        }
-      }}
-      {onViewChange}
-      onViewDuplicate={(viewId) => {
-        if (projectId) {
-          const id = settings.duplicateView(projectId, viewId);
-          onViewChange(id);
-        }
-      }}
-      onViewDelete={(viewId) => {
-        new ConfirmDialogModal(
-          $app,
-          $i18n.t("modals.view.delete.title"),
-          $i18n.t("modals.view.delete.message"),
-          $i18n.t("modals.view.delete.cta"),
-          () => {
-            if (projectId) {
-              settings.deleteView(projectId, viewId);
-            }
+  <div slot="middle">
+    {#if project}
+      <ViewSelect
+        {viewId}
+        {views}
+        viewExists={(name) =>
+          !!project?.views.find((view) => view.name === name)}
+        onViewSort={(viewIds) => {
+          if (projectId) {
+            settings.sortViews(projectId, viewIds);
           }
-        ).open();
-      }}
-    />
-  {/if}
-
+        }}
+        onViewRename={(viewId, name) => {
+          if (projectId) {
+            settings.renameView(projectId, viewId, name);
+          }
+        }}
+        {onViewChange}
+        onViewDuplicate={(viewId) => {
+          if (projectId) {
+            const id = settings.duplicateView(projectId, viewId);
+            onViewChange(id);
+          }
+        }}
+        onViewDelete={(viewId) => {
+          new ConfirmDialogModal(
+            $app,
+            $i18n.t("modals.view.delete.title"),
+            $i18n.t("modals.view.delete.message"),
+            $i18n.t("modals.view.delete.cta"),
+            () => {
+              if (projectId) {
+                settings.deleteView(projectId, viewId);
+              }
+            }
+          ).open();
+        }}
+      />
+    {/if}
+  </div>
   <Button
+    slot="right"
     variant="primary"
     on:click={(event) => {
       const menu = new Menu();
@@ -140,16 +144,4 @@
     {$i18n.t("toolbar.new")}
     <Icon accent name="chevron-down" />
   </Button>
-</div>
-
-<style>
-  div {
-    background-color: var(--tab-background-active);
-    display: flex;
-    align-items: center;
-    padding: var(--size-4-2);
-    gap: 8px;
-    border-bottom: 1px solid var(--background-modifier-border);
-    justify-content: space-between;
-  }
-</style>
+</ViewToolbar>

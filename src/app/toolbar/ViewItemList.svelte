@@ -43,7 +43,6 @@
   }
 
   section {
-    flex: 1;
     overflow-x: auto;
   }
 

@@ -2,8 +2,12 @@
   import { Icon, InternalLink, Select, Typography } from "obsidian-svelte";
   import path from "path";
   import { Field } from "src/components/Field";
-  import { HorizontalGroup } from "src/components/HorizontalGroup";
-  import { ToolBar } from "src/components/ToolBar";
+  import {
+    ViewContent,
+    ViewHeader,
+    ViewLayout,
+    ViewToolbar,
+  } from "src/components/Layout";
   import {
     DataFieldType,
     isLink,
@@ -95,71 +99,78 @@
   }
 </script>
 
-<ToolBar>
-  <p />
-  <HorizontalGroup>
-    <Field name={$i18n.t("views.gallery.fields.cover")}>
-      <Select
-        allowEmpty
-        value={coverField?.name ?? ""}
-        options={textFields.map(fieldToSelectableValue)}
-        placeholder={$i18n.t("views.gallery.fields.none") ?? ""}
-        on:change={({ detail }) => handleCoverFieldChange(detail)}
-      />
-    </Field>
-  </HorizontalGroup>
-</ToolBar>
-{#if records.length}
-  <div>
-    <Grid>
-      {#each records as record}
-        <Card>
-          <CardMedia
-            on:click={(event) => {
-              if (event.metaKey || event.ctrlKey) {
-                $app.workspace.openLinkText(record.id, "", true);
-              } else {
-                handleRecordClick(record);
-              }
-            }}
-          >
-            {@const coverPath = getCoverRealPath(record)}
-            {#if coverPath}
-              <Image alt="Title" src={coverPath} fit="cover" />
-            {:else}
-              <Icon name="image" size="lg" />
-            {/if}
-          </CardMedia>
-          <CardContent>
-            <InternalLink
-              linkText={record.id}
-              sourcePath=""
-              resolved
-              on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-                if (newLeaf) {
-                  $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-                } else {
-                  handleRecordClick(record);
-                }
-              }}
-            >
-              {getDisplayName(record)}
-            </InternalLink>
-          </CardContent>
-        </Card>
-      {/each}
-    </Grid>
-  </div>
-{:else}
-  <CenterBox>
-    <Typography variant="h5">{$i18n.t("views.gallery.empty")}</Typography>
-  </CenterBox>
-{/if}
+<ViewLayout>
+  <ViewHeader>
+    <ViewToolbar variant="secondary">
+      <svelte:fragment slot="right">
+        <Field name={$i18n.t("views.gallery.fields.cover")}>
+          <Select
+            allowEmpty
+            value={coverField?.name ?? ""}
+            options={textFields.map(fieldToSelectableValue)}
+            placeholder={$i18n.t("views.gallery.fields.none") ?? ""}
+            on:change={({ detail }) => handleCoverFieldChange(detail)}
+          />
+        </Field>
+      </svelte:fragment>
+    </ViewToolbar>
+  </ViewHeader>
+  <ViewContent>
+    {#if records.length}
+      <div>
+        <Grid>
+          {#each records as record}
+            <Card>
+              <CardMedia
+                on:click={(event) => {
+                  if (event.metaKey || event.ctrlKey) {
+                    $app.workspace.openLinkText(record.id, "", true);
+                  } else {
+                    handleRecordClick(record);
+                  }
+                }}
+              >
+                {@const coverPath = getCoverRealPath(record)}
+                {#if coverPath}
+                  <Image alt="Title" src={coverPath} fit="cover" />
+                {:else}
+                  <Icon name="image" size="lg" />
+                {/if}
+              </CardMedia>
+              <CardContent>
+                <InternalLink
+                  linkText={record.id}
+                  sourcePath=""
+                  resolved
+                  on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                    if (newLeaf) {
+                      $app.workspace.openLinkText(
+                        linkText,
+                        sourcePath,
+                        newLeaf
+                      );
+                    } else {
+                      handleRecordClick(record);
+                    }
+                  }}
+                >
+                  {getDisplayName(record)}
+                </InternalLink>
+              </CardContent>
+            </Card>
+          {/each}
+        </Grid>
+      </div>
+    {:else}
+      <CenterBox>
+        <Typography variant="h5">{$i18n.t("views.gallery.empty")}</Typography>
+      </CenterBox>
+    {/if}
+  </ViewContent>
+</ViewLayout>
 
 <style>
   div {
-    height: 100%;
     padding: 24px;
-    overflow: auto;
   }
 </style>
