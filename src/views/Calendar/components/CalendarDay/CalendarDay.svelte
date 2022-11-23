@@ -1,36 +1,21 @@
 <script lang="ts">
-  import path from "path";
   import type dayjs from "dayjs";
   import { Menu } from "obsidian";
-  import { InternalLink } from "obsidian-svelte";
 
   import { i18n } from "src/lib/stores/i18n";
-  import { app } from "src/lib/stores/obsidian";
 
-  import type { DataRecord, Optional, OptionalDataValue } from "src/lib/data";
+  import type { DataRecord } from "src/lib/data";
 
   import { TableCell } from "../Table";
   import CalendarDate from "./CalendarDate.svelte";
-  import CalendarEntry from "./CalendarEntry.svelte";
+  import CalendarEntryList from "./CalendarEntryList.svelte";
 
   export let date: dayjs.Dayjs;
-  export let records: Array<[number, DataRecord]>;
+  export let records: DataRecord[];
   export let checkField: string | undefined;
-  export let onEntryClick: (recordId: number) => void;
   export let onEntryAdd: () => void;
-  export let onRecordUpdate: (record: DataRecord) => void;
-
-  function getDisplayName(record: DataRecord): string {
-    const basename = path.basename(record.id);
-    return basename.slice(0, basename.lastIndexOf("."));
-  }
-
-  function asOptionalBoolean(value: OptionalDataValue): boolean | Optional {
-    if (typeof value === "boolean") {
-      return value;
-    }
-    return null;
-  }
+  export let onEntryClick: (record: DataRecord) => void;
+  export let onRecordUpdate: (date: dayjs.Dayjs, record: DataRecord) => void;
 </script>
 
 <TableCell
@@ -53,45 +38,14 @@
 >
   <div class:weekend={date.day() === 0 || date.day() === 6}>
     <CalendarDate {date} />
-    {#each records as recordPair}
-      {#if getDisplayName(recordPair[1])}
-        <CalendarEntry
-          checked={checkField !== undefined
-            ? asOptionalBoolean(recordPair[1].values[checkField])
-            : undefined}
-          on:check={({ detail: checked }) => {
-            if (checkField) {
-              onRecordUpdate({
-                ...recordPair[1],
-                values: {
-                  ...recordPair[1].values,
-                  [checkField]: checked,
-                },
-              });
-            }
-          }}
-          on:click={() => {
-            onEntryClick(recordPair[0]);
-          }}
-        >
-          <InternalLink
-            linkText={recordPair[1].id}
-            sourcePath=""
-            resolved
-            tooltip={getDisplayName(recordPair[1])}
-            on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-              if (newLeaf) {
-                $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-              } else {
-                onEntryClick(recordPair[0]);
-              }
-            }}
-          >
-            {getDisplayName(recordPair[1])}
-          </InternalLink>
-        </CalendarEntry>
-      {/if}
-    {/each}
+    <CalendarEntryList
+      {records}
+      {onEntryClick}
+      onRecordUpdate={(record) => {
+        onRecordUpdate(date, record);
+      }}
+      {checkField}
+    />
   </div>
 </TableCell>
 
@@ -104,6 +58,7 @@
     gap: 2px;
     align-items: start;
     overflow: scroll;
+    min-height: 6rem;
   }
 
   .weekend {

@@ -176,20 +176,30 @@
             <CalendarDay
               {date}
               checkField={booleanField?.name}
-              onRecordUpdate={(record) => {
-                api.updateRecord(record, fields);
+              onRecordUpdate={(date, record) => {
+                if (dateField) {
+                  api.updateRecord(
+                    {
+                      ...record,
+                      values: {
+                        ...record.values,
+                        [dateField.name]: date.format("YYYY-MM-DD"),
+                      },
+                    },
+                    fields
+                  );
+                }
               }}
               records={groupedRecords[date.format("YYYY-MM-DD")] || []}
-              onEntryClick={(id) => {
-                const rec = records[id];
-                if (rec) {
+              onEntryClick={(entry) => {
+                if (entry) {
                   new EditNoteModal(
                     get(app),
                     fields,
                     (record) => {
                       api.updateRecord(record, fields);
                     },
-                    rec
+                    entry
                   ).open();
                 }
               }}
