@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconButton, Select } from "obsidian-svelte";
+  import { Icon, IconButton, Select } from "obsidian-svelte";
 
   import {
     DataFieldType,
@@ -67,6 +67,18 @@
     ).open();
   }
 
+  function handleRecordUpdate(column: string, record: DataRecord) {
+    if (groupByField) {
+      api.updateRecord(
+        {
+          ...record,
+          values: { ...record.values, [groupByField.name]: column },
+        },
+        fields
+      );
+    }
+  }
+
   function handleRecordAdd(column: string) {
     new CreateNoteModal($app, project, (name, templatePath) => {
       if (groupByField) {
@@ -120,6 +132,12 @@
         allowEmpty
       />
     </Field>
+    {#if priorityField?.type === DataFieldType.Date}
+      <Icon
+        name="info"
+        tooltip="Date fields can't be reprioritized using drag and drop."
+      />
+    {/if}
     <IconButton
       icon="settings"
       on:click={() => {
@@ -133,6 +151,8 @@
 </ToolBar>
 <div>
   <Board
+    onRecordUpdate={handleRecordUpdate}
+    dragDisabled={priorityField?.type !== DataFieldType.Number}
     onSortColumns={(names) => {
       onConfigChange({
         ...config,
@@ -159,7 +179,6 @@
       })
       .map((column) => ({
         id: column,
-        name: column,
         records: groupedRecords[column] ?? [],
       }))}
     groupByPriority={priorityField?.name}

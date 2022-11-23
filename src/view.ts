@@ -75,7 +75,7 @@ export class ProjectsView extends ItemView {
     views["board"] = new BoardView();
     views["calendar"] = new CalendarView();
     views["gallery"] = new GalleryView();
-    // views["developer"] = () => new DeveloperView();
+    // views["developer"] = new DeveloperView();
 
     return views;
   }
