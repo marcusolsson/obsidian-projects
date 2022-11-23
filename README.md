@@ -16,10 +16,11 @@ For example, if you're a content manager, Projects can help you manage your cont
 
 If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
 
-- [Notion-like content calendar in Obsidian](https://www.youtube.com/watch?v=ny8lksaQ5A8)
-- [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) (interview)
-- [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo)
-- [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU)
+- [Obsidian For Content Creators](https://www.youtube.com/watch?v=jovUqLbqS1Y) by [@FromSergio](https://www.youtube.com/@FromSergio)
+- [Notion-like content calendar in Obsidian](https://www.youtube.com/watch?v=ny8lksaQ5A8) by [@nicolevdh](https://www.youtube.com/@nicolevdh)
+- [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) by [@nicolevdh](https://www.youtube.com/@nicolevdh) (interview)
+- [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo) by [@SniferL4bs](https://www.youtube.com/@SniferL4bs)
+- [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU) by [@beingpax](https://www.youtube.com/@beingpax)
 
 _Did I miss any? Let me know and I'll add them to the list!_
 
