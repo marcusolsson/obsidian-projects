@@ -57,10 +57,10 @@ export function subtractInterval(
 export function groupRecordsByField(
   records: DataRecord[],
   field: string
-): Record<string, Array<[number, DataRecord]>> {
-  const res: Record<string, Array<[number, DataRecord]>> = {};
+): Record<string, DataRecord[]> {
+  const res: Record<string, DataRecord[]> = {};
 
-  records.forEach((record, i) => {
+  records.forEach((record) => {
     const dateValue = record.values[field];
 
     const start = dateValue
@@ -75,7 +75,7 @@ export function groupRecordsByField(
         res[dateStr] = [];
       }
 
-      res[dateStr]?.push([i, record]);
+      res[dateStr]?.push(record);
     }
   });
 
