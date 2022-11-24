@@ -1,23 +1,20 @@
 <script lang="ts">
-  import { v4 as uuidv4 } from "uuid";
-
-  import type { ViewDefinition, ViewType, ProjectDefinition } from "src/types";
-
   import {
     Button,
-    TextInput,
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
     Select,
     SettingItem,
+    TextInput,
   } from "obsidian-svelte";
+  import { v4 as uuidv4 } from "uuid";
 
+  import { nextUniqueViewName } from "src/lib/helpers";
   import { customViews } from "src/lib/stores/custom-views";
   import { i18n } from "src/lib/stores/i18n";
   import { settings } from "src/lib/stores/settings";
-
-  import { nextUniqueViewName } from "src/lib/helpers";
+  import type { ProjectDefinition, ViewDefinition, ViewType } from "src/types";
 
   export let onSave: (projectId: string, view: ViewDefinition) => void;
   export let project: ProjectDefinition;

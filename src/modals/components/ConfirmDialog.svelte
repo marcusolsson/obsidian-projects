@@ -1,12 +1,13 @@
 <script lang="ts">
   import {
     Button,
-    Typography,
-    ModalLayout,
     ModalButtonGroup,
     ModalContent,
+    ModalLayout,
+    Typography,
   } from "obsidian-svelte";
-  import { i18n } from "../../lib/stores/i18n";
+
+  import { i18n } from "src/lib/stores/i18n";
 
   export let title: string;
   export let message: string;

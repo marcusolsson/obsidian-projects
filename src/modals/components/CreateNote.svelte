@@ -1,21 +1,21 @@
 <script lang="ts">
   import { normalizePath, TFile } from "obsidian";
-  import { isValidPath } from "src/lib/obsidian";
   import {
     Button,
-    TextInput,
-    Select,
-    SettingItem,
+    Callout,
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
+    Select,
+    SettingItem,
+    TextInput,
   } from "obsidian-svelte";
-  import { Callout } from "obsidian-svelte";
 
-  import { i18n } from "../../lib/stores/i18n";
-  import { app } from "../../lib/stores/obsidian";
-  import { settings } from "../../lib/stores/settings";
-  import type { ProjectDefinition } from "../../types";
+  import { isValidPath } from "src/lib/obsidian";
+  import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
+  import { settings } from "src/lib/stores/settings";
+  import type { ProjectDefinition } from "src/types";
 
   export let name: string;
   export let project: ProjectDefinition;

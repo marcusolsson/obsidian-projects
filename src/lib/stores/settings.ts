@@ -1,13 +1,14 @@
+import produce from "immer";
+import { writable } from "svelte/store";
+import { v4 as uuidv4 } from "uuid";
+
+import { notEmpty } from "src/lib/helpers";
 import {
   DEFAULT_SETTINGS,
   type ProjectsPluginSettings,
   type ProjectsPluginSettingsV1,
-} from "../../main";
-import { writable } from "svelte/store";
-import type { ViewDefinition, ProjectDefinition } from "src/types";
-import produce from "immer";
-import { notEmpty } from "../helpers";
-import { v4 as uuidv4 } from "uuid";
+} from "src/main";
+import type { ProjectDefinition, ViewDefinition } from "src/types";
 
 function createSettings() {
   const { set, update, subscribe } = writable<ProjectsPluginSettingsV1>({

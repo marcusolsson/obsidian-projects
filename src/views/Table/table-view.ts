@@ -3,6 +3,7 @@ import {
   type DataQueryResult,
   type ProjectViewProps,
 } from "src/custom-view-api";
+
 import TableViewSvelte from "./TableView.svelte";
 import type { TableConfig } from "./types";
 

@@ -1,36 +1,27 @@
 <script lang="ts">
   import { Icon, IconButton, Select } from "obsidian-svelte";
 
-  import {
-    DataFieldType,
-    type DataFrame,
-    type DataRecord,
-  } from "../../lib/data";
-
-  import { i18n } from "src/lib/stores/i18n";
-  import { app } from "src/lib/stores/obsidian";
-
   import { Field } from "src/components/Field";
-
-  import type { ViewApi } from "src/lib/view-api";
-  import { createDataRecord } from "src/lib/data-api";
-
-  import { CreateNoteModal } from "src/modals/create-note-modal";
-  import { EditNoteModal } from "src/modals/edit-note-modal";
-
-  import type { ProjectDefinition } from "src/types";
-  import { fieldToSelectableValue } from "src/views/helpers";
-  import { groupRecordsByField } from "./board";
-  import { BoardSettingsModal } from "./settings/settings-modal";
-  import type { BoardConfig } from "./types";
-
-  import { Board } from "./components";
   import {
     ViewContent,
     ViewHeader,
     ViewLayout,
     ViewToolbar,
   } from "src/components/Layout";
+  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/data";
+  import { createDataRecord } from "src/lib/data-api";
+  import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
+  import type { ViewApi } from "src/lib/view-api";
+  import { CreateNoteModal } from "src/modals/create-note-modal";
+  import { EditNoteModal } from "src/modals/edit-note-modal";
+  import type { ProjectDefinition } from "src/types";
+  import { fieldToSelectableValue } from "src/views/helpers";
+
+  import { groupRecordsByField } from "./board";
+  import { Board } from "./components";
+  import { BoardSettingsModal } from "./settings/settings-modal";
+  import type { BoardConfig } from "./types";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;

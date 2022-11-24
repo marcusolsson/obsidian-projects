@@ -1,15 +1,17 @@
 import type { App, TFile, Vault } from "obsidian";
-import type { ProjectDefinition } from "../../../types";
+
 import {
   DataSource,
   type DataField,
   type DataFrame,
   type DataRecord,
-} from "../../data";
-import { notUndefined } from "../../helpers";
-import { standardizeRecord } from "./frontmatter-helpers";
-import { detectFields, parseRecords } from "../helpers";
+} from "src/lib/data";
+import { detectFields, parseRecords } from "src/lib/datasources/helpers";
+import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
+import type { ProjectDefinition } from "src/types";
+
+import { standardizeRecord } from "./frontmatter-helpers";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.

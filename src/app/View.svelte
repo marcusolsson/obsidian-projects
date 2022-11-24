@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { ProjectDefinition, ViewDefinition } from "../../types";
+  import type { DataFrame } from "src/lib/data";
+  import type { ViewApi } from "src/lib/view-api";
+  import type { ProjectDefinition, ViewDefinition } from "src/types";
 
-  import type { DataFrame } from "../../lib/data";
-  import type { ViewApi } from "../../lib/view-api";
-  import { CustomView } from "../Custom";
+  import { useView } from "./useView";
 
   /**
    * Specify the project.
@@ -49,12 +49,23 @@
 
 	View dynamically selects the component to use based on a ViewDefinition.
 -->
-<CustomView
-  {frame}
-  {project}
-  {view}
-  config={view.config}
-  {readonly}
-  {api}
-  onConfigChange={handleConfigChange}
+<div
+  use:useView={{
+    view,
+    dataProps: {
+      data: frame,
+    },
+    viewApi: api,
+    project,
+    readonly,
+    config: view.config,
+    onConfigChange: handleConfigChange,
+  }}
 />
+
+<style>
+  div {
+    width: 100%;
+    height: 100%;
+  }
+</style>
