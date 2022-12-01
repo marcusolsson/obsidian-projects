@@ -6,7 +6,7 @@ import {
   type DataRecord,
   type Link,
   type OptionalDataValue,
-} from "src/lib/data";
+} from "../../lib/data";
 
 /**
  * parseRecords parses the values for each record based on the detected field

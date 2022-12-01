@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { DataFieldType, type DataField, type DataRecord } from "src/lib/data";
+import { DataFieldType, type DataField, type DataRecord } from "../../lib/data";
 import { detectCellType, detectFields, parseRecords } from "./helpers";
 
 describe("parseRecords", () => {
