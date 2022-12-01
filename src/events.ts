@@ -1,8 +1,9 @@
 import { TAbstractFile, TFile, type Plugin } from "obsidian";
 import { get } from "svelte/store";
-import { capabilities } from "./lib/stores/capabilities";
 import {} from "obsidian-dataview";
-import { dataFrame, dataSource } from "./lib/stores/dataframe";
+
+import { capabilities } from "src/lib/stores/capabilities";
+import { dataFrame, dataSource } from "src/lib/stores/dataframe";
 
 // registerFileEvents keeps the file index up-to-date while plugin is running.
 export function registerFileEvents(plugin: Plugin) {

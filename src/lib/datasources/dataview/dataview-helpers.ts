@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
-import type { OptionalDataValue } from "../../data";
 import { App, TFile } from "obsidian";
+
+import type { OptionalDataValue } from "src/lib/data";
 
 /**
  * standardizeValues converts a Dataview data structure of values to the common

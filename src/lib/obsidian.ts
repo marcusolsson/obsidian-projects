@@ -1,5 +1,6 @@
 import { App, TFile, TFolder, Vault, type TAbstractFile } from "obsidian";
 import os from "os";
+
 import type { DataRecord } from "./data";
 
 /**

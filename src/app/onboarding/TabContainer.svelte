@@ -10,6 +10,7 @@
       <div
         class="clickable-icon"
         class:is-active={option === selected}
+        on:keypress
         on:click={() => {
           selected = option;
         }}

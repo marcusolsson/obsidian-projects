@@ -2,6 +2,7 @@
   import moment from "moment";
   import {
     Button,
+    Callout,
     FileAutocomplete,
     ModalButtonGroup,
     ModalContent,
@@ -10,19 +11,17 @@
     Switch,
     TextArea,
     TextInput,
-    Callout,
   } from "obsidian-svelte";
 
-  import { i18n } from "../../lib/stores/i18n";
-  import { app } from "../../lib/stores/obsidian";
-  import { capabilities } from "../../lib/stores/capabilities";
-  import { settings } from "../../lib/stores/settings";
-
-  import { interpolateTemplate } from "../../lib/templates";
-  import type { ProjectDefinition } from "../../types";
   import { FileListInput } from "src/components/FileListInput";
-  import { getFoldersInFolder, isValidPath } from "src/lib/obsidian";
   import { notEmpty } from "src/lib/helpers";
+  import { getFoldersInFolder, isValidPath } from "src/lib/obsidian";
+  import { capabilities } from "src/lib/stores/capabilities";
+  import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
+  import { settings } from "src/lib/stores/settings";
+  import { interpolateTemplate } from "src/lib/templates";
+  import type { ProjectDefinition } from "src/types";
 
   export let title: string;
   export let cta: string;

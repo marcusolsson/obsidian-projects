@@ -1,19 +1,17 @@
 <script lang="ts">
   import produce from "immer";
-
   import {
     Button,
-    SettingItem,
+    Callout,
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
-    Callout,
+    SettingItem,
   } from "obsidian-svelte";
 
   import { FieldControl } from "src/components/FieldControl";
-
-  import type { DataField, DataRecord } from "../../lib/data";
-  import { i18n } from "../../lib/stores/i18n";
+  import type { DataField, DataRecord } from "src/lib/data";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let fields: DataField[];
   export let record: DataRecord;

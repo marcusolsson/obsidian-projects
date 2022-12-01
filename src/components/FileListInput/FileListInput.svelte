@@ -1,8 +1,9 @@
 <script lang="ts">
   import produce from "immer";
+  import { Button, FileAutocomplete, IconButton } from "obsidian-svelte";
+
   import { getFilesInFolder } from "src/lib/obsidian";
-  import { Button, IconButton, FileAutocomplete } from "obsidian-svelte";
-  import { app } from "../../lib/stores/obsidian";
+  import { app } from "src/lib/stores/obsidian";
 
   export let paths: string[];
   export let onPathsChange: (value: string[]) => void;

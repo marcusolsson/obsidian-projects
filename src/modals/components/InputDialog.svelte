@@ -6,7 +6,7 @@
     ModalLayout,
   } from "obsidian-svelte";
 
-  import { i18n } from "../../lib/stores/i18n";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let value: string;
   export let message: string;

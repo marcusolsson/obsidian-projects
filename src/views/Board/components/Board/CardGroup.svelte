@@ -44,6 +44,7 @@
   {#each items as item (item.id)}
     <div
       class="crd"
+      on:keypress
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
     >

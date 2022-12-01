@@ -1,4 +1,4 @@
-<div on:click>
+<div on:keypress on:click>
   <slot />
 </div>
 

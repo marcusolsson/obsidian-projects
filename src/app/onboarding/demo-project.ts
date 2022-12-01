@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
 import { normalizePath, stringifyYaml, type Vault } from "obsidian";
+import { v4 as uuidv4 } from "uuid";
+
 import { settings } from "src/lib/stores/settings";
 import type { BoardConfig } from "src/views/Board/types";
 import type { CalendarConfig } from "src/views/Calendar/types";
 import type { GalleryConfig } from "src/views/Gallery/types";
 import type { TableConfig } from "src/views/Table/types";
-import { v4 as uuidv4 } from "uuid";
 
 export async function createDemoProject(vault: Vault) {
   const demoFolder = "Projects - Demo Project";
@@ -51,7 +52,7 @@ export async function createDemoProject(vault: Vault) {
       image:
         "https://images.unsplash.com/photo-1550592704-6c76defa9985?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80",
     },
-    "5 Mistake I Made When I Started Using Obsidian": {
+    "5 Mistakes I Made When I Started Using Obsidian": {
       status: "Backlog",
       due: startDate.add(2, "weeks").format("YYYY-MM-DD"),
       published: false,

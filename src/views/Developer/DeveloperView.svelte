@@ -1,7 +1,5 @@
 <script lang="ts">
   import { Notice, TFile } from "obsidian";
-  import { HorizontalGroup } from "src/components/HorizontalGroup";
-  import { getNotesInFolder } from "src/lib/obsidian";
   import {
     Autocomplete,
     Button,
@@ -31,8 +29,10 @@
     Typography,
   } from "obsidian-svelte";
 
-  import { app } from "../../lib/stores/obsidian";
+  import { HorizontalGroup } from "src/components/HorizontalGroup";
   import { ViewContent, ViewLayout } from "src/components/Layout";
+  import { getNotesInFolder } from "src/lib/obsidian";
+  import { app } from "src/lib/stores/obsidian";
 
   let btn1: HTMLButtonElement;
   let btn1Open = false;

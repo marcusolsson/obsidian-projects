@@ -3,6 +3,7 @@ import {
   type DataQueryResult,
   type ProjectViewProps,
 } from "src/custom-view-api";
+
 import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";
 
@@ -30,8 +31,6 @@ export class GalleryView extends ProjectView<GalleryConfig> {
       props: {
         frame: { fields: [], records: [] },
         api: props.viewApi,
-        project: props.project,
-        readonly: props.readonly,
         config: props.config,
         onConfigChange: props.saveConfig,
       },

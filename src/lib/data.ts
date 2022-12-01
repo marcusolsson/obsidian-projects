@@ -1,5 +1,5 @@
 import type { TFile } from "obsidian";
-import type { ProjectDefinition } from "../types";
+import type { ProjectDefinition } from "src/types";
 
 /**
  * DataFrame is the core data structure that contains structured data for a
