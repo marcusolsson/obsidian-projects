@@ -39,7 +39,8 @@ export class DataviewDataSource extends DataSource {
   }
 
   async queryAll(): Promise<DataFrame> {
-    const rows = this.project.dataviewType === WorkspaceDataviewEnum.Query ? await this.query() : await this.jsQuery();
+    // old project dataviewType is undefined. Default use query
+    const rows = this.project.dataviewType === WorkspaceDataviewEnum.JS ? await this.jsQuery() : await this.query();
 
     const standardizedRecords = this.standardizeRecords(rows);
     const fields = detectSchema(standardizedRecords);
