@@ -142,7 +142,7 @@
           vertical
         >
           <TextArea
-            placeholder={`TABLE status AS "Status" FROM "Work"`}
+            placeholder={$i18n.t("modals.project.jsQuery.example")}
             value={project.jsQuery ?? ""}
             on:input={({ detail: jsQuery }) => (project = { ...project, jsQuery })}
             rows={6}

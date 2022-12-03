@@ -89,6 +89,11 @@ i18next.init({
             jsQuery: {
               name: "JS Query",
               description: "Javascript queries. need return { headers: string[], values: any[] }",
+              example: `const pages = dv.pages('"Projects - Demo Project"');
+return {
+    headers: ["File", "Status"],
+    values: pages.map(p => [p.file.link, p.status])
+}`,
             },
             recursive: {
               name: "Include subfolders",
