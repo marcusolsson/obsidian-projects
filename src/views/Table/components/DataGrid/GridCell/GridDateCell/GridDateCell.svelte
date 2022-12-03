@@ -6,8 +6,8 @@
   import { TextLabel } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: Date | Optional;
-  export let onChange: (value: Date | Optional) => void;
+  export let value: Optional<Date>;
+  export let onChange: (value: Optional<Date>) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;
