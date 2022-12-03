@@ -88,7 +88,7 @@ i18next.init({
             },
             jsQuery: {
               name: "JS Query",
-              description: "Javascript queries.",
+              description: "Javascript queries. need return { headers: string[], values: any[] }",
             },
             recursive: {
               name: "Include subfolders",

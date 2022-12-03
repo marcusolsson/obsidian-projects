@@ -15,7 +15,7 @@ import {
   parseRecords,
 } from "src/lib/datasources/helpers";
 import { i18n } from "src/lib/stores/i18n";
-import type { ProjectDefinition } from "src/types";
+import { WorkspaceDataviewEnum, type ProjectDefinition } from "src/types";
 
 import { standardizeValues } from "./dataview-helpers";
 
@@ -39,7 +39,16 @@ export class DataviewDataSource extends DataSource {
   }
 
   async queryAll(): Promise<DataFrame> {
-    console.log("queryAll");
+    const rows = this.project.dataviewType === WorkspaceDataviewEnum.Query ? await this.query() : await this.jsQuery();
+
+    const standardizedRecords = this.standardizeRecords(rows);
+    const fields = detectSchema(standardizedRecords);
+    const records = parseRecords(standardizedRecords, fields);
+
+    return { fields, records };
+  }
+
+  async query(): Promise<Array<Record<string, any>>> {
     const api = this.getDataviewAPI();
 
     const result = await api?.query(this.project.query ?? "", undefined, {
@@ -50,13 +59,16 @@ export class DataviewDataSource extends DataSource {
       throw new Error("dataview query failed");
     }
 
-    const rows = parseTableResult(result.value);
+    return parseTableResult(result.value);
+  }
 
-    const standardizedRecords = this.standardizeRecords(rows);
-    const fields = detectSchema(standardizedRecords);
-    const records = parseRecords(standardizedRecords, fields);
+  async jsQuery(): Promise<Array<Record<string, any>>> {
+    const api = this.getDataviewAPI();
 
-    return { fields, records };
+    const executeJs = new Function("dv", this.project.jsQuery ?? "");
+    const result = executeJs(api);
+
+    return parseTableResult(result);
   }
 
   includes(path: string): boolean {
