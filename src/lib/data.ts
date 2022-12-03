@@ -59,18 +59,17 @@ export enum DataFieldType {
 
 export interface DataRecord {
   readonly id: string;
-  readonly values: Record<string, OptionalDataValue>;
+  readonly values: Record<string, Optional<DataValue>>;
 }
 
 export type DataValue = string | number | boolean | Date | Link | Array<string>;
 
-export type Optional =
+export type Optional<T> =
+  | T
   // undefined means the field has been removed from a DataRecord.
   | undefined
   // null means that while the field exists, it doesn't yet have a value.
   | null;
-
-export type OptionalDataValue = DataValue | Optional;
 
 export interface Link {
   readonly displayName?: string;
@@ -123,22 +122,22 @@ export abstract class DataSource {
 }
 
 export function isBoolean(
-  value: OptionalDataValue | DataValue
+  value: Optional<DataValue> | DataValue
 ): value is boolean {
   return typeof value === "boolean";
 }
 
 export function isString(
-  value: OptionalDataValue | DataValue
+  value: Optional<DataValue> | DataValue
 ): value is string {
   return typeof value === "string";
 }
 
-export function isList(value: OptionalDataValue | DataValue) {
+export function isList(value: Optional<DataValue> | DataValue) {
   return Array.isArray(value);
 }
 
-export function isLink(value: OptionalDataValue | DataValue): value is Link {
+export function isLink(value: Optional<DataValue> | DataValue): value is Link {
   if (value && typeof value === "object") {
     return "linkText" in value && "sourcePath" in value;
   }
@@ -146,59 +145,59 @@ export function isLink(value: OptionalDataValue | DataValue): value is Link {
 }
 
 export function isNumber(
-  value: OptionalDataValue | DataValue
+  value: Optional<DataValue> | DataValue
 ): value is number {
   return typeof value === "number";
 }
 
-export function isDate(value: OptionalDataValue | DataValue): value is Date {
+export function isDate(value: Optional<DataValue> | DataValue): value is Date {
   return value instanceof Date;
 }
 
-export function hasValue(value: OptionalDataValue): value is DataValue {
+export function hasValue(value: Optional<DataValue>): value is DataValue {
   if (typeof value === null || typeof value === undefined) {
     return true;
   }
   return false;
 }
 
-export function isOptional(value: unknown): value is Optional {
+export function isOptional<T>(value: unknown): value is Optional<T> {
   return value === null || value === undefined;
 }
 
 export function isOptionalBoolean(
-  value: OptionalDataValue
-): value is boolean | Optional {
+  value: Optional<DataValue>
+): value is Optional<boolean> {
   return isBoolean(value) || isOptional(value);
 }
 
 export function isOptionalString(
-  value: OptionalDataValue
-): value is string | undefined {
+  value: Optional<DataValue>
+): value is Optional<string> {
   return isString(value) || isOptional(value);
 }
 
 export function isOptionalLink(
-  value: OptionalDataValue
-): value is Link | Optional {
+  value: Optional<DataValue>
+): value is Optional<Link> {
   return isLink(value) || isOptional(value);
 }
 
 export function isOptionalList(
-  value: OptionalDataValue
-): value is Array<string> | Optional {
+  value: Optional<DataValue>
+): value is Optional<Array<string>> {
   return isList(value) || isOptional(value);
 }
 
 export function isOptionalNumber(
-  value: OptionalDataValue
-): value is number | Optional {
+  value: Optional<DataValue>
+): value is Optional<number> {
   return isNumber(value) || isOptional(value);
 }
 
 export function isOptionalDate(
-  value: OptionalDataValue
-): value is Date | Optional {
+  value: Optional<DataValue>
+): value is Optional<Date> {
   return isDate(value) || isOptional(value);
 }
 

@@ -3,7 +3,7 @@
   import { TFile, type Menu } from "obsidian";
 
   import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
-  import type { OptionalDataValue } from "src/lib/data";
+  import type { DataValue, Optional } from "src/lib/data";
   import { IconButton } from "obsidian-svelte";
   import GridCellGroup from "./GridCellGroup.svelte";
 
@@ -26,7 +26,7 @@
   export let onCellMenu: (
     rowId: GridRowId,
     column: GridColDef,
-    value: OptionalDataValue
+    value: Optional<DataValue>
   ) => Menu;
   export let onNavigate: (event: MouseEvent) => void;
 
@@ -40,7 +40,7 @@
 
   function handleCellClick(
     column: GridColDef,
-    value: OptionalDataValue
+    value: Optional<DataValue>
   ): (event: MouseEvent) => void {
     return (event: MouseEvent) => {
       if (event.button === 2) {
