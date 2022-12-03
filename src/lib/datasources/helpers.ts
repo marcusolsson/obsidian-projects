@@ -76,6 +76,7 @@ export function detectFields(records: DataRecord[]): DataField[] {
     type: typeFromValues(values),
     identifier: false,
     derived: false,
+    repeated: false,
   }));
 }
 
@@ -123,11 +124,12 @@ export function detectCellType(value: unknown): DataFieldType {
     return DataFieldType.Boolean;
   }
 
-  // Class types
   if (isLink(value)) {
     return DataFieldType.Link;
-  } else if (Array.isArray(value)) {
-    return DataFieldType.List;
+  }
+
+  if (Array.isArray(value)) {
+    return typeFromValues(value);
   }
 
   if (value === null) {
