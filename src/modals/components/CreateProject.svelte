@@ -71,6 +71,16 @@
         helperText={nameError}
       />
     </SettingItem>
+    <SettingItem
+      name={$i18n.t("modals.project.default.name")}
+      description={$i18n.t("modals.project.default.description") ?? ""}
+    >
+      <Switch
+        checked={project.isDefault ?? false}
+        on:check={({ detail: isDefault }) =>
+          (project = { ...project, isDefault })}
+      />
+    </SettingItem>
 
     {#if project.dataview || $capabilities.dataview}
       <SettingItem

@@ -14,8 +14,12 @@
   export let projectId: string | undefined;
   export let viewId: string | undefined;
 
+  $: defaultProject = projects.find((project) => project.isDefault);
+
   $: selectedProject =
-    projects.find((project) => projectId === project.id) || projects[0];
+    projects.find((project) => projectId === project.id) ||
+    defaultProject ||
+    projects[0];
 
   $: views = selectedProject?.views || [];
 
