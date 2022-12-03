@@ -88,11 +88,11 @@ i18next.init({
             },
             jsQuery: {
               name: "JS Query",
-              description: "Javascript queries. need return { headers: string[], values: any[] }",
+              description: "Javascript queries. need return { headers: string[], values: any[] }. 'id' column is required and unique",
               example: `const pages = dv.pages('"Projects - Demo Project"');
 return {
-    headers: ["File", "Status"],
-    values: pages.map(p => [p.file.link, p.status])
+    headers: ["id", "name", "status", "due", "published", "weight", "image"],
+    values: pages.map(p => [p.file.path, p.file.name, p.status, p.due, p.published, p.weight, p.image])
 }`,
             },
             recursive: {

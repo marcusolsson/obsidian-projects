@@ -96,10 +96,14 @@ export class DataviewDataSource extends DataSource {
     rows.forEach((row) => {
       const values = standardizeValues(this.app, row);
 
-      const id = values["File"];
+      if ("id" in values) {
+          records.push({ id: values["id"] as string, values });
+      } else {
+        const id = values["File"];
 
-      if (id && isLink(id) && id.fullPath) {
-        records.push({ id: id.fullPath, values });
+        if (id && isLink(id) && id.fullPath) {
+          records.push({ id: id.fullPath, values });
+        }
       }
     });
 
