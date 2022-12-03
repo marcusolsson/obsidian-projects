@@ -9,6 +9,7 @@
     ModalLayout,
     SettingItem,
     Switch,
+    Select,
     TextArea,
     TextInput,
   } from "obsidian-svelte";
@@ -21,7 +22,7 @@
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
   import { interpolateTemplate } from "src/lib/templates";
-  import type { ProjectDefinition } from "src/types";
+  import { WorkspaceDataviewEnum, type ProjectDefinition } from "src/types";
 
   export let title: string;
   export let cta: string;
@@ -79,8 +80,30 @@
       >
         <Switch
           checked={!!project.dataview}
-          on:check={({ detail: dataview }) =>
-            (project = { ...project, dataview })}
+          on:check={({ detail: dataview }) => {
+            project = {
+              ...project,
+              dataview,
+              dataviewType: project.dataviewType ?? WorkspaceDataviewEnum.Query,
+            };
+          }}
+        />
+      </SettingItem>
+    {/if}
+
+    {#if project.dataview}
+      <SettingItem
+        name={$i18n.t("modals.project.dataviewType.name")}
+        description={$i18n.t("modals.project.dataviewType.description")}
+      >
+        <Select
+          value={project.dataviewType ?? ""}
+          options={[
+            { label: "Query", value: WorkspaceDataviewEnum.Query },
+            { label: "JS", value: WorkspaceDataviewEnum.JS },
+          ]}
+          on:change={({ detail: dataviewType }) =>
+            (project = { ...project, dataviewType })}
         />
       </SettingItem>
     {/if}
@@ -96,19 +119,38 @@
     {/if}
 
     {#if project.dataview}
-      <SettingItem
-        name={$i18n.t("modals.project.query.name")}
-        description={$i18n.t("modals.project.query.description") ?? ""}
-        vertical
-      >
-        <TextArea
-          placeholder={`TABLE status AS "Status" FROM "Work"`}
-          value={project.query ?? ""}
-          on:input={({ detail: query }) => (project = { ...project, query })}
-          rows={6}
-          width="100%"
-        />
-      </SettingItem>
+      <!-- Dataview Query -->
+      {#if project.dataviewType === WorkspaceDataviewEnum.Query}
+        <SettingItem
+          name={$i18n.t("modals.project.query.name")}
+          description={$i18n.t("modals.project.query.description") ?? ""}
+          vertical
+        >
+          <TextArea
+            placeholder={`TABLE status AS "Status" FROM "Work"`}
+            value={project.query ?? ""}
+            on:input={({ detail: query }) => (project = { ...project, query })}
+            rows={6}
+            width="100%"
+          />
+        </SettingItem>
+      {:else}
+      <!-- Dataview JS Query -->
+        <SettingItem
+          name={$i18n.t("modals.project.jsQuery.name")}
+          description={$i18n.t("modals.project.jsQuery.description") ?? ""}
+          vertical
+        >
+          <TextArea
+            placeholder={`TABLE status AS "Status" FROM "Work"`}
+            value={project.jsQuery ?? ""}
+            on:input={({ detail: jsQuery }) => (project = { ...project, jsQuery })}
+            rows={6}
+            width="100%"
+          />
+        </SettingItem>
+      {/if}
+      <!-- Dataview Query -->
     {:else}
       <SettingItem
         name={$i18n.t("modals.project.path.name")}

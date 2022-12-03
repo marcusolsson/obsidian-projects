@@ -7,6 +7,11 @@ export interface ViewDefinition {
   readonly config: Record<string, any>;
 }
 
+export enum WorkspaceDataviewEnum {
+  Query = "Query",
+  JS = "JS",
+}
+
 export interface WorkspaceDefinitionV0 {
   readonly name: string;
   readonly id: string;
@@ -16,7 +21,9 @@ export interface WorkspaceDefinitionV0 {
   readonly defaultName?: string;
   readonly templates?: string[];
   readonly dataview?: boolean;
+  readonly dataviewType?: string;
   readonly query?: string;
+  readonly jsQuery?: string;
   readonly excludedNotes?: string[];
 }
 

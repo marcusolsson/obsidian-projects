@@ -39,6 +39,7 @@ export class DataviewDataSource extends DataSource {
   }
 
   async queryAll(): Promise<DataFrame> {
+    console.log("queryAll");
     const api = this.getDataviewAPI();
 
     const result = await api?.query(this.project.query ?? "", undefined, {

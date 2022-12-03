@@ -77,9 +77,18 @@ i18next.init({
                   "Enable the Dataview plugin to continue using this project.",
               },
             },
+            dataviewType: {
+              name: "Dataview Query Type",
+              description:
+                "Query or JS",
+            },
             query: {
               name: "Query",
-              description: "Only supports TABLE queries.",
+              description: "TABLE queries.",
+            },
+            jsQuery: {
+              name: "JS Query",
+              description: "Javascript queries.",
             },
             recursive: {
               name: "Include subfolders",
