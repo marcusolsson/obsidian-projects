@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
   import Sortable from "sortablejs";
+  import { onDestroy, onMount } from "svelte";
 
   export let onSort: (ids: string[]) => void;
 
@@ -43,7 +43,6 @@
   }
 
   section {
-    flex: 1;
     overflow-x: auto;
   }
 

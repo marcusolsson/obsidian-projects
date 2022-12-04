@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { DateInput, NumberInput, Switch, TextInput } from "obsidian-svelte";
+
+  import { TagList } from "src/components/TagList";
   import {
     DataFieldType,
     isBoolean,
@@ -8,10 +11,7 @@
     isOptionalList,
     isString,
     type OptionalDataValue,
-  } from "../../lib/data";
-
-  import { DateInput, TextInput, Switch, NumberInput } from "obsidian-svelte";
-  import { TagList } from "../TagList";
+  } from "src/lib/data";
 
   export let type: DataFieldType;
   export let value: OptionalDataValue;

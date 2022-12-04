@@ -1,7 +1,8 @@
 <script lang="ts">
   import { IconButton, Tag } from "obsidian-svelte";
-  import { InputDialogModal } from "src/modals/input-dialog";
+
   import { app } from "src/lib/stores/obsidian";
+  import { InputDialogModal } from "src/modals/input-dialog";
 
   export let values: string[];
   export let edit: boolean;

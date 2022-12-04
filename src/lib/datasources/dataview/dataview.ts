@@ -1,17 +1,23 @@
 import type { App } from "obsidian";
 import { DataviewApi, getAPI, isPluginEnabled } from "obsidian-dataview";
-import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import { get } from "svelte/store";
-import { i18n } from "../../stores/i18n";
+
+import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {
   DataSource,
   type DataField,
   type DataFrame,
   type DataRecord,
-} from "../../data";
-import { standardizeValues } from "./dataview-helpers";
-import { detectFields, isLink, parseRecords } from "../helpers";
+} from "src/lib/data";
+import {
+  detectFields,
+  isLink,
+  parseRecords,
+} from "src/lib/datasources/helpers";
+import { i18n } from "src/lib/stores/i18n";
 import type { ProjectDefinition } from "src/types";
+
+import { standardizeValues } from "./dataview-helpers";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {

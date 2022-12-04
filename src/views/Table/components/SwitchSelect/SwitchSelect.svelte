@@ -15,7 +15,12 @@
   let isOpen: boolean = false;
 </script>
 
-<div bind:this={ref} class="dropdown" on:click={() => (isOpen = true)}>
+<div
+  bind:this={ref}
+  class="dropdown"
+  on:keypress
+  on:click={() => (isOpen = true)}
+>
   {label}
 </div>
 

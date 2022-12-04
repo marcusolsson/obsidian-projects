@@ -2,11 +2,11 @@ import produce from "immer";
 import { writable } from "svelte/store";
 
 import {
-  type DataSource,
+  DataFieldType,
   type DataFrame,
   type DataRecord,
-  DataFieldType,
-} from "../data";
+  type DataSource,
+} from "src/lib/data";
 
 export const dataSource = writable<DataSource | undefined>();
 export const dataFrame = createDataFrame();

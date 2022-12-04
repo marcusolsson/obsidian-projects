@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
-import { i18n } from "../../lib/stores/i18n";
-import { isDate, type DataRecord } from "src/lib/data";
 import { get } from "svelte/store";
+
+import { isDate, type DataRecord } from "src/lib/data";
+import { i18n } from "src/lib/stores/i18n";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";
 
@@ -59,10 +60,10 @@ export function subtractInterval(
 export function groupRecordsByField(
   records: DataRecord[],
   field: string
-): Record<string, Array<[number, DataRecord]>> {
-  const res: Record<string, Array<[number, DataRecord]>> = {};
+): Record<string, DataRecord[]> {
+  const res: Record<string, DataRecord[]> = {};
 
-  records.forEach((record, i) => {
+  records.forEach((record) => {
     const dateValue = record.values[field];
 
     const start = dateValue
@@ -77,7 +78,7 @@ export function groupRecordsByField(
         res[dateStr] = [];
       }
 
-      res[dateStr]?.push([i, record]);
+      res[dateStr]?.push(record);
     }
   });
 

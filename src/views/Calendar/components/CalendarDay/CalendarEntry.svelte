@@ -7,6 +7,7 @@
 </script>
 
 <div
+  on:keypress
   on:click
   on:mouseenter={() => (hover = true)}
   on:mouseleave={() => (hover = false)}

@@ -2,19 +2,17 @@
   import { Menu } from "obsidian";
   import { Button, Icon } from "obsidian-svelte";
 
-  import { CreateProjectModal } from "src/modals/create-project-modal";
-  import { AddViewModal } from "src/modals/add-view-modal";
-  import { CreateNoteModal } from "src/modals/create-note-modal";
-
-  import { app } from "src/lib/stores/obsidian";
+  import ViewToolbar from "src/components/Layout/ViewToolbar.svelte";
+  import { createDataRecord, createProject } from "src/lib/data-api";
   import { api } from "src/lib/stores/api";
   import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
-
-  import { createDataRecord, createProject } from "src/lib/data-api";
-
-  import type { ProjectDefinition } from "src/types";
+  import { AddViewModal } from "src/modals/add-view-modal";
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
+  import { CreateNoteModal } from "src/modals/create-note-modal";
+  import { CreateProjectModal } from "src/modals/create-project-modal";
+  import type { ProjectDefinition } from "src/types";
 
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
@@ -36,48 +34,51 @@
 
 	Toolbar lets the user manage projects and views.
 -->
-<div>
-  <ProjectSelect {projectId} {projects} {onProjectChange} />
+<ViewToolbar variant="primary">
+  <ProjectSelect slot="left" {projectId} {projects} {onProjectChange} />
 
-  {#if project}
-    <ViewSelect
-      {viewId}
-      {views}
-      viewExists={(name) => !!project?.views.find((view) => view.name === name)}
-      onViewSort={(viewIds) => {
-        if (projectId) {
-          settings.sortViews(projectId, viewIds);
-        }
-      }}
-      onViewRename={(viewId, name) => {
-        if (projectId) {
-          settings.renameView(projectId, viewId, name);
-        }
-      }}
-      {onViewChange}
-      onViewDuplicate={(viewId) => {
-        if (projectId) {
-          const id = settings.duplicateView(projectId, viewId);
-          onViewChange(id);
-        }
-      }}
-      onViewDelete={(viewId) => {
-        new ConfirmDialogModal(
-          $app,
-          $i18n.t("modals.view.delete.title"),
-          $i18n.t("modals.view.delete.message"),
-          $i18n.t("modals.view.delete.cta"),
-          () => {
-            if (projectId) {
-              settings.deleteView(projectId, viewId);
-            }
+  <div slot="middle">
+    {#if project}
+      <ViewSelect
+        {viewId}
+        {views}
+        viewExists={(name) =>
+          !!project?.views.find((view) => view.name === name)}
+        onViewSort={(viewIds) => {
+          if (projectId) {
+            settings.sortViews(projectId, viewIds);
           }
-        ).open();
-      }}
-    />
-  {/if}
-
+        }}
+        onViewRename={(viewId, name) => {
+          if (projectId) {
+            settings.renameView(projectId, viewId, name);
+          }
+        }}
+        {onViewChange}
+        onViewDuplicate={(viewId) => {
+          if (projectId) {
+            const id = settings.duplicateView(projectId, viewId);
+            onViewChange(id);
+          }
+        }}
+        onViewDelete={(viewId) => {
+          new ConfirmDialogModal(
+            $app,
+            $i18n.t("modals.view.delete.title"),
+            $i18n.t("modals.view.delete.message"),
+            $i18n.t("modals.view.delete.cta"),
+            () => {
+              if (projectId) {
+                settings.deleteView(projectId, viewId);
+              }
+            }
+          ).open();
+        }}
+      />
+    {/if}
+  </div>
   <Button
+    slot="right"
     variant="primary"
     on:click={(event) => {
       const menu = new Menu();
@@ -140,16 +141,4 @@
     {$i18n.t("toolbar.new")}
     <Icon accent name="chevron-down" />
   </Button>
-</div>
-
-<style>
-  div {
-    background-color: var(--tab-background-active);
-    display: flex;
-    align-items: center;
-    padding: var(--size-4-2);
-    gap: 8px;
-    border-bottom: 1px solid var(--background-modifier-border);
-    justify-content: space-between;
-  }
-</style>
+</ViewToolbar>

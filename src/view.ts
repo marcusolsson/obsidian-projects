@@ -1,15 +1,16 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 
-import App from "./app/App.svelte";
-import { customViews } from "./lib/stores/custom-views";
-import { view } from "./lib/stores/obsidian";
-import type ProjectsPlugin from "./main";
+import App from "src/app/App.svelte";
+import { customViews } from "src/lib/stores/custom-views";
+import { view } from "src/lib/stores/obsidian";
+import { BoardView } from "src/views/Board";
+import { CalendarView } from "src/views/Calendar";
+// import { DeveloperView } from "src/views/Developer";
+import { GalleryView } from "src/views/Gallery";
+import { TableView } from "src/views/Table";
+
 import type { ProjectView } from "./custom-view-api";
-import { GalleryView } from "./views/Gallery";
-// import { DeveloperView } from "./views/Developer";
-import { CalendarView } from "./views/Calendar";
-import { BoardView } from "./views/Board";
-import { TableView } from "./views/Table";
+import type ProjectsPlugin from "./main";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
 
@@ -75,7 +76,7 @@ export class ProjectsView extends ItemView {
     views["board"] = new BoardView();
     views["calendar"] = new CalendarView();
     views["gallery"] = new GalleryView();
-    // views["developer"] = () => new DeveloperView();
+    // views["developer"] = new DeveloperView();
 
     return views;
   }

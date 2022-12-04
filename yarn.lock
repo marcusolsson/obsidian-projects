@@ -314,9 +314,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codemirror/language@git+https://github.com/lishid/cm-language.git":
+"@codemirror/language@https://github.com/lishid/cm-language":
   version "6.2.1"
-  resolved "git+https://github.com/lishid/cm-language.git#073afd8e6bc4d8e5cf6170a50f9b668a98c39f1c"
+  resolved "https://github.com/lishid/cm-language#073afd8e6bc4d8e5cf6170a50f9b668a98c39f1c"
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
@@ -1509,6 +1509,11 @@ decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==
+
+dedent-js@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/dedent-js/-/dedent-js-1.0.1.tgz#bee5fb7c9e727d85dffa24590d10ec1ab1255305"
+  integrity sha512-OUepMozQULMLUmhxS95Vudo0jb0UchLimi3+pQ2plj61Fcy8axbP9hbiD4Sz6DPqn6XG3kfmziVfQ1rSys5AJQ==
 
 dedent@^0.7.0:
   version "0.7.0"
@@ -3062,6 +3067,13 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lower-case@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-2.0.2.tgz#6fa237c63dbdc4a82ca0fd882e4722dc5e634e28"
+  integrity sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==
+  dependencies:
+    tslib "^2.0.3"
+
 lru-cache@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
@@ -3238,6 +3250,14 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
+no-case@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/no-case/-/no-case-3.0.4.tgz#d361fd5c9800f558551a8369fc0dcd4662b6124d"
+  integrity sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==
+  dependencies:
+    lower-case "^2.0.2"
+    tslib "^2.0.3"
+
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
@@ -3335,17 +3355,17 @@ obsidian-svelte@0.0.37:
   resolved "https://registry.yarnpkg.com/obsidian-svelte/-/obsidian-svelte-0.0.37.tgz#1e9e72197a3b33a184854e62e83617949f0a7c7b"
   integrity sha512-UCzAmyZrZ+W9FlBKnseRtmHuQLcjwRWRA4f7rW7ZYAm5sx9LueEc/EcyFNmkeGzZi1U1UpSheUvd0Kf8ykHmWw==
 
-"obsidian@github:obsidianmd/obsidian-api#master":
-  version "0.16.3"
-  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/902badd38ba907689f0917d7b193f7e33d1284fe"
-  dependencies:
-    "@types/codemirror" "0.0.108"
-    moment "2.29.4"
-
 obsidian@latest:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-0.16.3.tgz#137b7e91f949517a1bc817b1d7ef9b8aefb219bc"
   integrity sha512-hal9qk1A0GMhHSeLr2/+o3OpLmImiP+Y+sx2ewP13ds76KXsziG96n+IPFT0mSkup1zSwhEu+DeRhmbcyCCXWw==
+  dependencies:
+    "@types/codemirror" "0.0.108"
+    moment "2.29.4"
+
+obsidian@obsidianmd/obsidian-api#master:
+  version "0.16.3"
+  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/902badd38ba907689f0917d7b193f7e33d1284fe"
   dependencies:
     "@types/codemirror" "0.0.108"
     moment "2.29.4"
@@ -3440,6 +3460,14 @@ parsimmon@^1.18.0:
   version "1.18.1"
   resolved "https://registry.yarnpkg.com/parsimmon/-/parsimmon-1.18.1.tgz#d8dd9c28745647d02fc6566f217690897eed7709"
   integrity sha512-u7p959wLfGAhJpSDJVYXoyMCXWYwHia78HhRBWqk7AIbxdmlrfdp5wX0l3xv/iTSH5HvhN9K7o26hwwpgS5Nmw==
+
+pascal-case@^3.1.1:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/pascal-case/-/pascal-case-3.1.2.tgz#b48e0ef2b98e205e7c1dae747d0b1508237660eb"
+  integrity sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==
+  dependencies:
+    no-case "^3.0.4"
+    tslib "^2.0.3"
 
 pascalcase@^0.1.1:
   version "0.1.1"
@@ -4001,10 +4029,22 @@ svelte-check@^2.9.2:
     svelte-preprocess "^4.0.0"
     typescript "*"
 
+svelte-dnd-action@^0.9.22:
+  version "0.9.22"
+  resolved "https://registry.yarnpkg.com/svelte-dnd-action/-/svelte-dnd-action-0.9.22.tgz#003eee9dddb31d8c782f6832aec8b1507fff194d"
+  integrity sha512-lOQJsNLM1QWv5mdxIkCVtk6k4lHCtLgfE59y8rs7iOM6erchbLC9hMEFYSveZz7biJV0mpg7yDSs4bj/RT/YkA==
+
 svelte-i18next@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/svelte-i18next/-/svelte-i18next-1.2.2.tgz#7372671c2fcc4d1971b2889ca2bb455227fa8c3c"
   integrity sha512-a5eNuDpxAD6TO0s7jlWuFjOYvT4kggbkXpcZCHBeNnWMHj+sNELQdrVsvubD2hLr8WC7OoF0pDfU/IuuvZp7OQ==
+
+svelte-media-queries@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/svelte-media-queries/-/svelte-media-queries-1.4.0.tgz#bcae0058d5278867810c3866bad6b57394f99c02"
+  integrity sha512-C0ruaeAQVLi6N/QpdjBBWmNePwh3u3+e+XGcXCQbgNcmLgyXBOEavx5CyPb8QLxnD2aYySGtJgI6nivccpt3LQ==
+  dependencies:
+    svelte2tsx "^0.5.10"
 
 svelte-portal@^2.2.0:
   version "2.2.0"
@@ -4022,6 +4062,14 @@ svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.7:
     magic-string "^0.25.7"
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
+
+svelte2tsx@^0.5.10:
+  version "0.5.20"
+  resolved "https://registry.yarnpkg.com/svelte2tsx/-/svelte2tsx-0.5.20.tgz#0ac5411b53d6b6913b12e12a02c03ce9eb13e945"
+  integrity sha512-yNHmN/uoAnJ7d1XqVohiNA6TMFOxibHyEddUAHVt1PiLXtbwAJF3WaGYlg8QbOdoXzOVsVNCAlqRUIdULUm+OA==
+  dependencies:
+    dedent-js "^1.0.1"
+    pascal-case "^3.1.1"
 
 svelte@3.35.0:
   version "3.35.0"
@@ -4130,6 +4178,11 @@ tslib@^1.8.1:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
+
+tslib@^2.0.3:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
+  integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
 
 tsutils@^3.21.0:
   version "3.21.0"

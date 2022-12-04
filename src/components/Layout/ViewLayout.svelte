@@ -4,8 +4,8 @@
 
 <style>
   div {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--size-4-2);
   }
 </style>

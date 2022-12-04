@@ -1,7 +1,8 @@
 import type { App } from "obsidian";
 import { get } from "svelte/store";
-import type { DataApi } from "./data-api";
+
 import type { DataField, DataRecord, DataSource } from "./data";
+import type { DataApi } from "./data-api";
 import { filesFromRecords } from "./obsidian";
 import { dataFrame } from "./stores/dataframe";
 

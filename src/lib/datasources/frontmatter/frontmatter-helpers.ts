@@ -1,4 +1,4 @@
-import { isStringLink, type DataRecord, type Link } from "../../data";
+import { isStringLink, type DataRecord, type Link } from "../../../lib/data";
 
 /**
  * standardizeValues converts front matter YAML data to the common DataValue
