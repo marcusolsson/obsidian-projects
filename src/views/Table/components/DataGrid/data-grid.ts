@@ -41,8 +41,6 @@ export function fieldIcon(field: DataFieldType): string {
       return "calendar-days";
     case DataFieldType.Link:
       return "link";
-    case DataFieldType.List:
-      return "list";
   }
   return "alert-triangle";
 }

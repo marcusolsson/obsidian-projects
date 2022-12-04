@@ -1,4 +1,4 @@
-import produce from "immer";
+import produce, { castDraft, castImmutable } from "immer";
 import { writable } from "svelte/store";
 
 import {
@@ -23,6 +23,7 @@ function createDataFrame() {
     addRecord(record: DataRecord) {
       update((state) =>
         produce(state, (draft) => {
+          // @ts-ignore
           draft.records.push(record);
         })
       );
@@ -30,8 +31,12 @@ function createDataFrame() {
     updateRecord(record: DataRecord) {
       update((state) =>
         produce(state, (draft) => {
-          draft.records = draft.records.map((r) =>
-            r.id === record.id ? record : r
+          // @ts-ignore
+          draft.records = castDraft(
+            draft.records
+              .map(castImmutable)
+              // @ts-ignore
+              .map((r) => (r.id === record.id ? record : r))
           );
         })
       );
@@ -76,7 +81,7 @@ function createDataFrame() {
           frame.records.forEach((record) => {
             recordSet[record.id] = record;
           });
-          draft.records = Object.values(recordSet);
+          draft.records = castDraft(Object.values(recordSet));
 
           // Merge fields.
           frame.fields.forEach((newField) => {

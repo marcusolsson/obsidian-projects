@@ -36,11 +36,6 @@ export function parseRecords(
             record.values[field.name] = dayjs(value).toDate();
           }
           break;
-        case DataFieldType.List:
-          if (typeof value === "string") {
-            record.values[field.name] = [value];
-          }
-          break;
         case DataFieldType.Number:
           if (typeof value === "string") {
             record.values[field.name] = parseFloat(value);
