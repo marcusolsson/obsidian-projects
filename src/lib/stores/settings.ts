@@ -30,6 +30,13 @@ function createSettings() {
     addProject(project: ProjectDefinition) {
       update((state) =>
         produce(state, (draft) => {
+          // Can only have one default project.
+          if (project.isDefault) {
+            draft.projects = draft.projects.map((project) => ({
+              ...project,
+              isDefault: false,
+            }));
+          }
           draft.projects.push(project);
         })
       );
@@ -37,6 +44,13 @@ function createSettings() {
     updateProject(project: ProjectDefinition) {
       update((state) =>
         produce(state, (draft) => {
+          // Can only have one default project.
+          if (project.isDefault) {
+            draft.projects = draft.projects.map((project) => ({
+              ...project,
+              isDefault: false,
+            }));
+          }
           draft.projects = draft.projects.map((w) =>
             w.id === project.id ? project : w
           );
