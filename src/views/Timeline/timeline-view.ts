@@ -17,7 +17,7 @@ export class TimelineView extends ProjectView<TimelineConfig> {
     return "Timeline";
   }
   getIcon(): string {
-    return "logo-crystal";
+    return "align-vertical-distribute-center";
   }
   async onData({ data }: DataQueryResult): Promise<void> {
     this.view?.$set({ frame: data });
