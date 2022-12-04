@@ -76,7 +76,7 @@ export function detectFields(records: DataRecord[]): DataField[] {
     type: typeFromValues(values),
     identifier: false,
     derived: false,
-    repeated: false,
+    repeated: values.some(Array.isArray),
   }));
 }
 

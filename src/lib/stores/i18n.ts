@@ -13,8 +13,8 @@ i18next.init({
           boolean: "True or false",
           date: "Date",
           link: "Link",
-          list: "List",
           unknown: "Unknown data type",
+          repeated: "Repeated field",
         },
         commands: {
           "show-projects": {

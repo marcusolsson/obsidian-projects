@@ -35,10 +35,11 @@
     {#each editableFields as field}
       <SettingItem name={field.name}>
         <FieldControl
-          type={field.type}
+          {field}
           value={record.values[field.name]}
           onChange={(value) => {
             record = produce(record, (draft) => {
+              // @ts-ignore
               draft.values[field.name] = value;
             });
           }}

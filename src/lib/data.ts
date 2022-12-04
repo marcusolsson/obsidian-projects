@@ -59,9 +59,6 @@ export enum DataFieldType {
   Date = "date",
   Link = "link",
   Unknown = "unknown",
-
-  // @deprecated
-  List = "list",
 }
 
 export interface DataRecord {
@@ -75,7 +72,7 @@ export type DataValue =
   | boolean
   | Date
   | Link
-  | Array<OptionalDataValue>;
+  | Array<Optional<DataValue>>;
 
 export type Optional<T> =
   | T
@@ -198,7 +195,7 @@ export function isOptionalLink(
 
 export function isOptionalList(
   value: Optional<DataValue>
-): value is Optional<Array<string>> {
+): value is Optional<Array<Optional<DataValue>>> {
   return isList(value) || isOptional(value);
 }
 
