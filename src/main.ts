@@ -1,24 +1,22 @@
-import { get, type Unsubscriber } from "svelte/store";
-import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
-
-import "obsidian-dataview";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import isBetween from "dayjs/plugin/isBetween";
+import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
+import "obsidian-dataview";
+import { get, type Unsubscriber } from "svelte/store";
 
-import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
-import { createDataRecord, createProject } from "./lib/data-api";
-import type { ProjectDefinition, WorkspaceDefinitionV0 } from "./types";
+import { createDataRecord, createProject } from "src/lib/data-api";
+import { api } from "src/lib/stores/api";
+import { i18n } from "src/lib/stores/i18n";
+import { app, plugin } from "src/lib/stores/obsidian";
+import { migrateAny, settings } from "src/lib/stores/settings";
+import { CreateNoteModal } from "src/modals/create-note-modal";
+import { CreateProjectModal } from "src/modals/create-project-modal";
 
 import { registerFileEvents } from "./events";
-import { migrateAny, settings } from "./lib/stores/settings";
-import { app, plugin } from "./lib/stores/obsidian";
-import { api } from "./lib/stores/api";
-import { i18n } from "./lib/stores/i18n";
-
-import { CreateProjectModal } from "./modals/create-project-modal";
-import { CreateNoteModal } from "./modals/create-note-modal";
+import type { ProjectDefinition, WorkspaceDefinitionV0 } from "./types";
+import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);

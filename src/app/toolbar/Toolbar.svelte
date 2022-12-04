@@ -2,23 +2,20 @@
   import { Menu } from "obsidian";
   import { Button, Icon } from "obsidian-svelte";
 
-  import { CreateProjectModal } from "src/modals/create-project-modal";
-  import { AddViewModal } from "src/modals/add-view-modal";
-  import { CreateNoteModal } from "src/modals/create-note-modal";
-
-  import { app } from "src/lib/stores/obsidian";
+  import ViewToolbar from "src/components/Layout/ViewToolbar.svelte";
+  import { createDataRecord, createProject } from "src/lib/data-api";
   import { api } from "src/lib/stores/api";
   import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
-
-  import { createDataRecord, createProject } from "src/lib/data-api";
-
-  import type { ProjectDefinition } from "src/types";
+  import { AddViewModal } from "src/modals/add-view-modal";
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
+  import { CreateNoteModal } from "src/modals/create-note-modal";
+  import { CreateProjectModal } from "src/modals/create-project-modal";
+  import type { ProjectDefinition } from "src/types";
 
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
-  import ViewToolbar from "../../components/Layout/ViewToolbar.svelte";
 
   export let projects: ProjectDefinition[];
 

@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
+
 import {
   DataFieldType,
   type DataField,
   type DataRecord,
   type Link,
   type OptionalDataValue,
-} from "../data";
+} from "../../lib/data";
 
 /**
  * parseRecords parses the values for each record based on the detected field

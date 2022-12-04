@@ -1,24 +1,21 @@
 <script lang="ts">
+  import type { DataFrame } from "src/lib/data";
+  import { createDataRecord } from "src/lib/data-api";
+  import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
+  import type { ViewApi } from "src/lib/view-api";
+  import { CreateNoteModal } from "src/modals/create-note-modal";
+  import { EditNoteModal } from "src/modals/edit-note-modal";
+  import { InputDialogModal } from "src/modals/input-dialog";
+  import type { ProjectDefinition } from "src/types";
+
   import type {
     GridColDef,
     GridRowProps,
   } from "./components/DataGrid/data-grid";
-
   import DataGrid from "./components/DataGrid/DataGrid.svelte";
   import SwitchSelect from "./components/SwitchSelect/SwitchSelect.svelte";
-
-  import { i18n } from "../../lib/stores/i18n";
-  import { app } from "../../lib/stores/obsidian";
-
-  import { CreateNoteModal } from "../../modals/create-note-modal";
-  import { InputDialogModal } from "../../modals/input-dialog";
-  import { EditNoteModal } from "../../modals/edit-note-modal";
-  import { createDataRecord } from "../../lib/data-api";
-
-  import type { DataFrame } from "../../lib/data";
-  import type { ProjectDefinition } from "../../types";
   import type { TableConfig } from "./types";
-  import type { ViewApi } from "src/lib/view-api";
 
   import {
     ViewContent,

@@ -1,13 +1,11 @@
 <script lang="ts">
   import type { App } from "obsidian";
 
+  import type { DataSource } from "src/lib/data";
   import { DataviewDataSource } from "src/lib/datasources/dataview/dataview";
   import { FrontMatterDataSource } from "src/lib/datasources/frontmatter/frontmatter";
-
   import { dataSource } from "src/lib/stores/dataframe";
   import { app } from "src/lib/stores/obsidian";
-
-  import type { DataSource } from "src/lib/data";
   import type { ProjectDefinition } from "src/types";
 
   import Toolbar from "./toolbar/Toolbar.svelte";
@@ -16,8 +14,12 @@
   export let projectId: string | undefined;
   export let viewId: string | undefined;
 
+  $: defaultProject = projects.find((project) => project.isDefault);
+
   $: selectedProject =
-    projects.find((project) => projectId === project.id) || projects[0];
+    projects.find((project) => projectId === project.id) ||
+    defaultProject ||
+    projects[0];
 
   $: views = selectedProject?.views || [];
 

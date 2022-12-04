@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button, ModalButtonGroup, Typography } from "obsidian-svelte";
+
   import TabContainer from "./TabContainer.svelte";
 
   export let onCreate: () => void;

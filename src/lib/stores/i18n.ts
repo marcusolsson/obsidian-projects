@@ -62,6 +62,10 @@ i18next.init({
               name: "Name",
               description: "",
             },
+            default: {
+              name: "Set as default",
+              description: "Enable to open this project by default.",
+            },
             path: {
               name: "Path",
               description:

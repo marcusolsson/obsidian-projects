@@ -1,6 +1,6 @@
-import type { DataFrame } from "./lib/data";
-import type { ViewApi } from "./lib/view-api";
-import type { ProjectDefinition } from "./types";
+import type { DataFrame } from "src/lib/data";
+import type { ViewApi } from "src/lib/view-api";
+import type { ProjectDefinition } from "src/types";
 
 export interface DataQueryResult {
   data: DataFrame;

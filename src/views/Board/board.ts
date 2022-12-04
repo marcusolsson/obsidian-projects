@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
 
-import { i18n } from "src/lib/stores/i18n";
 import { isNumber, isString, type DataRecord } from "src/lib/data";
 import { notEmpty } from "src/lib/helpers";
+import { i18n } from "src/lib/stores/i18n";
 
 export function unique(records: DataRecord[], fieldName: string): string[] {
   const keys = records

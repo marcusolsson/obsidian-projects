@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Icon, InternalLink, Select, Typography } from "obsidian-svelte";
-  import path from "path";
+
   import { Field } from "src/components/Field";
   import {
     ViewContent,
@@ -21,9 +21,9 @@
   import CenterBox from "src/modals/components/CenterBox.svelte";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { fieldToSelectableValue } from "src/views/helpers";
-  import Card from "./components/Card/Card.svelte";
-  import CardContent from "./components/Card/CardContent.svelte";
-  import CardMedia from "./components/Card/CardMedia.svelte";
+  import { getDisplayName } from "../Board/components/Board/board-helpers";
+
+  import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
   import type { GalleryConfig } from "./types";
@@ -78,11 +78,6 @@
     }
 
     return null;
-  }
-
-  function getDisplayName(record: DataRecord): string {
-    const basename = path.basename(record.id);
-    return basename.slice(0, basename.lastIndexOf("."));
   }
 
   function handleCoverFieldChange(coverField: string) {

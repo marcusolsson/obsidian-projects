@@ -3,30 +3,22 @@
   import { Select, Typography } from "obsidian-svelte";
   import { get } from "svelte/store";
 
+  import { Field } from "src/components/Field";
+  import {
+    ViewContent,
+    ViewHeader,
+    ViewLayout,
+    ViewToolbar,
+  } from "src/components/Layout";
+  import { DataFieldType, type DataFrame } from "src/lib/data";
+  import { createDataRecord } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
-
+  import type { ViewApi } from "src/lib/view-api";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
-
-  import { Field } from "src/components/Field";
-
-  import { createDataRecord } from "src/lib/data-api";
-  import { DataFieldType, type DataFrame } from "src/lib/data";
-  import type { ViewApi } from "src/lib/view-api";
   import type { ProjectDefinition } from "src/types";
   import { fieldToSelectableValue } from "src/views/helpers";
-  import type { CalendarConfig } from "./types";
-
-  import {
-    CalendarDay,
-    Navigation,
-    Table,
-    TableBody,
-    TableColumnHeaderCell,
-    TableHead,
-    TableRow,
-  } from "./components";
 
   import {
     addInterval,
@@ -39,11 +31,15 @@
     subtractInterval,
   } from "./calendar";
   import {
-    ViewContent,
-    ViewHeader,
-    ViewLayout,
-    ViewToolbar,
-  } from "src/components/Layout";
+    CalendarDay,
+    Navigation,
+    Table,
+    TableBody,
+    TableColumnHeaderCell,
+    TableHead,
+    TableRow,
+  } from "./components";
+  import type { CalendarConfig } from "./types";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;

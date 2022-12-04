@@ -4,10 +4,9 @@ import moment from "moment";
 import { normalizePath, TFile, type App } from "obsidian";
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
-import type { ProjectDefinition } from "../types";
-import { i18n } from "./stores/i18n";
-import { settings } from "./stores/settings";
-import { interpolateTemplate } from "./templates";
+
+import type { ProjectDefinition } from "src/types";
+
 import {
   isDate,
   isLink,
@@ -16,7 +15,10 @@ import {
   type OptionalDataValue,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
-import { encodeFrontMatter, decodeFrontMatter } from "./metadata";
+import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
+import { i18n } from "./stores/i18n";
+import { settings } from "./stores/settings";
+import { interpolateTemplate } from "./templates";
 
 /**
  * DataApi writes records to file.
