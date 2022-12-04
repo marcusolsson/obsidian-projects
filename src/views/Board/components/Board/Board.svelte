@@ -1,60 +1,60 @@
 <script lang="ts">
-  import Sortable from "sortablejs";
-  import { onDestroy, onMount } from "svelte";
   import type { DataRecord } from "../../../../lib/data";
+  import { dndzone } from "svelte-dnd-action";
 
   import BoardColumn from "./BoardColumn.svelte";
 
-  export let columns: {
+  type Column = {
     id: string;
-    name: string;
     records: DataRecord[];
-  }[];
+  };
+
+  export let columns: Column[];
 
   export let groupByPriority: string | undefined;
   export let readonly: boolean;
   export let onRecordClick: (record: DataRecord) => void;
+  export let onRecordUpdate: (column: string, record: DataRecord) => void;
   export let onRecordAdd: (column: string) => void;
   export let columnWidth: number;
   export let onSortColumns: (names: string[]) => void;
+  export let dragDisabled: boolean;
 
-  let ref: HTMLDivElement;
-  let sortable: Sortable;
+  const flipDurationMs = 200;
 
-  onMount(() => {
-    sortable = Sortable.create(ref, {
-      animation: 100,
-      direction: "horizontal",
-      dataIdAttr: "data-id",
-      forceFallback: true,
-      store: {
-        get() {
-          return columns.map((column) => column.id);
-        },
-        set(sortable) {
-          onSortColumns(sortable.toArray());
-        },
-      },
-    });
-  });
+  function handleDndConsider(e: CustomEvent<DndEvent<Column>>) {
+    columns = e.detail.items;
+  }
 
-  onDestroy(() => {
-    sortable.destroy();
-  });
+  function handleDndFinalize(e: CustomEvent<DndEvent<Column>>) {
+    columns = e.detail.items;
+    onSortColumns(columns.map((col) => col.id));
+  }
 </script>
 
 <div
-  bind:this={ref}
   style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
+  use:dndzone={{
+    type: "columns",
+    items: columns,
+    flipDurationMs,
+    dropTargetStyle: {
+      outline: "none",
+    },
+  }}
+  on:consider={handleDndConsider}
+  on:finalize={handleDndFinalize}
 >
-  {#each columns as column (column.name)}
+  {#each columns as column (column.id)}
     <BoardColumn
       {readonly}
-      name={column.name}
+      name={column.id}
       records={column.records}
       {groupByPriority}
       {onRecordClick}
-      onRecordAdd={() => onRecordAdd(column.name)}
+      onRecordAdd={() => onRecordAdd(column.id)}
+      {dragDisabled}
+      onRecordUpdate={(record) => onRecordUpdate(column.id, record)}
     />
   {/each}
 </div>

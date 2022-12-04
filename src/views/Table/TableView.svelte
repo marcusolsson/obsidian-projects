@@ -18,9 +18,14 @@
   import type { DataFrame } from "../../lib/data";
   import type { ProjectDefinition } from "../../types";
   import type { TableConfig } from "./types";
-  import { HorizontalGroup } from "src/components/HorizontalGroup";
-  import { ToolBar } from "src/components/ToolBar";
   import type { ViewApi } from "src/lib/view-api";
+
+  import {
+    ViewContent,
+    ViewHeader,
+    ViewLayout,
+    ViewToolbar,
+  } from "src/components/Layout";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -99,79 +104,76 @@
   }
 </script>
 
-<ToolBar>
-  <p />
-  <HorizontalGroup>
-    <SwitchSelect
-      label={$i18n.t("views.table.hide-fields")}
-      items={columns.map((column) => ({
-        label: column.field,
-        value: column.field,
-        enabled: !column.hide,
-      }))}
-      onChange={handleVisibilityChange}
+<ViewLayout>
+  <ViewHeader>
+    <ViewToolbar variant="secondary">
+      <svelte:fragment slot="right">
+        <SwitchSelect
+          label={$i18n.t("views.table.hide-fields")}
+          items={columns.map((column) => ({
+            label: column.field,
+            value: column.field,
+            enabled: !column.hide,
+          }))}
+          onChange={handleVisibilityChange}
+        />
+      </svelte:fragment>
+    </ViewToolbar>
+  </ViewHeader>
+  <ViewContent>
+    <DataGrid
+      {columns}
+      {rows}
+      {readonly}
+      onRowAdd={() => {
+        new CreateNoteModal($app, project, (name, templatePath, project) => {
+          api.addRecord(createDataRecord(name, project), templatePath);
+        }).open();
+      }}
+      onRowEdit={(id, values) => {
+        new EditNoteModal(
+          $app,
+          fields,
+          (record) => {
+            api.updateRecord(record, fields);
+          },
+          {
+            id,
+            values,
+          }
+        ).open();
+      }}
+      onRowDelete={(id) => api.deleteRecord(id)}
+      onColumnHide={(column) => handleVisibilityChange(column.field, false)}
+      onColumnRename={(field) => {
+        new InputDialogModal(
+          $app,
+          $i18n.t("views.table.rename-field"),
+          $i18n.t("views.table.rename"),
+          (value) => {
+            api.renameField(field, value);
+          },
+          field
+        ).open();
+      }}
+      onColumnDelete={(field) => api.deleteField(field)}
+      onRowChange={(rowId, row) => {
+        api.updateRecord({ id: rowId, values: row }, fields);
+      }}
+      onColumnResize={handleWidthChange}
+      onRowNavigate={(rowId, openNew) =>
+        $app.workspace.openLinkText(rowId, "", openNew)}
+      sortModel={{
+        field: config?.sortField ?? "name",
+        sort: config?.sortAsc ? "asc" : "desc",
+      }}
+      onSortModelChange={(field, sort) => {
+        onConfigChange({
+          ...config,
+          sortField: field,
+          sortAsc: sort === "asc",
+        });
+      }}
     />
-  </HorizontalGroup>
-</ToolBar>
-<div>
-  <DataGrid
-    {columns}
-    {rows}
-    {readonly}
-    onRowAdd={() => {
-      new CreateNoteModal($app, project, (name, templatePath, project) => {
-        api.addRecord(createDataRecord(name, project), templatePath);
-      }).open();
-    }}
-    onRowEdit={(id, values) => {
-      new EditNoteModal(
-        $app,
-        fields,
-        (record) => {
-          api.updateRecord(record, fields);
-        },
-        {
-          id,
-          values,
-        }
-      ).open();
-    }}
-    onRowDelete={(id) => api.deleteRecord(id)}
-    onColumnHide={(column) => handleVisibilityChange(column.field, false)}
-    onColumnRename={(field) => {
-      new InputDialogModal(
-        $app,
-        $i18n.t("views.table.rename-field"),
-        $i18n.t("views.table.rename"),
-        (value) => {
-          api.renameField(field, value);
-        },
-        field
-      ).open();
-    }}
-    onColumnDelete={(field) => api.deleteField(field)}
-    onRowChange={(rowId, row) => {
-      api.updateRecord({ id: rowId, values: row }, fields);
-    }}
-    onColumnResize={handleWidthChange}
-    onRowNavigate={(rowId, openNew) =>
-      $app.workspace.openLinkText(rowId, "", openNew)}
-    sortModel={{
-      field: config?.sortField ?? "name",
-      sort: config?.sortAsc ? "asc" : "desc",
-    }}
-    onSortModelChange={(field, sort) => {
-      onConfigChange({
-        ...config,
-        sortField: field,
-        sortAsc: sort === "asc",
-      });
-    }}
-  />
-</div>
-
-<style>
-  div {
-    overflow: auto;
-  }
-</style>
+  </ViewContent>
+</ViewLayout>
