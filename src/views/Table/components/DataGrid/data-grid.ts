@@ -14,6 +14,7 @@ export interface GridColDef {
   readonly editable?: boolean;
   readonly header?: boolean;
   readonly weight?: number;
+  readonly repeated?: boolean;
 }
 
 export type GridRowId = string;

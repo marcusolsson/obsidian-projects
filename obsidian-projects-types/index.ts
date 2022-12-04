@@ -50,7 +50,6 @@ export enum DataFieldType {
   Boolean = "boolean",
   Date = "date",
   Link = "link",
-  List = "list",
   Unknown = "unknown",
 }
 
@@ -65,13 +64,14 @@ export type DataValue =
   | boolean
   | Date
   | Link
-  | Array<string>
-  | undefined;
+  | Array<Optional<DataValue>>;
 
 export type Optional<T> =
   | T
-  | undefined // removed from front matter
-  | null; // present but empty in front matter
+  // undefined means the field has been removed from a DataRecord.
+  | undefined
+  // null means that while the field exists, it doesn't yet have a value.
+  | null;
 
 export interface Link {
   readonly displayName?: string;

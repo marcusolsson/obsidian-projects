@@ -34,6 +34,11 @@ export interface DataField {
   readonly type: DataFieldType;
 
   /**
+   * repeated defines whether the field can have multiple values.
+   */
+  readonly repeated: boolean;
+
+  /**
    * identifier defines whether this field identifies a DataRecord.
    */
   readonly identifier: boolean;
@@ -53,7 +58,6 @@ export enum DataFieldType {
   Boolean = "boolean",
   Date = "date",
   Link = "link",
-  List = "list",
   Unknown = "unknown",
 }
 
@@ -62,7 +66,13 @@ export interface DataRecord {
   readonly values: Record<string, Optional<DataValue>>;
 }
 
-export type DataValue = string | number | boolean | Date | Link | Array<string>;
+export type DataValue =
+  | string
+  | number
+  | boolean
+  | Date
+  | Link
+  | Array<Optional<DataValue>>;
 
 export type Optional<T> =
   | T
@@ -185,7 +195,7 @@ export function isOptionalLink(
 
 export function isOptionalList(
   value: Optional<DataValue>
-): value is Optional<Array<string>> {
+): value is Optional<Array<Optional<DataValue>>> {
   return isList(value) || isOptional(value);
 }
 

@@ -28,7 +28,18 @@
   export let selected: boolean;
 </script>
 
-{#if column.type === "string" && isOptionalString(value)}
+{#if column.repeated && isOptionalList(value)}
+  <GridListCell
+    {selected}
+    {rowindex}
+    {colindex}
+    {value}
+    {onChange}
+    {column}
+    on:mousedown
+    on:navigate
+  />
+{:else if column.type === "string" && isOptionalString(value)}
   <GridTextCell
     {selected}
     {rowindex}
@@ -74,17 +85,6 @@
   />
 {:else if column.type === "link" && isOptionalLink(value)}
   <GridLinkCell
-    {selected}
-    {rowindex}
-    {colindex}
-    {value}
-    {onChange}
-    {column}
-    on:mousedown
-    on:navigate
-  />
-{:else if column.type === "list" && isOptionalList(value)}
-  <GridListCell
     {selected}
     {rowindex}
     {colindex}
