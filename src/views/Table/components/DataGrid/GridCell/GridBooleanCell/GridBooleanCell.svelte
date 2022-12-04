@@ -4,7 +4,7 @@
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: boolean | Optional;
+  export let value: Optional<boolean>;
   export let onChange: (value: boolean) => void;
   export let column: GridColDef;
   export let rowindex: number;

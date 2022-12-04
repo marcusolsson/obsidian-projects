@@ -6,8 +6,8 @@
   import TextLabel from "./TextLabel.svelte";
   import type { Optional } from "src/lib/data";
 
-  export let value: string | Optional;
-  export let onChange: (value: string | Optional) => void;
+  export let value: Optional<string>;
+  export let onChange: (value: Optional<string>) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;

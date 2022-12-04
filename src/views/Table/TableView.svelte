@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DataFrame } from "src/lib/data";
+  import { DataFieldType, type DataFrame } from "src/lib/data";
   import { createDataRecord } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
@@ -36,19 +36,28 @@
 
   $: fieldConfig = config?.fieldConfig ?? {};
 
-  $: columns = fields.map<GridColDef>((field) => {
-    const colDef: GridColDef = {
-      field: field.name,
-      type: field.type,
-      width: fieldConfig[field.name]?.width ?? 180,
-      hide: fieldConfig[field.name]?.hide ?? false,
-      editable: !field.derived,
-    };
+  $: columns = fields
+    .filter((field) => {
+      // Table only supports repeated fields of type string.
+      if (field.repeated) {
+        return field.type === DataFieldType.String;
+      }
+      return true;
+    })
+    .map<GridColDef>((field) => {
+      const colDef: GridColDef = {
+        field: field.name,
+        type: field.type,
+        width: fieldConfig[field.name]?.width ?? 180,
+        hide: fieldConfig[field.name]?.hide ?? false,
+        editable: !field.derived,
+        repeated: !!field.repeated,
+      };
 
-    const weight = defaultWeight(field.name);
+      const weight = defaultWeight(field.name);
 
-    return weight ? { ...colDef, weight } : colDef;
-  });
+      return weight ? { ...colDef, weight } : colDef;
+    });
 
   $: rows = records.map<GridRowProps>(({ id, values }) => ({
     rowId: id,
