@@ -4,7 +4,7 @@
   import type { Link, Optional } from "src/lib/data";
   import { app } from "src/lib/stores/obsidian";
 
-  export let value: Link | Optional;
+  export let value: Optional<Link>;
 </script>
 
 <div>

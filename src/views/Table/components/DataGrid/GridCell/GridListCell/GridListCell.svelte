@@ -1,11 +1,11 @@
 <script lang="ts">
   import { TagList } from "src/components/TagList";
-  import type { Optional } from "src/lib/data";
+  import type { DataValue, Optional } from "src/lib/data";
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: string[] | Optional;
-  export let onChange: (values: string[]) => void;
+  export let value: Optional<Optional<DataValue>[]>;
+  export let onChange: (values: Optional<DataValue>[]) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;

@@ -53,15 +53,19 @@
   $: ({ fields, records } = frame);
 
   let anchorDate: dayjs.Dayjs = dayjs();
+
   $: config = config
-  $: dateFields = fields.filter((field) => field.type === DataFieldType.Date);
+  $: dateFields = fields
+    .filter((field) => !field.repeated)
+    .filter((field) => field.type === DataFieldType.Date);
+
   $: dateField =
     dateFields.find((field) => config?.dateField === field.name) ??
     dateFields[0];
 
-  $: booleanFields = fields.filter(
-    (field) => field.type === DataFieldType.Boolean
-  );
+  $: booleanFields = fields
+    .filter((field) => !field.repeated)
+    .filter((field) => field.type === DataFieldType.Boolean);
   $: booleanField = fields.find((field) => config?.checkField === field.name);
 
   $: interval = config?.interval ?? "week";
