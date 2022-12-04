@@ -5,7 +5,7 @@ import { customViews } from "src/lib/stores/custom-views";
 import { view } from "src/lib/stores/obsidian";
 import { BoardView } from "src/views/Board";
 import { CalendarView } from "src/views/Calendar";
-import { DeveloperView } from "src/views/Developer";
+// import { DeveloperView } from "src/views/Developer";
 import { GalleryView } from "src/views/Gallery";
 import { TableView } from "src/views/Table";
 
@@ -76,7 +76,7 @@ export class ProjectsView extends ItemView {
     views["board"] = new BoardView();
     views["calendar"] = new CalendarView();
     views["gallery"] = new GalleryView();
-    views["developer"] = new DeveloperView();
+    // views["developer"] = new DeveloperView();
 
     return views;
   }
