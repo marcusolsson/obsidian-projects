@@ -10,12 +10,13 @@
     isNumber,
     isOptionalList,
     isString,
-    type OptionalDataValue,
+    type DataValue,
+    type Optional,
   } from "src/lib/data";
 
   export let type: DataFieldType;
-  export let value: OptionalDataValue;
-  export let onChange: (value: OptionalDataValue) => void;
+  export let value: Optional<DataValue>;
+  export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 </script>
 

@@ -4,14 +4,14 @@
   import CalendarEntry from "./CalendarEntry.svelte";
   import { dndzone } from "svelte-dnd-action";
   import { app } from "src/lib/stores/obsidian";
-  import type { DataRecord, Optional, OptionalDataValue } from "src/lib/data";
+  import type { DataRecord, DataValue, Optional } from "src/lib/data";
 
   export let records: DataRecord[];
   export let checkField: string | undefined;
   export let onEntryClick: (record: DataRecord) => void;
   export let onRecordUpdate: (record: DataRecord) => void;
 
-  function asOptionalBoolean(value: OptionalDataValue): boolean | Optional {
+  function asOptionalBoolean(value: Optional<DataValue>): Optional<boolean> {
     if (typeof value === "boolean") {
       return value;
     }
