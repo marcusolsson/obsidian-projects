@@ -109,7 +109,7 @@
 <div>
   <div class="toolbar">
     <ViewToolbar variant="primary">
-      <Navigation
+      <Navigation slot="left"
         onNext={() => {
           changed += 1;
           anchorDate = addInterval(anchorDate, interval);
@@ -187,7 +187,6 @@
     </ViewToolbar>
   </div>
   <TimelineBackground {interval} {dates} isOneDay={interval == "day"} />
-
   <div id="interacter" bind:clientWidth={parentwidth}>
     {#each _records as record}
       <TimelineEntry
