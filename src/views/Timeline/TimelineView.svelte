@@ -9,7 +9,7 @@
   import type { ViewApi } from "src/lib/view-api";
 
   import { Navigation } from "../Calendar/components/Navigation";
-  import { ToolBar } from "src/components/ToolBar";
+  import { ViewToolbar } from "src/components/Layout";
 
   import {
     addInterval,
@@ -108,7 +108,7 @@
 
 <div>
   <div class="toolbar">
-    <ToolBar>
+    <ViewToolbar variant="primary">
       <Navigation
         onNext={() => {
           changed += 1;
@@ -184,7 +184,7 @@
           on:change={({ detail }) => handleIntervalChange(detail)}
         />
       </HorizontalGroup>
-    </ToolBar>
+    </ViewToolbar>
   </div>
   <TimelineBackground {interval} {dates} isOneDay={interval == "day"} />
 
