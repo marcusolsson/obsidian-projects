@@ -127,7 +127,7 @@
               >
                 {@const coverPath = getCoverRealPath(record)}
                 {#if coverPath}
-                  <Image alt="Title" src={coverPath} fit="cover" />
+                  <Image alt="Title" src={coverPath} fit="contain" />
                 {:else}
                   <Icon name="image" size="lg" />
                 {/if}
