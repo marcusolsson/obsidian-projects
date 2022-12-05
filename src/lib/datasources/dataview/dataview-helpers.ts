@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { App, TFile } from "obsidian";
-
-import type { OptionalDataValue } from "src/lib/data";
+import type { DataValue, Optional } from "src/lib/data";
 
 /**
  * standardizeValues converts a Dataview data structure of values to the common
@@ -10,8 +9,8 @@ import type { OptionalDataValue } from "src/lib/data";
 export function standardizeValues(
   app: App,
   values: Record<string, any>
-): Record<string, OptionalDataValue> {
-  const res: Record<string, OptionalDataValue> = {};
+): Record<string, Optional<DataValue>> {
+  const res: Record<string, Optional<DataValue>> = {};
 
   Object.keys(values).forEach((field) => {
     const value = values[field];

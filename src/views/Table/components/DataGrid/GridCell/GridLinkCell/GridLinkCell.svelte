@@ -12,8 +12,8 @@
   import { app } from "../../../../../../lib/stores/obsidian";
   import { getNotesInFolder } from "src/lib/obsidian";
 
-  export let value: Link | Optional;
-  export let onChange: (value: Link | Optional) => void;
+  export let value: Optional<Link>;
+  export let onChange: (value: Optional<Link>) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;

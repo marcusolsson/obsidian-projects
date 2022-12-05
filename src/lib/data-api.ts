@@ -12,7 +12,8 @@ import {
   isLink,
   type DataField,
   type DataRecord,
-  type OptionalDataValue,
+  type DataValue,
+  type Optional,
 } from "./data";
 import { nextUniqueProjectName } from "./helpers";
 import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
@@ -157,7 +158,7 @@ export function createProject(): ProjectDefinition {
 export function createDataRecord(
   name: string,
   project: ProjectDefinition,
-  values?: Record<string, OptionalDataValue>
+  values?: Record<string, Optional<DataValue>>
 ): DataRecord {
   return {
     id: normalizePath(project.path + "/" + name + ".md"),

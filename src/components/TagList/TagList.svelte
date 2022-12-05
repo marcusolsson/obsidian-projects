@@ -1,18 +1,21 @@
 <script lang="ts">
   import { IconButton, Tag } from "obsidian-svelte";
+  import { isString, type DataValue, type Optional } from "src/lib/data";
 
   import { app } from "src/lib/stores/obsidian";
   import { InputDialogModal } from "src/modals/input-dialog";
 
-  export let values: string[];
+  export let values: Optional<DataValue>[];
   export let edit: boolean;
 
-  export let onChange: (values: string[]) => void = () => {};
+  export let onChange: (values: Optional<DataValue>[]) => void = () => {};
+
+  $: stringValues = values.filter(isString);
 </script>
 
 <div class:edit>
   {#if edit}
-    {#each values as value, i}
+    {#each stringValues as value, i}
       <Tag>
         {value}
         <IconButton

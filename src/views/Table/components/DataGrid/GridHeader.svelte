@@ -57,10 +57,17 @@
       columnHeader
     >
       <svelte:fragment slot="read">
-        <Icon
-          name={fieldIcon(column.type ?? DataFieldType.Unknown)}
-          tooltip={get(i18n).t(`data-types.${column.type}`) ?? ""}
-        />
+        {#if column.repeated}
+          <Icon
+            name="list"
+            tooltip={get(i18n).t(`data-types.repeated`) ?? ""}
+          />
+        {:else}
+          <Icon
+            name={fieldIcon(column.type ?? DataFieldType.Unknown)}
+            tooltip={get(i18n).t(`data-types.${column.type}`) ?? ""}
+          />
+        {/if}
         <TextLabel value={column.field} />
         <IconButton
           size="sm"

@@ -14,6 +14,7 @@ export interface GridColDef {
   readonly editable?: boolean;
   readonly header?: boolean;
   readonly weight?: number;
+  readonly repeated?: boolean;
 }
 
 export type GridRowId = string;
@@ -40,8 +41,6 @@ export function fieldIcon(field: DataFieldType): string {
       return "calendar-days";
     case DataFieldType.Link:
       return "link";
-    case DataFieldType.List:
-      return "list";
   }
   return "alert-triangle";
 }
