@@ -96,7 +96,7 @@
     let name = startOrEnd == "start" ? "startDateField" : "endDateField";
     onConfigChange({ ...config, [name]: dateField });
   }
-  function asOptionalBoolean(value: OptionalDataValue): boolean | Optional {
+  function asOptionalBoolean(value: Optional<DataValue>): boolean | Optional {
     if (typeof value === "boolean") {
       return value;
     }
