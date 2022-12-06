@@ -109,9 +109,7 @@
   let changed = 0;
 	onMount(() => {
 		const robserver = new ResizeObserver((entries) => {
-			console.log("changeychangey", entries)
 			changed--
-			console.log("changed")
 		})
 		robserver.observe(thisTarget)
 		return () => robserver.unobserve(thisTarget)
