@@ -31,6 +31,7 @@
   import type { Optional } from "src/lib/data";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { get } from "svelte/store";
+  import { onMount } from "svelte";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -102,8 +103,19 @@
     }
     return null;
   }
+
   let parentwidth: number;
+	let thisTarget: HTMLElement;
   let changed = 0;
+	onMount(() => {
+		const robserver = new ResizeObserver((entries) => {
+			console.log("changeychangey", entries)
+			changed--
+			console.log("changed")
+		})
+		robserver.observe(thisTarget)
+		return () => robserver.unobserve(thisTarget)
+	})
 </script>
 
 <div>
@@ -187,7 +199,7 @@
     </ViewToolbar>
   </div>
   <TimelineBackground {interval} {dates} isOneDay={interval == "day"} />
-  <div id="interacter" bind:clientWidth={parentwidth}>
+  <div id="interacter" bind:this={thisTarget} bind:clientWidth={parentwidth}>
     {#each _records as record}
       <TimelineEntry
         bind:changed
