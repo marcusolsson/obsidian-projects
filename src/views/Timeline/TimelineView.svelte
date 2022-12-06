@@ -4,7 +4,7 @@
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
 
-  import { DataFieldType, type DataFrame } from "src/lib/data";
+  import { DataFieldType, type DataFrame, type DataValue } from "src/lib/data";
   import type { ProjectDefinition } from "src/types";
   import type { ViewApi } from "src/lib/view-api";
 
@@ -96,7 +96,7 @@
     let name = startOrEnd == "start" ? "startDateField" : "endDateField";
     onConfigChange({ ...config, [name]: dateField });
   }
-  function asOptionalBoolean(value: Optional<DataValue>): boolean | Optional {
+  function asOptionalBoolean(value: Optional<DataValue>): boolean | Optional<DataValue> {
     if (typeof value === "boolean") {
       return value;
     }
