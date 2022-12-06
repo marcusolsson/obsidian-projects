@@ -6,7 +6,8 @@
     isOptionalList,
     isOptionalNumber,
     isOptionalString,
-    type OptionalDataValue,
+    type Optional,
+    type DataValue,
   } from "src/lib/data";
 
   import GridCell from "./GridCell.svelte";
@@ -19,15 +20,26 @@
   import { GridLinkCell } from "./GridLinkCell";
   import { GridListCell } from "./GridListCell";
 
-  export let value: OptionalDataValue;
-  export let onChange: (value: OptionalDataValue) => void;
+  export let value: Optional<DataValue>;
+  export let onChange: (value: Optional<DataValue>) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;
   export let selected: boolean;
 </script>
 
-{#if column.type === "string" && isOptionalString(value)}
+{#if column.repeated && isOptionalList(value)}
+  <GridListCell
+    {selected}
+    {rowindex}
+    {colindex}
+    {value}
+    {onChange}
+    {column}
+    on:mousedown
+    on:navigate
+  />
+{:else if column.type === "string" && isOptionalString(value)}
   <GridTextCell
     {selected}
     {rowindex}
@@ -73,17 +85,6 @@
   />
 {:else if column.type === "link" && isOptionalLink(value)}
   <GridLinkCell
-    {selected}
-    {rowindex}
-    {colindex}
-    {value}
-    {onChange}
-    {column}
-    on:mousedown
-    on:navigate
-  />
-{:else if column.type === "list" && isOptionalList(value)}
-  <GridListCell
     {selected}
     {rowindex}
     {colindex}

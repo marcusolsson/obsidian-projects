@@ -35,10 +35,12 @@
 
   $: ({ fields, records } = frame);
 
-  $: textFields = fields.filter(
-    (field) =>
-      field.type === DataFieldType.String || field.type === DataFieldType.Link
-  );
+  $: textFields = fields
+    .filter((field) => !field.repeated)
+    .filter(
+      (field) =>
+        field.type === DataFieldType.String || field.type === DataFieldType.Link
+    );
   $: coverField = textFields.find((field) => config?.coverField === field.name);
 
   function getCoverRealPath(record: DataRecord) {

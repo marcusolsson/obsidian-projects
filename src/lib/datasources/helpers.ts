@@ -4,8 +4,9 @@ import {
   DataFieldType,
   type DataField,
   type DataRecord,
+  type DataValue,
   type Link,
-  type OptionalDataValue,
+  type Optional,
 } from "../../lib/data";
 
 /**
@@ -35,11 +36,6 @@ export function parseRecords(
             record.values[field.name] = dayjs(value).toDate();
           }
           break;
-        case DataFieldType.List:
-          if (typeof value === "string") {
-            record.values[field.name] = [value];
-          }
-          break;
         case DataFieldType.Number:
           if (typeof value === "string") {
             record.values[field.name] = parseFloat(value);
@@ -62,7 +58,7 @@ export function parseRecords(
 }
 
 export function detectFields(records: DataRecord[]): DataField[] {
-  const valuesByField: Record<string, OptionalDataValue[]> = {};
+  const valuesByField: Record<string, Optional<DataValue>[]> = {};
 
   records.forEach((record) => {
     Object.entries(record.values).forEach(([field, value]) => {
@@ -75,12 +71,13 @@ export function detectFields(records: DataRecord[]): DataField[] {
     type: typeFromValues(values),
     identifier: false,
     derived: false,
+    repeated: values.some(Array.isArray),
   }));
 }
 
 // typeFromValues returns the field type for a collection of values. This is an
 // incredibly naïve implementation that needs to be optimized.
-function typeFromValues(values: OptionalDataValue[]): DataFieldType {
+function typeFromValues(values: Optional<DataValue>[]): DataFieldType {
   const types = values.map((value) => detectCellType(value));
 
   if (types.every((t) => t === DataFieldType.Unknown)) {
@@ -122,11 +119,12 @@ export function detectCellType(value: unknown): DataFieldType {
     return DataFieldType.Boolean;
   }
 
-  // Class types
   if (isLink(value)) {
     return DataFieldType.Link;
-  } else if (Array.isArray(value)) {
-    return DataFieldType.List;
+  }
+
+  if (Array.isArray(value)) {
+    return typeFromValues(value);
   }
 
   if (value === null) {

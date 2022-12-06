@@ -3,7 +3,8 @@ import {
   isDate,
   isNumber,
   type DataRecord,
-  type OptionalDataValue,
+  type DataValue,
+  type Optional,
 } from "../../../../lib/data";
 
 export function getPrioritizedRecords(
@@ -23,8 +24,8 @@ export function getPrioritizedRecords(
 
   res.sort((a, b) => {
     if (groupByPriority) {
-      const aval: OptionalDataValue = a.values[groupByPriority];
-      const bval: OptionalDataValue = b.values[groupByPriority];
+      const aval: Optional<DataValue> = a.values[groupByPriority];
+      const bval: Optional<DataValue> = b.values[groupByPriority];
 
       if (isNumber(aval) && isNumber(bval)) {
         const value = aval - bval;

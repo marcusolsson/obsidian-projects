@@ -5,8 +5,8 @@
   import { isNumber, type Optional } from "src/lib/data";
   import type { GridColDef } from "../../data-grid";
 
-  export let value: number | Optional;
-  export let onChange: (value: number | Optional) => void;
+  export let value: Optional<number>;
+  export let onChange: (value: Optional<number>) => void;
   export let column: GridColDef;
   export let rowindex: number;
   export let colindex: number;

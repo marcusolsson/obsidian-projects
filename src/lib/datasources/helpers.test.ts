@@ -15,7 +15,12 @@ describe("parseRecords", () => {
       },
       {
         id: "Baz.md",
-        values: { number: "12", text: 100, boolean: "false" },
+        values: {
+          number: "12",
+          text: 100,
+          boolean: "false",
+          repeated: [1, 2, 3],
+        },
       },
     ];
 
@@ -25,33 +30,53 @@ describe("parseRecords", () => {
         type: DataFieldType.Number,
         identifier: false,
         derived: false,
+        repeated: false,
       },
       {
         name: "text",
         type: DataFieldType.String,
         identifier: false,
         derived: false,
+        repeated: false,
       },
       {
         name: "boolean",
         type: DataFieldType.Boolean,
         identifier: false,
         derived: false,
+        repeated: false,
+      },
+      {
+        name: "repeated",
+        type: DataFieldType.String,
+        identifier: false,
+        derived: false,
+        repeated: true,
       },
     ];
 
     const expected: DataRecord[] = [
       {
         id: "Foo.md",
-        values: { number: 12, text: "Foo", boolean: true },
+        values: { number: 12, text: "Foo", boolean: true, repeated: undefined },
       },
       {
         id: "Bar.md",
-        values: { number: 12, text: "Bar", boolean: false },
+        values: {
+          number: 12,
+          text: "Bar",
+          boolean: false,
+          repeated: undefined,
+        },
       },
       {
         id: "Baz.md",
-        values: { number: 12, text: "100", boolean: false },
+        values: {
+          number: 12,
+          text: "100",
+          boolean: false,
+          repeated: [1, 2, 3],
+        },
       },
     ];
 
@@ -81,24 +106,28 @@ describe("detectFields", () => {
         type: DataFieldType.Number,
         identifier: false,
         derived: false,
+        repeated: false,
       },
       {
         name: "text",
         type: DataFieldType.String,
         identifier: false,
         derived: false,
+        repeated: false,
       },
       {
         name: "boolean",
         type: DataFieldType.String,
         identifier: false,
         derived: false,
+        repeated: false,
       },
       {
         name: "nullable",
         type: DataFieldType.String,
         identifier: false,
         derived: false,
+        repeated: false,
       },
     ];
 
@@ -107,19 +136,31 @@ describe("detectFields", () => {
 });
 
 describe("detectCellType", () => {
-  it("detects", () => {
+  it("detects simple data types", () => {
     expect(detectCellType("My value")).toStrictEqual(DataFieldType.String);
     expect(detectCellType(12.0)).toStrictEqual(DataFieldType.Number);
     expect(detectCellType(true)).toStrictEqual(DataFieldType.Boolean);
+  });
+
+  it("detects repeated field types", () => {
+    expect(detectCellType(["foo", "bar"])).toStrictEqual(DataFieldType.String);
+    expect(detectCellType([1, 2])).toStrictEqual(DataFieldType.Number);
+
+    // Fallback to String field
+    expect(detectCellType([true, 1])).toStrictEqual(DataFieldType.String);
+  });
+
+  it("detects null fields", () => {
+    expect(detectCellType(null)).toStrictEqual(DataFieldType.Unknown);
+  });
+
+  it("detects complex field types", () => {
     expect(detectCellType("2022-01-01")).toStrictEqual(DataFieldType.Date);
-    expect(detectCellType(["foo", "bar"])).toStrictEqual(DataFieldType.List);
-    expect(detectCellType([1, 2])).toStrictEqual(DataFieldType.List);
     expect(
       detectCellType({ linkText: "Foo", sourcePath: "Bar.md" })
     ).toStrictEqual(DataFieldType.Link);
     expect(detectCellType({ my: "object" })).toStrictEqual(
       DataFieldType.Unknown
     );
-    expect(detectCellType(null)).toStrictEqual(DataFieldType.Unknown);
   });
 });

@@ -33,17 +33,22 @@
 
   $: ({ fields, records } = frame);
 
-  $: textFields = fields.filter(
-    (field) =>
-      field.type === DataFieldType.String || field.type === DataFieldType.Number
-  );
+  $: textFields = fields
+    .filter((field) => !field.repeated)
+    .filter(
+      (field) =>
+        field.type === DataFieldType.String ||
+        field.type === DataFieldType.Number
+    );
 
   $: groupByField = fields.find((field) => config?.groupByField === field.name);
 
-  $: priorityFields = fields.filter(
-    (field) =>
-      field.type === DataFieldType.Number || field.type === DataFieldType.Date
-  );
+  $: priorityFields = fields
+    .filter((field) => !field.repeated)
+    .filter(
+      (field) =>
+        field.type === DataFieldType.Number || field.type === DataFieldType.Date
+    );
 
   $: priorityField = fields.find(
     (field) => config?.priorityField === field.name

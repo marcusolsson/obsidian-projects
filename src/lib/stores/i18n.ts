@@ -13,8 +13,8 @@ i18next.init({
           boolean: "True or false",
           date: "Date",
           link: "Link",
-          list: "List",
           unknown: "Unknown data type",
+          repeated: "Repeated field",
         },
         commands: {
           "show-projects": {
@@ -61,6 +61,10 @@ i18next.init({
             name: {
               name: "Name",
               description: "",
+            },
+            default: {
+              name: "Set as default",
+              description: "Enable to open this project by default.",
             },
             path: {
               name: "Path",

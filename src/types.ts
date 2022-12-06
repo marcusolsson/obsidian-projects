@@ -25,6 +25,7 @@ export interface WorkspaceDefinitionV0 {
   readonly query?: string;
   readonly jsQuery?: string;
   readonly excludedNotes?: string[];
+  readonly isDefault?: boolean;
 }
 
 export interface ProjectDefinition extends WorkspaceDefinitionV0 {}
