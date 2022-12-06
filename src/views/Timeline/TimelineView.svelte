@@ -28,7 +28,7 @@
   import { fieldToSelectableValue } from "../helpers";
   import TimelineEntry from "./components/TimelineEntry.svelte";
 
-  import type { Optional, OptionalDataValue } from "src/lib/data";
+  import type { Optional } from "src/lib/data";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { get } from "svelte/store";
 
