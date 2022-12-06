@@ -96,7 +96,7 @@
     let name = startOrEnd == "start" ? "startDateField" : "endDateField";
     onConfigChange({ ...config, [name]: dateField });
   }
-  function asOptionalBoolean(value: Optional<DataValue>): boolean | Optional<DataValue> {
+  function asOptionalBoolean(value: Optional<DataValue>): boolean | null | undefined {
     if (typeof value === "boolean") {
       return value;
     }
@@ -215,9 +215,9 @@
             ).open();
           }
         }}
-        checked={booleanField !== undefined
+        checked={!!booleanField
           ? asOptionalBoolean(record.values[booleanField.name])
-          : undefined}
+          : null}
       >
         {record?.values["name"]}
       </TimelineEntry>
