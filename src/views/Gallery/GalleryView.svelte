@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Icon, InternalLink, Select, Typography } from "obsidian-svelte";
-  import { SwitchButton } from "./components/SwitchButton";
 
   import { Field } from "src/components/Field";
   import {
@@ -27,6 +26,7 @@
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
+  import SwitchButton from "./components/SwitchButton/SwitchButton.svelte";
   import type { GalleryConfig, FitProp } from "./types";
   import { Crop, Fit } from "./types";
 
