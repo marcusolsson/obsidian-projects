@@ -48,8 +48,27 @@
     justify-content: flex-end;
     gap: 8px;
   }
+
   button {
     gap: var(--size-4-1);
     width: 75px;
+    cursor: pointer;
+  }
+
+  .mod-plain {
+    background: none;
+    box-shadow: none;
+    border: none;
+
+    color: var(--text-muted);
+  }
+
+  .mod-plain:hover {
+    color: var(--text-normal);
+  }
+
+  .disabled {
+    opacity: 0.6;
+    cursor: default;
   }
 </style>

@@ -90,16 +90,10 @@
   }
 
   function handleSwitchButtonClick(fitStyle: FitProp | undefined) {
-    switch (fitStyle) {
-      case Crop: {
-        onConfigChange({ ...config, objectFit: Fit });
-        break;
-      }
-      case Fit: {
-        onConfigChange({ ...config, objectFit: Crop });
-        break;
-      }
-    }
+    if (fitStyle?.label == "Crop")
+      onConfigChange({ ...config, objectFit: Fit });
+    else if (fitStyle?.label == "Fit")
+      onConfigChange({ ...config, objectFit: Crop });
   }
 
   function handleRecordClick(record: DataRecord) {
@@ -125,12 +119,20 @@
             on:change={({ detail }) => handleCoverFieldChange(detail)}
           />
         </Field>
-        <SwitchButton
-          tooltip="Click to change cover image fitting style"
-          on:click={() => handleSwitchButtonClick(objectFit)}
-          icon={objectFit?.icon ?? "crop"}
-          label={objectFit?.label ?? "Crop"}
-        />
+        {#if config?.coverField}
+          <SwitchButton
+            on:click={() => handleSwitchButtonClick(objectFit)}
+            icon={objectFit?.icon ?? "crop"}
+            label={objectFit?.label ?? "Crop"}
+          />
+        {:else}
+          <SwitchButton
+            on:click={() => handleSwitchButtonClick(objectFit)}
+            icon={objectFit?.icon ?? "crop"}
+            label={objectFit?.label ?? "Crop"}
+            disabled={true}
+          />
+        {/if}
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
@@ -151,15 +153,11 @@
               >
                 {@const coverPath = getCoverRealPath(record)}
                 {#if coverPath}
-                  <Image alt="Title" src={coverPath} fit={objectFit?.style ?? "cover"} />
-                  <!--
-                  <Image alt="Title" src={coverPath} fit={fitStyle} />
-                  {#if fitMode}
-                    <Image alt="Title" src={coverPath} fit="cover" />
-                  {:else}
-                    <Image alt="Title" src={coverPath} fit="contain" />
-                  {/if}
-                -->
+                  <Image
+                    alt="Title"
+                    src={coverPath}
+                    fit={objectFit?.style ?? "cover"}
+                  />
                 {:else}
                   <Icon name="image" size="lg" />
                 {/if}
