@@ -122,14 +122,14 @@
         {#if config?.coverField}
           <SwitchButton
             on:click={() => handleSwitchButtonClick(objectFit)}
-            icon={objectFit?.icon ?? "crop"}
-            label={objectFit?.label ?? "Crop"}
+            icon={objectFit?.icon ?? "slash"}
+            label={objectFit?.label ?? "Unset"}
           />
         {:else}
           <SwitchButton
             on:click={() => handleSwitchButtonClick(objectFit)}
-            icon={objectFit?.icon ?? "crop"}
-            label={objectFit?.label ?? "Crop"}
+            icon={objectFit?.icon ?? "slash"}
+            label={objectFit?.label ?? "Unset"}
             disabled={true}
           />
         {/if}
@@ -156,7 +156,7 @@
                   <Image
                     alt="Title"
                     src={coverPath}
-                    fit={objectFit?.style ?? "cover"}
+                    fit={objectFit?.style ?? "fill"}
                   />
                 {:else}
                   <Icon name="image" size="lg" />
