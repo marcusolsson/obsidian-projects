@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Icon, InternalLink, Select, Typography } from "obsidian-svelte";
+  import { SwitchButton } from "./components/SwitchButton";
 
   import { Field } from "src/components/Field";
   import {
@@ -26,7 +27,8 @@
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
-  import type { GalleryConfig } from "./types";
+  import type { GalleryConfig, FitProp } from "./types";
+  import { Crop, Fit } from "./types";
 
   export let frame: DataFrame;
   export let config: GalleryConfig | undefined;
@@ -42,6 +44,7 @@
         field.type === DataFieldType.String || field.type === DataFieldType.Link
     );
   $: coverField = textFields.find((field) => config?.coverField === field.name);
+  $: objectFit = config?.objectFit ?? Crop;
 
   function getCoverRealPath(record: DataRecord) {
     if (!coverField) {
@@ -86,6 +89,19 @@
     onConfigChange({ ...config, coverField });
   }
 
+  function handleSwitchButtonClick(fitStyle: FitProp | undefined) {
+    switch (fitStyle) {
+      case Crop: {
+        onConfigChange({ ...config, objectFit: Fit });
+        break;
+      }
+      case Fit: {
+        onConfigChange({ ...config, objectFit: Crop });
+        break;
+      }
+    }
+  }
+
   function handleRecordClick(record: DataRecord) {
     new EditNoteModal(
       $app,
@@ -109,6 +125,12 @@
             on:change={({ detail }) => handleCoverFieldChange(detail)}
           />
         </Field>
+        <SwitchButton
+          tooltip="Click to change cover image fitting style"
+          on:click={() => handleSwitchButtonClick(objectFit)}
+          icon={objectFit?.icon ?? "crop"}
+          label={objectFit?.label ?? "Crop"}
+        />
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
@@ -129,7 +151,15 @@
               >
                 {@const coverPath = getCoverRealPath(record)}
                 {#if coverPath}
-                  <Image alt="Title" src={coverPath} fit="contain" />
+                  <Image alt="Title" src={coverPath} fit={objectFit?.style ?? "cover"} />
+                  <!--
+                  <Image alt="Title" src={coverPath} fit={fitStyle} />
+                  {#if fitMode}
+                    <Image alt="Title" src={coverPath} fit="cover" />
+                  {:else}
+                    <Image alt="Title" src={coverPath} fit="contain" />
+                  {/if}
+                -->
                 {:else}
                   <Icon name="image" size="lg" />
                 {/if}
