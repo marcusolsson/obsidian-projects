@@ -45,7 +45,7 @@
   on:finalize={handleDndFinalize}
 >
   {#each records as record (record.id)}
-    {#if getDisplayName(record)}
+    {#if getDisplayName(record.id)}
       <CalendarEntry
         checked={checkField !== undefined
           ? asOptionalBoolean(record.values[checkField])
@@ -69,7 +69,7 @@
           linkText={record.id}
           sourcePath=""
           resolved
-          tooltip={getDisplayName(record)}
+          tooltip={getDisplayName(record.id)}
           on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
             if (newLeaf) {
               $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
@@ -78,7 +78,7 @@
             }
           }}
         >
-          {getDisplayName(record)}
+          {getDisplayName(record.id)}
         </InternalLink>
       </CalendarEntry>
     {/if}

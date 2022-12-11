@@ -1,3 +1,4 @@
+import { Platform } from "obsidian";
 import { parse } from "yaml";
 
 /**
@@ -35,9 +36,16 @@ export function parseYaml(data: string): Record<string, any> {
  * arrays.
  */
 export function preprocessYaml(data: string): string {
+  // TODO: The regular expression below uses negative lookbehind, which isn't
+  // supported on iOS. For now, let's exit early to avoid undefined behavior.
+  if (Platform.isSafari) {
+    throw new Error(
+      "Negative lookbehind in regular expressions isn't supported on iOS"
+    );
+  }
+
   const nonQuotedInternalLinks = /(?<!\")(\[\[.*\]\])(?!\")$/g;
 
-  // Uses negative lookbehind, which isn't supported on iOS.
   const quoteInternalLinks = (line: string) =>
     line.replace(nonQuotedInternalLinks, (_match, p1) => '"' + p1 + '"');
 
