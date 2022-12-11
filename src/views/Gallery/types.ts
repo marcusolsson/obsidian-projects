@@ -16,6 +16,12 @@ export let Fit: FitProp = {
   style: "contain",
 };
 
+export let Undefined: FitProp = {
+  label: "Unset",
+  icon: "slash",
+  style: "fill",
+};
+
 export interface GalleryConfig {
   readonly coverField?: string;
   readonly objectFit?: FitProp;

@@ -28,7 +28,7 @@
   import Image from "./components/Image/Image.svelte";
   import SwitchButton from "./components/SwitchButton/SwitchButton.svelte";
   import type { GalleryConfig, FitProp } from "./types";
-  import { Crop, Fit } from "./types";
+  import { Crop, Fit, Undefined } from "./types";
 
   export let frame: DataFrame;
   export let config: GalleryConfig | undefined;
@@ -122,14 +122,14 @@
         {#if config?.coverField}
           <SwitchButton
             on:click={() => handleSwitchButtonClick(objectFit)}
-            icon={objectFit?.icon ?? "slash"}
-            label={objectFit?.label ?? "Unset"}
+            icon={objectFit?.icon ?? Undefined.icon}
+            label={objectFit?.label ?? Undefined.label}
           />
         {:else}
           <SwitchButton
             on:click={() => handleSwitchButtonClick(objectFit)}
-            icon={objectFit?.icon ?? "slash"}
-            label={objectFit?.label ?? "Unset"}
+            icon={objectFit?.icon ?? Undefined.icon}
+            label={objectFit?.label ?? Undefined.label}
             disabled={true}
           />
         {/if}
@@ -156,7 +156,7 @@
                   <Image
                     alt="Title"
                     src={coverPath}
-                    fit={objectFit?.style ?? "fill"}
+                    fit={objectFit?.style ?? Undefined.style}
                   />
                 {:else}
                   <Icon name="image" size="lg" />
