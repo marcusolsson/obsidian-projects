@@ -1,5 +1,11 @@
-import { App, TFile, TFolder, Vault, type TAbstractFile } from "obsidian";
-import os from "os";
+import {
+  App,
+  Platform,
+  TFile,
+  TFolder,
+  Vault,
+  type TAbstractFile,
+} from "obsidian";
 
 import type { DataRecord } from "./data";
 
@@ -67,16 +73,21 @@ export function getFoldersInFolder(folder: TFolder): TFolder[] {
  * current OS.
  */
 export function isValidPath(path: string): boolean {
-  const illegalCharacters: Record<string, RegExp> = {
-    darwin: /[\\\/\|\#\^\[\]]/,
-    win32: /[\\\/\|\:\<\>\*\"\?]/,
-  };
-
-  const expr = illegalCharacters[os.platform()];
+  const expr = getIllegalCharacterSet();
 
   if (!expr) {
     return true;
   }
 
   return !expr.test(path);
+}
+
+function getIllegalCharacterSet(): RegExp | undefined {
+  if (Platform.isMacOS) {
+    return /[\\\/\|\#\^\[\]]/;
+  } else if (Platform.isDesktopApp) {
+    // Windows
+    return /[\\\/\|\:\<\>\*\"\?]/;
+  }
+  return undefined;
 }
