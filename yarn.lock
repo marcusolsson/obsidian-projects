@@ -314,9 +314,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@codemirror/language@git+https://github.com/lishid/cm-language.git":
+"@codemirror/language@https://github.com/lishid/cm-language":
   version "6.3.1"
-  resolved "git+https://github.com/lishid/cm-language.git#04fcbf41f823af690c9e3c11a66ccc15529c1037"
+  resolved "https://github.com/lishid/cm-language#6f84ca041393471ae1e2c82a0b6ec515a94e8dcf"
   dependencies:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
@@ -2072,6 +2072,11 @@ for-in@^1.0.2:
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==
 
+fp-ts@^2.13.1:
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.13.1.tgz#1bf2b24136cca154846af16752dc29e8fa506f2a"
+  integrity sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==
+
 fragment-cache@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/fragment-cache/-/fragment-cache-0.2.1.tgz#4290fad27f13e89be7f33799c6bc5a0abfff0d19"
@@ -3355,17 +3360,17 @@ obsidian-svelte@0.0.37:
   resolved "https://registry.yarnpkg.com/obsidian-svelte/-/obsidian-svelte-0.0.37.tgz#1e9e72197a3b33a184854e62e83617949f0a7c7b"
   integrity sha512-UCzAmyZrZ+W9FlBKnseRtmHuQLcjwRWRA4f7rW7ZYAm5sx9LueEc/EcyFNmkeGzZi1U1UpSheUvd0Kf8ykHmWw==
 
-"obsidian@github:obsidianmd/obsidian-api#master":
-  version "1.1.1"
-  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/6161bf5915ae99167a3c80475ea9c0554ceb998f"
-  dependencies:
-    "@types/codemirror" "0.0.108"
-    moment "2.29.4"
-
 obsidian@latest:
   version "0.16.3"
   resolved "https://registry.yarnpkg.com/obsidian/-/obsidian-0.16.3.tgz#137b7e91f949517a1bc817b1d7ef9b8aefb219bc"
   integrity sha512-hal9qk1A0GMhHSeLr2/+o3OpLmImiP+Y+sx2ewP13ds76KXsziG96n+IPFT0mSkup1zSwhEu+DeRhmbcyCCXWw==
+  dependencies:
+    "@types/codemirror" "0.0.108"
+    moment "2.29.4"
+
+obsidian@obsidianmd/obsidian-api#master:
+  version "1.1.1"
+  resolved "https://codeload.github.com/obsidianmd/obsidian-api/tar.gz/cb7d2d94ecce1f668a2eb99901d8c26267e56eaf"
   dependencies:
     "@types/codemirror" "0.0.108"
     moment "2.29.4"

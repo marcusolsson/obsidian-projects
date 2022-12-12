@@ -11,6 +11,7 @@ import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
 import type { ProjectDefinition } from "src/types";
 
+import { array as A, either as E, function as F } from "fp-ts";
 import { standardizeRecord } from "./frontmatter-helpers";
 
 /**
@@ -35,7 +36,10 @@ export class FrontMatterDataSource extends DataSource {
 
   async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
     const standardizedRecords = await standardizeRecords(files, this.app.vault);
-    let fields = detectSchema(standardizedRecords);
+
+    const res = A.separate(standardizedRecords);
+
+    let fields = detectSchema(res.right);
 
     for (const predefinedField of predefinedFields ?? []) {
       fields = fields.map((field) =>
@@ -45,9 +49,9 @@ export class FrontMatterDataSource extends DataSource {
       );
     }
 
-    const records = parseRecords(standardizedRecords, fields);
+    const records = parseRecords(res.right, fields);
 
-    return { fields, records };
+    return { fields, records, errors: res.left };
   }
 
   includes(path: string): boolean {
@@ -75,23 +79,37 @@ export class FrontMatterDataSource extends DataSource {
   }
 }
 
+export class RecordError extends Error {
+  constructor(readonly recordId: string, readonly err: Error) {
+    super(err.message);
+  }
+}
+
 export async function standardizeRecords(
   files: TFile[],
   vault: Vault
-): Promise<DataRecord[]> {
+): Promise<E.Either<RecordError, DataRecord>[]> {
   return Promise.all(
     files.map(async (file) => {
-      const values = decodeFrontMatter(await vault.read(file));
-
-      const filteredValues = Object.fromEntries(
-        Object.entries(values).filter(([_key, value]) => notUndefined(value))
+      return F.pipe(
+        await vault.read(file),
+        decodeFrontMatter,
+        E.mapLeft((e) => new RecordError(file.path, e)),
+        E.map(filterUndefinedValues),
+        E.map((values) => ({
+          ...values,
+          path: file.path,
+          name: file.basename,
+        })),
+        E.map((values) => standardizeRecord(file.path, values))
       );
-
-      filteredValues["path"] = file.path;
-      filteredValues["name"] = file.basename;
-
-      return standardizeRecord(file.path, filteredValues);
     })
+  );
+}
+
+function filterUndefinedValues(val: Record<string, any>): Record<string, any> {
+  return Object.fromEntries(
+    Object.entries(val).filter(([_key, value]) => notUndefined(value))
   );
 }
 
