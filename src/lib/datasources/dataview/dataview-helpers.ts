@@ -19,7 +19,9 @@ export function standardizeValues(
       return;
     }
 
-    if (typeof value === "object") {
+    if (Array.isArray(value)) {
+      res[field] = value;
+    } else if (typeof value === "object") {
       if ("path" in value && "display" in value) {
         const file = app.vault.getAbstractFileByPath(value.path);
 
