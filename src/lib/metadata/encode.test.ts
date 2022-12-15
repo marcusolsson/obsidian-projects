@@ -1,4 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
+import { either as E } from "fp-ts";
 import { encodeFrontMatter, stringifyYaml } from "./encode";
 
 describe("encodeFrontMatter", () => {
@@ -12,7 +13,8 @@ describe("encodeFrontMatter", () => {
         title5: "Title-",
         title6: "-Title",
       })
-    ).toStrictEqual(`---
+    ).toStrictEqual(
+      E.right(`---
 title1: "Notes: Who Needs Them?"
 title2: key:value
 title3: key:
@@ -21,7 +23,8 @@ title5: Title-
 title6: -Title
 ---
 
-`);
+`)
+    );
   });
 
   it("should keep existing Markdown content", () => {
@@ -38,13 +41,15 @@ status: In progress
           status: "Done",
         }
       )
-    ).toStrictEqual(`
+    ).toStrictEqual(
+      E.right(`
 ---
 status: Done
 ---
 
 # My title
-`);
+`)
+    );
   });
 
   it("should keep existing properties", () => {
@@ -62,14 +67,16 @@ due: 1979-01-01
           status: "Done",
         }
       )
-    ).toStrictEqual(`
+    ).toStrictEqual(
+      E.right(`
 ---
 status: Done
 due: 1979-01-01
 ---
 
 # My title
-`);
+`)
+    );
   });
 
   it("should keep existing properties", () => {
@@ -77,11 +84,13 @@ due: 1979-01-01
       encodeFrontMatter(``, {
         status: null,
       })
-    ).toStrictEqual(`---
+    ).toStrictEqual(
+      E.right(`---
 status:
 ---
 
-`);
+`)
+    );
   });
 
   it("should handle null and undefined", () => {
@@ -103,7 +112,8 @@ test: 4
           baz: null,
         }
       )
-    ).toStrictEqual(`
+    ).toStrictEqual(
+      E.right(`
 ---
 foo: 5
 baz:
@@ -111,7 +121,8 @@ test: 4
 ---
 
 # My title
-`);
+`)
+    );
   });
 });
 

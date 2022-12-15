@@ -71,20 +71,20 @@ function createDataFrame() {
         })
       );
     },
-    merge(frame: DataFrame) {
+    merge(updated: DataFrame) {
       update((existing) =>
         produce(existing, (draft) => {
           // Merge records.
           const recordSet = Object.fromEntries(
             existing.records.map((record) => [record.id, record])
           );
-          frame.records.forEach((record) => {
+          updated.records.forEach((record) => {
             recordSet[record.id] = record;
           });
           draft.records = castDraft(Object.values(recordSet));
 
           // Merge fields.
-          frame.fields.forEach((newField) => {
+          updated.fields.forEach((newField) => {
             const existingField = existing.fields.find(
               (f) => f.name === newField.name
             );
@@ -103,6 +103,17 @@ function createDataFrame() {
               draft.fields.push(newField);
             }
           });
+
+          // Merge errors.
+          const updatedIds = updated.records.map((record) => record.id);
+
+          // Remove previously errored records.
+          draft.errors =
+            draft.errors?.filter((err) => !updatedIds.includes(err.recordId)) ??
+            [];
+
+          // Add new errors.
+          draft.errors = [...draft.errors, ...(updated.errors ?? [])];
         })
       );
     },

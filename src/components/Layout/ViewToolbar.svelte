@@ -15,6 +15,7 @@
   <div class="left">
     <slot name="left" />
   </div>
+  <slot name="info" />
   <div class="middle">
     <slot name="middle" />
   </div>

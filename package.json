@@ -32,6 +32,7 @@
     "esbuild-jest": "^0.5.0",
     "esbuild-svelte": "^0.7.1",
     "eslint": "^8.26.0",
+    "fp-ts": "^2.13.1",
     "i18next": "^21.9.2",
     "immer": "^9.0.15",
     "jest": "^28.1.3",
