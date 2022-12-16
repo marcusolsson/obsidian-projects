@@ -1,5 +1,6 @@
 import type { TFile } from "obsidian";
 import type { ProjectDefinition } from "src/types";
+import type { RecordError } from "./datasources/frontmatter/frontmatter";
 
 /**
  * DataFrame is the core data structure that contains structured data for a
@@ -16,6 +17,8 @@ export interface DataFrame {
    * records holds the data from each note.
    */
   readonly records: DataRecord[];
+
+  readonly errors?: RecordError[];
 }
 
 /**

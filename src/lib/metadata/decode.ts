@@ -1,9 +1,13 @@
+import { either as E, function as F } from "fp-ts";
+import { Platform } from "obsidian";
 import { parse } from "yaml";
 
 /**
  * decodeFrontMatter returns metadata from a note with YAML front matter.
  */
-export function decodeFrontMatter(data: string): Record<string, any> {
+export function decodeFrontMatter(
+  data: string
+): E.Either<Error, Record<string, any>> {
   const delim = "---";
 
   const startPosition = data.indexOf(delim) + delim.length;
@@ -14,17 +18,23 @@ export function decodeFrontMatter(data: string): Record<string, any> {
 
   return hasFrontMatter
     ? parseYaml(data.slice(startPosition, endPosition))
-    : {};
+    : E.right({});
 }
 
-export function parseYaml(data: string): Record<string, any> {
-  return (
-    parse(preprocessYaml(data), (_key, value) => {
-      if (typeof value === "string") {
-        return unquoteInternalLinks(value);
-      }
-      return value;
-    }) || {}
+export function parseYaml(data: string): E.Either<Error, Record<string, any>> {
+  return F.pipe(data, preprocessYaml, E.chain(parseRawYaml));
+}
+
+function parseRawYaml(data: string): E.Either<Error, Record<string, any>> {
+  return E.tryCatch(
+    () =>
+      parse(data, (_key, value) => {
+        if (typeof value === "string") {
+          return unquoteInternalLinks(value);
+        }
+        return value;
+      }) || {},
+    (e) => (e instanceof Error ? e : new Error("unknown error"))
   );
 }
 
@@ -34,14 +44,31 @@ export function parseYaml(data: string): Record<string, any> {
  * Surrounds internal links with quotes to parse them as strings instead of
  * arrays.
  */
-export function preprocessYaml(data: string): string {
+export function preprocessYaml(data: string): E.Either<Error, string> {
   const nonQuotedInternalLinks = /(?<!\")(\[\[.*\]\])(?!\")$/g;
 
-  // Uses negative lookbehind, which isn't supported on iOS.
   const quoteInternalLinks = (line: string) =>
     line.replace(nonQuotedInternalLinks, (_match, p1) => '"' + p1 + '"');
 
-  return data.split("\n").map(quoteInternalLinks).join("\n");
+  return F.pipe(
+    data,
+    // TODO: The regular expression below uses negative lookbehind, which isn't
+    // supported on iOS. For now, let's exit early to avoid undefined behavior.
+    E.fromPredicate(
+      () => !Platform.isSafari,
+      () =>
+        new Error(
+          "Negative lookbehind in regular expressions isn't supported on iOS"
+        )
+    ),
+    E.map((data) =>
+      F.pipe(
+        data.split("\n"),
+        (lines) => lines.map(quoteInternalLinks),
+        (lines) => lines.join("\n")
+      )
+    )
+  );
 }
 
 /**

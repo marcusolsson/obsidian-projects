@@ -179,7 +179,7 @@
                     }
                   }}
                 >
-                  {getDisplayName(record)}
+                  {getDisplayName(record.id)}
                 </InternalLink>
               </CardContent>
             </Card>

@@ -60,7 +60,7 @@
           }
         }}
       >
-        {getDisplayName(item)}
+        {getDisplayName(item.id)}
       </InternalLink>
     </div>
   {/each}
