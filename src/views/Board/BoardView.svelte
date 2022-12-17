@@ -155,7 +155,7 @@
     <div>
       <Board
         onRecordUpdate={handleRecordUpdate}
-        dragDisabled={priorityField?.type !== DataFieldType.Number}
+        dragDisabled={!priorityField}
         onSortColumns={(names) => {
           onConfigChange({
             ...config,
@@ -184,7 +184,7 @@
             id: column,
             records: groupedRecords[column] ?? [],
           }))}
-        groupByPriority={priorityField?.name}
+        groupByPriority={priorityField}
         onRecordClick={handleRecordClick}
         onRecordAdd={handleRecordAdd}
         columnWidth={config?.columnWidth ?? 270}
