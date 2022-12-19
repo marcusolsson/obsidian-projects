@@ -1,6 +1,10 @@
 import { describe, it, expect } from "@jest/globals";
 
-import type { DataRecord } from "src/lib/data";
+import {
+  DataFieldType,
+  type DataField,
+  type DataRecord,
+} from "../../../../lib/data";
 import {
   getDisplayName,
   getPrioritizedRecords,
@@ -27,13 +31,28 @@ describe("board", () => {
     },
   ];
 
+  const weightField: DataField = {
+    name: "weight",
+    type: DataFieldType.Number,
+    repeated: false,
+    derived: false,
+    identifier: false,
+  };
+  const dueField: DataField = {
+    name: "due",
+    type: DataFieldType.Date,
+    repeated: false,
+    derived: false,
+    identifier: false,
+  };
+
   it("should sort prioritized records", () => {
-    expect(getPrioritizedRecords(records, "weight")).toStrictEqual([
+    expect(getPrioritizedRecords(records, weightField)).toStrictEqual([
       { ...records[2] },
       { ...records[3] },
       { ...records[0] },
     ]);
-    expect(getPrioritizedRecords(records, "due")).toStrictEqual([
+    expect(getPrioritizedRecords(records, dueField)).toStrictEqual([
       { ...records[1] },
       { ...records[2] },
       { ...records[0] },
@@ -41,10 +60,10 @@ describe("board", () => {
   });
 
   it("should sort unprioritized records", () => {
-    expect(getUnprioritizedRecords(records, "weight")).toStrictEqual([
+    expect(getUnprioritizedRecords(records, weightField)).toStrictEqual([
       { ...records[1] },
     ]);
-    expect(getUnprioritizedRecords(records, "due")).toStrictEqual([
+    expect(getUnprioritizedRecords(records, dueField)).toStrictEqual([
       { ...records[3] },
     ]);
   });

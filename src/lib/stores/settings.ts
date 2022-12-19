@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { notEmpty } from "src/lib/helpers";
 import {
   DEFAULT_SETTINGS,
+  type ProjectsPluginPreferences,
   type ProjectsPluginSettings,
   type ProjectsPluginSettingsV1,
 } from "src/main";
@@ -38,6 +39,14 @@ function createSettings() {
             }));
           }
           draft.projects.push(project);
+        })
+      );
+    },
+
+    updatePreferences(prefs: ProjectsPluginPreferences) {
+      update((state) =>
+        produce(state, (draft) => {
+          draft.preferences = prefs;
         })
       );
     },

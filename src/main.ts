@@ -16,6 +16,7 @@ import { CreateProjectModal } from "src/modals/create-project-modal";
 import { registerFileEvents } from "./events";
 import type { ProjectDefinition, WorkspaceDefinitionV0 } from "./types";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
+import { ProjectsSettingTab } from "./settings";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -25,11 +26,19 @@ export interface ProjectsPluginSettings {
   readonly lastViewId?: string | undefined;
   readonly workspaces: WorkspaceDefinitionV0[];
 }
+
+export interface ProjectsPluginPreferences {
+  readonly frontmatter?: {
+    readonly quoteStrings?: "PLAIN" | "QUOTE_DOUBLE";
+  };
+}
+
 export interface ProjectsPluginSettingsV1 {
   readonly version: number;
   readonly lastProjectId?: string | undefined;
   readonly lastViewId?: string | undefined;
   readonly projects: ProjectDefinition[];
+  readonly preferences?: ProjectsPluginPreferences;
 }
 
 export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettingsV1> = {
@@ -41,6 +50,8 @@ export default class ProjectsPlugin extends Plugin {
 
   async onload() {
     const t = get(i18n).t;
+
+    this.addSettingTab(new ProjectsSettingTab(this.app, this));
 
     this.registerView(
       VIEW_TYPE_PROJECTS,

@@ -11,7 +11,8 @@ import { parseYaml } from "./decode";
  */
 export function encodeFrontMatter(
   data: string,
-  frontmatter: Record<string, any>
+  frontmatter: Record<string, any>,
+  defaultStringType: "PLAIN" | "QUOTE_DOUBLE"
 ): E.Either<Error, string> {
   const delim = "---";
 
@@ -26,7 +27,7 @@ export function encodeFrontMatter(
     E.map((existing) => Object.assign({}, existing, frontmatter)),
     E.map((fm) => {
       if (Object.entries(fm).length) {
-        const d = stringifyYaml(fm);
+        const d = stringifyYaml(fm, defaultStringType);
 
         return hasFrontMatter
           ? data.slice(0, startPosition + 1) + d + data.slice(endPosition)
@@ -44,25 +45,16 @@ export function encodeFrontMatter(
 /**
  * stringifyYaml converts a value to YAML.
  */
-export function stringifyYaml(value: any): string {
-  return F.pipe(
-    value,
-    (value) => stringify(value, { lineWidth: 0, nullStr: "" }),
-    postprocessYaml
+export function stringifyYaml(
+  value: any,
+  defaultStringType: "PLAIN" | "QUOTE_DOUBLE" = "PLAIN"
+): string {
+  return F.pipe(value, (value) =>
+    stringify(value, {
+      lineWidth: 0,
+      nullStr: "",
+      defaultStringType: defaultStringType,
+      defaultKeyType: "PLAIN",
+    })
   );
-}
-
-/**
- * postprocessYaml removes quotes from single-line string properties.
- */
-function postprocessYaml(value: string): string {
-  const illegalCharacters = /[:|\-]\s/;
-  const quotedProperties = /^(.*):\s*"(.*)"$/gm;
-
-  return value.replace(quotedProperties, (_match, key, value) => {
-    if (illegalCharacters.test(value)) {
-      return `${key}: "${value}"`;
-    }
-    return `${key}: ${value}`;
-  });
 }
