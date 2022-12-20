@@ -77,6 +77,30 @@ export type DataValue =
   | Link
   | Array<Optional<DataValue>>;
 
+export function isOptionalDataValue(
+  value: unknown
+): value is Optional<DataValue> {
+  switch (typeof value) {
+    case "string":
+      return true;
+    case "number":
+      return true;
+    case "boolean":
+      return true;
+    default:
+      return false;
+  }
+}
+
+export function isRepeatedDataValue(
+  value: unknown
+): value is Array<Optional<DataValue>> {
+  if (Array.isArray(value)) {
+    return value.every(isOptionalDataValue);
+  }
+  return false;
+}
+
 export type Optional<T> =
   | T
   // undefined means the field has been removed from a DataRecord.
