@@ -110,6 +110,7 @@
               $i18n.t("modals.project.create.cta"),
               (project) => {
                 settings.addProject(project);
+                projectId = project.id;
                 onProjectChange(project.id);
               },
               createProject()
