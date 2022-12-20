@@ -19,6 +19,7 @@
   <div class="middle">
     <slot name="middle" />
   </div>
+  <slot name="view-options" />
   <div class="right">
     <slot name="right" />
   </div>

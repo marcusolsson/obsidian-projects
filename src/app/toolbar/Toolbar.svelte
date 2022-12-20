@@ -1,8 +1,9 @@
 <script lang="ts">
   import { Menu } from "obsidian";
-  import { Button, Icon } from "obsidian-svelte";
+  import { Button, Icon, Popover } from "obsidian-svelte";
 
   import ViewToolbar from "src/components/Layout/ViewToolbar.svelte";
+  import FilterSettings from "src/components/FilterSettings/FilterSettings.svelte";
   import { createDataRecord, createProject } from "src/lib/data-api";
   import { api } from "src/lib/stores/api";
   import { i18n } from "src/lib/stores/i18n";
@@ -19,6 +20,7 @@
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
   import { InspectorModal } from "src/modals/inspector";
+  import produce from "immer";
 
   export let projects: ProjectDefinition[];
 
@@ -32,6 +34,9 @@
   $: views = project?.views ?? [];
 
   $: errors = $dataFrame.errors ?? [];
+
+  let filterRef: HTMLButtonElement;
+  let filterOpen: boolean = false;
 </script>
 
 <!--
@@ -93,6 +98,52 @@
       />
     {/if}
   </div>
+  <svelte:fragment slot="view-options">
+    {#if viewId}
+      {@const view = projects
+        .find((project) => project.id === projectId)
+        ?.views?.find((view) => view.id === viewId)}
+
+      <Button
+        bind:ref={filterRef}
+        on:click={() => {
+          filterOpen = !filterOpen;
+        }}
+        ><Icon name="filter" />{view?.filter?.conditions.length
+          ? `Filter (${view.filter.conditions.length})`
+          : "Filter"}</Button
+      >
+      <Popover
+        anchorEl={filterRef}
+        open={filterOpen}
+        onClose={() => {
+          filterOpen = false;
+        }}
+      >
+        <FilterSettings
+          filter={view?.filter ?? {
+            conditions: [],
+          }}
+          onFilterChange={(filter) => {
+            const view = projects
+              .find((project) => project.id === projectId)
+              ?.views?.find((view) => view.id === viewId);
+
+            if (projectId && view) {
+              settings.updateView(
+                projectId,
+                produce(view, (draft) => {
+                  draft.filter = filter;
+                })
+              );
+            }
+          }}
+          fields={$dataFrame.fields}
+        />
+      </Popover>
+    {/if}
+  </svelte:fragment>
+
   <Button
     slot="right"
     variant="primary"
