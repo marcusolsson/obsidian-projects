@@ -5,19 +5,23 @@ import { encodeFrontMatter, stringifyYaml } from "./encode";
 describe("encodeFrontMatter", () => {
   it("should quote string if it contains illegal characters", () => {
     expect(
-      encodeFrontMatter(``, {
-        title1: "Notes: Who Needs Them?",
-        title2: "key:value",
-        title3: "key:",
-        title4: "- Title",
-        title5: "Title-",
-        title6: "-Title",
-      })
+      encodeFrontMatter(
+        ``,
+        {
+          title1: "Notes: Who Needs Them?",
+          title2: "key:value",
+          title3: "key:",
+          title4: "- Title",
+          title5: "Title-",
+          title6: "-Title",
+        },
+        "PLAIN"
+      )
     ).toStrictEqual(
       E.right(`---
 title1: "Notes: Who Needs Them?"
 title2: key:value
-title3: key:
+title3: "key:"
 title4: "- Title"
 title5: Title-
 title6: -Title
@@ -39,7 +43,8 @@ status: In progress
 `,
         {
           status: "Done",
-        }
+        },
+        "PLAIN"
       )
     ).toStrictEqual(
       E.right(`
@@ -65,7 +70,8 @@ due: 1979-01-01
 `,
         {
           status: "Done",
-        }
+        },
+        "PLAIN"
       )
     ).toStrictEqual(
       E.right(`
@@ -81,9 +87,13 @@ due: 1979-01-01
 
   it("should keep existing properties", () => {
     expect(
-      encodeFrontMatter(``, {
-        status: null,
-      })
+      encodeFrontMatter(
+        ``,
+        {
+          status: null,
+        },
+        "PLAIN"
+      )
     ).toStrictEqual(
       E.right(`---
 status:
@@ -110,12 +120,13 @@ test: 4
           foo: "5",
           bar: undefined,
           baz: null,
-        }
+        },
+        "PLAIN"
       )
     ).toStrictEqual(
       E.right(`
 ---
-foo: 5
+foo: "5"
 baz:
 test: 4
 ---
@@ -130,7 +141,7 @@ describe("stringifyYaml", () => {
   it("should strip quotes from string types", () => {
     expect(
       stringifyYaml({ bar: "Hello world", foo: "[[Untitled.md]]" })
-    ).toStrictEqual("bar: Hello world\nfoo: [[Untitled.md]]\n");
+    ).toStrictEqual('bar: Hello world\nfoo: "[[Untitled.md]]"\n');
   });
 
   it("should encode non-string types", () => {

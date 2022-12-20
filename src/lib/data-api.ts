@@ -138,7 +138,9 @@ export function doUpdateRecord(
           )
       );
     }),
-    E.chain((updated) => encodeFrontMatter(data, updated))
+    E.chain((updated) =>
+      encodeFrontMatter(data, updated, getDefaultStringType())
+    )
   );
 }
 
@@ -150,7 +152,9 @@ export function doDeleteField(data: string, field: string) {
       ...frontmatter,
       [field]: undefined,
     })),
-    E.chain((frontmatter) => encodeFrontMatter(data, frontmatter))
+    E.chain((frontmatter) =>
+      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+    )
   );
 }
 
@@ -167,7 +171,9 @@ export function doRenameField(
       [to]: frontmatter[from],
       [from]: undefined,
     })),
-    E.chain((frontmatter) => encodeFrontMatter(data, frontmatter))
+    E.chain((frontmatter) =>
+      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+    )
   );
 }
 
@@ -202,4 +208,8 @@ export function createDataRecord(
     id: normalizePath(project.path + "/" + name + ".md"),
     values: values ?? {},
   };
+}
+
+function getDefaultStringType() {
+  return get(settings).preferences?.frontmatter?.quoteStrings ?? "PLAIN";
 }

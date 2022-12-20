@@ -14,38 +14,6 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
-If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
-
-- [Obsidian For Content Creators](https://www.youtube.com/watch?v=jovUqLbqS1Y) by [@FromSergio](https://www.youtube.com/@FromSergio)
-- [Notion-like content calendar in Obsidian](https://www.youtube.com/watch?v=ny8lksaQ5A8) by [@nicolevdh](https://www.youtube.com/@nicolevdh)
-- [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) by [@nicolevdh](https://www.youtube.com/@nicolevdh) (interview)
-- [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo) by [@SniferL4bs](https://www.youtube.com/@SniferL4bs)
-- [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU) by [@beingpax](https://www.youtube.com/@beingpax)
-
-_Did I miss any? Let me know and I'll add them to the list!_
-
-## Data sources
-
-Projects uses _data sources_ to query the notes to include in your project.
-
-Data sources try to detect the type of each property in your notes, such as numbers or lists. If the data source detects multiple data types for a property, it falls back to use a text field.
-
-### Front matter
-
-Collects note data from the [YAML front matter](https://help.obsidian.md/Advanced+topics/YAML+front+matter) in your notes. This is the default data source.
-
-### Dataview
-
-Collects note data from using a Dataview query. Dataview projects are _read-only_, meaning you can't edit the data from any the views.
-
-To use the Dataview data source in your project:
-
-1. Under Obsidian **Settings > Community plugins**, install and enable the Dataview plugin.
-1. Create a new project, or edit an existing project.
-1. In the project settings, select **Use Dataview**.
-1. In **Query**, enter a Dataview [TABLE query](https://blacksmithgu.github.io/obsidian-dataview/query/queries/#table-queries).
-1. Select **Save**.
-
 ## Philosophy
 
 Design decisions are guided by the following principles:
@@ -72,3 +40,16 @@ For other ideas on how you can contribute, check the label on the issue:
 | `priority/awaiting-more-evidence` | `kind/feature` | Issue is potentially useful, but needs more support from the community before it's ready to be worked on. | Add reaction to the issue, or explain how the feature would be useful to you. |
 | `priority/backlog`                | `kind/feature` | Issue is ready to be worked on.                                                                           | Add a comment in the issue if you'd like to work on it.                       |
 | `priority/critical`               | `kind/bug`     | Issue needs fixing before anything else.                                                                  | Have patience while I'm working on it :heart:                                 |
+
+## Learn more
+
+If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
+
+- 2022-12-10: [Use Obsidian for Content Creation | Build Notion-like Database Views](https://www.youtube.com/watch?v=Ds-VPz7jIwM) by [@amyjuanli](https://www.youtube.com/@amyjuanli)
+- 2022-11-23: [Obsidian For Content Creators](https://www.youtube.com/watch?v=jovUqLbqS1Y) by [@FromSergio](https://www.youtube.com/@FromSergio)
+- 2022-11-18: [Notion-like content calendar in Obsidian](https://www.youtube.com/watch?v=ny8lksaQ5A8) by [@nicolevdh](https://www.youtube.com/@nicolevdh)
+- 2022-11-13: [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU) by [@beingpax](https://www.youtube.com/@beingpax)
+- 2022-11-07: [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) by [@nicolevdh](https://www.youtube.com/@nicolevdh) (interview)
+- 2022-11-07: [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo) by [@SniferL4bs](https://www.youtube.com/@SniferL4bs)
+
+_Did I miss any? Let me know and I'll add them to the list!_
