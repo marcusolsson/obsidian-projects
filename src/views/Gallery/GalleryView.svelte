@@ -26,9 +26,7 @@
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
-  import SwitchButton from "./components/SwitchButton/SwitchButton.svelte";
-  import type { GalleryConfig, FitProp } from "./types";
-  import { Crop, Fit, Undefined } from "./types";
+  import type { GalleryConfig } from "./types";
 
   export let frame: DataFrame;
   export let config: GalleryConfig | undefined;
@@ -44,7 +42,7 @@
         field.type === DataFieldType.String || field.type === DataFieldType.Link
     );
   $: coverField = textFields.find((field) => config?.coverField === field.name);
-  $: objectFit = config?.objectFit ?? Crop;
+  $: fitStyle = config?.fitStyle ?? "cover";
 
   function getCoverRealPath(record: DataRecord) {
     if (!coverField) {
@@ -89,11 +87,8 @@
     onConfigChange({ ...config, coverField });
   }
 
-  function handleSwitchButtonClick(fitStyle: FitProp | undefined) {
-    if (fitStyle?.label == "Crop")
-      onConfigChange({ ...config, objectFit: Fit });
-    else if (fitStyle?.label == "Fit")
-      onConfigChange({ ...config, objectFit: Crop });
+  function handleFitStyleChange(fitStyle: string) {
+    onConfigChange({ ...config, fitStyle });
   }
 
   function handleRecordClick(record: DataRecord) {
@@ -119,20 +114,20 @@
             on:change={({ detail }) => handleCoverFieldChange(detail)}
           />
         </Field>
-        {#if config?.coverField}
-          <SwitchButton
-            on:click={() => handleSwitchButtonClick(objectFit)}
-            icon={objectFit?.icon ?? Undefined.icon}
-            label={objectFit?.label ?? Undefined.label}
-          />
-        {:else}
-          <SwitchButton
-            on:click={() => handleSwitchButtonClick(objectFit)}
-            icon={objectFit?.icon ?? Undefined.icon}
-            label={objectFit?.label ?? Undefined.label}
-            disabled={true}
-          />
-        {/if}
+        <Select
+          value={config?.fitStyle ?? "cover"}
+          options={[
+            {
+              label: "Fill image",
+              value: "cover",
+            },
+            {
+              label: "Fit image",
+              value: "contain",
+            },
+          ]}
+          on:change={({ detail }) => handleFitStyleChange(detail)}
+        />
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
@@ -153,11 +148,7 @@
               >
                 {@const coverPath = getCoverRealPath(record)}
                 {#if coverPath}
-                  <Image
-                    alt="Title"
-                    src={coverPath}
-                    fit={objectFit?.style ?? Undefined.style}
-                  />
+                  <Image alt="Title" src={coverPath} fit={fitStyle} />
                 {:else}
                   <Icon name="image" size="lg" />
                 {/if}
