@@ -42,6 +42,7 @@
         field.type === DataFieldType.String || field.type === DataFieldType.Link
     );
   $: coverField = textFields.find((field) => config?.coverField === field.name);
+  $: fitStyle = config?.fitStyle ?? "cover";
 
   function getCoverRealPath(record: DataRecord) {
     if (!coverField) {
@@ -86,6 +87,10 @@
     onConfigChange({ ...config, coverField });
   }
 
+  function handleFitStyleChange(fitStyle: string) {
+    onConfigChange({ ...config, fitStyle });
+  }
+
   function handleRecordClick(record: DataRecord) {
     new EditNoteModal(
       $app,
@@ -109,6 +114,20 @@
             on:change={({ detail }) => handleCoverFieldChange(detail)}
           />
         </Field>
+        <Select
+          value={config?.fitStyle ?? "cover"}
+          options={[
+            {
+              label: "Fill image",
+              value: "cover",
+            },
+            {
+              label: "Fit image",
+              value: "contain",
+            },
+          ]}
+          on:change={({ detail }) => handleFitStyleChange(detail)}
+        />
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
@@ -129,7 +148,7 @@
               >
                 {@const coverPath = getCoverRealPath(record)}
                 {#if coverPath}
-                  <Image alt="Title" src={coverPath} fit="cover" />
+                  <Image alt="Title" src={coverPath} fit={fitStyle} />
                 {:else}
                   <Icon name="image" size="lg" />
                 {/if}
