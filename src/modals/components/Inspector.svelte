@@ -41,7 +41,7 @@
         <AccordionItem>
           <div slot="header">
             <span
-              ><Flair>error</Flair><IconButton
+              ><Flair variant="error">error</Flair><IconButton
                 icon="search"
                 on:click={(event) => {
                   $app.workspace.openLinkText(error.recordId, "", true);

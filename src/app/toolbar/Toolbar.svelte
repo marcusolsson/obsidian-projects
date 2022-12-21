@@ -48,6 +48,7 @@
   <svelte:fragment slot="info">
     {#if errors.length}
       <Flair
+        variant="error"
         on:click={() => {
           new InspectorModal($app, "Project inspector", errors).open();
         }}
@@ -109,10 +110,13 @@
         on:click={() => {
           filterOpen = !filterOpen;
         }}
-        ><Icon name="filter" />{view?.filter?.conditions.length
-          ? `Filter (${view.filter.conditions.length})`
-          : "Filter"}</Button
       >
+        <Icon name="filter" />
+        Filter
+        {#if view?.filter?.conditions.length}
+          <Flair variant="primary">{view?.filter?.conditions.length}</Flair>
+        {/if}
+      </Button>
       <Popover
         anchorEl={filterRef}
         open={filterOpen}
