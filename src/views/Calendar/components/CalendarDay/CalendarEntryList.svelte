@@ -5,6 +5,7 @@
   import { dndzone } from "svelte-dnd-action";
   import { app } from "src/lib/stores/obsidian";
   import type { DataRecord, DataValue, Optional } from "src/lib/data";
+  import { getRecordColorContext } from "src/views/helpers";
 
   export let records: DataRecord[];
   export let checkField: string | undefined;
@@ -28,6 +29,8 @@
     records = e.detail.items;
     records.forEach((item) => onRecordUpdate(item));
   }
+
+  const getRecordColor = getRecordColorContext();
 </script>
 
 <div
@@ -47,6 +50,7 @@
   {#each records as record (record.id)}
     {#if getDisplayName(record.id)}
       <CalendarEntry
+        color={getRecordColor(record)}
         checked={checkField !== undefined
           ? asOptionalBoolean(record.values[checkField])
           : undefined}

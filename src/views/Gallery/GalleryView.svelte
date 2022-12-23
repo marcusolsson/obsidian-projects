@@ -32,6 +32,7 @@
   export let config: GalleryConfig | undefined;
   export let onConfigChange: (config: GalleryConfig) => void;
   export let api: ViewApi;
+  export let getRecordColor: (record: DataRecord) => string | null;
 
   $: ({ fields, records } = frame);
 
@@ -136,6 +137,7 @@
       <div>
         <Grid>
           {#each records as record}
+            {@const color = getRecordColor(record)}
             <Card>
               <CardMedia
                 on:click={(event) => {
@@ -154,6 +156,11 @@
                 {/if}
               </CardMedia>
               <CardContent>
+                {#if color}
+                  <span
+                    style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
+                  />
+                {/if}
                 <InternalLink
                   linkText={record.id}
                   sourcePath=""

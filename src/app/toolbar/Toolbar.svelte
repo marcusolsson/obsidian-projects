@@ -4,6 +4,7 @@
 
   import ViewToolbar from "src/components/Layout/ViewToolbar.svelte";
   import FilterSettings from "src/components/FilterSettings/FilterSettings.svelte";
+  import ColorFilterSettings from "src/components/FilterSettings/ColorFilterSettings.svelte";
   import { createDataRecord, createProject } from "src/lib/data-api";
   import { api } from "src/lib/stores/api";
   import { i18n } from "src/lib/stores/i18n";
@@ -37,6 +38,9 @@
 
   let filterRef: HTMLButtonElement;
   let filterOpen: boolean = false;
+
+  let colorRef: HTMLButtonElement;
+  let colorOpen: boolean = false;
 </script>
 
 <!--
@@ -105,6 +109,46 @@
         .find((project) => project.id === projectId)
         ?.views?.find((view) => view.id === viewId)}
 
+      <Button
+        bind:ref={colorRef}
+        on:click={() => {
+          colorOpen = !colorOpen;
+        }}
+      >
+        <Icon name="palette" />
+        Color
+        {#if view?.colors?.conditions.length}
+          <Flair variant="primary">{view?.colors?.conditions.length}</Flair>
+        {/if}
+      </Button>
+      <Popover
+        anchorEl={colorRef}
+        open={colorOpen}
+        onClose={() => {
+          colorOpen = false;
+        }}
+      >
+        <ColorFilterSettings
+          filter={view?.colors ?? {
+            conditions: [],
+          }}
+          onFilterChange={(filter) => {
+            const view = projects
+              .find((project) => project.id === projectId)
+              ?.views?.find((view) => view.id === viewId);
+
+            if (projectId && view) {
+              settings.updateView(
+                projectId,
+                produce(view, (draft) => {
+                  draft.colors = filter;
+                })
+              );
+            }
+          }}
+          fields={$dataFrame.fields}
+        />
+      </Popover>
       <Button
         bind:ref={filterRef}
         on:click={() => {

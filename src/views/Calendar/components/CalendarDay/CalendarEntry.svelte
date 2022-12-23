@@ -2,6 +2,7 @@
   import { Checkbox } from "obsidian-svelte";
 
   export let checked: boolean | null | undefined = undefined;
+  export let color: string | null;
 
   let hover: boolean = false;
 </script>
@@ -11,7 +12,14 @@
   on:click
   on:mouseenter={() => (hover = true)}
   on:mouseleave={() => (hover = false)}
+  class:unchecked={checked === undefined}
 >
+  {#if color}
+    <span
+      style="background-color: {color}; height: 100%; width: 5px; border-radius: 9999px;"
+    />
+  {/if}
+
   <!-- If undefined, no field has been set. -->
   <!-- If null, field has been set, but note doesn't have the property. -->
   {#if checked !== undefined && checked !== null}
@@ -26,14 +34,20 @@
 
 <style>
   div {
-    border-radius: 2px;
-    background-color: hsla(var(--interactive-accent-hsl), 0.1);
+    border-radius: var(--radius-s);
     padding: 0.2em 0.4em;
     font-size: var(--font-ui-smaller);
     width: 100%;
     display: grid;
-    grid-template-columns: auto 1fr;
-    border-left: 3px solid hsla(var(--interactive-accent-hsl), 0.5);
+    grid-template-columns: min-content min-content auto;
+    border: 1px solid var(--background-modifier-border);
+    background-color: var(--background-primary);
+    align-items: center;
+    gap: 4px;
+  }
+
+  .unchecked {
+    grid-template-columns: min-content auto;
   }
 
   span {

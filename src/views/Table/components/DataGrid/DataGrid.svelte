@@ -24,6 +24,7 @@
   export let columns: GridColDef[];
   export let rows: GridRowProps[];
   export let sortModel: GridSortModel;
+  export let colorModel: (rowId: string) => string | null;
 
   export let readonly: boolean;
 
@@ -188,6 +189,7 @@
       {row}
       {activeCell}
       {onRowChange}
+      color={colorModel(rowId)}
       onRowMenu={(rowId, row) => createRowMenu(rowId, row)}
       onCellMenu={(rowId, column) => createCellMenu(rowId, row, column)}
       onNavigate={(event) =>
