@@ -133,6 +133,7 @@
     style={`width: ${column.width}px`}
     on:mouseenter={() => (hover = true)}
     on:mouseleave={() => (hover = false)}
+    on:mousedown
   >
     {#if $$slots.hover && hover}
       <slot name="hover" />
