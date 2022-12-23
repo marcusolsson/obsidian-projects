@@ -1,4 +1,5 @@
-import { DataFieldType, type DataField } from "../lib/data";
+import { getContext, setContext } from "svelte";
+import { DataFieldType, type DataField, type DataRecord } from "../lib/data";
 
 export function fieldIcon(field: DataFieldType): string {
   switch (field) {
@@ -24,4 +25,16 @@ export function fieldToSelectableValue(field: DataField): {
     label: field.name,
     value: field.name,
   };
+}
+
+const getRecordColorKey = Symbol();
+
+export function getRecordColorContext(): (record: DataRecord) => string | null {
+  return getContext(getRecordColorKey);
+}
+
+export function setRecordColorContext(
+  fn: (record: DataRecord) => string | null
+) {
+  setContext(getRecordColorKey, fn);
 }

@@ -5,6 +5,7 @@
   import { getDisplayName } from "./board-helpers";
   import { app } from "src/lib/stores/obsidian";
   import { flip } from "svelte/animate";
+  import { getRecordColorContext } from "src/views/helpers";
 
   export let items: DataRecord[];
   export let onRecordClick: (record: DataRecord) => void;
@@ -23,6 +24,8 @@
       onDrop(e.detail.items);
     }
   }
+
+  const getRecordColor = getRecordColorContext();
 </script>
 
 <div
@@ -42,12 +45,18 @@
   on:finalize={handleDndFinalize}
 >
   {#each items as item (item.id)}
+    {@const color = getRecordColor(item)}
     <div
       class="crd"
       on:keypress
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
     >
+      {#if color}
+        <span
+          style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
+        />
+      {/if}
       <InternalLink
         linkText={item.id}
         sourcePath=""
@@ -79,6 +88,7 @@
     border-radius: var(--radius-s);
     border: 1px solid var(--background-modifier-border);
     padding: var(--size-4-2);
+    display: flex;
   }
 
   .crd:hover {

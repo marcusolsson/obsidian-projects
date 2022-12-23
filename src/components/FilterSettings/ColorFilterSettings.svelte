@@ -7,6 +7,7 @@
     Select,
     TextInput,
     NumberInput,
+    ColorInput,
   } from "obsidian-svelte";
   import HorizontalGroup from "src/components/HorizontalGroup/HorizontalGroup.svelte";
   import { DataFieldType, type DataField } from "src/lib/data";
@@ -16,20 +17,33 @@
     isStringFilterOperator,
     type BaseFilterOperator,
     type BooleanFilterOperator,
-    type FilterDefinition,
+    type ColorFilterDefinition,
+    type ColorRule,
     type FilterOperator,
     type NumberFilterOperator,
     type StringFilterOperator,
   } from "src/types";
 
-  export let filter: FilterDefinition;
+  export let filter: ColorFilterDefinition;
   export let fields: DataField[];
-  export let onFilterChange: (filter: FilterDefinition) => void;
+  export let onFilterChange: (filter: ColorFilterDefinition) => void;
 
   $: fieldOptions = fields.map((field) => ({
     label: field.name,
     value: field.name,
   }));
+
+  const handleColorChange = (i: number) => (event: Event) => {
+    if (event.currentTarget instanceof HTMLInputElement) {
+      const inputValue = event.currentTarget.value;
+      filter = produce(filter, (draft) => {
+        draft.conditions = draft.conditions.map((cond, idx) =>
+          idx !== i ? cond : { ...cond, color: inputValue }
+        );
+      });
+      onFilterChange(filter);
+    }
+  };
 
   const handleFieldChange =
     (i: number) =>
@@ -40,8 +54,10 @@
             ? cond
             : {
                 ...cond,
-                field: detail,
-                operator: "is-empty",
+                condition: {
+                  field: detail,
+                  operator: "is-empty",
+                },
               }
         );
       });
@@ -52,8 +68,16 @@
     (i: number) =>
     ({ detail }: CustomEvent<string>) => {
       filter = produce(filter, (draft) => {
-        draft.conditions = draft.conditions.map((cond, idx) =>
-          idx !== i ? cond : { ...cond, operator: detail as FilterOperator }
+        draft.conditions = draft.conditions.map<ColorRule>((cond, idx) =>
+          idx !== i
+            ? cond
+            : {
+                ...cond,
+                condition: {
+                  ...cond.condition,
+                  operator: detail as FilterOperator,
+                },
+              }
         );
       });
       onFilterChange(filter);
@@ -64,7 +88,15 @@
       const inputValue = event.currentTarget.value;
       filter = produce(filter, (draft) => {
         draft.conditions = draft.conditions.map((cond, idx) =>
-          idx !== i ? cond : { ...cond, value: inputValue }
+          idx !== i
+            ? cond
+            : {
+                ...cond,
+                condition: {
+                  ...cond.condition,
+                  value: inputValue,
+                },
+              }
         );
       });
       onFilterChange(filter);
@@ -83,8 +115,11 @@
   function handleConditionAdd() {
     filter = produce(filter, (draft) => {
       draft.conditions.push({
-        field: fields.at(0)?.name ?? "",
-        operator: "is-not-empty",
+        color: "#a882ff", // Obsidian purple
+        condition: {
+          field: fields.at(0)?.name ?? "",
+          operator: "is-not-empty",
+        },
       });
     });
     onFilterChange(filter);
@@ -152,30 +187,29 @@
 
 <div style="display: flex; flex-direction: column; gap: 8px;">
   {#each filter.conditions as condition, i}
-    {@const field = getFieldByName(condition.field)}
+    {@const field = getFieldByName(condition.condition.field)}
     <HorizontalGroup>
-      <div class="setting-item-name" style="width: 5ch">
-        {i === 0 ? "Where" : "and"}
-      </div>
+      <ColorInput value={condition.color} on:change={handleColorChange(i)} />
+      <div class="setting-item-name" style="width: 5ch">Where</div>
       <Select
-        value={condition.field}
+        value={condition.condition.field}
         options={fieldOptions}
         on:change={handleFieldChange(i)}
       />
       <Select
-        value={condition.operator}
+        value={condition.condition.operator}
         on:change={handleOperatorChange(i)}
         options={field ? getOperatorsByField(field) : []}
       />
-      {#if filterOperatorTypes[condition.operator] === "binary"}
-        {#if isStringFilterOperator(condition.operator)}
+      {#if filterOperatorTypes[condition.condition.operator] === "binary"}
+        {#if isStringFilterOperator(condition.condition.operator)}
           <TextInput
-            value={condition.value ?? ""}
+            value={condition.condition.value ?? ""}
             on:blur={handleValueChange(i)}
           />
-        {:else if isNumberFilterOperator(condition.operator)}
+        {:else if isNumberFilterOperator(condition.condition.operator)}
           <NumberInput
-            value={parseFloat(condition.value ?? "")}
+            value={parseFloat(condition.condition.value ?? "")}
             on:blur={handleValueChange(i)}
           />
         {/if}
@@ -185,7 +219,7 @@
   {/each}
   <HorizontalGroup>
     <Button variant="plain" on:click={handleConditionAdd}
-      ><Icon name="plus" />Add condition</Button
+      ><Icon name="plus" />Add color</Button
     >
   </HorizontalGroup>
 </div>

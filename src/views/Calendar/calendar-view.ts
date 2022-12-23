@@ -35,6 +35,7 @@ export class CalendarView extends ProjectView<CalendarConfig> {
         readonly: props.readonly,
         config: props.config,
         onConfigChange: props.saveConfig,
+        getRecordColor: props.getRecordColor,
       },
     });
   }

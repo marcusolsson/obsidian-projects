@@ -1,4 +1,4 @@
-import type { DataFrame } from "src/lib/data";
+import type { DataFrame, DataRecord } from "src/lib/data";
 import type { ViewApi } from "src/lib/view-api";
 import type { ProjectDefinition } from "src/types";
 
@@ -14,6 +14,7 @@ export interface ProjectViewProps<T = Record<string, any>> {
   contentEl: HTMLElement;
   viewApi: ViewApi;
   readonly: boolean;
+  getRecordColor: (record: DataRecord) => string | null;
 }
 
 export abstract class ProjectView<T = Record<string, any>> {

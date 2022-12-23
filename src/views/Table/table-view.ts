@@ -35,6 +35,7 @@ export class TableView extends ProjectView<TableConfig> {
         readonly: props.readonly,
         config: props.config,
         onConfigChange: props.saveConfig,
+        getRecordColor: props.getRecordColor,
       },
     });
   }

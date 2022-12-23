@@ -35,6 +35,7 @@ export class BoardView extends ProjectView<BoardConfig> {
         readonly: props.readonly,
         config: props.config,
         onConfigChange: props.saveConfig,
+        getRecordColor: props.getRecordColor,
       },
     });
   }

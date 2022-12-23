@@ -6,10 +6,20 @@ export interface ViewDefinition {
   readonly type: ViewType;
   readonly config: Record<string, any>;
   readonly filter?: FilterDefinition;
+  readonly colors?: ColorFilterDefinition;
 }
 
 export interface FilterDefinition {
   readonly conditions: FilterCondition[];
+}
+
+export interface ColorFilterDefinition {
+  readonly conditions: ColorRule[];
+}
+
+export interface ColorRule {
+  color: string;
+  condition: FilterCondition;
 }
 
 export type BaseFilterOperator = "is-empty" | "is-not-empty";

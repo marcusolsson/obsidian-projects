@@ -4,6 +4,7 @@ import type { DataQueryResult } from "src/custom-view-api";
 import { customViews } from "src/lib/stores/custom-views";
 import type { ViewApi } from "src/lib/view-api";
 import type { ProjectDefinition, ViewDefinition } from "src/types";
+import type { DataRecord } from "src/lib/data";
 
 export interface ViewProps {
   view: ViewDefinition;
@@ -13,6 +14,7 @@ export interface ViewProps {
   viewApi: ViewApi;
   readonly: boolean;
   project: ProjectDefinition;
+  getRecordColor: (record: DataRecord) => string | null;
 }
 
 export function useView(node: HTMLElement, props: ViewProps) {
@@ -33,6 +35,7 @@ export function useView(node: HTMLElement, props: ViewProps) {
       saveConfig: props.onConfigChange,
       viewApi: props.viewApi,
       readonly: props.readonly,
+      getRecordColor: props.getRecordColor,
     });
     projectView.onData(props.dataProps);
   }
@@ -61,6 +64,7 @@ export function useView(node: HTMLElement, props: ViewProps) {
             readonly: newprops.readonly,
             config: newprops.config,
             saveConfig: newprops.onConfigChange,
+            getRecordColor: newprops.getRecordColor,
           });
           projectView.onData(newprops.dataProps);
         }

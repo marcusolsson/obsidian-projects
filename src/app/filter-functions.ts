@@ -12,7 +12,10 @@ import {
   type StringFilterOperator,
 } from "src/types";
 
-function matchesCondition(cond: FilterCondition, record: DataRecord): boolean {
+export function matchesCondition(
+  cond: FilterCondition,
+  record: DataRecord
+): boolean {
   const { operator } = cond;
 
   const value: Optional<DataValue> = record.values[cond.field];
@@ -44,7 +47,10 @@ function matchesCondition(cond: FilterCondition, record: DataRecord): boolean {
   return false;
 }
 
-function matchesFilterConditions(filter: FilterDefinition, record: DataRecord) {
+export function matchesFilterConditions(
+  filter: FilterDefinition,
+  record: DataRecord
+) {
   return filter.conditions.every((cond) => matchesCondition(cond, record));
 }
 
