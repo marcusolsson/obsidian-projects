@@ -41,6 +41,32 @@ For other ideas on how you can contribute, check the label on the issue:
 | `priority/backlog`                | `kind/feature` | Issue is ready to be worked on.                                                                           | Add a comment in the issue if you'd like to work on it.                       |
 | `priority/critical`               | `kind/bug`     | Issue needs fixing before anything else.                                                                  | Have patience while I'm working on it :heart:                                 |
 
+## Troubleshooting
+
+This section lists common questions on how to use Obsidian Projects.
+
+### Why doesn't Projects detect my date fields?
+
+Projects only supports [ISO 8601](https://wikipedia.org/wiki/ISO_8601) date strings.
+
+For example:
+
+```md
+---
+date: 2006-01-28
+---
+
+# Weekly planning
+```
+
+### Why are some values missing?
+
+Projects tries to detect the field type based on the values from the notes in the project. If multiple field types are detected, for example `23` (number) and `false` (boolean), the plugin needs to guess the type and parse the remaining values as that type.
+
+At the moment, depending on the type some values can't be parsed. For example, how do you parse an array as a boolean? I'm planning to [display parsing errors](https://github.com/marcusolsson/obsidian-projects/issues/71) in a better way.
+
+Until then, make sure that the values for the field have the same format, to make it easier to detect the field type.
+
 ## Learn more
 
 If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
