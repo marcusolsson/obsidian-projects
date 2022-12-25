@@ -69,7 +69,9 @@ Until then, make sure that the values for the field have the same format, to mak
 
 ## Learn more
 
-If you'd like to see Projects in action, check out any of these amazing walkthroughs made by users:
+If you'd like to see Projects in action, check out any of these amazing resources made by users.
+
+### Videos
 
 - 2022-12-10: [Use Obsidian for Content Creation | Build Notion-like Database Views](https://www.youtube.com/watch?v=Ds-VPz7jIwM) by [@amyjuanli](https://www.youtube.com/@amyjuanli)
 - 2022-11-23: [Obsidian For Content Creators](https://www.youtube.com/watch?v=jovUqLbqS1Y) by [@FromSergio](https://www.youtube.com/@FromSergio)
@@ -77,5 +79,9 @@ If you'd like to see Projects in action, check out any of these amazing walkthro
 - 2022-11-13: [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU) by [@beingpax](https://www.youtube.com/@beingpax)
 - 2022-11-07: [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) by [@nicolevdh](https://www.youtube.com/@nicolevdh) (interview)
 - 2022-11-07: [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo) by [@SniferL4bs](https://www.youtube.com/@SniferL4bs)
+
+### Articles
+
+- [How to Set up and Maintain Your Academic Reading List in Obsidian](https://nataliekraneiss.com/your-academic-reading-list-in-obsidian/) by [Natalie Kraneiß](https://nataliekraneiss.com/)
 
 _Did I miss any? Let me know and I'll add them to the list!_
