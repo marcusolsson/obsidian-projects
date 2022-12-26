@@ -10,7 +10,7 @@
     ViewLayout,
     ViewToolbar,
   } from "src/components/Layout";
-  import { DataFieldType, type DataFrame } from "src/lib/data";
+  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/data";
   import { createDataRecord } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
@@ -18,7 +18,10 @@
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import type { ProjectDefinition } from "src/types";
-  import { fieldToSelectableValue } from "src/views/helpers";
+  import {
+    fieldToSelectableValue,
+    setRecordColorContext,
+  } from "src/views/helpers";
 
   import {
     addInterval,
@@ -45,6 +48,7 @@
   export let frame: DataFrame;
   export let readonly: boolean;
   export let api: ViewApi;
+  export let getRecordColor: (record: DataRecord) => string | null;
 
   export let config: CalendarConfig | undefined;
   export let onConfigChange: (cfg: CalendarConfig) => void;
@@ -97,6 +101,8 @@
   function handleCheckFieldChange(checkField: string) {
     onConfigChange({ ...config, checkField });
   }
+
+  setRecordColorContext(getRecordColor);
 </script>
 
 <ViewLayout>

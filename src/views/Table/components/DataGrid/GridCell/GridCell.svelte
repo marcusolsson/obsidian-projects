@@ -18,6 +18,7 @@
   export let onEditChange: (value: boolean) => void = (value: boolean) => {
     edit = value;
   };
+  export let color: string | null = null;
   export let onCopy: () => void = () => {};
   export let onCut: () => void = () => {};
   export let onPaste: () => void = () => {};
@@ -124,56 +125,80 @@
   }
 </script>
 
-<div
-  bind:this={ref}
-  role={role()}
-  aria-selected={rowHeader || columnHeader ? undefined : selected}
-  aria-colindex={colindex}
-  class:columnHeader
-  class:header={column.header}
-  class:selected
-  class:rowHeader
-  style={`width: ${column.width}px`}
-  tabindex={!columnHeader && !rowHeader ? 1 : undefined}
-  on:click={handleClick}
-  on:dblclick={handleDoubleClick}
-  on:mousedown
-  on:mouseenter={() => (hover = true)}
-  on:mouseleave={() => (hover = false)}
-  on:focus={() => {
-    hover = true;
-    selected = true;
-  }}
-  on:blur={handleBlur}
-  on:keydown={handleKeyDown}
-  use:useClickOutside={() => {
-    onEditChange(false);
-    selected = false;
-  }}
->
-  {#if $$slots.edit && edit}
-    {#if column.editable}
-      <slot name="edit" />
+{#if rowHeader}
+  <div
+    bind:this={ref}
+    role={role()}
+    class:rowHeader
+    style={`width: ${column.width}px`}
+    on:mouseenter={() => (hover = true)}
+    on:mouseleave={() => (hover = false)}
+    on:mousedown
+  >
+    {#if $$slots.hover && hover}
+      <slot name="hover" />
     {:else}
       <slot name="read" />
     {/if}
-  {:else if $$slots.selected && selected}
-    <slot name="selected" />
-  {:else if $$slots.hover && hover}
-    <slot name="hover" />
-  {:else}
-    <slot name="read" />
-  {/if}
 
-  {#if resizable}
-    <Resizer
-      width={column.width ?? 180}
-      min={100}
-      onChange={onResize}
-      onFinalize={onFinalizeResize}
+    <span
+      style="background-color: {color
+        ? color
+        : 'transparent'}; width: 5px; border-radius: 9999px; position: absolute; right: 4px; height: calc(100% - 8px);"
     />
-  {/if}
-</div>
+  </div>
+{:else}
+  <div
+    bind:this={ref}
+    role={role()}
+    aria-selected={rowHeader || columnHeader ? undefined : selected}
+    aria-colindex={colindex}
+    class:header={column.header}
+    class:selected
+    class:rowHeader
+    class:columnHeader
+    style={`width: ${column.width}px`}
+    tabindex={!columnHeader && !rowHeader ? 1 : undefined}
+    on:click={handleClick}
+    on:dblclick={handleDoubleClick}
+    on:mousedown
+    on:mouseenter={() => (hover = true)}
+    on:mouseleave={() => (hover = false)}
+    on:focus={() => {
+      hover = true;
+      selected = true;
+    }}
+    on:blur={handleBlur}
+    on:keydown={handleKeyDown}
+    use:useClickOutside={() => {
+      onEditChange(false);
+      selected = false;
+    }}
+  >
+    {#if $$slots.edit && edit}
+      {#if column.editable}
+        <slot name="edit" />
+      {:else}
+        <slot name="read" />
+      {/if}
+    {:else if $$slots.selected && selected}
+      <slot name="selected" />
+    {:else if $$slots.hover && hover}
+      <slot name="hover" />
+    {:else}
+      <slot name="read" />
+    {/if}
+
+    {#if resizable}
+      <Resizer
+        width={column.width ?? 180}
+        min={100}
+        onChange={onResize}
+        onFinalize={onFinalizeResize}
+      />
+    {/if}
+  </div>
+{/if}
 
 <style>
   div {
@@ -187,8 +212,6 @@
     border-left-color: var(--background-modifier-border);
     border-bottom: 1px solid var(--background-modifier-border);
 
-    box-sizing: border-box;
-    vertical-align: middle;
     width: 100%;
     min-height: 30px;
   }
@@ -219,7 +242,8 @@
     z-index: 5;
     background-color: var(--background-secondary);
     font-weight: 500;
-    text-align: center;
-    padding: 0 4px;
+    padding: 3px;
+    gap: 4px;
+    position: relative;
   }
 </style>

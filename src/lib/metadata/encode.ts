@@ -1,3 +1,4 @@
+import { either as E, function as F } from "fp-ts";
 import { stringify } from "yaml";
 import { parseYaml } from "./decode";
 
@@ -10,8 +11,9 @@ import { parseYaml } from "./decode";
  */
 export function encodeFrontMatter(
   data: string,
-  frontmatter: Record<string, any>
-): string {
+  frontmatter: Record<string, any>,
+  defaultStringType: "PLAIN" | "QUOTE_DOUBLE"
+): E.Either<Error, string> {
   const delim = "---";
 
   const startPosition = data.indexOf(delim) + delim.length;
@@ -20,42 +22,39 @@ export function encodeFrontMatter(
   const isStart = data.slice(0, startPosition).trim() === delim;
   const hasFrontMatter = isStart && endPosition > startPosition;
 
-  const existing = parseYaml(data.slice(startPosition, endPosition));
+  return F.pipe(
+    parseYaml(data.slice(startPosition, endPosition)),
+    E.map((existing) => Object.assign({}, existing, frontmatter)),
+    E.map((fm) => {
+      if (Object.entries(fm).length) {
+        const d = stringifyYaml(fm, defaultStringType);
 
-  const fm = Object.assign({}, existing, frontmatter);
+        return hasFrontMatter
+          ? data.slice(0, startPosition + 1) + d + data.slice(endPosition)
+          : delim + "\n" + d + delim + "\n\n" + data;
+      }
 
-  if (Object.entries(fm).length) {
-    return hasFrontMatter
-      ? data.slice(0, startPosition + 1) +
-          stringifyYaml(fm) +
-          data.slice(endPosition)
-      : delim + "\n" + stringifyYaml(fm) + delim + "\n\n" + data;
-  }
-
-  return hasFrontMatter
-    ? data.slice(0, startPosition - delim.length) +
-        data.slice(endPosition + delim.length + 1)
-    : data;
+      return hasFrontMatter
+        ? data.slice(0, startPosition - delim.length) +
+            data.slice(endPosition + delim.length + 1)
+        : data;
+    })
+  );
 }
 
 /**
  * stringifyYaml converts a value to YAML.
  */
-export function stringifyYaml(value: any): string {
-  return postprocessYaml(stringify(value, { lineWidth: 0, nullStr: "" }));
-}
-
-/**
- * postprocessYaml removes quotes from single-line string properties.
- */
-function postprocessYaml(value: string): string {
-  const illegalCharacters = /[:|\-]\s/;
-  const quotedProperties = /^(.*):\s*"(.*)"$/gm;
-
-  return value.replace(quotedProperties, (_match, key, value) => {
-    if (illegalCharacters.test(value)) {
-      return `${key}: "${value}"`;
-    }
-    return `${key}: ${value}`;
-  });
+export function stringifyYaml(
+  value: any,
+  defaultStringType: "PLAIN" | "QUOTE_DOUBLE" = "PLAIN"
+): string {
+  return F.pipe(value, (value) =>
+    stringify(value, {
+      lineWidth: 0,
+      nullStr: "",
+      defaultStringType: defaultStringType,
+      defaultKeyType: "PLAIN",
+    })
+  );
 }

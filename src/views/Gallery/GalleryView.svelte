@@ -32,6 +32,7 @@
   export let config: GalleryConfig | undefined;
   export let onConfigChange: (config: GalleryConfig) => void;
   export let api: ViewApi;
+  export let getRecordColor: (record: DataRecord) => string | null;
 
   $: ({ fields, records } = frame);
 
@@ -42,6 +43,7 @@
         field.type === DataFieldType.String || field.type === DataFieldType.Link
     );
   $: coverField = textFields.find((field) => config?.coverField === field.name);
+  $: fitStyle = config?.fitStyle ?? "cover";
 
   function getCoverRealPath(record: DataRecord) {
     if (!coverField) {
@@ -86,6 +88,10 @@
     onConfigChange({ ...config, coverField });
   }
 
+  function handleFitStyleChange(fitStyle: string) {
+    onConfigChange({ ...config, fitStyle });
+  }
+
   function handleRecordClick(record: DataRecord) {
     new EditNoteModal(
       $app,
@@ -109,6 +115,20 @@
             on:change={({ detail }) => handleCoverFieldChange(detail)}
           />
         </Field>
+        <Select
+          value={config?.fitStyle ?? "cover"}
+          options={[
+            {
+              label: "Fill image",
+              value: "cover",
+            },
+            {
+              label: "Fit image",
+              value: "contain",
+            },
+          ]}
+          on:change={({ detail }) => handleFitStyleChange(detail)}
+        />
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
@@ -117,6 +137,7 @@
       <div>
         <Grid>
           {#each records as record}
+            {@const color = getRecordColor(record)}
             <Card>
               <CardMedia
                 on:click={(event) => {
@@ -129,12 +150,17 @@
               >
                 {@const coverPath = getCoverRealPath(record)}
                 {#if coverPath}
-                  <Image alt="Title" src={coverPath} fit="cover" />
+                  <Image alt="Title" src={coverPath} fit={fitStyle} />
                 {:else}
                   <Icon name="image" size="lg" />
                 {/if}
               </CardMedia>
               <CardContent>
+                {#if color}
+                  <span
+                    style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
+                  />
+                {/if}
                 <InternalLink
                   linkText={record.id}
                   sourcePath=""

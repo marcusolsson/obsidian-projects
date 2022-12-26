@@ -1,7 +1,9 @@
 <script lang="ts">
-  import type { DataFrame } from "src/lib/data";
+  import type { DataFrame, DataRecord } from "src/lib/data";
+  import { settings } from "src/lib/stores/settings";
   import type { ViewApi } from "src/lib/view-api";
   import type { ProjectDefinition, ViewDefinition } from "src/types";
+  import { applyFilter, matchesCondition } from "./filter-functions";
 
   import { useView } from "./useView";
 
@@ -42,6 +44,39 @@
   function handleConfigChange(config: Record<string, any>) {
     onConfigChange(project.id, view.id, config);
   }
+
+  // Clean up any filter conditions for non-existing fields.
+  $: {
+    const fieldNames = frame.fields.map((field) => field.name);
+
+    if (
+      viewFilter.conditions.length !==
+      viewFilter.conditions.filter((cond) => fieldNames.includes(cond.field))
+        .length
+    ) {
+      settings.updateView(project.id, {
+        ...view,
+        filter: {
+          conditions: viewFilter.conditions.filter((cond) =>
+            fieldNames.includes(cond.field)
+          ),
+        },
+      });
+    }
+  }
+
+  $: viewFilter = view.filter ?? { conditions: [] };
+  $: filteredFrame = applyFilter(frame, viewFilter);
+
+  function getRecordColor(record: DataRecord): string | null {
+    const colorFilter = view.colors ?? { conditions: [] };
+    for (const cond of colorFilter.conditions) {
+      if (matchesCondition(cond.condition, record)) {
+        return cond.color;
+      }
+    }
+    return null;
+  }
 </script>
 
 <!--
@@ -53,13 +88,14 @@
   use:useView={{
     view,
     dataProps: {
-      data: frame,
+      data: filteredFrame,
     },
     viewApi: api,
     project,
     readonly,
     config: view.config,
     onConfigChange: handleConfigChange,
+    getRecordColor: getRecordColor,
   }}
 />
 

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
+import { either as E } from "fp-ts";
 import { decodeFrontMatter, parseYaml, preprocessYaml } from "./decode";
 
 describe("decodeFrontMatter", () => {
@@ -13,7 +14,7 @@ status: In progress
 # My title
 `
       )
-    ).toStrictEqual({ status: "In progress" });
+    ).toStrictEqual(E.right({ status: "In progress" }));
   });
 
   it("should ignore non-leading front matter", () => {
@@ -27,7 +28,7 @@ status: In progress
 ---
 `
       )
-    ).toStrictEqual({});
+    ).toStrictEqual(E.right({}));
   });
 
   it("should decode note with missing front matter", () => {
@@ -37,7 +38,7 @@ status: In progress
 # My title
 `
       )
-    ).toStrictEqual({});
+    ).toStrictEqual(E.right({}));
   });
 });
 
@@ -45,19 +46,21 @@ describe("preprocessYaml", () => {
   it("should escape internal links", () => {
     expect(
       preprocessYaml(`unquoted: [[Untitled.md]]\nquoted: "[[Untitled.md]]"`)
-    ).toStrictEqual(`unquoted: "[[Untitled.md]]"\nquoted: "[[Untitled.md]]"`);
+    ).toStrictEqual(
+      E.right(`unquoted: "[[Untitled.md]]"\nquoted: "[[Untitled.md]]"`)
+    );
   });
 
   it("should escape comma-separated internal links", () => {
     expect(
       preprocessYaml(`unquoted: [[Untitled.md]], [[Untitled.md]]`)
-    ).toStrictEqual(`unquoted: "[[Untitled.md]], [[Untitled.md]]"`);
+    ).toStrictEqual(E.right(`unquoted: "[[Untitled.md]], [[Untitled.md]]"`));
   });
 
   it("shouldn't escape already escaped comma-separated internal links", () => {
     expect(
       preprocessYaml(`quoted: "[[Untitled.md]], [[Untitled.md]]"`)
-    ).toStrictEqual(`quoted: "[[Untitled.md]], [[Untitled.md]]"`);
+    ).toStrictEqual(E.right(`quoted: "[[Untitled.md]], [[Untitled.md]]"`));
   });
 });
 
@@ -65,18 +68,22 @@ describe("parseYaml", () => {
   it("should parse links", () => {
     expect(
       parseYaml(`unquoted: [[Untitled.md]]\nquoted: "[[Untitled.md]]"`)
-    ).toStrictEqual({
-      unquoted: "[[Untitled.md]]",
-      quoted: "[[Untitled.md]]",
-    });
+    ).toStrictEqual(
+      E.right({
+        unquoted: "[[Untitled.md]]",
+        quoted: "[[Untitled.md]]",
+      })
+    );
   });
 
   it("should parse multiple links", () => {
     expect(
       parseYaml(`field: [[Untitled.md]], [[Untitled 1.md]]`)
-    ).toStrictEqual({
-      field: "[[Untitled.md]], [[Untitled 1.md]]",
-    });
+    ).toStrictEqual(
+      E.right({
+        field: "[[Untitled.md]], [[Untitled 1.md]]",
+      })
+    );
   });
 
   it("should parse lists", () => {
@@ -87,9 +94,11 @@ foo:
 - tag2
 - tag3
 `)
-    ).toStrictEqual({
-      foo: ["tag1", "tag2", "tag3"],
-    });
+    ).toStrictEqual(
+      E.right({
+        foo: ["tag1", "tag2", "tag3"],
+      })
+    );
   });
 
   // This test documents existing behavior, but not necessary the desired
@@ -102,9 +111,11 @@ foo:
 - #tag2
 - #tag3
 `)
-    ).toStrictEqual({
-      foo: [null, null, null],
-    });
+    ).toStrictEqual(
+      E.right({
+        foo: [null, null, null],
+      })
+    );
   });
 });
 
@@ -121,11 +132,13 @@ headings:
 # My title
 `
       )
-    ).toStrictEqual({
-      headings: [
-        "[[testmeet3 note#Summary|📝]] [[testmeet3 note#Ideas|💡]] [[testmeet3 note#Attendees|🧑‍🤝‍🧑]]",
-      ],
-    });
+    ).toStrictEqual(
+      E.right({
+        headings: [
+          "[[testmeet3 note#Summary|📝]] [[testmeet3 note#Ideas|💡]] [[testmeet3 note#Attendees|🧑‍🤝‍🧑]]",
+        ],
+      })
+    );
   });
 });
 
@@ -140,6 +153,6 @@ describe("regression test for issue #175", () => {
 # My title
 `
       )
-    ).toStrictEqual({});
+    ).toStrictEqual(E.right({}));
   });
 });

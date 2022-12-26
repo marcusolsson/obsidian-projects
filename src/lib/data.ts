@@ -1,5 +1,6 @@
 import type { TFile } from "obsidian";
 import type { ProjectDefinition } from "src/types";
+import type { RecordError } from "./datasources/frontmatter/frontmatter";
 
 /**
  * DataFrame is the core data structure that contains structured data for a
@@ -16,6 +17,8 @@ export interface DataFrame {
    * records holds the data from each note.
    */
   readonly records: DataRecord[];
+
+  readonly errors?: RecordError[];
 }
 
 /**
@@ -73,6 +76,30 @@ export type DataValue =
   | Date
   | Link
   | Array<Optional<DataValue>>;
+
+export function isOptionalDataValue(
+  value: unknown
+): value is Optional<DataValue> {
+  switch (typeof value) {
+    case "string":
+      return true;
+    case "number":
+      return true;
+    case "boolean":
+      return true;
+    default:
+      return false;
+  }
+}
+
+export function isRepeatedDataValue(
+  value: unknown
+): value is Array<Optional<DataValue>> {
+  if (Array.isArray(value)) {
+    return value.every(isOptionalDataValue);
+  }
+  return false;
+}
 
 export type Optional<T> =
   | T
