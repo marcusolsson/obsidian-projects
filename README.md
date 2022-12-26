@@ -67,6 +67,12 @@ At the moment, depending on the type some values can't be parsed. For example, h
 
 Until then, make sure that the values for the field have the same format, to make it easier to detect the field type.
 
+### What about mobile support?
+
+I enabled the plugin to be installed on mobile devices in [#161](https://github.com/marcusolsson/obsidian-projects/issues/161). Unfortunately, it became clear the plugin needs more work in order to run well in the mobile app. Debugging plugins for Obsidian mobile is rather difficult at the moment, as you can only really test it by making a public release. 
+
+Rather than causing frustration while trying to enable the plugin, I've officially disabled mobile support for now. Let me know if you're interested in working on this.
+
 ## Learn more
 
 If you'd like to see Projects in action, check out any of these amazing resources made by users.
