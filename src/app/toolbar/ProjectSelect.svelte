@@ -1,4 +1,5 @@
 <script lang="ts">
+  import produce from "immer";
   import { Menu } from "obsidian";
   import { IconButton, Select } from "obsidian-svelte";
 
@@ -20,10 +21,15 @@
 <span>
   <Select
     value={projectId ?? ""}
-    options={projects.map((project) => ({
-      label: project.name,
-      value: project.id,
-    }))}
+    options={produce(
+      projects.map((project) => ({
+        label: project.name,
+        value: project.id,
+      })),
+      (draft) => {
+        draft.sort((a, b) => a.label.localeCompare(b.label));
+      }
+    )}
     on:change={({ detail: value }) => onProjectChange(value)}
     placeholder={$i18n.t("toolbar.projects.none") ?? ""}
   />

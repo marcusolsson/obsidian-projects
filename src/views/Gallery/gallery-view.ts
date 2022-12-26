@@ -33,6 +33,7 @@ export class GalleryView extends ProjectView<GalleryConfig> {
         api: props.viewApi,
         config: props.config,
         onConfigChange: props.saveConfig,
+        getRecordColor: props.getRecordColor,
       },
     });
   }

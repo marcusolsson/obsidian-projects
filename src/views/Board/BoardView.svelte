@@ -16,7 +16,10 @@
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import type { ProjectDefinition } from "src/types";
-  import { fieldToSelectableValue } from "src/views/helpers";
+  import {
+    fieldToSelectableValue,
+    setRecordColorContext,
+  } from "src/views/helpers";
 
   import { groupRecordsByField } from "./board";
   import { Board } from "./components";
@@ -27,6 +30,7 @@
   export let frame: DataFrame;
   export let readonly: boolean;
   export let api: ViewApi;
+  export let getRecordColor: (record: DataRecord) => string;
 
   export let config: BoardConfig | undefined;
   export let onConfigChange: (cfg: BoardConfig) => void;
@@ -100,6 +104,8 @@
       }
     }).open();
   }
+
+  setRecordColorContext(getRecordColor);
 </script>
 
 <ViewLayout>
@@ -155,7 +161,7 @@
     <div>
       <Board
         onRecordUpdate={handleRecordUpdate}
-        dragDisabled={priorityField?.type !== DataFieldType.Number}
+        dragDisabled={!priorityField}
         onSortColumns={(names) => {
           onConfigChange({
             ...config,
@@ -184,7 +190,7 @@
             id: column,
             records: groupedRecords[column] ?? [],
           }))}
-        groupByPriority={priorityField?.name}
+        groupByPriority={priorityField}
         onRecordClick={handleRecordClick}
         onRecordAdd={handleRecordAdd}
         columnWidth={config?.columnWidth ?? 270}

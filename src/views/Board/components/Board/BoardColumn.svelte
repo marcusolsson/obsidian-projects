@@ -2,7 +2,7 @@
   import { Button, Typography } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
 
-  import type { DataRecord } from "src/lib/data";
+  import { type DataRecord, type DataField, DataFieldType } from "src/lib/data";
   import {
     getPrioritizedRecords,
     getUnprioritizedRecords,
@@ -11,7 +11,7 @@
 
   export let name: string;
   export let records: DataRecord[];
-  export let groupByPriority: string | undefined;
+  export let groupByPriority: DataField | undefined;
   export let readonly: boolean;
   export let dragDisabled: boolean = false;
   export let onRecordUpdate: (record: DataRecord) => void;
@@ -25,13 +25,17 @@
   function handleDropPrioritized(items: DataRecord[]) {
     items.forEach((item, i) => {
       if (groupByPriority) {
-        onRecordUpdate({
-          ...item,
-          values: {
-            ...item.values,
-            [groupByPriority]: i + 1,
-          },
-        });
+        if (groupByPriority.type === DataFieldType.Number) {
+          onRecordUpdate({
+            ...item,
+            values: {
+              ...item.values,
+              [groupByPriority.name]: i + 1,
+            },
+          });
+        } else if (groupByPriority.type === DataFieldType.Date) {
+          onRecordUpdate(item);
+        }
       }
     });
   }
@@ -43,7 +47,7 @@
           ...item,
           values: {
             ...item.values,
-            [groupByPriority]: undefined,
+            [groupByPriority.name]: undefined,
           },
         });
       }

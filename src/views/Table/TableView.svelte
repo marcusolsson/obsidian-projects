@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DataFieldType, type DataFrame } from "src/lib/data";
+  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/data";
   import { createDataRecord } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
@@ -28,6 +28,7 @@
   export let frame: DataFrame;
   export let readonly: boolean;
   export let api: ViewApi;
+  export let getRecordColor: (record: DataRecord) => string | null;
 
   export let config: TableConfig | undefined;
   export let onConfigChange: (cfg: TableConfig) => void;
@@ -131,6 +132,13 @@
       {columns}
       {rows}
       {readonly}
+      colorModel={(rowId) => {
+        const record = frame.records.find((record) => record.id === rowId);
+        if (record) {
+          return getRecordColor(record);
+        }
+        return null;
+      }}
       onRowAdd={() => {
         new CreateNoteModal($app, project, (name, templatePath, project) => {
           api.addRecord(createDataRecord(name, project), templatePath);

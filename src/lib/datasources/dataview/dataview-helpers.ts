@@ -1,6 +1,10 @@
 import dayjs from "dayjs";
 import { App, TFile } from "obsidian";
-import type { DataValue, Optional } from "src/lib/data";
+import {
+  isRepeatedDataValue,
+  type DataValue,
+  type Optional,
+} from "src/lib/data";
 
 /**
  * standardizeValues converts a Dataview data structure of values to the common
@@ -19,7 +23,7 @@ export function standardizeValues(
       return;
     }
 
-    if (Array.isArray(value)) {
+    if (isRepeatedDataValue(value)) {
       res[field] = value;
     } else if (typeof value === "object") {
       if ("path" in value && "display" in value) {

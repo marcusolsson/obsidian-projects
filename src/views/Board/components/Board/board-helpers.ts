@@ -1,6 +1,7 @@
 import {
   isDate,
   isNumber,
+  type DataField,
   type DataRecord,
   type DataValue,
   type Optional,
@@ -8,7 +9,7 @@ import {
 
 export function getPrioritizedRecords(
   records: DataRecord[],
-  groupByPriority?: string
+  groupByPriority?: DataField
 ): DataRecord[] {
   const res = records.filter((record) => {
     if (!groupByPriority) {
@@ -16,15 +17,15 @@ export function getPrioritizedRecords(
     }
 
     return (
-      isNumber(record.values[groupByPriority]) ||
-      isDate(record.values[groupByPriority])
+      isNumber(record.values[groupByPriority.name]) ||
+      isDate(record.values[groupByPriority.name])
     );
   });
 
   res.sort((a, b) => {
     if (groupByPriority) {
-      const aval: Optional<DataValue> = a.values[groupByPriority];
-      const bval: Optional<DataValue> = b.values[groupByPriority];
+      const aval: Optional<DataValue> = a.values[groupByPriority.name];
+      const bval: Optional<DataValue> = b.values[groupByPriority.name];
 
       if (isNumber(aval) && isNumber(bval)) {
         const value = aval - bval;
@@ -51,7 +52,7 @@ export function getPrioritizedRecords(
 
 export function getUnprioritizedRecords(
   records: DataRecord[],
-  groupByPriority?: string
+  groupByPriority?: DataField
 ): DataRecord[] {
   const res = records.filter((record) => {
     if (!groupByPriority) {
@@ -59,8 +60,8 @@ export function getUnprioritizedRecords(
     }
 
     return !(
-      isNumber(record.values[groupByPriority]) ||
-      isDate(record.values[groupByPriority])
+      isNumber(record.values[groupByPriority.name]) ||
+      isDate(record.values[groupByPriority.name])
     );
   });
 

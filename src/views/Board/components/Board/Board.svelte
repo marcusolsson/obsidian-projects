@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DataRecord } from "../../../../lib/data";
+  import type { DataRecord, DataField } from "../../../../lib/data";
   import { dndzone } from "svelte-dnd-action";
 
   import BoardColumn from "./BoardColumn.svelte";
@@ -11,7 +11,7 @@
 
   export let columns: Column[];
 
-  export let groupByPriority: string | undefined;
+  export let groupByPriority: DataField | undefined;
   export let readonly: boolean;
   export let onRecordClick: (record: DataRecord) => void;
   export let onRecordUpdate: (column: string, record: DataRecord) => void;

@@ -2,7 +2,7 @@
   import produce from "immer";
   import { TFile, type Menu } from "obsidian";
 
-  import { GridCell, GridTypedCell, TextLabel } from "./GridCell";
+  import { GridCell, GridTypedCell } from "./GridCell";
   import type { DataValue, Optional } from "src/lib/data";
   import { IconButton } from "obsidian-svelte";
   import GridCellGroup from "./GridCellGroup.svelte";
@@ -18,6 +18,7 @@
   export let row: GridRowModel;
   export let columns: GridColDef[];
   export let activeCell: [number, number];
+  export let color: string | null;
 
   setContext<string>("sourcePath", row["path"]);
 
@@ -87,9 +88,14 @@
     column={{ field: "", header: true, width: 60, editable: false }}
     rowHeader
     on:mousedown={handleHeaderClick()}
+    {color}
   >
-    <TextLabel slot="read" value={(index - 1).toString()} />
-    <IconButton slot="hover" icon="link" size="sm" on:click={onNavigate} />
+    <div slot="read" style="text-align: center;">
+      {(index - 1).toString()}
+    </div>
+    <div slot="hover" style="text-align: center;">
+      <IconButton icon="link" size="sm" on:click={onNavigate} />
+    </div>
   </GridCell>
 
   {#each columns as column, i}

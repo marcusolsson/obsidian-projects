@@ -1,27 +1,34 @@
 import { describe, expect, it } from "@jest/globals";
+import { either as E } from "fp-ts";
 import { encodeFrontMatter, stringifyYaml } from "./encode";
 
 describe("encodeFrontMatter", () => {
   it("should quote string if it contains illegal characters", () => {
     expect(
-      encodeFrontMatter(``, {
-        title1: "Notes: Who Needs Them?",
-        title2: "key:value",
-        title3: "key:",
-        title4: "- Title",
-        title5: "Title-",
-        title6: "-Title",
-      })
-    ).toStrictEqual(`---
+      encodeFrontMatter(
+        ``,
+        {
+          title1: "Notes: Who Needs Them?",
+          title2: "key:value",
+          title3: "key:",
+          title4: "- Title",
+          title5: "Title-",
+          title6: "-Title",
+        },
+        "PLAIN"
+      )
+    ).toStrictEqual(
+      E.right(`---
 title1: "Notes: Who Needs Them?"
 title2: key:value
-title3: key:
+title3: "key:"
 title4: "- Title"
 title5: Title-
 title6: -Title
 ---
 
-`);
+`)
+    );
   });
 
   it("should keep existing Markdown content", () => {
@@ -36,15 +43,18 @@ status: In progress
 `,
         {
           status: "Done",
-        }
+        },
+        "PLAIN"
       )
-    ).toStrictEqual(`
+    ).toStrictEqual(
+      E.right(`
 ---
 status: Done
 ---
 
 # My title
-`);
+`)
+    );
   });
 
   it("should keep existing properties", () => {
@@ -60,28 +70,37 @@ due: 1979-01-01
 `,
         {
           status: "Done",
-        }
+        },
+        "PLAIN"
       )
-    ).toStrictEqual(`
+    ).toStrictEqual(
+      E.right(`
 ---
 status: Done
 due: 1979-01-01
 ---
 
 # My title
-`);
+`)
+    );
   });
 
   it("should keep existing properties", () => {
     expect(
-      encodeFrontMatter(``, {
-        status: null,
-      })
-    ).toStrictEqual(`---
+      encodeFrontMatter(
+        ``,
+        {
+          status: null,
+        },
+        "PLAIN"
+      )
+    ).toStrictEqual(
+      E.right(`---
 status:
 ---
 
-`);
+`)
+    );
   });
 
   it("should handle null and undefined", () => {
@@ -101,17 +120,20 @@ test: 4
           foo: "5",
           bar: undefined,
           baz: null,
-        }
+        },
+        "PLAIN"
       )
-    ).toStrictEqual(`
+    ).toStrictEqual(
+      E.right(`
 ---
-foo: 5
+foo: "5"
 baz:
 test: 4
 ---
 
 # My title
-`);
+`)
+    );
   });
 });
 
@@ -119,7 +141,7 @@ describe("stringifyYaml", () => {
   it("should strip quotes from string types", () => {
     expect(
       stringifyYaml({ bar: "Hello world", foo: "[[Untitled.md]]" })
-    ).toStrictEqual("bar: Hello world\nfoo: [[Untitled.md]]\n");
+    ).toStrictEqual('bar: Hello world\nfoo: "[[Untitled.md]]"\n');
   });
 
   it("should encode non-string types", () => {
