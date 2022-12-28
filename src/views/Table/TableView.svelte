@@ -6,7 +6,6 @@
   import type { ViewApi } from "src/lib/view-api";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
-  import { InputDialogModal } from "src/modals/input-dialog";
   import type { ProjectDefinition } from "src/types";
 
   import type {
@@ -23,6 +22,8 @@
     ViewLayout,
     ViewToolbar,
   } from "src/components/Layout";
+  import { ConfigureFieldModal } from "src/modals/configure-field";
+  import { settings } from "src/lib/stores/settings";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -47,12 +48,11 @@
     })
     .map<GridColDef>((field) => {
       const colDef: GridColDef = {
+        ...field,
         field: field.name,
-        type: field.type,
         width: fieldConfig[field.name]?.width ?? 180,
         hide: fieldConfig[field.name]?.hide ?? false,
         editable: !field.derived,
-        repeated: !!field.repeated,
       };
 
       const weight = defaultWeight(field.name);
@@ -159,16 +159,30 @@
       }}
       onRowDelete={(id) => api.deleteRecord(id)}
       onColumnHide={(column) => handleVisibilityChange(column.field, false)}
-      onColumnRename={(field) => {
-        new InputDialogModal(
-          $app,
-          $i18n.t("views.table.rename-field"),
-          $i18n.t("views.table.rename"),
-          (value) => {
-            api.renameField(field, value);
-          },
-          field
-        ).open();
+      onColumnConfigure={(column) => {
+        const field = fields.find((field) => field.name === column.field);
+
+        if (field) {
+          new ConfigureFieldModal($app, "Configure field", field, (field) => {
+            if (field.name !== column.field) {
+              api.updateField(field, column.field);
+            } else {
+              api.updateField(field);
+            }
+            const projectFields = Object.fromEntries(
+              Object.entries(project.fieldConfig).filter(([key, _]) =>
+                fields.find((field) => field.name === key)
+              )
+            );
+            settings.updateProject({
+              ...project,
+              fieldConfig: {
+                ...projectFields,
+                [field.name]: field.typeConfig,
+              },
+            });
+          }).open();
+        }
       }}
       onColumnDelete={(field) => api.deleteField(field)}
       onRowChange={(rowId, row) => {

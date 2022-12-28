@@ -33,7 +33,7 @@
   export let onRowAdd: () => void;
   export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
   export let onRowNavigate: (rowId: GridRowId, openNew: boolean) => void;
-  export let onColumnRename: (field: string) => void;
+  export let onColumnConfigure: (column: GridColDef) => void;
   export let onColumnDelete: (field: string) => void;
   export let onColumnHide: (column: GridColDef) => void;
   export let onRowDelete: (rowId: GridRowId) => void;
@@ -54,9 +54,9 @@
     if (column.editable && !readonly) {
       menu.addItem((item) => {
         item
-          .setTitle(t("components.data-grid.column.rename"))
-          .setIcon("edit")
-          .onClick(() => onColumnRename(column.field));
+          .setTitle(t("components.data-grid.column.configure"))
+          .setIcon("settings")
+          .onClick(() => onColumnConfigure(column));
       });
       menu.addItem((item) => {
         item

@@ -37,13 +37,16 @@ export class ViewApi {
     this.dataApi.deleteRecord(recordId);
   }
 
-  renameField(from: string, to: string) {
-    dataFrame.renameField(from, to);
-    this.dataApi.renameField(
-      filesFromRecords(this.app, get(dataFrame).records),
-      from,
-      to
-    );
+  updateField(field: DataField, oldName?: string) {
+    dataFrame.updateField(field, oldName);
+
+    if (oldName) {
+      this.dataApi.renameField(
+        filesFromRecords(this.app, get(dataFrame).records),
+        oldName,
+        field.name
+      );
+    }
   }
 
   deleteField(field: string) {

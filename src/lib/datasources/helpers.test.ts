@@ -31,6 +31,7 @@ describe("parseRecords", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
       {
         name: "text",
@@ -38,6 +39,7 @@ describe("parseRecords", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
       {
         name: "boolean",
@@ -45,6 +47,7 @@ describe("parseRecords", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
       {
         name: "repeated",
@@ -52,6 +55,7 @@ describe("parseRecords", () => {
         identifier: false,
         derived: false,
         repeated: true,
+        typeConfig: {},
       },
     ];
 
@@ -107,6 +111,7 @@ describe("detectFields", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
       {
         name: "text",
@@ -114,6 +119,7 @@ describe("detectFields", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
       {
         name: "boolean",
@@ -121,6 +127,7 @@ describe("detectFields", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
       {
         name: "nullable",
@@ -128,6 +135,7 @@ describe("detectFields", () => {
         identifier: false,
         derived: false,
         repeated: false,
+        typeConfig: {},
       },
     ];
 

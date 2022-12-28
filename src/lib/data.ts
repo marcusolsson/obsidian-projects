@@ -1,5 +1,5 @@
 import type { TFile } from "obsidian";
-import type { ProjectDefinition } from "src/types";
+import type { FieldConfig, ProjectDefinition } from "src/types";
 import type { RecordError } from "./datasources/frontmatter/frontmatter";
 
 /**
@@ -35,6 +35,11 @@ export interface DataField {
    * type defines the data type for the field.
    */
   readonly type: DataFieldType;
+
+  /**
+   * typeConfig defines user-defined field information.
+   */
+  readonly typeConfig: FieldConfig;
 
   /**
    * repeated defines whether the field can have multiple values.
@@ -243,4 +248,8 @@ export function isStringLink(value: any): boolean {
     return /^\[\[(.*)\]\]$/.test(value);
   }
   return false;
+}
+
+export interface DataFieldSelectConfig {
+  options: string[];
 }

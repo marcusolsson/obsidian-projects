@@ -188,6 +188,7 @@ export function createProject(): ProjectDefinition {
     recursive: false,
     defaultName: "",
     templates: [],
+    fieldConfig: {},
     views: [
       {
         id: uuidv4(),

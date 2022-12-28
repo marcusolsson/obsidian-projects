@@ -83,11 +83,18 @@ export interface FilterCondition {
   readonly value?: string;
 }
 
+export type StringFieldConfig = {
+  options?: string[];
+};
+
+export type FieldConfig = StringFieldConfig;
+
 export interface WorkspaceDefinitionV0 {
   readonly name: string;
   readonly id: string;
   readonly path: string;
   readonly recursive: boolean;
+  readonly fieldConfig: { [field: string]: FieldConfig };
   readonly views: ViewDefinition[];
   readonly defaultName?: string;
   readonly templates?: string[];
