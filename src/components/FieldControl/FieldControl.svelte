@@ -26,12 +26,11 @@
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
-  $: options = ((field.typeConfig?.["options"] ?? []) as string[]).map(
-    (option) => ({
+  $: options =
+    field.typeConfig?.options?.map((option) => ({
       label: option,
       description: "",
-    })
-  );
+    })) ?? [];
 </script>
 
 {#if field.type === DataFieldType.Boolean}

@@ -66,7 +66,7 @@
     );
 
     if (groupByField?.type === DataFieldType.String) {
-      for (const option of groupByField?.typeConfig?.["options"] ?? []) {
+      for (const option of groupByField?.typeConfig?.options ?? []) {
         columns.add(option);
       }
     }

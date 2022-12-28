@@ -15,12 +15,11 @@
 
   let edit: boolean = false;
 
-  $: options = ((column.typeConfig?.["options"] ?? []) as string[]).map(
-    (option) => ({
+  $: options =
+    column.typeConfig?.options?.map((option) => ({
       label: option,
       description: "",
-    })
-  );
+    })) ?? [];
 </script>
 
 <GridCell

@@ -68,7 +68,7 @@
         vertical
       >
         <MultiTextInput
-          options={field.typeConfig?.["options"] ?? []}
+          options={field.typeConfig?.options ?? []}
           onChange={handleTypeConfigChange}
         />
       </SettingItem>
