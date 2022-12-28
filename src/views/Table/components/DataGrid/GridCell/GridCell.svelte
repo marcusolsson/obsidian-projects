@@ -10,7 +10,7 @@
   export let resizable: boolean = false;
   export let onResize: (width: number) => void = () => {};
   export let onFinalizeResize: (width: number) => void = () => {};
-  export let column: GridColDef;
+  export let column: Partial<GridColDef>;
   export let rowindex: number;
   export let colindex: number;
   export let columnHeader: boolean = false;

@@ -3,6 +3,7 @@ import { writable } from "svelte/store";
 
 import {
   DataFieldType,
+  type DataField,
   type DataFrame,
   type DataRecord,
   type DataSource,
@@ -48,16 +49,21 @@ function createDataFrame() {
         })
       );
     },
-    renameField(from: string, to: string) {
+    updateField(updated: DataField, oldName?: string) {
       update((state) =>
         produce(state, (draft) => {
-          draft.fields = draft.fields.map((field) =>
-            field.name === from
-              ? {
-                  ...field,
-                  name: to,
-                }
-              : field
+          draft.fields = draft.fields
+            .map((field) => (field.name === oldName ? updated : field))
+            .filter((field) => field.name !== oldName);
+
+          draft.records = draft.records.map((record) =>
+            produce(record, (draft) => {
+              if (oldName) {
+                // @ts-ignore
+                draft.values[updated.name] = draft.values[oldName];
+                delete draft.values[oldName];
+              }
+            })
           );
         })
       );
@@ -72,8 +78,8 @@ function createDataFrame() {
       );
     },
     merge(updated: DataFrame) {
-      update((existing) =>
-        produce(existing, (draft) => {
+      update((existing) => {
+        const res = produce(existing, (draft) => {
           // Merge records.
           const recordSet = Object.fromEntries(
             existing.records.map((record) => [record.id, record])
@@ -104,6 +110,13 @@ function createDataFrame() {
             }
           });
 
+          draft.fields = draft.fields.filter((field) =>
+            draft.records.some((record) => {
+              // @ts-ignore
+              return !!record.values[field.name];
+            })
+          );
+
           // Merge errors.
           const updatedIds = updated.records.map((record) => record.id);
 
@@ -114,8 +127,10 @@ function createDataFrame() {
 
           // Add new errors.
           draft.errors = [...draft.errors, ...(updated.errors ?? [])];
-        })
-      );
+        });
+
+        return res;
+      });
     },
   };
 }

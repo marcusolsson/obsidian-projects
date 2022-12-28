@@ -41,6 +41,17 @@ export class FrontMatterDataSource extends DataSource {
 
     let fields = detectSchema(res.right);
 
+    for (const f in this.project.fields) {
+      fields = fields.map<DataField>((field) =>
+        field.name !== f
+          ? field
+          : {
+              ...field,
+              userConfig: this.project.fields[f] ?? {},
+            }
+      );
+    }
+
     for (const predefinedField of predefinedFields ?? []) {
       fields = fields.map((field) =>
         field.name !== predefinedField.name

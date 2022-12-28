@@ -88,6 +88,7 @@ export interface WorkspaceDefinitionV0 {
   readonly id: string;
   readonly path: string;
   readonly recursive: boolean;
+  readonly fields: Record<string, Record<string, any>>;
   readonly views: ViewDefinition[];
   readonly defaultName?: string;
   readonly templates?: string[];

@@ -37,6 +37,11 @@ export interface DataField {
   readonly type: DataFieldType;
 
   /**
+   * userConfig defines user-defined field information.
+   */
+  readonly userConfig: Record<string, any>;
+
+  /**
    * repeated defines whether the field can have multiple values.
    */
   readonly repeated: boolean;
@@ -243,4 +248,8 @@ export function isStringLink(value: any): boolean {
     return /^\[\[(.*)\]\]$/.test(value);
   }
   return false;
+}
+
+export interface DataFieldSelectConfig {
+  options: string[];
 }

@@ -2,7 +2,7 @@
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";
 
-  import { TextInput } from "obsidian-svelte";
+  import { Autocomplete, TextInput } from "obsidian-svelte";
   import TextLabel from "./TextLabel.svelte";
   import type { Optional } from "src/lib/data";
 
@@ -14,6 +14,13 @@
   export let selected: boolean;
 
   let edit: boolean = false;
+
+  $: options = ((column.userConfig?.["options"] ?? []) as string[]).map(
+    (option) => ({
+      label: option,
+      description: "",
+    })
+  );
 </script>
 
 <GridCell
@@ -36,24 +43,47 @@
   }}
 >
   <TextLabel slot="read" value={value || ""} />
-  <TextInput
-    autoFocus
-    slot="edit"
-    value={value || ""}
-    embed
-    width="100%"
-    on:input={({ detail }) => (value = detail)}
-    on:blur={(event) => {
-      if (
-        event.currentTarget instanceof HTMLInputElement &&
-        event.relatedTarget instanceof HTMLDivElement &&
-        !event.relatedTarget.contains(event.currentTarget)
-      ) {
-        selected = false;
-        edit = false;
-      }
+  <svelte:fragment slot="edit">
+    {#if options.length > 0}
+      <Autocomplete
+        value={value || ""}
+        {options}
+        embed
+        autoFocus
+        on:change={({ detail }) => (value = detail)}
+        on:blur={({ detail: event }) => {
+          if (
+            event.currentTarget instanceof HTMLInputElement &&
+            event.relatedTarget instanceof HTMLDivElement &&
+            !event.relatedTarget.contains(event.currentTarget)
+          ) {
+            selected = false;
+            edit = false;
+          }
 
-      onChange(value);
-    }}
-  />
+          onChange(value);
+        }}
+      />
+    {:else}
+      <TextInput
+        autoFocus
+        value={value || ""}
+        embed
+        width="100%"
+        on:input={({ detail }) => (value = detail)}
+        on:blur={(event) => {
+          if (
+            event.currentTarget instanceof HTMLInputElement &&
+            event.relatedTarget instanceof HTMLDivElement &&
+            !event.relatedTarget.contains(event.currentTarget)
+          ) {
+            selected = false;
+            edit = false;
+          }
+
+          onChange(value);
+        }}
+      />
+    {/if}
+  </svelte:fragment>
 </GridCell>

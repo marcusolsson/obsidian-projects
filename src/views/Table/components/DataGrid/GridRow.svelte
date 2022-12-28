@@ -106,6 +106,7 @@
       value={row[column.field]}
       {column}
       onChange={(value) => {
+        console.log({ value });
         onRowChange(
           rowId,
           produce(row, (draft) => {

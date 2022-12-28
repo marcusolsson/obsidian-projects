@@ -84,7 +84,7 @@ export class ViewApi {
   addRecord(record: DataRecord, templatePath: string): void {}
   updateRecord(record: DataRecord, fields: DataField[]): void {}
   deleteRecord(recordId: string): void {}
-  renameField(from: string, to: string): void {}
+  updateField(field: DataField): void {}
   deleteField(field: string): void {}
 }
 export interface ProjectDefinition {
