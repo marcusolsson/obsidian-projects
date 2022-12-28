@@ -1,5 +1,5 @@
 import type { TFile } from "obsidian";
-import type { ProjectDefinition } from "src/types";
+import type { FieldConfig, ProjectDefinition } from "src/types";
 import type { RecordError } from "./datasources/frontmatter/frontmatter";
 
 /**
@@ -39,7 +39,7 @@ export interface DataField {
   /**
    * typeConfig defines user-defined field information.
    */
-  readonly typeConfig: Record<string, any>;
+  readonly typeConfig: FieldConfig;
 
   /**
    * repeated defines whether the field can have multiple values.

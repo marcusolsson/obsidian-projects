@@ -41,13 +41,13 @@ export class FrontMatterDataSource extends DataSource {
 
     let fields = detectSchema(res.right);
 
-    for (const f in this.project.fields) {
+    for (const f in this.project.fieldConfig) {
       fields = fields.map<DataField>((field) =>
         field.name !== f
           ? field
           : {
               ...field,
-              typeConfig: this.project.fields[f] ?? {},
+              typeConfig: this.project.fieldConfig[f] ?? {},
             }
       );
     }

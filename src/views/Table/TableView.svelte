@@ -170,13 +170,13 @@
               api.updateField(field);
             }
             const projectFields = Object.fromEntries(
-              Object.entries(project.fields).filter(([key, _]) =>
+              Object.entries(project.fieldConfig).filter(([key, _]) =>
                 fields.find((field) => field.name === key)
               )
             );
             settings.updateProject({
               ...project,
-              fields: {
+              fieldConfig: {
                 ...projectFields,
                 [field.name]: field.typeConfig,
               },

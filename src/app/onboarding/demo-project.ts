@@ -101,7 +101,7 @@ export async function createDemoProject(vault: Vault) {
     id: uuidv4(),
     path: demoFolder,
     recursive: false,
-    fields: {},
+    fieldConfig: {},
     views: [
       { name: "Table", id: uuidv4(), type: "table", config: tableConfig },
       { name: "Board", id: uuidv4(), type: "board", config: boardConfig },
