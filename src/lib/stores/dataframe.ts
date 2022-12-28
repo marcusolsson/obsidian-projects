@@ -78,8 +78,8 @@ function createDataFrame() {
       );
     },
     merge(updated: DataFrame) {
-      update((existing) => {
-        const res = produce(existing, (draft) => {
+      update((existing) =>
+        produce(existing, (draft) => {
           // Merge records.
           const recordSet = Object.fromEntries(
             existing.records.map((record) => [record.id, record])
@@ -127,10 +127,8 @@ function createDataFrame() {
 
           // Add new errors.
           draft.errors = [...draft.errors, ...(updated.errors ?? [])];
-        });
-
-        return res;
-      });
+        })
+      );
     },
   };
 }
