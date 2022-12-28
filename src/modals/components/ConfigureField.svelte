@@ -62,7 +62,11 @@
       />
     </SettingItem>
     {#if field.type === DataFieldType.String}
-      <SettingItem name="Options" description="">
+      <SettingItem
+        name="Options"
+        description="Predefined values for the field."
+        vertical
+      >
         <MultiTextInput
           options={field.typeConfig?.["options"] ?? []}
           onChange={handleTypeConfigChange}

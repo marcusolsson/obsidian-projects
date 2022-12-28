@@ -41,7 +41,7 @@
 <div>
   {#each options as option, i}
     <span>
-      <TextInput value={option} on:blur={handleOptionChange(i)} />
+      <TextInput width="100%" value={option} on:blur={handleOptionChange(i)} />
       <IconButton icon="cross" on:click={handleOptionRemove(i)} />
     </span>
   {/each}
@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    align-items: flex-end;
+    width: 100%;
   }
   span {
     display: flex;
