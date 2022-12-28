@@ -169,12 +169,16 @@
             } else {
               api.updateField(field);
             }
-
+            const projectFields = Object.fromEntries(
+              Object.entries(project.fields).filter(([key, _]) =>
+                fields.find((field) => field.name === key)
+              )
+            );
             settings.updateProject({
               ...project,
               fields: {
-                ...project.fields,
-                [field.name]: field.userConfig,
+                ...projectFields,
+                [field.name]: field.typeConfig,
               },
             });
           }).open();

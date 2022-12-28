@@ -15,7 +15,7 @@
 
   let edit: boolean = false;
 
-  $: options = ((column.userConfig?.["options"] ?? []) as string[]).map(
+  $: options = ((column.typeConfig?.["options"] ?? []) as string[]).map(
     (option) => ({
       label: option,
       description: "",

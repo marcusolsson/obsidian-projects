@@ -37,7 +37,7 @@ describe("board", () => {
     repeated: false,
     derived: false,
     identifier: false,
-    userConfig: {},
+    typeConfig: {},
   };
   const dueField: DataField = {
     name: "due",
@@ -45,7 +45,7 @@ describe("board", () => {
     repeated: false,
     derived: false,
     identifier: false,
-    userConfig: {},
+    typeConfig: {},
   };
 
   it("should sort prioritized records", () => {

@@ -26,7 +26,7 @@
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
-  $: options = ((field.userConfig?.["options"] ?? []) as string[]).map(
+  $: options = ((field.typeConfig?.["options"] ?? []) as string[]).map(
     (option) => ({
       label: option,
       description: "",

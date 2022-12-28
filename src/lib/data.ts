@@ -37,9 +37,9 @@ export interface DataField {
   readonly type: DataFieldType;
 
   /**
-   * userConfig defines user-defined field information.
+   * typeConfig defines user-defined field information.
    */
-  readonly userConfig: Record<string, any>;
+  readonly typeConfig: Record<string, any>;
 
   /**
    * repeated defines whether the field can have multiple values.

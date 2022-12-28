@@ -29,10 +29,10 @@
     };
   }
 
-  function handleUserConfigChange(options: string[]) {
+  function handleTypeConfigChange(options: string[]) {
     field = {
       ...field,
-      userConfig: {
+      typeConfig: {
         options,
       },
     };
@@ -64,8 +64,8 @@
     {#if field.type === DataFieldType.String}
       <SettingItem name="Options" description="">
         <MultiTextInput
-          options={field.userConfig?.["options"] ?? []}
-          onChange={handleUserConfigChange}
+          options={field.typeConfig?.["options"] ?? []}
+          onChange={handleTypeConfigChange}
         />
       </SettingItem>
     {/if}
