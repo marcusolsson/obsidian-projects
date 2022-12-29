@@ -30,7 +30,7 @@
   export let frame: DataFrame;
   export let readonly: boolean;
   export let api: ViewApi;
-  export let getRecordColor: (record: DataRecord) => string;
+  export let getRecordColor: (record: DataRecord) => string | null;
 
   export let config: BoardConfig | undefined;
   export let onConfigChange: (cfg: BoardConfig) => void;
