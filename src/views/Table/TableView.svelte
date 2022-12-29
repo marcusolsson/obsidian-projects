@@ -170,7 +170,7 @@
               api.updateField(field);
             }
             const projectFields = Object.fromEntries(
-              Object.entries(project.fieldConfig).filter(([key, _]) =>
+              Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
                 fields.find((field) => field.name === key)
               )
             );

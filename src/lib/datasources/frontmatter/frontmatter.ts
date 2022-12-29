@@ -47,7 +47,7 @@ export class FrontMatterDataSource extends DataSource {
           ? field
           : {
               ...field,
-              typeConfig: this.project.fieldConfig[f] ?? {},
+              typeConfig: this.project.fieldConfig?.[f] ?? {},
             }
       );
     }
