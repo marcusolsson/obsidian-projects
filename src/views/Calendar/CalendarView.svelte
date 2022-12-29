@@ -1,8 +1,6 @@
 <script lang="ts">
   import dayjs from "dayjs";
   import { Select, Typography } from "obsidian-svelte";
-  import { get } from "svelte/store";
-
   import { Field } from "src/components/Field";
   import {
     ViewContent,
@@ -22,7 +20,7 @@
     fieldToSelectableValue,
     setRecordColorContext,
   } from "src/views/helpers";
-
+  import { get } from "svelte/store";
   import {
     addInterval,
     chunkDates,
@@ -33,15 +31,12 @@
     isCalendarInterval,
     subtractInterval,
   } from "./calendar";
-  import {
-    CalendarDay,
-    Navigation,
-    Table,
-    TableBody,
-    TableColumnHeaderCell,
-    TableHead,
-    TableRow,
-  } from "./components";
+  import Calendar from "./components/Calendar/Calendar.svelte";
+  import Day from "./components/Calendar/Day.svelte";
+  import Week from "./components/Calendar/Week.svelte";
+  import Weekday from "./components/Calendar/Weekday.svelte";
+  import WeekHeader from "./components/Calendar/WeekHeader.svelte";
+  import Navigation from "./components/Navigation/Navigation.svelte";
   import type { CalendarConfig } from "./types";
 
   export let project: ProjectDefinition;
@@ -49,7 +44,6 @@
   export let readonly: boolean;
   export let api: ViewApi;
   export let getRecordColor: (record: DataRecord) => string | null;
-
   export let config: CalendarConfig | undefined;
   export let onConfigChange: (cfg: CalendarConfig) => void;
 
@@ -81,14 +75,7 @@
 
   $: numColumns = Math.min(dates.length, 7);
   $: weeks = chunkDates(dates, numColumns);
-  $: weekDays = dates.slice(0, numColumns).map((date) =>
-    $i18n.t("views.calendar.weekday", {
-      value: date.toDate(),
-      formatParams: {
-        value: { weekday: "short" },
-      },
-    })
-  );
+  $: weekDays = dates.slice(0, numColumns);
 
   function handleIntervalChange(interval: string) {
     if (isCalendarInterval(interval)) {
@@ -100,6 +87,49 @@
   }
   function handleCheckFieldChange(checkField: string) {
     onConfigChange({ ...config, checkField });
+  }
+
+  function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
+    if (dateField) {
+      api.updateRecord(
+        {
+          ...record,
+          values: {
+            ...record.values,
+            [dateField.name]: date.format("YYYY-MM-DD"),
+          },
+        },
+        fields
+      );
+    }
+  }
+
+  function handleRecordClick(entry: DataRecord) {
+    if (entry) {
+      new EditNoteModal(
+        get(app),
+        fields,
+        (record) => {
+          api.updateRecord(record, fields);
+        },
+        entry
+      ).open();
+    }
+  }
+
+  function handleRecordAdd(date: dayjs.Dayjs) {
+    if (dateField && !readonly) {
+      new CreateNoteModal($app, project, (name, templatePath) => {
+        if (dateField) {
+          api.addRecord(
+            createDataRecord(name, project, {
+              [dateField.name]: date.toDate(),
+            }),
+            templatePath
+          );
+        }
+      }).open();
+    }
   }
 
   setRecordColorContext(getRecordColor);
@@ -173,67 +203,40 @@
     </ViewToolbar>
   </ViewHeader>
   <ViewContent>
-    <Table grow>
-      <TableHead>
-        <TableRow>
-          {#each weekDays as weekDay}
-            <TableColumnHeaderCell>{weekDay}</TableColumnHeaderCell>
-          {/each}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {#each weeks as week}
-          <TableRow>
-            {#each week as date}
-              <CalendarDay
-                {date}
-                checkField={booleanField?.name}
-                onRecordUpdate={(date, record) => {
-                  if (dateField) {
-                    api.updateRecord(
-                      {
-                        ...record,
-                        values: {
-                          ...record.values,
-                          [dateField.name]: date.format("YYYY-MM-DD"),
-                        },
-                      },
-                      fields
-                    );
-                  }
-                }}
-                records={groupedRecords[date.format("YYYY-MM-DD")] || []}
-                onEntryClick={(entry) => {
-                  if (entry) {
-                    new EditNoteModal(
-                      get(app),
-                      fields,
-                      (record) => {
-                        api.updateRecord(record, fields);
-                      },
-                      entry
-                    ).open();
-                  }
-                }}
-                onEntryAdd={() => {
-                  if (dateField && !readonly) {
-                    new CreateNoteModal($app, project, (name, templatePath) => {
-                      if (dateField) {
-                        api.addRecord(
-                          createDataRecord(name, project, {
-                            [dateField.name]: date.toDate(),
-                          }),
-                          templatePath
-                        );
-                      }
-                    }).open();
-                  }
-                }}
-              />
-            {/each}
-          </TableRow>
+    <Calendar>
+      <WeekHeader>
+        {#each weekDays as weekDay}
+          <Weekday
+            width={100 / weekDays.length}
+            weekend={weekDay.day() === 0 || weekDay.day() === 6}
+            >{$i18n.t("views.calendar.weekday", {
+              value: weekDay.toDate(),
+              formatParams: {
+                value: { weekday: "short" },
+              },
+            })}</Weekday
+          >
         {/each}
-      </TableBody>
-    </Table>
+      </WeekHeader>
+      {#each weeks as week}
+        <Week height={100 / weeks.length}>
+          {#each week as date}
+            <Day
+              width={100 / week.length}
+              {date}
+              checkField={booleanField?.name}
+              records={groupedRecords[date.format("YYYY-MM-DD")] || []}
+              onRecordClick={handleRecordClick}
+              onRecordChange={(record) => {
+                handleRecordChange(date, record);
+              }}
+              onRecordAdd={() => {
+                handleRecordAdd(date);
+              }}
+            />
+          {/each}
+        </Week>
+      {/each}
+    </Calendar>
   </ViewContent>
 </ViewLayout>
