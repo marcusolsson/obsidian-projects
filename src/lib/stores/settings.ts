@@ -20,14 +20,6 @@ function createSettings() {
   return {
     set,
     subscribe,
-    saveLayout(projectId?: string, viewId?: string) {
-      update((state) =>
-        produce(state, (draft) => {
-          draft.lastProjectId = projectId;
-          draft.lastViewId = viewId;
-        })
-      );
-    },
     addProject(project: ProjectDefinition) {
       update((state) =>
         produce(state, (draft) => {
@@ -42,7 +34,6 @@ function createSettings() {
         })
       );
     },
-
     updatePreferences(prefs: ProjectsPluginPreferences) {
       update((state) =>
         produce(state, (draft) => {
