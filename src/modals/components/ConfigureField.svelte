@@ -61,7 +61,7 @@
         on:change={handleTypeChange}
       />
     </SettingItem>
-    {#if field.type === DataFieldType.String}
+    {#if field.type === DataFieldType.String && !field.repeated}
       <SettingItem
         name="Options"
         description="Predefined values for the field."
