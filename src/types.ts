@@ -94,7 +94,7 @@ export interface WorkspaceDefinitionV0 {
   readonly id: string;
   readonly path: string;
   readonly recursive: boolean;
-  readonly fieldConfig: { [field: string]: FieldConfig };
+  readonly fieldConfig?: { [field: string]: FieldConfig };
   readonly views: ViewDefinition[];
   readonly defaultName?: string;
   readonly templates?: string[];
