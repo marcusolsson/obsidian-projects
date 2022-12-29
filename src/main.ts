@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import updateLocale from "dayjs/plugin/updateLocale";
 import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
 import "obsidian-dataview";
 import { get, type Unsubscriber } from "svelte/store";
@@ -20,6 +21,7 @@ import { ProjectsSettingTab } from "./settings";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
+dayjs.extend(updateLocale);
 
 export interface ProjectsPluginSettings {
   readonly lastWorkspaceId?: string | undefined;

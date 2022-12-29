@@ -1,6 +1,6 @@
 <script lang="ts">
   import dayjs from "dayjs";
-  import { Select, Typography } from "obsidian-svelte";
+  import { IconButton, Select, Typography } from "obsidian-svelte";
   import { get } from "svelte/store";
 
   import { Field } from "src/components/Field";
@@ -33,6 +33,7 @@
     isCalendarInterval,
     subtractInterval,
   } from "./calendar";
+  import { CalendarSettingsModal } from "./settings/settings-modal";
   import {
     CalendarDay,
     Navigation,
@@ -57,9 +58,11 @@
 
   let anchorDate: dayjs.Dayjs = dayjs();
 
+  $: config = config
   $: dateFields = fields
     .filter((field) => !field.repeated)
     .filter((field) => field.type === DataFieldType.Date);
+
   $: dateField =
     dateFields.find((field) => config?.dateField === field.name) ??
     dateFields[0];
@@ -169,6 +172,15 @@
           ]}
           on:change={({ detail }) => handleIntervalChange(detail)}
         />
+				<IconButton
+        icon="settings"
+        on:click={() => {
+          new CalendarSettingsModal($app, config ?? {}, (value) => {
+            config = value;
+            onConfigChange(value);
+          }).open();
+        }}
+      />
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
