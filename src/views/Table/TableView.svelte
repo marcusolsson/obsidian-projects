@@ -169,18 +169,22 @@
             } else {
               api.updateField(field);
             }
+
             const projectFields = Object.fromEntries(
               Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
                 fields.find((field) => field.name === key)
               )
             );
-            settings.updateProject({
-              ...project,
-              fieldConfig: {
-                ...projectFields,
-                [field.name]: field.typeConfig,
-              },
-            });
+
+            if (field.typeConfig) {
+              settings.updateProject({
+                ...project,
+                fieldConfig: {
+                  ...projectFields,
+                  [field.name]: field.typeConfig,
+                },
+              });
+            }
           }).open();
         }
       }}

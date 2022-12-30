@@ -84,7 +84,7 @@
       />
     </SettingItem>
 
-    {#if project.templates?.length}
+    {#if project.templates.length}
       <SettingItem
         name={$i18n.t("modals.note.create.templatePath.name")}
         description={$i18n.t("modals.note.create.templatePath.description") ??

@@ -6,7 +6,7 @@ import type { RecordError } from "./datasources/frontmatter/frontmatter";
  * DataFrame is the core data structure that contains structured data for a
  * collection of notes.
  */
-export interface DataFrame {
+export type DataFrame = {
   /**
    * fields defines the schema for the data frame. Each field describes the
    * values in each DataRecord.
@@ -19,13 +19,13 @@ export interface DataFrame {
   readonly records: DataRecord[];
 
   readonly errors?: RecordError[];
-}
+};
 
 /**
  * DataField holds metadata for a value in DataRecord, for example a front
  * matter property.
  */
-export interface DataField {
+export type DataField = {
   /**
    * name references the a property (key) in the DataRecord values object.
    */
@@ -39,7 +39,7 @@ export interface DataField {
   /**
    * typeConfig defines user-defined field information.
    */
-  readonly typeConfig: FieldConfig;
+  readonly typeConfig?: FieldConfig;
 
   /**
    * repeated defines whether the field can have multiple values.
@@ -58,7 +58,7 @@ export interface DataField {
    * modified.
    */
   readonly derived: boolean;
-}
+};
 
 export enum DataFieldType {
   String = "string",
@@ -69,10 +69,10 @@ export enum DataFieldType {
   Unknown = "unknown",
 }
 
-export interface DataRecord {
+export type DataRecord = {
   readonly id: string;
   readonly values: Record<string, Optional<DataValue>>;
-}
+};
 
 export type DataValue =
   | string
@@ -113,12 +113,12 @@ export type Optional<T> =
   // null means that while the field exists, it doesn't yet have a value.
   | null;
 
-export interface Link {
+export type Link = {
   readonly displayName?: string;
   readonly linkText: string;
   readonly fullPath?: string;
   readonly sourcePath: string;
-}
+};
 
 export const emptyDataFrame: DataFrame = {
   records: [],
@@ -248,8 +248,4 @@ export function isStringLink(value: any): boolean {
     return /^\[\[(.*)\]\]$/.test(value);
   }
   return false;
-}
-
-export interface DataFieldSelectConfig {
-  options: string[];
 }

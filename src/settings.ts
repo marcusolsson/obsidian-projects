@@ -1,8 +1,8 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import type { ProjectsPluginPreferences } from "./main";
-import type ProjectsPlugin from "./main";
-import { get } from "svelte/store";
 import { settings } from "src/lib/stores/settings";
+import { get } from "svelte/store";
+import type ProjectsPlugin from "./main";
+import type { ProjectsPluginPreferences } from "./main";
 
 export class ProjectsSettingTab extends PluginSettingTab {
   constructor(app: App, readonly plugin: ProjectsPlugin) {
@@ -25,7 +25,7 @@ export class ProjectsSettingTab extends PluginSettingTab {
       dropdown
         .addOption("PLAIN", "If needed")
         .addOption("QUOTE_DOUBLE", "Always")
-        .setValue(preferences?.frontmatter?.quoteStrings ?? "PLAIN")
+        .setValue(preferences.frontmatter.quoteStrings)
         .onChange((value) => {
           if (value === "PLAIN" || value === "QUOTE_DOUBLE") {
             save({
