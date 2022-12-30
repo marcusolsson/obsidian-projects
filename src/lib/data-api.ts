@@ -5,7 +5,11 @@ import { normalizePath, TFile, type App } from "obsidian";
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 
-import type { ProjectDefinition } from "src/types";
+import {
+  DEFAULT_PROJECT,
+  DEFAULT_VIEW,
+  type ProjectDefinition,
+} from "src/types";
 
 import {
   isDate,
@@ -178,26 +182,20 @@ export function doRenameField(
 }
 
 export function createProject(): ProjectDefinition {
-  return {
+  return Object.assign({}, DEFAULT_PROJECT, {
     id: uuidv4(),
     name: nextUniqueProjectName(
       get(settings).projects,
       get(i18n).t("modals.project.create.untitled")
     ),
-    path: "",
-    recursive: false,
-    defaultName: "",
-    templates: [],
-    fieldConfig: {},
     views: [
-      {
+      Object.assign({}, DEFAULT_VIEW, {
         id: uuidv4(),
         name: get(i18n).t("views.table.name"),
         type: "table",
-        config: {},
-      },
+      }),
     ],
-  };
+  });
 }
 
 export function createDataRecord(

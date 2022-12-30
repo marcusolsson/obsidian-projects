@@ -117,8 +117,8 @@
       >
         <Icon name="palette" />
         Color
-        {#if view?.colors?.conditions.length}
-          <Flair variant="primary">{view?.colors?.conditions.length}</Flair>
+        {#if view?.colors.conditions.length}
+          <Flair variant="primary">{view?.colors.conditions.length}</Flair>
         {/if}
       </Button>
       <Popover
@@ -157,8 +157,8 @@
       >
         <Icon name="filter" />
         Filter
-        {#if view?.filter?.conditions.length}
-          <Flair variant="primary">{view?.filter?.conditions.length}</Flair>
+        {#if view?.filter.conditions.length}
+          <Flair variant="primary">{view?.filter.conditions.length}</Flair>
         {/if}
       </Button>
       <Popover

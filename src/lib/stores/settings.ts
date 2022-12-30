@@ -7,15 +7,21 @@ import {
   DEFAULT_SETTINGS,
   type ProjectsPluginPreferences,
   type ProjectsPluginSettings,
-  type ProjectsPluginSettingsV1,
 } from "src/main";
-import type { ProjectDefinition, ViewDefinition } from "src/types";
+import {
+  DEFAULT_PROJECT,
+  DEFAULT_VIEW,
+  type ProjectDefinition,
+  type UnsavedProjectDefinition,
+  type UnsavedViewDefinition,
+  type ViewDefinition,
+} from "src/types";
+import { either } from "fp-ts";
 
 function createSettings() {
-  const { set, update, subscribe } = writable<ProjectsPluginSettingsV1>({
-    version: 1,
-    projects: [],
-  });
+  const { set, update, subscribe } = writable<ProjectsPluginSettings>(
+    Object.assign({}, DEFAULT_SETTINGS)
+  );
 
   return {
     set,
@@ -238,32 +244,76 @@ function createSettings() {
 export const settings = createSettings();
 
 /**
- * migrateAny accepts the value from Plugin.loadData() and returns the most
+ * migrateSettings accepts the value from Plugin.loadData() and returns the most
  * recent settings. If needed, it applies any necessary migrations.
  */
-export function migrateAny(settings: any): ProjectsPluginSettingsV1 {
+export function migrateSettings(
+  settings: any
+): either.Either<Error, ProjectsPluginSettings> {
   if (!settings) {
-    return { version: 1, projects: [] };
+    return either.right(Object.assign({}, DEFAULT_SETTINGS));
   }
 
-  if ("version" in settings) {
-    return Object.assign(
-      {},
-      DEFAULT_SETTINGS,
-      settings as ProjectsPluginSettingsV1
-    );
+  if ("version" in settings && typeof settings.version === "number") {
+    // Apply defaults to any saved projects.
+    if ("projects" in settings && Array.isArray(settings.projects)) {
+      return either.tryCatch(() => {
+        return {
+          ...DEFAULT_SETTINGS,
+          ...settings,
+          projects: settings.projects.map(loadProject),
+        };
+      }, either.toError);
+    }
+
+    return either.right({
+      ...DEFAULT_SETTINGS,
+      ...settings,
+    });
   }
 
-  // If there's no version in the settings, then assume it's a pre-release (v0).
-  return migrate(settings as ProjectsPluginSettings);
+  return either.left(new Error("Missing version"));
 }
 
-// migrate migrates settings version 0 to version 1.
-function migrate(v0: ProjectsPluginSettings): ProjectsPluginSettingsV1 {
-  return {
-    version: 1,
-    lastProjectId: v0.lastWorkspaceId,
-    lastViewId: v0.lastViewId,
-    projects: v0.workspaces,
+// loadProject returns a complete project definition, or throws an exception.
+function loadProject(project: Partial<ProjectDefinition>): ProjectDefinition {
+  const res: UnsavedProjectDefinition = {
+    ...DEFAULT_PROJECT,
+    ...project,
   };
+
+  if ("name" in res && "id" in res) {
+    const { name, id } = res;
+
+    if (isString(name) && isString(id)) {
+      if ("views" in res && Array.isArray(res.views)) {
+        return { ...res, name, id, views: res.views.map(loadView) };
+      }
+      return { ...res, name, id, views: [] };
+    }
+  }
+
+  throw new Error("Invalid project definition");
 }
+
+// loadProject returns a complete view definition, or throws an exception.
+function loadView(view: Partial<ViewDefinition>): ViewDefinition {
+  const res: UnsavedViewDefinition = {
+    ...DEFAULT_VIEW,
+    ...view,
+  };
+
+  if ("name" in res && "id" in res && "type" in res) {
+    const { name, id, type } = res;
+
+    if (isString(name) && isString(id) && isString(type)) {
+      return { ...res, name, id, type };
+    }
+  }
+
+  throw new Error("Invalid view definition");
+}
+
+const isString = (value: unknown): value is string => {
+  return typeof value === "string";
+};
