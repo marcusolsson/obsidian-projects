@@ -8,6 +8,7 @@
   import type { DataField } from "src/lib/data";
 
   import { getTranslateXY } from "../timeline";
+	
 
   export let checked: boolean | null | undefined = undefined;
 
@@ -17,6 +18,7 @@
   export let parentwidth: number;
 
   export let record: DataRecord;
+	export let color: string | null = null;
 
   export let interval: string;
   export let dates: dayjs.Dayjs[];
@@ -163,7 +165,7 @@
   >
     <!-- If undefined, no field has been set. -->
     <!-- If null, field has been set, but note doesn't have the property. -->
-    <div class="entry-container">
+    <div class="entry-container" style={`background-color: ${color||"#0f0f10"}6b !important`}>
       {#if checked !== undefined && checked !== null}
         <Checkbox bind:checked on:check />
       {:else if checked === null && hover}
@@ -189,4 +191,5 @@
     width: inherit;
     height: auto;
   }
+	
 </style>

@@ -32,6 +32,7 @@ export class TimelineView extends ProjectView<TimelineConfig> {
         readonly: props.readonly,
         config: props.config,
         onConfigChange: props.saveConfig,
+				getRecordColor: props.getRecordColor,
       },
     });
   }

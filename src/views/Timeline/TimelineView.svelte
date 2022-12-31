@@ -4,7 +4,7 @@
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
 
-  import { DataFieldType, type DataFrame, type DataValue } from "src/lib/data";
+  import { DataFieldType, type DataFrame, type DataRecord, type DataValue } from "src/lib/data";
   import type { ProjectDefinition } from "src/types";
   import type { ViewApi } from "src/lib/view-api";
 
@@ -23,7 +23,6 @@
   import type { TimelineConfig } from "./types";
   import TimelineBackground from "./components/TimelineBackground.svelte";
 
-  import HorizontalGroup from "src/components/HorizontalGroup/HorizontalGroup.svelte";
   import { Field } from "src/components/Field";
   import { fieldToSelectableValue } from "../helpers";
   import TimelineEntry from "./components/TimelineEntry.svelte";
@@ -33,6 +32,7 @@
   import { get } from "svelte/store";
   import { onMount } from "svelte";
 
+
   export let project: ProjectDefinition;
   export let frame: DataFrame;
   export let readonly: boolean;
@@ -41,6 +41,8 @@
   export let config: TimelineConfig;
 
   export let onConfigChange: (cfg: TimelineConfig) => void;
+
+	export let getRecordColor: (record: DataRecord) => string | null;
 
   $: ({ fields, records } = frame);
 
@@ -203,6 +205,7 @@
   <div id="interacter" bind:this={thisTarget} bind:clientWidth={parentwidth}>
     {#each _records as record}
       <TimelineEntry
+			color={getRecordColor(record)}
         bind:changed
         {parentwidth}
         bind:dateInterval
