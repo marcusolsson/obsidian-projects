@@ -8,7 +8,7 @@
   import type { ProjectDefinition } from "src/types";
   import type { ViewApi } from "src/lib/view-api";
 
-  import { Navigation } from "../Calendar/components/Navigation";
+  import Navigation from "../Calendar/components/Navigation/Navigation.svelte";
   import { ViewToolbar } from "src/components/Layout";
 
   import {
