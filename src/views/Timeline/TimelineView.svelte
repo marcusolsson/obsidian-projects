@@ -131,7 +131,7 @@
         onToday={() => (anchorDate = dayjs())}
       />
       <Typography variant="h2" nomargin>{title}</Typography>
-      <HorizontalGroup>
+      <svelte:fragment slot="right">
         <Field name={$i18n.t("views.timeline.fields.startDate")}>
           <Select
             value={startDateField?.name ?? ""}
@@ -193,7 +193,7 @@
           ]}
           on:change={({ detail }) => handleIntervalChange(detail)}
         />
-      </HorizontalGroup>
+			</svelte:fragment>
     </ViewToolbar>
   </div>
   <TimelineBackground {interval} {dates} isOneDay={interval == "day"} />
