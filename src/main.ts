@@ -2,49 +2,51 @@ import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import isBetween from "dayjs/plugin/isBetween";
+import { either, task, taskEither } from "fp-ts";
+import { pipe } from "fp-ts/lib/function";
 import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
 import "obsidian-dataview";
-import { get, type Unsubscriber } from "svelte/store";
-
 import { createDataRecord, createProject } from "src/lib/data-api";
 import { api } from "src/lib/stores/api";
 import { i18n } from "src/lib/stores/i18n";
 import { app, plugin } from "src/lib/stores/obsidian";
-import { migrateAny, settings } from "src/lib/stores/settings";
+import { migrateSettings, settings } from "src/lib/stores/settings";
 import { CreateNoteModal } from "src/modals/create-note-modal";
 import { CreateProjectModal } from "src/modals/create-project-modal";
-
+import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
-import type { ProjectDefinition, WorkspaceDefinitionV0 } from "./types";
-import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 import { ProjectsSettingTab } from "./settings";
+import type { ProjectDefinition } from "./types";
+import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 dayjs.extend(isBetween);
 
-export interface ProjectsPluginSettings {
-  readonly lastWorkspaceId?: string | undefined;
-  readonly lastViewId?: string | undefined;
-  readonly workspaces: WorkspaceDefinitionV0[];
-}
-
-export interface ProjectsPluginPreferences {
-  readonly frontmatter?: {
-    readonly quoteStrings?: "PLAIN" | "QUOTE_DOUBLE";
+export type ProjectsPluginPreferences = {
+  readonly frontmatter: {
+    readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };
-}
+};
 
-export interface ProjectsPluginSettingsV1 {
-  readonly version: number;
+export type ProjectsPluginSettingsV1 = {
+  readonly version: 1;
   readonly lastProjectId?: string | undefined;
   readonly lastViewId?: string | undefined;
   readonly projects: ProjectDefinition[];
-  readonly preferences?: ProjectsPluginPreferences;
-}
+  readonly preferences: ProjectsPluginPreferences;
+};
 
-export const DEFAULT_SETTINGS: Partial<ProjectsPluginSettingsV1> = {
+export type ProjectsPluginSettings = ProjectsPluginSettingsV1;
+
+export const DEFAULT_SETTINGS: ProjectsPluginSettings = {
+  version: 1,
   projects: [],
+  preferences: {
+    frontmatter: {
+      quoteStrings: "PLAIN",
+    },
+  },
 };
 
 export default class ProjectsPlugin extends Plugin {
@@ -151,7 +153,8 @@ export default class ProjectsPlugin extends Plugin {
     // Initialize Svelte stores.
     app.set(this.app);
     plugin.set(this);
-    settings.set(migrateAny(await this.loadData()));
+
+    await this.loadSettings();
 
     registerFileEvents(this);
 
@@ -159,6 +162,24 @@ export default class ProjectsPlugin extends Plugin {
     this.unsubscribeSettings = settings.subscribe((value) => {
       this.saveData(value);
     });
+  }
+
+  async loadSettings() {
+    return pipe(
+      taskEither.tryCatch(() => this.loadData(), either.toError),
+      taskEither.map(migrateSettings),
+      taskEither.chain(taskEither.fromEither),
+      task.map(
+        either.fold(
+          (err) => {
+            throw err;
+          },
+          (value) => {
+            settings.set(value);
+          }
+        )
+      )
+    )();
   }
 
   async onunload() {

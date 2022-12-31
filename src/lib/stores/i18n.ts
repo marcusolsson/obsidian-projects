@@ -245,6 +245,7 @@ i18next.init({
         components: {
           "data-grid": {
             column: {
+              configure: "Configure field",
               rename: "Rename field",
               delete: "Delete field",
               hide: "Hide field",

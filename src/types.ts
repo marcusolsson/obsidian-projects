@@ -5,9 +5,20 @@ export interface ViewDefinition {
   readonly id: string;
   readonly type: ViewType;
   readonly config: Record<string, any>;
-  readonly filter?: FilterDefinition;
-  readonly colors?: ColorFilterDefinition;
+  readonly filter: FilterDefinition;
+  readonly colors: ColorFilterDefinition;
 }
+
+export type UnsavedViewDefinition = Omit<
+  ViewDefinition,
+  "name" | "id" | "type"
+>;
+
+export const DEFAULT_VIEW: UnsavedViewDefinition = {
+  config: {},
+  filter: { conditions: [] },
+  colors: { conditions: [] },
+};
 
 export interface FilterDefinition {
   readonly conditions: FilterCondition[];
@@ -83,18 +94,40 @@ export interface FilterCondition {
   readonly value?: string;
 }
 
-export interface WorkspaceDefinitionV0 {
+export type StringFieldConfig = {
+  options?: string[];
+};
+
+export type FieldConfig = StringFieldConfig;
+
+export type ProjectDefinition = {
   readonly name: string;
   readonly id: string;
   readonly path: string;
   readonly recursive: boolean;
+  readonly fieldConfig: { [field: string]: FieldConfig };
   readonly views: ViewDefinition[];
-  readonly defaultName?: string;
-  readonly templates?: string[];
-  readonly dataview?: boolean;
-  readonly query?: string;
-  readonly excludedNotes?: string[];
-  readonly isDefault?: boolean;
-}
+  readonly defaultName: string;
+  readonly templates: string[];
+  readonly dataview: boolean;
+  readonly query: string;
+  readonly excludedNotes: string[];
+  readonly isDefault: boolean;
+};
 
-export interface ProjectDefinition extends WorkspaceDefinitionV0 {}
+export type UnsavedProjectDefinition = Omit<
+  ProjectDefinition,
+  "name" | "id" | "views"
+>;
+
+export const DEFAULT_PROJECT: UnsavedProjectDefinition = {
+  path: "",
+  recursive: false,
+  fieldConfig: {},
+  defaultName: "",
+  templates: [],
+  dataview: false,
+  query: "",
+  excludedNotes: [],
+  isDefault: false,
+};

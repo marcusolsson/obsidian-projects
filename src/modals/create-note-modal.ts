@@ -29,7 +29,7 @@ export class CreateNoteModal extends Modal {
       target: this.contentEl,
       props: {
         name: this.project.defaultName
-          ? interpolateTemplate(this.project.defaultName ?? "", {
+          ? interpolateTemplate(this.project.defaultName, {
               date: (format) => moment().format(format || "YYYY-MM-DD"),
               time: (format) => moment().format(format || "HH:mm"),
             })

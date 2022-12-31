@@ -67,6 +67,12 @@ At the moment, depending on the type some values can't be parsed. For example, h
 
 Until then, make sure that the values for the field have the same format, to make it easier to detect the field type.
 
+### What about mobile support?
+
+I enabled the plugin to be installed on mobile devices in [#161](https://github.com/marcusolsson/obsidian-projects/issues/161). Unfortunately, it became clear the plugin needs more work in order to run well in the mobile app. Debugging plugins for Obsidian mobile is rather difficult at the moment, as you can only really test it by making a public release. 
+
+Rather than causing frustration while trying to enable the plugin, I've officially disabled mobile support for now. Let me know if you're interested in working on this.
+
 ## Learn more
 
 If you'd like to see Projects in action, check out any of these amazing resources made by users.
@@ -74,14 +80,17 @@ If you'd like to see Projects in action, check out any of these amazing resource
 ### Videos
 
 - 2022-12-10: [Use Obsidian for Content Creation | Build Notion-like Database Views](https://www.youtube.com/watch?v=Ds-VPz7jIwM) by [@amyjuanli](https://www.youtube.com/@amyjuanli)
+- 2022-12-06: [Créer un calendrier éditorial dans Obsidian : Le plugin Projects](https://www.youtube.com/watch?v=Wmx2EoQYrTI) by [@cerveaunumeriquefr](https://www.youtube.com/@cerveaunumeriquefr)
 - 2022-11-23: [Obsidian For Content Creators](https://www.youtube.com/watch?v=jovUqLbqS1Y) by [@FromSergio](https://www.youtube.com/@FromSergio)
 - 2022-11-18: [Notion-like content calendar in Obsidian](https://www.youtube.com/watch?v=ny8lksaQ5A8) by [@nicolevdh](https://www.youtube.com/@nicolevdh)
 - 2022-11-13: [Obsidian Projects: How to Manage Your Note-based Projects in Obsidian](https://www.youtube.com/watch?v=9d9ibSC1TXU) by [@beingpax](https://www.youtube.com/@beingpax)
 - 2022-11-07: [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) by [@nicolevdh](https://www.youtube.com/@nicolevdh) (interview)
 - 2022-11-07: [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo) by [@SniferL4bs](https://www.youtube.com/@SniferL4bs)
 
+
 ### Articles
 
 - [How to Set up and Maintain Your Academic Reading List in Obsidian](https://nataliekraneiss.com/your-academic-reading-list-in-obsidian/) by [Natalie Kraneiß](https://nataliekraneiss.com/)
+- [Obsidian Projects: A Better Way to Manage Text-Based Projects in Obsidian](https://beingpax.medium.com/obsidian-projects-a-better-way-to-manage-text-based-projects-in-obsidian-18c2a991069c) by [Prakash Joshi Pax](https://beingpax.medium.com/)
 
 _Did I miss any? Let me know and I'll add them to the list!_

@@ -7,6 +7,7 @@ import type { BoardConfig } from "src/views/Board/types";
 import type { CalendarConfig } from "src/views/Calendar/types";
 import type { GalleryConfig } from "src/views/Gallery/types";
 import type { TableConfig } from "src/views/Table/types";
+import { DEFAULT_PROJECT, DEFAULT_VIEW } from "src/types";
 
 export async function createDemoProject(vault: Vault) {
   const demoFolder = "Projects - Demo Project";
@@ -96,26 +97,37 @@ export async function createDemoProject(vault: Vault) {
     coverField: "image",
   };
 
-  settings.addProject({
-    name: "Demo project",
-    id: uuidv4(),
-    path: demoFolder,
-    recursive: false,
-    views: [
-      { name: "Table", id: uuidv4(), type: "table", config: tableConfig },
-      { name: "Board", id: uuidv4(), type: "board", config: boardConfig },
-      {
-        name: "Calendar",
-        id: uuidv4(),
-        type: "calendar",
-        config: calendarConfig,
-      },
-      {
-        name: "Gallery",
-        id: uuidv4(),
-        type: "gallery",
-        config: galleryConfig,
-      },
-    ],
-  });
+  settings.addProject(
+    Object.assign({}, DEFAULT_PROJECT, {
+      name: "Demo project",
+      id: uuidv4(),
+      path: demoFolder,
+      views: [
+        Object.assign({}, DEFAULT_VIEW, {
+          name: "Table",
+          id: uuidv4(),
+          type: "table",
+          config: tableConfig,
+        }),
+        Object.assign({}, DEFAULT_VIEW, {
+          name: "Board",
+          id: uuidv4(),
+          type: "board",
+          config: boardConfig,
+        }),
+        Object.assign({}, DEFAULT_VIEW, {
+          name: "Calendar",
+          id: uuidv4(),
+          type: "calendar",
+          config: calendarConfig,
+        }),
+        Object.assign({}, DEFAULT_VIEW, {
+          name: "Gallery",
+          id: uuidv4(),
+          type: "gallery",
+          config: galleryConfig,
+        }),
+      ],
+    })
+  );
 }

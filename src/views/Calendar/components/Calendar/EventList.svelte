@@ -1,7 +1,7 @@
 <script lang="ts">
   import { InternalLink } from "obsidian-svelte";
   import { getDisplayName } from "src/views/Board/components/Board/board-helpers";
-  import CalendarEntry from "./CalendarEntry.svelte";
+  import Event from "./Event.svelte";
   import { dndzone } from "svelte-dnd-action";
   import { app } from "src/lib/stores/obsidian";
   import type { DataRecord, DataValue, Optional } from "src/lib/data";
@@ -9,8 +9,9 @@
 
   export let records: DataRecord[];
   export let checkField: string | undefined;
-  export let onEntryClick: (record: DataRecord) => void;
-  export let onRecordUpdate: (record: DataRecord) => void;
+
+  export let onRecordClick: (record: DataRecord) => void;
+  export let onRecordChange: (record: DataRecord) => void;
 
   function asOptionalBoolean(value: Optional<DataValue>): Optional<boolean> {
     if (typeof value === "boolean") {
@@ -27,7 +28,7 @@
 
   function handleDndFinalize(e: CustomEvent<DndEvent<DataRecord>>) {
     records = e.detail.items;
-    records.forEach((item) => onRecordUpdate(item));
+    records.forEach(onRecordChange);
   }
 
   const getRecordColor = getRecordColorContext();
@@ -49,14 +50,14 @@
 >
   {#each records as record (record.id)}
     {#if getDisplayName(record.id)}
-      <CalendarEntry
+      <Event
         color={getRecordColor(record)}
         checked={checkField !== undefined
           ? asOptionalBoolean(record.values[checkField])
           : undefined}
         on:check={({ detail: checked }) => {
           if (checkField) {
-            onRecordUpdate({
+            onRecordChange({
               ...record,
               values: {
                 ...record.values,
@@ -66,7 +67,7 @@
           }
         }}
         on:click={() => {
-          onEntryClick(record);
+          onRecordClick(record);
         }}
       >
         <InternalLink
@@ -78,20 +79,24 @@
             if (newLeaf) {
               $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
             } else {
-              onEntryClick(record);
+              onRecordClick(record);
             }
           }}
         >
           {getDisplayName(record.id)}
         </InternalLink>
-      </CalendarEntry>
+      </Event>
     {/if}
   {/each}
 </div>
 
 <style>
   div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
   }
 </style>

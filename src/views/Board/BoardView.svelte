@@ -30,7 +30,7 @@
   export let frame: DataFrame;
   export let readonly: boolean;
   export let api: ViewApi;
-  export let getRecordColor: (record: DataRecord) => string;
+  export let getRecordColor: (record: DataRecord) => string | null;
 
   export let config: BoardConfig | undefined;
   export let onConfigChange: (cfg: BoardConfig) => void;
@@ -60,7 +60,35 @@
 
   $: groupedRecords = groupRecordsByField(records, groupByField?.name);
 
-  $: columns = Object.entries(groupedRecords).map((entry) => entry[0]);
+  function getColumns(records: Record<string, Array<DataRecord>>) {
+    const columns = new Set<string>(
+      Object.entries(records).map((entry) => entry[0])
+    );
+
+    if (groupByField?.type === DataFieldType.String) {
+      for (const option of groupByField?.typeConfig?.options ?? []) {
+        columns.add(option);
+      }
+    }
+
+    return [...columns]
+      .sort((a, b) => {
+        const aweight = config?.columns?.[a]?.weight ?? 0;
+        const bweight = config?.columns?.[b]?.weight ?? 0;
+
+        if (aweight < bweight) {
+          return -1;
+        } else if (aweight > bweight) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .map((column) => ({
+        id: column,
+        records: groupedRecords[column] ?? [],
+      }));
+  }
 
   function handleRecordClick(record: DataRecord) {
     new EditNoteModal(
@@ -173,23 +201,7 @@
           });
         }}
         {readonly}
-        columns={columns
-          .sort((a, b) => {
-            const aweight = config?.columns?.[a]?.weight ?? 0;
-            const bweight = config?.columns?.[b]?.weight ?? 0;
-
-            if (aweight < bweight) {
-              return -1;
-            } else if (aweight > bweight) {
-              return 1;
-            } else {
-              return 0;
-            }
-          })
-          .map((column) => ({
-            id: column,
-            records: groupedRecords[column] ?? [],
-          }))}
+        columns={getColumns(groupedRecords)}
         groupByPriority={priorityField}
         onRecordClick={handleRecordClick}
         onRecordAdd={handleRecordAdd}

@@ -14,7 +14,12 @@
   import { customViews } from "src/lib/stores/custom-views";
   import { i18n } from "src/lib/stores/i18n";
   import { settings } from "src/lib/stores/settings";
-  import type { ProjectDefinition, ViewDefinition, ViewType } from "src/types";
+  import {
+    DEFAULT_VIEW,
+    type ProjectDefinition,
+    type ViewDefinition,
+    type ViewType,
+  } from "src/types";
 
   export let onSave: (projectId: string, view: ViewDefinition) => void;
   export let project: ProjectDefinition;
@@ -92,14 +97,16 @@
     <Button
       variant="primary"
       on:click={() => {
-        onSave(project.id, {
-          id: uuidv4(),
-          name:
-            name ||
-            nextUniqueViewName(project.views, selectedOption?.label ?? type),
-          type,
-          config: {},
-        });
+        onSave(
+          project.id,
+          Object.assign({}, DEFAULT_VIEW, {
+            id: uuidv4(),
+            name:
+              name ||
+              nextUniqueViewName(project.views, selectedOption?.label ?? type),
+            type,
+          })
+        );
       }}>{$i18n.t("modals.view.create.cta")}</Button
     >
   </ModalButtonGroup>

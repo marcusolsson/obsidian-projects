@@ -72,6 +72,7 @@ export function detectFields(records: DataRecord[]): DataField[] {
     identifier: false,
     derived: false,
     repeated: values.some(Array.isArray),
+    typeConfig: {},
   }));
 }
 

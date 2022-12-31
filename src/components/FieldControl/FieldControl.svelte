@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { DateInput, NumberInput, Switch, TextInput } from "obsidian-svelte";
+  import {
+    Autocomplete,
+    DateInput,
+    NumberInput,
+    Switch,
+    TextInput,
+  } from "obsidian-svelte";
 
   import { TagList } from "src/components/TagList";
   import {
@@ -19,6 +25,12 @@
   export let value: Optional<DataValue>;
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
+
+  $: options =
+    field.typeConfig?.options?.map((option) => ({
+      label: option,
+      description: "",
+    })) ?? [];
 </script>
 
 {#if field.type === DataFieldType.Boolean}
@@ -29,11 +41,19 @@
 {:else if field.repeated && isOptionalList(value)}
   <TagList edit={true} values={value ?? []} {onChange} />
 {:else if field.type === DataFieldType.String}
-  <TextInput
-    value={isString(value) ? value : ""}
-    on:input={({ detail: value }) => onChange(value)}
-    {readonly}
-  />
+  {#if options.length > 0}
+    <Autocomplete
+      value={isString(value) ? value : ""}
+      {options}
+      on:change={({ detail }) => onChange(detail)}
+    />
+  {:else}
+    <TextInput
+      value={isString(value) ? value : ""}
+      on:input={({ detail: value }) => onChange(value)}
+      {readonly}
+    />
+  {/if}
 {:else if field.type === DataFieldType.Number}
   <NumberInput
     value={isNumber(value) ? value : null}

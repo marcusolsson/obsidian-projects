@@ -1,20 +1,18 @@
 import type { Menu } from "obsidian";
 import { isDate } from "util/types";
-import { DataFieldType, isNumber } from "../../../../lib/data";
+import { DataFieldType, isNumber, type DataField } from "../../../../lib/data";
 
 export type GridValidRowModel = { [key: string]: any };
 export type GridRowModel<R extends GridValidRowModel = GridValidRowModel> = R;
 export type GridColType = DataFieldType;
 
-export interface GridColDef {
+export interface GridColDef extends DataField {
   readonly field: string;
   readonly width?: number;
-  readonly type?: GridColType;
   readonly hide?: boolean;
   readonly editable?: boolean;
   readonly header?: boolean;
   readonly weight?: number;
-  readonly repeated?: boolean;
 }
 
 export type GridRowId = string;
@@ -98,7 +96,7 @@ export function sortColumns(columns: GridColDef[]): GridColDef[] {
     } else if (left > right) {
       return 1;
     } else {
-      return 0;
+      return a.name.localeCompare(b.name);
     }
   });
 }
