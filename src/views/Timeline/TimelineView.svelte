@@ -128,7 +128,10 @@
           changed -= 1;
           anchorDate = subtractInterval(anchorDate, interval);
         }}
-        onToday={() => (anchorDate = dayjs())}
+        onToday={() => {
+					(anchorDate = dayjs())
+					changed = 0;
+				}}
       />
       <Typography variant="h2" nomargin>{title}</Typography>
       <svelte:fragment slot="right">
