@@ -118,7 +118,7 @@
 
 <div>
   <div class="toolbar">
-    <ViewToolbar variant="primary">
+    <ViewToolbar variant="secondary">
       <Navigation slot="left"
         onNext={() => {
           changed += 1;
