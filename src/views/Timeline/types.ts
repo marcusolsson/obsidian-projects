@@ -5,5 +5,4 @@ export interface TimelineConfig {
   readonly endDateField?: string;
   readonly interval?: CalendarInterval;
   readonly checkField?: string;
-	readonly getRecordColor: (record: DataRecord) => string | null;
 }
