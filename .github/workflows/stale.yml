@@ -39,8 +39,7 @@ jobs:
           days-before-close: 30
           stale-issue-label: "lifecycle/stale"
           stale-pr-label: "lifecycle/stale"
-          exempt-issue-labels: "lifecycle/frozen"
+          exempt-issue-labels: "lifecycle/frozen,triage/confirmed"
           exempt-pr-labels: "lifecycle/frozen"
           close-issue-label: "lifecycle/rotten"
           close-pr-label: "lifecycle/rotten"
-          exempt-issue-labels: "triage/confirmed"
