@@ -10,7 +10,6 @@
 
   import {
     sortRows,
-    sortColumns,
     type GridColDef,
     type GridRowId,
     type GridRowModel,
@@ -42,7 +41,8 @@
   $: t = $i18n.t;
 
   $: visibleColumns = columns.filter((column) => !column.hide);
-  $: sortedColumns = sortColumns(visibleColumns);
+  // $: sortedColumns = sortColumns(visibleColumns);
+  $: sortedColumns = visibleColumns;
   $: sortedRows = sortRows(rows, sortModel);
 
   // [column, row]

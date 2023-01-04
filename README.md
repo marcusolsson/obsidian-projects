@@ -4,7 +4,7 @@
 [![Release Obsidian plugin](https://github.com/marcusolsson/obsidian-projects/actions/workflows/release.yml/badge.svg)](https://github.com/marcusolsson/obsidian-projects/actions/workflows/release.yml)
 ![Obsidian Downloads](https://img.shields.io/badge/dynamic/json?logo=obsidian&color=%23483699&label=downloads&query=%24%5B%22obsidian-projects%22%5D.downloads&url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json)
 [![Buy me a coffee](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/marcusolsson)
-[![Maintenance Status](https://img.shields.io/badge/maintenance-status-brightgreen)](https://github.com/marcusolsson/obsidian-projects/issues/158)
+[![Maintenance Status](https://img.shields.io/badge/maintenance-status-brightgreen)](https://github.com/marcusolsson/obsidian-projects/discussions)
 
 Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you manage and visualize notes for project management.
 
@@ -14,9 +14,13 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
-## Philosophy
+If you have any questions, or want to stay updated, join our [Discussions](https://github.com/marcusolsson/obsidian-projects/discussions).
 
-Design decisions are guided by the following principles:
+If you're curious about what we're working on right now, check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) and the [most requested features](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc).
+
+## Design Philosophy
+
+When developing any software, you often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
 
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
 - **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
@@ -24,56 +28,9 @@ Design decisions are guided by the following principles:
 
 ## Contribute
 
-Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) to see what's being worked on at the moment.
+For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
 
-Help me prioritize work by adding a :+1: reaction to issues that are important to you ([see the most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc)).
-
-For other ideas on how you can contribute, check the label on the issue:
-
-| Label                             | Valid for      | Description                                                                                               | Contribute                                                                    |
-| --------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `needs-triage`                    | `kind/*`       | I've seen the issue, but haven't had a chance to look into it.                                            |
-| `triage/needs-information`        | `kind/*`       | Issue lacks necessary information for me to make an informed decision.                                    | Share information about the issue or request.                                 |
-| `triage/not-reproducible`         | `kind/bug`     | Bugs that I haven't been able to confirm on my side.                                                      | Share clues or steps to reproduce the bug.                                    |
-| `triage/accepted`                 | `kind/*`       | Issue has been confirmed and receives a `priority/*` label.                                               |
-| `needs-design`                    | `kind/feature` | Issue needs design work before it can be worked on.                                                       | Share insights into how you'd like the feature to work.                       |
-| `priority/awaiting-more-evidence` | `kind/feature` | Issue is potentially useful, but needs more support from the community before it's ready to be worked on. | Add reaction to the issue, or explain how the feature would be useful to you. |
-| `priority/backlog`                | `kind/feature` | Issue is ready to be worked on.                                                                           | Add a comment in the issue if you'd like to work on it.                       |
-| `priority/critical`               | `kind/bug`     | Issue needs fixing before anything else.                                                                  | Have patience while I'm working on it :heart:                                 |
-
-## Troubleshooting
-
-This section lists common questions on how to use Obsidian Projects.
-
-### Why doesn't Projects detect my date fields?
-
-Projects only supports [ISO 8601](https://wikipedia.org/wiki/ISO_8601) date strings.
-
-For example:
-
-```md
----
-date: 2006-01-28
----
-
-# Weekly planning
-```
-
-### Why are some values missing?
-
-Projects tries to detect the field type based on the values from the notes in the project. If multiple field types are detected, for example `23` (number) and `false` (boolean), the plugin needs to guess the type and parse the remaining values as that type.
-
-At the moment, depending on the type some values can't be parsed. For example, how do you parse an array as a boolean? I'm planning to [display parsing errors](https://github.com/marcusolsson/obsidian-projects/issues/71) in a better way.
-
-Until then, make sure that the values for the field have the same format, to make it easier to detect the field type.
-
-### What about mobile support?
-
-I enabled the plugin to be installed on mobile devices in [#161](https://github.com/marcusolsson/obsidian-projects/issues/161). Unfortunately, it became clear the plugin needs more work in order to run well in the mobile app. Debugging plugins for Obsidian mobile is rather difficult at the moment, as you can only really test it by making a public release. 
-
-Rather than causing frustration while trying to enable the plugin, I've officially disabled mobile support for now. Let me know if you're interested in working on this.
-
-## Learn more
+## Learn More
 
 If you'd like to see Projects in action, check out any of these amazing resources made by users.
 

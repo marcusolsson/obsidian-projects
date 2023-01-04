@@ -13,6 +13,7 @@ import type { ProjectDefinition } from "src/types";
 
 import { array as A, either as E, function as F } from "fp-ts";
 import { standardizeRecord } from "./frontmatter-helpers";
+import produce from "immer";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
@@ -39,7 +40,7 @@ export class FrontMatterDataSource extends DataSource {
 
     const res = A.separate(standardizedRecords);
 
-    let fields = detectSchema(res.right);
+    let fields = this.sortFields(detectSchema(res.right));
 
     for (const f in this.project.fieldConfig) {
       fields = fields.map<DataField>((field) =>
@@ -63,6 +64,22 @@ export class FrontMatterDataSource extends DataSource {
     const records = parseRecords(res.right, fields);
 
     return { fields, records, errors: res.left };
+  }
+
+  sortFields(fields: DataField[]): DataField[] {
+    return produce(fields, (draft) => {
+      draft.sort((a, b) => {
+        if (a.name === "name" || a.name === "path") {
+          return -1;
+        }
+
+        if (b.name === "name" || b.name === "path") {
+          return 1;
+        }
+
+        return a.name.localeCompare(b.name);
+      });
+    });
   }
 
   includes(path: string): boolean {
