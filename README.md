@@ -14,6 +14,8 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
+> Curious about what we're working on right now? Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) and the [most requested features](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc).
+
 ## Philosophy
 
 Design decisions are guided by the following principles:
@@ -24,54 +26,7 @@ Design decisions are guided by the following principles:
 
 ## Contribute
 
-Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) to see what's being worked on at the moment.
-
-Help me prioritize work by adding a :+1: reaction to issues that are important to you ([see the most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc)).
-
-For other ideas on how you can contribute, check the label on the issue:
-
-| Label                             | Valid for      | Description                                                                                               | Contribute                                                                    |
-| --------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `needs-triage`                    | `kind/*`       | I've seen the issue, but haven't had a chance to look into it.                                            |
-| `triage/needs-information`        | `kind/*`       | Issue lacks necessary information for me to make an informed decision.                                    | Share information about the issue or request.                                 |
-| `triage/not-reproducible`         | `kind/bug`     | Bugs that I haven't been able to confirm on my side.                                                      | Share clues or steps to reproduce the bug.                                    |
-| `triage/accepted`                 | `kind/*`       | Issue has been confirmed and receives a `priority/*` label.                                               |
-| `needs-design`                    | `kind/feature` | Issue needs design work before it can be worked on.                                                       | Share insights into how you'd like the feature to work.                       |
-| `priority/awaiting-more-evidence` | `kind/feature` | Issue is potentially useful, but needs more support from the community before it's ready to be worked on. | Add reaction to the issue, or explain how the feature would be useful to you. |
-| `priority/backlog`                | `kind/feature` | Issue is ready to be worked on.                                                                           | Add a comment in the issue if you'd like to work on it.                       |
-| `priority/critical`               | `kind/bug`     | Issue needs fixing before anything else.                                                                  | Have patience while I'm working on it :heart:                                 |
-
-## Troubleshooting
-
-This section lists common questions on how to use Obsidian Projects.
-
-### Why doesn't Projects detect my date fields?
-
-Projects only supports [ISO 8601](https://wikipedia.org/wiki/ISO_8601) date strings.
-
-For example:
-
-```md
----
-date: 2006-01-28
----
-
-# Weekly planning
-```
-
-### Why are some values missing?
-
-Projects tries to detect the field type based on the values from the notes in the project. If multiple field types are detected, for example `23` (number) and `false` (boolean), the plugin needs to guess the type and parse the remaining values as that type.
-
-At the moment, depending on the type some values can't be parsed. For example, how do you parse an array as a boolean? I'm planning to [display parsing errors](https://github.com/marcusolsson/obsidian-projects/issues/71) in a better way.
-
-Until then, make sure that the values for the field have the same format, to make it easier to detect the field type.
-
-### What about mobile support?
-
-I enabled the plugin to be installed on mobile devices in [#161](https://github.com/marcusolsson/obsidian-projects/issues/161). Unfortunately, it became clear the plugin needs more work in order to run well in the mobile app. Debugging plugins for Obsidian mobile is rather difficult at the moment, as you can only really test it by making a public release. 
-
-Rather than causing frustration while trying to enable the plugin, I've officially disabled mobile support for now. Let me know if you're interested in working on this.
+For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
 
 ## Learn more
 
