@@ -14,6 +14,8 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
+If you have any questions, or want to stay updated, check out [Projects Discussions](https://github.com/marcusolsson/obsidian-projects/discussions).
+
 ## Philosophy
 
 Design decisions are guided by the following principles:
