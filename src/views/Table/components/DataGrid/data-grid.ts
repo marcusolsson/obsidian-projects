@@ -12,7 +12,6 @@ export interface GridColDef extends DataField {
   readonly hide?: boolean;
   readonly editable?: boolean;
   readonly header?: boolean;
-  readonly weight?: number;
 }
 
 export type GridRowId = string;
@@ -82,21 +81,6 @@ export function sortRows(
       return isAsc ? 1 : -1;
     } else {
       return 0;
-    }
-  });
-}
-
-export function sortColumns(columns: GridColDef[]): GridColDef[] {
-  return columns.sort((a, b): number => {
-    const left = a.weight ?? 9999;
-    const right = b.weight ?? 9999;
-
-    if (left < right) {
-      return -1;
-    } else if (left > right) {
-      return 1;
-    } else {
-      return a.name.localeCompare(b.name);
     }
   });
 }

@@ -18,6 +18,7 @@ import { i18n } from "src/lib/stores/i18n";
 import type { ProjectDefinition } from "src/types";
 
 import { standardizeValues } from "./dataview-helpers";
+import produce from "immer";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {
@@ -52,10 +53,31 @@ export class DataviewDataSource extends DataSource {
     const rows = parseTableResult(result.value);
 
     const standardizedRecords = this.standardizeRecords(rows);
-    const fields = detectSchema(standardizedRecords);
+    const fields = this.sortFields(
+      detectSchema(standardizedRecords),
+      result.value.headers
+    );
+
     const records = parseRecords(standardizedRecords, fields);
 
     return { fields, records };
+  }
+
+  sortFields(fields: DataField[], headers: string[]): DataField[] {
+    return produce(fields, (draft) => {
+      draft.sort((a, b) => {
+        const aval = headers.indexOf(a.name);
+        const bval = headers.indexOf(b.name);
+
+        const distance = aval - bval;
+
+        if (distance !== 0) {
+          return distance;
+        }
+
+        return a.name.localeCompare(b.name);
+      });
+    });
   }
 
   includes(path: string): boolean {

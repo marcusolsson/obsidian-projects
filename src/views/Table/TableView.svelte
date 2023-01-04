@@ -55,30 +55,13 @@
         editable: !field.derived,
       };
 
-      const weight = defaultWeight(field.name);
-
-      return weight ? { ...colDef, weight } : colDef;
+      return colDef;
     });
 
   $: rows = records.map<GridRowProps>(({ id, values }) => ({
     rowId: id,
     row: values,
   }));
-
-  function defaultWeight(field: string): number | undefined {
-    switch (field) {
-      // Special fields from FrontMatterDataSource
-      case "name":
-        return 1;
-      case "path":
-        return 2;
-      // Special field from DataviewDataSource
-      case "Field":
-        return 1;
-      default:
-        return undefined;
-    }
-  }
 
   function handleVisibilityChange(field: string, enabled: boolean) {
     config = {
