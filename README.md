@@ -14,11 +14,13 @@ Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you 
 
 For example, if you're a content manager, Projects can help you manage your content calendar. Create drafts, keep track of their status, and when they are scheduled to be published.
 
-> Curious about what we're working on right now? Check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) and the [most requested features](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc).
+If you have any questions, or want to stay updated, join our [Discussions](https://github.com/marcusolsson/obsidian-projects/discussions).
 
-## Philosophy
+If you're curious about what we're working on right now, check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) and the [most requested features](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc).
 
-Design decisions are guided by the following principles:
+## Design Philosophy
+
+When developing any software, you often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
 
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
 - **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
@@ -28,7 +30,7 @@ Design decisions are guided by the following principles:
 
 For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
 
-## Learn more
+## Learn More
 
 If you'd like to see Projects in action, check out any of these amazing resources made by users.
 
