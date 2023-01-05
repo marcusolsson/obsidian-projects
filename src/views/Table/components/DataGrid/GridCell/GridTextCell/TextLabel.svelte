@@ -4,6 +4,7 @@
   import { getContext } from "svelte";
 
   export let value: string;
+  export let richText: boolean = false;
 
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
@@ -33,7 +34,13 @@
   }
 </script>
 
-<div use:useMarkdown on:click={handleClick} on:keypress />
+{#if richText}
+  <div use:useMarkdown on:click={handleClick} on:keypress />
+{:else}
+  <div>
+    {value}
+  </div>
+{/if}
 
 <style>
   div {
