@@ -37,5 +37,30 @@ export class ProjectsSettingTab extends PluginSettingTab {
           }
         })
     );
+
+    new Setting(containerEl)
+      .setName("Experimental")
+      .setDesc(
+        "Experimental settings may be unstable and removed without notice."
+      )
+      .setHeading();
+
+    new Setting(containerEl)
+      .setName("Disable Link fields")
+      .setDesc(
+        "Link fields may interfere with text fields with rich-text formatting. By disabling Link fields, fields that were previously detected as Link fields will be detected as Text fields."
+      )
+      .addToggle((toggle) =>
+        toggle
+          .setValue(preferences.experimental.disableLinkFields)
+          .onChange((value) => {
+            save({
+              ...preferences,
+              experimental: {
+                disableLinkFields: value,
+              },
+            });
+          })
+      );
   }
 }

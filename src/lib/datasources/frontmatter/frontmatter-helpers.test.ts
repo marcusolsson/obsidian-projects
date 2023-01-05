@@ -3,21 +3,22 @@ import { standardizeRecord } from "./frontmatter-helpers";
 
 describe("frontmatter", () => {
   it("standardize", () => {
-    const record = standardizeRecord("foo.md", {
-      link: "[[Foo]]",
-      status: "done",
-      weight: 12,
-      published: true,
-      due: "2022-09-01",
-    });
+    const record = standardizeRecord(
+      "foo.md",
+      {
+        link: "[[Foo]]",
+        status: "done",
+        weight: 12,
+        published: true,
+        due: "2022-09-01",
+      },
+      true
+    );
 
     expect(record).toStrictEqual({
       id: "foo.md",
       values: {
-        link: {
-          linkText: "Foo",
-          sourcePath: "",
-        },
+        link: "[[Foo]]",
         status: "done",
         weight: 12,
         published: true,

@@ -14,13 +14,18 @@ import type { ProjectDefinition } from "src/types";
 import { array as A, either as E, function as F } from "fp-ts";
 import { standardizeRecord } from "./frontmatter-helpers";
 import produce from "immer";
+import type { ProjectsPluginPreferences } from "src/main";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
  */
 export class FrontMatterDataSource extends DataSource {
-  constructor(readonly app: App, project: ProjectDefinition) {
-    super(project);
+  constructor(
+    readonly app: App,
+    project: ProjectDefinition,
+    preferences: ProjectsPluginPreferences
+  ) {
+    super(project, preferences);
   }
 
   async queryOne(file: TFile, fields: DataField[]): Promise<DataFrame> {
@@ -36,7 +41,11 @@ export class FrontMatterDataSource extends DataSource {
   }
 
   async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
-    const standardizedRecords = await standardizeRecords(files, this.app.vault);
+    const standardizedRecords = await standardizeRecords(
+      files,
+      this.app.vault,
+      this.preferences.experimental.disableLinkFields
+    );
 
     const res = A.separate(standardizedRecords);
 
@@ -115,7 +124,8 @@ export class RecordError extends Error {
 
 export async function standardizeRecords(
   files: TFile[],
-  vault: Vault
+  vault: Vault,
+  disableLink: boolean
 ): Promise<E.Either<RecordError, DataRecord>[]> {
   return Promise.all(
     files.map(async (file) => {
@@ -129,7 +139,7 @@ export async function standardizeRecords(
           path: file.path,
           name: file.basename,
         })),
-        E.map((values) => standardizeRecord(file.path, values))
+        E.map((values) => standardizeRecord(file.path, values, disableLink))
       );
     })
   );

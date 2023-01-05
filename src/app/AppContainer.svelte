@@ -6,6 +6,7 @@
   import { DataviewDataSource } from "src/lib/datasources/dataview/dataview";
   import { FrontMatterDataSource } from "src/lib/datasources/frontmatter/frontmatter";
   import { dataFrame, dataSource } from "src/lib/stores/dataframe";
+  import { settings } from "src/lib/stores/settings";
   import { app } from "src/lib/stores/obsidian";
   import type { ProjectDefinition } from "src/types";
 
@@ -49,8 +50,8 @@
   // settings.
   function resolveDataSource(project: ProjectDefinition, app: App): DataSource {
     return project.dataview
-      ? new DataviewDataSource(app, project)
-      : new FrontMatterDataSource(app, project);
+      ? new DataviewDataSource(app, project, $settings.preferences)
+      : new FrontMatterDataSource(app, project, $settings.preferences);
   }
 
   const wait = () => new Promise((res) => setTimeout(res, 500));
