@@ -24,6 +24,7 @@
   } from "src/components/Layout";
   import { ConfigureFieldModal } from "src/modals/configure-field";
   import { settings } from "src/lib/stores/settings";
+  import { sortFields } from "./helpers";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -35,6 +36,10 @@
   export let onConfigChange: (cfg: TableConfig) => void;
 
   $: ({ fields, records } = frame);
+
+  $: {
+    fields = sortFields(fields, config?.orderFields ?? []);
+  }
 
   $: fieldConfig = config?.fieldConfig ?? {};
 
