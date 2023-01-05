@@ -1,10 +1,39 @@
 <script lang="ts">
+  import { MarkdownRenderer } from "obsidian";
+  import { app, view } from "src/lib/stores/obsidian";
+  import { getContext } from "svelte";
+
   export let value: string;
+
+  const sourcePath = getContext<string>("sourcePath") ?? "";
+
+  function useMarkdown(node: HTMLElement) {
+    MarkdownRenderer.renderMarkdown(value, node, sourcePath, $view);
+  }
+
+  function handleClick(event: MouseEvent) {
+    const targetEl = event.target as HTMLElement;
+    const closestAnchor =
+      targetEl.tagName === "A" ? targetEl : targetEl.closest("a");
+
+    if (!closestAnchor) {
+      return;
+    }
+
+    if (closestAnchor.hasClass("internal-link")) {
+      event.preventDefault();
+
+      const href = closestAnchor.getAttr("href");
+      const newLeaf = event.button === 1 || event.ctrlKey || event.metaKey;
+
+      if (href) {
+        $app.workspace.openLinkText(href, sourcePath, newLeaf);
+      }
+    }
+  }
 </script>
 
-<div>
-  {value}
-</div>
+<div use:useMarkdown on:click={handleClick} on:keypress />
 
 <style>
   div {
@@ -13,5 +42,13 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  div :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  div :global(p:last-child) {
+    margin-bottom: 0;
   }
 </style>
