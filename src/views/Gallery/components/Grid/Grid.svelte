@@ -1,4 +1,10 @@
-<div>
+<script lang="ts">
+  export let cardWidth: number;
+</script>
+
+<div
+  style={`grid-template-columns: repeat(auto-fill, minmax(${cardWidth}px, 1fr));`}
+>
   <slot />
 </div>
 
@@ -6,6 +12,5 @@
   div {
     display: grid;
     gap: 24px;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 </style>

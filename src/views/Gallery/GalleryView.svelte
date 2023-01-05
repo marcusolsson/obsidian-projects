@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Icon, InternalLink, Select, Typography } from "obsidian-svelte";
+  import {
+    Icon,
+    IconButton,
+    InternalLink,
+    Select,
+    Typography,
+  } from "obsidian-svelte";
 
   import { Field } from "src/components/Field";
   import {
@@ -26,6 +32,7 @@
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
+  import { GallerySettingsModal } from "./settings/settings-modal";
   import type { GalleryConfig } from "./types";
 
   export let frame: DataFrame;
@@ -129,13 +136,22 @@
           ]}
           on:change={({ detail }) => handleFitStyleChange(detail)}
         />
+        <IconButton
+          icon="settings"
+          on:click={() => {
+            new GallerySettingsModal($app, config ?? {}, (value) => {
+              config = value;
+              onConfigChange(value);
+            }).open();
+          }}
+        />
       </svelte:fragment>
     </ViewToolbar>
   </ViewHeader>
   <ViewContent>
     {#if records.length}
       <div>
-        <Grid>
+        <Grid cardWidth={config?.cardWidth ?? 300}>
           {#each records as record}
             {@const color = getRecordColor(record)}
             <Card>
