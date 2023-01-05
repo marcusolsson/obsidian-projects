@@ -18,7 +18,7 @@
   <ModalContent>
     <SettingItem name="Card width" description="Width of each card in pixels.">
       <NumberInput
-        placeholder="270"
+        placeholder="300"
         bind:value={cardWidthValue}
         on:blur={() =>
           onSave(
