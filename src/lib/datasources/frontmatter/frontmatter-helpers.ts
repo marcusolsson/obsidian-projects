@@ -6,16 +6,15 @@ import { isStringLink, type DataRecord, type Link } from "../../../lib/data";
  */
 export function standardizeRecord(
   id: string,
-  values: Record<string, any>
+  values: Record<string, any>,
+  disableLink: boolean
 ): DataRecord {
   return {
     id,
     values: Object.fromEntries(
       Object.entries(values).map(([field, value]) => {
-        return [
-          field,
-          isStringLink(value) ? parseStringLink(value, "") : value,
-        ];
+        const link = isStringLink(value) ? parseStringLink(value, "") : value;
+        return [field, disableLink ? value : link];
       })
     ),
   };

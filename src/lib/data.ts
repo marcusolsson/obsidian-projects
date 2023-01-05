@@ -1,4 +1,5 @@
 import type { TFile } from "obsidian";
+import type { ProjectsPluginPreferences } from "src/main";
 import type { FieldConfig, ProjectDefinition } from "src/types";
 import type { RecordError } from "./datasources/frontmatter/frontmatter";
 
@@ -129,11 +130,10 @@ export const emptyDataFrame: DataFrame = {
  * DataSource reads data frames from a project.
  */
 export abstract class DataSource {
-  readonly project: ProjectDefinition;
-
-  constructor(project: ProjectDefinition) {
-    this.project = project;
-  }
+  constructor(
+    readonly project: ProjectDefinition,
+    readonly preferences: ProjectsPluginPreferences
+  ) {}
 
   /**
    * queryAll returns a DataFrame with all records in the project.

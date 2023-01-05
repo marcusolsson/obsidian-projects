@@ -262,6 +262,7 @@ export function migrateSettings(
           ...DEFAULT_SETTINGS,
           ...settings,
           projects: settings.projects.map(loadProject),
+          preferences: Object.assign({}, DEFAULT_SETTINGS.preferences),
         };
       }, either.toError);
     }

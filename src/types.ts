@@ -96,6 +96,7 @@ export interface FilterCondition {
 
 export type StringFieldConfig = {
   options?: string[];
+  richText?: boolean;
 };
 
 export type FieldConfig = StringFieldConfig;
