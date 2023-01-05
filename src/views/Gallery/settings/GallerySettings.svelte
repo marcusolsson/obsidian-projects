@@ -14,7 +14,7 @@
   let cardWidthValue = config.cardWidth ?? null;
 </script>
 
-<ModalLayout title="Board settings">
+<ModalLayout title="Gallery settings">
   <ModalContent>
     <SettingItem name="Card width" description="Width of each card in pixels.">
       <NumberInput
