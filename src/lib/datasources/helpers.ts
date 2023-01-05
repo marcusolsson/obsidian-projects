@@ -47,6 +47,11 @@ export function parseRecords(
           }
           break;
         case DataFieldType.String:
+          if (isLink(value)) {
+            record.values[field.name] = `[[${value.linkText}${
+              value.displayName ? "|" + value.displayName : ""
+            }]]`;
+          }
           if (typeof value !== "object") {
             record.values[field.name] = value?.toLocaleString();
           }
