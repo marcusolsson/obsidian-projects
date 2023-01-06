@@ -217,6 +217,17 @@
         onRecordUpdate={(record) => {
           api.updateRecord(record, fields);
         }}
+				on:check={({ detail: checked }) => {
+          if (booleanField) {
+            api.updateRecord({
+              ...record,
+              values: {
+                ...record.values,
+                [booleanField.name]: checked,
+              },
+            }, fields);
+          }
+        }}
         onEntryClick={(id) => {
           const rec = records.find((a) => a.id == id);
           if (rec) {
