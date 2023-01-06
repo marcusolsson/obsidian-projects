@@ -19,6 +19,7 @@ import type { ProjectDefinition } from "src/types";
 
 import { standardizeValues } from "./dataview-helpers";
 import produce from "immer";
+import type { ProjectsPluginPreferences } from "src/main";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {
@@ -31,8 +32,12 @@ export class UnsupportedCapability extends Error {
  * DataviewDataSource converts Dataview queries to DataFrames.
  */
 export class DataviewDataSource extends DataSource {
-  constructor(readonly app: App, project: ProjectDefinition) {
-    super(project);
+  constructor(
+    readonly app: App,
+    project: ProjectDefinition,
+    preferences: ProjectsPluginPreferences
+  ) {
+    super(project, preferences);
   }
 
   async queryOne(): Promise<DataFrame> {

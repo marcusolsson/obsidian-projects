@@ -41,7 +41,11 @@
     onChange(await navigator.clipboard.readText());
   }}
 >
-  <TextLabel slot="read" value={value || ""} />
+  <TextLabel
+    slot="read"
+    richText={column.typeConfig?.richText ?? false}
+    value={value || ""}
+  />
   <svelte:fragment slot="edit">
     {#if options.length > 0}
       <Autocomplete

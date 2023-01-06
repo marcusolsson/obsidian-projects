@@ -6,6 +6,7 @@
     ModalLayout,
     Select,
     SettingItem,
+    Switch,
     TextInput,
   } from "obsidian-svelte";
   import MultiTextInput from "src/components/MultiTextInput/MultiTextInput.svelte";
@@ -29,11 +30,22 @@
     };
   }
 
-  function handleTypeConfigChange(options: string[]) {
+  function handleOptionsChange(options: string[]) {
     field = {
       ...field,
       typeConfig: {
+        ...field.typeConfig,
         options,
+      },
+    };
+  }
+
+  function handleRichTextChange({ detail: richText }: CustomEvent<boolean>) {
+    field = {
+      ...field,
+      typeConfig: {
+        ...field.typeConfig,
+        richText,
       },
     };
   }
@@ -69,7 +81,16 @@
       >
         <MultiTextInput
           options={field.typeConfig?.options ?? []}
-          onChange={handleTypeConfigChange}
+          onChange={handleOptionsChange}
+        />
+      </SettingItem>
+      <SettingItem
+        name="Enable rich text formatting"
+        description="For fields with Markdown content."
+      >
+        <Switch
+          checked={field.typeConfig?.richText ?? false}
+          on:check={handleRichTextChange}
         />
       </SettingItem>
     {/if}

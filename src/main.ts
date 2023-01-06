@@ -27,6 +27,9 @@ export type ProjectsPluginPreferences = {
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };
+  readonly experimental: {
+    readonly disableLinkFields: boolean;
+  };
 };
 
 export type ProjectsPluginSettingsV1 = {
@@ -45,6 +48,9 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings = {
   preferences: {
     frontmatter: {
       quoteStrings: "PLAIN",
+    },
+    experimental: {
+      disableLinkFields: false,
     },
   },
 };
