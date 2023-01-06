@@ -51,7 +51,7 @@
   #background {
     /* display: flex; */
     position: relative;
-    height: 100%;
+    height: 100vh;
   }
   .weekend {
     background-color: var(--background-secondary);

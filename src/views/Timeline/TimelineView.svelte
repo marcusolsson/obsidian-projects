@@ -256,5 +256,6 @@
   }
   div:not(.toolbar) {
     height: 100%;
+		position: relative;
   }
 </style>
