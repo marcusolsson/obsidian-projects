@@ -14,6 +14,7 @@
 
   export let title: string;
   export let field: DataField;
+  export let editable: boolean;
   export let onSave: (field: DataField) => void;
 
   function handleNameChange(value: CustomEvent<string>) {
@@ -55,7 +56,6 @@
     { label: "Number", value: DataFieldType.Number },
     { label: "Checkbox", value: DataFieldType.Boolean },
     { label: "Date", value: DataFieldType.Date },
-    { label: "Link", value: DataFieldType.Link },
     { label: "Unknown", value: DataFieldType.Unknown },
   ];
 </script>
@@ -63,7 +63,11 @@
 <ModalLayout {title}>
   <ModalContent>
     <SettingItem name="Name">
-      <TextInput value={field.name} on:input={handleNameChange} />
+      <TextInput
+        readonly={!editable}
+        value={field.name}
+        on:input={handleNameChange}
+      />
     </SettingItem>
     <SettingItem name="Type">
       <Select
@@ -73,7 +77,7 @@
         on:change={handleTypeChange}
       />
     </SettingItem>
-    {#if field.type === DataFieldType.String && !field.repeated}
+    {#if field.type === DataFieldType.String && !field.repeated && !field.identifier}
       <SettingItem
         name="Options"
         description="Predefined values for the field."

@@ -164,9 +164,6 @@ describe("detectCellType", () => {
 
   it("detects complex field types", () => {
     expect(detectCellType("2022-01-01")).toStrictEqual(DataFieldType.Date);
-    expect(
-      detectCellType({ linkText: "Foo", sourcePath: "Bar.md" })
-    ).toStrictEqual(DataFieldType.Link);
     expect(detectCellType({ my: "object" })).toStrictEqual(
       DataFieldType.Unknown
     );

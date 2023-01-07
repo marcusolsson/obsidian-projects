@@ -1,5 +1,5 @@
 import type { App } from "obsidian";
-import { DataviewApi, getAPI, isPluginEnabled } from "obsidian-dataview";
+import { DataviewApi, getAPI, isPluginEnabled, Link } from "obsidian-dataview";
 import { get } from "svelte/store";
 
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
@@ -9,11 +9,7 @@ import {
   type DataFrame,
   type DataRecord,
 } from "src/lib/data";
-import {
-  detectFields,
-  isLink,
-  parseRecords,
-} from "src/lib/datasources/helpers";
+import { detectFields, parseRecords } from "src/lib/datasources/helpers";
 import { i18n } from "src/lib/stores/i18n";
 import type { ProjectDefinition } from "src/types";
 
@@ -58,10 +54,25 @@ export class DataviewDataSource extends DataSource {
     const rows = parseTableResult(result.value);
 
     const standardizedRecords = this.standardizeRecords(rows);
-    const fields = this.sortFields(
+
+    let fields = this.sortFields(
       detectSchema(standardizedRecords),
       result.value.headers
     );
+
+    for (const f in this.project.fieldConfig) {
+      fields = fields.map<DataField>((field) =>
+        field.name !== f
+          ? field
+          : {
+              ...field,
+              typeConfig: {
+                ...this.project.fieldConfig?.[f],
+                ...field.typeConfig,
+              },
+            }
+      );
+    }
 
     const records = parseRecords(standardizedRecords, fields);
 
@@ -106,15 +117,11 @@ export class DataviewDataSource extends DataSource {
   standardizeRecords(rows: Array<Record<string, any>>): DataRecord[] {
     const records: DataRecord[] = [];
 
-    rows.forEach((row) => {
-      const values = standardizeValues(this.app, row);
-
-      const id = values["File"];
-
-      if (id && isLink(id) && id.fullPath) {
-        records.push({ id: id.fullPath, values });
-      }
-    });
+    rows
+      .map((row) => ({ id: row["File"] as Link, row }))
+      .forEach(({ id, row }) =>
+        records.push({ id: id.path, values: standardizeValues(row) })
+      );
 
     return records;
   }
@@ -143,6 +150,13 @@ function detectSchema(records: DataRecord[]): DataField[] {
   return detectFields(records)
     .map((field) => ({ ...field, derived: true }))
     .map((field) =>
-      field.name === "File" ? { ...field, identifier: true } : field
+      field.name === "File"
+        ? produce(field, (draft) => {
+            draft.identifier = true;
+            draft.typeConfig = produce(draft.typeConfig ?? {}, (draft) => {
+              draft.richText = true;
+            });
+          })
+        : field
     );
 }
