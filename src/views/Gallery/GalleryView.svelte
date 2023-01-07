@@ -16,7 +16,6 @@
   } from "src/components/Layout";
   import {
     DataFieldType,
-    isLink,
     isString,
     type DataFrame,
     type DataRecord,
@@ -45,10 +44,7 @@
 
   $: textFields = fields
     .filter((field) => !field.repeated)
-    .filter(
-      (field) =>
-        field.type === DataFieldType.String || field.type === DataFieldType.Link
-    );
+    .filter((field) => field.type === DataFieldType.String);
   $: coverField = textFields.find((field) => config?.coverField === field.name);
   $: fitStyle = config?.fitStyle ?? "cover";
 
@@ -68,10 +64,6 @@
         return coverPath;
       }
       return getResourcePathFromLinkText(coverPath);
-    }
-
-    if (isLink(coverPath)) {
-      return getResourcePathFromLinkText(coverPath.linkText);
     }
 
     return null;

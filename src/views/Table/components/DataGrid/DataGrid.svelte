@@ -31,8 +31,7 @@
   export let onColumnResize: (field: string, width: number) => void;
   export let onRowAdd: () => void;
   export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
-  export let onRowNavigate: (rowId: GridRowId, openNew: boolean) => void;
-  export let onColumnConfigure: (column: GridColDef) => void;
+  export let onColumnConfigure: (column: GridColDef, editable: boolean) => void;
   export let onColumnDelete: (field: string) => void;
   export let onColumnHide: (column: GridColDef) => void;
   export let onRowDelete: (rowId: GridRowId) => void;
@@ -49,15 +48,18 @@
   let activeCell: [number, number] = [3, 3];
 
   function createColumnMenu(column: GridColDef) {
+    const editable = !!column.editable && !readonly;
+
     const menu = new Menu();
 
-    if (column.editable && !readonly) {
-      menu.addItem((item) => {
-        item
-          .setTitle(t("components.data-grid.column.configure"))
-          .setIcon("settings")
-          .onClick(() => onColumnConfigure(column));
-      });
+    menu.addItem((item) => {
+      item
+        .setTitle(t("components.data-grid.column.configure"))
+        .setIcon("settings")
+        .onClick(() => onColumnConfigure(column, editable));
+    });
+
+    if (editable) {
       menu.addItem((item) => {
         item
           .setTitle(t("components.data-grid.column.delete"))
@@ -192,8 +194,6 @@
       color={colorModel(rowId)}
       onRowMenu={(rowId, row) => createRowMenu(rowId, row)}
       onCellMenu={(rowId, column) => createCellMenu(rowId, row, column)}
-      onNavigate={(event) =>
-        onRowNavigate(rowId, event.ctrlKey || event.metaKey)}
       on:navigate={({ detail: cell }) => {
         activeCell = [
           clamp(cell[0], 2, sortedColumns.length + 1),

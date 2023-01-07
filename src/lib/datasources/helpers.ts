@@ -5,7 +5,6 @@ import {
   type DataField,
   type DataRecord,
   type DataValue,
-  type Link,
   type Optional,
 } from "../../lib/data";
 
@@ -47,11 +46,6 @@ export function parseRecords(
           }
           break;
         case DataFieldType.String:
-          if (isLink(value)) {
-            record.values[field.name] = `[[${value.linkText}${
-              value.displayName ? "|" + value.displayName : ""
-            }]]`;
-          }
           if (typeof value !== "object") {
             record.values[field.name] = value?.toLocaleString();
           }
@@ -125,10 +119,6 @@ export function detectCellType(value: unknown): DataFieldType {
     return DataFieldType.Boolean;
   }
 
-  if (isLink(value)) {
-    return DataFieldType.Link;
-  }
-
   if (Array.isArray(value)) {
     return typeFromValues(value);
   }
@@ -138,13 +128,6 @@ export function detectCellType(value: unknown): DataFieldType {
   }
 
   return DataFieldType.Unknown;
-}
-
-export function isLink(value: unknown): value is Link {
-  if (value && typeof value === "object") {
-    return "linkText" in value && "sourcePath" in value;
-  }
-  return false;
 }
 
 function stringToBoolean(stringValue: string): boolean {

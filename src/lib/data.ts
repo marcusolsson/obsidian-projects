@@ -66,7 +66,6 @@ export enum DataFieldType {
   Number = "number",
   Boolean = "boolean",
   Date = "date",
-  Link = "link",
   Unknown = "unknown",
 }
 
@@ -80,7 +79,6 @@ export type DataValue =
   | number
   | boolean
   | Date
-  | Link
   | Array<Optional<DataValue>>;
 
 export function isOptionalDataValue(
@@ -113,13 +111,6 @@ export type Optional<T> =
   | undefined
   // null means that while the field exists, it doesn't yet have a value.
   | null;
-
-export type Link = {
-  readonly displayName?: string;
-  readonly linkText: string;
-  readonly fullPath?: string;
-  readonly sourcePath: string;
-};
 
 export const emptyDataFrame: DataFrame = {
   records: [],
@@ -179,13 +170,6 @@ export function isList(value: Optional<DataValue> | DataValue) {
   return Array.isArray(value);
 }
 
-export function isLink(value: Optional<DataValue> | DataValue): value is Link {
-  if (value && typeof value === "object") {
-    return "linkText" in value && "sourcePath" in value;
-  }
-  return false;
-}
-
 export function isNumber(
   value: Optional<DataValue> | DataValue
 ): value is number {
@@ -217,12 +201,6 @@ export function isOptionalString(
   value: Optional<DataValue>
 ): value is Optional<string> {
   return isString(value) || isOptional(value);
-}
-
-export function isOptionalLink(
-  value: Optional<DataValue>
-): value is Optional<Link> {
-  return isLink(value) || isOptional(value);
 }
 
 export function isOptionalList(

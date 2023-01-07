@@ -4,7 +4,6 @@
 
   import { GridCell, GridTypedCell } from "./GridCell";
   import type { DataValue, Optional } from "src/lib/data";
-  import { IconButton } from "obsidian-svelte";
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
@@ -29,7 +28,6 @@
     column: GridColDef,
     value: Optional<DataValue>
   ) => Menu;
-  export let onNavigate: (event: MouseEvent) => void;
 
   function handleHeaderClick(): (event: MouseEvent) => void {
     return (event: MouseEvent) => {
@@ -92,9 +90,6 @@
   >
     <div slot="read" style="text-align: center;">
       {(index - 1).toString()}
-    </div>
-    <div slot="hover" style="text-align: center;">
-      <IconButton icon="link" size="sm" on:click={onNavigate} />
     </div>
   </GridCell>
 

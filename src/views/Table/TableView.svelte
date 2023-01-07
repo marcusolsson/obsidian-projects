@@ -147,33 +147,41 @@
       }}
       onRowDelete={(id) => api.deleteRecord(id)}
       onColumnHide={(column) => handleVisibilityChange(column.field, false)}
-      onColumnConfigure={(column) => {
+      onColumnConfigure={(column, editable) => {
         const field = fields.find((field) => field.name === column.field);
 
         if (field) {
-          new ConfigureFieldModal($app, "Configure field", field, (field) => {
-            if (field.name !== column.field) {
-              api.updateField(field, column.field);
-            } else {
-              api.updateField(field);
-            }
+          new ConfigureFieldModal(
+            $app,
+            "Configure field",
+            field,
+            editable,
+            (field) => {
+              if (editable) {
+                if (field.name !== column.field) {
+                  api.updateField(field, column.field);
+                } else {
+                  api.updateField(field);
+                }
+              }
 
-            const projectFields = Object.fromEntries(
-              Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-                fields.find((field) => field.name === key)
-              )
-            );
+              const projectFields = Object.fromEntries(
+                Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+                  fields.find((field) => field.name === key)
+                )
+              );
 
-            if (field.typeConfig) {
-              settings.updateProject({
-                ...project,
-                fieldConfig: {
-                  ...projectFields,
-                  [field.name]: field.typeConfig,
-                },
-              });
+              if (field.typeConfig) {
+                settings.updateProject({
+                  ...project,
+                  fieldConfig: {
+                    ...projectFields,
+                    [field.name]: field.typeConfig,
+                  },
+                });
+              }
             }
-          }).open();
+          ).open();
         }
       }}
       onColumnDelete={(field) => api.deleteField(field)}
@@ -181,8 +189,6 @@
         api.updateRecord({ id: rowId, values: row }, fields);
       }}
       onColumnResize={handleWidthChange}
-      onRowNavigate={(rowId, openNew) =>
-        $app.workspace.openLinkText(rowId, "", openNew)}
       sortModel={{
         field: config?.sortField ?? "name",
         sort: config?.sortAsc ? "asc" : "desc",

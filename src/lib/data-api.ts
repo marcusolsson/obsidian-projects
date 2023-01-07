@@ -13,7 +13,6 @@ import {
 
 import {
   isDate,
-  isLink,
   type DataField,
   type DataRecord,
   type DataValue,
@@ -126,13 +125,6 @@ export function doUpdateRecord(
             isDate(entry[1])
               ? produce(entry, (draft) => {
                   draft[1] = dayjs(entry[1]).format("YYYY-MM-DD");
-                })
-              : entry
-          )
-          .map((entry) =>
-            isLink(entry[1])
-              ? produce(entry, (draft) => {
-                  draft[1] = `[[${draft[1].linkText}]]`;
                 })
               : entry
           )
