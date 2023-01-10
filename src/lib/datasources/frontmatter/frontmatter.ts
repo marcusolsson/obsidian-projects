@@ -41,11 +41,7 @@ export class FrontMatterDataSource extends DataSource {
   }
 
   async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
-    const standardizedRecords = await standardizeRecords(
-      files,
-      this.app.vault,
-      this.preferences.experimental.disableLinkFields
-    );
+    const standardizedRecords = await standardizeRecords(files, this.app.vault);
 
     const res = A.separate(standardizedRecords);
 
@@ -57,7 +53,10 @@ export class FrontMatterDataSource extends DataSource {
           ? field
           : {
               ...field,
-              typeConfig: this.project.fieldConfig?.[f] ?? {},
+              typeConfig: {
+                ...this.project.fieldConfig?.[f],
+                ...field.typeConfig,
+              },
             }
       );
     }
@@ -124,8 +123,7 @@ export class RecordError extends Error {
 
 export async function standardizeRecords(
   files: TFile[],
-  vault: Vault,
-  disableLink: boolean
+  vault: Vault
 ): Promise<E.Either<RecordError, DataRecord>[]> {
   return Promise.all(
     files.map(async (file) => {
@@ -137,9 +135,9 @@ export async function standardizeRecords(
         E.map((values) => ({
           ...values,
           path: file.path,
-          name: file.basename,
+          name: `[[${file.path}|${file.basename}]]`,
         })),
-        E.map((values) => standardizeRecord(file.path, values, disableLink))
+        E.map((values) => standardizeRecord(file.path, values))
       );
     })
   );
@@ -153,12 +151,21 @@ function filterUndefinedValues(val: Record<string, any>): Record<string, any> {
 
 export function detectSchema(records: DataRecord[]): DataField[] {
   return detectFields(records)
-    .map((field) =>
-      field.name === "name" || field.name === "path"
-        ? { ...field, derived: true }
+    .map<DataField>((field) =>
+      field.name === "name"
+        ? produce(field, (draft) => {
+            draft.derived = true;
+            draft.typeConfig = produce(field.typeConfig ?? {}, (draft) => {
+              draft.richText = true;
+            });
+          })
         : field
     )
-    .map((field) =>
-      field.name === "path" ? { ...field, identifier: true } : field
+    .map<DataField>((field) =>
+      field.name === "path"
+        ? produce(field, (draft) => {
+            draft.derived = true;
+          })
+        : field
     );
 }

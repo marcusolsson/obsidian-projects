@@ -2,7 +2,6 @@
   import {
     isOptionalBoolean,
     isOptionalDate,
-    isOptionalLink,
     isOptionalList,
     isOptionalNumber,
     isOptionalString,
@@ -17,7 +16,6 @@
   import { GridDateCell } from "./GridDateCell";
   import { GridNumberCell } from "./GridNumberCell";
   import { GridTextCell } from "./GridTextCell";
-  import { GridLinkCell } from "./GridLinkCell";
   import { GridListCell } from "./GridListCell";
 
   export let value: Optional<DataValue>;
@@ -74,17 +72,6 @@
   />
 {:else if column.type === "date" && isOptionalDate(value)}
   <GridDateCell
-    {selected}
-    {rowindex}
-    {colindex}
-    {value}
-    {onChange}
-    {column}
-    on:mousedown
-    on:navigate
-  />
-{:else if column.type === "link" && isOptionalLink(value)}
-  <GridLinkCell
     {selected}
     {rowindex}
     {colindex}

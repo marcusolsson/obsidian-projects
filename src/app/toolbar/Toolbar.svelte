@@ -127,6 +127,7 @@
         onClose={() => {
           colorOpen = false;
         }}
+        placement="auto"
       >
         <ColorFilterSettings
           filter={view?.colors ?? {
@@ -167,6 +168,7 @@
         onClose={() => {
           filterOpen = false;
         }}
+        placement="auto"
       >
         <FilterSettings
           filter={view?.filter ?? {

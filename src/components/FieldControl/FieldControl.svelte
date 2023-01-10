@@ -12,7 +12,6 @@
     DataFieldType,
     isBoolean,
     isDate,
-    isLink,
     isNumber,
     isOptionalList,
     isString,
@@ -65,14 +64,5 @@
     value={isDate(value) ? value : null}
     on:change={({ detail: value }) =>
       onChange(value != null ? value : undefined)}
-  />
-{:else if field.type === DataFieldType.Link}
-  <TextInput
-    value={isLink(value) ? value.linkText : ""}
-    on:input={({ detail: val }) => {
-      if (isLink(value)) {
-        onChange({ ...value, linkText: val });
-      }
-    }}
   />
 {/if}

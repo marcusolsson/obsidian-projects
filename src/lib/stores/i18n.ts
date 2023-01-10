@@ -12,7 +12,6 @@ i18next.init({
           number: "Number",
           boolean: "True or false",
           date: "Date",
-          link: "Link",
           unknown: "Unknown data type",
           repeated: "Repeated field",
         },
