@@ -31,6 +31,7 @@
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
+  import { parseObsidianLink } from "./helpers";
   import { GallerySettingsModal } from "./settings/settings-modal";
   import type { GalleryConfig } from "./types";
 
@@ -70,7 +71,9 @@
   }
 
   function getResourcePathFromLinkText(text: string) {
-    const file = $app.metadataCache.getFirstLinkpathDest(text, "");
+    const linkText = parseObsidianLink(text)?.linkText || text;
+
+    const file = $app.metadataCache.getFirstLinkpathDest(linkText, "");
 
     if (file) {
       if (
