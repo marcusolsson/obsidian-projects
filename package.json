@@ -1,7 +1,7 @@
 {
   "name": "obsidian-projects",
-  "version": "1.10.0",
-  "description": "Obsidian plugin for project management.",
+  "version": "1.10.1",
+  "description": "Plain text project planning for Obsidian",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
