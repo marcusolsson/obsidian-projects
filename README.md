@@ -1,8 +1,10 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./images/dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="./images/light.svg">
-  <h1>Obsidian Projects</h1>
+  <img alt="Projects logo" src="./images/light.svg">
 </picture>
+
+# Projects for Obsidian
 
 [![Build Obsidian plugin](https://github.com/marcusolsson/obsidian-projects/actions/workflows/ci.yml/badge.svg)](https://github.com/marcusolsson/obsidian-projects/actions/workflows/ci.yml)
 [![Release Obsidian plugin](https://github.com/marcusolsson/obsidian-projects/actions/workflows/release.yml/badge.svg)](https://github.com/marcusolsson/obsidian-projects/actions/workflows/release.yml)
@@ -10,7 +12,7 @@
 [![Buy me a coffee](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/marcusolsson)
 [![Maintenance Status](https://img.shields.io/badge/maintenance-status-brightgreen)](https://github.com/marcusolsson/obsidian-projects/discussions)
 
-Obsidian Projects is a plugin for [Obsidian](https://obsidian.md) that lets you manage and visualize notes for project management.
+Projects is a plugin for [Obsidian](https://obsidian.md) that lets you manage and visualize notes for project management.
 
 - Create projects from folders and Dataview queries.
 - Switch between four different views: _Table_, _Board_, _Calendar_, and _Gallery_.
