@@ -1,7 +1,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./images/dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="./images/light.svg">
-  <img alt="Projects logo" src="./images/light.svg">
+  <h1>Obsidian Projects</h1>
 </picture>
 
 [![Build Obsidian plugin](https://github.com/marcusolsson/obsidian-projects/actions/workflows/ci.yml/badge.svg)](https://github.com/marcusolsson/obsidian-projects/actions/workflows/ci.yml)
