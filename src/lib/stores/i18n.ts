@@ -54,7 +54,7 @@ i18next.init({
             delete: {
               "short-title": "Delete project",
               title: "Delete project",
-              message: "Are you sure you want to delete the project?",
+              message: 'Are you sure you want to delete "{{project}}"?',
               cta: "Delete",
             },
             name: {
