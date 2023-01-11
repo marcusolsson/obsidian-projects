@@ -19,6 +19,21 @@ export class ProjectsSettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
+    new Setting(containerEl)
+      .setName("Project size limit")
+      .setDesc("Avoid accidentally loading too many notes. Increasing ")
+      .addText((text) =>
+        text
+          .setValue(preferences.projectSizeLimit.toString())
+          .setPlaceholder("1000")
+          .onChange((value) => {
+            save({
+              ...preferences,
+              projectSizeLimit: parseInt(value) || 1000,
+            });
+          })
+      );
+
     new Setting(containerEl).setName("Front matter").setHeading();
 
     new Setting(containerEl).setName("Quote strings").addDropdown((dropdown) =>

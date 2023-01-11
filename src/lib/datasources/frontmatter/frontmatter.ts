@@ -6,7 +6,11 @@ import {
   type DataFrame,
   type DataRecord,
 } from "src/lib/data";
-import { detectFields, parseRecords } from "src/lib/datasources/helpers";
+import {
+  detectFields,
+  parseRecords,
+  TooManyNotesError,
+} from "src/lib/datasources/helpers";
 import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
 import type { ProjectDefinition } from "src/types";
@@ -36,6 +40,13 @@ export class FrontMatterDataSource extends DataSource {
     const files = this.app.vault
       .getMarkdownFiles()
       .filter((file) => this.includes(file.path));
+
+    if (files.length > this.preferences.projectSizeLimit) {
+      throw new TooManyNotesError(
+        files.length,
+        this.preferences.projectSizeLimit
+      );
+    }
 
     return this.queryFiles(files);
   }

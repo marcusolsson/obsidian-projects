@@ -22,6 +22,7 @@ dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
 export type ProjectsPluginPreferences = {
+  readonly projectSizeLimit: number;
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };
@@ -41,6 +42,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings = {
   version: 1,
   projects: [],
   preferences: {
+    projectSizeLimit: 1000,
     frontmatter: {
       quoteStrings: "PLAIN",
     },
