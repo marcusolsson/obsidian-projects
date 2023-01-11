@@ -14,7 +14,6 @@ parser.add_argument(
     "-n",
     "--numfiles",
     type=int,
-    default=50,
     required=True,
     help="Number of files to generate.",
 )
