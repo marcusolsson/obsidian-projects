@@ -8,6 +8,7 @@ import { CalendarView } from "src/views/Calendar";
 // import { DeveloperView } from "src/views/Developer";
 import { GalleryView } from "src/views/Gallery";
 import { TableView } from "src/views/Table";
+import { TimelineView } from "./views/Timeline/timeline-view";
 
 import type { ProjectView } from "./custom-view-api";
 import type ProjectsPlugin from "./main";
@@ -76,6 +77,7 @@ export class ProjectsView extends ItemView {
     views["board"] = new BoardView();
     views["calendar"] = new CalendarView();
     views["gallery"] = new GalleryView();
+		views["timeline"] = new TimelineView();
     // views["developer"] = new DeveloperView();
 
     return views;

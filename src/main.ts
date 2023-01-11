@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import isBetween from "dayjs/plugin/isBetween";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
 import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
@@ -20,6 +21,7 @@ import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
+dayjs.extend(isBetween);
 
 export type ProjectsPluginPreferences = {
   readonly projectSizeLimit: number;
