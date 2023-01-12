@@ -22,7 +22,7 @@
     type FilterOperator,
     type NumberFilterOperator,
     type StringFilterOperator,
-  } from "src/types";
+  } from "src/settings/settings";
 
   export let filter: ColorFilterDefinition;
   export let fields: DataField[];

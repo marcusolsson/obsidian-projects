@@ -5,9 +5,9 @@ import { get } from "svelte/store";
 import { nextUniqueFileName } from "src/lib/helpers";
 import { i18n } from "src/lib/stores/i18n";
 import { interpolateTemplate } from "src/lib/templates";
-import type { ProjectDefinition } from "src/types";
 
 import CreateNote from "./components/CreateNote.svelte";
+import type { ProjectDefinition } from "src/settings/settings";
 
 export class CreateNoteModal extends Modal {
   component?: CreateNote;

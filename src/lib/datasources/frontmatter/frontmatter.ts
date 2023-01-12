@@ -13,12 +13,14 @@ import {
 } from "src/lib/datasources/helpers";
 import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
-import type { ProjectDefinition } from "src/types";
 
 import { array as A, either as E, function as F } from "fp-ts";
 import { standardizeRecord } from "./frontmatter-helpers";
 import produce from "immer";
-import type { ProjectsPluginPreferences } from "src/main";
+import type {
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.

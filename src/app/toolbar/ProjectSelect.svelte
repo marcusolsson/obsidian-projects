@@ -8,7 +8,7 @@
   import { settings } from "src/lib/stores/settings";
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
   import { CreateProjectModal } from "src/modals/create-project-modal";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let projectId: string | undefined;
   export let projects: ProjectDefinition[];

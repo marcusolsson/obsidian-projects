@@ -2,6 +2,7 @@ import type { App } from "obsidian";
 import { DataviewApi, getAPI, isPluginEnabled, Link } from "obsidian-dataview";
 import { get } from "svelte/store";
 
+import produce from "immer";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {
   DataSource,
@@ -12,11 +13,11 @@ import {
 } from "src/lib/data";
 import { detectFields, parseRecords } from "src/lib/datasources/helpers";
 import { i18n } from "src/lib/stores/i18n";
-import type { ProjectDefinition } from "src/types";
-
+import type {
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 import { standardizeValues } from "./dataview-helpers";
-import produce from "immer";
-import type { ProjectsPluginPreferences } from "src/main";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {

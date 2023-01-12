@@ -23,7 +23,7 @@
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
   import { interpolateTemplate } from "src/lib/templates";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let title: string;
   export let cta: string;

@@ -19,7 +19,7 @@
     type ProjectDefinition,
     type ViewDefinition,
     type ViewType,
-  } from "src/types";
+  } from "src/settings/settings";
 
   export let onSave: (projectId: string, view: ViewDefinition) => void;
   export let project: ProjectDefinition;

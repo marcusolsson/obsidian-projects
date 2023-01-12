@@ -6,7 +6,6 @@
   import type { ViewApi } from "src/lib/view-api";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
-  import type { ProjectDefinition } from "src/types";
 
   import type {
     GridColDef,
@@ -25,6 +24,7 @@
   import { ConfigureFieldModal } from "src/modals/configure-field";
   import { settings } from "src/lib/stores/settings";
   import { sortFields } from "./helpers";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;

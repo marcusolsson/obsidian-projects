@@ -1,8 +1,9 @@
 import type { App } from "obsidian";
+import type {
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 
-import type { ProjectDefinition } from "src/types";
-
-import type { ProjectsPluginPreferences } from "src/main";
 import { FrontMatterDataSource } from "../frontmatter/frontmatter";
 
 export class FolderDataSource extends FrontMatterDataSource {

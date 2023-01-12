@@ -1,6 +1,5 @@
 import { App, Modal } from "obsidian";
-
-import type { ProjectDefinition } from "src/types";
+import type { ProjectDefinition } from "src/settings/settings";
 
 import CreateProject from "./components/CreateProject.svelte";
 

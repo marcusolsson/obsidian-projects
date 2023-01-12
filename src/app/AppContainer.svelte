@@ -9,9 +9,9 @@
   import { dataFrame, dataSource } from "src/lib/stores/dataframe";
   import { settings } from "src/lib/stores/settings";
   import { app } from "src/lib/stores/obsidian";
-  import type { ProjectDefinition } from "src/types";
 
   import Toolbar from "./toolbar/Toolbar.svelte";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let projects: ProjectDefinition[];
   export let projectId: string | undefined;
@@ -51,12 +51,12 @@
   // settings.
   function resolveDataSource(project: ProjectDefinition, app: App): DataSource {
     switch (project.dataSource.kind) {
-      case "folder":
-        return new FolderDataSource(app, project, $settings.preferences);
-      case "tag":
-        return new TagDataSource(app, project, $settings.preferences);
       case "dataview":
         return new DataviewDataSource(app, project, $settings.preferences);
+      case "tag":
+        return new TagDataSource(app, project, $settings.preferences);
+      default:
+        return new FolderDataSource(app, project, $settings.preferences);
     }
   }
 

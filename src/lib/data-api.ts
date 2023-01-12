@@ -6,12 +6,6 @@ import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 
 import {
-  DEFAULT_PROJECT,
-  DEFAULT_VIEW,
-  type ProjectDefinition,
-} from "src/types";
-
-import {
   isDate,
   type DataField,
   type DataRecord,
@@ -25,6 +19,11 @@ import { settings } from "./stores/settings";
 import { interpolateTemplate } from "./templates";
 
 import { function as F, task as T, either as E, taskEither as TE } from "fp-ts";
+import {
+  DEFAULT_PROJECT,
+  DEFAULT_VIEW,
+  type ProjectDefinition,
+} from "src/settings/settings";
 
 /**
  * DataApi writes records to file.
