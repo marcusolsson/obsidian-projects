@@ -2,7 +2,7 @@
  * DataFrame is the core data structure that contains structured data for a
  * collection of notes.
  */
-export interface DataFrame {
+export type DataFrame = {
   /**
    * fields defines the schema for the data frame. Each field describes the
    * values in each DataRecord.
@@ -13,13 +13,13 @@ export interface DataFrame {
    * records holds the data from each note.
    */
   readonly records: DataRecord[];
-}
+};
 
 /**
  * DataField holds metadata for a value in DataRecord, for example a front
  * matter property.
  */
-export interface DataField {
+export type DataField = {
   /**
    * name references the a property (key) in the DataRecord values object.
    */
@@ -29,6 +29,11 @@ export interface DataField {
    * type defines the data type for the field.
    */
   readonly type: DataFieldType;
+
+  /**
+   * repeated defines whether the field can have multiple values.
+   */
+  readonly repeated: boolean;
 
   /**
    * identifier defines whether this field identifies a DataRecord.
@@ -42,28 +47,26 @@ export interface DataField {
    * modified.
    */
   readonly derived: boolean;
-}
+};
 
 export enum DataFieldType {
   String = "string",
   Number = "number",
   Boolean = "boolean",
   Date = "date",
-  Link = "link",
   Unknown = "unknown",
 }
 
-export interface DataRecord {
+export type DataRecord = {
   readonly id: string;
   readonly values: Record<string, Optional<DataValue>>;
-}
+};
 
 export type DataValue =
   | string
   | number
   | boolean
   | Date
-  | Link
   | Array<Optional<DataValue>>;
 
 export type Optional<T> =
@@ -73,13 +76,6 @@ export type Optional<T> =
   // null means that while the field exists, it doesn't yet have a value.
   | null;
 
-export interface Link {
-  readonly displayName?: string;
-  readonly linkText: string;
-  readonly fullPath?: string;
-  readonly sourcePath: string;
-}
-
 export class ViewApi {
   addRecord(record: DataRecord, templatePath: string): void {}
   updateRecord(record: DataRecord, fields: DataField[]): void {}
@@ -87,20 +83,45 @@ export class ViewApi {
   updateField(field: DataField): void {}
   deleteField(field: string): void {}
 }
-export interface ProjectDefinition {
+
+export type DataSource = FolderDataSource | TagDataSource | DataviewDataSource;
+
+export type FolderDataSource = {
+  readonly kind: "folder";
+  readonly config: {
+    readonly path: string;
+    readonly recursive: boolean;
+  };
+};
+
+export type TagDataSource = {
+  readonly kind: "tag";
+  readonly config: {
+    readonly tag: string;
+  };
+};
+
+export type DataviewDataSource = {
+  readonly kind: "dataview";
+  readonly config: {
+    readonly query: string;
+  };
+};
+
+export type ProjectDefinition = {
   readonly name: string;
   readonly id: string;
-  readonly path: string;
-  readonly recursive: boolean;
-  readonly defaultName?: string;
-  readonly templates?: string[];
-  readonly dataview?: boolean;
-  readonly query?: string;
-}
+  readonly defaultName: string;
+  readonly templates: string[];
+  readonly excludedNotes: string[];
+  readonly isDefault: boolean;
+  readonly dataSource: DataSource;
+  readonly newNotesFolder: string;
+};
 
-export interface DataQueryResult {
+export type DataQueryResult = {
   data: DataFrame;
-}
+};
 
 export interface ProjectViewProps<T = Record<string, any>> {
   viewId: string;

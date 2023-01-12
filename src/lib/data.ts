@@ -1,6 +1,9 @@
 import type { TFile } from "obsidian";
-import type { ProjectsPluginPreferences } from "src/main";
-import type { FieldConfig, ProjectDefinition } from "src/types";
+import type {
+  FieldConfig,
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 import type { RecordError } from "./datasources/frontmatter/frontmatter";
 
 /**

@@ -70,6 +70,10 @@ i18next.init({
               description:
                 "Path to the folder you want to manage. Leave empty to use root folder.",
             },
+            tag: {
+              name: "Tag",
+              description: "Include all notes that have this tag.",
+            },
             dataview: {
               name: "Use Dataview",
               description:
@@ -99,10 +103,13 @@ i18next.init({
               description:
                 "Notes to exclude even if they would otherwise be part of the project.",
             },
+            newNotesFolder: {
+              name: "Location for new notes",
+              description: "Folder where all new notes are placed.",
+            },
             defaultName: {
-              name: "Default name",
-              description:
-                "Default name for new notes. Supports {{date}} and {{time}} template variables.",
+              name: "Default name for new notes",
+              description: "Supports {{date}} and {{time}} template variables.",
               invalid: "Contains illegal characters.",
             },
           },

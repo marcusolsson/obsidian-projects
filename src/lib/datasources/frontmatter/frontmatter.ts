@@ -13,17 +13,19 @@ import {
 } from "src/lib/datasources/helpers";
 import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
-import type { ProjectDefinition } from "src/types";
 
 import { array as A, either as E, function as F } from "fp-ts";
 import { standardizeRecord } from "./frontmatter-helpers";
 import produce from "immer";
-import type { ProjectsPluginPreferences } from "src/main";
+import type {
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
  */
-export class FrontMatterDataSource extends DataSource {
+export abstract class FrontMatterDataSource extends DataSource {
   constructor(
     readonly app: App,
     project: ProjectDefinition,
@@ -99,30 +101,6 @@ export class FrontMatterDataSource extends DataSource {
         return a.name.localeCompare(b.name);
       });
     });
-  }
-
-  includes(path: string): boolean {
-    if (this.project.excludedNotes?.includes(path)) {
-      return false;
-    }
-
-    const trimmedPath = this.project.path.startsWith("/")
-      ? this.project.path.slice(1)
-      : this.project.path;
-
-    // No need to continue if file is not below the project path.
-    if (!path.startsWith(trimmedPath)) {
-      return false;
-    }
-
-    if (!this.project.recursive) {
-      const pathElements = path.split("/").slice(0, -1);
-      const projectPathElements = trimmedPath.split("/").filter((el) => el);
-
-      return pathElements.join("/") === projectPathElements.join("/");
-    }
-
-    return true;
   }
 }
 

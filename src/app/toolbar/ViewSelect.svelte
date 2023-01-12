@@ -1,6 +1,6 @@
 <script lang="ts">
   import { customViews } from "src/lib/stores/custom-views";
-  import type { ViewDefinition } from "src/types";
+  import type { ViewDefinition } from "src/settings/settings";
 
   import ViewItem from "./ViewItem.svelte";
   import ViewItemList from "./ViewItemList.svelte";
