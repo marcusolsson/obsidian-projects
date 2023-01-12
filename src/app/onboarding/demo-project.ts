@@ -102,6 +102,13 @@ export async function createDemoProject(vault: Vault) {
       name: "Demo project",
       id: uuidv4(),
       path: demoFolder,
+      dataSource: {
+        kind: "folder",
+        config: {
+          path: demoFolder,
+          recursive: false,
+        },
+      },
       views: [
         Object.assign({}, DEFAULT_VIEW, {
           name: "Table",

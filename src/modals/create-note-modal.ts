@@ -34,7 +34,7 @@ export class CreateNoteModal extends Modal {
               time: (format) => moment().format(format || "HH:mm"),
             })
           : nextUniqueFileName(
-              this.project.path,
+              this.project.newNotesFolder,
               get(i18n).t("modals.note.create.untitled")
             ),
         project: this.project,

@@ -4,6 +4,7 @@ import {} from "obsidian-dataview";
 
 import { capabilities } from "src/lib/stores/capabilities";
 import { dataFrame, dataSource } from "src/lib/stores/dataframe";
+import { DataviewDataSource } from "./lib/datasources/dataview/dataview";
 
 // registerFileEvents keeps the file index up-to-date while plugin is running.
 export function registerFileEvents(plugin: Plugin) {
@@ -16,7 +17,21 @@ export function registerFileEvents(plugin: Plugin) {
         async (type: string, file: TAbstractFile, oldPath: string) => {
           if (file instanceof TFile) {
             const source = get(dataSource);
-            if (source?.includes(file.path)) {
+            if (!source) {
+              return;
+            }
+
+            // This is a hack to trigger the Dataview query to run again.
+            if (source instanceof DataviewDataSource) {
+              dataSource.set(source);
+              return;
+            }
+
+            const recordExists = !!get(dataFrame).records.find(
+              (record) => record.id === file.path
+            );
+
+            if (source.includes(file.path)) {
               switch (type) {
                 case "update":
                   dataFrame.merge(
@@ -33,6 +48,8 @@ export function registerFileEvents(plugin: Plugin) {
                   );
                   break;
               }
+            } else if (recordExists) {
+              dataFrame.deleteRecord(file.path);
             }
           }
         }
@@ -77,8 +94,18 @@ export function registerFileEvents(plugin: Plugin) {
       plugin.app.metadataCache.on("changed", async (file) => {
         if (file instanceof TFile) {
           const source = get(dataSource);
-          if (source?.includes(file.path)) {
+          if (!source) {
+            return;
+          }
+
+          const recordExists = !!get(dataFrame).records.find(
+            (record) => record.id === file.path
+          );
+
+          if (source.includes(file.path)) {
             dataFrame.merge(await source.queryOne(file, get(dataFrame).fields));
+          } else if (recordExists) {
+            dataFrame.deleteRecord(file.path);
           }
         }
       })

@@ -4,7 +4,8 @@
 
   import type { DataSource } from "src/lib/data";
   import { DataviewDataSource } from "src/lib/datasources/dataview/dataview";
-  import { FrontMatterDataSource } from "src/lib/datasources/frontmatter/frontmatter";
+  import { FolderDataSource } from "src/lib/datasources/folder/folder";
+  import { TagDataSource } from "src/lib/datasources/tag/tag";
   import { dataFrame, dataSource } from "src/lib/stores/dataframe";
   import { settings } from "src/lib/stores/settings";
   import { app } from "src/lib/stores/obsidian";
@@ -49,9 +50,14 @@
   // resolveDataSource selects the data source to use based on the project
   // settings.
   function resolveDataSource(project: ProjectDefinition, app: App): DataSource {
-    return project.dataview
-      ? new DataviewDataSource(app, project, $settings.preferences)
-      : new FrontMatterDataSource(app, project, $settings.preferences);
+    switch (project.dataSource.kind) {
+      case "folder":
+        return new FolderDataSource(app, project, $settings.preferences);
+      case "tag":
+        return new TagDataSource(app, project, $settings.preferences);
+      case "dataview":
+        return new DataviewDataSource(app, project, $settings.preferences);
+    }
   }
 
   const wait = () => new Promise((res) => setTimeout(res, 500));

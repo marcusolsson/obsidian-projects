@@ -79,7 +79,13 @@ export default class ProjectsPlugin extends Plugin {
                   {
                     ...project,
                     name: file.name,
-                    path: file.path,
+                    dataSource: {
+                      kind: "folder",
+                      config: {
+                        path: file.path,
+                        recursive: false,
+                      },
+                    },
                   }
                 ).open();
               });

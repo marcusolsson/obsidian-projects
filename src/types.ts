@@ -101,19 +101,40 @@ export type StringFieldConfig = {
 
 export type FieldConfig = StringFieldConfig;
 
+export type FolderDataSource = {
+  readonly kind: "folder";
+  readonly config: {
+    readonly path: string;
+    readonly recursive: boolean;
+  };
+};
+
+export type TagDataSource = {
+  readonly kind: "tag";
+  readonly config: {
+    readonly tag: string;
+  };
+};
+
+export type DataviewDataSource = {
+  readonly kind: "dataview";
+  readonly config: {
+    readonly query: string;
+  };
+};
+
 export type ProjectDefinition = {
   readonly name: string;
   readonly id: string;
-  readonly path: string;
-  readonly recursive: boolean;
+
   readonly fieldConfig: { [field: string]: FieldConfig };
   readonly views: ViewDefinition[];
   readonly defaultName: string;
   readonly templates: string[];
-  readonly dataview: boolean;
-  readonly query: string;
   readonly excludedNotes: string[];
   readonly isDefault: boolean;
+  readonly dataSource: FolderDataSource | TagDataSource | DataviewDataSource;
+  readonly newNotesFolder: string;
 };
 
 export type UnsavedProjectDefinition = Omit<
@@ -122,13 +143,17 @@ export type UnsavedProjectDefinition = Omit<
 >;
 
 export const DEFAULT_PROJECT: UnsavedProjectDefinition = {
-  path: "",
-  recursive: false,
   fieldConfig: {},
   defaultName: "",
   templates: [],
-  dataview: false,
-  query: "",
   excludedNotes: [],
   isDefault: false,
+  dataSource: {
+    kind: "folder",
+    config: {
+      path: "",
+      recursive: false,
+    },
+  },
+  newNotesFolder: "",
 };

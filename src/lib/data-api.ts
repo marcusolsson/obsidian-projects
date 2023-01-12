@@ -195,8 +195,18 @@ export function createDataRecord(
   project: ProjectDefinition,
   values?: Record<string, Optional<DataValue>>
 ): DataRecord {
+  let path = "";
+
+  if (project.dataSource.kind === "folder") {
+    path = project.dataSource.config.path;
+  }
+
+  if (project.newNotesFolder) {
+    path = project.newNotesFolder;
+  }
+
   return {
-    id: normalizePath(project.path + "/" + name + ".md"),
+    id: normalizePath(path + "/" + name + ".md"),
     values: values ?? {},
   };
 }

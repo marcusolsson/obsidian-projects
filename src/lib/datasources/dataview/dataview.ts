@@ -5,6 +5,7 @@ import { get } from "svelte/store";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {
   DataSource,
+  emptyDataFrame,
   type DataField,
   type DataFrame,
   type DataRecord,
@@ -41,11 +42,19 @@ export class DataviewDataSource extends DataSource {
   }
 
   async queryAll(): Promise<DataFrame> {
+    if (this.project.dataSource.kind !== "dataview") {
+      return emptyDataFrame;
+    }
+
     const api = this.getDataviewAPI();
 
-    const result = await api?.query(this.project.query ?? "", undefined, {
-      forceId: true,
-    });
+    const result = await api?.query(
+      this.project.dataSource.config.query ?? "",
+      undefined,
+      {
+        forceId: true,
+      }
+    );
 
     if (!result?.successful || result.value.type !== "table") {
       throw new Error("dataview query failed");

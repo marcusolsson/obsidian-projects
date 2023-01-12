@@ -23,7 +23,7 @@ import type { ProjectsPluginPreferences } from "src/main";
 /**
  * FrontMatterDataSource converts Markdown front matter to DataFrames.
  */
-export class FrontMatterDataSource extends DataSource {
+export abstract class FrontMatterDataSource extends DataSource {
   constructor(
     readonly app: App,
     project: ProjectDefinition,
@@ -99,30 +99,6 @@ export class FrontMatterDataSource extends DataSource {
         return a.name.localeCompare(b.name);
       });
     });
-  }
-
-  includes(path: string): boolean {
-    if (this.project.excludedNotes?.includes(path)) {
-      return false;
-    }
-
-    const trimmedPath = this.project.path.startsWith("/")
-      ? this.project.path.slice(1)
-      : this.project.path;
-
-    // No need to continue if file is not below the project path.
-    if (!path.startsWith(trimmedPath)) {
-      return false;
-    }
-
-    if (!this.project.recursive) {
-      const pathElements = path.split("/").slice(0, -1);
-      const projectPathElements = trimmedPath.split("/").filter((el) => el);
-
-      return pathElements.join("/") === projectPathElements.join("/");
-    }
-
-    return true;
   }
 }
 
