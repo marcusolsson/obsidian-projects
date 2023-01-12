@@ -96,3 +96,14 @@ export type ProjectsPluginPreferences = {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };
 };
+
+export type UnsavedViewDefinition = Omit<
+  ViewDefinition,
+  "name" | "id" | "type"
+>;
+
+export const DEFAULT_VIEW: UnsavedViewDefinition = {
+  config: {},
+  filter: { conditions: [] },
+  colors: { conditions: [] },
+};

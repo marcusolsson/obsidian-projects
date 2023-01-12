@@ -3,7 +3,7 @@ import type {
   ProjectsPluginPreferences,
   ViewDefinition,
 } from "../base/settings";
-import { DEFAULT_VIEW } from "../v1/settings";
+import { DEFAULT_VIEW } from "../base/settings";
 
 export type ProjectDefinition<ViewDefinition> = {
   readonly name: string;

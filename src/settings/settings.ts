@@ -1,6 +1,6 @@
 import { either } from "fp-ts";
 
-import type * as base from "./base/settings";
+import * as base from "./base/settings";
 import * as v1 from "./v1/settings";
 import * as v2 from "./v2/settings";
 
@@ -13,7 +13,7 @@ export type ProjectsPluginSettings =
 
 export const DEFAULT_SETTINGS = v2.DEFAULT_SETTINGS;
 export const DEFAULT_PROJECT = v2.DEFAULT_PROJECT;
-export const DEFAULT_VIEW = v1.DEFAULT_VIEW;
+export const DEFAULT_VIEW = base.DEFAULT_VIEW;
 
 /**
  * migrateSettings accepts the value from Plugin.loadData() and returns the most

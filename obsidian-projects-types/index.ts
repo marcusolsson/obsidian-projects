@@ -49,7 +49,6 @@ export enum DataFieldType {
   Number = "number",
   Boolean = "boolean",
   Date = "date",
-  Link = "link",
   Unknown = "unknown",
 }
 
@@ -63,7 +62,6 @@ export type DataValue =
   | number
   | boolean
   | Date
-  | Link
   | Array<Optional<DataValue>>;
 
 export type Optional<T> =
@@ -73,13 +71,6 @@ export type Optional<T> =
   // null means that while the field exists, it doesn't yet have a value.
   | null;
 
-export interface Link {
-  readonly displayName?: string;
-  readonly linkText: string;
-  readonly fullPath?: string;
-  readonly sourcePath: string;
-}
-
 export class ViewApi {
   addRecord(record: DataRecord, templatePath: string): void {}
   updateRecord(record: DataRecord, fields: DataField[]): void {}
@@ -87,16 +78,50 @@ export class ViewApi {
   updateField(field: DataField): void {}
   deleteField(field: string): void {}
 }
-export interface ProjectDefinition {
+
+export type StringFieldConfig = {
+  options?: string[];
+  richText?: boolean;
+};
+
+export type FieldConfig = StringFieldConfig;
+
+export type DataSource = FolderDataSource | TagDataSource | DataviewDataSource;
+
+export type FolderDataSource = {
+  readonly kind: "folder";
+  readonly config: {
+    readonly path: string;
+    readonly recursive: boolean;
+  };
+};
+
+export type TagDataSource = {
+  readonly kind: "tag";
+  readonly config: {
+    readonly tag: string;
+  };
+};
+
+export type DataviewDataSource = {
+  readonly kind: "dataview";
+  readonly config: {
+    readonly query: string;
+  };
+};
+
+export type ProjectDefinition = {
   readonly name: string;
   readonly id: string;
-  readonly path: string;
-  readonly recursive: boolean;
-  readonly defaultName?: string;
-  readonly templates?: string[];
-  readonly dataview?: boolean;
-  readonly query?: string;
-}
+
+  readonly fieldConfig: { [field: string]: FieldConfig };
+  readonly defaultName: string;
+  readonly templates: string[];
+  readonly excludedNotes: string[];
+  readonly isDefault: boolean;
+  readonly dataSource: DataSource;
+  readonly newNotesFolder: string;
+};
 
 export interface DataQueryResult {
   data: DataFrame;

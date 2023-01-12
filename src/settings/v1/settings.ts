@@ -1,19 +1,9 @@
-import type {
-  FieldConfig,
-  ProjectsPluginPreferences,
-  ViewDefinition,
+import {
+  DEFAULT_VIEW,
+  type FieldConfig,
+  type ProjectsPluginPreferences,
+  type ViewDefinition,
 } from "../base/settings";
-
-export type UnsavedViewDefinition = Omit<
-  ViewDefinition,
-  "name" | "id" | "type"
->;
-
-export const DEFAULT_VIEW: UnsavedViewDefinition = {
-  config: {},
-  filter: { conditions: [] },
-  colors: { conditions: [] },
-};
 
 export type ProjectDefinition<ViewDefinition> = {
   readonly name: string;
