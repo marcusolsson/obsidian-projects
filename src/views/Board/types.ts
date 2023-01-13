@@ -7,4 +7,5 @@ export interface BoardConfig {
       readonly weight: number;
     };
   };
+  readonly includeFields?: string[];
 }
