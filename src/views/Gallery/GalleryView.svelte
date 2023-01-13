@@ -6,6 +6,7 @@
     Select,
     Typography,
   } from "obsidian-svelte";
+  import CardMetadata from "src/components/CardMetadata/CardMetadata.svelte";
 
   import { Field } from "src/components/Field";
   import {
@@ -27,6 +28,7 @@
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { fieldToSelectableValue } from "src/views/helpers";
   import { getDisplayName } from "../Board/components/Board/board-helpers";
+  import { SwitchSelect } from "../Table/components/SwitchSelect";
 
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
@@ -94,6 +96,20 @@
     onConfigChange({ ...config, fitStyle });
   }
 
+  function handleIncludeFieldChange(field: string, enabled: boolean) {
+    const includedFields = new Set(config?.includeFields);
+
+    if (enabled) {
+      includedFields.add(field);
+    } else {
+      includedFields.delete(field);
+    }
+
+    config = { ...config, includeFields: [...includedFields] };
+
+    onConfigChange(config);
+  }
+
   function handleRecordClick(record: DataRecord) {
     new EditNoteModal(
       $app,
@@ -131,6 +147,15 @@
           ]}
           on:change={({ detail }) => handleFitStyleChange(detail)}
         />
+        <SwitchSelect
+          label={"Include fields"}
+          items={fields.map((field) => ({
+            label: field.name,
+            value: field.name,
+            enabled: !!config?.includeFields?.includes(field.name),
+          }))}
+          onChange={handleIncludeFieldChange}
+        />
         <IconButton
           icon="settings"
           on:click={() => {
@@ -145,7 +170,7 @@
   </ViewHeader>
   <ViewContent>
     {#if records.length}
-      <div>
+      <div class="padding">
         <Grid cardWidth={config?.cardWidth ?? 300}>
           {#each records as record}
             {@const color = getRecordColor(record)}
@@ -167,29 +192,39 @@
                 {/if}
               </CardMedia>
               <CardContent>
-                {#if color}
-                  <span
-                    style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
-                  />
-                {/if}
-                <InternalLink
-                  linkText={record.id}
-                  sourcePath=""
-                  resolved
-                  on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-                    if (newLeaf) {
-                      $app.workspace.openLinkText(
-                        linkText,
-                        sourcePath,
-                        newLeaf
-                      );
-                    } else {
-                      handleRecordClick(record);
-                    }
-                  }}
-                >
-                  {getDisplayName(record.id)}
-                </InternalLink>
+                <div class="flex">
+                  {#if color}
+                    <span
+                      style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
+                    />
+                  {/if}
+                  <InternalLink
+                    linkText={record.id}
+                    sourcePath=""
+                    resolved
+                    on:open={({
+                      detail: { linkText, sourcePath, newLeaf },
+                    }) => {
+                      if (newLeaf) {
+                        $app.workspace.openLinkText(
+                          linkText,
+                          sourcePath,
+                          newLeaf
+                        );
+                      } else {
+                        handleRecordClick(record);
+                      }
+                    }}
+                  >
+                    {getDisplayName(record.id)}
+                  </InternalLink>
+                </div>
+                <CardMetadata
+                  fields={fields.filter(
+                    (field) => !!config?.includeFields?.includes(field.name)
+                  )}
+                  {record}
+                />
               </CardContent>
             </Card>
           {/each}
@@ -204,7 +239,12 @@
 </ViewLayout>
 
 <style>
-  div {
+  .padding {
     padding: 24px;
+  }
+
+  .flex {
+    display: flex;
+    font-size: 16px;
   }
 </style>

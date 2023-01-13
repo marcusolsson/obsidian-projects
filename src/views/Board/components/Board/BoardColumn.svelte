@@ -15,6 +15,7 @@
   export let readonly: boolean;
   export let dragDisabled: boolean = false;
   export let onRecordUpdate: (record: DataRecord) => void;
+  export let fields: DataField[];
 
   $: prioritized = getPrioritizedRecords(records, groupByPriority);
   $: unprioritized = getUnprioritizedRecords(records, groupByPriority);
@@ -66,6 +67,7 @@
         {onRecordClick}
         onDrop={handleDropPrioritized}
         {dragDisabled}
+        {fields}
       />
     </div>
     <div class="column-section unprio">
@@ -75,11 +77,12 @@
         {onRecordClick}
         onDrop={handleDropUnprioritized}
         {dragDisabled}
+        {fields}
       />
     </div>
   {:else}
     <div class="column-section">
-      <CardGroup items={records} {onRecordClick} dragDisabled={true} />
+      <CardGroup items={records} {onRecordClick} dragDisabled={true} {fields} />
     </div>
   {/if}
   {#if !readonly}

@@ -20,6 +20,7 @@
     fieldToSelectableValue,
     setRecordColorContext,
   } from "src/views/helpers";
+  import { SwitchSelect } from "../Table/components/SwitchSelect";
 
   import { groupRecordsByField } from "./board";
   import { Board } from "./components";
@@ -133,6 +134,20 @@
     }).open();
   }
 
+  function handleIncludeFieldChange(field: string, enabled: boolean) {
+    const includedFields = new Set(config?.includeFields);
+
+    if (enabled) {
+      includedFields.add(field);
+    } else {
+      includedFields.delete(field);
+    }
+
+    config = { ...config, includeFields: [...includedFields] };
+
+    onConfigChange(config);
+  }
+
   setRecordColorContext(getRecordColor);
 </script>
 
@@ -173,6 +188,15 @@
             tooltip="Date fields can't be reprioritized using drag and drop."
           />
         {/if}
+        <SwitchSelect
+          label={"Include fields"}
+          items={fields.map((field) => ({
+            label: field.name,
+            value: field.name,
+            enabled: !!config?.includeFields?.includes(field.name),
+          }))}
+          onChange={handleIncludeFieldChange}
+        />
         <IconButton
           icon="settings"
           on:click={() => {
@@ -206,6 +230,9 @@
         onRecordClick={handleRecordClick}
         onRecordAdd={handleRecordAdd}
         columnWidth={config?.columnWidth ?? 270}
+        fields={fields.filter(
+          (field) => !!config?.includeFields?.includes(field.name)
+        )}
       />
     </div>
   </ViewContent>
