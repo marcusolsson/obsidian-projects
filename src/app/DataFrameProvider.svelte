@@ -13,10 +13,19 @@
 
   export let project: ProjectDefinition;
 
-  $: projectAsText = JSON.stringify(disassemble(project));
+  // These shenanigans prevent queries to run when any of the views change.
+  // Even if an object didn't change, reassigning it still causes an update.
+  $: disassembedProject = disassemble(project);
+
+  // Strings are different though. Even if you reassign a string value, it won't
+  // trigger an update if it's the same string.
+  $: projectAsText = JSON.stringify(disassembedProject);
+
+  // This only runs if the JSON representation of a project (without views) has
+  // changed.
   $: reassembledProject = reassemble(projectAsText);
 
-  // Different projects can have different data sources.
+  // Setting a new data source causes the query to run.
   $: dataSource.set(resolveDataSource(reassembledProject, $app));
 
   function disassemble(
