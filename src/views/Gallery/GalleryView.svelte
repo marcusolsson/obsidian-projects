@@ -43,6 +43,11 @@
   export let api: ViewApi;
   export let getRecordColor: (record: DataRecord) => string | null;
 
+  function saveConfig(cfg: GalleryConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
+
   $: ({ fields, records } = frame);
 
   $: textFields = fields
@@ -89,11 +94,11 @@
   }
 
   function handleCoverFieldChange(coverField: string) {
-    onConfigChange({ ...config, coverField });
+    saveConfig({ ...config, coverField });
   }
 
   function handleFitStyleChange(fitStyle: string) {
-    onConfigChange({ ...config, fitStyle });
+    saveConfig({ ...config, fitStyle });
   }
 
   function handleIncludeFieldChange(field: string, enabled: boolean) {
@@ -105,9 +110,7 @@
       includedFields.delete(field);
     }
 
-    config = { ...config, includeFields: [...includedFields] };
-
-    onConfigChange(config);
+    saveConfig({ ...config, includeFields: [...includedFields] });
   }
 
   function handleRecordClick(record: DataRecord) {
@@ -160,8 +163,7 @@
           icon="settings"
           on:click={() => {
             new GallerySettingsModal($app, config ?? {}, (value) => {
-              config = value;
-              onConfigChange(value);
+              saveConfig(value);
             }).open();
           }}
         />

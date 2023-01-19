@@ -35,6 +35,11 @@
   export let config: TableConfig | undefined;
   export let onConfigChange: (cfg: TableConfig) => void;
 
+  function saveConfig(cfg: TableConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
+
   $: ({ fields, records } = frame);
 
   $: {
@@ -69,7 +74,7 @@
   }));
 
   function handleVisibilityChange(field: string, enabled: boolean) {
-    config = {
+    saveConfig({
       ...config,
       fieldConfig: {
         ...fieldConfig,
@@ -78,13 +83,11 @@
           hide: !enabled,
         },
       },
-    };
-
-    onConfigChange(config);
+    });
   }
 
   function handleWidthChange(field: string, width: number) {
-    config = {
+    saveConfig({
       ...config,
       fieldConfig: {
         ...fieldConfig,
@@ -93,9 +96,7 @@
           width,
         },
       },
-    };
-
-    onConfigChange(config);
+    });
   }
 </script>
 
@@ -194,7 +195,7 @@
         sort: config?.sortAsc ? "asc" : "desc",
       }}
       onSortModelChange={(field, sort) => {
-        onConfigChange({
+        saveConfig({
           ...config,
           sortField: field,
           sortAsc: sort === "asc",

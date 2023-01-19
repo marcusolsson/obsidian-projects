@@ -47,6 +47,11 @@
   export let config: CalendarConfig | undefined;
   export let onConfigChange: (cfg: CalendarConfig) => void;
 
+  function saveConfig(cfg: CalendarConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
+
   $: ({ fields, records } = frame);
 
   let anchorDate: dayjs.Dayjs = dayjs();
@@ -79,14 +84,14 @@
 
   function handleIntervalChange(interval: string) {
     if (isCalendarInterval(interval)) {
-      onConfigChange({ ...config, interval });
+      saveConfig({ ...config, interval });
     }
   }
   function handleDateFieldChange(dateField: string) {
-    onConfigChange({ ...config, dateField });
+    saveConfig({ ...config, dateField });
   }
   function handleCheckFieldChange(checkField: string) {
-    onConfigChange({ ...config, checkField });
+    saveConfig({ ...config, checkField });
   }
 
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {

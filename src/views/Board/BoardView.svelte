@@ -36,6 +36,11 @@
   export let config: BoardConfig | undefined;
   export let onConfigChange: (cfg: BoardConfig) => void;
 
+  function saveConfig(cfg: BoardConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
+
   $: ({ fields, records } = frame);
 
   $: textFields = fields
@@ -143,9 +148,7 @@
       includedFields.delete(field);
     }
 
-    config = { ...config, includeFields: [...includedFields] };
-
-    onConfigChange(config);
+    saveConfig({ ...config, includeFields: [...includedFields] });
   }
 
   setRecordColorContext(getRecordColor);
@@ -160,7 +163,7 @@
             value={groupByField?.name ?? ""}
             options={textFields.map(fieldToSelectableValue)}
             on:change={({ detail: value }) =>
-              onConfigChange({
+              saveConfig({
                 ...config,
                 groupByField: value,
               })}
@@ -173,7 +176,7 @@
             value={priorityField?.name ?? ""}
             options={priorityFields.map(fieldToSelectableValue)}
             on:change={({ detail: value }) => {
-              onConfigChange({
+              saveConfig({
                 ...config,
                 priorityField: value,
               });
@@ -201,8 +204,7 @@
           icon="settings"
           on:click={() => {
             new BoardSettingsModal($app, config ?? {}, (value) => {
-              config = value;
-              onConfigChange(value);
+              saveConfig(value);
             }).open();
           }}
         />
@@ -215,7 +217,7 @@
         onRecordUpdate={handleRecordUpdate}
         dragDisabled={!priorityField}
         onSortColumns={(names) => {
-          onConfigChange({
+          saveConfig({
             ...config,
             columns: Object.fromEntries(
               names.map((name, i) => {
