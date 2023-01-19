@@ -1,4 +1,4 @@
-import { TFile, type App } from "obsidian";
+import { TFile, type App, type CachedMetadata } from "obsidian";
 import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
@@ -30,10 +30,32 @@ export class TagDataSource extends FrontMatterDataSource {
 
     if (file instanceof TFile) {
       const cache = this.app.metadataCache.getFileCache(file);
-
-      return cache?.tags?.map((tag) => tag.tag).includes(tag) ?? false;
+      return cache ? parseTags(cache).has(tag) : false;
     }
 
     return false;
   }
+}
+
+function parseTags(cache: CachedMetadata) {
+  const allTags = new Set<string>();
+
+  const markdownTags = cache.tags?.map((tag) => tag.tag) ?? [];
+
+  markdownTags.forEach((tag) => allTags.add(tag));
+
+  const frontMatterTags = cache.frontmatter?.["tags"];
+
+  if (typeof frontMatterTags === "string") {
+    frontMatterTags
+      .split(",")
+      .map((tag) => "#" + tag.trim())
+      .forEach((tag) => allTags.add(tag));
+  } else if (Array.isArray(frontMatterTags)) {
+    frontMatterTags
+      .map((tag) => "#" + tag.toString())
+      .forEach((tag) => allTags.add(tag));
+  }
+
+  return allTags;
 }
