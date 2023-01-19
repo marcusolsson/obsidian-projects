@@ -32,7 +32,7 @@
         {$i18n.t("modals.note.edit.no-editable-fields.message")}
       </Callout>
     {/if}
-    {#each editableFields as field}
+    {#each editableFields as field (field.name)}
       <SettingItem name={field.name}>
         <FieldControl
           {field}

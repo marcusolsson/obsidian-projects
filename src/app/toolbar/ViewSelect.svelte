@@ -21,7 +21,7 @@
 
 <ViewItemList onSort={onViewSort}>
   {#key views}
-    {#each views as v}
+    {#each views as v (v.id)}
       <ViewItem
         id={v.id}
         active={viewId === v.id}

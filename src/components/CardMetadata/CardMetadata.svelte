@@ -11,7 +11,7 @@
   export let record: DataRecord;
 </script>
 
-{#each fields as field}
+{#each fields as field (field.name)}
   {@const value = record.values[field.name]}
   {#if value !== undefined && value !== null}
     <div class="field-label">

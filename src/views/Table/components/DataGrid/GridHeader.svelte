@@ -41,7 +41,7 @@
     columnHeader
     rowHeader
   />
-  {#each columns as column, i}
+  {#each columns as column, i (column.name)}
     <GridCell
       colindex={i + 2}
       rowindex={1}

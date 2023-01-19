@@ -183,7 +183,7 @@
     }}
     onColumnMenu={(field) => createColumnMenu(field)}
   />
-  {#each sortedRows as { rowId, row }, i}
+  {#each sortedRows as { rowId, row }, i (rowId)}
     <GridRow
       columns={sortedColumns}
       index={i + 2}
