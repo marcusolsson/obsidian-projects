@@ -94,9 +94,9 @@ export function resolve(
   unresolved: UnresolvedSettings
 ): ProjectsPluginSettings<ProjectDefinition<ViewDefinition>> {
   return {
-    ...DEFAULT_SETTINGS,
-    ...unresolved,
+    version: 2,
     projects: unresolved.projects?.map(resolveProject) ?? [],
+    preferences: resolvePreferences(unresolved.preferences ?? {}),
   };
 }
 
@@ -132,4 +132,20 @@ function resolveView(unresolved: Partial<ViewDefinition>): ViewDefinition {
   }
 
   throw new Error("Invalid view definition");
+}
+
+export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
+  projectSizeLimit: 1000,
+  frontmatter: {
+    quoteStrings: "PLAIN",
+  },
+};
+
+export function resolvePreferences(
+  unresolved: Partial<ProjectsPluginPreferences>
+): ProjectsPluginPreferences {
+  return {
+    ...DEFAULT_PREFERENCES,
+    ...unresolved,
+  };
 }
