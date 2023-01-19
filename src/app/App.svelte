@@ -9,15 +9,27 @@
   import { ViewApi } from "src/lib/view-api";
   import { CreateProjectModal } from "src/modals/create-project-modal";
 
-  import AppContainer from "./AppContainer.svelte";
+  import Toolbar from "./toolbar/Toolbar.svelte";
   import { createDemoProject } from "./onboarding/demo-project";
   import { OnboardingModal } from "./onboarding/onboarding-modal";
   import View from "./View.svelte";
+  import DataFrameProvider from "./DataFrameProvider.svelte";
 
   let projectId: string | undefined;
   let viewId: string | undefined;
 
   $: ({ projects } = $settings);
+
+  $: defaultProject = projects.find((project) => project.isDefault);
+
+  $: project =
+    projects.find((project) => projectId === project.id) ||
+    defaultProject ||
+    projects[0];
+
+  $: views = project?.views || [];
+
+  $: view = views.find((view) => viewId === view.id) || views[0];
 
   onMount(() => {
     if (!projects.length) {
@@ -48,23 +60,45 @@
 	App is the main application component and coordinates between the View and
 	the Toolbar.
 -->
-<AppContainer
-  {projects}
-  bind:projectId
-  bind:viewId
-  let:project
-  let:view
-  let:source
-  let:frame
->
-  {#if project && view && source}
-    <View
-      {project}
-      {view}
-      readonly={source.readonly()}
-      api={new ViewApi($app, source, $api)}
-      onConfigChange={settings.updateViewConfig}
-      {frame}
-    />
-  {/if}
-</AppContainer>
+<div class="projects-container">
+  <Toolbar
+    {projects}
+    projectId={project?.id}
+    onProjectChange={(id) => (projectId = id)}
+    viewId={view?.id}
+    onViewChange={(id) => (viewId = id)}
+  />
+
+  <div class="projects-main">
+    {#if project}
+      <DataFrameProvider {project} let:frame let:source>
+        {#if project && view && source}
+          <View
+            {project}
+            {view}
+            readonly={source.readonly()}
+            api={new ViewApi($app, source, $api)}
+            onConfigChange={settings.updateViewConfig}
+            {frame}
+          />
+        {/if}
+        <slot {project} {view} {source} {frame} />
+      </DataFrameProvider>
+    {/if}
+  </div>
+</div>
+
+<style>
+  .projects-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .projects-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+</style>
