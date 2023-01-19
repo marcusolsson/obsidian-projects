@@ -112,8 +112,11 @@ function createDataFrame() {
 
           draft.fields = draft.fields.filter((field) =>
             draft.records.some((record) => {
-              // @ts-ignore
-              return !!record.values[field.name];
+              return (
+                // @ts-ignore
+                record.values[field.name] !== undefined &&
+                record.values[field.name] !== null
+              );
             })
           );
 
