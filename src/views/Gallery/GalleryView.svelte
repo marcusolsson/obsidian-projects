@@ -174,7 +174,7 @@
     {#if records.length}
       <div class="padding">
         <Grid cardWidth={config?.cardWidth ?? 300}>
-          {#each records as record}
+          {#each records as record (record.id)}
             {@const color = getRecordColor(record)}
             <Card>
               <CardMedia
