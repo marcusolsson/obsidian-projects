@@ -18,12 +18,12 @@ jobs:
           node-version: "18.x"
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
       - name: Build plugin
-        run: yarn build
+        run: npm run build
       - name: Test plugin
-        run: yarn test
+        run: npm run test
       - name: Lint plugin (ESLint)
-        run: yarn lint
+        run: npm run lint
       - name: Check plugin (Svelte)
-        run: yarn run svelte-check
+        run: npm run svelte-check
