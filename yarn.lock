@@ -1607,7 +1607,7 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-dayjs@^1.11.4:
+dayjs@^1.11.6:
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
@@ -3399,10 +3399,12 @@ obsidian-dataview@^0.5.46:
     parsimmon "^1.18.0"
     preact "^10.6.5"
 
-obsidian-svelte@0.0.39:
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/obsidian-svelte/-/obsidian-svelte-0.0.39.tgz#c0294de856a4f6b359b8f54c42af3971f217eb41"
-  integrity sha512-/DcCkSWS+ZiDzfih9dCvBZu45OaESlM6120pUz3BkAGjWbqv5mDOPIAHBvcLb1hJmw5BfcFxWG+a8DOuSdjEyg==
+obsidian-svelte@0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/obsidian-svelte/-/obsidian-svelte-0.1.6.tgz#ebcd5b836fff1706b35a05f8004c5d912d39cb8e"
+  integrity sha512-NYo8NsKTomfgPlNjsDnxT4gND4sfZXCwDtarl/p7omT9SvIv93tkD32Rh6f6lSy4rOejbMB+QyZK2+d1TsErEg==
+  dependencies:
+    dayjs "^1.11.6"
 
 obsidian@latest:
   version "0.16.3"
