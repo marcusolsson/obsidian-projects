@@ -18,11 +18,11 @@
 
 <style>
   .color-item {
-    display: grid;
-    grid-template-columns: min-content auto;
+    display: flex;
   }
   .card-layout {
     overflow: hidden;
+    flex: 1;
   }
   .card-header {
     font-size: 16px;
