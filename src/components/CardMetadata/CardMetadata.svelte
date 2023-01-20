@@ -40,7 +40,6 @@
 <style>
   .field-label {
     margin-bottom: 8px;
-    overflow: hidden;
   }
 
   .field-label:last-child {

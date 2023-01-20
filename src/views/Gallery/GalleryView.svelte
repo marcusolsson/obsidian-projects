@@ -7,6 +7,7 @@
     Typography,
   } from "obsidian-svelte";
   import CardMetadata from "src/components/CardMetadata/CardMetadata.svelte";
+  import ColorItem from "src/components/ColorItem/ColorItem.svelte";
 
   import { Field } from "src/components/Field";
   import {
@@ -194,13 +195,9 @@
                 {/if}
               </CardMedia>
               <CardContent>
-                <div class="flex">
-                  {#if color}
-                    <span
-                      style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
-                    />
-                  {/if}
+                <ColorItem {color}>
                   <InternalLink
+                    slot="header"
                     linkText={record.id}
                     sourcePath=""
                     resolved
@@ -220,13 +217,13 @@
                   >
                     {getDisplayName(record.id)}
                   </InternalLink>
-                </div>
-                <CardMetadata
-                  fields={fields.filter(
-                    (field) => !!config?.includeFields?.includes(field.name)
-                  )}
-                  {record}
-                />
+                  <CardMetadata
+                    fields={fields.filter(
+                      (field) => !!config?.includeFields?.includes(field.name)
+                    )}
+                    {record}
+                  />
+                </ColorItem>
               </CardContent>
             </Card>
           {/each}
@@ -243,10 +240,5 @@
 <style>
   .padding {
     padding: 24px;
-  }
-
-  .flex {
-    display: flex;
-    font-size: 16px;
   }
 </style>

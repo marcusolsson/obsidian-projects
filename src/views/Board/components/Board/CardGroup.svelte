@@ -7,6 +7,7 @@
   import { flip } from "svelte/animate";
   import { getRecordColorContext } from "src/views/helpers";
   import CardMetadata from "src/components/CardMetadata/CardMetadata.svelte";
+  import ColorItem from "src/components/ColorItem/ColorItem.svelte";
 
   export let items: DataRecord[];
   export let onRecordClick: (record: DataRecord) => void;
@@ -54,13 +55,9 @@
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
     >
-      <div class="card-header">
-        {#if color}
-          <span
-            style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
-          />
-        {/if}
+      <ColorItem {color}>
         <InternalLink
+          slot="header"
           linkText={item.id}
           sourcePath=""
           resolved
@@ -74,8 +71,8 @@
         >
           {getDisplayName(item.id)}
         </InternalLink>
-      </div>
-      <CardMetadata {fields} record={item} />
+        <CardMetadata {fields} record={item} />
+      </ColorItem>
     </div>
   {/each}
 </div>
@@ -89,7 +86,6 @@
   }
 
   .card-header {
-    display: flex;
     font-size: 16px;
     margin-bottom: 8px;
   }
