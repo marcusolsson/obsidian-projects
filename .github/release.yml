@@ -7,6 +7,9 @@ changelog:
     - title: New Features 🎉
       labels:
         - kind/feature
+    - title: Improvements 🛠️
+      labels:
+        - kind/enhancement
     - title: Bug Fixes 🐞
       labels:
         - kind/bug
