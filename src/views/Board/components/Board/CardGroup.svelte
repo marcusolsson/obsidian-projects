@@ -85,15 +85,6 @@
     min-height: 35px;
   }
 
-  .card-header {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-
-  .card-header:last-child {
-    margin-bottom: 0;
-  }
-
   .crd {
     background-color: var(--background-primary);
     border-radius: var(--radius-s);
