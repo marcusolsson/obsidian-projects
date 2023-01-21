@@ -252,6 +252,6 @@
     font-weight: 500;
     padding: 3px;
     gap: 4px;
-    position: relative;
+    position: sticky;
   }
 </style>
