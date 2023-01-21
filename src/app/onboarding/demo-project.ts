@@ -7,7 +7,7 @@ import type { BoardConfig } from "src/views/Board/types";
 import type { CalendarConfig } from "src/views/Calendar/types";
 import type { GalleryConfig } from "src/views/Gallery/types";
 import type { TableConfig } from "src/views/Table/types";
-import { DEFAULT_PROJECT, DEFAULT_VIEW } from "src/types";
+import { DEFAULT_PROJECT, DEFAULT_VIEW } from "src/settings/settings";
 
 export async function createDemoProject(vault: Vault) {
   const demoFolder = "Projects - Demo Project";
@@ -102,6 +102,13 @@ export async function createDemoProject(vault: Vault) {
       name: "Demo project",
       id: uuidv4(),
       path: demoFolder,
+      dataSource: {
+        kind: "folder",
+        config: {
+          path: demoFolder,
+          recursive: false,
+        },
+      },
       views: [
         Object.assign({}, DEFAULT_VIEW, {
           name: "Table",

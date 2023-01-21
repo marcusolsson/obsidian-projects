@@ -19,6 +19,7 @@
   export let columnWidth: number;
   export let onSortColumns: (names: string[]) => void;
   export let dragDisabled: boolean;
+  export let fields: DataField[];
 
   const flipDurationMs = 200;
 
@@ -55,6 +56,7 @@
       onRecordAdd={() => onRecordAdd(column.id)}
       {dragDisabled}
       onRecordUpdate={(record) => onRecordUpdate(column.id, record)}
+      {fields}
     />
   {/each}
 </div>

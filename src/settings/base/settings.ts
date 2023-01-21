@@ -9,17 +9,6 @@ export interface ViewDefinition {
   readonly colors: ColorFilterDefinition;
 }
 
-export type UnsavedViewDefinition = Omit<
-  ViewDefinition,
-  "name" | "id" | "type"
->;
-
-export const DEFAULT_VIEW: UnsavedViewDefinition = {
-  config: {},
-  filter: { conditions: [] },
-  colors: { conditions: [] },
-};
-
 export interface FilterDefinition {
   readonly conditions: FilterCondition[];
 }
@@ -101,34 +90,20 @@ export type StringFieldConfig = {
 
 export type FieldConfig = StringFieldConfig;
 
-export type ProjectDefinition = {
-  readonly name: string;
-  readonly id: string;
-  readonly path: string;
-  readonly recursive: boolean;
-  readonly fieldConfig: { [field: string]: FieldConfig };
-  readonly views: ViewDefinition[];
-  readonly defaultName: string;
-  readonly templates: string[];
-  readonly dataview: boolean;
-  readonly query: string;
-  readonly excludedNotes: string[];
-  readonly isDefault: boolean;
+export type ProjectsPluginPreferences = {
+  readonly projectSizeLimit: number;
+  readonly frontmatter: {
+    readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
+  };
 };
 
-export type UnsavedProjectDefinition = Omit<
-  ProjectDefinition,
-  "name" | "id" | "views"
+export type UnsavedViewDefinition = Omit<
+  ViewDefinition,
+  "name" | "id" | "type"
 >;
 
-export const DEFAULT_PROJECT: UnsavedProjectDefinition = {
-  path: "",
-  recursive: false,
-  fieldConfig: {},
-  defaultName: "",
-  templates: [],
-  dataview: false,
-  query: "",
-  excludedNotes: [],
-  isDefault: false,
+export const DEFAULT_VIEW: UnsavedViewDefinition = {
+  config: {},
+  filter: { conditions: [] },
+  colors: { conditions: [] },
 };

@@ -1,7 +1,7 @@
 {
   "name": "obsidian-projects",
-  "version": "1.10.0",
-  "description": "Obsidian plugin for project management.",
+  "version": "1.11.5",
+  "description": "Plain text project planning for Obsidian",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
@@ -28,7 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "builtin-modules": "^3.2.0",
-    "dayjs": "^1.11.4",
+    "dayjs": "^1.11.6",
     "esbuild": "^0.16.12",
     "esbuild-jest": "^0.5.0",
     "esbuild-svelte": "^0.7.3",
@@ -39,7 +39,7 @@
     "jest": "^29.3.1",
     "obsidian": "latest",
     "obsidian-dataview": "^0.5.46",
-    "obsidian-svelte": "0.0.39",
+    "obsidian-svelte": "0.1.6",
     "prettier": "^2.8.1",
     "prettier-plugin-svelte": "^2.9.0",
     "sortablejs": "^1.15.0",

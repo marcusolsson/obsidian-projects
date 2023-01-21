@@ -15,13 +15,13 @@
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { CreateProjectModal } from "src/modals/create-project-modal";
-  import type { ProjectDefinition } from "src/types";
   import Flair from "./Flair.svelte";
 
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
   import { InspectorModal } from "src/modals/inspector";
   import produce from "immer";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let projects: ProjectDefinition[];
 

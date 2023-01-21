@@ -2,7 +2,6 @@
   import { normalizePath, TFile } from "obsidian";
   import {
     Button,
-    Callout,
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
@@ -15,7 +14,7 @@
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let name: string;
   export let project: ProjectDefinition;
@@ -29,13 +28,25 @@
 
   $: nameError = validateName(name);
 
+  function getNewNotesFolder(project: ProjectDefinition) {
+    if (project.newNotesFolder) {
+      return project.newNotesFolder;
+    }
+
+    if (project.dataSource.kind === "folder") {
+      return project.dataSource.config.path;
+    }
+
+    return "";
+  }
+
   function validateName(name: string) {
     if (name === "") {
       return $i18n.t("modals.note.create.empty-name-error");
     }
 
     const existingFile = $app.vault.getAbstractFileByPath(
-      normalizePath(project.path + "/" + name + ".md")
+      normalizePath(getNewNotesFolder(project) + "/" + name + ".md")
     );
 
     if (existingFile instanceof TFile) {
@@ -102,22 +113,11 @@
         />
       </SettingItem>
     {/if}
-    {#if project.dataview}
-      <Callout
-        title={$i18n.t("modals.note.create.readonly.title")}
-        icon="alert-triangle"
-        variant="danger"
-      >
-        {$i18n.t("modals.note.create.readonly.message", {
-          project: project.name,
-        })}
-      </Callout>
-    {/if}
   </ModalContent>
   <ModalButtonGroup>
     <Button
       variant={"primary"}
-      disabled={!!nameError || !!project.dataview}
+      disabled={!!nameError}
       on:click={() => {
         onSave(name, templatePath, project);
       }}

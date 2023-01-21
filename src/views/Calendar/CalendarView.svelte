@@ -15,7 +15,7 @@
   import type { ViewApi } from "src/lib/view-api";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,
     setRecordColorContext,
@@ -46,6 +46,11 @@
   export let getRecordColor: (record: DataRecord) => string | null;
   export let config: CalendarConfig | undefined;
   export let onConfigChange: (cfg: CalendarConfig) => void;
+
+  function saveConfig(cfg: CalendarConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
 
   $: ({ fields, records } = frame);
 
@@ -79,14 +84,14 @@
 
   function handleIntervalChange(interval: string) {
     if (isCalendarInterval(interval)) {
-      onConfigChange({ ...config, interval });
+      saveConfig({ ...config, interval });
     }
   }
   function handleDateFieldChange(dateField: string) {
-    onConfigChange({ ...config, dateField });
+    saveConfig({ ...config, dateField });
   }
   function handleCheckFieldChange(checkField: string) {
-    onConfigChange({ ...config, checkField });
+    saveConfig({ ...config, checkField });
   }
 
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {

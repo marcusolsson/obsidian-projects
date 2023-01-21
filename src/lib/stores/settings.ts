@@ -5,18 +5,11 @@ import { v4 as uuidv4 } from "uuid";
 import { notEmpty } from "src/lib/helpers";
 import {
   DEFAULT_SETTINGS,
+  type ProjectDefinition,
   type ProjectsPluginPreferences,
   type ProjectsPluginSettings,
-} from "src/main";
-import {
-  DEFAULT_PROJECT,
-  DEFAULT_VIEW,
-  type ProjectDefinition,
-  type UnsavedProjectDefinition,
-  type UnsavedViewDefinition,
   type ViewDefinition,
-} from "src/types";
-import { either } from "fp-ts";
+} from "src/settings/settings";
 
 function createSettings() {
   const { set, update, subscribe } = writable<ProjectsPluginSettings>(
@@ -242,79 +235,3 @@ function createSettings() {
   };
 }
 export const settings = createSettings();
-
-/**
- * migrateSettings accepts the value from Plugin.loadData() and returns the most
- * recent settings. If needed, it applies any necessary migrations.
- */
-export function migrateSettings(
-  settings: any
-): either.Either<Error, ProjectsPluginSettings> {
-  if (!settings) {
-    return either.right(Object.assign({}, DEFAULT_SETTINGS));
-  }
-
-  if ("version" in settings && typeof settings.version === "number") {
-    // Apply defaults to any saved projects.
-    if ("projects" in settings && Array.isArray(settings.projects)) {
-      return either.tryCatch(() => {
-        return {
-          ...DEFAULT_SETTINGS,
-          ...settings,
-          projects: settings.projects.map(loadProject),
-          preferences: Object.assign({}, DEFAULT_SETTINGS.preferences),
-        };
-      }, either.toError);
-    }
-
-    return either.right({
-      ...DEFAULT_SETTINGS,
-      ...settings,
-    });
-  }
-
-  return either.left(new Error("Missing version"));
-}
-
-// loadProject returns a complete project definition, or throws an exception.
-function loadProject(project: Partial<ProjectDefinition>): ProjectDefinition {
-  const res: UnsavedProjectDefinition = {
-    ...DEFAULT_PROJECT,
-    ...project,
-  };
-
-  if ("name" in res && "id" in res) {
-    const { name, id } = res;
-
-    if (isString(name) && isString(id)) {
-      if ("views" in res && Array.isArray(res.views)) {
-        return { ...res, name, id, views: res.views.map(loadView) };
-      }
-      return { ...res, name, id, views: [] };
-    }
-  }
-
-  throw new Error("Invalid project definition");
-}
-
-// loadProject returns a complete view definition, or throws an exception.
-function loadView(view: Partial<ViewDefinition>): ViewDefinition {
-  const res: UnsavedViewDefinition = {
-    ...DEFAULT_VIEW,
-    ...view,
-  };
-
-  if ("name" in res && "id" in res && "type" in res) {
-    const { name, id, type } = res;
-
-    if (isString(name) && isString(id) && isString(type)) {
-      return { ...res, name, id, type };
-    }
-  }
-
-  throw new Error("Invalid view definition");
-}
-
-const isString = (value: unknown): value is string => {
-  return typeof value === "string";
-};

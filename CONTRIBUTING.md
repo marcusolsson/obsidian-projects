@@ -10,6 +10,9 @@ Help prioritize work by adding a :+1: reaction to issues that are important to y
 
 To see what's being working on, check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14).
 
+## Testing
+
+Help find bugs and unexpected behavior when using the plugin. Help me find sources of annoyance and frustration before others do. Even reporting small things like losing focus, or a glitchy UI, help improve the overall quality of the plugin. No issues are too small to reports.
 
 ## Submitting a pull request
 

@@ -2,20 +2,22 @@ import type { App } from "obsidian";
 import { DataviewApi, getAPI, isPluginEnabled, Link } from "obsidian-dataview";
 import { get } from "svelte/store";
 
+import produce from "immer";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {
   DataSource,
+  emptyDataFrame,
   type DataField,
   type DataFrame,
   type DataRecord,
 } from "src/lib/data";
 import { detectFields, parseRecords } from "src/lib/datasources/helpers";
 import { i18n } from "src/lib/stores/i18n";
-import type { ProjectDefinition } from "src/types";
-
+import type {
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 import { standardizeValues } from "./dataview-helpers";
-import produce from "immer";
-import type { ProjectsPluginPreferences } from "src/main";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {
@@ -41,11 +43,19 @@ export class DataviewDataSource extends DataSource {
   }
 
   async queryAll(): Promise<DataFrame> {
+    if (this.project.dataSource.kind !== "dataview") {
+      return emptyDataFrame;
+    }
+
     const api = this.getDataviewAPI();
 
-    const result = await api?.query(this.project.query ?? "", undefined, {
-      forceId: true,
-    });
+    const result = await api?.query(
+      this.project.dataSource.config.query ?? "",
+      undefined,
+      {
+        forceId: true,
+      }
+    );
 
     if (!result?.successful || result.value.type !== "table") {
       throw new Error("dataview query failed");

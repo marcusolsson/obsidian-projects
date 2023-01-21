@@ -93,7 +93,7 @@
     </div>
   </GridCell>
 
-  {#each columns as column, i}
+  {#each columns as column, i (column.field)}
     <GridTypedCell
       selected={activeCell[0] === i + 2 && activeCell[1] === index + 2}
       rowindex={index + 2}

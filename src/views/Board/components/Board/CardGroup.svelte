@@ -1,16 +1,19 @@
 <script lang="ts">
   import { InternalLink } from "obsidian-svelte";
-  import type { DataRecord } from "src/lib/data";
+  import type { DataField, DataRecord } from "src/lib/data";
   import { dndzone } from "svelte-dnd-action";
   import { getDisplayName } from "./board-helpers";
   import { app } from "src/lib/stores/obsidian";
   import { flip } from "svelte/animate";
   import { getRecordColorContext } from "src/views/helpers";
+  import CardMetadata from "src/components/CardMetadata/CardMetadata.svelte";
+  import ColorItem from "src/components/ColorItem/ColorItem.svelte";
 
   export let items: DataRecord[];
   export let onRecordClick: (record: DataRecord) => void;
   export let onDrop: (records: DataRecord[]) => void = () => {};
   export let dragDisabled: boolean = false;
+  export let fields: DataField[];
 
   const flipDurationMs = 200;
 
@@ -52,25 +55,24 @@
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
     >
-      {#if color}
-        <span
-          style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
-        />
-      {/if}
-      <InternalLink
-        linkText={item.id}
-        sourcePath=""
-        resolved
-        on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-          if (newLeaf) {
-            $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-          } else {
-            onRecordClick(item);
-          }
-        }}
-      >
-        {getDisplayName(item.id)}
-      </InternalLink>
+      <ColorItem {color}>
+        <InternalLink
+          slot="header"
+          linkText={item.id}
+          sourcePath=""
+          resolved
+          on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+            if (newLeaf) {
+              $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
+            } else {
+              onRecordClick(item);
+            }
+          }}
+        >
+          {getDisplayName(item.id)}
+        </InternalLink>
+        <CardMetadata {fields} record={item} />
+      </ColorItem>
     </div>
   {/each}
 </div>
@@ -88,7 +90,6 @@
     border-radius: var(--radius-s);
     border: 1px solid var(--background-modifier-border);
     padding: var(--size-4-2);
-    display: flex;
   }
 
   .crd:hover {

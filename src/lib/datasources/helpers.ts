@@ -148,3 +148,17 @@ function stringToBoolean(stringValue: string): boolean {
       return !!stringValue;
   }
 }
+
+export class TooManyNotesError extends Error {
+  constructor(n: number, limit: number) {
+    const message = `This project contains ${Intl.NumberFormat().format(
+      n
+    )} notes, which is more than the maximum project size (${Intl.NumberFormat().format(
+      limit
+    )}). You can increase the default limit in the plugin settings, but be aware that doing so may lead to a poor experience, or even cause the plugin to stop responding.`;
+
+    super(message);
+
+    this.name = "Too many notes";
+  }
+}

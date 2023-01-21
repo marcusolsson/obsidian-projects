@@ -8,7 +8,7 @@
   import { settings } from "src/lib/stores/settings";
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
   import { CreateProjectModal } from "src/modals/create-project-modal";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let projectId: string | undefined;
   export let projects: ProjectDefinition[];
@@ -78,7 +78,9 @@
               new ConfirmDialogModal(
                 $app,
                 $i18n.t("modals.project.delete.title"),
-                $i18n.t("modals.project.delete.message"),
+                $i18n.t("modals.project.delete.message", {
+                  project: project?.name ?? "",
+                }),
                 $i18n.t("modals.project.delete.cta"),
                 () => {
                   if (projectId) {

@@ -22,8 +22,8 @@ jobs:
       - name: Build
         id: build
         run: |
-          yarn install
-          yarn build
+          npm install
+          npm run build
           mkdir ${{ env.PLUGIN_NAME }}
           cp main.js manifest.json styles.css ${{ env.PLUGIN_NAME }}
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}

@@ -2,7 +2,7 @@ import { normalizePath, TFile } from "obsidian";
 import { get } from "svelte/store";
 
 import { app } from "src/lib/stores/obsidian";
-import type { ProjectDefinition, ViewDefinition } from "src/types";
+import type { ProjectDefinition, ViewDefinition } from "src/settings/settings";
 
 /**
  * notEmpty is a convenience function for filtering arrays with optional values.

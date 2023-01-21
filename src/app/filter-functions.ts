@@ -10,7 +10,7 @@ import {
   type FilterDefinition,
   type NumberFilterOperator,
   type StringFilterOperator,
-} from "src/types";
+} from "src/settings/settings";
 
 export function matchesCondition(
   cond: FilterCondition,

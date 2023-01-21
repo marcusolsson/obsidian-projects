@@ -7,6 +7,7 @@
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
+    Select,
     SettingItem,
     Switch,
     TextArea,
@@ -14,6 +15,7 @@
   } from "obsidian-svelte";
 
   import { FileListInput } from "src/components/FileListInput";
+  import { Accordion, AccordionItem } from "src/components/Accordion";
   import { notEmpty } from "src/lib/helpers";
   import { getFoldersInFolder, isValidPath } from "src/lib/obsidian";
   import { capabilities } from "src/lib/stores/capabilities";
@@ -21,7 +23,7 @@
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
   import { interpolateTemplate } from "src/lib/templates";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let title: string;
   export let cta: string;
@@ -39,6 +41,41 @@
 
   $: ({ name } = project);
   $: nameError = validateName(name);
+
+  const dataSourceOptions = [
+    { label: "Folder", value: "folder" },
+    { label: "Tag", value: "tag" },
+  ];
+
+  if ($capabilities.dataview) {
+    dataSourceOptions.push({ label: "Dataview", value: "dataview" });
+  }
+
+  function handleDataSourceChange({ detail: value }: CustomEvent<string>) {
+    switch (value) {
+      case "folder":
+        project = {
+          ...project,
+          dataSource: {
+            kind: "folder",
+            config: { path: "", recursive: false },
+          },
+        };
+        break;
+      case "tag":
+        project = {
+          ...project,
+          dataSource: { kind: "tag", config: { tag: "" } },
+        };
+        break;
+      case "dataview":
+        project = {
+          ...project,
+          dataSource: { kind: "dataview", config: { query: "" } },
+        };
+        break;
+    }
+  }
 
   function validateName(name: string) {
     if (name === originalName) {
@@ -82,44 +119,18 @@
       />
     </SettingItem>
 
-    {#if project.dataview || $capabilities.dataview}
-      <SettingItem
-        name={$i18n.t("modals.project.dataview.name")}
-        description={$i18n.t("modals.project.dataview.description") ?? ""}
-      >
-        <Switch
-          checked={!!project.dataview}
-          on:check={({ detail: dataview }) =>
-            (project = { ...project, dataview })}
-        />
-      </SettingItem>
-    {/if}
+    <SettingItem
+      name="Data source"
+      description="Choose how you want to define which notes to include."
+    >
+      <Select
+        value={project.dataSource.kind}
+        options={dataSourceOptions}
+        on:change={handleDataSourceChange}
+      />
+    </SettingItem>
 
-    {#if project.dataview && !$capabilities.dataview}
-      <Callout
-        title={$i18n.t("modals.project.dataview.error.title")}
-        icon="zap"
-        variant="danger"
-      >
-        {$i18n.t("modals.project.dataview.error.message")}
-      </Callout>
-    {/if}
-
-    {#if project.dataview}
-      <SettingItem
-        name={$i18n.t("modals.project.query.name")}
-        description={$i18n.t("modals.project.query.description") ?? ""}
-        vertical
-      >
-        <TextArea
-          placeholder={`TABLE status AS "Status" FROM "Work"`}
-          value={project.query ?? ""}
-          on:input={({ detail: query }) => (project = { ...project, query })}
-          rows={6}
-          width="100%"
-        />
-      </SettingItem>
-    {:else}
+    {#if project.dataSource.kind === "folder"}
       <SettingItem
         name={$i18n.t("modals.project.path.name")}
         description={$i18n.t("modals.project.path.description") ?? ""}
@@ -127,8 +138,18 @@
       >
         <FileAutocomplete
           files={getFoldersInFolder($app.vault.getRoot())}
-          value={project.path}
-          on:change={({ detail: path }) => (project = { ...project, path })}
+          value={project.dataSource.config.path}
+          on:change={({ detail: path }) => {
+            if (project.dataSource.kind === "folder") {
+              project = {
+                ...project,
+                dataSource: {
+                  kind: project.dataSource.kind,
+                  config: { ...project.dataSource.config, path },
+                },
+              };
+            }
+          }}
           getLabel={(file) => file.path}
           width="100%"
         />
@@ -139,58 +160,156 @@
         description={$i18n.t("modals.project.recursive.description") ?? ""}
       >
         <Switch
-          checked={project.recursive}
-          on:check={({ detail: recursive }) =>
-            (project = { ...project, recursive })}
+          checked={project.dataSource.config.recursive}
+          on:check={({ detail: recursive }) => {
+            if (project.dataSource.kind === "folder") {
+              project = {
+                ...project,
+                dataSource: {
+                  kind: project.dataSource.kind,
+                  config: { ...project.dataSource.config, recursive },
+                },
+              };
+            }
+          }}
         />
       </SettingItem>
     {/if}
 
-    <SettingItem
-      name={$i18n.t("modals.project.defaultName.name")}
-      description={$i18n.t("modals.project.defaultName.description") ?? ""}
-      vertical
-    >
-      <TextInput
-        value={project.defaultName ?? ""}
-        on:input={({ detail: defaultName }) =>
-          (project = { ...project, defaultName })}
-        width="100%"
-      />
-      <small>
-        {defaultName}
-      </small>
-      {#if !isValidPath(defaultName)}
-        <small class="error"
-          >{$i18n.t("modals.project.defaultName.invalid")}</small
+    {#if project.dataSource.kind === "tag"}
+      <SettingItem
+        name={$i18n.t("modals.project.tag.name")}
+        description={$i18n.t("modals.project.tag.description") ?? ""}
+        vertical
+      >
+        <TextInput
+          placeholder="#tag"
+          value={project.dataSource.config.tag ?? ""}
+          on:input={({ detail: tag }) => {
+            if (project.dataSource.kind === "tag") {
+              project = {
+                ...project,
+                dataSource: {
+                  kind: project.dataSource.kind,
+                  config: { ...project.dataSource.config, tag },
+                },
+              };
+            }
+          }}
+          width="100%"
+        />
+      </SettingItem>
+    {/if}
+
+    {#if project.dataSource.kind === "dataview"}
+      {#if $capabilities.dataview}
+        <SettingItem
+          name={$i18n.t("modals.project.query.name")}
+          description={$i18n.t("modals.project.query.description") ?? ""}
+          vertical
         >
+          <TextArea
+            placeholder={`TABLE status AS "Status" FROM "Work"`}
+            value={project.dataSource.config.query ?? ""}
+            on:input={({ detail: query }) => {
+              if (project.dataSource.kind === "dataview") {
+                project = {
+                  ...project,
+                  dataSource: {
+                    kind: project.dataSource.kind,
+                    config: { ...project.dataSource.config, query },
+                  },
+                };
+              }
+            }}
+            rows={6}
+            width="100%"
+          />
+        </SettingItem>
+      {:else}
+        <Callout
+          title={$i18n.t("modals.project.dataview.error.title")}
+          icon="zap"
+          variant="danger"
+        >
+          {$i18n.t("modals.project.dataview.error.message")}
+        </Callout>
       {/if}
-    </SettingItem>
+    {/if}
 
-    <SettingItem
-      name={$i18n.t("modals.project.templates.name")}
-      description={$i18n.t("modals.project.templates.description") ?? ""}
-      vertical
-    >
-      <FileListInput
-        buttonText="Add template"
-        paths={project.templates ?? []}
-        onPathsChange={(templates) => (project = { ...project, templates })}
-      />
-    </SettingItem>
+    <Accordion>
+      <AccordionItem>
+        <div slot="header" class="setting-item-info" style:margin-top="8px">
+          <div class="setting-item-name">More settings</div>
+        </div>
+        <SettingItem
+          name={$i18n.t("modals.project.newNotesFolder.name")}
+          description={$i18n.t("modals.project.newNotesFolder.description") ??
+            ""}
+        >
+          <FileAutocomplete
+            files={getFoldersInFolder($app.vault.getRoot())}
+            value={project.newNotesFolder}
+            placeholder={project.dataSource.kind === "folder"
+              ? project.dataSource.config.path
+              : "/"}
+            on:change={({ detail: newNotesFolder }) => {
+              project = {
+                ...project,
+                newNotesFolder,
+              };
+            }}
+            getLabel={(file) => file.path}
+          />
+        </SettingItem>
 
-    <SettingItem
-      name={$i18n.t("modals.project.exclude.name")}
-      description={$i18n.t("modals.project.exclude.description") ?? ""}
-      vertical
-    >
-      <FileListInput
-        buttonText="Add note"
-        paths={project.excludedNotes ?? []}
-        onPathsChange={(excludedNotes) =>
-          (project = { ...project, excludedNotes })}
-      />
-    </SettingItem>
+        <SettingItem
+          name={$i18n.t("modals.project.defaultName.name")}
+          description={$i18n.t("modals.project.defaultName.description") ?? ""}
+          vertical
+        >
+          <TextInput
+            value={project.defaultName ?? ""}
+            on:input={({ detail: defaultName }) =>
+              (project = { ...project, defaultName })}
+            width="100%"
+          />
+          <small>
+            {defaultName}
+          </small>
+          {#if !isValidPath(defaultName)}
+            <small class="error"
+              >{$i18n.t("modals.project.defaultName.invalid")}</small
+            >
+          {/if}
+        </SettingItem>
+
+        <SettingItem
+          name={$i18n.t("modals.project.templates.name")}
+          description={$i18n.t("modals.project.templates.description") ?? ""}
+          vertical
+        >
+          <FileListInput
+            buttonText="Add template"
+            paths={project.templates ?? []}
+            onPathsChange={(templates) => (project = { ...project, templates })}
+          />
+        </SettingItem>
+
+        <SettingItem
+          name={$i18n.t("modals.project.exclude.name")}
+          description={$i18n.t("modals.project.exclude.description") ?? ""}
+          vertical
+        >
+          <FileListInput
+            buttonText="Add note"
+            paths={project.excludedNotes ?? []}
+            onPathsChange={(excludedNotes) =>
+              (project = { ...project, excludedNotes })}
+          />
+        </SettingItem>
+      </AccordionItem>
+    </Accordion>
   </ModalContent>
   <ModalButtonGroup>
     <Button

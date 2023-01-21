@@ -6,6 +6,8 @@
     Select,
     Typography,
   } from "obsidian-svelte";
+  import CardMetadata from "src/components/CardMetadata/CardMetadata.svelte";
+  import ColorItem from "src/components/ColorItem/ColorItem.svelte";
 
   import { Field } from "src/components/Field";
   import {
@@ -27,10 +29,12 @@
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { fieldToSelectableValue } from "src/views/helpers";
   import { getDisplayName } from "../Board/components/Board/board-helpers";
+  import { SwitchSelect } from "../Table/components/SwitchSelect";
 
   import { Card, CardContent, CardMedia } from "./components/Card";
   import Grid from "./components/Grid/Grid.svelte";
   import Image from "./components/Image/Image.svelte";
+  import { parseObsidianLink } from "./helpers";
   import { GallerySettingsModal } from "./settings/settings-modal";
   import type { GalleryConfig } from "./types";
 
@@ -39,6 +43,11 @@
   export let onConfigChange: (config: GalleryConfig) => void;
   export let api: ViewApi;
   export let getRecordColor: (record: DataRecord) => string | null;
+
+  function saveConfig(cfg: GalleryConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
 
   $: ({ fields, records } = frame);
 
@@ -70,7 +79,9 @@
   }
 
   function getResourcePathFromLinkText(text: string) {
-    const file = $app.metadataCache.getFirstLinkpathDest(text, "");
+    const linkText = parseObsidianLink(text)?.linkText || text;
+
+    const file = $app.metadataCache.getFirstLinkpathDest(linkText, "");
 
     if (file) {
       if (
@@ -84,11 +95,23 @@
   }
 
   function handleCoverFieldChange(coverField: string) {
-    onConfigChange({ ...config, coverField });
+    saveConfig({ ...config, coverField });
   }
 
   function handleFitStyleChange(fitStyle: string) {
-    onConfigChange({ ...config, fitStyle });
+    saveConfig({ ...config, fitStyle });
+  }
+
+  function handleIncludeFieldChange(field: string, enabled: boolean) {
+    const includedFields = new Set(config?.includeFields);
+
+    if (enabled) {
+      includedFields.add(field);
+    } else {
+      includedFields.delete(field);
+    }
+
+    saveConfig({ ...config, includeFields: [...includedFields] });
   }
 
   function handleRecordClick(record: DataRecord) {
@@ -128,12 +151,20 @@
           ]}
           on:change={({ detail }) => handleFitStyleChange(detail)}
         />
+        <SwitchSelect
+          label={"Include fields"}
+          items={fields.map((field) => ({
+            label: field.name,
+            value: field.name,
+            enabled: !!config?.includeFields?.includes(field.name),
+          }))}
+          onChange={handleIncludeFieldChange}
+        />
         <IconButton
           icon="settings"
           on:click={() => {
             new GallerySettingsModal($app, config ?? {}, (value) => {
-              config = value;
-              onConfigChange(value);
+              saveConfig(value);
             }).open();
           }}
         />
@@ -142,9 +173,9 @@
   </ViewHeader>
   <ViewContent>
     {#if records.length}
-      <div>
+      <div class="padding">
         <Grid cardWidth={config?.cardWidth ?? 300}>
-          {#each records as record}
+          {#each records as record (record.id)}
             {@const color = getRecordColor(record)}
             <Card>
               <CardMedia
@@ -164,29 +195,35 @@
                 {/if}
               </CardMedia>
               <CardContent>
-                {#if color}
-                  <span
-                    style="margin-right: 8px; background-color: {color}; width: 5px; border-radius: 9999px;"
+                <ColorItem {color}>
+                  <InternalLink
+                    slot="header"
+                    linkText={record.id}
+                    sourcePath=""
+                    resolved
+                    on:open={({
+                      detail: { linkText, sourcePath, newLeaf },
+                    }) => {
+                      if (newLeaf) {
+                        $app.workspace.openLinkText(
+                          linkText,
+                          sourcePath,
+                          newLeaf
+                        );
+                      } else {
+                        handleRecordClick(record);
+                      }
+                    }}
+                  >
+                    {getDisplayName(record.id)}
+                  </InternalLink>
+                  <CardMetadata
+                    fields={fields.filter(
+                      (field) => !!config?.includeFields?.includes(field.name)
+                    )}
+                    {record}
                   />
-                {/if}
-                <InternalLink
-                  linkText={record.id}
-                  sourcePath=""
-                  resolved
-                  on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-                    if (newLeaf) {
-                      $app.workspace.openLinkText(
-                        linkText,
-                        sourcePath,
-                        newLeaf
-                      );
-                    } else {
-                      handleRecordClick(record);
-                    }
-                  }}
-                >
-                  {getDisplayName(record.id)}
-                </InternalLink>
+                </ColorItem>
               </CardContent>
             </Card>
           {/each}
@@ -201,7 +238,7 @@
 </ViewLayout>
 
 <style>
-  div {
+  .padding {
     padding: 24px;
   }
 </style>

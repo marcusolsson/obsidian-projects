@@ -6,7 +6,6 @@
   import type { ViewApi } from "src/lib/view-api";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
-  import type { ProjectDefinition } from "src/types";
 
   import type {
     GridColDef,
@@ -25,6 +24,7 @@
   import { ConfigureFieldModal } from "src/modals/configure-field";
   import { settings } from "src/lib/stores/settings";
   import { sortFields } from "./helpers";
+  import type { ProjectDefinition } from "src/settings/settings";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -34,6 +34,11 @@
 
   export let config: TableConfig | undefined;
   export let onConfigChange: (cfg: TableConfig) => void;
+
+  function saveConfig(cfg: TableConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
 
   $: ({ fields, records } = frame);
 
@@ -69,7 +74,7 @@
   }));
 
   function handleVisibilityChange(field: string, enabled: boolean) {
-    config = {
+    saveConfig({
       ...config,
       fieldConfig: {
         ...fieldConfig,
@@ -78,13 +83,11 @@
           hide: !enabled,
         },
       },
-    };
-
-    onConfigChange(config);
+    });
   }
 
   function handleWidthChange(field: string, width: number) {
-    config = {
+    saveConfig({
       ...config,
       fieldConfig: {
         ...fieldConfig,
@@ -93,9 +96,7 @@
           width,
         },
       },
-    };
-
-    onConfigChange(config);
+    });
   }
 </script>
 
@@ -194,7 +195,7 @@
         sort: config?.sortAsc ? "asc" : "desc",
       }}
       onSortModelChange={(field, sort) => {
-        onConfigChange({
+        saveConfig({
           ...config,
           sortField: field,
           sortAsc: sort === "asc",

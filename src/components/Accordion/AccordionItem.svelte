@@ -35,8 +35,4 @@
     padding: 8px;
     justify-content: space-between;
   }
-
-  header:hover {
-    background-color: var(--background-modifier-hover);
-  }
 </style>

@@ -15,11 +15,12 @@
   import type { ViewApi } from "src/lib/view-api";
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
-  import type { ProjectDefinition } from "src/types";
+  import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,
     setRecordColorContext,
   } from "src/views/helpers";
+  import { SwitchSelect } from "../Table/components/SwitchSelect";
 
   import { groupRecordsByField } from "./board";
   import { Board } from "./components";
@@ -34,6 +35,11 @@
 
   export let config: BoardConfig | undefined;
   export let onConfigChange: (cfg: BoardConfig) => void;
+
+  function saveConfig(cfg: BoardConfig) {
+    config = cfg;
+    onConfigChange(cfg);
+  }
 
   $: ({ fields, records } = frame);
 
@@ -133,6 +139,18 @@
     }).open();
   }
 
+  function handleIncludeFieldChange(field: string, enabled: boolean) {
+    const includedFields = new Set(config?.includeFields);
+
+    if (enabled) {
+      includedFields.add(field);
+    } else {
+      includedFields.delete(field);
+    }
+
+    saveConfig({ ...config, includeFields: [...includedFields] });
+  }
+
   setRecordColorContext(getRecordColor);
 </script>
 
@@ -145,7 +163,7 @@
             value={groupByField?.name ?? ""}
             options={textFields.map(fieldToSelectableValue)}
             on:change={({ detail: value }) =>
-              onConfigChange({
+              saveConfig({
                 ...config,
                 groupByField: value,
               })}
@@ -158,7 +176,7 @@
             value={priorityField?.name ?? ""}
             options={priorityFields.map(fieldToSelectableValue)}
             on:change={({ detail: value }) => {
-              onConfigChange({
+              saveConfig({
                 ...config,
                 priorityField: value,
               });
@@ -173,12 +191,20 @@
             tooltip="Date fields can't be reprioritized using drag and drop."
           />
         {/if}
+        <SwitchSelect
+          label={"Include fields"}
+          items={fields.map((field) => ({
+            label: field.name,
+            value: field.name,
+            enabled: !!config?.includeFields?.includes(field.name),
+          }))}
+          onChange={handleIncludeFieldChange}
+        />
         <IconButton
           icon="settings"
           on:click={() => {
             new BoardSettingsModal($app, config ?? {}, (value) => {
-              config = value;
-              onConfigChange(value);
+              saveConfig(value);
             }).open();
           }}
         />
@@ -191,7 +217,7 @@
         onRecordUpdate={handleRecordUpdate}
         dragDisabled={!priorityField}
         onSortColumns={(names) => {
-          onConfigChange({
+          saveConfig({
             ...config,
             columns: Object.fromEntries(
               names.map((name, i) => {
@@ -206,6 +232,9 @@
         onRecordClick={handleRecordClick}
         onRecordAdd={handleRecordAdd}
         columnWidth={config?.columnWidth ?? 270}
+        fields={fields.filter(
+          (field) => !!config?.includeFields?.includes(field.name)
+        )}
       />
     </div>
   </ViewContent>

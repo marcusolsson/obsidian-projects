@@ -2,7 +2,10 @@
   import type { DataFrame, DataRecord } from "src/lib/data";
   import { settings } from "src/lib/stores/settings";
   import type { ViewApi } from "src/lib/view-api";
-  import type { ProjectDefinition, ViewDefinition } from "src/types";
+  import type {
+    ProjectDefinition,
+    ViewDefinition,
+  } from "src/settings/settings";
   import { applyFilter, matchesCondition } from "./filter-functions";
 
   import { useView } from "./useView";

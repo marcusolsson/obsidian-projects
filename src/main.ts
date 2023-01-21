@@ -10,44 +10,18 @@ import { createDataRecord, createProject } from "src/lib/data-api";
 import { api } from "src/lib/stores/api";
 import { i18n } from "src/lib/stores/i18n";
 import { app, plugin } from "src/lib/stores/obsidian";
-import { migrateSettings, settings } from "src/lib/stores/settings";
+import { settings } from "src/lib/stores/settings";
 import { CreateNoteModal } from "src/modals/create-note-modal";
 import { CreateProjectModal } from "src/modals/create-project-modal";
 import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
 import { ProjectsSettingTab } from "./settings";
-import type { ProjectDefinition } from "./types";
+import { migrateSettings } from "./settings/settings";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 dayjs.extend(isBetween);
-
-export type ProjectsPluginPreferences = {
-  readonly frontmatter: {
-    readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
-  };
-};
-
-export type ProjectsPluginSettingsV1 = {
-  readonly version: 1;
-  readonly lastProjectId?: string | undefined;
-  readonly lastViewId?: string | undefined;
-  readonly projects: ProjectDefinition[];
-  readonly preferences: ProjectsPluginPreferences;
-};
-
-export type ProjectsPluginSettings = ProjectsPluginSettingsV1;
-
-export const DEFAULT_SETTINGS: ProjectsPluginSettings = {
-  version: 1,
-  projects: [],
-  preferences: {
-    frontmatter: {
-      quoteStrings: "PLAIN",
-    },
-  },
-};
 
 export default class ProjectsPlugin extends Plugin {
   unsubscribeSettings?: Unsubscriber;
@@ -79,7 +53,13 @@ export default class ProjectsPlugin extends Plugin {
                   {
                     ...project,
                     name: file.name,
-                    path: file.path,
+                    dataSource: {
+                      kind: "folder",
+                      config: {
+                        path: file.path,
+                        recursive: false,
+                      },
+                    },
                   }
                 ).open();
               });

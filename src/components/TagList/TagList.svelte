@@ -6,7 +6,7 @@
   import { InputDialogModal } from "src/modals/input-dialog";
 
   export let values: Optional<DataValue>[];
-  export let edit: boolean;
+  export let edit: boolean = false;
 
   export let onChange: (values: Optional<DataValue>[]) => void = () => {};
 
