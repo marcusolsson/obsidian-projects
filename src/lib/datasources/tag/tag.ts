@@ -44,18 +44,27 @@ function parseTags(cache: CachedMetadata) {
 
   markdownTags.forEach((tag) => allTags.add(tag));
 
-  const frontMatterTags = cache.frontmatter?.["tags"];
-
-  if (typeof frontMatterTags === "string") {
-    frontMatterTags
-      .split(",")
-      .map((tag) => "#" + tag.trim())
-      .forEach((tag) => allTags.add(tag));
-  } else if (Array.isArray(frontMatterTags)) {
-    frontMatterTags
-      .map((tag) => "#" + tag.toString())
-      .forEach((tag) => allTags.add(tag));
-  }
+  parseFrontMatterTags(cache.frontmatter?.["tags"]).forEach((tag) =>
+    allTags.add(tag)
+  );
+  parseFrontMatterTags(cache.frontmatter?.["tag"]).forEach((tag) =>
+    allTags.add(tag)
+  );
 
   return allTags;
+}
+
+function parseFrontMatterTags(property: unknown): string[] {
+  const res: string[] = [];
+
+  if (typeof property === "string") {
+    property
+      .split(",")
+      .map((tag) => "#" + tag.trim())
+      .forEach((tag) => res.push(tag));
+  } else if (Array.isArray(property)) {
+    property.map((tag) => "#" + tag.toString()).forEach((tag) => res.push(tag));
+  }
+
+  return res;
 }
