@@ -75,20 +75,28 @@
         ref.focus();
         break;
       case "ArrowLeft":
-        dispatch("navigate", [colindex - 1, rowindex]);
-        event.preventDefault();
+        if (!edit) {
+          dispatch("navigate", [colindex - 1, rowindex]);
+          event.preventDefault();
+        }
         break;
       case "ArrowRight":
-        dispatch("navigate", [colindex + 1, rowindex]);
-        event.preventDefault();
+        if (!edit) {
+          dispatch("navigate", [colindex + 1, rowindex]);
+          event.preventDefault();
+        }
         break;
       case "ArrowUp":
-        dispatch("navigate", [colindex, rowindex - 1]);
-        event.preventDefault();
+        if (!edit) {
+          dispatch("navigate", [colindex, rowindex - 1]);
+          event.preventDefault();
+        }
         break;
       case "ArrowDown":
-        dispatch("navigate", [colindex, rowindex + 1]);
-        event.preventDefault();
+        if (!edit) {
+          dispatch("navigate", [colindex, rowindex + 1]);
+          event.preventDefault();
+        }
         break;
       case "Tab":
         if (event.shiftKey) {
