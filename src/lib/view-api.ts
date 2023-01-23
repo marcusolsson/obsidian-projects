@@ -1,20 +1,14 @@
-import type { App } from "obsidian";
 import { get } from "svelte/store";
 
 import type { DataField, DataRecord, DataSource } from "./data";
 import type { DataApi } from "./data-api";
-import { filesFromRecords } from "./obsidian";
 import { dataFrame } from "./stores/dataframe";
 
 /**
  * ViewApi provides an write API for views.
  */
 export class ViewApi {
-  constructor(
-    readonly app: App,
-    readonly dataSource: DataSource,
-    readonly dataApi: DataApi
-  ) {}
+  constructor(readonly dataSource: DataSource, readonly dataApi: DataApi) {}
 
   addRecord(record: DataRecord, templatePath: string) {
     if (this.dataSource.includes(record.id)) {
@@ -42,7 +36,7 @@ export class ViewApi {
 
     if (oldName) {
       this.dataApi.renameField(
-        filesFromRecords(this.app, get(dataFrame).records),
+        get(dataFrame).records.map((record) => record.id),
         oldName,
         field.name
       );
@@ -52,7 +46,7 @@ export class ViewApi {
   deleteField(field: string) {
     dataFrame.deleteField(field);
     this.dataApi.deleteField(
-      filesFromRecords(this.app, get(dataFrame).records),
+      get(dataFrame).records.map((record) => record.id),
       field
     );
   }

@@ -1,5 +1,3 @@
-import type { App, TFile, Vault } from "obsidian";
-
 import {
   DataSource,
   type DataField,
@@ -11,6 +9,8 @@ import {
   parseRecords,
   TooManyNotesError,
 } from "src/lib/datasources/helpers";
+
+import type { IFile, IFileSystem } from "src/lib/filesystem/filesystem";
 import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
 
@@ -27,21 +27,21 @@ import type {
  */
 export abstract class FrontMatterDataSource extends DataSource {
   constructor(
-    readonly app: App,
+    readonly fileSystem: IFileSystem,
     project: ProjectDefinition,
     preferences: ProjectsPluginPreferences
   ) {
     super(project, preferences);
   }
 
-  async queryOne(file: TFile, fields: DataField[]): Promise<DataFrame> {
+  async queryOne(file: IFile, fields: DataField[]): Promise<DataFrame> {
     return this.queryFiles([file], fields);
   }
 
   async queryAll(): Promise<DataFrame> {
-    const files = this.app.vault
-      .getMarkdownFiles()
-      .filter((file) => this.includes(file.path));
+    const files = this.fileSystem
+      .getAllFiles()
+      .filter(({ path }) => this.includes(path));
 
     if (files.length > this.preferences.projectSizeLimit) {
       throw new TooManyNotesError(
@@ -53,8 +53,8 @@ export abstract class FrontMatterDataSource extends DataSource {
     return this.queryFiles(files);
   }
 
-  async queryFiles(files: TFile[], predefinedFields?: DataField[]) {
-    const standardizedRecords = await standardizeRecords(files, this.app.vault);
+  async queryFiles(files: IFile[], predefinedFields?: DataField[]) {
+    const standardizedRecords = await standardizeRecords(files);
 
     const res = A.separate(standardizedRecords);
 
@@ -111,13 +111,12 @@ export class RecordError extends Error {
 }
 
 export async function standardizeRecords(
-  files: TFile[],
-  vault: Vault
+  files: IFile[]
 ): Promise<E.Either<RecordError, DataRecord>[]> {
   return Promise.all(
     files.map(async (file) => {
       return F.pipe(
-        await vault.read(file),
+        await file.read(),
         decodeFrontMatter,
         E.mapLeft((e) => new RecordError(file.path, e)),
         E.map(filterUndefinedValues),

@@ -77,7 +77,7 @@
             {project}
             {view}
             readonly={source.readonly()}
-            api={new ViewApi($app, source, $api)}
+            api={new ViewApi(source, $api)}
             onConfigChange={settings.updateViewConfig}
             {frame}
           />

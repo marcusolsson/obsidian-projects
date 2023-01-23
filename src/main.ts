@@ -3,7 +3,7 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
-import { addIcon, Plugin, TFolder, WorkspaceLeaf } from "obsidian";
+import { addIcon, Plugin, TFile, TFolder, WorkspaceLeaf } from "obsidian";
 import "obsidian-dataview";
 import { createDataRecord, createProject } from "src/lib/data-api";
 import { api } from "src/lib/stores/api";
@@ -14,6 +14,7 @@ import { CreateNoteModal } from "src/modals/create-note-modal";
 import { CreateProjectModal } from "src/modals/create-project-modal";
 import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
+import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/obsidian";
 import { ProjectsSettingTab } from "./settings";
 import { migrateSettings } from "./settings/settings";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
@@ -102,12 +103,14 @@ export default class ProjectsPlugin extends Plugin {
               this.app,
               projectDefinition,
               async (name, templatePath, project) => {
-                const file = await get(api).createNote(
-                  createDataRecord(name, project),
-                  templatePath
-                );
+                const record = createDataRecord(name, project);
+                await get(api).createNote(record, templatePath);
 
-                this.app.workspace.getLeaf(true).openFile(file);
+                const file = this.app.vault.getAbstractFileByPath(record.id);
+
+                if (file instanceof TFile) {
+                  this.app.workspace.getLeaf(true).openFile(file);
+                }
               }
             ).open();
           }
@@ -134,7 +137,9 @@ export default class ProjectsPlugin extends Plugin {
 
     await this.loadSettings();
 
-    registerFileEvents(this);
+    const watcher = new ObsidianFileSystemWatcher(this);
+
+    registerFileEvents(watcher);
 
     // Save settings to disk whenever settings has been updated.
     this.unsubscribeSettings = settings.subscribe((value) => {
