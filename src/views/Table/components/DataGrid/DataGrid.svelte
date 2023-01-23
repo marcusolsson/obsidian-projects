@@ -195,9 +195,20 @@
       onRowMenu={(rowId, row) => createRowMenu(rowId, row)}
       onCellMenu={(rowId, column) => createCellMenu(rowId, row, column)}
       on:navigate={({ detail: cell }) => {
+        const colOffset = 1;
+        const rowOffset = 3;
+
+        const minColIdx = 1 + colOffset;
+        const maxColIdx = sortedColumns.length + colOffset;
+
+        const minRowIdx = 1 + rowOffset;
+        const maxRowIdx = sortedRows.length + rowOffset;
+
+        const [colIdx, rowIdx] = cell;
+
         activeCell = [
-          clamp(cell[0], 2, sortedColumns.length + 1),
-          clamp(cell[1], 4, sortedRows.length + 3),
+          clamp(colIdx, minColIdx, maxColIdx),
+          clamp(rowIdx, minRowIdx, maxRowIdx),
         ];
       }}
     />
