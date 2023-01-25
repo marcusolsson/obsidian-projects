@@ -1,4 +1,5 @@
 import { TFile, type App, type CachedMetadata } from "obsidian";
+import { notEmpty } from "src/lib/helpers";
 import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
@@ -63,7 +64,10 @@ function parseFrontMatterTags(property: unknown): string[] {
       .map((tag) => "#" + tag.trim())
       .forEach((tag) => res.push(tag));
   } else if (Array.isArray(property)) {
-    property.map((tag) => "#" + tag.toString()).forEach((tag) => res.push(tag));
+    property
+      .filter(notEmpty)
+      .map((tag) => "#" + tag.toString())
+      .forEach((tag) => res.push(tag));
   }
 
   return res;
