@@ -1,5 +1,4 @@
-import { TFile, type App, type CachedMetadata } from "obsidian";
-import { notEmpty } from "src/lib/helpers";
+import type { IFileSystem } from "src/lib/filesystem/filesystem";
 import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
@@ -9,11 +8,11 @@ import { FrontMatterDataSource } from "../frontmatter/frontmatter";
 
 export class TagDataSource extends FrontMatterDataSource {
   constructor(
-    readonly app: App,
+    readonly fileSystem: IFileSystem,
     project: ProjectDefinition,
     preferences: ProjectsPluginPreferences
   ) {
-    super(app, project, preferences);
+    super(fileSystem, project, preferences);
   }
 
   includes(path: string): boolean {
@@ -27,48 +26,12 @@ export class TagDataSource extends FrontMatterDataSource {
 
     const { tag } = this.project.dataSource.config;
 
-    const file = this.app.vault.getAbstractFileByPath(path);
+    const file = this.fileSystem.getFile(path);
 
-    if (file instanceof TFile) {
-      const cache = this.app.metadataCache.getFileCache(file);
-      return cache ? parseTags(cache).has(tag) : false;
+    if (file) {
+      return file.readTags().has(tag);
     }
 
     return false;
   }
-}
-
-function parseTags(cache: CachedMetadata) {
-  const allTags = new Set<string>();
-
-  const markdownTags = cache.tags?.map((tag) => tag.tag) ?? [];
-
-  markdownTags.forEach((tag) => allTags.add(tag));
-
-  parseFrontMatterTags(cache.frontmatter?.["tags"]).forEach((tag) =>
-    allTags.add(tag)
-  );
-  parseFrontMatterTags(cache.frontmatter?.["tag"]).forEach((tag) =>
-    allTags.add(tag)
-  );
-
-  return allTags;
-}
-
-function parseFrontMatterTags(property: unknown): string[] {
-  const res: string[] = [];
-
-  if (typeof property === "string") {
-    property
-      .split(",")
-      .map((tag) => "#" + tag.trim())
-      .forEach((tag) => res.push(tag));
-  } else if (Array.isArray(property)) {
-    property
-      .filter(notEmpty)
-      .map((tag) => "#" + tag.toString())
-      .forEach((tag) => res.push(tag));
-  }
-
-  return res;
 }

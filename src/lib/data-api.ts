@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import produce from "immer";
 import moment from "moment";
-import { normalizePath, TFile, type App } from "obsidian";
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 
@@ -12,7 +11,7 @@ import {
   type DataValue,
   type Optional,
 } from "./data";
-import { nextUniqueProjectName } from "./helpers";
+import { nextUniqueProjectName, notEmpty } from "./helpers";
 import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
@@ -24,43 +23,52 @@ import {
   DEFAULT_VIEW,
   type ProjectDefinition,
 } from "src/settings/settings";
+import type { IFile, IFileSystem } from "./filesystem/filesystem";
 
 /**
  * DataApi writes records to file.
  */
 export class DataApi {
-  constructor(readonly app: App) {}
+  constructor(readonly fileSystem: IFileSystem) {}
 
   async updateRecord(fields: DataField[], record: DataRecord): Promise<void> {
-    const file = this.app.vault.getAbstractFileByPath(record.id);
-
-    if (file instanceof TFile) {
+    const file = this.fileSystem.getFile(record.id);
+    if (file) {
       await this.updateFile(file, (data) =>
         doUpdateRecord(data, fields, record)
       )();
     }
   }
 
-  async renameField(files: TFile[], from: string, to: string): Promise<void> {
-    for (const file of files) {
-      await this.updateFile(file, (data) => doRenameField(data, from, to))();
-    }
+  async renameField(paths: string[], from: string, to: string): Promise<void> {
+    Promise.all(
+      paths
+        .map((path) => this.fileSystem.getFile(path))
+        .filter(notEmpty)
+        .map((file) =>
+          this.updateFile(file, (data) => doRenameField(data, from, to))()
+        )
+    );
   }
 
-  async deleteField(files: TFile[], name: string) {
-    for (const file of files) {
-      await this.updateFile(file, (data) => doDeleteField(data, name))();
-    }
+  async deleteField(paths: string[], name: string): Promise<void> {
+    Promise.all(
+      paths
+        .map((path) => this.fileSystem.getFile(path))
+        .filter(notEmpty)
+        .map((file) =>
+          this.updateFile(file, (data) => doDeleteField(data, name))()
+        )
+    );
   }
 
-  async createNote(record: DataRecord, templatePath: string): Promise<TFile> {
+  async createNote(record: DataRecord, templatePath: string): Promise<void> {
     let content = "";
 
     if (templatePath) {
-      const templateFile = this.app.vault.getAbstractFileByPath(templatePath);
-
-      if (templateFile instanceof TFile) {
-        content = await this.app.vault.read(templateFile);
+      const file = this.fileSystem.getFile(templatePath);
+      if (file) {
+        content = await file.read();
         content = interpolateTemplate(content, {
           title: () => (record.values["name"] as string | undefined) ?? "",
           date: (format) => moment().format(format || "YYYY-MM-DD"),
@@ -69,24 +77,20 @@ export class DataApi {
       }
     }
 
-    const file = await this.app.vault.create(record.id, content);
+    const file = await this.fileSystem.create(record.id, content);
 
     await this.updateFile(file, (data) => doUpdateRecord(data, [], record))();
-
-    return file;
   }
 
   updateFile(
-    file: TFile,
+    file: IFile,
     cb: (data: string) => E.Either<Error, string>
   ): T.Task<void> {
     return F.pipe(
-      TE.tryCatch((): Promise<string> => this.app.vault.read(file), E.toError),
+      TE.tryCatch((): Promise<string> => file.read(), E.toError),
       TE.map(cb),
       TE.chain(TE.fromEither),
-      TE.chain((result) =>
-        TE.tryCatch(() => this.app.vault.modify(file, result), E.toError)
-      ),
+      TE.chain((result) => TE.tryCatch(() => file.write(result), E.toError)),
       T.map(
         E.fold(
           (err) => {
@@ -101,10 +105,10 @@ export class DataApi {
   }
 
   async deleteRecord(path: string) {
-    const file = this.app.vault.getAbstractFileByPath(path);
+    const file = this.fileSystem.getFile(path);
 
     if (file) {
-      this.app.vault.trash(file, true);
+      file.delete();
     }
   }
 }
@@ -205,7 +209,7 @@ export function createDataRecord(
   }
 
   return {
-    id: normalizePath(path + "/" + name + ".md"),
+    id: path + "/" + name + ".md",
     values: values ?? {},
   };
 }

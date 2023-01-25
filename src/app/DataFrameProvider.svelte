@@ -1,15 +1,20 @@
 <script lang="ts">
-  import type { App } from "obsidian";
+  import { getAPI, isPluginEnabled, type DataviewApi } from "obsidian-dataview";
   import { Callout, Loading, Typography } from "obsidian-svelte";
-
   import type { DataSource } from "src/lib/data";
-  import { DataviewDataSource } from "src/lib/datasources/dataview/dataview";
+  import {
+    DataviewDataSource,
+    UnsupportedCapability,
+  } from "src/lib/datasources/dataview/dataview";
   import { FolderDataSource } from "src/lib/datasources/folder/folder";
   import { TagDataSource } from "src/lib/datasources/tag/tag";
   import { dataFrame, dataSource } from "src/lib/stores/dataframe";
-  import { settings } from "src/lib/stores/settings";
+  import { fileSystem } from "src/lib/stores/fileSystem";
+  import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
+  import { settings } from "src/lib/stores/settings";
   import type { ProjectDefinition } from "src/settings/settings";
+  import { get } from "svelte/store";
 
   export let project: ProjectDefinition;
 
@@ -26,7 +31,7 @@
   $: reassembledProject = reassemble(projectAsText);
 
   // Setting a new data source causes the query to run.
-  $: dataSource.set(resolveDataSource(reassembledProject, $app));
+  $: dataSource.set(resolveDataSource(reassembledProject));
 
   function disassemble(
     project: ProjectDefinition
@@ -52,16 +57,43 @@
     })();
   }
 
+  function getDataviewAPI(): DataviewApi | undefined {
+    if (isPluginEnabled($app)) {
+      return getAPI($app);
+    } else {
+      throw new UnsupportedCapability(
+        get(i18n).t("errors.missingDataview.message")
+      );
+    }
+  }
+
   // resolveDataSource selects the data source to use based on the project
   // settings.
-  function resolveDataSource(project: ProjectDefinition, app: App): DataSource {
+  function resolveDataSource(project: ProjectDefinition): DataSource {
     switch (project.dataSource.kind) {
       case "dataview":
-        return new DataviewDataSource(app, project, $settings.preferences);
+        const dataviewApi = getDataviewAPI();
+
+        if (!dataviewApi) {
+          throw new Error(
+            "Couldn't connect to Dataview. Is the Dataview plugin enabled?"
+          );
+        }
+
+        return new DataviewDataSource(
+          $fileSystem,
+          project,
+          $settings.preferences,
+          dataviewApi
+        );
       case "tag":
-        return new TagDataSource(app, project, $settings.preferences);
+        return new TagDataSource($fileSystem, project, $settings.preferences);
       default:
-        return new FolderDataSource(app, project, $settings.preferences);
+        return new FolderDataSource(
+          $fileSystem,
+          project,
+          $settings.preferences
+        );
     }
   }
 

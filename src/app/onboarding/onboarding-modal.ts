@@ -6,7 +6,7 @@ export class OnboardingModal extends Modal {
   component?: Onboarding;
 
   constructor(
-    app: App,
+    readonly app: App,
     readonly onCreate: () => void,
     readonly onTry: () => void
   ) {

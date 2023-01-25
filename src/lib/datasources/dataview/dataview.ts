@@ -1,5 +1,5 @@
-import type { App } from "obsidian";
-import { DataviewApi, getAPI, isPluginEnabled, Link } from "obsidian-dataview";
+import type { DataviewApi, Link } from "obsidian-dataview";
+import type { IFileSystem } from "src/lib/filesystem/filesystem";
 import { get } from "svelte/store";
 
 import produce from "immer";
@@ -31,9 +31,10 @@ export class UnsupportedCapability extends Error {
  */
 export class DataviewDataSource extends DataSource {
   constructor(
-    readonly app: App,
+    readonly fileSystem: IFileSystem,
     project: ProjectDefinition,
-    preferences: ProjectsPluginPreferences
+    preferences: ProjectsPluginPreferences,
+    readonly api: DataviewApi
   ) {
     super(project, preferences);
   }
@@ -47,9 +48,7 @@ export class DataviewDataSource extends DataSource {
       return emptyDataFrame;
     }
 
-    const api = this.getDataviewAPI();
-
-    const result = await api?.query(
+    const result = await this.api.query(
       this.project.dataSource.config.query ?? "",
       undefined,
       {
@@ -112,16 +111,6 @@ export class DataviewDataSource extends DataSource {
 
   readonly(): boolean {
     return true;
-  }
-
-  getDataviewAPI(): DataviewApi | undefined {
-    if (isPluginEnabled(this.app)) {
-      return getAPI(this.app);
-    } else {
-      throw new UnsupportedCapability(
-        get(i18n).t("errors.missingDataview.message")
-      );
-    }
   }
 
   standardizeRecords(rows: Array<Record<string, any>>): DataRecord[] {

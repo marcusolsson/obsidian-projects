@@ -1,10 +1,10 @@
-import type { TFile } from "obsidian";
 import type {
   FieldConfig,
   ProjectDefinition,
   ProjectsPluginPreferences,
 } from "src/settings/settings";
 import type { RecordError } from "./datasources/frontmatter/frontmatter";
+import type { IFile } from "./filesystem/filesystem";
 
 /**
  * DataFrame is the core data structure that contains structured data for a
@@ -139,7 +139,7 @@ export abstract class DataSource {
    *
    * @param fields contains existing fields, to be able to parse file into the existing schema.
    */
-  abstract queryOne(file: TFile, fields: DataField[]): Promise<DataFrame>;
+  abstract queryOne(file: IFile, fields: DataField[]): Promise<DataFrame>;
 
   /**
    * includes returns whether a path belongs to the current project.
