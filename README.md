@@ -22,6 +22,18 @@ If you have any questions, or want to stay updated, join our [Discussions](https
 
 If you're curious about what we're working on right now, check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) and the [most requested features](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc).
 
+## Installation
+
+> **Note**  
+> You must turn off **Restricted mode** to use Projects.
+
+1. In Obsidian, open **Settings**.
+1. Under **Community plugins**, select **Browse**.
+1. Search for "Projects" by Marcus Olsson, and then select it.
+1. Select **Install**.
+
+To get started using Projects, press **Ctrl+P** (or **Cmd+P** on macOS) to open the **Command palette**, and then select **Projects: Show projects**.
+
 ## Design Philosophy
 
 When developing any software, you often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
@@ -55,3 +67,11 @@ If you'd like to see Projects in action, check out any of these amazing resource
 - [Obsidian Projects: A Better Way to Manage Text-Based Projects in Obsidian](https://beingpax.medium.com/obsidian-projects-a-better-way-to-manage-text-based-projects-in-obsidian-18c2a991069c) by [Prakash Joshi Pax](https://beingpax.medium.com/)
 
 _Did I miss any? Let me know and I'll add them to the list!_
+
+## Support
+
+If Projects has been useful to you, consider [buying me a book](https://www.buymeacoffee.com/marcusolsson) to show your support.
+
+## License
+
+Projects is distributed under [Apache License 2.0](LICENSE).
