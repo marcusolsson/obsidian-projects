@@ -57,6 +57,10 @@
       return $i18n.t("modals.project.defaultName.invalid");
     }
 
+    if (name.match(/^\x2E/)) {
+      return $i18n.t("modals.note.create.dot-start-error");
+    }
+
     return "";
   }
 </script>

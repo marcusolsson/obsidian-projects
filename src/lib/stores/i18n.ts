@@ -155,6 +155,7 @@ i18next.init({
               },
               "name-taken-error": "A note with that name already exists.",
               "empty-name-error": "Name can't be empty.",
+              "dot-start-error": "File name must not start with a dot.",
               create: "Create note",
               readonly: {
                 title: "Read-only project",
