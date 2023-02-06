@@ -123,7 +123,7 @@
       variant={"primary"}
       disabled={!!nameError}
       on:click={() => {
-        onSave(name.trim(), templatePath, project);
+        onSave(name, templatePath, project);
       }}
     >
       {$i18n.t("modals.note.create.create")}
