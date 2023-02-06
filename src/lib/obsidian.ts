@@ -87,7 +87,7 @@ function getIllegalCharacterSet(): RegExp | undefined {
     return /[\\\/\|\#\^\[\]]/;
   } else if (Platform.isDesktopApp) {
     // Windows
-    return /[\\\/\|\:\<\>\*\"\?\x00-\x1F\x7F]/;
+    return /[\\\/\|\:\<\>\*\"\?]/;
   }
   return undefined;
 }
