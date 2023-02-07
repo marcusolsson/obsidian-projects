@@ -1,7 +1,9 @@
 import { derived } from "svelte/store";
 
 import { DataApi } from "src/lib/data-api";
+import { fileSystem } from "./fileSystem";
 
-import { app } from "./obsidian";
-
-export const api = derived(app, ($app) => new DataApi($app));
+export const api = derived(
+  fileSystem,
+  ($fileSystem) => new DataApi($fileSystem)
+);

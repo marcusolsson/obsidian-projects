@@ -1,4 +1,4 @@
-import type { App } from "obsidian";
+import type { IFileSystem } from "src/lib/filesystem/filesystem";
 import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
@@ -8,11 +8,11 @@ import { FrontMatterDataSource } from "../frontmatter/frontmatter";
 
 export class FolderDataSource extends FrontMatterDataSource {
   constructor(
-    readonly app: App,
+    readonly fileSystem: IFileSystem,
     project: ProjectDefinition,
     preferences: ProjectsPluginPreferences
   ) {
-    super(app, project, preferences);
+    super(fileSystem, project, preferences);
   }
 
   includes(path: string): boolean {

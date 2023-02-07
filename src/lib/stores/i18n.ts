@@ -109,7 +109,8 @@ i18next.init({
             },
             defaultName: {
               name: "Default name for new notes",
-              description: "Supports {{date}} and {{time}} template variables.",
+              description:
+                "Supports {{date:YYYY-MM-DD}} and {{time:HHmm}} templates variables.",
               invalid: "Contains illegal characters.",
             },
           },
