@@ -76,7 +76,7 @@ export function nextUniqueViewName(views: ViewDefinition[], name: string) {
 }
 
 export function getNameFromPath(path: string) {
-  let start: number = path.lastIndexOf("/") + 1;
-  let end: number = path.lastIndexOf(".");
+  const start: number = path.lastIndexOf("/") + 1;
+  const end: number = path.lastIndexOf(".");
   return path.substring(start, end);
 }
