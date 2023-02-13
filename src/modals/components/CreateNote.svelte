@@ -41,7 +41,7 @@
   }
 
   function validateName(name: string) {
-    if (name === "" || name.match(/^\s*$/)) {
+    if (name.match(/^\s*$/)) {
       return $i18n.t("modals.note.create.empty-name-error");
     }
 
