@@ -88,6 +88,7 @@
 	View dynamically selects the component to use based on a ViewDefinition.
 -->
 <div
+  class="projects-view"
   use:useView={{
     view,
     dataProps: {
@@ -103,7 +104,7 @@
 />
 
 <style>
-  div {
+  .projects-view {
     width: 100%;
     height: 100%;
   }

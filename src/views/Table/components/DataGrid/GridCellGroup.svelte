@@ -3,16 +3,16 @@
   export let header: boolean = false;
 </script>
 
-<div role="row" aria-rowindex={index} class:header on:mouseover on:focus>
+<div class="projects-table-row" role="row" aria-rowindex={index} class:projects-table-header={header} on:mouseover on:focus>
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-table-row {
     display: flex;
   }
 
-  .header {
+  .projects-table-header {
     position: sticky;
     top: 0;
     z-index: 10;

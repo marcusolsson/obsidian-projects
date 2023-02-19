@@ -35,15 +35,15 @@
 </script>
 
 {#if richText}
-  <div use:useMarkdown on:click={handleClick} on:keypress />
+  <div class="projects-table-cell-text-label" use:useMarkdown on:click={handleClick} on:keypress />
 {:else}
-  <div>
+  <div class="projects-table-cell-text-label">
     {value}
   </div>
 {/if}
 
 <style>
-  div {
+  .projects-table-cell-text-label {
     padding: 6px;
     width: 100%;
     white-space: nowrap;
@@ -51,11 +51,11 @@
     text-overflow: ellipsis;
   }
 
-  div :global(p:first-child) {
+  .projects-table-cell-text-label :global(p:first-child) {
     margin-top: 0;
   }
 
-  div :global(p:last-child) {
+  .projects-table-cell-text-label :global(p:last-child) {
     margin-bottom: 0;
   }
 </style>

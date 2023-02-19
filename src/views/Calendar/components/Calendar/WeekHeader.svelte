@@ -1,9 +1,9 @@
-<div>
+<div class="projects-calendar-weekheader">
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-calendar-weekheader {
     display: flex;
   }
 </style>

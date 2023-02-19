@@ -28,26 +28,26 @@
 	ViewItemList lays out ViewItems and makes sure the user can scroll them for
 	small screens.
 -->
-<section>
-  <div bind:this={ref}>
+<section class="projects-views-select">
+  <div class="projects-views-list" bind:this={ref}>
     <slot />
   </div>
 </section>
 
 <style>
-  div {
+  .projects-views-list {
     display: flex;
     justify-content: center;
     gap: var(--size-4-1);
     min-width: min-content;
   }
 
-  section {
+  .projects-views-select {
     overflow-x: auto;
   }
 
   /* Hide scrollbar but keep functionality. */
-  section::-webkit-scrollbar {
+  .projects-views-select::-webkit-scrollbar {
     display: none;
   }
 </style>

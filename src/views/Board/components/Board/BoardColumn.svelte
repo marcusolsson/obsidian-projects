@@ -56,12 +56,12 @@
   }
 </script>
 
-<div data-id={name} class="column">
-  <div class="column-section">
+<div data-id={name} class="projects-board-column">
+  <div class="projects-board-column-section">
     <Typography variant="label" nomargin>{name}</Typography>
   </div>
   {#if groupByPriority}
-    <div class="column-section">
+    <div class="projects-board-column-section">
       <CardGroup
         items={prioritized}
         {onRecordClick}
@@ -70,7 +70,7 @@
         {fields}
       />
     </div>
-    <div class="column-section unprio">
+    <div class="projects-board-column-section unprio">
       <p>{$i18n.t("views.board.unprioritized")}</p>
       <CardGroup
         items={unprioritized}
@@ -81,12 +81,12 @@
       />
     </div>
   {:else}
-    <div class="column-section">
+    <div class="projects-board-column-section">
       <CardGroup items={records} {onRecordClick} dragDisabled={true} {fields} />
     </div>
   {/if}
   {#if !readonly}
-    <div class="column-section">
+    <div class="projects-board-column-section">
       <Button variant="plain" on:click={() => onRecordAdd()}>
         {$i18n.t("views.board.note.add")}
       </Button>
@@ -95,7 +95,7 @@
 </div>
 
 <style>
-  .column {
+  .projects-board-column {
     border: 1px solid var(--background-modifier-border);
     border-radius: var(--radius-m);
     background-color: var(--background-secondary);
@@ -103,7 +103,7 @@
     flex-direction: column;
   }
 
-  .column-section {
+  .projects-board-column-section {
     padding: var(--size-4-2);
     display: flex;
     flex-direction: column;

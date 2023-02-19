@@ -173,7 +173,7 @@
   </ViewHeader>
   <ViewContent>
     {#if records.length}
-      <div class="padding">
+      <div class="projects-gallery-view">
         <Grid cardWidth={config?.cardWidth ?? 300}>
           {#each records as record (record.id)}
             {@const color = getRecordColor(record)}
@@ -238,7 +238,7 @@
 </ViewLayout>
 
 <style>
-  .padding {
+  .projects-gallery-view {
     padding: 24px;
   }
 </style>

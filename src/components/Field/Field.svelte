@@ -4,13 +4,13 @@
   export let name: string;
 </script>
 
-<div>
+<div class="projects-field">
   <Typography variant="label" nomargin>{name}</Typography>
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-field {
     display: flex;
     align-items: center;
     justify-content: flex-end;

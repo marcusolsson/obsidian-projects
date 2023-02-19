@@ -13,7 +13,7 @@
   $: stringValues = values.filter(isString);
 </script>
 
-<div class:edit>
+<div class="projects-tag-list" class:projects-tag-list-edit={edit}>
   {#if edit}
     {#each stringValues as value, i}
       <Tag>
@@ -45,7 +45,7 @@
 </div>
 
 <style>
-  div {
+  .projects-tag-list {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -53,7 +53,7 @@
     padding: 4px;
   }
 
-  .edit {
+  .projects-tag-list-edit {
     flex-wrap: wrap;
   }
 </style>

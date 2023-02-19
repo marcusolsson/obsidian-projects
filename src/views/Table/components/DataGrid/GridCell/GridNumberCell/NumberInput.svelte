@@ -25,6 +25,7 @@
 </script>
 
 <input
+  class="projects-table-cell-number-input"
   tabindex={-1}
   type="number"
   bind:this={ref}
@@ -35,7 +36,7 @@
 />
 
 <style>
-  input {
+  .projects-table-cell-number-input {
     all: unset;
     background-color: var(--background-primary);
     box-sizing: border-box;
@@ -47,11 +48,11 @@
     text-align: right;
   }
 
-  input:focus {
+  .projects-table-cell-number-input:focus {
     box-shadow: none !important;
   }
 
-  input:hover {
+  .projects-table-cell-number-input:hover {
     background-color: transparent;
   }
 </style>

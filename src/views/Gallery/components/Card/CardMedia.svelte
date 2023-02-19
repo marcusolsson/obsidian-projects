@@ -1,9 +1,9 @@
-<div on:keypress on:click>
+<div class="projects-gallery-card-media" on:keypress on:click>
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-gallery-card-media {
     height: 180px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;

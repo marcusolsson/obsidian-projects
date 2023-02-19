@@ -64,6 +64,7 @@
 	ViewItem is a button that can be renamed and deleted.
 -->
 <div
+  class="projects-view-item"
   data-id={id}
   class:active
   class:error
@@ -140,7 +141,7 @@
 </div>
 
 <style>
-  div {
+  .projects-view-item {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -158,7 +159,7 @@
 
     border: 1px solid transparent;
   }
-  div:hover {
+  .projects-view-item:hover {
     background-color: var(--background-modifier-hover);
   }
   .active {

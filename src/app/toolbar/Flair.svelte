@@ -3,7 +3,7 @@
 </script>
 
 <span
-  class="flair"
+  class="projects-flair"
   class:mod-pop={variant === "primary"}
   class:error={variant === "error"}
   on:click
@@ -11,7 +11,7 @@
 >
 
 <style>
-  span {
+  .projects-flair {
     color: var(--text-on-accent);
   }
 

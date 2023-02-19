@@ -185,7 +185,7 @@
   }
 </script>
 
-<div style="display: flex; flex-direction: column; gap: 8px;">
+<div class="projects-color-filter-settings">
   {#each filter.conditions as condition, i}
     {@const field = getFieldByName(condition.condition.field)}
     <HorizontalGroup>
@@ -223,3 +223,11 @@
     >
   </HorizontalGroup>
 </div>
+
+<style>
+  .projects-color-filter-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+</style>

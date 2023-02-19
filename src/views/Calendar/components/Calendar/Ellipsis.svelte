@@ -1,9 +1,9 @@
-<span>
+<span class="projects-ellipsis-text">
   <slot />
 </span>
 
 <style>
-  span {
+  .projects-ellipsis-text {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

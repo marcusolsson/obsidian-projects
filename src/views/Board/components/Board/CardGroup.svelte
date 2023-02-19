@@ -32,7 +32,7 @@
 </script>
 
 <div
-  class="lst"
+  class="projects-board-card-list"
   use:dndzone={{
     type: "card",
     items,
@@ -50,7 +50,7 @@
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
     <div
-      class="crd"
+      class="projects-board-card"
       on:keypress
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
@@ -78,21 +78,21 @@
 </div>
 
 <style>
-  .lst {
+  .projects-board-card-list {
     display: flex;
     flex-direction: column;
     gap: var(--size-4-2);
     min-height: 35px;
   }
 
-  .crd {
+  .projects-board-card {
     background-color: var(--background-primary);
     border-radius: var(--radius-s);
     border: 1px solid var(--background-modifier-border);
     padding: var(--size-4-2);
   }
 
-  .crd:hover {
+  .projects-board-card:hover {
     border: 1px solid var(--background-modifier-border-hover);
   }
 </style>

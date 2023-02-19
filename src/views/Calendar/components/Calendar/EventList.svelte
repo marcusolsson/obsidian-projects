@@ -35,6 +35,7 @@
 </script>
 
 <div
+  class="projects-calendar-eventlist"
   use:dndzone={{
     type: "entries",
     items: records,
@@ -91,7 +92,7 @@
 </div>
 
 <style>
-  div {
+  .projects-calendar-eventlist {
     display: flex;
     flex-direction: column;
     gap: 2px;

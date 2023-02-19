@@ -3,12 +3,12 @@
   export let width: number;
 </script>
 
-<div class:weekend style:width={width + "%"}>
+<div class="projects-calendar-weekday" class:projects-calendar-weekday-weekend={weekend} style:width={width + "%"}>
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-calendar-weekday {
     width: calc(100% / 7);
     border-right: 1px solid var(--background-modifier-border);
     padding: 4px;
@@ -19,7 +19,7 @@
     color: var(--text-muted);
   }
 
-  .weekend {
+  .projects-calendar-weekday-weekend {
     background-color: var(--background-secondary);
   }
 </style>

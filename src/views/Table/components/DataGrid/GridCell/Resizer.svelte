@@ -41,13 +41,13 @@
 <svelte:window on:mouseup={stopResize} on:mousemove={resize} />
 
 {#if start}
-  <span class="handle visible" on:mousedown={startResize} />
+  <span class="projects-table-handle projects-table-handle-visible" on:mousedown={startResize} />
 {:else}
-  <span class="handle" on:mousedown={startResize} />
+  <span class="projects-table-handle" on:mousedown={startResize} />
 {/if}
 
 <style>
-  .handle {
+  .projects-table-handle {
     position: relative;
     left: 7.5px;
     width: 6px;
@@ -55,11 +55,11 @@
     height: 100%;
     border-radius: 1px;
   }
-  .handle:hover {
+  .projects-table-handle:hover {
     background-color: var(--interactive-accent);
     cursor: ew-resize;
   }
-  .visible {
+  .projects-table-handle-visible {
     background-color: var(--interactive-accent);
     cursor: ew-resize;
   }

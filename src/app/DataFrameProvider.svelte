@@ -107,9 +107,16 @@
 {:then}
   <slot frame={$dataFrame} source={$dataSource} />
 {:catch error}
-  <div style="padding: var(--size-4-3)">
+  <div class="projects-dataframe-provider">
     <Callout title={error.name} icon="zap" variant="danger">
       <Typography variant="body">{error.message}</Typography>
     </Callout>
   </div>
 {/await}
+
+<style>
+  .projects-dataframe-provider {
+    padding: var(--size-4-3);
+  }
+
+</style>

@@ -4,22 +4,22 @@
   export let padding: boolean = false;
 </script>
 
-<div class:padding class:fullWidth style={`align-items: ${alignItems}`}>
+<div class="projects-horizontal-group" class:padding class:fullWidth style={`align-items: ${alignItems}`}>
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-horizontal-group {
     display: flex;
     gap: 8px;
-  }
-
-  .padding {
-    padding: 8px;
   }
 
   .fullWidth {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .padding {
+    padding: 8px;
   }
 </style>

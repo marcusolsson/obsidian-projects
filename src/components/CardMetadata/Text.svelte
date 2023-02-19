@@ -39,15 +39,15 @@
 </script>
 
 {#if field.typeConfig?.richText}
-  <div use:useMarkdown on:click={handleClick} on:keypress />
+  <div class="projects-field-label-text" use:useMarkdown on:click={handleClick} on:keypress />
 {:else if typeof value === "string"}
-  <div>
+  <div class="projects-field-label-text">
     {value}
   </div>
 {/if}
 
 <style>
-  div {
+  .projects-field-label-text {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -56,11 +56,11 @@
     -webkit-box-orient: vertical;
   }
 
-  div :global(p:first-child) {
+  .projects-field-label-text :global(p:first-child) {
     margin-top: 0;
   }
 
-  div :global(p:last-child) {
+  .projects-field-label-text :global(p:last-child) {
     margin-bottom: 0;
   }
 </style>

@@ -2,10 +2,10 @@
   export let today: boolean = false;
 </script>
 
-<span class:today><slot /></span>
+<span class="projects-calendar-date" class:projects-calendar-date-today={today}><slot /></span>
 
 <style>
-  span {
+  .projects-calendar-date {
     height: 24px;
     line-height: 24px;
     font-size: 12px;
@@ -18,7 +18,7 @@
     align-self: center;
   }
 
-  .today {
+  .projects-calendar-date-today {
     background: var(--interactive-accent);
     color: var(--text-on-accent);
   }

@@ -1,9 +1,9 @@
-<div>
+<div class="projects-gallery-card">
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-gallery-card {
     background-color: var(--background-secondary);
     border-radius: var(--radius-s);
     border: 1px solid var(--background-modifier-border);
@@ -11,7 +11,7 @@
     margin: 0;
   }
 
-  div:hover {
+  .projects-gallery-card:hover {
     border: 1px solid var(--background-modifier-border-hover);
   }
 </style>

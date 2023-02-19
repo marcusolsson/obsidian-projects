@@ -1,15 +1,14 @@
 <script lang="ts">
+  import ColorPill from 'src/components/ColorPill/ColorPill.svelte';
   export let color: string | null;
 </script>
 
-<div class="color-item">
+<div class="projects-color-item">
   {#if color}
-    <span
-      style="margin-right: 8px; background-color: {color}; min-width: 5px; border-radius: 9999px;"
-    />
+    <ColorPill color={color} />
   {/if}
-  <div class="card-layout">
-    <div class="card-header">
+  <div class="projects-color-item-card-layout">
+    <div class="projects-color-item-card-header">
       <slot name="header" />
     </div>
     <slot />
@@ -17,19 +16,22 @@
 </div>
 
 <style>
-  .color-item {
+  .projects-color-item {
     display: flex;
   }
-  .card-layout {
+
+  .projects-color-item-card-layout {
     overflow: hidden;
     flex: 1;
   }
-  .card-header {
+
+  .projects-color-item-card-header {
     font-size: 16px;
     margin-bottom: 8px;
   }
 
-  .card-header:last-child {
+  .projects-color-item-card-header:last-child {
     margin-bottom: 0;
   }
+
 </style>

@@ -2,18 +2,18 @@
   export let height: number;
 </script>
 
-<div style:height={height + "%"}>
+<div class="projects-calendar-week" style:height={height + "%"}>
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-calendar-week {
     display: flex;
     border-bottom: 1px solid var(--background-modifier-border);
     min-height: 100px;
   }
 
-  div:last-child {
+  .projects-calendar-week:last-child {
     border-bottom: 0;
   }
 </style>

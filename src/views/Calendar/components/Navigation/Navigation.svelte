@@ -7,14 +7,14 @@
   export let onToday: () => void;
 </script>
 
-<div>
+<div class="projects-calendar-navigation">
   <IconButton icon="chevron-left" on:click={onPrevious} />
   <Button on:click={onToday}>{$i18n.t("views.calendar.today")}</Button>
   <IconButton icon="chevron-right" on:click={onNext} />
 </div>
 
 <style>
-  div {
+  .projects-calendar-navigation {
     display: flex;
     gap: 4px;
     align-items: center;

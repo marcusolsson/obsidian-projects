@@ -135,9 +135,10 @@
 
 {#if rowHeader}
   <div
+    class="projects-table-cell"
     bind:this={ref}
     role={role()}
-    class:rowHeader
+    class:projects-table-cell-row-header={rowHeader}
     style={`width: ${column.width}px`}
     on:mouseenter={() => (hover = true)}
     on:mouseleave={() => (hover = false)}
@@ -157,14 +158,15 @@
   </div>
 {:else}
   <div
+    class="projects-table-cell"
     bind:this={ref}
     role={role()}
     aria-selected={rowHeader || columnHeader ? undefined : selected}
     aria-colindex={colindex}
-    class:header={column.header}
-    class:selected
-    class:rowHeader
-    class:columnHeader
+    class:projects-table-row-header={column.header}
+    class:projects-table-cell-selected={selected}
+    class:projects-table-cell-row-header={rowHeader}
+    class:projects-table-cell-column-header={columnHeader}
     style={`width: ${column.width}px`}
     tabindex={!columnHeader && !rowHeader ? 1 : undefined}
     on:click={handleClick}
@@ -209,7 +211,7 @@
 {/if}
 
 <style>
-  div {
+  .projects-table-cell {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -224,13 +226,13 @@
     min-height: 30px;
   }
 
-  .selected {
+  .projects-table-cell-selected {
     box-shadow: 0 0 0 3px var(--interactive-accent);
     z-index: 4;
     padding: 0;
   }
 
-  .columnHeader {
+  .projects-table-cell-column-header {
     background-color: var(--background-secondary);
     font-weight: 500;
     text-align: center;
@@ -238,13 +240,13 @@
     padding: 0 4px;
   }
 
-  .header {
+  .projects-table-row-header {
     background-color: var(--background-secondary);
     position: sticky;
     left: 60px;
   }
 
-  .rowHeader {
+  .projects-table-cell-row-header {
     left: 0px;
     justify-content: center;
     z-index: 5;

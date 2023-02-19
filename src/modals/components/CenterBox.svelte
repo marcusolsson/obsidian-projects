@@ -1,7 +1,7 @@
-<div><slot /></div>
+<div class="projects-center-box-modal"><slot /></div>
 
 <style>
-  div {
+  .projects-center-box-modal {
     width: 100%;
     height: 100%;
     display: flex;

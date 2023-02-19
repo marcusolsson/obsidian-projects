@@ -17,7 +17,7 @@
 
 <div
   bind:this={ref}
-  class="dropdown"
+  class="projects-switch-select dropdown"
   on:keypress
   on:click={() => (isOpen = true)}
 >
@@ -35,7 +35,7 @@
 </Menu>
 
 <style>
-  div {
+  .projects-switch-select {
     align-items: center;
     display: inline-flex;
     text-align: start;

@@ -43,7 +43,7 @@ published: false
     </Button>
   </ModalButtonGroup>
   <p
-    style={"color: var(--text-muted); margin-top: 45px; font-size: var(--font-ui-smaller);"}
+    class="projects-whisper-text"
   >
     <strong>Psst! 👋</strong> Next time you can create your projects using any of
     the following ways:
@@ -87,5 +87,11 @@ published: false
   ol {
     margin: 0;
     padding: 0 22px;
+  }
+
+  .projects-whisper-text {
+    color: var(--text-muted);
+    margin-top: 45px;
+    font-size: var(--font-ui-smaller);
   }
 </style>

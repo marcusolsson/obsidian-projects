@@ -63,7 +63,8 @@
 </script>
 
 <div
-  class:weekend
+  class="projects-calendar-day"
+  class:projects-calendar-weekend={weekend}
   on:dblclick={handleDblClick}
   on:mousedown={handleMouseDown}
   style:width={width + "%"}
@@ -73,7 +74,7 @@
 </div>
 
 <style>
-  div {
+  .projects-calendar-day {
     border-right: 1px solid var(--background-modifier-border);
     padding: 4px;
     font-size: var(--font-ui-small);
@@ -82,11 +83,11 @@
     gap: 4px;
   }
 
-  div:last-child {
+  .projects-calendar-day:last-child {
     border-right: 0;
   }
 
-  .weekend {
+  .projects-calendar-weekend {
     background-color: var(--background-secondary);
   }
 </style>

@@ -6,6 +6,7 @@
 </script>
 
 <div
+  class="projects-box"
   style:flex-direction={direction}
   style:gap={gap + "px"}
   style:padding={padding + "px"}
@@ -16,7 +17,7 @@
 </div>
 
 <style>
-  div {
+  .projects-box {
     display: flex;
   }
 </style>

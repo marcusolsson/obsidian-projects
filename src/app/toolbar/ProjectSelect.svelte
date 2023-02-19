@@ -18,7 +18,7 @@
   export let onProjectChange: (projectId: string) => void;
 </script>
 
-<span>
+<span class="projects-project-select">
   <Select
     value={projectId ?? ""}
     options={produce(
@@ -98,7 +98,7 @@
 </span>
 
 <style>
-  span {
+  .projects-project-select {
     display: flex;
     align-items: center;
     gap: 4px;

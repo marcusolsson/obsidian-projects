@@ -38,7 +38,7 @@
   }
 </script>
 
-<div>
+<div class="projects-multi-text-input">
   {#each options as option, i}
     <span>
       <TextInput width="100%" value={option} on:blur={handleOptionChange(i)} />
@@ -51,13 +51,13 @@
 </div>
 
 <style>
-  div {
+  .projects-multi-text-input {
     display: flex;
     flex-direction: column;
     gap: 4px;
     width: 100%;
   }
-  span {
+  .projects-multi-text-input > span {
     display: flex;
     gap: 4px;
   }

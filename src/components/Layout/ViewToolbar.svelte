@@ -6,7 +6,7 @@
 </script>
 
 <div
-  class="container"
+  class="projects-toolbar-container"
   class:primary={variant === "primary"}
   class:secondary={variant === "secondary"}
   class:isMobile
@@ -26,7 +26,7 @@
 </div>
 
 <style>
-  .container {
+  .projects-toolbar-container {
     display: flex;
     justify-content: space-between;
     padding: var(--size-4-2);
@@ -34,6 +34,16 @@
     border-bottom: 1px solid var(--background-modifier-border);
     align-items: center;
   }
+
+  .is-mobile .projects-toolbar-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .is-mobile .projects-toolbar-container .right {
+    align-items: stretch;
+  }
+
   .middle {
     flex: 1;
     overflow-x: auto;
@@ -45,13 +55,6 @@
     align-items: center;
     gap: var(--size-4-2);
     flex-wrap: wrap;
-  }
-  .isMobile {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .isMobile .right {
-    align-items: stretch;
   }
 
   .primary {

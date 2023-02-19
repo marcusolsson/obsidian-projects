@@ -5,7 +5,7 @@
   let open: boolean = false;
 </script>
 
-<section>
+<section class="projects-accordion">
   <header on:click={() => (open = !open)} on:keypress>
     <slot name="header" />
     <Icon name={open ? "chevron-up" : "chevron-down"} />
@@ -19,16 +19,16 @@
 </section>
 
 <style>
-  section {
+  .projects-accordion {
     border-top: 1px solid var(--background-modifier-border);
   }
 
-  div {
+  .projects-accordion > div {
     padding: 8px;
     background-color: var(--background-secondary);
   }
 
-  header {
+  .projects-accordion > header {
     display: flex;
     align-items: center;
     gap: 4px;

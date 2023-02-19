@@ -1,9 +1,9 @@
-<div>
+<div class="projects-view-content">
   <slot />
 </div>
 
 <style>
-  div {
+  .projects-view-content {
     flex: 1;
     overflow: auto;
   }

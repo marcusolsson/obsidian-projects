@@ -4,10 +4,10 @@
   export let fit: string;
 </script>
 
-<img {alt} {src} style:object-fit={fit} />
+<img class="projects-gallery-image" {alt} {src} style:object-fit={fit} />
 
 <style>
-  img {
+  .projects-gallery-image {
     width: 100%;
     height: 100%;
     border-top-left-radius: 4px;

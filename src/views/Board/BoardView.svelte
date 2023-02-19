@@ -212,7 +212,7 @@
     </ViewToolbar>
   </ViewHeader>
   <ViewContent>
-    <div>
+    <div class="projects-board-view">
       <Board
         onRecordUpdate={handleRecordUpdate}
         dragDisabled={!priorityField}
@@ -241,7 +241,7 @@
 </ViewLayout>
 
 <style>
-  div {
+  .projects-board-view {
     background-color: var(--background-primary);
     padding: 8px;
   }

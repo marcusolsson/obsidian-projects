@@ -34,6 +34,7 @@
 </script>
 
 <div
+  class="projects-board"
   style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
   use:dndzone={{
     type: "columns",
@@ -62,7 +63,7 @@
 </div>
 
 <style>
-  div {
+  .projects-board {
     display: grid;
     column-gap: 8px;
     align-items: flex-start;

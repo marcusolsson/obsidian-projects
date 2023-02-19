@@ -14,8 +14,8 @@
 {#each fields as field (field.name)}
   {@const value = record.values[field.name]}
   {#if value !== undefined && value !== null}
-    <div class="field-label">
-      <div class="setting-item-description" style:margin-bottom={"4px"}>
+    <div class="projects-field-label">
+      <div class="setting-item-description">
         {field.name}
       </div>
       {#if field.repeated}
@@ -38,11 +38,15 @@
 {/each}
 
 <style>
-  .field-label {
+  .projects-field-label {
     margin-bottom: 8px;
   }
 
-  .field-label:last-child {
+  .projects-field-label:first-child {
+    margin-bottom: 4px;
+  }
+
+  .projects-field-label:last-child {
     margin-bottom: 0;
   }
 </style>

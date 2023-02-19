@@ -167,6 +167,7 @@
 </script>
 
 <div
+  class="projects-table-view"
   role="grid"
   aria-colcount={sortedColumns.length + 1}
   aria-rowcount={sortedRows.length + 2}
@@ -214,7 +215,7 @@
     />
   {/each}
   <GridCellGroup index={sortedRows.length + 2}>
-    <span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
+    <span class="projects-table-add-note" style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
       {#if !readonly}
         <Button variant="plain" on:click={() => onRowAdd()}>
           <Icon name="plus" />
@@ -226,11 +227,11 @@
 </div>
 
 <style>
-  div {
+  .projects-table-view {
     display: inline-block;
   }
 
-  span {
+  .projects-table-add-note {
     padding: 4px;
     position: sticky;
     left: 0;

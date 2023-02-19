@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Checkbox } from "obsidian-svelte";
-  import ColorPill from "./ColorPill.svelte";
+  import ColorPill from "src/components/ColorPill/ColorPill.svelte";
   import Ellipsis from "./Ellipsis.svelte";
 
   /**
@@ -22,7 +22,7 @@
   let hover: boolean = false;
 </script>
 
-<div on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
+<div class="projects-calendar-event" on:mouseenter={() => (hover = true)} on:mouseleave={() => (hover = false)}>
   {#if color}
     <ColorPill {color} />
   {/if}
@@ -39,7 +39,7 @@
 </div>
 
 <style>
-  div {
+  .projects-calendar-event {
     display: flex;
     gap: 4px;
     align-items: center;
@@ -51,7 +51,7 @@
   }
 
   /* Remove default checkbox margin. */
-  div :global(input[type="checkbox"]) {
+  .projects-calendar-event :global(input[type="checkbox"]) {
     margin: 0;
   }
 </style>

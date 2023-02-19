@@ -11,7 +11,7 @@
 </script>
 
 {#each paths as path, i}
-  <div>
+  <div class="projects-field-list-input">
     <FileAutocomplete
       value={path}
       on:change={({ detail: value }) => {
@@ -42,7 +42,7 @@
 >
 
 <style>
-  div {
+  .projects-field-list-input {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -51,7 +51,7 @@
     width: 100%;
   }
 
-  div:first-child {
+  .projects-field-list-input:first-child {
     flex: 1;
   }
 </style>
