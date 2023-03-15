@@ -41,7 +41,7 @@
   }
 
   function validateName(name: string) {
-    if (name === "") {
+    if (name.match(/^\s*$/)) {
       return $i18n.t("modals.note.create.empty-name-error");
     }
 
@@ -55,6 +55,10 @@
 
     if (!isValidPath(name)) {
       return $i18n.t("modals.project.defaultName.invalid");
+    }
+
+    if (name.match(/^\x2E/)) {
+      return $i18n.t("modals.note.create.dot-start-error");
     }
 
     return "";
