@@ -74,3 +74,9 @@ export function nextUniqueViewName(views: ViewDefinition[], name: string) {
     return !!views.find((view) => view.name === candidate);
   });
 }
+
+export function getNameFromPath(path: string) {
+  const start: number = path.lastIndexOf("/") + 1;
+  const end: number = path.lastIndexOf(".");
+  return path.substring(start, end);
+}

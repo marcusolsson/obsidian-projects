@@ -11,7 +11,7 @@ import {
   type DataValue,
   type Optional,
 } from "./data";
-import { nextUniqueProjectName, notEmpty } from "./helpers";
+import { nextUniqueProjectName, notEmpty, getNameFromPath } from "./helpers";
 import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
@@ -70,7 +70,7 @@ export class DataApi {
       if (file) {
         content = await file.read();
         content = interpolateTemplate(content, {
-          title: () => (record.values["name"] as string | undefined) ?? "",
+          title: () => getNameFromPath(record.id),
           date: (format) => moment().format(format || "YYYY-MM-DD"),
           time: (format) => moment().format(format || "HH:mm"),
         });
