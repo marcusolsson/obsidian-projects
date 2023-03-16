@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { Plugin, ItemView, WorkspaceLeaf } from "obsidian";
 
 import App from "src/app/App.svelte";
 import { customViews } from "src/lib/stores/custom-views";
@@ -57,20 +57,16 @@ export class ProjectsView extends ItemView {
   getViews() {
     const views: Record<string, ProjectView> = {};
 
-    for (const pluginId in this.app.plugins.plugins) {
-      if (this.app.plugins.enabledPlugins.has(pluginId)) {
-        const plugin = this.app.plugins.plugins[pluginId];
+    this.getEnabledPlugins().forEach((plugin) => {
+      const registerView = plugin.onRegisterProjectView;
 
-        const registerView = plugin?.onRegisterProjectView;
+      if (registerView) {
+        const create = registerView.bind(plugin);
+        const instance = create();
 
-        if (registerView) {
-          const create = registerView.bind(plugin);
-          const instance = create();
-
-          views[instance.getViewType()] = instance;
-        }
+        views[instance.getViewType()] = instance;
       }
-    }
+    });
 
     views["table"] = new TableView();
     views["board"] = new BoardView();
@@ -79,5 +75,19 @@ export class ProjectsView extends ItemView {
     // views["developer"] = new DeveloperView();
 
     return views;
+  }
+
+  getEnabledPlugins(): Plugin[] {
+    const res: Plugin[] = [];
+
+    for (const pluginId in this.app.plugins.plugins) {
+      const plugin = this.app.plugins.getPlugin(pluginId);
+
+      if (plugin) {
+        res.push(plugin);
+      }
+    }
+
+    return res;
   }
 }
