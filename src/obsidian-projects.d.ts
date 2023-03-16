@@ -1,13 +1,14 @@
 import type { DataFrame } from "./lib/data";
 
 declare module "obsidian" {
+  interface Plugin {
+    onRegisterProjectView?: () => ProjectView;
+  }
   interface App {
     plugins: {
-      enabledPlugins: Set<string>;
+      getPlugin(name: string): Plugin | null;
       plugins: {
-        [id: string]: {
-          onRegisterProjectView?: () => ProjectView;
-        };
+        [id: string]: Plugin;
       };
     };
   }
