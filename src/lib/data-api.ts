@@ -24,6 +24,7 @@ import {
   type ProjectDefinition,
 } from "src/settings/settings";
 import type { IFile, IFileSystem } from "./filesystem/filesystem";
+import { normalizePath } from "obsidian";
 
 /**
  * DataApi writes records to file.
@@ -209,7 +210,7 @@ export function createDataRecord(
   }
 
   return {
-    id: path + "/" + name + ".md",
+    id: normalizePath(path + "/" + name + ".md"),
     values: values ?? {},
   };
 }

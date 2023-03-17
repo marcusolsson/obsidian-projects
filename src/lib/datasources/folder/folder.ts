@@ -25,15 +25,21 @@ export class FolderDataSource extends FrontMatterDataSource {
       return false;
     }
 
-    const projectPath = normalizePath(this.project.dataSource.config.path);
+    let projectPath = normalizePath(this.project.dataSource.config.path);
+
+    if (projectPath === "/") {
+      projectPath = "";
+    }
+
+    const normalizedPath = normalizePath(path);
 
     // No need to continue if file is not below the project path.
-    if (!path.startsWith(projectPath)) {
+    if (!normalizedPath.startsWith(projectPath)) {
       return false;
     }
 
     if (!this.project.dataSource.config.recursive) {
-      return folderContainsPath(projectPath, path);
+      return folderContainsPath(projectPath, normalizedPath);
     }
 
     return true;

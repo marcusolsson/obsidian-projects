@@ -24,6 +24,18 @@ export class CreateNoteModal extends Modal {
     super(app);
   }
 
+  getNewNotesFolder(project: ProjectDefinition) {
+    if (project.newNotesFolder) {
+      return project.newNotesFolder;
+    }
+
+    if (project.dataSource.kind === "folder") {
+      return project.dataSource.config.path;
+    }
+
+    return "";
+  }
+
   onOpen() {
     this.component = new CreateNote({
       target: this.contentEl,
@@ -34,7 +46,7 @@ export class CreateNoteModal extends Modal {
               time: (format) => moment().format(format || "HH:mm"),
             })
           : nextUniqueFileName(
-              this.project.newNotesFolder,
+              this.getNewNotesFolder(this.project),
               get(i18n).t("modals.note.create.untitled")
             ),
         project: this.project,
