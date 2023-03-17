@@ -119,23 +119,21 @@
 
   function handleRecordAdd(column: string) {
     new CreateNoteModal($app, project, (name, templatePath) => {
-      if (groupByField) {
-        api.addRecord(
-          createDataRecord(
-            name,
-            project,
-            groupByField
-              ? {
-                  [groupByField.name]:
-                    column !== $i18n.t("views.board.no-status")
-                      ? column
-                      : undefined,
-                }
-              : {}
-          ),
-          templatePath
-        );
-      }
+      api.addRecord(
+        createDataRecord(
+          name,
+          project,
+          groupByField
+            ? {
+                [groupByField.name]:
+                  column !== $i18n.t("views.board.no-status")
+                    ? column
+                    : undefined,
+              }
+            : {}
+        ),
+        templatePath
+      );
     }).open();
   }
 
