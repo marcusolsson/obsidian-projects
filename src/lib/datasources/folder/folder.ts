@@ -1,3 +1,4 @@
+import { normalizePath } from "obsidian";
 import type { IFileSystem } from "src/lib/filesystem/filesystem";
 import type {
   ProjectDefinition,
@@ -24,22 +25,33 @@ export class FolderDataSource extends FrontMatterDataSource {
       return false;
     }
 
-    const trimmedPath = this.project.dataSource.config.path.startsWith("/")
-      ? this.project.dataSource.config.path.slice(1)
-      : this.project.dataSource.config.path;
+    const projectPath = normalizePath(this.project.dataSource.config.path);
 
     // No need to continue if file is not below the project path.
-    if (!path.startsWith(trimmedPath)) {
+    if (!path.startsWith(projectPath)) {
       return false;
     }
 
     if (!this.project.dataSource.config.recursive) {
-      const pathElements = path.split("/").slice(0, -1);
-      const projectPathElements = trimmedPath.split("/").filter((el) => el);
-
-      return pathElements.join("/") === projectPathElements.join("/");
+      return folderContainsPath(projectPath, path);
     }
 
     return true;
   }
+}
+
+/**
+ * Returns whether a folder contains a file path.
+ *
+ * Assumes both folder path and file path have been normalized.
+ *
+ * @param folderPath path to the root folder, e.g. Work
+ * @param filePath path to the file to test, e.g. Work/Untitled.md
+ * @returns
+ */
+function folderContainsPath(folderPath: string, filePath: string): boolean {
+  const fileElements = filePath.split("/").slice(0, -1);
+  const folderElement = folderPath.split("/").filter((el) => el);
+
+  return fileElements.join("/") === folderElement.join("/");
 }

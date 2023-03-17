@@ -43,7 +43,7 @@
     }
   }
   function handleDoubleClick() {
-    if (!column.header && !columnHeader && !rowHeader) {
+    if (!column.header && !columnHeader && !rowHeader && column.editable) {
       onEditChange(true);
     }
   }
