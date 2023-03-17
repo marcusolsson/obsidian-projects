@@ -8,8 +8,15 @@
 
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
-  function useMarkdown(node: HTMLElement) {
+  function useMarkdown(node: HTMLElement, value: string) {
     MarkdownRenderer.renderMarkdown(value, node, sourcePath, $view);
+
+    return {
+      update(newValue: string) {
+        node.empty();
+        MarkdownRenderer.renderMarkdown(newValue, node, sourcePath, $view);
+      },
+    };
   }
 
   function handleClick(event: MouseEvent) {
@@ -35,7 +42,7 @@
 </script>
 
 {#if richText}
-  <div use:useMarkdown on:click={handleClick} on:keypress />
+  <div use:useMarkdown={value} on:click={handleClick} on:keypress />
 {:else}
   <div>
     {value}
