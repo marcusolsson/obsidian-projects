@@ -17,11 +17,12 @@
   import {
     DEFAULT_VIEW,
     type ProjectDefinition,
+    type ProjectId,
     type ViewDefinition,
     type ViewType,
   } from "src/settings/settings";
 
-  export let onSave: (projectId: string, view: ViewDefinition) => void;
+  export let onSave: (projectId: ProjectId, view: ViewDefinition) => void;
   export let project: ProjectDefinition;
 
   let name: string = "";

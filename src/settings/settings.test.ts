@@ -102,6 +102,7 @@ const v1demo: v1.ProjectsPluginSettings<
       quoteStrings: "PLAIN",
     },
     projectSizeLimit: 1000,
+    commands: [],
   },
 };
 
@@ -201,5 +202,6 @@ const v2demo: v2.ProjectsPluginSettings<
     frontmatter: {
       quoteStrings: "PLAIN",
     },
+    commands: [],
   },
 };

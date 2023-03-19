@@ -4,7 +4,9 @@
   import type { ViewApi } from "src/lib/view-api";
   import type {
     ProjectDefinition,
+    ProjectId,
     ViewDefinition,
+    ViewId,
   } from "src/settings/settings";
   import { applyFilter, matchesCondition } from "./filter-functions";
 
@@ -39,8 +41,8 @@
    * Specify a callback for updating the view configuration.
    */
   export let onConfigChange: (
-    projectId: string,
-    viewId: string,
+    projectId: ProjectId,
+    viewId: ViewId,
     cfg: Record<string, any>
   ) => void;
 

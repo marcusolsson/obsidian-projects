@@ -1,13 +1,13 @@
 import type { DataFrame, DataRecord } from "src/lib/data";
 import type { ViewApi } from "src/lib/view-api";
-import type { ProjectDefinition } from "./settings/settings";
+import type { ProjectDefinition, ViewId } from "./settings/settings";
 
 export interface DataQueryResult {
   data: DataFrame;
 }
 
 export interface ProjectViewProps<T = Record<string, any>> {
-  viewId: string;
+  viewId: ViewId;
   project: ProjectDefinition;
   config: T;
   saveConfig: (config: T) => void;

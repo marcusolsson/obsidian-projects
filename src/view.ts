@@ -1,4 +1,9 @@
-import { Plugin, ItemView, WorkspaceLeaf } from "obsidian";
+import {
+  Plugin,
+  ItemView,
+  WorkspaceLeaf,
+  type ViewStateResult,
+} from "obsidian";
 
 import App from "src/app/App.svelte";
 import { customViews } from "src/lib/stores/custom-views";
@@ -11,8 +16,14 @@ import { TableView } from "src/views/Table";
 
 import type { ProjectView } from "./custom-view-api";
 import type ProjectsPlugin from "./main";
+import type { ProjectId, ViewId } from "./settings/settings";
 
 export const VIEW_TYPE_PROJECTS = "obsidian-projects";
+
+export type ProjectsViewState = {
+  projectId: ProjectId;
+  viewId: ViewId;
+};
 
 export class ProjectsView extends ItemView {
   component?: App;
@@ -39,8 +50,23 @@ export class ProjectsView extends ItemView {
     view.set(this);
   }
 
+  async setState(
+    state: ProjectsViewState,
+    result: ViewStateResult
+  ): Promise<void> {
+    if (this.component) {
+      this.component.$set({
+        projectId: state.projectId,
+        viewId: state.viewId,
+      });
+    }
+
+    super.setState(state, result);
+  }
+
   async onOpen() {
     const views = this.getViews();
+
     customViews.set(views);
 
     this.component = new App({

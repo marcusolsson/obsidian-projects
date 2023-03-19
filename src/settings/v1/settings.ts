@@ -1,13 +1,14 @@
 import {
   DEFAULT_VIEW,
   type FieldConfig,
+  type ProjectId,
   type ProjectsPluginPreferences,
   type ViewDefinition,
 } from "../base/settings";
 
 export type ProjectDefinition<ViewDefinition> = {
   readonly name: string;
-  readonly id: string;
+  readonly id: ProjectId;
   readonly path: string;
   readonly recursive: boolean;
   readonly fieldConfig: { [field: string]: FieldConfig };
@@ -38,6 +39,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     frontmatter: {
       quoteStrings: "PLAIN",
     },
+    commands: [],
   },
 };
 

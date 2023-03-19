@@ -1,5 +1,6 @@
 import type {
   FieldConfig,
+  ProjectId,
   ProjectsPluginPreferences,
   ViewDefinition,
 } from "../base/settings";
@@ -7,7 +8,7 @@ import { DEFAULT_VIEW } from "../base/settings";
 
 export type ProjectDefinition<ViewDefinition> = {
   readonly name: string;
-  readonly id: string;
+  readonly id: ProjectId;
 
   readonly fieldConfig: { [field: string]: FieldConfig };
   readonly views: ViewDefinition[];
@@ -81,6 +82,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     frontmatter: {
       quoteStrings: "PLAIN",
     },
+    commands: [],
   },
 };
 
@@ -139,6 +141,7 @@ export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
   frontmatter: {
     quoteStrings: "PLAIN",
   },
+  commands: [],
 };
 
 export function resolvePreferences(
