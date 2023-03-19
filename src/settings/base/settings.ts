@@ -1,8 +1,11 @@
+export type ProjectId = string;
+export type ViewId = string;
+
 export type ViewType = string;
 
 export interface ViewDefinition {
   readonly name: string;
-  readonly id: string;
+  readonly id: ViewId;
   readonly type: ViewType;
   readonly config: Record<string, any>;
   readonly filter: FilterDefinition;
@@ -90,11 +93,17 @@ export type StringFieldConfig = {
 
 export type FieldConfig = StringFieldConfig;
 
+export type ShowCommand = {
+  readonly project: string;
+  readonly view?: string;
+};
+
 export type ProjectsPluginPreferences = {
   readonly projectSizeLimit: number;
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };
+  readonly commands: ShowCommand[];
 };
 
 export type UnsavedViewDefinition = Omit<

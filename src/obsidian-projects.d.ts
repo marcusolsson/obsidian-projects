@@ -5,6 +5,10 @@ declare module "obsidian" {
     onRegisterProjectView?: () => ProjectView;
   }
   interface App {
+    commands: {
+      listCommands(): { id: string }[];
+      removeCommand(id: string): void;
+    };
     plugins: {
       getPlugin(name: string): Plugin | null;
       plugins: {

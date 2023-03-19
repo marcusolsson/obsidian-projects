@@ -14,9 +14,10 @@
   import { OnboardingModal } from "./onboarding/onboarding-modal";
   import View from "./View.svelte";
   import DataFrameProvider from "./DataFrameProvider.svelte";
+  import type { ProjectId, ViewId } from "src/settings/settings";
 
-  let projectId: string | undefined;
-  let viewId: string | undefined;
+  export let projectId: ProjectId | undefined;
+  export let viewId: ViewId | undefined;
 
   $: ({ projects } = $settings);
 

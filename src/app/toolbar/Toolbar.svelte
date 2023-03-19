@@ -21,15 +21,19 @@
   import ViewSelect from "./ViewSelect.svelte";
   import { InspectorModal } from "src/modals/inspector";
   import produce from "immer";
-  import type { ProjectDefinition } from "src/settings/settings";
+  import type {
+    ProjectDefinition,
+    ProjectId,
+    ViewId,
+  } from "src/settings/settings";
 
   export let projects: ProjectDefinition[];
 
-  export let projectId: string | undefined;
-  export let onProjectChange: (projectId: string) => void;
+  export let projectId: ProjectId | undefined;
+  export let onProjectChange: (projectId: ProjectId) => void;
 
-  export let viewId: string | undefined;
-  export let onViewChange: (viewId: string) => void;
+  export let viewId: ViewId | undefined;
+  export let onViewChange: (viewId: ViewId) => void;
 
   $: project = projects.find((project) => project.id === projectId);
   $: views = project?.views ?? [];

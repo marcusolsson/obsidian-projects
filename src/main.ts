@@ -16,7 +16,13 @@ import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
 import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/obsidian";
 import { ProjectsSettingTab } from "./settings";
-import { migrateSettings } from "./settings/settings";
+import {
+  migrateSettings,
+  type ShowCommand,
+  type ProjectDefinition,
+  type ProjectId,
+  type ViewId,
+} from "./settings/settings";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 
 dayjs.extend(isoWeek);
@@ -143,7 +149,93 @@ export default class ProjectsPlugin extends Plugin {
 
     // Save settings to disk whenever settings has been updated.
     this.unsubscribeSettings = settings.subscribe((value) => {
+      this.ensureCommands(value.preferences.commands, value.projects);
       this.saveData(value);
+    });
+  }
+
+  ensureCommands(commands: ShowCommand[], projects: ProjectDefinition[]) {
+    const existingCommandIds = new Set<string>(
+      this.app.commands
+        .listCommands()
+        .map(({ id }) => id)
+        .filter((id) => id.startsWith("obsidian-projects:show:"))
+    );
+
+    // Clean up removed commands.
+    existingCommandIds.forEach((id) => {
+      const command = commands.find((command) => {
+        if (command.view) {
+          const existsInPreferences =
+            id === `obsidian-projects:show:${command.project}:${command.view}`;
+
+          const existsInProjects = projects.find(
+            (project) =>
+              project.id === command.project &&
+              project.views.find((view) => view.id === command.view)
+          );
+
+          return existsInPreferences && existsInProjects;
+        } else {
+          const existsInPreferences =
+            id === `obsidian-projects:show:${command.project}`;
+
+          const existsInProjects = projects.find(
+            (project) => project.id === command.project
+          );
+
+          return existsInPreferences && existsInProjects;
+        }
+      });
+
+      if (!command) {
+        this.app.commands.removeCommand(id);
+      }
+    });
+
+    // Add missing commands.
+    commands.forEach((command) => {
+      if (command.view) {
+        const localCommandId = `show:${command.project}:${command.view}`;
+        const globalCommandId = `obsidian-projects:show:${command.project}:${command.view}`;
+
+        if (!existingCommandIds.has(globalCommandId)) {
+          const project = projects.find(
+            (project) => project.id === command.project
+          );
+
+          const view = project?.views.find((view) => view.id === command.view);
+
+          if (project && view) {
+            this.addCommand({
+              id: localCommandId,
+              name: `Show ${project.name} > ${view.name}`,
+              callback: () => {
+                this.activateView(project.id, view.id);
+              },
+            });
+          }
+        }
+      } else {
+        const localCommandId = `show:${command.project}`;
+        const globalCommandId = `obsidian-projects:show:${command.project}`;
+
+        if (!existingCommandIds.has(globalCommandId)) {
+          const project = projects.find(
+            (project) => project.id === command.project
+          );
+
+          if (project) {
+            this.addCommand({
+              id: localCommandId,
+              name: `Show ${project.name}`,
+              callback: () => {
+                this.activateView(project.id);
+              },
+            });
+          }
+        }
+      }
     });
   }
 
@@ -172,8 +264,18 @@ export default class ProjectsPlugin extends Plugin {
   }
 
   // activateView opens the main Projects view in a new workspace leaf.
-  async activateView() {
-    this.app.workspace.revealLeaf(await this.getOrCreateLeaf());
+  async activateView(projectId?: ProjectId, viewId?: ViewId) {
+    const leaf = await this.getOrCreateLeaf();
+
+    leaf.setViewState({
+      type: VIEW_TYPE_PROJECTS,
+      state: {
+        projectId,
+        viewId,
+      },
+    });
+
+    this.app.workspace.revealLeaf(leaf);
   }
 
   async getOrCreateLeaf(): Promise<WorkspaceLeaf> {
@@ -184,12 +286,6 @@ export default class ProjectsPlugin extends Plugin {
       return existingLeaves[0];
     }
 
-    const leaf = this.app.workspace.getLeaf(true);
-
-    await leaf.setViewState({
-      type: VIEW_TYPE_PROJECTS,
-    });
-
-    return leaf;
+    return this.app.workspace.getLeaf(true);
   }
 }

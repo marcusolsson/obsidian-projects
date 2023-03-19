@@ -6,9 +6,11 @@ import { notEmpty } from "src/lib/helpers";
 import {
   DEFAULT_SETTINGS,
   type ProjectDefinition,
+  type ProjectId,
   type ProjectsPluginPreferences,
   type ProjectsPluginSettings,
   type ViewDefinition,
+  type ViewId,
 } from "src/settings/settings";
 
 function createSettings() {
@@ -56,7 +58,7 @@ function createSettings() {
         })
       );
     },
-    duplicateProject(projectId: string) {
+    duplicateProject(projectId: ProjectId) {
       const newId = uuidv4();
       update((state) =>
         produce(state, (draft) => {
@@ -74,14 +76,14 @@ function createSettings() {
       );
       return newId;
     },
-    deleteProject(projectId: string) {
+    deleteProject(projectId: ProjectId) {
       update((state) =>
         produce(state, (draft) => {
           draft.projects = draft.projects.filter((w) => w.id !== projectId);
         })
       );
     },
-    addView(projectId: string, view: ViewDefinition) {
+    addView(projectId: ProjectId, view: ViewDefinition) {
       update((state) =>
         produce(state, (draft) => {
           const idx = draft.projects.findIndex((ws) => ws.id === projectId);
@@ -100,7 +102,7 @@ function createSettings() {
         })
       );
     },
-    sortViews(projectId: string, viewIds: string[]) {
+    sortViews(projectId: ProjectId, viewIds: string[]) {
       update((state) =>
         produce(state, (draft) => {
           draft.projects = draft.projects.map((p) =>
@@ -115,7 +117,7 @@ function createSettings() {
         })
       );
     },
-    renameView(projectId: string, viewId: string, name: string) {
+    renameView(projectId: ProjectId, viewId: ViewId, name: string) {
       update((state) =>
         produce(state, (draft) => {
           const idx = draft.projects.findIndex((p) => p.id === projectId);
@@ -135,7 +137,7 @@ function createSettings() {
         })
       );
     },
-    duplicateView(projectId: string, viewId: string) {
+    duplicateView(projectId: ProjectId, viewId: ViewId) {
       const newId = uuidv4();
       update((state) =>
         produce(state, (draft) => {
@@ -167,7 +169,7 @@ function createSettings() {
       );
       return newId;
     },
-    deleteView(projectId: string, viewId: string) {
+    deleteView(projectId: ProjectId, viewId: ViewId) {
       update((state) =>
         produce(state, (draft) => {
           const idx = draft.projects.findIndex((ws) => ws.id === projectId);
@@ -185,7 +187,7 @@ function createSettings() {
         })
       );
     },
-    updateView(projectId: string, updatedView: ViewDefinition) {
+    updateView(projectId: ProjectId, updatedView: ViewDefinition) {
       update((state) =>
         produce(state, (draft) => {
           draft.projects = draft.projects.map((project) => {
@@ -206,8 +208,8 @@ function createSettings() {
       );
     },
     updateViewConfig(
-      projectId: string,
-      viewId: string,
+      projectId: ProjectId,
+      viewId: ViewId,
       config: Record<string, any>
     ) {
       update((state) =>

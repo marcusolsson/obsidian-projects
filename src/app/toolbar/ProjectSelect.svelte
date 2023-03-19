@@ -8,14 +8,14 @@
   import { settings } from "src/lib/stores/settings";
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
   import { CreateProjectModal } from "src/modals/create-project-modal";
-  import type { ProjectDefinition } from "src/settings/settings";
+  import type { ProjectDefinition, ProjectId } from "src/settings/settings";
 
-  export let projectId: string | undefined;
+  export let projectId: ProjectId | undefined;
   export let projects: ProjectDefinition[];
 
   $: project = projects.find((project) => project.id === projectId);
 
-  export let onProjectChange: (projectId: string) => void;
+  export let onProjectChange: (projectId: ProjectId) => void;
 </script>
 
 <span>

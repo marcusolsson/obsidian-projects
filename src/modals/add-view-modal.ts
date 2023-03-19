@@ -1,5 +1,9 @@
 import { App, Modal } from "obsidian";
-import type { ProjectDefinition, ViewDefinition } from "src/settings/settings";
+import type {
+  ProjectDefinition,
+  ProjectId,
+  ViewDefinition,
+} from "src/settings/settings";
 
 import AddView from "./components/AddView.svelte";
 
@@ -9,7 +13,7 @@ export class AddViewModal extends Modal {
   constructor(
     app: App,
     readonly project: ProjectDefinition,
-    readonly onSave: (projectId: string, view: ViewDefinition) => void
+    readonly onSave: (projectId: ProjectId, view: ViewDefinition) => void
   ) {
     super(app);
   }
@@ -19,7 +23,7 @@ export class AddViewModal extends Modal {
       target: this.contentEl,
       props: {
         project: this.project,
-        onSave: (projectId: string, view: ViewDefinition) => {
+        onSave: (projectId: ProjectId, view: ViewDefinition) => {
           this.onSave(projectId, view);
           this.close();
         },

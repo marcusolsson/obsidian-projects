@@ -13,6 +13,7 @@ describe("resolve v2", () => {
           quoteStrings: "PLAIN",
         },
         projectSizeLimit: 1000,
+        commands: [],
       },
     });
   });
@@ -43,6 +44,7 @@ describe("resolve v2", () => {
           quoteStrings: "PLAIN",
         },
         projectSizeLimit: 1000,
+        commands: [],
       },
     });
   });
