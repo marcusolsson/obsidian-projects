@@ -20,8 +20,6 @@ For example, if you're a content manager, Projects can help you manage your cont
 
 If you have any questions, or want to stay updated, join our [Discussions](https://github.com/marcusolsson/obsidian-projects/discussions).
 
-If you're curious about what we're working on right now, check out the [roadmap](https://github.com/users/marcusolsson/projects/4/views/14) and the [most requested features](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc).
-
 ## Installation
 
 > **Note**  
@@ -41,6 +39,19 @@ When developing any software, you often faced with difficult choices. To help gu
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
 - **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
 - **Stability over features:** This plugin is geared towards professionals with high demands on reliability. Any bug reports and usability issues will be prioritized over new features.
+
+## Roadmap
+
+If you're curious about what we're working on, check out the roadmap:
+
+- [Active issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aopen+is%3Aissue+sort%3Areactions-%2B1-desc+label%3Alifecycle%2Factive): Issues that are actively being worked on.
+- [Prioritized backlog](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aopen+is%3Aissue+label%3Apriority%2Fhigh+sort%3Areactions-%2B1-desc+): Issues we'll be working on next.
+- [Backlog](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aopen+is%3Aissue+label%3Alifecycle%2Fbacklog+sort%3Areactions-%2B1-desc): Issues anyone can start working on (please let us know before you do).
+- [Ideas](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aopen+is%3Aissue+label%3Alifecycle%2Fidea+sort%3Areactions-%2B1-desc): Promising issues that haven't made it to the backlog yet.
+
+To vote for a feature, react to the issue with a :+1:.
+
+- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc) 
 
 ## Contribute
 
