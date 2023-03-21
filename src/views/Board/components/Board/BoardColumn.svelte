@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Typography } from "obsidian-svelte";
+  import { Button, Typography, Icon } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
 
   import { type DataRecord, type DataField, DataFieldType } from "src/lib/data";
@@ -88,6 +88,7 @@
   {#if !readonly}
     <div class="column-section">
       <Button variant="plain" on:click={() => onRecordAdd()}>
+        <Icon name="plus" />
         {$i18n.t("views.board.note.add")}
       </Button>
     </div>
