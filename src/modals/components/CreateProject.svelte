@@ -82,7 +82,7 @@
       return "";
     }
 
-    if (name.match(/^\s*$/)) {
+    if (name.trim() === "") {
       return $i18n.t("modals.project.create.empty-name-error");
     }
 
