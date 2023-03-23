@@ -65,7 +65,24 @@
     {/if}
   </svelte:fragment>
 
-  <ProjectSelect slot="left" {projectId} {projects} {onProjectChange} />
+  <ProjectSelect
+    slot="left"
+    {projectId}
+    {projects}
+    {onProjectChange}
+    onProjectAdd={() =>
+      new CreateProjectModal(
+        $app,
+        $i18n.t("modals.project.create.title"),
+        $i18n.t("modals.project.create.cta"),
+        (project) => {
+          settings.addProject(project);
+          projectId = project.id;
+          onProjectChange(project.id);
+        },
+        createProject()
+      ).open()}
+  />
 
   <div slot="middle">
     {#if project}

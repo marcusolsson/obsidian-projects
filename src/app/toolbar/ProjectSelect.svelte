@@ -16,6 +16,7 @@
   $: project = projects.find((project) => project.id === projectId);
 
   export let onProjectChange: (projectId: ProjectId) => void;
+  export let onProjectAdd: () => void;
 </script>
 
 <span>
@@ -40,6 +41,15 @@
       size="sm"
       on:click={(event) => {
         const menu = new Menu();
+
+        menu.addItem((item) => {
+          item
+            .setTitle($i18n.t("modals.project.create.short-title"))
+            .setIcon("folder-plus")
+            .onClick(() => {
+              onProjectAdd();
+            });
+        });
 
         menu.addItem((item) => {
           item
