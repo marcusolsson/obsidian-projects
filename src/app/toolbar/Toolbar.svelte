@@ -79,6 +79,14 @@
             settings.sortViews(projectId, viewIds);
           }
         }}
+        onViewAdd={() => {
+          if (project) {
+            new AddViewModal($app, project, (projectId, view) => {
+              settings.addView(projectId, view);
+              onViewChange(view.id);
+            }).open();
+          }
+        }}
         onViewRename={(viewId, name) => {
           if (projectId) {
             settings.renameView(projectId, viewId, name);

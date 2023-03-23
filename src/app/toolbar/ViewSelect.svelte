@@ -1,6 +1,7 @@
 <script lang="ts">
   import { customViews } from "src/lib/stores/custom-views";
   import type { ViewDefinition, ViewId } from "src/settings/settings";
+  import { IconButton } from "obsidian-svelte";
 
   import ViewItem from "./ViewItem.svelte";
   import ViewItemList from "./ViewItemList.svelte";
@@ -9,6 +10,7 @@
   export let views: ViewDefinition[];
   export let onViewChange: (viewId: ViewId) => void;
   export let onViewDelete: (viewId: ViewId) => void;
+  export let onViewAdd: () => void;
   export let onViewDuplicate: (viewId: ViewId) => void;
   export let onViewRename: (viewId: ViewId, name: string) => void;
   export let onViewSort: (viewIds: ViewId[]) => void;
@@ -48,4 +50,11 @@
       />
     {/each}
   {/key}
+  <IconButton
+    icon="plus"
+    size="sm"
+    on:click={() => {
+      onViewAdd();
+    }}
+  />
 </ViewItemList>
