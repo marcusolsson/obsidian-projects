@@ -151,6 +151,7 @@
             }
           }}
           getLabel={(file) => file.path}
+          placeholder={"/"}
           width="100%"
         />
       </SettingItem>
