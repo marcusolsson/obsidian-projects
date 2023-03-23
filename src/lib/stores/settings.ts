@@ -2,7 +2,11 @@ import produce from "immer";
 import { writable } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 
-import { nextUniqueProjectName, notEmpty } from "src/lib/helpers";
+import {
+  nextUniqueProjectName,
+  nextUniqueViewName,
+  notEmpty,
+} from "src/lib/helpers";
 import {
   DEFAULT_SETTINGS,
   type ProjectDefinition,
@@ -159,7 +163,7 @@ function createSettings() {
                     {
                       ...view,
                       id: newId,
-                      name: view.name + " Copy",
+                      name: nextUniqueViewName(p.views, view.name + " Copy"),
                     },
                   ],
                 });
