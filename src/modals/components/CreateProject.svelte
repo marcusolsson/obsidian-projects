@@ -82,7 +82,7 @@
       return "";
     }
 
-    if (name === "") {
+    if (name.trim() === "") {
       return $i18n.t("modals.project.create.empty-name-error");
     }
 
@@ -151,6 +151,7 @@
             }
           }}
           getLabel={(file) => file.path}
+          placeholder={"/"}
           width="100%"
         />
       </SettingItem>
