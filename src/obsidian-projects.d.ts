@@ -6,8 +6,10 @@ declare module "obsidian" {
   }
   interface App {
     commands: {
-      listCommands(): { id: string }[];
+      listCommands(): Command[];
       removeCommand(id: string): void;
+      findCommand(id: string): Command;
+      commands: { [id: string]: Command };
     };
     plugins: {
       getPlugin(name: string): Plugin | null;

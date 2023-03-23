@@ -18,9 +18,9 @@ import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/obsidian";
 import { ProjectsSettingTab } from "./settings";
 import {
   migrateSettings,
-  type ShowCommand,
   type ProjectDefinition,
   type ProjectId,
+  type ShowCommand,
   type ViewId,
 } from "./settings/settings";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
@@ -28,10 +28,15 @@ import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
+const PROJECTS_PLUGIN_ID = "obsidian-projects";
+
 export default class ProjectsPlugin extends Plugin {
   unsubscribeSettings?: Unsubscriber;
 
-  async onload() {
+  /**
+   * onload runs when the plugin is enabled.
+   */
+  async onload(): Promise<void> {
     const t = get(i18n).t;
 
     this.addSettingTab(new ProjectsSettingTab(this.app, this));
@@ -41,6 +46,8 @@ export default class ProjectsPlugin extends Plugin {
       (leaf) => new ProjectsView(leaf, this)
     );
 
+    // Allow the user to create a project by right-clicking a folder in the
+    // File explorer.
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
         if (file instanceof TFolder) {
@@ -50,6 +57,7 @@ export default class ProjectsPlugin extends Plugin {
               .setIcon("folder-plus")
               .onClick(async () => {
                 const project = createProject();
+
                 new CreateProjectModal(
                   this.app,
                   t("modals.project.create.title"),
@@ -98,16 +106,16 @@ export default class ProjectsPlugin extends Plugin {
     this.addCommand({
       id: "create-note",
       name: t("commands.create-note.name"),
-      // checkCallback because we don't want to create notes if there are
-      // no projects.
+      // checkCallback because we don't want to create notes if there are no
+      // projects.
       checkCallback: (checking) => {
-        const projectDefinition = get(settings).projects[0];
+        const project = get(settings).projects[0];
 
-        if (projectDefinition) {
+        if (project) {
           if (!checking) {
             new CreateNoteModal(
               this.app,
-              projectDefinition,
+              project,
               async (name, templatePath, project) => {
                 const record = createDataRecord(name, project);
                 await get(api).createNote(record, templatePath);
@@ -132,114 +140,45 @@ export default class ProjectsPlugin extends Plugin {
       this.activateView();
     });
 
+    // Add an icon for text fields. Remove once Obsidian has a decent
+    // alternative.
     addIcon(
       "text",
       `<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
     );
 
-    // Initialize Svelte stores.
+    // Initialize Svelte stores so that Svelte components can access the App and
+    // Plugin objects.
     app.set(this.app);
     plugin.set(this);
 
     await this.loadSettings();
-
-    const watcher = new ObsidianFileSystemWatcher(this);
-
-    registerFileEvents(watcher);
 
     // Save settings to disk whenever settings has been updated.
     this.unsubscribeSettings = settings.subscribe((value) => {
       this.ensureCommands(value.preferences.commands, value.projects);
       this.saveData(value);
     });
+
+    const watcher = new ObsidianFileSystemWatcher(this);
+    registerFileEvents(watcher);
   }
 
-  ensureCommands(commands: ShowCommand[], projects: ProjectDefinition[]) {
-    const existingCommandIds = new Set<string>(
-      this.app.commands
-        .listCommands()
-        .map(({ id }) => id)
-        .filter((id) => id.startsWith("obsidian-projects:show:"))
-    );
+  /**
+   * onunload runs when the plugin is disabled. Use it to clean up any resources
+   * you've allocated in the onload method.
+   */
+  async onunload(): Promise<void> {
+    this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
 
-    // Clean up removed commands.
-    existingCommandIds.forEach((id) => {
-      const command = commands.find((command) => {
-        if (command.view) {
-          const existsInPreferences =
-            id === `obsidian-projects:show:${command.project}:${command.view}`;
-
-          const existsInProjects = projects.find(
-            (project) =>
-              project.id === command.project &&
-              project.views.find((view) => view.id === command.view)
-          );
-
-          return existsInPreferences && existsInProjects;
-        } else {
-          const existsInPreferences =
-            id === `obsidian-projects:show:${command.project}`;
-
-          const existsInProjects = projects.find(
-            (project) => project.id === command.project
-          );
-
-          return existsInPreferences && existsInProjects;
-        }
-      });
-
-      if (!command) {
-        this.app.commands.removeCommand(id);
-      }
-    });
-
-    // Add missing commands.
-    commands.forEach((command) => {
-      if (command.view) {
-        const localCommandId = `show:${command.project}:${command.view}`;
-        const globalCommandId = `obsidian-projects:show:${command.project}:${command.view}`;
-
-        if (!existingCommandIds.has(globalCommandId)) {
-          const project = projects.find(
-            (project) => project.id === command.project
-          );
-
-          const view = project?.views.find((view) => view.id === command.view);
-
-          if (project && view) {
-            this.addCommand({
-              id: localCommandId,
-              name: `Show ${project.name} > ${view.name}`,
-              callback: () => {
-                this.activateView(project.id, view.id);
-              },
-            });
-          }
-        }
-      } else {
-        const localCommandId = `show:${command.project}`;
-        const globalCommandId = `obsidian-projects:show:${command.project}`;
-
-        if (!existingCommandIds.has(globalCommandId)) {
-          const project = projects.find(
-            (project) => project.id === command.project
-          );
-
-          if (project) {
-            this.addCommand({
-              id: localCommandId,
-              name: `Show ${project.name}`,
-              callback: () => {
-                this.activateView(project.id);
-              },
-            });
-          }
-        }
-      }
-    });
+    this.unsubscribeSettings?.();
   }
 
-  async loadSettings() {
+  /**
+   * loadSettings loads settings from disk, migrates it to the latest version,
+   * and updates the Svelte store for settings.
+   */
+  async loadSettings(): Promise<void> {
     return pipe(
       taskEither.tryCatch(() => this.loadData(), either.toError),
       taskEither.map(migrateSettings),
@@ -257,14 +196,10 @@ export default class ProjectsPlugin extends Plugin {
     )();
   }
 
-  async onunload() {
-    this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
-
-    this.unsubscribeSettings?.();
-  }
-
-  // activateView opens the main Projects view in a new workspace leaf.
-  async activateView(projectId?: ProjectId, viewId?: ViewId) {
+  /**
+   * activateView opens the main Projects view in a new workspace leaf.
+   * */
+  async activateView(projectId?: ProjectId, viewId?: ViewId): Promise<void> {
     const leaf = await this.getOrCreateLeaf();
 
     leaf.setViewState({
@@ -278,6 +213,10 @@ export default class ProjectsPlugin extends Plugin {
     this.app.workspace.revealLeaf(leaf);
   }
 
+  /**
+   * getOrCreateLeaf returns a new leaf, or returns an existing leaf if
+   * Projects is already open.
+   */
   async getOrCreateLeaf(): Promise<WorkspaceLeaf> {
     const existingLeaves =
       this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
@@ -288,4 +227,127 @@ export default class ProjectsPlugin extends Plugin {
 
     return this.app.workspace.getLeaf(true);
   }
+
+  /**
+   * ensureCommands syncs enabled and registered show commands.
+   */
+  ensureCommands(
+    enabledCommands: ShowCommand[],
+    projects: ProjectDefinition[]
+  ): void {
+    const registeredCommandIds = new Set<string>(
+      Object.keys(this.app.commands.commands).filter((id) =>
+        id.startsWith(`${PROJECTS_PLUGIN_ID}:show:`)
+      )
+    );
+
+    this.removeMissingCommands(enabledCommands, projects, registeredCommandIds);
+    this.addMissingCommands(enabledCommands, projects, registeredCommandIds);
+  }
+
+  /**
+   * removeMissingCommands cleans up registered show commands that have either
+   * been disabled from the settings, or where the project or view has been
+   * deleted.
+   */
+  removeMissingCommands(
+    enabledCommands: ShowCommand[],
+    projects: ProjectDefinition[],
+    registeredCommandIds: Set<string>
+  ): void {
+    registeredCommandIds.forEach((id) => {
+      const enabledCommand = enabledCommands.find(
+        (command) => id === getShowCommandId(command, true)
+      );
+
+      // Unregister command if it's been disabled.
+      if (!enabledCommand) {
+        this.app.commands.removeCommand(id);
+        return;
+      }
+
+      const project = projects.find((project) => {
+        if (enabledCommand.view) {
+          return (
+            project.id === enabledCommand.project &&
+            project.views.find((view) => view.id === enabledCommand.view)
+          );
+        } else {
+          return project.id === enabledCommand.project;
+        }
+      });
+
+      // Unregister command if it's been deleted.
+      if (!project) {
+        this.app.commands.removeCommand(id);
+      }
+    });
+  }
+
+  /**
+   * addMissingCommands registers show commands that have been enabled but not
+   * registered.
+   */
+  addMissingCommands(
+    enabledCommands: ShowCommand[],
+    projects: ProjectDefinition[],
+    registeredCommandIds: Set<string>
+  ): void {
+    enabledCommands.forEach((command) => {
+      const globalId = getShowCommandId(command, true);
+      const localId = getShowCommandId(command, false);
+
+      if (registeredCommandIds.has(globalId)) {
+        // Command has been both enabled and registered. All is well.
+        return;
+      }
+
+      const project = projects.find(
+        (project) => project.id === command.project
+      );
+
+      if (project) {
+        if (command.view) {
+          const view = project?.views.find((view) => view.id === command.view);
+
+          if (view) {
+            this.addCommand({
+              id: localId,
+              name: `Show ${project.name} > ${view.name}`,
+              callback: () => {
+                this.activateView(project.id, view.id);
+              },
+            });
+          }
+        } else {
+          this.addCommand({
+            id: localId,
+            name: `Show ${project.name}`,
+            callback: () => {
+              this.activateView(project.id);
+            },
+          });
+        }
+      }
+    });
+  }
+}
+
+function getShowCommandId(cmd: ShowCommand, global: boolean): string {
+  const res = [];
+
+  if (global) {
+    res.push(PROJECTS_PLUGIN_ID);
+  }
+
+  res.push("show");
+
+  if (cmd.project) {
+    res.push(cmd.project);
+  }
+  if (cmd.view) {
+    res.push(cmd.view);
+  }
+
+  return res.join(":");
 }
