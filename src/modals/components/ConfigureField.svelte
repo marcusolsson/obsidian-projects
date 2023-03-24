@@ -69,7 +69,7 @@
         on:input={handleNameChange}
       />
     </SettingItem>
-    <SettingItem name="Type">
+    <SettingItem name="Type" description="Changing type isn't supported yet.">
       <Select
         disabled
         value={field.type}
@@ -80,7 +80,7 @@
     {#if field.type === DataFieldType.String && !field.repeated && !field.identifier}
       <SettingItem
         name="Options"
-        description="Predefined values for the field."
+        description="Allows you to auto-complete using predefined values for the field."
         vertical
       >
         <MultiTextInput
