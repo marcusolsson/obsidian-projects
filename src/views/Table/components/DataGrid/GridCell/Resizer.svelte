@@ -8,6 +8,8 @@
   let initial: number | null;
 
   function startResize(event: MouseEvent) {
+    event.stopPropagation();
+
     start = event.pageX;
     initial = width;
   }
@@ -40,20 +42,17 @@
 
 <svelte:window on:mouseup={stopResize} on:mousemove={resize} />
 
-{#if start}
-  <span class="handle visible" on:mousedown={startResize} />
-{:else}
-  <span class="handle" on:mousedown={startResize} />
-{/if}
+<span class="handle" class:visible={start} on:mousedown={startResize} />
 
 <style>
   .handle {
-    position: relative;
-    left: 7.5px;
+    position: absolute;
+    right: -3px;
     width: 6px;
     min-width: 6px;
     height: 100%;
     border-radius: 1px;
+    z-index: 1;
   }
   .handle:hover {
     background-color: var(--interactive-accent);

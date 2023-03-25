@@ -2,7 +2,6 @@
   import produce from "immer";
 
   import { Menu } from "obsidian";
-  import GridHeader from "./GridHeader.svelte";
 
   import { i18n } from "../../../../lib/stores/i18n";
 
@@ -19,6 +18,7 @@
   import GridCellGroup from "./GridCellGroup.svelte";
   import { Button, Icon } from "obsidian-svelte";
   import { DataFieldType } from "src/lib/data";
+  import GridHeader from "./GridHeader/GridHeader.svelte";
 
   export let columns: GridColDef[];
   export let rows: GridRowProps[];
@@ -29,6 +29,7 @@
 
   export let onSortModelChange: (field: string, sort: string) => void;
   export let onColumnResize: (field: string, width: number) => void;
+  export let onColumnSort: (fields: string[]) => void;
   export let onRowAdd: () => void;
   export let onRowChange: (rowId: GridRowId, row: GridRowModel) => void;
   export let onColumnConfigure: (column: GridColDef, editable: boolean) => void;
@@ -40,7 +41,6 @@
   $: t = $i18n.t;
 
   $: visibleColumns = columns.filter((column) => !column.hide);
-  // $: sortedColumns = sortColumns(visibleColumns);
   $: sortedColumns = visibleColumns;
   $: sortedRows = sortRows(rows, sortModel);
 
@@ -162,6 +162,10 @@
     return menu;
   }
 
+  function handleColumnOrder(columns: GridColDef[]) {
+    onColumnSort(columns.map((col) => col.field));
+  }
+
   const clamp = (num: number, min: number, max: number) =>
     Math.min(Math.max(num, min), max);
 </script>
@@ -172,7 +176,9 @@
   aria-rowcount={sortedRows.length + 2}
 >
   <GridHeader
-    columns={sortedColumns}
+    columns={sortedColumns
+      .filter((col) => !col.hide)
+      .map((col) => ({ ...col, id: col.field }))}
     onResize={(name, width) => {
       columns = columns.map((column) =>
         column.field === name ? { ...column, width } : column
@@ -182,6 +188,7 @@
       onColumnResize(name, width);
     }}
     onColumnMenu={(field) => createColumnMenu(field)}
+    onColumnOrder={handleColumnOrder}
   />
   {#each sortedRows as { rowId, row }, i (rowId)}
     <GridRow
