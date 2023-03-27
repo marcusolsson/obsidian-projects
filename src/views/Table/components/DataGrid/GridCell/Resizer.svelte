@@ -8,6 +8,7 @@
   let initial: number | null;
 
   function startResize(event: MouseEvent) {
+    // Unless we stop propagation, resizing will also drag the column.
     event.stopPropagation();
 
     start = event.pageX;

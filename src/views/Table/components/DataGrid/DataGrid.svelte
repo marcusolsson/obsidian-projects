@@ -178,6 +178,7 @@
   <GridHeader
     columns={sortedColumns
       .filter((col) => !col.hide)
+      // svelte-dnd-action needs an `id` property.
       .map((col) => ({ ...col, id: col.field }))}
     onResize={(name, width) => {
       columns = columns.map((column) =>

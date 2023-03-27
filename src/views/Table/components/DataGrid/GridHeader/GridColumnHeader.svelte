@@ -63,5 +63,7 @@
 
     font-weight: 500;
     padding: 0 4px;
+
+    cursor: default;
   }
 </style>
