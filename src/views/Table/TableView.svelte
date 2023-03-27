@@ -201,6 +201,12 @@
           sortAsc: sort === "asc",
         });
       }}
+      onColumnSort={(fields) => {
+        saveConfig({
+          ...config,
+          orderFields: fields,
+        });
+      }}
     />
   </ViewContent>
 </ViewLayout>
