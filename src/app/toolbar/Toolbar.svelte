@@ -130,7 +130,6 @@
     {/if}
   </div>
   <svelte:fragment slot="view-options">
-    {#if viewId}
       {@const view = projects
         .find((project) => project.id === projectId)
         ?.views?.find((view) => view.id === viewId)}
@@ -140,6 +139,7 @@
         on:click={() => {
           colorOpen = !colorOpen;
         }}
+        disabled = {!view}
       >
         <Icon name="palette" />
         Color
@@ -181,6 +181,7 @@
         on:click={() => {
           filterOpen = !filterOpen;
         }}
+        disabled = {!view}
       >
         <Icon name="filter" />
         Filter
@@ -217,6 +218,5 @@
           fields={$dataFrame.fields}
         />
       </Popover>
-    {/if}
   </svelte:fragment>
 </ViewToolbar>
