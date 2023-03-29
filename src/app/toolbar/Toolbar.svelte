@@ -1,19 +1,16 @@
 <script lang="ts">
-  import { Menu } from "obsidian";
   import { Button, Icon, Popover } from "obsidian-svelte";
 
   import ViewToolbar from "src/components/Layout/ViewToolbar.svelte";
   import FilterSettings from "src/components/FilterSettings/FilterSettings.svelte";
   import ColorFilterSettings from "src/components/FilterSettings/ColorFilterSettings.svelte";
-  import { createDataRecord, createProject } from "src/lib/data-api";
-  import { api } from "src/lib/stores/api";
+  import { createProject } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { dataFrame } from "src/lib/stores/dataframe";
   import { settings } from "src/lib/stores/settings";
   import { AddViewModal } from "src/modals/add-view-modal";
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
-  import { CreateNoteModal } from "src/modals/create-note-modal";
   import { CreateProjectModal } from "src/modals/create-project-modal";
   import Flair from "./Flair.svelte";
 
@@ -222,70 +219,4 @@
       </Popover>
     {/if}
   </svelte:fragment>
-
-  <Button
-    slot="right"
-    variant="primary"
-    on:click={(event) => {
-      const menu = new Menu();
-
-      menu.addItem((item) => {
-        item
-          .setTitle($i18n.t("modals.project.create.short-title"))
-          .setIcon("folder")
-          .onClick(() => {
-            new CreateProjectModal(
-              $app,
-              $i18n.t("modals.project.create.title"),
-              $i18n.t("modals.project.create.cta"),
-              (project) => {
-                settings.addProject(project);
-                projectId = project.id;
-                onProjectChange(project.id);
-              },
-              createProject()
-            ).open();
-          });
-      });
-
-      if (project) {
-        menu.addItem((item) => {
-          item
-            .setTitle($i18n.t("modals.view.create.short-title"))
-            .setIcon("table")
-            .onClick(() => {
-              if (project) {
-                new AddViewModal($app, project, (projectId, view) => {
-                  settings.addView(projectId, view);
-                  onViewChange(view.id);
-                }).open();
-              }
-            });
-        });
-        menu.addItem((item) => {
-          item
-            .setTitle($i18n.t("modals.note.create.short-title"))
-            .setIcon("file")
-            .onClick(() => {
-              if (project) {
-                new CreateNoteModal(
-                  $app,
-                  project,
-                  (name, templatePath, project) => {
-                    $api.createNote(
-                      createDataRecord(name, project),
-                      templatePath
-                    );
-                  }
-                ).open();
-              }
-            });
-        });
-      }
-      menu.showAtMouseEvent(event);
-    }}
-  >
-    {$i18n.t("toolbar.new")}
-    <Icon accent name="chevron-down" />
-  </Button>
 </ViewToolbar>
