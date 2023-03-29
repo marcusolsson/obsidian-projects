@@ -130,93 +130,93 @@
     {/if}
   </div>
   <svelte:fragment slot="view-options">
-      {@const view = projects
-        .find((project) => project.id === projectId)
-        ?.views?.find((view) => view.id === viewId)}
+    {@const view = projects
+      .find((project) => project.id === projectId)
+      ?.views?.find((view) => view.id === viewId)}
 
-      <Button
-        bind:ref={colorRef}
-        on:click={() => {
-          colorOpen = !colorOpen;
+    <Button
+      bind:ref={colorRef}
+      on:click={() => {
+        colorOpen = !colorOpen;
+      }}
+      disabled={!view}
+    >
+      <Icon name="palette" />
+      Color
+      {#if view?.colors.conditions.length}
+        <Flair variant="primary">{view?.colors.conditions.length}</Flair>
+      {/if}
+    </Button>
+    <Popover
+      anchorEl={colorRef}
+      open={colorOpen}
+      onClose={() => {
+        colorOpen = false;
+      }}
+      placement="auto"
+    >
+      <ColorFilterSettings
+        filter={view?.colors ?? {
+          conditions: [],
         }}
-        disabled = {!view}
-      >
-        <Icon name="palette" />
-        Color
-        {#if view?.colors.conditions.length}
-          <Flair variant="primary">{view?.colors.conditions.length}</Flair>
-        {/if}
-      </Button>
-      <Popover
-        anchorEl={colorRef}
-        open={colorOpen}
-        onClose={() => {
-          colorOpen = false;
-        }}
-        placement="auto"
-      >
-        <ColorFilterSettings
-          filter={view?.colors ?? {
-            conditions: [],
-          }}
-          onFilterChange={(filter) => {
-            const view = projects
-              .find((project) => project.id === projectId)
-              ?.views?.find((view) => view.id === viewId);
+        onFilterChange={(filter) => {
+          const view = projects
+            .find((project) => project.id === projectId)
+            ?.views?.find((view) => view.id === viewId);
 
-            if (projectId && view) {
-              settings.updateView(
-                projectId,
-                produce(view, (draft) => {
-                  draft.colors = filter;
-                })
-              );
-            }
-          }}
-          fields={$dataFrame.fields}
-        />
-      </Popover>
-      <Button
-        bind:ref={filterRef}
-        on:click={() => {
-          filterOpen = !filterOpen;
+          if (projectId && view) {
+            settings.updateView(
+              projectId,
+              produce(view, (draft) => {
+                draft.colors = filter;
+              })
+            );
+          }
         }}
-        disabled = {!view}
-      >
-        <Icon name="filter" />
-        Filter
-        {#if view?.filter.conditions.length}
-          <Flair variant="primary">{view?.filter.conditions.length}</Flair>
-        {/if}
-      </Button>
-      <Popover
-        anchorEl={filterRef}
-        open={filterOpen}
-        onClose={() => {
-          filterOpen = false;
+        fields={$dataFrame.fields}
+      />
+    </Popover>
+    <Button
+      bind:ref={filterRef}
+      on:click={() => {
+        filterOpen = !filterOpen;
+      }}
+      disabled={!view}
+    >
+      <Icon name="filter" />
+      Filter
+      {#if view?.filter.conditions.length}
+        <Flair variant="primary">{view?.filter.conditions.length}</Flair>
+      {/if}
+    </Button>
+    <Popover
+      anchorEl={filterRef}
+      open={filterOpen}
+      onClose={() => {
+        filterOpen = false;
+      }}
+      placement="auto"
+    >
+      <FilterSettings
+        filter={view?.filter ?? {
+          conditions: [],
         }}
-        placement="auto"
-      >
-        <FilterSettings
-          filter={view?.filter ?? {
-            conditions: [],
-          }}
-          onFilterChange={(filter) => {
-            const view = projects
-              .find((project) => project.id === projectId)
-              ?.views?.find((view) => view.id === viewId);
+        onFilterChange={(filter) => {
+          const view = projects
+            .find((project) => project.id === projectId)
+            ?.views?.find((view) => view.id === viewId);
 
-            if (projectId && view) {
-              settings.updateView(
-                projectId,
-                produce(view, (draft) => {
-                  draft.filter = filter;
-                })
-              );
-            }
-          }}
-          fields={$dataFrame.fields}
-        />
-      </Popover>
+          if (projectId && view) {
+            settings.updateView(
+              projectId,
+              produce(view, (draft) => {
+                draft.filter = filter;
+              })
+            );
+          }
+        }}
+        fields={$dataFrame.fields}
+      />
+    </Popover>
   </svelte:fragment>
 </ViewToolbar>
