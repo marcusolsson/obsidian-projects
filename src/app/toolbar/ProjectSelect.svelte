@@ -98,7 +98,7 @@
   {/if}
   <IconButton
     icon="folder-plus"
-    size="sm"
+    size="md"
     tooltip={$i18n.t("modals.project.create.title")}
     on:click={() => onProjectAdd()}
   />
