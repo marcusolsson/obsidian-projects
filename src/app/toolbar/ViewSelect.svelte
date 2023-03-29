@@ -1,7 +1,7 @@
 <script lang="ts">
   import { customViews } from "src/lib/stores/custom-views";
   import type { ViewDefinition, ViewId } from "src/settings/settings";
-  import { Icon } from "obsidian-svelte";
+  import { Icon, IconButton } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
 
   import ViewItem from "./ViewItem.svelte";
@@ -51,20 +51,25 @@
       />
     {/each}
   {/key}
-  <div
-    on:mouseup={() => {
-      onViewAdd();
-    }}
-  >
-    <Icon
-      name="plus"
+  {#if views.length}
+    <IconButton
+      icon="plus"
       size="sm"
-      tooltip={views.length ? $i18n.t("toolbar.view.add") : ""}
+      on:click={() => {
+        onViewAdd();
+      }}
+      tooltip={$i18n.t("toolbar.view.add")}
     />
-    {#if !views.length}
+  {:else}
+    <div
+      on:mouseup={() => {
+        onViewAdd();
+      }}
+    >
+      <Icon name="plus" size="sm" />
       {$i18n.t("toolbar.view.add")}
-    {/if}
-  </div>
+    </div>
+  {/if}
 </ViewItemList>
 
 <style>
