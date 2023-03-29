@@ -44,15 +44,6 @@
 
         menu.addItem((item) => {
           item
-            .setTitle($i18n.t("modals.project.create.short-title"))
-            .setIcon("folder-plus")
-            .onClick(() => {
-              onProjectAdd();
-            });
-        });
-
-        menu.addItem((item) => {
-          item
             .setTitle($i18n.t("modals.project.edit.short-title"))
             .setIcon("edit")
             .onClick(() => {
@@ -105,6 +96,12 @@
       }}
     />
   {/if}
+  <IconButton
+    icon="folder-plus"
+    size="sm"
+    tooltip={$i18n.t("modals.project.create.title")}
+    on:click={() => onProjectAdd()}
+  />
 </span>
 
 <style>
