@@ -275,6 +275,7 @@ i18next.init({
           },
           projects: {
             none: "No projects",
+            options: "More optiopns",
           },
         },
         errors: {

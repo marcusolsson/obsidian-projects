@@ -39,6 +39,7 @@
     <IconButton
       icon="more-vertical"
       size="sm"
+      tooltip={$i18n.t("toolbar.projects.options")}
       on:click={(event) => {
         const menu = new Menu();
 
