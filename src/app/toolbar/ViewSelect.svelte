@@ -22,36 +22,38 @@
   }
 </script>
 
-<ViewItemList onSort={onViewSort}>
-  {#key views}
-    {#each views as v (v.id)}
-      <ViewItem
-        id={v.id}
-        active={viewId === v.id}
-        label={v.name}
-        icon={iconFromViewType(v.type)}
-        on:mousedown={() => onViewChange(v.id)}
-        on:rename={({ detail: name }) => {
-          onViewRename(v.id, name);
-        }}
-        on:delete={() => {
-          onViewDelete(v.id);
-        }}
-        on:duplicate={() => {
-          onViewDuplicate(v.id);
-        }}
-        onValidate={(name) => {
-          // Check if view has it's original name.
-          if (name === v.name) {
-            return true;
-          }
+{#if views.length}
+  <span>
+    <ViewItemList onSort={onViewSort}>
+      {#key views}
+        {#each views as v (v.id)}
+          <ViewItem
+            id={v.id}
+            active={viewId === v.id}
+            label={v.name}
+            icon={iconFromViewType(v.type)}
+            on:mousedown={() => onViewChange(v.id)}
+            on:rename={({ detail: name }) => {
+              onViewRename(v.id, name);
+            }}
+            on:delete={() => {
+              onViewDelete(v.id);
+            }}
+            on:duplicate={() => {
+              onViewDuplicate(v.id);
+            }}
+            onValidate={(name) => {
+              // Check if view has it's original name.
+              if (name === v.name) {
+                return true;
+              }
 
-          return name !== "" && !viewExists(name);
-        }}
-      />
-    {/each}
-  {/key}
-  {#if views.length}
+              return name !== "" && !viewExists(name);
+            }}
+          />
+        {/each}
+      {/key}
+    </ViewItemList>
     <IconButton
       icon="plus"
       size="sm"
@@ -60,19 +62,25 @@
       }}
       tooltip={$i18n.t("toolbar.view.add")}
     />
-  {:else}
-    <div
-      on:mouseup={() => {
-        onViewAdd();
-      }}
-    >
-      <Icon name="plus" size="sm" />
-      {$i18n.t("toolbar.view.add")}
-    </div>
-  {/if}
-</ViewItemList>
+  </span>
+{:else}
+  <div
+    on:mouseup={() => {
+      onViewAdd();
+    }}
+  >
+    <Icon name="plus" size="sm" />
+    {$i18n.t("toolbar.view.add")}
+  </div>
+{/if}
 
 <style>
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
   div {
     display: inline-flex;
     align-items: center;
@@ -85,6 +93,7 @@
     font-size: var(--font-ui-small);
     border-radius: var(--radius-s);
   }
+
   div:hover {
     background-color: var(--background-modifier-hover);
   }
