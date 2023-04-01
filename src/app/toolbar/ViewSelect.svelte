@@ -1,7 +1,7 @@
 <script lang="ts">
   import { customViews } from "src/lib/stores/custom-views";
   import type { ViewDefinition, ViewId } from "src/settings/settings";
-  import { Icon, IconButton } from "obsidian-svelte";
+  import { Icon, Button, IconButton } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
 
   import ViewItem from "./ViewItem.svelte";
@@ -64,14 +64,14 @@
     />
   </span>
 {:else}
-  <div
-    on:mouseup={() => {
+  <Button
+    on:click={() => {
       onViewAdd();
     }}
   >
     <Icon name="plus" size="sm" />
     {$i18n.t("toolbar.view.add")}
-  </div>
+  </Button>
 {/if}
 
 <style>
@@ -79,22 +79,5 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-  }
-
-  div {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-
-    height: 1.8rem;
-    padding: 0 4px;
-    min-width: min-content;
-
-    font-size: var(--font-ui-small);
-    border-radius: var(--radius-s);
-  }
-
-  div:hover {
-    background-color: var(--background-modifier-hover);
   }
 </style>
