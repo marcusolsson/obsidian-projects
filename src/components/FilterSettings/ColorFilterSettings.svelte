@@ -214,7 +214,7 @@
           />
         {/if}
       {/if}
-      <IconButton icon="trash" on:click={handleConditionRemove(i)} />
+      <IconButton icon="trash" onClick={handleConditionRemove(i)} />
     </HorizontalGroup>
   {/each}
   <HorizontalGroup>

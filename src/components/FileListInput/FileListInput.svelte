@@ -28,7 +28,7 @@
     />
     <IconButton
       icon="x"
-      on:click={() => {
+      onClick={() => {
         onPathsChange(paths.filter((_, j) => j !== i));
       }}
     />

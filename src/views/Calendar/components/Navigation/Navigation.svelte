@@ -8,9 +8,9 @@
 </script>
 
 <div>
-  <IconButton icon="chevron-left" on:click={onPrevious} />
+  <IconButton icon="chevron-left" onClick={onPrevious} />
   <Button on:click={onToday}>{$i18n.t("views.calendar.today")}</Button>
-  <IconButton icon="chevron-right" on:click={onNext} />
+  <IconButton icon="chevron-right" onClick={onNext} />
 </div>
 
 <style>

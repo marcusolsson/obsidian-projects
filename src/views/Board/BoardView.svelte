@@ -200,7 +200,7 @@
         />
         <IconButton
           icon="settings"
-          on:click={() => {
+          onClick={() => {
             new BoardSettingsModal($app, config ?? {}, (value) => {
               saveConfig(value);
             }).open();

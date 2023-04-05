@@ -42,7 +42,7 @@
   {#each options as option, i}
     <span>
       <TextInput width="100%" value={option} on:blur={handleOptionChange(i)} />
-      <IconButton icon="cross" on:click={handleOptionRemove(i)} />
+      <IconButton icon="cross" onClick={handleOptionRemove(i)} />
     </span>
   {/each}
   <Button variant="plain" on:click={handleOptionAdd}

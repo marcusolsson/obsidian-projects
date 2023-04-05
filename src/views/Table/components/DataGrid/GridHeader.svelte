@@ -72,7 +72,7 @@
         <IconButton
           size="sm"
           icon="vertical-three-dots"
-          on:click={handleFieldClick(column)}
+          onClick={handleFieldClick(column)}
         />
       </svelte:fragment>
     </GridCell>
