@@ -114,7 +114,7 @@
       icon="chevron-down"
       size="sm"
       nopadding
-      on:click={(event) => {
+      onClick={(event) => {
         const menu = new Menu();
 
         menu.addItem((item) => {

@@ -166,7 +166,7 @@
         />
         <IconButton
           icon="settings"
-          on:click={() => {
+          onClick={() => {
             new GallerySettingsModal($app, config ?? {}, (value) => {
               saveConfig(value);
             }).open();
