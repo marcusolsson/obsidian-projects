@@ -129,7 +129,7 @@
       />
     {/if}
   </div>
-  <svelte:fragment slot="view-options">
+  <svelte:fragment slot="right">
     {@const view = projects
       .find((project) => project.id === projectId)
       ?.views?.find((view) => view.id === viewId)}
