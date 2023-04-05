@@ -22,7 +22,7 @@
           icon="cross"
           size="xs"
           nopadding
-          on:click={() => {
+          onClick={() => {
             onChange(values.filter((_, j) => i !== j));
           }}
         />
@@ -31,7 +31,7 @@
     <IconButton
       icon="plus"
       nopadding
-      on:click={() => {
+      onClick={() => {
         new InputDialogModal($app, "Add list item", "Add", (value) => {
           onChange([...values, value]);
         }).open();

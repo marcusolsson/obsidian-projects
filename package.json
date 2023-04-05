@@ -39,7 +39,7 @@
     "jest": "^29.3.1",
     "obsidian": "latest",
     "obsidian-dataview": "^0.5.46",
-    "obsidian-svelte": "0.1.7",
+    "obsidian-svelte": "0.1.9",
     "prettier": "^2.8.1",
     "prettier-plugin-svelte": "^2.9.0",
     "sortablejs": "^1.15.0",

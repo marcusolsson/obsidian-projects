@@ -43,7 +43,7 @@
             <span
               ><Flair variant="error">error</Flair><IconButton
                 icon="search"
-                on:click={(event) => {
+                onClick={(event) => {
                   $app.workspace.openLinkText(error.recordId, "", true);
                   event.stopPropagation();
                   onCancel();

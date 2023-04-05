@@ -38,7 +38,7 @@
     <IconButton
       icon="more-vertical"
       size="sm"
-      on:click={(event) => {
+      onClick={(event) => {
         const menu = new Menu();
 
         menu.addItem((item) => {
