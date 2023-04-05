@@ -31,6 +31,7 @@ export class GalleryView extends ProjectView<GalleryConfig> {
       props: {
         frame: { fields: [], records: [] },
         api: props.viewApi,
+        project: props.project,
         config: props.config,
         onConfigChange: props.saveConfig,
         getRecordColor: props.getRecordColor,

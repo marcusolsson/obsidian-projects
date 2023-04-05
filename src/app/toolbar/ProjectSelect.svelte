@@ -16,6 +16,7 @@
   $: project = projects.find((project) => project.id === projectId);
 
   export let onProjectChange: (projectId: ProjectId) => void;
+  export let onProjectAdd: () => void;
 </script>
 
 <span>
@@ -34,67 +35,73 @@
     placeholder={$i18n.t("toolbar.projects.none") ?? ""}
   />
 
-  {#if projects.length}
-    <IconButton
-      icon="more-vertical"
-      size="sm"
-      onClick={(event) => {
-        const menu = new Menu();
+  <IconButton
+    icon="more-vertical"
+    size="sm"
+    disabled={!projects.length}
+    tooltip={$i18n.t("toolbar.projects.options")}
+    onClick={(event) => {
+      const menu = new Menu();
 
-        menu.addItem((item) => {
-          item
-            .setTitle($i18n.t("modals.project.edit.short-title"))
-            .setIcon("edit")
-            .onClick(() => {
-              if (project) {
-                new CreateProjectModal(
-                  $app,
-                  $i18n.t("modals.project.edit.title"),
-                  $i18n.t("modals.project.edit.cta"),
-                  settings.updateProject,
-                  project
-                ).open();
-              }
-            });
-        });
-
-        menu.addItem((item) => {
-          item
-            .setTitle($i18n.t("modals.project.duplicate.title"))
-            .setIcon("copy")
-            .onClick(() => {
-              if (projectId) {
-                const id = settings.duplicateProject(projectId);
-                onProjectChange(id);
-              }
-            });
-        });
-
-        menu.addItem((item) => {
-          item
-            .setTitle($i18n.t("modals.project.delete.short-title"))
-            .setIcon("trash")
-            .onClick(() => {
-              new ConfirmDialogModal(
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("modals.project.edit.short-title"))
+          .setIcon("edit")
+          .onClick(() => {
+            if (project) {
+              new CreateProjectModal(
                 $app,
-                $i18n.t("modals.project.delete.title"),
-                $i18n.t("modals.project.delete.message", {
-                  project: project?.name ?? "",
-                }),
-                $i18n.t("modals.project.delete.cta"),
-                () => {
-                  if (projectId) {
-                    settings.deleteProject(projectId);
-                  }
-                }
+                $i18n.t("modals.project.edit.title"),
+                $i18n.t("modals.project.edit.cta"),
+                settings.updateProject,
+                project
               ).open();
-            });
-        });
+            }
+          });
+      });
 
-        menu.showAtMouseEvent(event);
-      }}
-    />
-  {/if}
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("modals.project.duplicate.title"))
+          .setIcon("copy")
+          .onClick(() => {
+            if (projectId) {
+              const id = settings.duplicateProject(projectId);
+              onProjectChange(id);
+            }
+          });
+      });
+
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("modals.project.delete.short-title"))
+          .setIcon("trash")
+          .onClick(() => {
+            new ConfirmDialogModal(
+              $app,
+              $i18n.t("modals.project.delete.title"),
+              $i18n.t("modals.project.delete.message", {
+                project: project?.name ?? "",
+              }),
+              $i18n.t("modals.project.delete.cta"),
+              () => {
+                if (projectId) {
+                  settings.deleteProject(projectId);
+                }
+              }
+            ).open();
+          });
+      });
+
+      menu.showAtMouseEvent(event);
+    }}
+  />
+  <IconButton
+    icon="folder-plus"
+    size="md"
+    tooltip={$i18n.t("modals.project.create.title")}
+    onClick={() => onProjectAdd()}
+  />
 </span>
 
 <style>

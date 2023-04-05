@@ -22,10 +22,12 @@
     type DataFrame,
     type DataRecord,
   } from "src/lib/data";
+  import { createDataRecord } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import type { ViewApi } from "src/lib/view-api";
   import CenterBox from "src/modals/components/CenterBox.svelte";
+  import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import { fieldToSelectableValue } from "src/views/helpers";
   import { getDisplayName } from "../Board/components/Board/board-helpers";
@@ -37,7 +39,9 @@
   import { parseObsidianLink } from "./helpers";
   import { GallerySettingsModal } from "./settings/settings-modal";
   import type { GalleryConfig } from "./types";
+  import type { ProjectDefinition } from "src/settings/settings";
 
+  export let project: ProjectDefinition;
   export let frame: DataFrame;
   export let config: GalleryConfig | undefined;
   export let onConfigChange: (config: GalleryConfig) => void;
@@ -227,6 +231,19 @@
               </CardContent>
             </Card>
           {/each}
+          <IconButton
+            icon="plus"
+            size="lg"
+            on:click={() => {
+              new CreateNoteModal(
+                $app,
+                project,
+                (name, templatePath, project) => {
+                  api.addRecord(createDataRecord(name, project), templatePath);
+                }
+              ).open();
+            }}
+          />
         </Grid>
       </div>
     {:else}
