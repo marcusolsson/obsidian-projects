@@ -57,7 +57,7 @@
     <IconButton
       icon="plus"
       size="sm"
-      on:click={() => {
+      onClick={() => {
         onViewAdd();
       }}
       tooltip={$i18n.t("toolbar.view.add")}
@@ -65,6 +65,7 @@
   </span>
 {:else}
   <Button
+    variant="plain"
     on:click={() => {
       onViewAdd();
     }}
