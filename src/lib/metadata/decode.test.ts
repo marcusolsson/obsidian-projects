@@ -46,21 +46,19 @@ describe("preprocessYaml", () => {
   it("should escape internal links", () => {
     expect(
       preprocessYaml(`unquoted: [[Untitled.md]]\nquoted: "[[Untitled.md]]"`)
-    ).toStrictEqual(
-      E.right(`unquoted: "[[Untitled.md]]"\nquoted: "[[Untitled.md]]"`)
-    );
+    ).toStrictEqual(`unquoted: "[[Untitled.md]]"\nquoted: "[[Untitled.md]]"`);
   });
 
   it("should escape comma-separated internal links", () => {
     expect(
       preprocessYaml(`unquoted: [[Untitled.md]], [[Untitled.md]]`)
-    ).toStrictEqual(E.right(`unquoted: "[[Untitled.md]], [[Untitled.md]]"`));
+    ).toStrictEqual(`unquoted: "[[Untitled.md]], [[Untitled.md]]"`);
   });
 
   it("shouldn't escape already escaped comma-separated internal links", () => {
     expect(
       preprocessYaml(`quoted: "[[Untitled.md]], [[Untitled.md]]"`)
-    ).toStrictEqual(E.right(`quoted: "[[Untitled.md]], [[Untitled.md]]"`));
+    ).toStrictEqual(`quoted: "[[Untitled.md]], [[Untitled.md]]"`);
   });
 });
 

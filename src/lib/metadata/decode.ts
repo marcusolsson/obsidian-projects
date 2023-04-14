@@ -1,5 +1,4 @@
 import { either as E, function as F } from "fp-ts";
-import { Platform } from "obsidian";
 import { parse } from "yaml";
 
 /**
@@ -22,7 +21,11 @@ export function decodeFrontMatter(
 }
 
 export function parseYaml(data: string): E.Either<Error, Record<string, any>> {
-  return F.pipe(data, preprocessYaml, E.chain(parseRawYaml));
+  return F.pipe(
+    data,
+    (data) => E.right(preprocessYaml(data)),
+    E.chain(parseRawYaml)
+  );
 }
 
 function parseRawYaml(data: string): E.Either<Error, Record<string, any>> {
@@ -44,31 +47,18 @@ function parseRawYaml(data: string): E.Either<Error, Record<string, any>> {
  * Surrounds internal links with quotes to parse them as strings instead of
  * arrays.
  */
-export function preprocessYaml(data: string): E.Either<Error, string> {
-  const nonQuotedInternalLinks = /(?<!\")(\[\[.*\]\])(?!\")$/g;
+export function preprocessYaml(data: string): string {
+  const nonQuotedInternalLinks = /(\"?\[\[.*\]\]\"?)/g;
 
   const quoteInternalLinks = (line: string) =>
-    line.replace(nonQuotedInternalLinks, (_match, p1) => '"' + p1 + '"');
+    line.replace(nonQuotedInternalLinks, (_match, p1) => {
+      if (p1.startsWith('"') && p1.endsWith('"')) {
+        return p1;
+      }
+      return '"' + p1 + '"';
+    });
 
-  return F.pipe(
-    data,
-    // TODO: The regular expression below uses negative lookbehind, which isn't
-    // supported on iOS. For now, let's exit early to avoid undefined behavior.
-    E.fromPredicate(
-      () => !Platform.isSafari,
-      () =>
-        new Error(
-          "Negative lookbehind in regular expressions isn't supported on iOS"
-        )
-    ),
-    E.map((data) =>
-      F.pipe(
-        data.split("\n"),
-        (lines) => lines.map(quoteInternalLinks),
-        (lines) => lines.join("\n")
-      )
-    )
-  );
+  return data.split("\n").map(quoteInternalLinks).join("\n");
 }
 
 /**
