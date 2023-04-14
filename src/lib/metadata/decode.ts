@@ -1,5 +1,4 @@
 import { either as E, function as F } from "fp-ts";
-import { Platform } from "obsidian";
 import { parse } from "yaml";
 
 /**
@@ -22,7 +21,11 @@ export function decodeFrontMatter(
 }
 
 export function parseYaml(data: string): E.Either<Error, Record<string, any>> {
-  return F.pipe(data, (data) => E.right(preprocessYaml(data)), E.chain(parseRawYaml));
+  return F.pipe(
+    data,
+    (data) => E.right(preprocessYaml(data)),
+    E.chain(parseRawYaml)
+  );
 }
 
 function parseRawYaml(data: string): E.Either<Error, Record<string, any>> {
