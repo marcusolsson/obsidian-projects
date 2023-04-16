@@ -234,7 +234,7 @@
           <IconButton
             icon="plus"
             size="lg"
-            on:click={() => {
+            onClick={() => {
               new CreateNoteModal(
                 $app,
                 project,
