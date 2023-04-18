@@ -88,8 +88,11 @@ export class ObsidianFileSystem implements IFileSystem {
     }
   }
 
-  getFile(path: string): IFile {
-    return ObsidianFile.of(path, this.app);
+  getFile(path: string): IFile | null {
+    if(this.app.vault.getAbstractFileByPath(path)) {
+      return ObsidianFile.of(path, this.app);
+    }
+    return null
   }
 
   getAllFiles(): IFile[] {
