@@ -55,6 +55,7 @@
             : {
                 ...cond,
                 condition: {
+                  ...cond.condition,
                   field: detail,
                   operator: "is-empty",
                 },
@@ -119,6 +120,7 @@
         condition: {
           field: fields.at(0)?.name ?? "",
           operator: "is-not-empty",
+          enabled: true,
         },
       });
     });

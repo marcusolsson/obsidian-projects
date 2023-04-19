@@ -7,6 +7,7 @@
     Select,
     TextInput,
     NumberInput,
+    Checkbox,
   } from "obsidian-svelte";
   import HorizontalGroup from "src/components/HorizontalGroup/HorizontalGroup.svelte";
   import { DataFieldType, type DataField } from "src/lib/data";
@@ -85,10 +86,22 @@
       draft.conditions.push({
         field: fields.at(0)?.name ?? "",
         operator: "is-not-empty",
+        enabled: true,
       });
     });
     onFilterChange(filter);
   }
+
+  const handleStatusChange =
+    (i: number) =>
+    ({ detail }: CustomEvent<boolean>) => {
+      filter = produce(filter, (draft) => {
+        draft.conditions = draft.conditions.map((cond, idx) =>
+          idx !== i ? cond : { ...cond, enabled: detail as boolean }
+        );
+      });
+      onFilterChange(filter);
+    };
 
   function getFieldByName(fieldName: string): DataField | undefined {
     return fields.find((field) => field.name === fieldName);
@@ -180,6 +193,7 @@
           />
         {/if}
       {/if}
+      <Checkbox checked={condition.enabled} on:check={handleStatusChange(i)} />
       <IconButton icon="trash" onClick={handleConditionRemove(i)} />
     </HorizontalGroup>
   {/each}

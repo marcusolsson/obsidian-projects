@@ -20,6 +20,10 @@ export function matchesCondition(
 
   const value: Optional<DataValue> = record.values[cond.field];
 
+  if (!cond.enabled) {
+    return true; //continue to iter while this condition is not applyed
+  }
+
   if (operator === "is-empty" || operator === "is-not-empty") {
     return baseFns[operator](value);
   }
