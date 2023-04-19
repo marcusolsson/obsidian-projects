@@ -20,10 +20,6 @@ export function matchesCondition(
 
   const value: Optional<DataValue> = record.values[cond.field];
 
-  if (!cond.enabled) {
-    return true; //continue to iter while this condition is not applyed
-  }
-
   if (operator === "is-empty" || operator === "is-not-empty") {
     return baseFns[operator](value);
   }
@@ -55,7 +51,10 @@ export function matchesFilterConditions(
   filter: FilterDefinition,
   record: DataRecord
 ) {
-  return filter.conditions.every((cond) => matchesCondition(cond, record));
+  const validConds = filter.conditions.filter((cond) => {
+    return cond.enabled;
+  });
+  return validConds.every((cond) => matchesCondition(cond, record));
 }
 
 export function applyFilter(
