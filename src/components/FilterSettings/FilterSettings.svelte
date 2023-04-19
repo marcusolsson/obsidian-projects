@@ -72,6 +72,17 @@
     }
   };
 
+  const handleStatusChange =
+    (i: number) =>
+    ({ detail }: CustomEvent<boolean>) => {
+      filter = produce(filter, (draft) => {
+        draft.conditions = draft.conditions.map((cond, idx) =>
+          idx !== i ? cond : { ...cond, enabled: detail as boolean }
+        );
+      });
+      onFilterChange(filter);
+    };
+
   const handleConditionRemove = (i: number) => (event: MouseEvent) => {
     event.stopPropagation();
 
@@ -91,17 +102,6 @@
     });
     onFilterChange(filter);
   }
-
-  const handleStatusChange =
-    (i: number) =>
-    ({ detail }: CustomEvent<boolean>) => {
-      filter = produce(filter, (draft) => {
-        draft.conditions = draft.conditions.map((cond, idx) =>
-          idx !== i ? cond : { ...cond, enabled: detail as boolean }
-        );
-      });
-      onFilterChange(filter);
-    };
 
   function getFieldByName(fieldName: string): DataField | undefined {
     return fields.find((field) => field.name === fieldName);
