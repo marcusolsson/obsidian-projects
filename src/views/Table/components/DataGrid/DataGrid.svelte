@@ -202,7 +202,7 @@
       color={colorModel(rowId)}
       onRowMenu={(rowId, row) => createRowMenu(rowId, row)}
       onCellMenu={(rowId, column) => createCellMenu(rowId, row, column)}
-      on:navigate={({ detail: cell }) => {
+      on:navigate={({ detail: navinfo }) => {
         const colOffset = 1;
         const rowOffset = 3;
 
@@ -212,12 +212,23 @@
         const minRowIdx = 1 + rowOffset;
         const maxRowIdx = sortedRows.length + rowOffset;
 
-        const [colIdx, rowIdx] = cell;
+        const [colIdx, rowIdx, wrap] = navinfo;
 
-        activeCell = [
-          clamp(colIdx, minColIdx, maxColIdx),
-          clamp(rowIdx, minRowIdx, maxRowIdx),
-        ];
+        const wrapPrev =
+          wrap && colIdx < minColIdx && !(rowIdx - 1 < minRowIdx);
+        const wrapNext =
+          wrap && colIdx > maxColIdx && !(rowIdx + 1 > maxRowIdx);
+
+        if (wrapPrev) {
+          activeCell = [maxColIdx, rowIdx - 1];
+        } else if (wrapNext) {
+          activeCell = [minColIdx, rowIdx + 1];
+        } else {
+          activeCell = [
+            clamp(colIdx, minColIdx, maxColIdx),
+            clamp(rowIdx, minRowIdx, maxRowIdx),
+          ];
+        }
       }}
     />
   {/each}

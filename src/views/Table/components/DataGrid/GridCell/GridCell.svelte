@@ -23,7 +23,9 @@
   export let onCut: () => void = () => {};
   export let onPaste: () => void = () => {};
 
-  const dispatch = createEventDispatcher<{ navigate: [number, number] }>();
+  const dispatch = createEventDispatcher<{
+    navigate: [number, number, boolean?];
+  }>();
 
   let hover: boolean = false;
 
@@ -100,9 +102,9 @@
         break;
       case "Tab":
         if (event.shiftKey) {
-          dispatch("navigate", [colindex - 1, rowindex]);
+          dispatch("navigate", [colindex - 1, rowindex, true]);
         } else {
-          dispatch("navigate", [colindex + 1, rowindex]);
+          dispatch("navigate", [colindex + 1, rowindex, true]);
         }
         event.preventDefault();
         break;
