@@ -41,6 +41,7 @@
       outline: "none",
       borderRadius: "5px",
       background: "hsla(var(--interactive-accent-hsl), 0.3)",
+      transition: "all 150ms easy-in-out"
     },
     dragDisabled: dragDisabled,
   }}
@@ -83,6 +84,7 @@
     flex-direction: column;
     gap: var(--size-4-2);
     min-height: 35px;
+    transition: all 150ms ease-in-out;
   }
 
   .crd {
