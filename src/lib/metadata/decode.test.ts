@@ -49,6 +49,12 @@ describe("preprocessYaml", () => {
     ).toStrictEqual(`unquoted: "[[Untitled.md]]"\nquoted: "[[Untitled.md]]"`);
   });
 
+  it("should escape embedded images", () => {
+    expect(
+      preprocessYaml(`unquoted: ![[Untitled.md]]\nquoted: "![[Untitled.md]]"`)
+    ).toStrictEqual(`unquoted: "![[Untitled.md]]"\nquoted: "![[Untitled.md]]"`);
+  });
+
   it("should escape comma-separated internal links", () => {
     expect(
       preprocessYaml(`unquoted: [[Untitled.md]], [[Untitled.md]]`)
