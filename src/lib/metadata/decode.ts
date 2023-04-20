@@ -53,9 +53,9 @@ export function preprocessYaml(data: string): string {
   const quoteInternalLinks = (line: string) =>
     line.replace(internalLinks, (_match, p1) => {
       if (p1.startsWith('"') && p1.endsWith('"')) {
-        return p1; //quoted
+        return p1; // quoted
       }
-      return '"' + p1 + '"'; //un quoted
+      return '"' + p1 + '"'; // unquoted
     });
 
   return data.split("\n").map(quoteInternalLinks).join("\n");
