@@ -84,6 +84,7 @@ export interface FilterCondition {
   readonly field: string;
   readonly operator: FilterOperator;
   readonly value?: string;
+  readonly enabled: boolean;
 }
 
 export type StringFieldConfig = {

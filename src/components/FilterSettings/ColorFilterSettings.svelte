@@ -8,6 +8,7 @@
     TextInput,
     NumberInput,
     ColorInput,
+    Checkbox,
   } from "obsidian-svelte";
   import HorizontalGroup from "src/components/HorizontalGroup/HorizontalGroup.svelte";
   import { DataFieldType, type DataField } from "src/lib/data";
@@ -55,6 +56,7 @@
             : {
                 ...cond,
                 condition: {
+                  ...cond.condition,
                   field: detail,
                   operator: "is-empty",
                 },
@@ -103,6 +105,25 @@
     }
   };
 
+  const handleStatusChange =
+    (i: number) =>
+    ({ detail }: CustomEvent<boolean>) => {
+      filter = produce(filter, (draft) => {
+        draft.conditions = draft.conditions.map((cond, idx) =>
+          idx !== i
+            ? cond
+            : {
+                ...cond,
+                condition: {
+                  ...cond.condition,
+                  enabled: detail,
+                },
+              }
+        );
+      });
+      onFilterChange(filter);
+    };
+
   const handleConditionRemove = (i: number) => (event: MouseEvent) => {
     event.stopPropagation();
 
@@ -119,6 +140,7 @@
         condition: {
           field: fields.at(0)?.name ?? "",
           operator: "is-not-empty",
+          enabled: true,
         },
       });
     });
@@ -214,6 +236,10 @@
           />
         {/if}
       {/if}
+      <Checkbox
+        checked={condition.condition.enabled}
+        on:check={handleStatusChange(i)}
+      />
       <IconButton icon="trash" onClick={handleConditionRemove(i)} />
     </HorizontalGroup>
   {/each}
