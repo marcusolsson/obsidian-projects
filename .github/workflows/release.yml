@@ -5,13 +5,9 @@ on:
     tags:
       - "*"
 
-env:
-  GH_TOKEN: ${{ github.token }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
 
     steps:
       - uses: actions/checkout@v3
@@ -27,4 +23,9 @@ jobs:
           npm run build
 
       - name: Create release
-        run: gh release create "${ref##*/}" --draft main.js manifest.json styles.css
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag=${ref##*/}
+
+          gh release create "$tag" --draft --generate-notes main.js manifest.json styles.css
