@@ -26,4 +26,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create --draft "${GITHUB_REF#refs/tags/}"  main.js manifest.json styles.css
+          tag="${GITHUB_REF#refs/tags/}"
+
+          gh release create "$tag" \
+            --title="$tag" \
+            --generate-notes \
+            --draft \
+            main.js manifest.json styles.css
