@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -23,12 +23,4 @@ jobs:
           npm run build
 
       - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: true
-          prerelease: false
-          generate_release_notes: true
-          files: |
-            main.js
-            manifest.json
-            styles.css
+        run: gh release create "${ref##*/}" --draft main.js manifest.json styles.css
