@@ -28,4 +28,6 @@ jobs:
         run: |
           tag=${ref##*/}
 
-          gh release create "$tag" --draft --generate-notes main.js manifest.json styles.css
+          echo "$tag"
+
+          gh release create "$tag" --draft --title="$tag" --generate-notes main.js manifest.json styles.css
