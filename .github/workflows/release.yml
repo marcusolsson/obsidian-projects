@@ -5,39 +5,30 @@ on:
     tags:
       - "*"
 
-env:
-  PLUGIN_NAME: obsidian-projects
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+      
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
 
-      - name: Build
-        id: build
+      - name: Build plugin
         run: |
           npm install
           npm run build
-          mkdir ${{ env.PLUGIN_NAME }}
-          cp main.js manifest.json styles.css ${{ env.PLUGIN_NAME }}
-          zip -r ${{ env.PLUGIN_NAME }}-$(git tag --sort version:refname | tail -n 1).zip ${{ env.PLUGIN_NAME }}
-          ls
 
-      - name: Create Release
-        id: create_release
+      - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           draft: true
           prerelease: false
           generate_release_notes: true
           files: |
-            *.zip
             main.js
             manifest.json
             styles.css
