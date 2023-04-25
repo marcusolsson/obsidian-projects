@@ -237,7 +237,7 @@
         {/if}
       {/if}
       <Checkbox
-        checked={condition.condition.enabled}
+        checked={condition.condition?.enabled ?? true}
         on:check={handleStatusChange(i)}
       />
       <IconButton icon="trash" onClick={handleConditionRemove(i)} />

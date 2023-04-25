@@ -52,7 +52,7 @@ export function matchesFilterConditions(
   record: DataRecord
 ) {
   const validConds = filter.conditions.filter((cond) => {
-    return cond.enabled;
+    return cond?.enabled ?? true;
   });
   return validConds.every((cond) => matchesCondition(cond, record));
 }

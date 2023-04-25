@@ -193,7 +193,10 @@
           />
         {/if}
       {/if}
-      <Checkbox checked={condition.enabled} on:check={handleStatusChange(i)} />
+      <Checkbox
+        checked={condition?.enabled ?? true}
+        on:check={handleStatusChange(i)}
+      />
       <IconButton icon="trash" onClick={handleConditionRemove(i)} />
     </HorizontalGroup>
   {/each}

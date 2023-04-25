@@ -76,7 +76,7 @@
   function getRecordColor(record: DataRecord): string | null {
     const colorFilter = view.colors ?? { conditions: [] };
     for (const cond of colorFilter.conditions) {
-      if (cond.condition.enabled) {
+      if (cond.condition?.enabled ?? true) {
         if (matchesCondition(cond.condition, record)) {
           return cond.color;
         }
