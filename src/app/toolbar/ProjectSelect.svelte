@@ -9,6 +9,7 @@
   import { ConfirmDialogModal } from "src/modals/confirm-dialog";
   import { CreateProjectModal } from "src/modals/create-project-modal";
   import type { ProjectDefinition, ProjectId } from "src/settings/settings";
+  import Flair from "./Flair.svelte";
 
   export let projectId: ProjectId | undefined;
   export let projects: ProjectDefinition[];
@@ -102,6 +103,11 @@
     tooltip={$i18n.t("modals.project.create.title")}
     onClick={() => onProjectAdd()}
   />
+  {#if project?.dataSource.kind === "dataview"}
+    <Flair variant="primary" tooltip={$i18n.t("toolbar.read-only-desc") ?? ""}
+      >{$i18n.t("toolbar.read-only")}</Flair
+    >
+  {/if}
 </span>
 
 <style>

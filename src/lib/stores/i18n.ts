@@ -277,6 +277,9 @@ i18next.init({
             none: "No projects",
             options: "More options",
           },
+          "read-only": "Read-only",
+          "read-only-desc":
+            "You can't create or edit notes in read-only projects.",
         },
         errors: {
           missingDataview: {
