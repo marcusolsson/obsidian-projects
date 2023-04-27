@@ -234,12 +234,10 @@
   {/each}
   <GridCellGroup index={sortedRows.length + 2}>
     <span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
-      {#if !readonly}
-        <Button variant="plain" on:click={() => onRowAdd()}>
-          <Icon name="plus" />
-          {t("components.data-grid.row.add")}
-        </Button>
-      {/if}
+      <Button variant="plain" on:click={() => onRowAdd()}>
+        <Icon name="plus" />
+        {t("components.data-grid.row.add")}
+      </Button>
     </span>
   </GridCellGroup>
 </div>
