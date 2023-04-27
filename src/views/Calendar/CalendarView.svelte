@@ -38,6 +38,7 @@
   import WeekHeader from "./components/Calendar/WeekHeader.svelte";
   import Navigation from "./components/Navigation/Navigation.svelte";
   import type { CalendarConfig } from "./types";
+  import { Notice } from "obsidian";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -123,18 +124,26 @@
   }
 
   function handleRecordAdd(date: dayjs.Dayjs) {
-    if (dateField && !readonly) {
-      new CreateNoteModal($app, project, (name, templatePath) => {
-        if (dateField) {
-          api.addRecord(
-            createDataRecord(name, project, {
-              [dateField.name]: date.toDate(),
-            }),
-            templatePath
-          );
-        }
-      }).open();
+    if (!dateField) {
+      new Notice("Select a Date field to create calendar events.");
+      return;
     }
+
+    if (readonly) {
+      new Notice("Can't create calendar events in read-only projects.");
+      return;
+    }
+
+    new CreateNoteModal($app, project, (name, templatePath) => {
+      if (dateField) {
+        api.addRecord(
+          createDataRecord(name, project, {
+            [dateField.name]: date.toDate(),
+          }),
+          templatePath
+        );
+      }
+    }).open();
   }
 
   setRecordColorContext(getRecordColor);
