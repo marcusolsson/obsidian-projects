@@ -122,7 +122,7 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
     to: dateInterval[1],
     formatParams: {
       from: { month: "short", day: "numeric" },
-      to: { month: "short", day: "numeric" },
+      to: { year: "numeric", month: "short", day: "numeric" },
     },
   });
 }
