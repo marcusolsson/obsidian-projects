@@ -169,9 +169,9 @@ export default class ProjectsPlugin extends Plugin {
    * you've allocated in the onload method.
    */
   async onunload(): Promise<void> {
-    this.app.workspace.detachLeavesOfType(VIEW_TYPE_PROJECTS);
-
-    this.unsubscribeSettings?.();
+    if (this.unsubscribeSettings) {
+      this.unsubscribeSettings();
+    }
   }
 
   /**
