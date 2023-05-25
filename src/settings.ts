@@ -24,6 +24,22 @@ export class ProjectsSettingTab extends PluginSettingTab {
     containerEl.empty();
 
     new Setting(containerEl)
+      .setName("Project view limit")
+      .setName('Project view limit')
+      .setDesc('Clip the notes to this many')
+      .addText((text) => {
+        text
+          .setValue(preferences.projectViewLimit.toString())
+          .setPlaceholder('300')
+          .onChange((value) => {
+            save({
+              ...preferences,
+              projectViewLimit: parseInt(value) || 300,
+            });
+          })
+      });
+    
+    new Setting(containerEl)
       .setName("Project size limit")
       .setDesc("Avoid accidentally loading too many notes. Increasing ")
       .addText((text) =>
@@ -36,7 +52,7 @@ export class ProjectsSettingTab extends PluginSettingTab {
               projectSizeLimit: parseInt(value) || 1000,
             });
           })
-      );
+    );
 
     new Setting(containerEl).setName("Front matter").setHeading();
 

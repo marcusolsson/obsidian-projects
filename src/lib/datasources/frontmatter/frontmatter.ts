@@ -41,7 +41,8 @@ export abstract class FrontMatterDataSource extends DataSource {
   async queryAll(): Promise<DataFrame> {
     const files = this.fileSystem
       .getAllFiles()
-      .filter(({ path }) => this.includes(path));
+      .filter(({ path }) => this.includes(path))
+      .slice(0, 300);
 
     if (files.length > this.preferences.projectSizeLimit) {
       throw new TooManyNotesError(

@@ -7,6 +7,8 @@
 
   import GridRow from "./GridRow.svelte";
 
+  import {settings} from "src/lib/stores/settings";
+
   import {
     sortRows,
     type GridColDef,
@@ -191,7 +193,7 @@
     onColumnMenu={(field) => createColumnMenu(field)}
     onColumnOrder={handleColumnOrder}
   />
-  {#each sortedRows as { rowId, row }, i (rowId)}
+  {#each sortedRows.slice(0, $settings.preferences.projectViewLimit) as { rowId, row }, i (rowId)}
     <GridRow
       columns={sortedColumns}
       index={i + 2}

@@ -36,6 +36,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
   projects: [],
   preferences: {
     projectSizeLimit: 1000,
+    projectViewLimit: 300,
     frontmatter: {
       quoteStrings: "PLAIN",
     },

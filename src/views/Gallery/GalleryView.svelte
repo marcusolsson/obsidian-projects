@@ -9,6 +9,8 @@
   import CardMetadata from "src/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/components/ColorItem/ColorItem.svelte";
 
+  import {settings} from 'src/lib/stores/settings';
+
   import { Field } from "src/components/Field";
   import {
     ViewContent,
@@ -179,7 +181,7 @@
     {#if records.length}
       <div class="padding">
         <Grid cardWidth={config?.cardWidth ?? 300}>
-          {#each records as record (record.id)}
+          {#each records.slice(0, $settings.preferences.projectViewLimit) as record (record.id)}
             {@const color = getRecordColor(record)}
             <Card>
               <CardMedia

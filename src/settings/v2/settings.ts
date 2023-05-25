@@ -79,6 +79,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
   projects: [],
   preferences: {
     projectSizeLimit: 1000,
+    projectViewLimit: 300,
     frontmatter: {
       quoteStrings: "PLAIN",
     },
@@ -138,6 +139,7 @@ function resolveView(unresolved: Partial<ViewDefinition>): ViewDefinition {
 
 export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
   projectSizeLimit: 1000,
+  projectViewLimit: 300,
   frontmatter: {
     quoteStrings: "PLAIN",
   },

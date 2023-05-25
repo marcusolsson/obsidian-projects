@@ -101,6 +101,7 @@ export type ShowCommand = {
 
 export type ProjectsPluginPreferences = {
   readonly projectSizeLimit: number;
+  readonly projectViewLimit: number;
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };

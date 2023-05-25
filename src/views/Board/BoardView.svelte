@@ -16,6 +16,8 @@
   import { CreateNoteModal } from "src/modals/create-note-modal";
   import { EditNoteModal } from "src/modals/edit-note-modal";
   import type { ProjectDefinition } from "src/settings/settings";
+  import {settings} from 'src/lib/stores/settings';
+  
   import {
     fieldToSelectableValue,
     setRecordColorContext,
@@ -64,7 +66,7 @@
     (field) => config?.priorityField === field.name
   );
 
-  $: groupedRecords = groupRecordsByField(records, groupByField?.name);
+  $: groupedRecords = groupRecordsByField(records.slice(0, $settings.preferences.projectViewLimit), groupByField?.name);
 
   function getColumns(records: Record<string, Array<DataRecord>>) {
     const columns = new Set<string>(
