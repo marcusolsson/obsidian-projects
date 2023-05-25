@@ -42,7 +42,6 @@ export abstract class FrontMatterDataSource extends DataSource {
     const files = this.fileSystem
       .getAllFiles()
       .filter(({ path }) => this.includes(path))
-      .slice(0, 300);
 
     if (files.length > this.preferences.projectSizeLimit) {
       throw new TooManyNotesError(
