@@ -1,5 +1,7 @@
 <script lang="ts">
   import produce from "immer";
+  import { dndzone } from "svelte-dnd-action";
+  import { v4 as uuidv4 } from "uuid";
   import {
     Button,
     IconButton,
@@ -33,6 +35,10 @@
     label: field.name,
     value: field.name,
   }));
+
+  type ColorRuleWithId = ColorRule & { readonly id: string };
+  let conditions: ColorRuleWithId[];
+  $: conditions = filter.conditions.map((cond) => ({ ...cond, id: uuidv4() }));
 
   const handleColorChange = (i: number) => (event: Event) => {
     if (event.currentTarget instanceof HTMLInputElement) {
@@ -205,44 +211,78 @@
 
     return baseOperators;
   }
+
+  const flipDurationMs = 200;
+
+  function handleDndConsider(e: CustomEvent<DndEvent<ColorRuleWithId>>) {
+    conditions = e.detail.items;
+  }
+
+  function handleDndFinalize(e: CustomEvent<DndEvent<ColorRuleWithId>>) {
+    filter = produce(filter, (draft) => {
+      draft.conditions = e.detail.items.map((cond) => ({
+        color: cond.color,
+        condition: cond.condition,
+      }));
+    });
+    onFilterChange(filter);
+  }
 </script>
 
 <div style="display: flex; flex-direction: column; gap: 8px;">
-  {#each filter.conditions as condition, i}
-    {@const field = getFieldByName(condition.condition.field)}
-    <HorizontalGroup>
-      <ColorInput value={condition.color} on:change={handleColorChange(i)} />
-      <div class="setting-item-name" style="width: 5ch">Where</div>
-      <Select
-        value={condition.condition.field}
-        options={fieldOptions}
-        on:change={handleFieldChange(i)}
-      />
-      <Select
-        value={condition.condition.operator}
-        on:change={handleOperatorChange(i)}
-        options={field ? getOperatorsByField(field) : []}
-      />
-      {#if filterOperatorTypes[condition.condition.operator] === "binary"}
-        {#if isStringFilterOperator(condition.condition.operator)}
-          <TextInput
-            value={condition.condition.value ?? ""}
-            on:blur={handleValueChange(i)}
-          />
-        {:else if isNumberFilterOperator(condition.condition.operator)}
-          <NumberInput
-            value={parseFloat(condition.condition.value ?? "")}
-            on:blur={handleValueChange(i)}
-          />
+  <div
+    style="display: flex; flex-direction: column; gap: 8px;"
+    use:dndzone={{
+      type: "color conditions",
+      items: conditions,
+      flipDurationMs,
+      dropTargetStyle: {
+        outline: "none",
+        borderRadius: "5px",
+        background: "hsla(var(--interactive-accent-hsl), 0.3)",
+        transition: "all 150ms easy-in-out",
+      },
+    }}
+    on:consider={handleDndConsider}
+    on:finalize={handleDndFinalize}
+  >
+    {#each conditions as condition, i (condition.id)}
+      {@const field = getFieldByName(condition.condition.field)}
+      <HorizontalGroup>
+        <Icon name="grip-vertical" />
+        <ColorInput value={condition.color} on:change={handleColorChange(i)} />
+        <div class="setting-item-name" style="width: 5ch">Where</div>
+        <Select
+          value={condition.condition.field}
+          options={fieldOptions}
+          on:change={handleFieldChange(i)}
+        />
+        <Select
+          value={condition.condition.operator}
+          on:change={handleOperatorChange(i)}
+          options={field ? getOperatorsByField(field) : []}
+        />
+        {#if filterOperatorTypes[condition.condition.operator] === "binary"}
+          {#if isStringFilterOperator(condition.condition.operator)}
+            <TextInput
+              value={condition.condition.value ?? ""}
+              on:blur={handleValueChange(i)}
+            />
+          {:else if isNumberFilterOperator(condition.condition.operator)}
+            <NumberInput
+              value={parseFloat(condition.condition.value ?? "")}
+              on:blur={handleValueChange(i)}
+            />
+          {/if}
         {/if}
-      {/if}
-      <Checkbox
-        checked={condition.condition?.enabled ?? true}
-        on:check={handleStatusChange(i)}
-      />
-      <IconButton icon="trash" onClick={handleConditionRemove(i)} />
-    </HorizontalGroup>
-  {/each}
+        <Checkbox
+          checked={condition.condition?.enabled ?? true}
+          on:check={handleStatusChange(i)}
+        />
+        <IconButton icon="trash" onClick={handleConditionRemove(i)} />
+      </HorizontalGroup>
+    {/each}
+  </div>
   <HorizontalGroup>
     <Button variant="plain" on:click={handleConditionAdd}
       ><Icon name="plus" />Add color</Button
