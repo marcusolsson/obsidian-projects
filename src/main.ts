@@ -211,6 +211,7 @@ export default class ProjectsPlugin extends Plugin {
     });
 
     this.app.workspace.revealLeaf(leaf);
+    this.app.workspace.setActiveLeaf(leaf);
   }
 
   /**
