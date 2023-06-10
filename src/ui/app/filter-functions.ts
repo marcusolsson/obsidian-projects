@@ -1,5 +1,5 @@
 import produce from "immer";
-import type { DataFrame, DataRecord, DataValue, Optional } from "src/lib/data";
+import type { DataFrame, DataRecord, DataValue, Optional } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,

@@ -1,5 +1,5 @@
 import produce from "immer";
-import type { DataField } from "src/lib/data";
+import type { DataField } from "src/lib/dataframe/dataframe";
 
 export function sortFields(fields: DataField[], order: string[]) {
   if (!order.length) {

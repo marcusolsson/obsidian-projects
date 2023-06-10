@@ -1,4 +1,4 @@
-import type { DataRecord } from "../../../lib/data";
+import type { DataRecord } from "../../dataframe/dataframe";
 
 /**
  * standardizeValues converts front matter YAML data to the common DataValue

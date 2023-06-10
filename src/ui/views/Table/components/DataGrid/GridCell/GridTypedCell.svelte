@@ -7,7 +7,7 @@
     isOptionalString,
     type Optional,
     type DataValue,
-  } from "src/lib/data";
+  } from "src/lib/dataframe/dataframe";
 
   import GridCell from "./GridCell.svelte";
 

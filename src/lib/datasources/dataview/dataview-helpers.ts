@@ -4,7 +4,7 @@ import {
   isRepeatedDataValue,
   type DataValue,
   type Optional,
-} from "src/lib/data";
+} from "src/lib/dataframe/dataframe";
 
 /**
  * standardizeValues converts a Dataview data structure of values to the common

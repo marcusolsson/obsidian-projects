@@ -4,7 +4,7 @@
 
   import { Autocomplete, TextInput } from "obsidian-svelte";
   import TextLabel from "./TextLabel.svelte";
-  import type { Optional } from "src/lib/data";
+  import type { Optional } from "src/lib/dataframe/dataframe";
 
   export let value: Optional<string>;
   export let onChange: (value: Optional<string>) => void;

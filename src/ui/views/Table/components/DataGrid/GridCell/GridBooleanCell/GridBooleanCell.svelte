@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { isBoolean, type Optional } from "src/lib/data";
+  import { isBoolean, type Optional } from "src/lib/dataframe/dataframe";
   import { Switch } from "obsidian-svelte";
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";

@@ -10,7 +10,7 @@
   } from "obsidian-svelte";
 
   import { FieldControl } from "src/ui/components/FieldControl";
-  import type { DataField, DataRecord } from "src/lib/data";
+  import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
 
   export let fields: DataField[];

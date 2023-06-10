@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DataFrame, DataRecord } from "src/lib/data";
+  import type { DataFrame, DataRecord } from "src/lib/dataframe/dataframe";
   import { settings } from "src/lib/stores/settings";
   import type { ViewApi } from "src/lib/view-api";
   import type {

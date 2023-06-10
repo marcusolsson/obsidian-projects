@@ -1,9 +1,8 @@
-import {
-  DataSource,
-  type DataField,
-  type DataFrame,
-  type DataRecord,
-} from "src/lib/data";
+import type {
+  DataField,
+  DataFrame,
+  DataRecord,
+} from "src/lib/dataframe/dataframe";
 import {
   detectFields,
   parseRecords,
@@ -21,9 +20,12 @@ import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
 } from "src/settings/settings";
+import { DataSource } from "..";
 
 /**
- * FrontMatterDataSource converts Markdown front matter to DataFrames.
+ * FrontMatterDataSource is a intermediate data source for records that use
+ * front matter to define data. Compare with the Dataview data source which
+ * instead uses the Dataview API to define data.
  */
 export abstract class FrontMatterDataSource extends DataSource {
   constructor(

@@ -13,7 +13,7 @@
     Checkbox,
   } from "obsidian-svelte";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
-  import { DataFieldType, type DataField } from "src/lib/data";
+  import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
   import {
     filterOperatorTypes,
     isNumberFilterOperator,

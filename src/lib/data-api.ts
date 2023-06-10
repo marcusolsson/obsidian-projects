@@ -10,7 +10,7 @@ import {
   type DataRecord,
   type DataValue,
   type Optional,
-} from "./data";
+} from "./dataframe/dataframe";
 import { nextUniqueProjectName, notEmpty, getNameFromPath } from "./helpers";
 import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";

@@ -5,7 +5,7 @@
     type DataField,
     type DataValue,
     type Optional,
-  } from "src/lib/data";
+  } from "src/lib/dataframe/dataframe";
 
   export let value: Optional<DataValue>;
   export let field: DataField;

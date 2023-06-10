@@ -1,4 +1,4 @@
-import type { DataFrame, DataRecord } from "src/lib/data";
+import type { DataFrame, DataRecord } from "src/lib/dataframe/dataframe";
 import type { ViewApi } from "src/lib/view-api";
 import type { ProjectDefinition, ViewId } from "./settings/settings";
 

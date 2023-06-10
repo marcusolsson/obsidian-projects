@@ -4,7 +4,7 @@
     type DataField,
     type DataValue,
     type Optional,
-  } from "src/lib/data";
+  } from "src/lib/dataframe/dataframe";
   import { TagList } from "../TagList";
 
   export let value: Optional<DataValue>;

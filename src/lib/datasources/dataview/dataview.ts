@@ -5,12 +5,11 @@ import { get } from "svelte/store";
 import produce from "immer";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {
-  DataSource,
   emptyDataFrame,
   type DataField,
   type DataFrame,
   type DataRecord,
-} from "src/lib/data";
+} from "src/lib/dataframe/dataframe";
 import { detectFields, parseRecords } from "src/lib/datasources/helpers";
 import { i18n } from "src/lib/stores/i18n";
 import type {
@@ -18,6 +17,7 @@ import type {
   ProjectsPluginPreferences,
 } from "src/settings/settings";
 import { standardizeValues } from "./dataview-helpers";
+import { DataSource } from "..";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {
@@ -27,7 +27,7 @@ export class UnsupportedCapability extends Error {
 }
 
 /**
- * DataviewDataSource converts Dataview queries to DataFrames.
+ * DataviewDataSource returns a collection of notes using Dataview queries.
  */
 export class DataviewDataSource extends DataSource {
   constructor(

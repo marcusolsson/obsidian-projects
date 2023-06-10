@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import type { DataField } from "src/lib/data";
+import type { DataField } from "src/lib/dataframe/dataframe";
 
 import ConfigureField from "./components/ConfigureField.svelte";
 

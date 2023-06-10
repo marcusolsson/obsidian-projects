@@ -4,7 +4,7 @@ import {
   DataFieldType,
   type DataField,
   type DataRecord,
-} from "../../../../../lib/data";
+} from "../../../../../lib/dataframe/dataframe";
 import {
   getDisplayName,
   getPrioritizedRecords,

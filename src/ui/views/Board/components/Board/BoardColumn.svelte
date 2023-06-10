@@ -2,7 +2,7 @@
   import { Button, Typography, Icon } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
 
-  import { type DataRecord, type DataField, DataFieldType } from "src/lib/data";
+  import { type DataRecord, type DataField, DataFieldType } from "src/lib/dataframe/dataframe";
   import {
     getPrioritizedRecords,
     getUnprioritizedRecords,

@@ -1,5 +1,5 @@
 import { getContext, setContext } from "svelte";
-import { DataFieldType, type DataField, type DataRecord } from "../../lib/data";
+import { DataFieldType, type DataField, type DataRecord } from "../../lib/dataframe/dataframe";
 
 export function fieldIcon(field: DataFieldType): string {
   switch (field) {

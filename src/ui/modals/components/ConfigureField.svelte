@@ -10,7 +10,7 @@
     TextInput,
   } from "obsidian-svelte";
   import MultiTextInput from "src/ui/components/MultiTextInput/MultiTextInput.svelte";
-  import { DataFieldType, type DataField } from "src/lib/data";
+  import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
 
   export let title: string;
   export let field: DataField;

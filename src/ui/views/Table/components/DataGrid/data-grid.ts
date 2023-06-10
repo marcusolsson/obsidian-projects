@@ -1,5 +1,5 @@
 import type { Menu } from "obsidian";
-import {DataFieldType, isNumber, type DataField, isDate} from "../../../../../lib/data";
+import {DataFieldType, isNumber, type DataField, isDate} from "../../../../../lib/dataframe/dataframe";
 
 export type GridValidRowModel = { [key: string]: any };
 export type GridRowModel<R extends GridValidRowModel = GridValidRowModel> = R;

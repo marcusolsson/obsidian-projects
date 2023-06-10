@@ -2,7 +2,7 @@
   import GridCell from "../GridCell.svelte";
   import NumberLabel from "./NumberLabel.svelte";
   import NumberInput from "./NumberInput.svelte";
-  import { isNumber, type Optional } from "src/lib/data";
+  import { isNumber, type Optional } from "src/lib/dataframe/dataframe";
   import type { GridColDef } from "../../data-grid";
 
   export let value: Optional<number>;

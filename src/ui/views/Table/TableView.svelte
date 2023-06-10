@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/data";
+  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/dataframe/dataframe";
   import { createDataRecord } from "src/lib/data-api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";

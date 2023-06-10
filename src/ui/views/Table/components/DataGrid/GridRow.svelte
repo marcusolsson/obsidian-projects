@@ -3,7 +3,7 @@
   import { TFile, type Menu } from "obsidian";
 
   import { GridCell, GridTypedCell } from "./GridCell";
-  import type { DataValue, Optional } from "src/lib/data";
+  import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";

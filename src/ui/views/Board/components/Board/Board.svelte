@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DataRecord, DataField } from "../../../../lib/data";
+  import type { DataRecord, DataField } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
 
   import BoardColumn from "./BoardColumn.svelte";

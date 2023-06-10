@@ -17,7 +17,7 @@
   } from "./data-grid";
   import GridCellGroup from "./GridCellGroup.svelte";
   import { Button, Icon } from "obsidian-svelte";
-  import { DataFieldType } from "src/lib/data";
+  import { DataFieldType } from "src/lib/dataframe/dataframe";
   import GridHeader from "./GridHeader/GridHeader.svelte";
 
   export let columns: GridColDef[];

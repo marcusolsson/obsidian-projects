@@ -5,7 +5,7 @@ import {
   type DataRecord,
   type DataValue,
   type Optional,
-} from "../../../../../lib/data";
+} from "../../../../../lib/dataframe/dataframe";
 
 export function getPrioritizedRecords(
   records: DataRecord[],

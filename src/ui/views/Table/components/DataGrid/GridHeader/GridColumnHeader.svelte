@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Menu } from "obsidian";
   import { Icon, IconButton } from "obsidian-svelte";
-  import { DataFieldType } from "src/lib/data";
+  import { DataFieldType } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { get } from "svelte/store";
   import { fieldIcon, type GridColDef } from "../data-grid";

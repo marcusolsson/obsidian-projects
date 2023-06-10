@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { get } from "svelte/store";
 
-import { isDate, type DataRecord } from "src/lib/data";
+import { isDate, type DataRecord } from "src/lib/dataframe/dataframe";
 import { i18n } from "src/lib/stores/i18n";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";

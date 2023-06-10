@@ -6,6 +6,9 @@ import type {
 
 import { FrontMatterDataSource } from "../frontmatter/frontmatter";
 
+/**
+ * TagDataSource returns a collection of notes that contains a specific tag.
+ */
 export class TagDataSource extends FrontMatterDataSource {
   constructor(
     readonly fileSystem: IFileSystem,

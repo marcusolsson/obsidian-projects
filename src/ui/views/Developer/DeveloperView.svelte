@@ -29,8 +29,8 @@
     Typography,
   } from "obsidian-svelte";
 
-  import { HorizontalGroup } from "src/components/HorizontalGroup";
-  import { ViewContent, ViewLayout } from "src/components/Layout";
+  import { HorizontalGroup } from "src/ui/components/HorizontalGroup";
+  import { ViewContent, ViewLayout } from "src/ui/components/Layout";
   import { getNotesInFolder } from "src/lib/obsidian";
   import { app } from "src/lib/stores/obsidian";
 

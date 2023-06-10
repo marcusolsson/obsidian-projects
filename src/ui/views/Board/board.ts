@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
 
-import { isNumber, isString, type DataRecord } from "src/lib/data";
+import { isNumber, isString, type DataRecord } from "src/lib/dataframe/dataframe";
 import { notEmpty } from "src/lib/helpers";
 import { i18n } from "src/lib/stores/i18n";
 

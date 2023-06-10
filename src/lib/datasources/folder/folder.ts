@@ -7,6 +7,9 @@ import type {
 
 import { FrontMatterDataSource } from "../frontmatter/frontmatter";
 
+/**
+ * FolderDataSource returns a collection of notes within a folder.
+ */
 export class FolderDataSource extends FrontMatterDataSource {
   constructor(
     readonly fileSystem: IFileSystem,

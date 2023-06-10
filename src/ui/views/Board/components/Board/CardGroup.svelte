@@ -1,6 +1,6 @@
 <script lang="ts">
   import { InternalLink } from "obsidian-svelte";
-  import type { DataField, DataRecord } from "src/lib/data";
+  import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
   import { getDisplayName } from "./board-helpers";
   import { app } from "src/lib/stores/obsidian";

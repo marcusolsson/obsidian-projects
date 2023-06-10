@@ -1,6 +1,6 @@
 <script lang="ts">
   import { TagList } from "src/ui/components/TagList";
-  import type { DataValue, Optional } from "src/lib/data";
+  import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
   import { GridCell } from "..";
   import type { GridColDef } from "../../data-grid";
 

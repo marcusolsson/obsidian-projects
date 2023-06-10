@@ -1,6 +1,6 @@
 <script lang="ts">
   import { DateInput } from "obsidian-svelte";
-  import type { Optional } from "src/lib/data";
+  import type { Optional } from "src/lib/dataframe/dataframe";
 
   import { GridCell } from "..";
   import { TextLabel } from "..";

@@ -1,7 +1,7 @@
 <script lang="ts">
   import dayjs from "dayjs";
   import { Menu } from "obsidian";
-  import type { DataRecord } from "src/lib/data";
+  import type { DataRecord } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import Date from "./Date.svelte";
   import EventList from "./EventList.svelte";

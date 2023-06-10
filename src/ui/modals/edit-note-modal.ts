@@ -1,6 +1,6 @@
 import { App, Modal } from "obsidian";
 
-import type { DataField, DataRecord } from "src/lib/data";
+import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
 
 import EditRecord from "./components/EditNote.svelte";
 
