@@ -7,7 +7,7 @@ import {
   type TAbstractFile,
 } from "obsidian";
 
-import type { DataRecord } from "./data";
+import type { DataRecord } from "./dataframe/dataframe";
 
 /**
  * isTFile is a convenience function for filtering arrays of TAbstractFile.

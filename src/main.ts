@@ -3,18 +3,18 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
-import { addIcon, Plugin, TFile, TFolder, WorkspaceLeaf } from "obsidian";
+import { Plugin, TFile, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
 import "obsidian-dataview";
 import { createDataRecord, createProject } from "src/lib/data-api";
 import { api } from "src/lib/stores/api";
 import { i18n } from "src/lib/stores/i18n";
 import { app, plugin } from "src/lib/stores/obsidian";
 import { settings } from "src/lib/stores/settings";
-import { CreateNoteModal } from "src/modals/create-note-modal";
-import { CreateProjectModal } from "src/modals/create-project-modal";
+import { CreateNoteModal } from "src/ui/modals/create-note-modal";
+import { CreateProjectModal } from "src/ui/modals/create-project-modal";
 import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
-import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/obsidian";
+import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/filesystem";
 import { ProjectsSettingTab } from "./settings";
 import {
   migrateSettings,
@@ -37,9 +37,21 @@ export default class ProjectsPlugin extends Plugin {
    * onload runs when the plugin is enabled.
    */
   async onload(): Promise<void> {
-    const t = get(i18n).t;
+    // Helper function for translation.
+    const { t } = get(i18n);
 
     this.addSettingTab(new ProjectsSettingTab(this.app, this));
+
+    this.addRibbonIcon("layout", "Open projects", () => {
+      this.activateView();
+    });
+
+    // Add an icon for text fields. Remove once Obsidian has a decent
+    // alternative.
+    addIcon(
+      "text",
+      `<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
+    );
 
     this.registerView(
       VIEW_TYPE_PROJECTS,
@@ -81,6 +93,7 @@ export default class ProjectsPlugin extends Plugin {
       })
     );
 
+    // Command to show the Projects view.
     this.addCommand({
       id: "show-projects",
       name: t("commands.show-projects.name"),
@@ -89,6 +102,7 @@ export default class ProjectsPlugin extends Plugin {
       },
     });
 
+    // Command to create a new project.
     this.addCommand({
       id: "create-project",
       name: t("commands.create-project.name"),
@@ -103,6 +117,7 @@ export default class ProjectsPlugin extends Plugin {
       },
     });
 
+    // Command to create a new note.
     this.addCommand({
       id: "create-note",
       name: t("commands.create-note.name"),
@@ -120,10 +135,10 @@ export default class ProjectsPlugin extends Plugin {
                 const record = createDataRecord(name, project);
                 await get(api).createNote(record, templatePath);
 
+                // Open the created note in a new tab.
                 const file = this.app.vault.getAbstractFileByPath(record.id);
-
                 if (file instanceof TFile) {
-                  this.app.workspace.getLeaf(true).openFile(file);
+                  this.app.workspace.getLeaf('tab').openFile(file);
                 }
               }
             ).open();
@@ -136,16 +151,6 @@ export default class ProjectsPlugin extends Plugin {
       },
     });
 
-    this.addRibbonIcon("layout", "Open projects", () => {
-      this.activateView();
-    });
-
-    // Add an icon for text fields. Remove once Obsidian has a decent
-    // alternative.
-    addIcon(
-      "text",
-      `<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
-    );
 
     // Initialize Svelte stores so that Svelte components can access the App and
     // Plugin objects.
@@ -161,6 +166,7 @@ export default class ProjectsPlugin extends Plugin {
     });
 
     const watcher = new ObsidianFileSystemWatcher(this);
+
     registerFileEvents(watcher);
   }
 
@@ -225,11 +231,12 @@ export default class ProjectsPlugin extends Plugin {
       return existingLeaves[0];
     }
 
-    return this.app.workspace.getLeaf(true);
+    return this.app.workspace.getLeaf('tab');
   }
 
   /**
-   * ensureCommands syncs enabled and registered show commands.
+   * ensureCommands syncs enabled and registered show commands for individual
+   * views and projects
    */
   ensureCommands(
     enabledCommands: ShowCommand[],
@@ -331,8 +338,21 @@ export default class ProjectsPlugin extends Plugin {
       }
     });
   }
-}
+ }
 
+ /**
+  * getShowCommandId returns the command identifier for a Show command.
+  *
+  * A command id for Show commands has the following structure:
+  *
+  * show:<project-id>
+  * show:<project-id>:<view-id>
+  *
+  * If `global` is true, the plugin id is prepended to the command id.
+  *
+  * obsidian-projects:show:<project-id>
+  * obsidian-projects:show:<project-id>:<view-id>
+  */
 function getShowCommandId(cmd: ShowCommand, global: boolean): string {
   const res = [];
 

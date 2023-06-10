@@ -6,7 +6,7 @@ import {
   type DataRecord,
   type DataValue,
   type Optional,
-} from "../../lib/data";
+} from "../dataframe/dataframe";
 
 /**
  * parseRecords parses the values for each record based on the detected field

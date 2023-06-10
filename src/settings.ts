@@ -5,11 +5,15 @@ import { get } from "svelte/store";
 import type ProjectsPlugin from "./main";
 import type { ProjectsPluginPreferences } from "./settings/settings";
 
+/**
+ * ProjectsSettingTab builds the plugin settings tab.
+ */
 export class ProjectsSettingTab extends PluginSettingTab {
   constructor(app: App, readonly plugin: ProjectsPlugin) {
     super(app, plugin);
   }
 
+  // display runs when the user opens the settings tab.
   display(): void {
     const { projects } = get(settings);
     let { preferences } = get(settings);

@@ -5,14 +5,14 @@ import {
   type ViewStateResult,
 } from "obsidian";
 
-import App from "src/app/App.svelte";
+import App from "src/ui/app/App.svelte";
 import { customViews } from "src/lib/stores/custom-views";
 import { view } from "src/lib/stores/obsidian";
-import { BoardView } from "src/views/Board";
-import { CalendarView } from "src/views/Calendar";
+import { BoardView } from "src/ui/views/Board";
+import { CalendarView } from "src/ui/views/Calendar";
 // import { DeveloperView } from "src/views/Developer";
-import { GalleryView } from "src/views/Gallery";
-import { TableView } from "src/views/Table";
+import { GalleryView } from "src/ui/views/Gallery";
+import { TableView } from "src/ui/views/Table";
 
 import type { ProjectView } from "./custom-view-api";
 import type ProjectsPlugin from "./main";
@@ -25,12 +25,17 @@ export type ProjectsViewState = {
   viewId: ViewId;
 };
 
+/**
+ * ProjectsView is the main projects view. The view is primarily a Svelte
+ * application, so this class mainly instantiates and mounts the Svelte app.
+ */
 export class ProjectsView extends ItemView {
   component?: App;
 
   constructor(leaf: WorkspaceLeaf, readonly plugin: ProjectsPlugin) {
     super(leaf);
 
+    // Whether this view can be used to navigate to other Obsidian views.
     this.navigation = true;
   }
 
@@ -65,9 +70,7 @@ export class ProjectsView extends ItemView {
   }
 
   async onOpen() {
-    const views = this.getViews();
-
-    customViews.set(views);
+    customViews.set(this.getProjectViews());
 
     this.component = new App({
       target: this.contentEl,
@@ -80,10 +83,16 @@ export class ProjectsView extends ItemView {
     }
   }
 
-  getViews() {
+  /**
+   * getProjectViews returns a map of instances for each supported Projects view.
+   */
+  getProjectViews() {
     const views: Record<string, ProjectView> = {};
 
+    // Allow other Obsidian plugins to register custom views.
     this.getEnabledPlugins().forEach((plugin) => {
+      // Other Obsidian plugins can add an onRegisterProjectView to register a
+      // Projects view.
       const registerView = plugin.onRegisterProjectView;
 
       if (registerView) {
@@ -94,6 +103,7 @@ export class ProjectsView extends ItemView {
       }
     });
 
+    // Register built-in views.
     views["table"] = new TableView();
     views["board"] = new BoardView();
     views["calendar"] = new CalendarView();
@@ -103,6 +113,9 @@ export class ProjectsView extends ItemView {
     return views;
   }
 
+  /**
+   * getEnabledPlugins returns a list of the enabled Obsidian plugins.
+   */
   getEnabledPlugins(): Plugin[] {
     const res: Plugin[] = [];
 

@@ -1,25 +1,13 @@
 import { get } from "svelte/store";
 import { dataFrame, dataSource } from "src/lib/stores/dataframe";
 import type { IFileSystemWatcher } from "./lib/filesystem/filesystem";
-import { DataviewDataSource } from "./lib/datasources/dataview/dataview";
-import type { DataSource } from "./lib/data";
+import { DataviewDataSource } from "./lib/datasources/dataview/datasource";
+import type { DataSource } from "./lib/datasources";
 
-function withDataSource(cb: (source: DataSource) => Promise<void>) {
-  const source = get(dataSource);
-  if (!source) {
-    return;
-  }
 
-  // This is a hack to trigger the Dataview query to run again when a file changes.
-  if (source instanceof DataviewDataSource) {
-    dataSource.set(source);
-    return;
-  }
-
-  return cb(source);
-}
-
-// registerFileEvents keeps the file index up-to-date while plugin is running.
+/**
+ * registerFileEvents keeps the file index up-to-date while plugin is running.
+ */
 export function registerFileEvents(watcher: IFileSystemWatcher) {
   watcher.onCreate(async (file) => {
     withDataSource(async (source) => {
@@ -58,4 +46,22 @@ export function registerFileEvents(watcher: IFileSystemWatcher) {
       }
     });
   });
+}
+
+/**
+ * withDataSource is a helper function to access the current data source.
+ */
+function withDataSource(callback: (source: DataSource) => Promise<void>) {
+  const source = get(dataSource);
+  if (!source) {
+    return;
+  }
+
+  // This is a hack to trigger the Dataview query to run again when a file changes.
+  if (source instanceof DataviewDataSource) {
+    dataSource.set(source);
+    return;
+  }
+
+  return callback(source);
 }

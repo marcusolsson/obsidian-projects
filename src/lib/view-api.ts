@@ -1,8 +1,9 @@
 import { get } from "svelte/store";
 
-import type { DataField, DataRecord, DataSource } from "./data";
+import type { DataField, DataRecord } from "./dataframe/dataframe";
 import type { DataApi } from "./data-api";
 import { dataFrame } from "./stores/dataframe";
+import type { DataSource } from "./datasources";
 
 /**
  * ViewApi provides an write API for views.
