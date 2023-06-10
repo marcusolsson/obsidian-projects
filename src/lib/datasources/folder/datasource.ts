@@ -5,7 +5,7 @@ import type {
   ProjectsPluginPreferences,
 } from "src/settings/settings";
 
-import { FrontMatterDataSource } from "../frontmatter/frontmatter";
+import { FrontMatterDataSource } from "../frontmatter/datasource";
 
 /**
  * FolderDataSource returns a collection of notes within a folder.

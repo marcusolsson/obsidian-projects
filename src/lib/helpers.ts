@@ -16,29 +16,6 @@ export function notUndefined<T>(value: T | undefined): value is T {
 }
 
 /**
- * uniquify appends a sequence number to a string, where the number is the
- * lowest available according to a callback function.
- *
- * @param name is the preferred name.
- * @param exists is a predicate for whether a candidate string is already taken.
- */
-export function uniquify(
-  name: string,
-  exists: (name: string) => boolean
-): string {
-  if (!exists(name)) {
-    return name;
-  }
-
-  let num = 1;
-  while (exists(name + " " + num)) {
-    num++;
-  }
-
-  return name + " " + num;
-}
-
-/**
  * nextUniqueFileName returns the given file name with the lowest available
  * sequence number appended to it.
  */
@@ -73,6 +50,29 @@ export function nextUniqueViewName(views: ViewDefinition[], name: string) {
   return uniquify(name, (candidate) => {
     return !!views.find((view) => view.name === candidate);
   });
+}
+
+/**
+ * uniquify appends a sequence number to a string, where the number is the
+ * lowest available according to a callback function.
+ *
+ * @param name is the preferred name.
+ * @param exists is a predicate for whether a candidate string is already taken.
+ */
+function uniquify(
+  name: string,
+  exists: (name: string) => boolean
+): string {
+  if (!exists(name)) {
+    return name;
+  }
+
+  let num = 1;
+  while (exists(name + " " + num)) {
+    num++;
+  }
+
+  return name + " " + num;
 }
 
 export function getNameFromPath(path: string) {

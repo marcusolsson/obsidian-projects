@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { dataFrame, dataSource } from "src/lib/stores/dataframe";
 import type { IFileSystemWatcher } from "./lib/filesystem/filesystem";
-import { DataviewDataSource } from "./lib/datasources/dataview/dataview";
+import { DataviewDataSource } from "./lib/datasources/dataview/datasource";
 import type { DataSource } from "./lib/datasources";
 
 

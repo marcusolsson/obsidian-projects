@@ -1,7 +1,7 @@
 import type {
   FieldConfig,
 } from "src/settings/settings";
-import type { RecordError } from "../datasources/frontmatter/frontmatter";
+import type { RecordError } from "../datasources/frontmatter/datasource";
 
 /**
  * DataFrame is the core data structure that contains structured data for a

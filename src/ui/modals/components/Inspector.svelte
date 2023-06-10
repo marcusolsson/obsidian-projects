@@ -9,7 +9,7 @@
   import Flair from "src/ui/app/toolbar/Flair.svelte";
   import Accordion from "src/ui/components/Accordion/Accordion.svelte";
   import AccordionItem from "src/ui/components/Accordion/AccordionItem.svelte";
-  import type { RecordError } from "src/lib/datasources/frontmatter/frontmatter";
+  import type { RecordError } from "src/lib/datasources/frontmatter/datasource";
 
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";

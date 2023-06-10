@@ -15,7 +15,7 @@ import { nextUniqueProjectName, notEmpty, getNameFromPath } from "./helpers";
 import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
-import { interpolateTemplate } from "./templates";
+import { interpolateTemplate } from "./templates/interpolate";
 
 import { function as F, task as T, either as E, taskEither as TE } from "fp-ts";
 import {

@@ -4,7 +4,7 @@ import type {
   ProjectsPluginPreferences,
 } from "src/settings/settings";
 
-import { FrontMatterDataSource } from "../frontmatter/frontmatter";
+import { FrontMatterDataSource } from "../frontmatter/datasource";
 
 /**
  * TagDataSource returns a collection of notes that contains a specific tag.

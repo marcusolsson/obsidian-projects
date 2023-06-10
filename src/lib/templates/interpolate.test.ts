@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { interpolateTemplate } from ".";
+import { interpolateTemplate } from "./interpolate";
 
 test("interpolate string data", () => {
   expect(

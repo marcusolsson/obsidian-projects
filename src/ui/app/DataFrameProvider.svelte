@@ -2,12 +2,8 @@
   import { getAPI, isPluginEnabled, type DataviewApi } from "obsidian-dataview";
   import { Callout, Loading, Typography } from "obsidian-svelte";
   import type { DataSource } from "../../lib/datasources";
-  import {
-    DataviewDataSource,
-    UnsupportedCapability,
-  } from "src/lib/datasources/dataview/dataview";
-  import { FolderDataSource } from "src/lib/datasources/folder/folder";
-  import { TagDataSource } from "src/lib/datasources/tag/tag";
+  import { FolderDataSource } from "src/lib/datasources/folder/datasource";
+  import { TagDataSource } from "src/lib/datasources/tag/datasource";
   import { dataFrame, dataSource } from "src/lib/stores/dataframe";
   import { fileSystem } from "src/lib/stores/fileSystem";
   import { i18n } from "src/lib/stores/i18n";
@@ -15,6 +11,7 @@
   import { settings } from "src/lib/stores/settings";
   import type { ProjectDefinition } from "src/settings/settings";
   import { get } from "svelte/store";
+  import { DataviewDataSource, UnsupportedCapability } from "src/lib/datasources/dataview/datasource";
 
   export let project: ProjectDefinition;
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import { standardizeRecord } from "./frontmatter-helpers";
+import { standardizeRecord } from "./standardize";
 
 describe("frontmatter", () => {
   it("standardize", () => {

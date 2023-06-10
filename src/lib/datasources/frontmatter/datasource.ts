@@ -14,7 +14,7 @@ import { notUndefined } from "src/lib/helpers";
 import { decodeFrontMatter } from "src/lib/metadata";
 
 import { array as A, either as E, function as F } from "fp-ts";
-import { standardizeRecord } from "./frontmatter-helpers";
+import { standardizeRecord } from "./standardize";
 import produce from "immer";
 import type {
   ProjectDefinition,

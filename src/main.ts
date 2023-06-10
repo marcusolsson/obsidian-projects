@@ -14,7 +14,7 @@ import { CreateNoteModal } from "src/ui/modals/create-note-modal";
 import { CreateProjectModal } from "src/ui/modals/create-project-modal";
 import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
-import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/obsidian";
+import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/filesystem";
 import { ProjectsSettingTab } from "./settings";
 import {
   migrateSettings,

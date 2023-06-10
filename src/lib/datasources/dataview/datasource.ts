@@ -1,8 +1,5 @@
-import type { DataviewApi, Link } from "obsidian-dataview";
-import type { IFileSystem } from "src/lib/filesystem/filesystem";
-import { get } from "svelte/store";
-
 import produce from "immer";
+import type { DataviewApi, Link } from "obsidian-dataview";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {
   emptyDataFrame,
@@ -10,14 +7,17 @@ import {
   type DataFrame,
   type DataRecord,
 } from "src/lib/dataframe/dataframe";
-import { detectFields, parseRecords } from "src/lib/datasources/helpers";
+import type { IFileSystem } from "src/lib/filesystem/filesystem";
 import { i18n } from "src/lib/stores/i18n";
 import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
 } from "src/settings/settings";
-import { standardizeValues } from "./dataview-helpers";
+import { get } from "svelte/store";
 import { DataSource } from "..";
+import { parseRecords } from "../helpers";
+import { detectSchema } from "./schema";
+import { standardizeValues } from "./standardize";
 
 export class UnsupportedCapability extends Error {
   constructor(message: string) {
@@ -143,19 +143,4 @@ function parseTableResult(value: TableResult): Array<Record<string, any>> {
   });
 
   return rows;
-}
-
-function detectSchema(records: DataRecord[]): DataField[] {
-  return detectFields(records)
-    .map((field) => ({ ...field, derived: true }))
-    .map((field) =>
-      field.name === "File"
-        ? produce(field, (draft) => {
-            draft.identifier = true;
-            draft.typeConfig = produce(draft.typeConfig ?? {}, (draft) => {
-              draft.richText = true;
-            });
-          })
-        : field
-    );
 }

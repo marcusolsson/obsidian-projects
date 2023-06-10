@@ -1,5 +1,5 @@
 import { App, Modal } from "obsidian";
-import type { RecordError } from "src/lib/datasources/frontmatter/frontmatter";
+import type { RecordError } from "src/lib/datasources/frontmatter/datasource";
 
 import Inspector from "./components/Inspector.svelte";
 
