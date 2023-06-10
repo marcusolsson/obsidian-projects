@@ -5,14 +5,14 @@ import {
   type ViewStateResult,
 } from "obsidian";
 
-import App from "src/app/App.svelte";
+import App from "src/ui/app/App.svelte";
 import { customViews } from "src/lib/stores/custom-views";
 import { view } from "src/lib/stores/obsidian";
-import { BoardView } from "src/views/Board";
-import { CalendarView } from "src/views/Calendar";
+import { BoardView } from "src/ui/views/Board";
+import { CalendarView } from "src/ui/views/Calendar";
 // import { DeveloperView } from "src/views/Developer";
-import { GalleryView } from "src/views/Gallery";
-import { TableView } from "src/views/Table";
+import { GalleryView } from "src/ui/views/Gallery";
+import { TableView } from "src/ui/views/Table";
 
 import type { ProjectView } from "./custom-view-api";
 import type ProjectsPlugin from "./main";
