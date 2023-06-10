@@ -6,6 +6,9 @@ export interface DataQueryResult {
   data: DataFrame;
 }
 
+/**
+ * ProjectViewProps provides various metadata for the views.
+ */
 export interface ProjectViewProps<T = Record<string, any>> {
   viewId: ViewId;
   project: ProjectDefinition;
@@ -17,6 +20,13 @@ export interface ProjectViewProps<T = Record<string, any>> {
   getRecordColor: (record: DataRecord) => string | null;
 }
 
+/**
+ * ProjectView is the base class for all Project views.
+ *
+ * If you want to create a new built-in view, you need to create a new class
+ * that extends this one. Then you need to register it in
+ * ProjectsView.getProjectViews().
+ */
 export abstract class ProjectView<T = Record<string, any>> {
   async onData(result: DataQueryResult): Promise<void> {}
   async onOpen(props: ProjectViewProps<T>): Promise<void> {}

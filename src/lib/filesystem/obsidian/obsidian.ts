@@ -102,9 +102,13 @@ export class ObsidianFileSystem implements IFileSystem {
   }
 }
 
+// ObsidianFileSystemWatcher is the primary file system watcher. This exists
+// mostly for testability, since the obsidian package is difficult to use in
+// unit tests.
 export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
   constructor(readonly plugin: Plugin) {}
 
+  // onCreate registers an event handler that runs when a file has been created.
   onCreate(callback: (file: IFile) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.vault.on("create", (file) => {
@@ -115,6 +119,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
     );
   }
 
+  // onChange registers an event handler that runs when a file has been modified.
   onChange(callback: (file: IFile) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.metadataCache.on("changed", (file) => {
@@ -125,6 +130,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
     );
   }
 
+  // onDelete registers an event handler that runs when a file has been deleted.
   onDelete(callback: (file: IFile) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.vault.on("delete", (file) => {
@@ -135,6 +141,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
     );
   }
 
+  // onRename registers an event handler that runs when a file has been renamed.
   onRename(callback: (file: IFile, oldPath: string) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.vault.on("rename", (file, oldPath) => {
