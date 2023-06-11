@@ -3,7 +3,7 @@
   import NumberLabel from "./NumberLabel.svelte";
   import NumberInput from "./NumberInput.svelte";
   import { isNumber, type Optional } from "src/lib/dataframe/dataframe";
-  import type { GridColDef } from "../../data-grid";
+  import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<number>;
   export let onChange: (value: Optional<number>) => void;

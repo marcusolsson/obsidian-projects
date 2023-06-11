@@ -2,7 +2,7 @@ import {
   ProjectView,
   type DataQueryResult,
   type ProjectViewProps,
-} from "src/custom-view-api";
+} from "src/customViewApi";
 
 import CalendarViewSvelte from "./CalendarView.svelte";
 import type { CalendarConfig } from "./types";

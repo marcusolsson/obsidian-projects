@@ -3,7 +3,7 @@
   import { isString, type DataValue, type Optional } from "src/lib/dataframe/dataframe";
 
   import { app } from "src/lib/stores/obsidian";
-  import { InputDialogModal } from "src/ui/modals/input-dialog";
+  import { InputDialogModal } from "src/ui/modals/inputDialog";
 
   export let values: Optional<DataValue>[];
   export let edit: boolean = false;

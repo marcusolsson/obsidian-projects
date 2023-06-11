@@ -10,7 +10,20 @@ export interface ViewDefinition {
   readonly config: Record<string, any>;
   readonly filter: FilterDefinition;
   readonly colors: ColorFilterDefinition;
+  readonly sort: SortDefinition;
 }
+
+export interface SortDefinition {
+  readonly criteria: SortingCriteria[];
+}
+
+export interface SortingCriteria {
+  readonly field: string;
+  readonly order: SortOrder;
+  readonly enabled: boolean;
+}
+
+export type SortOrder = "asc" | "desc";
 
 export interface FilterDefinition {
   readonly conditions: FilterCondition[];
@@ -116,4 +129,5 @@ export const DEFAULT_VIEW: UnsavedViewDefinition = {
   config: {},
   filter: { conditions: [] },
   colors: { conditions: [] },
+  sort: { criteria: [] },
 };

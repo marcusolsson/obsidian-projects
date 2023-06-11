@@ -2,7 +2,7 @@
   import type { Menu } from "obsidian";
   import { dndzone } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
-  import type { GridColDef } from "../data-grid";
+  import type { GridColDef } from "../dataGrid";
   import Resizer from "../GridCell/Resizer.svelte";
   import GridColumnHeader from "./GridColumnHeader.svelte";
 

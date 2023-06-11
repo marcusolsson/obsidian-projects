@@ -1,5 +1,5 @@
 import type { DataFrame, DataRecord } from "src/lib/dataframe/dataframe";
-import type { ViewApi } from "src/lib/view-api";
+import type { ViewApi } from "src/lib/viewApi";
 import type { ProjectDefinition, ViewId } from "./settings/settings";
 
 export interface DataQueryResult {

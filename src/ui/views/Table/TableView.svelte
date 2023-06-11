@@ -1,16 +1,20 @@
 <script lang="ts">
-  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/dataframe/dataframe";
-  import { createDataRecord } from "src/lib/data-api";
+  import {
+    DataFieldType,
+    type DataFrame,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
+  import { createDataRecord } from "src/lib/dataApi";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
-  import type { ViewApi } from "src/lib/view-api";
-  import { CreateNoteModal } from "src/ui/modals/create-note-modal";
-  import { EditNoteModal } from "src/ui/modals/edit-note-modal";
+  import type { ViewApi } from "src/lib/viewApi";
+  import { CreateNoteModal } from "src/ui/modals/createNoteModal";
+  import { EditNoteModal } from "src/ui/modals/editNoteModal";
 
   import type {
     GridColDef,
     GridRowProps,
-  } from "./components/DataGrid/data-grid";
+  } from "./components/DataGrid/dataGrid";
   import DataGrid from "./components/DataGrid/DataGrid.svelte";
   import SwitchSelect from "./components/SwitchSelect/SwitchSelect.svelte";
   import type { TableConfig } from "./types";
@@ -21,7 +25,7 @@
     ViewLayout,
     ViewToolbar,
   } from "src/ui/components/Layout";
-  import { ConfigureFieldModal } from "src/ui/modals/configure-field";
+  import { ConfigureFieldModal } from "src/ui/modals/configureField";
   import { settings } from "src/lib/stores/settings";
   import { sortFields } from "./helpers";
   import type { ProjectDefinition } from "src/settings/settings";
@@ -190,17 +194,6 @@
         api.updateRecord({ id: rowId, values: row }, fields);
       }}
       onColumnResize={handleWidthChange}
-      sortModel={{
-        field: config?.sortField ?? "name",
-        sort: config?.sortAsc ? "asc" : "desc",
-      }}
-      onSortModelChange={(field, sort) => {
-        saveConfig({
-          ...config,
-          sortField: field,
-          sortAsc: sort === "asc",
-        });
-      }}
       onColumnSort={(fields) => {
         saveConfig({
           ...config,

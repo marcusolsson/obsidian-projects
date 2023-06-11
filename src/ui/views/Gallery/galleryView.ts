@@ -2,7 +2,7 @@ import {
   ProjectView,
   type DataQueryResult,
   type ProjectViewProps,
-} from "src/custom-view-api";
+} from "src/customViewApi";
 
 import GalleryViewSvelte from "./GalleryView.svelte";
 import type { GalleryConfig } from "./types";

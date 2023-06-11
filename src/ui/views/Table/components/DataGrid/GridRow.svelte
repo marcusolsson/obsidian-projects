@@ -6,8 +6,8 @@
   import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
   import GridCellGroup from "./GridCellGroup.svelte";
 
-  import type { GridColDef, GridRowId, GridRowModel } from "./data-grid";
-  import { menuOnContextMenu } from "./data-grid";
+  import type { GridColDef, GridRowId, GridRowModel } from "./dataGrid";
+  import { menuOnContextMenu } from "./dataGrid";
   import { app } from "src/lib/stores/obsidian";
 
   import { setContext } from "svelte";

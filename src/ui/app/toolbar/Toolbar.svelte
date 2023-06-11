@@ -1,28 +1,25 @@
 <script lang="ts">
-  import { Button, Icon, Popover } from "obsidian-svelte";
-
   import ViewToolbar from "src/ui/components/Layout/ViewToolbar.svelte";
-  import FilterSettings from "src/ui/components/FilterSettings/FilterSettings.svelte";
-  import ColorFilterSettings from "src/ui/components/FilterSettings/ColorFilterSettings.svelte";
-  import { createProject } from "src/lib/data-api";
+  import { createProject } from "src/lib/dataApi";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { dataFrame } from "src/lib/stores/dataframe";
   import { settings } from "src/lib/stores/settings";
-  import { AddViewModal } from "src/ui/modals/add-view-modal";
-  import { ConfirmDialogModal } from "src/ui/modals/confirm-dialog";
-  import { CreateProjectModal } from "src/ui/modals/create-project-modal";
+  import { AddViewModal } from "src/ui/modals/addViewModal";
+  import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";
+  import { CreateProjectModal } from "src/ui/modals/createProjectModal";
   import Flair from "./Flair.svelte";
 
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
   import { InspectorModal } from "src/ui/modals/inspector";
-  import produce from "immer";
   import type {
     ProjectDefinition,
     ProjectId,
     ViewId,
   } from "src/settings/settings";
+  import produce from "immer";
+  import ProjectViewOptions from "./viewOptions/ProjectViewOptions.svelte";
 
   export let projects: ProjectDefinition[];
 
@@ -37,11 +34,9 @@
 
   $: errors = $dataFrame.errors ?? [];
 
-  let filterRef: HTMLButtonElement;
-  let filterOpen: boolean = false;
-
-  let colorRef: HTMLButtonElement;
-  let colorOpen: boolean = false;
+  $: view = projects
+    .find((project) => project.id === projectId)
+    ?.views?.find((view) => view.id === viewId);
 </script>
 
 <!--
@@ -130,82 +125,11 @@
     {/if}
   </div>
   <svelte:fragment slot="right">
-    {@const view = projects
-      .find((project) => project.id === projectId)
-      ?.views?.find((view) => view.id === viewId)}
-
-    <Button
-      bind:ref={colorRef}
-      on:click={() => {
-        colorOpen = !colorOpen;
-      }}
-      disabled={!view}
-    >
-      <Icon name="palette" />
-      Color
-      {#if view?.colors.conditions.length}
-        <Flair variant="primary">{view?.colors.conditions.length}</Flair>
-      {/if}
-    </Button>
-    <Popover
-      anchorEl={colorRef}
-      open={colorOpen}
-      onClose={() => {
-        colorOpen = false;
-      }}
-      placement="auto"
-    >
-      <ColorFilterSettings
-        filter={view?.colors ?? {
-          conditions: [],
-        }}
-        onFilterChange={(filter) => {
-          const view = projects
-            .find((project) => project.id === projectId)
-            ?.views?.find((view) => view.id === viewId);
-
-          if (projectId && view) {
-            settings.updateView(
-              projectId,
-              produce(view, (draft) => {
-                draft.colors = filter;
-              })
-            );
-          }
-        }}
+    {#if view}
+      <ProjectViewOptions
+        {view}
         fields={$dataFrame.fields}
-      />
-    </Popover>
-    <Button
-      bind:ref={filterRef}
-      on:click={() => {
-        filterOpen = !filterOpen;
-      }}
-      disabled={!view}
-    >
-      <Icon name="filter" />
-      Filter
-      {#if view?.filter.conditions.length}
-        <Flair variant="primary">{view?.filter.conditions.length}</Flair>
-      {/if}
-    </Button>
-    <Popover
-      anchorEl={filterRef}
-      open={filterOpen}
-      onClose={() => {
-        filterOpen = false;
-      }}
-      placement="auto"
-    >
-      <FilterSettings
-        filter={view?.filter ?? {
-          conditions: [],
-        }}
         onFilterChange={(filter) => {
-          const view = projects
-            .find((project) => project.id === projectId)
-            ?.views?.find((view) => view.id === viewId);
-
           if (projectId && view) {
             settings.updateView(
               projectId,
@@ -215,8 +139,27 @@
             );
           }
         }}
-        fields={$dataFrame.fields}
+        onColorChange={(filter) => {
+          if (projectId && view) {
+            settings.updateView(
+              projectId,
+              produce(view, (draft) => {
+                draft.colors = filter;
+              })
+            );
+          }
+        }}
+        onSortChange={(filter) => {
+          if (projectId && view) {
+            settings.updateView(
+              projectId,
+              produce(view, (draft) => {
+                draft.sort = filter;
+              })
+            );
+          }
+        }}
       />
-    </Popover>
+    {/if}
   </svelte:fragment>
 </ViewToolbar>

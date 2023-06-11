@@ -9,7 +9,7 @@ import {
   getDisplayName,
   getPrioritizedRecords,
   getUnprioritizedRecords,
-} from "./board-helpers";
+} from "./boardHelpers";
 
 describe("board", () => {
   const records: DataRecord[] = [

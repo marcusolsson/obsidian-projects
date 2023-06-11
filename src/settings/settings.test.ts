@@ -45,6 +45,9 @@ const v1demo: v1.ProjectsPluginSettings<
           colors: {
             conditions: [],
           },
+          sort: {
+            criteria: [],
+          },
           name: "Table",
           id: "0a53aff7-804d-466d-977d-444b9ca6d13a",
           type: "table",
@@ -59,6 +62,9 @@ const v1demo: v1.ProjectsPluginSettings<
           },
           colors: {
             conditions: [],
+          },
+          sort: {
+            criteria: [],
           },
           name: "Board",
           id: "d62f729f-3148-4a5b-93e2-781ff5be7542",
@@ -76,6 +82,9 @@ const v1demo: v1.ProjectsPluginSettings<
           colors: {
             conditions: [],
           },
+          sort: {
+            criteria: [],
+          },
           name: "Calendar",
           id: "1f1b74a7-ab7b-4fb5-8a18-0cb18f997aa7",
           type: "calendar",
@@ -89,6 +98,9 @@ const v1demo: v1.ProjectsPluginSettings<
           },
           colors: {
             conditions: [],
+          },
+          sort: {
+            criteria: [],
           },
           name: "Gallery",
           id: "64713d5a-683d-4f19-9cf9-d90dde311fc8",
@@ -143,6 +155,9 @@ const v2demo: v2.ProjectsPluginSettings<
           colors: {
             conditions: [],
           },
+          sort: {
+            criteria: [],
+          },
           name: "Table",
           id: "0a53aff7-804d-466d-977d-444b9ca6d13a",
           type: "table",
@@ -157,6 +172,9 @@ const v2demo: v2.ProjectsPluginSettings<
           },
           colors: {
             conditions: [],
+          },
+          sort: {
+            criteria: [],
           },
           name: "Board",
           id: "d62f729f-3148-4a5b-93e2-781ff5be7542",
@@ -174,6 +192,9 @@ const v2demo: v2.ProjectsPluginSettings<
           colors: {
             conditions: [],
           },
+          sort: {
+            criteria: [],
+          },
           name: "Calendar",
           id: "1f1b74a7-ab7b-4fb5-8a18-0cb18f997aa7",
           type: "calendar",
@@ -187,6 +208,9 @@ const v2demo: v2.ProjectsPluginSettings<
           },
           colors: {
             conditions: [],
+          },
+          sort: {
+            criteria: [],
           },
           name: "Gallery",
           id: "64713d5a-683d-4f19-9cf9-d90dde311fc8",

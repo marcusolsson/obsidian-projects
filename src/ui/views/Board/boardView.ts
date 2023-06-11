@@ -2,7 +2,7 @@ import {
   ProjectView,
   type DataQueryResult,
   type ProjectViewProps,
-} from "src/custom-view-api";
+} from "src/customViewApi";
 
 import BoardViewSvelte from "./BoardView.svelte";
 import type { BoardConfig } from "./types";

@@ -13,7 +13,7 @@
 
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
-  import { getDisplayName } from "src/ui/views/Board/components/Board/board-helpers";
+  import { getDisplayName } from "src/ui/views/Board/components/Board/boardHelpers";
 
   export let title: string;
   export let errors: RecordError[];

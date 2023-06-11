@@ -6,7 +6,7 @@ import {
 } from "obsidian";
 
 import App from "src/ui/app/App.svelte";
-import { customViews } from "src/lib/stores/custom-views";
+import { customViews } from "src/lib/stores/customViews";
 import { view } from "src/lib/stores/obsidian";
 import { BoardView } from "src/ui/views/Board";
 import { CalendarView } from "src/ui/views/Calendar";
@@ -14,7 +14,7 @@ import { CalendarView } from "src/ui/views/Calendar";
 import { GalleryView } from "src/ui/views/Gallery";
 import { TableView } from "src/ui/views/Table";
 
-import type { ProjectView } from "./custom-view-api";
+import type { ProjectView } from "./customViewApi";
 import type ProjectsPlugin from "./main";
 import type { ProjectId, ViewId } from "./settings/settings";
 

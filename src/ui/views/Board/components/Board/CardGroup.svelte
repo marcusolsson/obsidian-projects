@@ -2,7 +2,7 @@
   import { InternalLink } from "obsidian-svelte";
   import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
-  import { getDisplayName } from "./board-helpers";
+  import { getDisplayName } from "./boardHelpers";
   import { app } from "src/lib/stores/obsidian";
   import { flip } from "svelte/animate";
   import { getRecordColorContext } from "src/ui/views/helpers";
@@ -12,7 +12,6 @@
   export let items: DataRecord[];
   export let onRecordClick: (record: DataRecord) => void;
   export let onDrop: (records: DataRecord[]) => void = () => {};
-  export let dragDisabled: boolean = false;
   export let fields: DataField[];
 
   const flipDurationMs = 200;
@@ -41,9 +40,8 @@
       outline: "none",
       borderRadius: "5px",
       background: "hsla(var(--interactive-accent-hsl), 0.3)",
-      transition: "all 150ms easy-in-out"
+      transition: "all 150ms easy-in-out",
     },
-    dragDisabled: dragDisabled,
   }}
   on:consider={handleDndConsider}
   on:finalize={handleDndFinalize}

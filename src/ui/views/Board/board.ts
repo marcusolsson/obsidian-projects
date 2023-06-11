@@ -1,8 +1,23 @@
 import { get } from "svelte/store";
 
-import { isNumber, isString, type DataRecord } from "src/lib/dataframe/dataframe";
+import {
+  isNumber,
+  isString,
+  type DataRecord,
+  type DataField,
+  DataFieldType,
+} from "src/lib/dataframe/dataframe";
 import { notEmpty } from "src/lib/helpers";
 import { i18n } from "src/lib/stores/i18n";
+
+export function getFieldsByType(
+  fields: DataField[],
+  ...types: DataFieldType[]
+) {
+  return fields
+    .filter((field) => !field.repeated)
+    .filter((field) => types.includes(field.type));
+}
 
 export function unique(records: DataRecord[], fieldName: string): string[] {
   const keys = records

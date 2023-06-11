@@ -1,17 +1,17 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { createProject } from "src/lib/data-api";
+  import { createProject } from "src/lib/dataApi";
   import { api } from "src/lib/stores/api";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
-  import { ViewApi } from "src/lib/view-api";
-  import { CreateProjectModal } from "src/ui/modals/create-project-modal";
+  import { ViewApi } from "src/lib/viewApi";
+  import { CreateProjectModal } from "src/ui/modals/createProjectModal";
 
   import Toolbar from "./toolbar/Toolbar.svelte";
-  import { createDemoProject } from "./onboarding/demo-project";
-  import { OnboardingModal } from "./onboarding/onboarding-modal";
+  import { createDemoProject } from "./onboarding/demoProject";
+  import { OnboardingModal } from "./onboarding/onboardingModal";
   import View from "./View.svelte";
   import DataFrameProvider from "./DataFrameProvider.svelte";
   import type { ProjectId, ViewId } from "src/settings/settings";

@@ -11,7 +11,7 @@
 
   import GridCell from "./GridCell.svelte";
 
-  import type { GridColDef } from "../data-grid";
+  import type { GridColDef } from "../dataGrid";
   import { GridBooleanCell } from "./GridBooleanCell";
   import { GridDateCell } from "./GridDateCell";
   import { GridNumberCell } from "./GridNumberCell";

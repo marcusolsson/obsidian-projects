@@ -1,16 +1,17 @@
 <script lang="ts">
   import type { DataFrame, DataRecord } from "src/lib/dataframe/dataframe";
   import { settings } from "src/lib/stores/settings";
-  import type { ViewApi } from "src/lib/view-api";
+  import type { ViewApi } from "src/lib/viewApi";
   import type {
     ProjectDefinition,
     ProjectId,
     ViewDefinition,
     ViewId,
   } from "src/settings/settings";
-  import { applyFilter, matchesCondition } from "./filter-functions";
+  import { applyFilter, matchesCondition } from "./filterFunctions";
 
   import { useView } from "./useView";
+  import { applySort } from "./viewSort";
 
   /**
    * Specify the project.
@@ -73,6 +74,9 @@
   $: viewFilter = view.filter ?? { conditions: [] };
   $: filteredFrame = applyFilter(frame, viewFilter);
 
+  $: viewSort = view.sort ?? { criteria: [] };
+  $: sortedFrame = applySort(filteredFrame, viewSort);
+
   function getRecordColor(record: DataRecord): string | null {
     const colorFilter = view.colors ?? { conditions: [] };
     for (const cond of colorFilter.conditions) {
@@ -95,7 +99,7 @@
   use:useView={{
     view,
     dataProps: {
-      data: filteredFrame,
+      data: sortedFrame,
     },
     viewApi: api,
     project,

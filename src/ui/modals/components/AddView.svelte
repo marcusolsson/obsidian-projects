@@ -11,7 +11,7 @@
   import { v4 as uuidv4 } from "uuid";
 
   import { nextUniqueViewName } from "src/lib/helpers";
-  import { customViews } from "src/lib/stores/custom-views";
+  import { customViews } from "src/lib/stores/customViews";
   import { i18n } from "src/lib/stores/i18n";
   import { settings } from "src/lib/stores/settings";
   import {

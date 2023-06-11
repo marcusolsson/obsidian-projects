@@ -4,7 +4,7 @@
 
   import { GridCell } from "..";
   import { TextLabel } from "..";
-  import type { GridColDef } from "../../data-grid";
+  import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<Date>;
   export let onChange: (value: Optional<Date>) => void;

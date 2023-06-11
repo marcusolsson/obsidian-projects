@@ -9,12 +9,12 @@
     ViewToolbar,
   } from "src/ui/components/Layout";
   import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/dataframe/dataframe";
-  import { createDataRecord } from "src/lib/data-api";
+  import { createDataRecord } from "src/lib/dataApi";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
-  import type { ViewApi } from "src/lib/view-api";
-  import { CreateNoteModal } from "src/ui/modals/create-note-modal";
-  import { EditNoteModal } from "src/ui/modals/edit-note-modal";
+  import type { ViewApi } from "src/lib/viewApi";
+  import { CreateNoteModal } from "src/ui/modals/createNoteModal";
+  import { EditNoteModal } from "src/ui/modals/editNoteModal";
   import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,

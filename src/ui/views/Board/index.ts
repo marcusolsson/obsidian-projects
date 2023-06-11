@@ -1,1 +1,1 @@
-export { BoardView } from "./board-view";
+export { BoardView } from "./boardView";

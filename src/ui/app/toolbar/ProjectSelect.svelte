@@ -6,8 +6,8 @@
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
-  import { ConfirmDialogModal } from "src/ui/modals/confirm-dialog";
-  import { CreateProjectModal } from "src/ui/modals/create-project-modal";
+  import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";
+  import { CreateProjectModal } from "src/ui/modals/createProjectModal";
   import type { ProjectDefinition, ProjectId } from "src/settings/settings";
   import Flair from "./Flair.svelte";
 

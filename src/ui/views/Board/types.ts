@@ -4,7 +4,8 @@ export interface BoardConfig {
   readonly columnWidth?: number;
   readonly columns?: {
     [name: string]: {
-      readonly weight: number;
+      readonly weight?: number;
+      readonly cards?: string[];
     };
   };
   readonly includeFields?: string[];

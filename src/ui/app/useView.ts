@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
 
-import type { DataQueryResult } from "src/custom-view-api";
-import { customViews } from "src/lib/stores/custom-views";
-import type { ViewApi } from "src/lib/view-api";
+import type { DataQueryResult } from "src/customViewApi";
+import { customViews } from "src/lib/stores/customViews";
+import type { ViewApi } from "src/lib/viewApi";
 import type { DataRecord } from "src/lib/dataframe/dataframe";
 import type { ProjectDefinition, ViewDefinition } from "src/settings/settings";
 

@@ -1,1 +1,1 @@
-export { DeveloperView } from "./developer-view";
+export { DeveloperView } from "./developerView";
