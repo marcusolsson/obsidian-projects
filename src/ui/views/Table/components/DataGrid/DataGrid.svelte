@@ -7,27 +7,22 @@
 
   import GridRow from "./GridRow.svelte";
 
-  import {
-    sortRows,
-    type GridColDef,
-    type GridRowId,
-    type GridRowModel,
-    type GridRowProps,
-    type GridSortModel,
-  } from "./data-grid";
+  import type {
+    GridColDef,
+    GridRowId,
+    GridRowModel,
+    GridRowProps,
+  } from "./dataGrid";
   import GridCellGroup from "./GridCellGroup.svelte";
   import { Button, Icon } from "obsidian-svelte";
-  import { DataFieldType } from "src/lib/dataframe/dataframe";
   import GridHeader from "./GridHeader/GridHeader.svelte";
 
   export let columns: GridColDef[];
   export let rows: GridRowProps[];
-  export let sortModel: GridSortModel;
   export let colorModel: (rowId: string) => string | null;
 
   export let readonly: boolean;
 
-  export let onSortModelChange: (field: string, sort: string) => void;
   export let onColumnResize: (field: string, width: number) => void;
   export let onColumnSort: (fields: string[]) => void;
   export let onRowAdd: () => void;
@@ -42,7 +37,6 @@
 
   $: visibleColumns = columns.filter((column) => !column.hide);
   $: sortedColumns = visibleColumns;
-  $: sortedRows = sortRows(rows, sortModel);
 
   // [column, row]
   let activeCell: [number, number] = [3, 3];
@@ -70,34 +64,34 @@
       menu.addSeparator();
     }
 
-    let isDateCol = column.type === DataFieldType.Date;
-
-    menu.addItem((item) => {
-      item
-        .setTitle(
-          t(
-            isDateCol
-              ? "components.data-grid.sortDate.asc"
-              : "components.data-grid.sort.asc"
-          )
-        )
-        .setIcon("sort-asc")
-        .onClick(() => onSortModelChange(column.field, "asc"));
-    });
-    menu.addItem((item) => {
-      item
-        .setTitle(
-          t(
-            isDateCol
-              ? "components.data-grid.sortDate.desc"
-              : "components.data-grid.sort.desc"
-          )
-        )
-        .setIcon("sort-desc")
-        .onClick(() => onSortModelChange(column.field, "desc"));
-    });
-
-    menu.addSeparator();
+    // let isDateCol = column.type === DataFieldType.Date;
+    //
+    // menu.addItem((item) => {
+    //   item
+    //     .setTitle(
+    //       t(
+    //         isDateCol
+    //           ? "components.data-grid.sortDate.asc"
+    //           : "components.data-grid.sort.asc"
+    //       )
+    //     )
+    //     .setIcon("sort-asc")
+    //     .onClick(() => onSortModelChange(column.field, "asc"));
+    // });
+    // menu.addItem((item) => {
+    //   item
+    //     .setTitle(
+    //       t(
+    //         isDateCol
+    //           ? "components.data-grid.sortDate.desc"
+    //           : "components.data-grid.sort.desc"
+    //       )
+    //     )
+    //     .setIcon("sort-desc")
+    //     .onClick(() => onSortModelChange(column.field, "desc"));
+    // });
+    //
+    // menu.addSeparator();
 
     menu.addItem((item) => {
       item
@@ -173,7 +167,7 @@
 <div
   role="grid"
   aria-colcount={sortedColumns.length + 1}
-  aria-rowcount={sortedRows.length + 2}
+  aria-rowcount={rows.length + 2}
 >
   <GridHeader
     columns={sortedColumns
@@ -191,7 +185,7 @@
     onColumnMenu={(field) => createColumnMenu(field)}
     onColumnOrder={handleColumnOrder}
   />
-  {#each sortedRows as { rowId, row }, i (rowId)}
+  {#each rows as { rowId, row }, i (rowId)}
     <GridRow
       columns={sortedColumns}
       index={i + 2}
@@ -210,7 +204,7 @@
         const maxColIdx = sortedColumns.length + colOffset;
 
         const minRowIdx = 1 + rowOffset;
-        const maxRowIdx = sortedRows.length + rowOffset;
+        const maxRowIdx = rows.length + rowOffset;
 
         const [colIdx, rowIdx, wrap] = navinfo;
 
@@ -232,7 +226,7 @@
       }}
     />
   {/each}
-  <GridCellGroup index={sortedRows.length + 2}>
+  <GridCellGroup index={rows.length + 2}>
     <span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
       <Button variant="plain" on:click={() => onRowAdd()}>
         <Icon name="plus" />

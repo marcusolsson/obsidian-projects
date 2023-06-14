@@ -1,4 +1,4 @@
-import { ProjectView, type ProjectViewProps } from "src/custom-view-api";
+import { ProjectView, type ProjectViewProps } from "src/customViewApi";
 
 import DeveloperViewSvelte from "./DeveloperView.svelte";
 

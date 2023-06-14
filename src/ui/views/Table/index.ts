@@ -1,1 +1,1 @@
-export { TableView } from "./table-view";
+export { TableView } from "./tableView";

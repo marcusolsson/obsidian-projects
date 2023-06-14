@@ -1,6 +1,6 @@
 <script lang="ts">
   import { GridCell } from "..";
-  import type { GridColDef } from "../../data-grid";
+  import type { GridColDef } from "../../dataGrid";
 
   import { Autocomplete, TextInput } from "obsidian-svelte";
   import TextLabel from "./TextLabel.svelte";

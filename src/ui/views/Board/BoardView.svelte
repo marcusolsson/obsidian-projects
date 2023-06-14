@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Icon, IconButton, Select } from "obsidian-svelte";
+  import { IconButton, Select } from "obsidian-svelte";
 
   import { Field } from "src/ui/components/Field";
   import {
@@ -8,13 +8,17 @@
     ViewLayout,
     ViewToolbar,
   } from "src/ui/components/Layout";
-  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/dataframe/dataframe";
-  import { createDataRecord } from "src/lib/data-api";
+  import {
+    DataFieldType,
+    type DataFrame,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
+  import { createDataRecord } from "src/lib/dataApi";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
-  import type { ViewApi } from "src/lib/view-api";
-  import { CreateNoteModal } from "src/ui/modals/create-note-modal";
-  import { EditNoteModal } from "src/ui/modals/edit-note-modal";
+  import type { ViewApi } from "src/lib/viewApi";
+  import { CreateNoteModal } from "src/ui/modals/createNoteModal";
+  import { EditNoteModal } from "src/ui/modals/editNoteModal";
   import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,
@@ -24,7 +28,7 @@
 
   import { groupRecordsByField } from "./board";
   import { Board } from "./components";
-  import { BoardSettingsModal } from "./settings/settings-modal";
+  import { BoardSettingsModal } from "./settings/settingsModal";
   import type { BoardConfig } from "./types";
 
   export let project: ProjectDefinition;
@@ -52,17 +56,6 @@
     );
 
   $: groupByField = fields.find((field) => config?.groupByField === field.name);
-
-  $: priorityFields = fields
-    .filter((field) => !field.repeated)
-    .filter(
-      (field) =>
-        field.type === DataFieldType.Number || field.type === DataFieldType.Date
-    );
-
-  $: priorityField = fields.find(
-    (field) => config?.priorityField === field.name
-  );
 
   $: groupedRecords = groupRecordsByField(records, groupByField?.name);
 
@@ -169,26 +162,6 @@
             allowEmpty
           />
         </Field>
-        <Field name={$i18n.t("views.board.fields.priority")}>
-          <Select
-            value={priorityField?.name ?? ""}
-            options={priorityFields.map(fieldToSelectableValue)}
-            on:change={({ detail: value }) => {
-              saveConfig({
-                ...config,
-                priorityField: value,
-              });
-            }}
-            placeholder={$i18n.t("views.board.fields.none") ?? ""}
-            allowEmpty
-          />
-        </Field>
-        {#if priorityField?.type === DataFieldType.Date}
-          <Icon
-            name="info"
-            tooltip="Date fields can't be reprioritized using drag and drop."
-          />
-        {/if}
         <SwitchSelect
           label={"Include fields"}
           items={fields.map((field) => ({
@@ -213,7 +186,6 @@
     <div>
       <Board
         onRecordUpdate={handleRecordUpdate}
-        dragDisabled={!priorityField}
         onSortColumns={(names) => {
           saveConfig({
             ...config,
@@ -226,7 +198,6 @@
         }}
         {readonly}
         columns={getColumns(groupedRecords)}
-        groupByPriority={priorityField}
         onRecordClick={handleRecordClick}
         onRecordAdd={handleRecordAdd}
         columnWidth={config?.columnWidth ?? 270}

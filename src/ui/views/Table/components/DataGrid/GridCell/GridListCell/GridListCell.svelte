@@ -2,7 +2,7 @@
   import { TagList } from "src/ui/components/TagList";
   import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
   import { GridCell } from "..";
-  import type { GridColDef } from "../../data-grid";
+  import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<Optional<DataValue>[]>;
   export let onChange: (values: Optional<DataValue>[]) => void;

@@ -11,14 +11,12 @@
 
   export let columns: Column[];
 
-  export let groupByPriority: DataField | undefined;
   export let readonly: boolean;
   export let onRecordClick: (record: DataRecord) => void;
   export let onRecordUpdate: (column: string, record: DataRecord) => void;
   export let onRecordAdd: (column: string) => void;
   export let columnWidth: number;
   export let onSortColumns: (names: string[]) => void;
-  export let dragDisabled: boolean;
   export let fields: DataField[];
 
   const flipDurationMs = 200;
@@ -51,11 +49,13 @@
       {readonly}
       name={column.id}
       records={column.records}
-      {groupByPriority}
       {onRecordClick}
       onRecordAdd={() => onRecordAdd(column.id)}
-      {dragDisabled}
-      onRecordUpdate={(record) => onRecordUpdate(column.id, record)}
+      onDrop={(records) => {
+        records.forEach((record) => {
+          onRecordUpdate(column.id, record);
+        });
+      }}
       {fields}
     />
   {/each}

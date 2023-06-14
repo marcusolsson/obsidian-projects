@@ -1,7 +1,7 @@
 <script lang="ts">
   import { useClickOutside } from "obsidian-svelte";
   import { createEventDispatcher } from "svelte";
-  import type { GridColDef } from "../data-grid";
+  import type { GridColDef } from "../dataGrid";
 
   import Resizer from "./Resizer.svelte";
 

@@ -5,13 +5,13 @@ import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
 import { Plugin, TFile, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
 import "obsidian-dataview";
-import { createDataRecord, createProject } from "src/lib/data-api";
+import { createDataRecord, createProject } from "src/lib/dataApi";
 import { api } from "src/lib/stores/api";
 import { i18n } from "src/lib/stores/i18n";
 import { app, plugin } from "src/lib/stores/obsidian";
 import { settings } from "src/lib/stores/settings";
-import { CreateNoteModal } from "src/ui/modals/create-note-modal";
-import { CreateProjectModal } from "src/ui/modals/create-project-modal";
+import { CreateNoteModal } from "src/ui/modals/createNoteModal";
+import { CreateProjectModal } from "src/ui/modals/createProjectModal";
 import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
 import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/filesystem";
@@ -37,6 +37,8 @@ export default class ProjectsPlugin extends Plugin {
    * onload runs when the plugin is enabled.
    */
   async onload(): Promise<void> {
+    await this.loadSettings();
+
     // Helper function for translation.
     const { t } = get(i18n);
 
@@ -138,7 +140,7 @@ export default class ProjectsPlugin extends Plugin {
                 // Open the created note in a new tab.
                 const file = this.app.vault.getAbstractFileByPath(record.id);
                 if (file instanceof TFile) {
-                  this.app.workspace.getLeaf('tab').openFile(file);
+                  this.app.workspace.getLeaf("tab").openFile(file);
                 }
               }
             ).open();
@@ -151,13 +153,10 @@ export default class ProjectsPlugin extends Plugin {
       },
     });
 
-
     // Initialize Svelte stores so that Svelte components can access the App and
     // Plugin objects.
     app.set(this.app);
     plugin.set(this);
-
-    await this.loadSettings();
 
     // Save settings to disk whenever settings has been updated.
     this.unsubscribeSettings = settings.subscribe((value) => {
@@ -210,6 +209,7 @@ export default class ProjectsPlugin extends Plugin {
 
     leaf.setViewState({
       type: VIEW_TYPE_PROJECTS,
+      active: true,
       state: {
         projectId,
         viewId,
@@ -217,7 +217,6 @@ export default class ProjectsPlugin extends Plugin {
     });
 
     this.app.workspace.revealLeaf(leaf);
-    this.app.workspace.setActiveLeaf(leaf);
   }
 
   /**
@@ -232,7 +231,7 @@ export default class ProjectsPlugin extends Plugin {
       return existingLeaves[0];
     }
 
-    return this.app.workspace.getLeaf('tab');
+    return this.app.workspace.getLeaf("tab");
   }
 
   /**
@@ -339,21 +338,21 @@ export default class ProjectsPlugin extends Plugin {
       }
     });
   }
- }
+}
 
- /**
-  * getShowCommandId returns the command identifier for a Show command.
-  *
-  * A command id for Show commands has the following structure:
-  *
-  * show:<project-id>
-  * show:<project-id>:<view-id>
-  *
-  * If `global` is true, the plugin id is prepended to the command id.
-  *
-  * obsidian-projects:show:<project-id>
-  * obsidian-projects:show:<project-id>:<view-id>
-  */
+/**
+ * getShowCommandId returns the command identifier for a Show command.
+ *
+ * A command id for Show commands has the following structure:
+ *
+ * show:<project-id>
+ * show:<project-id>:<view-id>
+ *
+ * If `global` is true, the plugin id is prepended to the command id.
+ *
+ * obsidian-projects:show:<project-id>
+ * obsidian-projects:show:<project-id>:<view-id>
+ */
 function getShowCommandId(cmd: ShowCommand, global: boolean): string {
   const res = [];
 

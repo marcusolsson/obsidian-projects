@@ -2,7 +2,7 @@
   import { isBoolean, type Optional } from "src/lib/dataframe/dataframe";
   import { Switch } from "obsidian-svelte";
   import { GridCell } from "..";
-  import type { GridColDef } from "../../data-grid";
+  import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<boolean>;
   export let onChange: (value: boolean) => void;

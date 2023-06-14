@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 
 import type { DataField, DataRecord } from "./dataframe/dataframe";
-import type { DataApi } from "./data-api";
+import type { DataApi } from "./dataApi";
 import { dataFrame } from "./stores/dataframe";
 import type { DataSource } from "./datasources";
 
