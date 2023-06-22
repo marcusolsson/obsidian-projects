@@ -66,7 +66,9 @@ export function withIds<T>(values: T[]): Array<T & { id: string }> {
   return values.map((cond) => ({ ...cond, id: uuidv4() }));
 }
 
-export function stripIds<T>(values: Array<T & { id: string }>): Array<Omit<T, "id">> {
+export function stripIds<T>(
+  values: Array<T & { id: string }>
+): Array<Omit<T, "id">> {
   return values.map((value) => {
     const { id, ...rest } = value;
     return rest;

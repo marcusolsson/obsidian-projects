@@ -4,7 +4,6 @@ import type { IFileSystemWatcher } from "./lib/filesystem/filesystem";
 import { DataviewDataSource } from "./lib/datasources/dataview/datasource";
 import type { DataSource } from "./lib/datasources";
 
-
 /**
  * registerFileEvents keeps the file index up-to-date while plugin is running.
  */

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "@jest/globals";
-import { DataFieldType, type DataField } from "../../../lib/dataframe/dataframe";
+import {
+  DataFieldType,
+  type DataField,
+} from "../../../lib/dataframe/dataframe";
 import { sortFields } from "./helpers";
 
 describe("sortFields", () => {

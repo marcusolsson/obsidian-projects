@@ -1,6 +1,10 @@
 <script lang="ts">
   import { MarkdownRenderer } from "obsidian";
-  import type { DataField, DataValue, Optional } from "src/lib/dataframe/dataframe";
+  import type {
+    DataField,
+    DataValue,
+    Optional,
+  } from "src/lib/dataframe/dataframe";
   import { app, view } from "src/lib/stores/obsidian";
 
   export let value: Optional<DataValue>;

@@ -17,7 +17,7 @@
   export let onRecordAdd: (column: string) => void;
   export let columnWidth: number;
   export let onSortColumns: (names: string[]) => void;
-  export let fields: DataField[];
+  export let includeFields: DataField[];
 
   const flipDurationMs = 200;
 
@@ -31,7 +31,8 @@
   }
 </script>
 
-<div
+<section
+  class="projects--board"
   style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
   use:dndzone={{
     type: "columns",
@@ -56,15 +57,7 @@
           onRecordUpdate(column.id, record);
         });
       }}
-      {fields}
+      {includeFields}
     />
   {/each}
-</div>
-
-<style>
-  div {
-    display: grid;
-    column-gap: 8px;
-    align-items: flex-start;
-  }
-</style>
+</section>

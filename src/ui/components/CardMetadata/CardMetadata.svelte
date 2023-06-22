@@ -1,6 +1,10 @@
 <script lang="ts">
   import { Icon } from "obsidian-svelte";
-  import { DataFieldType, type DataField, type DataRecord } from "src/lib/dataframe/dataframe";
+  import {
+    DataFieldType,
+    type DataField,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
   import Checkbox from "./Checkbox.svelte";
   import Tags from "./Tags.svelte";
   import Text from "./Text.svelte";

@@ -59,10 +59,7 @@ export function nextUniqueViewName(views: ViewDefinition[], name: string) {
  * @param name is the preferred name.
  * @param exists is a predicate for whether a candidate string is already taken.
  */
-function uniquify(
-  name: string,
-  exists: (name: string) => boolean
-): string {
+function uniquify(name: string, exists: (name: string) => boolean): string {
   if (!exists(name)) {
     return name;
   }

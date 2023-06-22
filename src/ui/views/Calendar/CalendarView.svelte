@@ -8,7 +8,11 @@
     ViewLayout,
     ViewToolbar,
   } from "src/ui/components/Layout";
-  import { DataFieldType, type DataFrame, type DataRecord } from "src/lib/dataframe/dataframe";
+  import {
+    DataFieldType,
+    type DataFrame,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
   import { createDataRecord } from "src/lib/dataApi";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";

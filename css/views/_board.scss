@@ -1,11 +1,15 @@
-.projects--board {
+@use "../config" as *;
+
+$view: "board";
+
+.#{$prefix}--#{$view} {
   display: grid;
   column-gap: 8px;
   align-items: flex-start;
   margin: 8px;
 }
 
-.projects--board--column {
+.#{$prefix}--#{$view}--column {
   border: 1px solid var(--background-modifier-border);
   border-radius: var(--radius-m);
   background-color: var(--background-secondary);
@@ -15,30 +19,21 @@
   padding: var(--size-4-2);
 }
 
-.projects--board--card {
+.#{$prefix}--#{$view}--card {
   background-color: var(--background-primary);
   border-radius: var(--radius-s);
   border: 1px solid var(--background-modifier-border);
   padding: var(--size-4-2);
-}
-.projects--board--card:hover {
-  border: 1px solid var(--background-modifier-border-hover);
+
+  &:hover {
+    border: 1px solid var(--background-modifier-border-hover);
+  }
 }
 
-.projects--board--card-list {
+.#{$prefix}--#{$view}--card-list {
   display: flex;
   flex-direction: column;
   gap: var(--size-4-2);
   min-height: 35px;
   transition: all 150ms ease-in-out;
 }
-
-.workspace-leaf-content[data-type=obsidian-projects] .view-content {
-  padding: 0;
-}
-
-.sortable-drag {
-  opacity: 0 !important;
-}
-
-/*# sourceMappingURL=styles.css.map */
