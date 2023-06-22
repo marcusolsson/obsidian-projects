@@ -31,7 +31,7 @@
   }
 </script>
 
-<div
+<section
   class="projects--board"
   style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
   use:dndzone={{
@@ -60,4 +60,4 @@
       {includeFields}
     />
   {/each}
-</div>
+</section>
