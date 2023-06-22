@@ -9,6 +9,14 @@ import {
 } from "src/lib/dataframe/dataframe";
 import { notEmpty } from "src/lib/helpers";
 import { i18n } from "src/lib/stores/i18n";
+import type { ColumnSettings } from "./types";
+
+export function getFieldByName(
+  fields: DataField[],
+  name: string
+): DataField | undefined {
+  return fields.find((field) => name === field.name);
+}
 
 export function getFieldsByType(
   fields: DataField[],
@@ -31,7 +39,43 @@ export function unique(records: DataRecord[], fieldName: string): string[] {
   return [...set];
 }
 
-export function groupRecordsByField(
+export function getColumns(
+  records: DataRecord[],
+  columnSettings: ColumnSettings,
+  field?: DataField
+) {
+  const groupedRecords = groupRecordsByField(records, field?.name);
+
+  const columns = new Set<string>(
+    Object.entries(groupedRecords).map((entry) => entry[0])
+  );
+
+  if (field?.type === DataFieldType.String) {
+    for (const option of field?.typeConfig?.options ?? []) {
+      columns.add(option);
+    }
+  }
+
+  return [...columns]
+    .sort((a, b) => {
+      const aweight = columnSettings[a]?.weight ?? 0;
+      const bweight = columnSettings[b]?.weight ?? 0;
+
+      if (aweight < bweight) {
+        return -1;
+      } else if (aweight > bweight) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
+    .map((column) => ({
+      id: column,
+      records: groupedRecords[column] ?? [],
+    }));
+}
+
+function groupRecordsByField(
   records: DataRecord[],
   fieldName: string | undefined
 ): Record<string, Array<DataRecord>> {

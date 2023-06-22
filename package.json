@@ -10,7 +10,9 @@
     "test": "jest --config jest.config.js",
     "svelte-check": "svelte-check",
     "lint": "eslint ./src",
-    "format": "prettier -w ./src"
+    "format": "prettier -w ./src",
+    "sass-build": "sass ./css/styles.scss ./styles.css",
+    "sass-watch": "sass --watch ./css/styles.scss ./styles.css"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +44,7 @@
     "obsidian-svelte": "0.1.9",
     "prettier": "^2.8.1",
     "prettier-plugin-svelte": "^2.9.0",
+    "sass": "^1.63.6",
     "sortablejs": "^1.15.0",
     "svelte": "^3.55.0",
     "svelte-check": "^3.0.1",

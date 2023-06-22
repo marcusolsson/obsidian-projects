@@ -12,7 +12,7 @@
   export let items: DataRecord[];
   export let onRecordClick: (record: DataRecord) => void;
   export let onDrop: (records: DataRecord[]) => void = () => {};
-  export let fields: DataField[];
+  export let includeFields: DataField[];
 
   const flipDurationMs = 200;
 
@@ -31,7 +31,9 @@
 </script>
 
 <div
-  class="lst"
+  class="projects--board--card-list"
+  on:consider={handleDndConsider}
+  on:finalize={handleDndFinalize}
   use:dndzone={{
     type: "card",
     items,
@@ -43,13 +45,12 @@
       transition: "all 150ms easy-in-out",
     },
   }}
-  on:consider={handleDndConsider}
-  on:finalize={handleDndFinalize}
 >
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
-    <div
-      class="crd"
+
+    <article
+      class="projects--board--card"
       on:keypress
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
@@ -70,29 +71,8 @@
         >
           {getDisplayName(item.id)}
         </InternalLink>
-        <CardMetadata {fields} record={item} />
+        <CardMetadata fields={includeFields} record={item} />
       </ColorItem>
-    </div>
+    </article>
   {/each}
 </div>
-
-<style>
-  .lst {
-    display: flex;
-    flex-direction: column;
-    gap: var(--size-4-2);
-    min-height: 35px;
-    transition: all 150ms ease-in-out;
-  }
-
-  .crd {
-    background-color: var(--background-primary);
-    border-radius: var(--radius-s);
-    border: 1px solid var(--background-modifier-border);
-    padding: var(--size-4-2);
-  }
-
-  .crd:hover {
-    border: 1px solid var(--background-modifier-border-hover);
-  }
-</style>
