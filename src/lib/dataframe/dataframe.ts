@@ -1,6 +1,4 @@
-import type {
-  FieldConfig,
-} from "src/settings/settings";
+import type { FieldConfig } from "src/settings/settings";
 import type { RecordError } from "../datasources/frontmatter/datasource";
 
 /**

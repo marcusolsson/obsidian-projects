@@ -1,6 +1,10 @@
 <script lang="ts">
   import { IconButton, Tag } from "obsidian-svelte";
-  import { isString, type DataValue, type Optional } from "src/lib/dataframe/dataframe";
+  import {
+    isString,
+    type DataValue,
+    type Optional,
+  } from "src/lib/dataframe/dataframe";
 
   import { app } from "src/lib/stores/obsidian";
   import { InputDialogModal } from "src/ui/modals/inputDialog";

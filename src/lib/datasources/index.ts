@@ -1,4 +1,7 @@
-import type { ProjectDefinition, ProjectsPluginPreferences } from "src/settings/settings";
+import type {
+  ProjectDefinition,
+  ProjectsPluginPreferences,
+} from "src/settings/settings";
 import type { DataField, DataFrame } from "../dataframe/dataframe";
 import type { IFile } from "../filesystem/filesystem";
 

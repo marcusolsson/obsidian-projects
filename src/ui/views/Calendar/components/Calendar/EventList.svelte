@@ -4,7 +4,11 @@
   import Event from "./Event.svelte";
   import { dndzone } from "svelte-dnd-action";
   import { app } from "src/lib/stores/obsidian";
-  import type { DataRecord, DataValue, Optional } from "src/lib/dataframe/dataframe";
+  import type {
+    DataRecord,
+    DataValue,
+    Optional,
+  } from "src/lib/dataframe/dataframe";
   import { getRecordColorContext } from "src/ui/views/helpers";
 
   export let records: DataRecord[];

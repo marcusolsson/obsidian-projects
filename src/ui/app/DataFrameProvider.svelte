@@ -11,7 +11,10 @@
   import { settings } from "src/lib/stores/settings";
   import type { ProjectDefinition } from "src/settings/settings";
   import { get } from "svelte/store";
-  import { DataviewDataSource, UnsupportedCapability } from "src/lib/datasources/dataview/datasource";
+  import {
+    DataviewDataSource,
+    UnsupportedCapability,
+  } from "src/lib/datasources/dataview/datasource";
 
   export let project: ProjectDefinition;
 
