@@ -2,15 +2,9 @@
   export let cardWidth: number;
 </script>
 
-<div
+<section
+  class="projects--gallery--grid"
   style={`grid-template-columns: repeat(auto-fill, minmax(${cardWidth}px, 1fr));`}
 >
   <slot />
-</div>
-
-<style>
-  div {
-    display: grid;
-    gap: 24px;
-  }
-</style>
+</section>
