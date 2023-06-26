@@ -1,9 +1,3 @@
-<div>
+<div class="projects--gallery--card__body">
   <slot />
 </div>
-
-<style>
-  div {
-    padding: 8px;
-  }
-</style>

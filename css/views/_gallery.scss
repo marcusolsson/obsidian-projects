@@ -1,0 +1,43 @@
+@use "../config" as *;
+
+$view: "gallery";
+
+$card-radius: var(--radius-s);
+
+.#{$prefix}--#{$view}--grid {
+  display: grid;
+  gap: 24px;
+}
+
+.#{$prefix}--#{$view}--card {
+  background-color: var(--background-secondary);
+  border-radius: #{$card-radius};
+  border: 1px solid var(--background-modifier-border);
+  padding: 0;
+  margin: 0;
+
+  &:hover {
+    border: 1px solid var(--background-modifier-border-hover);
+  }
+}
+
+.#{$prefix}--#{$view}--card__body {
+  padding: 8px;
+}
+
+.#{$prefix}--#{$view}--card__media {
+  height: 180px;
+  border-top-left-radius: #{$card-radius};
+  border-top-right-radius: #{$card-radius};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--background-modifier-border);
+
+  & img {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: #{$card-radius};
+    border-top-right-radius: #{$card-radius};
+  }
+}
