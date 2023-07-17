@@ -8,6 +8,7 @@
   import { getRecordColorContext } from "src/ui/views/helpers";
   import CardMetadata from "src/ui/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
+  import { settings } from "src/lib/stores/settings";
 
   export let items: DataRecord[];
   export let onRecordClick: (record: DataRecord) => void;
@@ -62,10 +63,17 @@
           sourcePath=""
           resolved
           on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+            let openEditor =
+              $settings.preferences.linkBehavior == "open-editor";
+
             if (newLeaf) {
-              $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-            } else {
+              openEditor = !openEditor;
+            }
+
+            if (openEditor) {
               onRecordClick(item);
+            } else {
+              $app.workspace.openLinkText(linkText, sourcePath, true);
             }
           }}
         >

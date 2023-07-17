@@ -10,6 +10,7 @@
     Optional,
   } from "src/lib/dataframe/dataframe";
   import { getRecordColorContext } from "src/ui/views/helpers";
+  import { settings } from "src/lib/stores/settings";
 
   export let records: DataRecord[];
   export let checkField: string | undefined;
@@ -80,10 +81,17 @@
           resolved
           tooltip={getDisplayName(record.id)}
           on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+            let openEditor =
+              $settings.preferences.linkBehavior == "open-editor";
+
             if (newLeaf) {
-              $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-            } else {
+              openEditor = !openEditor;
+            }
+
+            if (openEditor) {
               onRecordClick(record);
+            } else {
+              $app.workspace.openLinkText(linkText, sourcePath, true);
             }
           }}
         >
