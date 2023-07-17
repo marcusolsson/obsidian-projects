@@ -1,6 +1,6 @@
 {
   "name": "obsidian-projects",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "Plain text project planning for Obsidian",
   "main": "main.js",
   "scripts": {
