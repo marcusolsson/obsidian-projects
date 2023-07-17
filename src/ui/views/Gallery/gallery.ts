@@ -37,7 +37,11 @@ function getResourcePathFromLinkText(app: App, text: string) {
   const file = app.metadataCache.getFirstLinkpathDest(linkText, "");
 
   if (file) {
-    if (["png", "jpg", "jpeg", "gif", "bmp", "svg"].includes(file.extension)) {
+    if (
+      ["png", "jpg", "jpeg", "gif", "bmp", "svg", "webp"].includes(
+        file.extension
+      )
+    ) {
       return app.vault.getResourcePath(file);
     }
   }

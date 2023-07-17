@@ -63,6 +63,7 @@ If you'd like to see Projects in action, check out any of these amazing resource
 
 ### Videos
 
+- 2023-06-28: [Obsidian Office Hours: First Look at Obsidian Projects](https://www.youtube.com/watch?v=DU7V69n5tIQ) by [@BenCodeZen](https://www.youtube.com/@BenCodeZen)
 - 2023-04-20: [You all NEED these Obsidian community plugins](https://www.youtube.com/watch?v=Yzi1o-BH6QQ&t=1022s) by [@christianlempa](https://www.youtube.com/@christianlempa)
 - 2022-12-10: [Use Obsidian for Content Creation | Build Notion-like Database Views](https://www.youtube.com/watch?v=Ds-VPz7jIwM) by [@amyjuanli](https://www.youtube.com/@amyjuanli)
 - 2022-12-06: [Créer un calendrier éditorial dans Obsidian : Le plugin Projects](https://www.youtube.com/watch?v=Wmx2EoQYrTI) by [@cerveaunumeriquefr](https://www.youtube.com/@cerveaunumeriquefr)
