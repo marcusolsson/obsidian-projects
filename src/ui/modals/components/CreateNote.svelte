@@ -24,7 +24,7 @@
     project: ProjectDefinition
   ) => void;
 
-  let templatePath = "";
+  let templatePath = project.templates.at(0) ?? "";
 
   $: nameError = validateName(name);
 
