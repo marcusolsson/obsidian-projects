@@ -112,12 +112,15 @@ export type ShowCommand = {
   readonly view?: string;
 };
 
+export type LinkBehavior = "open-note" | "open-editor";
+
 export type ProjectsPluginPreferences = {
   readonly projectSizeLimit: number;
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
   };
   readonly commands: ShowCommand[];
+  readonly linkBehavior: LinkBehavior;
 };
 
 export type UnsavedViewDefinition = Omit<

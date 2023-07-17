@@ -83,6 +83,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
       quoteStrings: "PLAIN",
     },
     commands: [],
+    linkBehavior: "open-editor",
   },
 };
 
@@ -142,6 +143,7 @@ export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
     quoteStrings: "PLAIN",
   },
   commands: [],
+  linkBehavior: "open-editor",
 };
 
 export function resolvePreferences(

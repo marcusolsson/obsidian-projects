@@ -21,6 +21,7 @@
   import type { ProjectDefinition } from "src/settings/settings";
   import GalleryOptionsProvider from "./GalleryOptionsProvider.svelte";
   import { getCoverRealPath } from "./gallery";
+  import { settings } from "src/lib/stores/settings";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -68,10 +69,17 @@
         <Card>
           <CardMedia
             on:click={(event) => {
+              let openEditor =
+                $settings.preferences.linkBehavior == "open-editor";
+
               if (event.metaKey || event.ctrlKey) {
-                $app.workspace.openLinkText(record.id, "", true);
-              } else {
+                openEditor = !openEditor;
+              }
+
+              if (openEditor) {
                 handleRecordClick(record);
+              } else {
+                $app.workspace.openLinkText(record.id, "", true);
               }
             }}
           >
@@ -91,10 +99,17 @@
                 sourcePath=""
                 resolved
                 on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                  let openEditor =
+                    $settings.preferences.linkBehavior == "open-editor";
+
                   if (newLeaf) {
-                    $app.workspace.openLinkText(linkText, sourcePath, newLeaf);
-                  } else {
+                    openEditor = !openEditor;
+                  }
+
+                  if (openEditor) {
                     handleRecordClick(record);
+                  } else {
+                    $app.workspace.openLinkText(linkText, sourcePath, true);
                   }
                 }}
               >

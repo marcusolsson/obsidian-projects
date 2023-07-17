@@ -1,9 +1,12 @@
 import produce from "immer";
-import { App, PluginSettingTab, Setting } from "obsidian";
+import { App, Platform, PluginSettingTab, Setting } from "obsidian";
 import { settings } from "src/lib/stores/settings";
 import { get } from "svelte/store";
 import type ProjectsPlugin from "./main";
-import type { ProjectsPluginPreferences } from "./settings/settings";
+import type {
+  LinkBehavior,
+  ProjectsPluginPreferences,
+} from "./settings/settings";
 
 /**
  * ProjectsSettingTab builds the plugin settings tab.
@@ -41,6 +44,28 @@ export class ProjectsSettingTab extends PluginSettingTab {
             });
           })
       );
+
+    new Setting(containerEl)
+      .setName("Link behavior")
+      .setDesc(
+        `Determines what happens when you select the link of a note. Press ${
+          Platform.isMacOS ? "Cmd" : "Ctrl"
+        } while selecting link for opposite behavior.`
+      )
+      .addDropdown((dropdown) => {
+        dropdown
+          .addOptions({
+            "open-editor": "Open editor",
+            "open-note": "Open note",
+          })
+          .setValue(preferences.linkBehavior)
+          .onChange((value) => {
+            save({
+              ...preferences,
+              linkBehavior: value as LinkBehavior,
+            });
+          });
+      });
 
     new Setting(containerEl).setName("Front matter").setHeading();
 
