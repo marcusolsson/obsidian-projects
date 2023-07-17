@@ -1,9 +1,17 @@
 <script lang="ts">
   export let index: number;
   export let header: boolean = false;
+  export let footer: boolean = false;
 </script>
 
-<div role="row" aria-rowindex={index} class:header on:mouseover on:focus>
+<div
+  role="row"
+  aria-rowindex={index}
+  class:header
+  class:footer
+  on:mouseover
+  on:focus
+>
   <slot />
 </div>
 
@@ -16,5 +24,14 @@
     position: sticky;
     top: 0;
     z-index: 10;
+  }
+
+  .footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+
+    background-color: var(--background-secondary);
+    border-bottom: 1px solid var(--background-modifier-border);
   }
 </style>

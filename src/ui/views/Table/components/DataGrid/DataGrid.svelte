@@ -226,7 +226,7 @@
       }}
     />
   {/each}
-  <GridCellGroup index={rows.length + 2}>
+  <GridCellGroup index={rows.length + 2} footer>
     <span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
       <Button variant="plain" on:click={() => onRowAdd()}>
         <Icon name="plus" />
