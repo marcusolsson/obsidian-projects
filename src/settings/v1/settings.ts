@@ -40,6 +40,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
       quoteStrings: "PLAIN",
     },
     commands: [],
+    linkBehavior: "open-editor",
   },
 };
 
