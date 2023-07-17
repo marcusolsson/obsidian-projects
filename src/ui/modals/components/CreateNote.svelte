@@ -77,6 +77,11 @@
         autoFocus
         error={!!nameError}
         helperText={nameError}
+        on:keydown={(ev) => {
+          if (ev.key === "Enter") {
+            onSave(name, templatePath, project);
+          }
+        }}
       />
     </SettingItem>
 
