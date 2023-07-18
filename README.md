@@ -76,8 +76,9 @@ If you'd like to see Projects in action, check out any of these amazing resource
 
 ### Articles
 
+- 2023-06-02: [Obsidian Library — How to keep track of your books with Book Search and Projects plugins](https://medium.com/obsidian-observer/obsidian-library-how-to-keep-track-of-your-books-with-book-search-and-projects-plugins-716599633715) by [Marco Serafini](https://medium.com/@marco.ith)
+- 2022-11-19: [Obsidian Projects: A Better Way to Manage Text-Based Projects in Obsidian](https://beingpax.medium.com/obsidian-projects-a-better-way-to-manage-text-based-projects-in-obsidian-18c2a991069c) by [Prakash Joshi Pax](https://beingpax.medium.com/)
 - [How to Set up and Maintain Your Academic Reading List in Obsidian](https://nataliekraneiss.com/your-academic-reading-list-in-obsidian/) by [Natalie Kraneiß](https://nataliekraneiss.com/)
-- [Obsidian Projects: A Better Way to Manage Text-Based Projects in Obsidian](https://beingpax.medium.com/obsidian-projects-a-better-way-to-manage-text-based-projects-in-obsidian-18c2a991069c) by [Prakash Joshi Pax](https://beingpax.medium.com/)
 
 _Did I miss any? Let me know and I'll add them to the list!_
 
