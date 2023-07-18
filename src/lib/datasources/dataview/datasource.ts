@@ -116,8 +116,10 @@ export class DataviewDataSource extends DataSource {
   standardizeRecords(rows: Array<Record<string, any>>): DataRecord[] {
     const records: DataRecord[] = [];
 
+    const columnName = this.api.settings.tableIdColumnName;
+
     rows
-      .map((row) => ({ id: row["File"] as Link, row }))
+      .map((row) => ({ id: row[columnName] as Link, row }))
       .forEach(({ id, row }) =>
         records.push({ id: id.path, values: standardizeValues(row) })
       );
