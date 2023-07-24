@@ -112,6 +112,7 @@ const v1demo: v1.ProjectsPluginSettings<
   preferences: {
     frontmatter: {
       quoteStrings: "PLAIN",
+      collectionStyle: "block",
     },
     projectSizeLimit: 1000,
     commands: [],
@@ -226,6 +227,7 @@ const v2demo: v2.ProjectsPluginSettings<
     projectSizeLimit: 1000,
     frontmatter: {
       quoteStrings: "PLAIN",
+      collectionStyle: "block",
     },
     commands: [],
     linkBehavior: "open-editor",

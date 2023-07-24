@@ -79,12 +79,35 @@ export class ProjectsSettingTab extends PluginSettingTab {
             save({
               ...preferences,
               frontmatter: {
+                ...preferences.frontmatter,
                 quoteStrings: value,
               },
             });
           }
         })
     );
+
+    new Setting(containerEl)
+      .setName("Collection style")
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOptions({
+            block: "Block sequence",
+            flow: "Flow sequence",
+          })
+          .setValue(preferences.frontmatter.collectionStyle)
+          .onChange((value) => {
+            if (value === "block" || value === "flow") {
+              save({
+                ...preferences,
+                frontmatter: {
+                  ...preferences.frontmatter,
+                  collectionStyle: value,
+                },
+              });
+            }
+          })
+      );
 
     new Setting(containerEl)
       .setName("Commands")

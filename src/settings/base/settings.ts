@@ -118,6 +118,7 @@ export type ProjectsPluginPreferences = {
   readonly projectSizeLimit: number;
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
+    readonly collectionStyle: "block" | "flow";
   };
   readonly commands: ShowCommand[];
   readonly linkBehavior: LinkBehavior;

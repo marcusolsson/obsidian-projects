@@ -15,7 +15,7 @@ describe("encodeFrontMatter", () => {
           title5: "Title-",
           title6: "-Title",
         },
-        "PLAIN"
+        { defaultStringType: "PLAIN", collectionStyle: "block" }
       )
     ).toStrictEqual(
       E.right(`---
@@ -41,10 +41,8 @@ status: In progress
 
 # My title
 `,
-        {
-          status: "Done",
-        },
-        "PLAIN"
+        { status: "Done" },
+        { defaultStringType: "PLAIN", collectionStyle: "block" }
       )
     ).toStrictEqual(
       E.right(`
@@ -68,10 +66,8 @@ due: 1979-01-01
 
 # My title
 `,
-        {
-          status: "Done",
-        },
-        "PLAIN"
+        { status: "Done" },
+        { defaultStringType: "PLAIN", collectionStyle: "block" }
       )
     ).toStrictEqual(
       E.right(`
@@ -92,7 +88,7 @@ due: 1979-01-01
         {
           status: null,
         },
-        "PLAIN"
+        { defaultStringType: "PLAIN", collectionStyle: "block" }
       )
     ).toStrictEqual(
       E.right(`---
@@ -121,7 +117,7 @@ test: 4
           bar: undefined,
           baz: null,
         },
-        "PLAIN"
+        { defaultStringType: "PLAIN", collectionStyle: "block" }
       )
     ).toStrictEqual(
       E.right(`

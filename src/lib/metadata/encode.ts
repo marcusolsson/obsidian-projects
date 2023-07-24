@@ -2,6 +2,11 @@ import { either as E, function as F } from "fp-ts";
 import { stringify } from "yaml";
 import { parseYaml } from "./decode";
 
+export type EncodingOptions = {
+  collectionStyle: "block" | "flow";
+  defaultStringType: "PLAIN" | "QUOTE_DOUBLE";
+};
+
 /**
  * encodeFrontMatter updates the front matter of a note.
  *
@@ -12,7 +17,7 @@ import { parseYaml } from "./decode";
 export function encodeFrontMatter(
   data: string,
   frontmatter: Record<string, any>,
-  defaultStringType: "PLAIN" | "QUOTE_DOUBLE"
+  options: EncodingOptions
 ): E.Either<Error, string> {
   const delim = "---";
 
@@ -27,7 +32,7 @@ export function encodeFrontMatter(
     E.map((existing) => Object.assign({}, existing, frontmatter)),
     E.map((fm) => {
       if (Object.entries(fm).length) {
-        const d = stringifyYaml(fm, defaultStringType);
+        const d = stringifyYaml(fm, options);
 
         return hasFrontMatter
           ? data.slice(0, startPosition + 1) + d + data.slice(endPosition)
@@ -47,14 +52,19 @@ export function encodeFrontMatter(
  */
 export function stringifyYaml(
   value: any,
-  defaultStringType: "PLAIN" | "QUOTE_DOUBLE" = "PLAIN"
+  options: EncodingOptions = {
+    collectionStyle: "block",
+    defaultStringType: "PLAIN",
+  }
 ): string {
   return F.pipe(value, (value) =>
     stringify(value, {
       lineWidth: 0,
       nullStr: "",
-      defaultStringType: defaultStringType,
+      defaultStringType: options.defaultStringType,
       defaultKeyType: "PLAIN",
+      collectionStyle: options.collectionStyle,
+      flowCollectionPadding: false,
     })
   );
 }

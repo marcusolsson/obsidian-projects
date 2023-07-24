@@ -81,6 +81,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     projectSizeLimit: 1000,
     frontmatter: {
       quoteStrings: "PLAIN",
+      collectionStyle: "block",
     },
     commands: [],
     linkBehavior: "open-editor",
@@ -141,6 +142,7 @@ export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
   projectSizeLimit: 1000,
   frontmatter: {
     quoteStrings: "PLAIN",
+    collectionStyle: "block",
   },
   commands: [],
   linkBehavior: "open-editor",

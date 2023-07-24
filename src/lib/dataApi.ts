@@ -139,7 +139,10 @@ export function doUpdateRecord(
       );
     }),
     E.chain((updated) =>
-      encodeFrontMatter(data, updated, getDefaultStringType())
+      encodeFrontMatter(data, updated, {
+        defaultStringType: getDefaultStringType(),
+        collectionStyle: getCollectionStyle(),
+      })
     )
   );
 }
@@ -153,7 +156,10 @@ export function doDeleteField(data: string, field: string) {
       [field]: undefined,
     })),
     E.chain((frontmatter) =>
-      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+      encodeFrontMatter(data, frontmatter, {
+        defaultStringType: getDefaultStringType(),
+        collectionStyle: getCollectionStyle(),
+      })
     )
   );
 }
@@ -172,7 +178,10 @@ export function doRenameField(
       [from]: undefined,
     })),
     E.chain((frontmatter) =>
-      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+      encodeFrontMatter(data, frontmatter, {
+        defaultStringType: getDefaultStringType(),
+        collectionStyle: getCollectionStyle(),
+      })
     )
   );
 }
@@ -215,6 +224,10 @@ export function createDataRecord(
   };
 }
 
-function getDefaultStringType() {
-  return get(settings).preferences?.frontmatter?.quoteStrings ?? "PLAIN";
+function getDefaultStringType(): "PLAIN" | "QUOTE_DOUBLE" {
+  return get(settings).preferences.frontmatter.quoteStrings;
+}
+
+function getCollectionStyle(): "block" | "flow" {
+  return get(settings).preferences.frontmatter.collectionStyle;
 }
