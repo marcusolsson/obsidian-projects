@@ -220,6 +220,18 @@ export default class ProjectsPlugin extends Plugin {
   }
 
   /**
+   * this moves the main Projects view to a new window.
+   * */
+  async moveToNewWindow() {
+    const existingLeaves =
+      this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
+
+    if (existingLeaves[0]) {
+      this.app.workspace.moveLeafToPopout(existingLeaves[0]);
+    }
+  }
+
+  /**
    * getOrCreateLeaf returns a new leaf, or returns an existing leaf if
    * Projects is already open.
    */
