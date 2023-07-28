@@ -62,7 +62,11 @@ export class ProjectsView extends ItemView {
           .setTitle(get(i18n).t("menus.tabHeader.newWindow.title"))
           .setIcon("maximize")
           .onClick(() => {
-            this.plugin.moveToNewWindow();
+            const existingLeaves =
+              this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
+            if (existingLeaves[0]) {
+              this.app.workspace.moveLeafToPopout(existingLeaves[0]);
+            }
           })
           .setSection("open"); // https://docs.obsidian.md/Reference/TypeScript+API/MenuItem/setSection
       });
