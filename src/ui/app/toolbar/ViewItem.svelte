@@ -1,11 +1,6 @@
 <script lang="ts">
   import { Menu } from "obsidian";
-  import {
-    Icon,
-    IconButton,
-    TextInput,
-    useClickOutside,
-  } from "obsidian-svelte";
+  import { Icon, IconButton, TextInput } from "obsidian-svelte";
   import { createEventDispatcher } from "svelte";
 
   /**
@@ -67,18 +62,8 @@
   data-id={id}
   class:active
   class:error
-  on:blur={() => {
-    editing = false;
-
-    rollback();
-  }}
   on:dblclick={() => (editing = true)}
   on:mousedown
-  use:useClickOutside={() => {
-    editing = false;
-
-    rollback();
-  }}
 >
   {#if icon}
     <Icon name={icon} />
@@ -102,6 +87,22 @@
           } else {
             rollback();
           }
+        }
+        if (event.key === "Escape") {
+          editing = false;
+
+          // After executed, the label value read by on:blur
+          // is set to original value, to prevent rename
+          rollback();
+        }
+      }}
+      on:blur={() => {
+        if (!error) {
+          fallback = label;
+
+          dispatch("rename", label);
+        } else {
+          rollback();
         }
       }}
     />
