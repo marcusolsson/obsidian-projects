@@ -2,7 +2,7 @@ import {
   Plugin,
   ItemView,
   WorkspaceLeaf,
-  type Menu,
+  Menu,
   type ViewStateResult,
 } from "obsidian";
 import { get } from "svelte/store";
@@ -57,16 +57,15 @@ export class ProjectsView extends ItemView {
   onPaneMenu(menu: Menu, source: "more-options" | "tab-header" | string) {
     if (source == "tab-header") {
       super.onPaneMenu(menu, source);
-      menu
-        .addItem((item) => {
-          item
-            .setTitle(get(i18n).t("menus.tabHeader.newWindow.title"))
-            .setIcon("maximize")
-            .onClick(() => {
-              this.plugin.moveToNewWindow();
-            });
-        })
-        .addSeparator();
+      menu.addItem((item) => {
+        item
+          .setTitle(get(i18n).t("menus.tabHeader.newWindow.title"))
+          .setIcon("maximize")
+          .onClick(() => {
+            this.plugin.moveToNewWindow();
+          })
+          .setSection("open");
+      });
       return;
     }
 
