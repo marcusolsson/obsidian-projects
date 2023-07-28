@@ -64,7 +64,7 @@ export class ProjectsView extends ItemView {
           .onClick(() => {
             this.plugin.moveToNewWindow();
           })
-          .setSection("open");
+          .setSection("open"); // https://docs.obsidian.md/Reference/TypeScript+API/MenuItem/setSection
       });
       return;
     }
