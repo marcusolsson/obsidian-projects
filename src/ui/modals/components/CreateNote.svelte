@@ -79,6 +79,7 @@
         helperText={nameError}
         on:keydown={(ev) => {
           if (ev.key === "Enter") {
+            ev.preventDefault();
             onSave(name, templatePath, project);
           }
         }}
