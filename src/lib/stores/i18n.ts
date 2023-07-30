@@ -1,9 +1,10 @@
 import i18next from "i18next";
 import { createI18nStore } from "svelte-i18next";
 
+import { moment } from "obsidian";
+
 i18next.init({
-  // lng: moment.locale(),
-  lng: "en",
+  lng: moment.locale(),
   resources: {
     en: {
       translation: {
