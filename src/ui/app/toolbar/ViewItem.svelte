@@ -92,15 +92,18 @@
           editing = false;
 
           // After executed, the label value read by on:blur
-          // is set to original value, to prevent rename
+          // is set to the original value, to prevent rename
           rollback();
         }
       }}
       on:blur={() => {
         if (!error) {
-          fallback = label;
+          // avoid unnessesary call
+          if (fallback != label) {
+            fallback = label;
 
-          dispatch("rename", label);
+            dispatch("rename", label);
+          }
         } else {
           rollback();
         }
