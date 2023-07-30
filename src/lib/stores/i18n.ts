@@ -5,6 +5,10 @@ import { moment } from "obsidian";
 
 i18next.init({
   lng: moment.locale(),
+  fallbackLng: {
+    "zh-TW": ["zh-CN", "en"],
+    default: ["en"],
+  },
   resources: {
     en: {
       translation: {
