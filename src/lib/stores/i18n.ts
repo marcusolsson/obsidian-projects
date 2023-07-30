@@ -134,7 +134,7 @@ i18next.init({
             delete: {
               "short-title": "Delete view",
               title: "Delete view",
-              message: "Are you sure you want to delete the view?",
+              message: 'Are you sure you want to delete the view "{{view}}"?',
               cta: "Delete",
             },
           },
@@ -413,7 +413,7 @@ i18next.init({
             delete: {
               "short-title": "删除视图",
               title: "删除视图",
-              message: "确定要删除这个视图吗？",
+              message: '确定要删除视图 "{{view}}" 吗？',
               cta: "删除",
             },
           },
