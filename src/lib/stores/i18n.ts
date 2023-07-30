@@ -291,6 +291,282 @@ i18next.init({
         },
       },
     },
+    "zh-CN": {
+      translation: {
+        "data-types": {
+          string: "文本",
+          number: "数值",
+          boolean: "布尔",
+          date: "日期",
+          unknown: "未知",
+          repeated: "周期",
+        },
+        commands: {
+          "show-projects": {
+            name: "打开项目",
+          },
+          "create-project": {
+            name: "新建项目",
+          },
+          "create-note": {
+            name: "新建笔记",
+          },
+        },
+        menus: {
+          project: {
+            create: {
+              title: "在文件夹中新建项目",
+            },
+          },
+        },
+        modals: {
+          project: {
+            create: {
+              "short-title": "新项目",
+              untitled: "未命名项目",
+              title: "新建项目",
+              cta: "新建项目",
+              "existing-name-error": "项目名称重复",
+              "empty-name-error": "项目名称不能为空",
+            },
+            edit: {
+              "short-title": "编辑项目",
+              title: "编辑项目配置",
+              cta: "保存",
+            },
+            duplicate: {
+              title: "复制项目",
+            },
+            delete: {
+              "short-title": "删除项目",
+              title: "删除项目",
+              message: '确定要删除项目 "{{project}}" 吗？',
+              cta: "删除",
+            },
+            name: {
+              name: "名称",
+              description: "",
+            },
+            default: {
+              name: "设为默认项目",
+              description: "打开 Projects 插件的窗口时，默认打开本项目",
+            },
+            path: {
+              name: "路径",
+              description: "本项目需要管理的路径。若为控制，路径将设为根目录",
+            },
+            tag: {
+              name: "标签",
+              description: "管理含有该标签的笔记",
+            },
+            dataview: {
+              name: "Dataview",
+              description: "以 Dataview 查询结果创建只读项目",
+              error: {
+                title: "Dataview 插件未启用",
+                message: "启用 Dataview 插件以使用本项目",
+              },
+            },
+            query: {
+              name: "查询语句 (Query)",
+              description: "只支持 TABLE 查询语句",
+            },
+            recursive: {
+              name: "管理子文件夹",
+              description: "管理项目文件夹下的所有子文件夹",
+            },
+            templates: {
+              name: "模板",
+              description: "新建笔记时，从以下模板中选取新笔记模板",
+            },
+            exclude: {
+              name: "排除笔记",
+              description: "此处记录的笔记将不会成为项目的一部分",
+            },
+            newNotesFolder: {
+              name: "新建笔记位置",
+              description: "新建的笔记将存放于指定文件夹",
+            },
+            defaultName: {
+              name: "默认新笔记名称",
+              description:
+                "支持 {{date:YYYY-MM-DD}} 和 {{time:HHmm}} 格式的日期、时间模板变量",
+              invalid: "含有非法字符",
+            },
+          },
+          view: {
+            create: {
+              "short-title": "新建视图",
+              title: "新建视图",
+              optional: "可选",
+              type: {
+                name: "视图类型",
+                description: "",
+              },
+              name: {
+                name: "视图名称",
+                description: "",
+              },
+              cta: "新建视图",
+              "existing-name-error": "视图名称重复",
+            },
+            delete: {
+              "short-title": "删除视图",
+              title: "删除视图",
+              message: "确定要删除这个视图吗？",
+              cta: "删除",
+            },
+          },
+          note: {
+            create: {
+              "short-title": "新建笔记",
+              title: "新建笔记",
+              name: {
+                name: "笔记名称",
+                description: "",
+              },
+              templatePath: {
+                name: "模板",
+                description: "",
+                none: "None",
+              },
+              project: {
+                name: "所属项目",
+                description: "",
+              },
+              "name-taken-error": "已经存在一个同名文件",
+              "empty-name-error": "文件名不能为空。",
+              "dot-start-error": "文件名不能以句点开头。",
+              create: "新建笔记",
+              readonly: {
+                title: "只读项目",
+                message: "{{project}} 是一个只读项目，请选择其他项目以新建笔记",
+              },
+              untitled: "未命名笔记",
+            },
+            edit: {
+              "short-title": "编辑",
+              title: "编辑笔记元数据",
+              save: "保存",
+              "no-editable-fields": {
+                title: "没有可编辑字段",
+                message: "这个笔记的元数据没有可编辑字段",
+              },
+            },
+          },
+          input: {
+            cancel: "取消",
+          },
+          confirm: {
+            delete: "删除",
+            cancel: "取消",
+          },
+        },
+        views: {
+          developer: {
+            name: "开发者视图",
+          },
+          table: {
+            name: "表格视图",
+            "hide-fields": "隐藏字段",
+            "rename-field": "重命名字段",
+            rename: "重命名",
+          },
+          board: {
+            name: "看板视图",
+            "no-status": "无状态字段",
+            fields: {
+              status: "状态",
+              priority: "优先级",
+              none: "无",
+            },
+            unprioritized: "未设置优先级",
+            note: {
+              add: "新建笔记",
+            },
+          },
+          calendar: {
+            name: "日历视图",
+            "new-note": "新建笔记",
+            fields: {
+              date: "日期",
+              check: "复选框",
+              none: "无",
+            },
+            today: "今日",
+            weekday: "{{value, datetime}}",
+            date: "{{value, datetime}}",
+            interval: "{{from, datetime}} – {{to, datetime}}",
+            intervals: {
+              month_one: "月",
+              month_other: "月",
+              monthWithCount_one: "{{count}} 月",
+              monthWithCount_other: "{{count}} 月",
+              week_one: "周",
+              week_other: "周",
+              weekWithCount_one: "{{count}} 周",
+              weekWithCount_other: "{{count}} 周",
+              day_one: "日",
+              day_other: "日",
+              dayWithCount_one: "{{count}} 日",
+              dayWithCount_other: "{{count}} 日",
+            },
+          },
+          gallery: {
+            name: "画册视图",
+            fields: {
+              cover: "图片源",
+              none: "无",
+            },
+            empty: "该视图还没有数据",
+          },
+        },
+        components: {
+          "data-grid": {
+            column: {
+              configure: "设置字段",
+              rename: "重命名字段",
+              delete: "删除字段",
+              hide: "隐藏字段",
+            },
+            row: {
+              add: "新建笔记",
+              edit: "编辑笔记",
+              delete: "删除笔记",
+            },
+            cell: {
+              clear: "清空单元格",
+            },
+            sort: {
+              asc: "A → Z 升序",
+              desc: "Z → A 降序",
+            },
+            sortDate: {
+              asc: "按日期升序",
+              desc: "按日期升序Sort New → Old",
+            },
+          },
+        },
+        toolbar: {
+          new: "新建",
+          view: {
+            add: "新建视图",
+          },
+          projects: {
+            none: "尚无项目",
+            options: "更多选项",
+          },
+          "read-only": "只读项目",
+          "read-only-desc": "不能在只读项目中新增、编辑笔记",
+        },
+        errors: {
+          missingDataview: {
+            title: "Dataview 插件未启用",
+            message: "启用 Dataview 插件以使用本项目",
+          },
+        },
+      },
+    },
   },
   interpolation: {
     escapeValue: false, // not needed for svelte as it escapes by default
