@@ -274,7 +274,6 @@ i18next.init({
           },
         },
         toolbar: {
-          new: "New",
           view: {
             add: "Add view",
           },
@@ -552,7 +551,6 @@ i18next.init({
           },
         },
         toolbar: {
-          new: "新建",
           view: {
             add: "新建视图",
           },
