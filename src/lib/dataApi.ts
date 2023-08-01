@@ -209,6 +209,13 @@ export function createDataRecord(
     path = project.newNotesFolder;
   }
 
+  if (project.dataSource.kind == "tag") {
+    values = {
+      ...values,
+      ["tags"]: [project.dataSource.config.tag.replace("#", "")],
+    };
+  }
+
   return {
     id: normalizePath(path + "/" + name + ".md"),
     values: values ?? {},
