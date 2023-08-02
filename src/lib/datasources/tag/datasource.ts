@@ -32,11 +32,14 @@ export class TagDataSource extends FrontMatterDataSource {
     const file = this.fileSystem.getFile(path);
 
     if (file) {
-      // return file.readTags().has(tag);
-      for (const fileTag of file.readTags()) {
-        if (fileTag.includes(tag)) {
-          return true;
+      if (this.project.dataSource.config.hierarchy) {
+        for (const fileTag of file.readTags()) {
+          if (fileTag.startsWith(tag)) {
+            return true;
+          }
         }
+      } else {
+        return file.readTags().has(tag);
       }
     }
 

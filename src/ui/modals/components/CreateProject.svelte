@@ -65,7 +65,7 @@
       case "tag":
         project = {
           ...project,
-          dataSource: { kind: "tag", config: { tag: "" } },
+          dataSource: { kind: "tag", config: { tag: "", hierarchy: false } },
         };
         break;
       case "dataview":
@@ -198,6 +198,27 @@
             }
           }}
           width="100%"
+        />
+      </SettingItem>
+
+      <!-- waiting for i18n changes to be approved to avoid resolving conflicts-->
+      <SettingItem
+        name={$i18n.t("modals.project.hierarchy.name")}
+        description={$i18n.t("modals.project.hierarchy.description") ?? ""}
+      >
+        <Switch
+          checked={project.dataSource.config.hierarchy}
+          on:check={({ detail: hierarchy }) => {
+            if (project.dataSource.kind === "tag") {
+              project = {
+                ...project,
+                dataSource: {
+                  kind: project.dataSource.kind,
+                  config: { ...project.dataSource.config, hierarchy },
+                },
+              };
+            }
+          }}
         />
       </SettingItem>
     {/if}

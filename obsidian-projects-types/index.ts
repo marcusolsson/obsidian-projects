@@ -98,6 +98,7 @@ export type TagDataSource = {
   readonly kind: "tag";
   readonly config: {
     readonly tag: string;
+    readonly hierarchy: boolean;
   };
 };
 
