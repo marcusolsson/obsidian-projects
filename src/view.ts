@@ -68,7 +68,7 @@ export class ProjectsView extends ItemView {
               this.app.workspace.moveLeafToPopout(existingLeaves[0]);
             }
           })
-          .setSection("open"); // https://docs.obsidian.md/Reference/TypeScript+API/MenuItem/setSection
+          .setSection("open");
       });
       return;
     }
