@@ -32,6 +32,11 @@ i18next.init({
               title: "Create project in folder",
             },
           },
+          tabHeader: {
+            newWindow: {
+              title: "Move to new window",
+            },
+          },
         },
         modals: {
           project: {

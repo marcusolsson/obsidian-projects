@@ -2,10 +2,13 @@ import {
   Plugin,
   ItemView,
   WorkspaceLeaf,
+  Menu,
   type ViewStateResult,
 } from "obsidian";
+import { get } from "svelte/store";
 
 import App from "src/ui/app/App.svelte";
+import { i18n } from "./lib/stores/i18n";
 import { customViews } from "src/lib/stores/customViews";
 import { view } from "src/lib/stores/obsidian";
 import { BoardView } from "src/ui/views/Board";
@@ -49,6 +52,29 @@ export class ProjectsView extends ItemView {
 
   getIcon() {
     return "layout";
+  }
+
+  onPaneMenu(menu: Menu, source: "more-options" | "tab-header" | string) {
+    if (source == "tab-header") {
+      super.onPaneMenu(menu, source);
+      menu.addItem((item) => {
+        item
+          .setTitle(get(i18n).t("menus.tabHeader.newWindow.title"))
+          .setIcon("maximize")
+          .onClick(() => {
+            const existingLeaves =
+              this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);
+            if (existingLeaves[0]) {
+              this.app.workspace.moveLeafToPopout(existingLeaves[0]);
+            }
+          })
+          .setSection("open");
+      });
+      return;
+    }
+
+    // In other cases, keep the original behavior
+    super.onPaneMenu(menu, source);
   }
 
   async onload() {
