@@ -80,6 +80,10 @@
         if (event.key === "Enter") {
           editing = false;
 
+          if (fallback == label) {
+            return;
+          }
+
           if (!error) {
             fallback = label;
 
@@ -91,19 +95,18 @@
         if (event.key === "Escape") {
           editing = false;
 
-          // After executed, the label value read by on:blur
-          // is set to the original value, to prevent rename
           rollback();
         }
       }}
       on:blur={() => {
-        if (!error) {
-          // avoid unnessesary call
-          if (fallback != label) {
-            fallback = label;
+        if (fallback == label) {
+          return;
+        }
 
-            dispatch("rename", label);
-          }
+        if (!error) {
+          fallback = label;
+
+          dispatch("rename", label);
         } else {
           rollback();
         }
