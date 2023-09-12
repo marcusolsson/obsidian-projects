@@ -212,7 +212,7 @@ export function createDataRecord(
   if (project.dataSource.kind == "tag") {
     values = {
       ...values,
-      ["tags"]: [project.dataSource.config.tag.replace("#", "")],
+      tags: [project.dataSource.config.tag.replace("#", "")],
     };
   }
 
