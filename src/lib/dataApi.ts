@@ -75,6 +75,17 @@ export class DataApi {
           date: (format) => moment().format(format || "YYYY-MM-DD"),
           time: (format) => moment().format(format || "HH:mm"),
         });
+        if (record.values["tags"]) {
+          const templateTags = F.pipe(
+            content,
+            decodeFrontMatter,
+            E.map((frontmatter) => frontmatter["tags"]),
+            E.getOrElse(() => [])
+          );
+          //@ts-ignore explict input in `createDataRecord()`
+          const tagSet = new Set(templateTags.concat(record.values["tags"]));
+          record.values["tags"] = [...tagSet];
+        }
       }
     }
 
@@ -212,7 +223,7 @@ export function createDataRecord(
   if (project.dataSource.kind == "tag") {
     values = {
       ...values,
-      ["tags"]: [project.dataSource.config.tag.replace("#", "")],
+      tags: [project.dataSource.config.tag.replace("#", "")],
     };
   }
 
