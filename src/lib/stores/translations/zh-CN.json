@@ -33,8 +33,8 @@
                     "untitled": "未命名项目",
                     "title": "新建项目",
                     "cta": "新建项目",
-                    "existing-name-error": "项目名称重复",
-                    "empty-name-error": "项目名称不能为空"
+                    "existing-name-error": "项目名称重复。",
+                    "empty-name-error": "项目名不能为空。"
                 },
                 "edit": {
                     "short-title": "编辑项目",
@@ -51,53 +51,53 @@
                     "cta": "删除"
                 },
                 "name": {
-                    "name": "名称",
+                    "name": "项目名称",
                     "description": ""
                 },
                 "default": {
                     "name": "设为默认项目",
-                    "description": "打开 Projects 插件的窗口时，默认打开本项目"
+                    "description": "打开 Projects 插件窗口时，默认打开本项目。"
                 },
                 "path": {
                     "name": "路径",
-                    "description": "本项目需要管理的路径。若为控制，路径将设为根目录"
+                    "description": "目标文件夹路径。若为空值，路径将设为根目录。"
                 },
                 "tag": {
                     "name": "标签",
-                    "description": "管理含有该标签的笔记"
+                    "description": "管理本仓库中所有含有该标签的笔记。"
                 },
                 "dataview": {
                     "name": "Dataview",
-                    "description": "以 Dataview 查询结果创建只读项目",
+                    "description": "以 Dataview 查询结果创建只读项目。",
                     "error": {
-                        "title": "Dataview 插件未启用",
-                        "message": "启用 Dataview 插件以使用本项目"
+                        "title": "Dataview 插件未启用。",
+                        "message": "启用 Dataview 插件以使用本项目。"
                     }
                 },
                 "query": {
                     "name": "查询语句 (Query)",
-                    "description": "只支持 TABLE 查询语句"
+                    "description": "当前只支持 TABLE 查询语句。"
                 },
                 "recursive": {
                     "name": "管理子文件夹",
-                    "description": "管理项目文件夹下的所有子文件夹"
+                    "description": "管理项目文件夹下的所有子文件夹。"
                 },
                 "templates": {
                     "name": "模板",
-                    "description": "新建笔记时，从以下模板中选取新笔记模板"
+                    "description": "新建笔记时，从下列模板中选取新笔记模板。"
                 },
                 "exclude": {
                     "name": "排除笔记",
-                    "description": "此处记录的笔记将不会成为项目的一部分"
+                    "description": "下列笔记将不会被本项目追踪。"
                 },
                 "newNotesFolder": {
                     "name": "新建笔记位置",
-                    "description": "新建的笔记将存放于指定文件夹"
+                    "description": "新建的笔记将存放于该文件夹。"
                 },
                 "defaultName": {
-                    "name": "默认新笔记名称",
-                    "description": "支持 {{date:YYYY-MM-DD}} 和 {{time:HHmm}} 格式的日期、时间模板变量",
-                    "invalid": "含有非法字符"
+                    "name": "默认笔记名称",
+                    "description": "支持 {{date:YYYY-MM-DD}} 和 {{time:HHmm}} 格式的日期、时间模板变量。",
+                    "invalid": "笔记名包含非法字符。"
                 }
             },
             "view": {
@@ -114,7 +114,7 @@
                         "description": ""
                     },
                     "cta": "新建视图",
-                    "existing-name-error": "视图名称重复"
+                    "existing-name-error": "视图名称重复。"
                 },
                 "delete": {
                     "short-title": "删除视图",
@@ -140,23 +140,23 @@
                         "name": "所属项目",
                         "description": ""
                     },
-                    "name-taken-error": "已经存在一个同名文件",
+                    "name-taken-error": "已经存在一个同名文件。",
                     "empty-name-error": "文件名不能为空。",
                     "dot-start-error": "文件名不能以句点开头。",
                     "create": "新建笔记",
                     "readonly": {
                         "title": "只读项目",
-                        "message": "{{project}} 是一个只读项目，请选择其他项目以新建笔记"
+                        "message": "{{project}} 是一个只读项目，请选择其他项目以新建笔记。"
                     },
                     "untitled": "未命名笔记"
                 },
                 "edit": {
-                    "short-title": "编辑",
+                    "short-title": "编辑笔记",
                     "title": "编辑笔记元数据",
                     "save": "保存",
                     "no-editable-fields": {
-                        "title": "没有可编辑字段",
-                        "message": "这个笔记的元数据没有可编辑字段"
+                        "title": "没有可编辑字段。",
+                        "message": "这个笔记的元数据没有可编辑字段。"
                     }
                 }
             },
@@ -170,16 +170,16 @@
         },
         "views": {
             "developer": {
-                "name": "开发者视图"
+                "name": "开发者"
             },
             "table": {
-                "name": "表格视图",
+                "name": "表格",
                 "hide-fields": "隐藏字段",
                 "rename-field": "重命名字段",
                 "rename": "重命名"
             },
             "board": {
-                "name": "看板视图",
+                "name": "看板",
                 "no-status": "无状态字段",
                 "fields": {
                     "status": "状态",
@@ -192,45 +192,45 @@
                 }
             },
             "calendar": {
-                "name": "日历视图",
+                "name": "日历",
                 "new-note": "新建笔记",
                 "fields": {
                     "date": "日期",
                     "check": "复选框",
                     "none": "无"
                 },
-                "today": "今日",
+                "today": "今天",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
                 "interval": "{{from, datetime}} – {{to, datetime}}",
                 "intervals": {
                     "month_one": "月",
                     "month_other": "月",
-                    "monthWithCount_one": "{{count}} 月",
-                    "monthWithCount_other": "{{count}} 月",
+                    "monthWithCount_one": "{{count}}月",
+                    "monthWithCount_other": "{{count}}月",
                     "week_one": "周",
                     "week_other": "周",
-                    "weekWithCount_one": "{{count}} 周",
-                    "weekWithCount_other": "{{count}} 周",
+                    "weekWithCount_one": "{{count}}周",
+                    "weekWithCount_other": "{{count}}周",
                     "day_one": "日",
                     "day_other": "日",
-                    "dayWithCount_one": "{{count}} 日",
-                    "dayWithCount_other": "{{count}} 日"
+                    "dayWithCount_one": "{{count}}日",
+                    "dayWithCount_other": "{{count}}日"
                 }
             },
             "gallery": {
-                "name": "画册视图",
+                "name": "画册",
                 "fields": {
                     "cover": "图片源",
                     "none": "无"
                 },
-                "empty": "该视图还没有数据"
+                "empty": "该视图还没有数据。"
             }
         },
         "components": {
             "data-grid": {
                 "column": {
-                    "configure": "设置字段",
+                    "configure": "配置字段",
                     "rename": "重命名字段",
                     "delete": "删除字段",
                     "hide": "隐藏字段"
@@ -244,12 +244,12 @@
                     "clear": "清空单元格"
                 },
                 "sort": {
-                    "asc": "A → Z 升序",
-                    "desc": "Z → A 降序"
+                    "asc": "升序 A → Z",
+                    "desc": "降序 Z → A"
                 },
                 "sortDate": {
-                    "asc": "按日期升序",
-                    "desc": "按日期升序Sort New → Old"
+                    "asc": "按日期升序 旧 → 新",
+                    "desc": "按日期降序 新 → 旧"
                 }
             }
         },
@@ -262,12 +262,12 @@
                 "options": "更多选项"
             },
             "read-only": "只读项目",
-            "read-only-desc": "不能在只读项目中新增、编辑笔记"
+            "read-only-desc": "不能在只读项目中新增、编辑笔记。"
         },
         "errors": {
             "missingDataview": {
                 "title": "Dataview 插件未启用",
-                "message": "启用 Dataview 插件以使用本项目"
+                "message": "启用 Dataview 插件以使用本项目。"
             }
         }
     }
