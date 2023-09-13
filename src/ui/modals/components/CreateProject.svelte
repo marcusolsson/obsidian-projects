@@ -65,7 +65,7 @@
       case "tag":
         project = {
           ...project,
-          dataSource: { kind: "tag", config: { tag: "" } },
+          dataSource: { kind: "tag", config: { tag: "", hierarchy: false } },
         };
         break;
       case "dataview":
@@ -198,6 +198,26 @@
             }
           }}
           width="100%"
+        />
+      </SettingItem>
+
+      <SettingItem
+        name={"Tag hierarchy"}
+        description={"Manage notes containing sub-tags of the project target tag."}
+      >
+        <Switch
+          checked={project.dataSource.config.hierarchy}
+          on:check={({ detail: hierarchy }) => {
+            if (project.dataSource.kind === "tag") {
+              project = {
+                ...project,
+                dataSource: {
+                  kind: project.dataSource.kind,
+                  config: { ...project.dataSource.config, hierarchy },
+                },
+              };
+            }
+          }}
         />
       </SettingItem>
     {/if}
