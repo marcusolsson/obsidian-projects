@@ -201,10 +201,9 @@
         />
       </SettingItem>
 
-      <!-- waiting for i18n changes to be approved to avoid resolving conflicts-->
       <SettingItem
-        name={$i18n.t("modals.project.hierarchy.name")}
-        description={$i18n.t("modals.project.hierarchy.description") ?? ""}
+        name={"Tag hierarchy"}
+        description={"Manage notes containing sub-tags of the project target tag."}
       >
         <Switch
           checked={project.dataSource.config.hierarchy}
