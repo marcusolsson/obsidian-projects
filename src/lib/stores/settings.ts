@@ -2,6 +2,9 @@ import produce from "immer";
 import { writable } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 
+import { i18n } from "src/lib/stores/i18n";
+import { get } from "svelte/store";
+
 import {
   nextUniqueProjectName,
   nextUniqueViewName,
@@ -74,7 +77,9 @@ function createSettings() {
               id: newId,
               name: nextUniqueProjectName(
                 draft.projects,
-                project.name + " Copy"
+                project.name +
+                  " " +
+                  get(i18n).t("modals.project.duplicate.suffix")
               ),
               views: project.views.map((v) => ({ ...v, id: uuidv4() })),
             });
@@ -163,7 +168,12 @@ function createSettings() {
                     {
                       ...view,
                       id: newId,
-                      name: nextUniqueViewName(p.views, view.name + " Copy"),
+                      name: nextUniqueViewName(
+                        p.views,
+                        view.name +
+                          " " +
+                          get(i18n).t("modals.view.duplicate.suffix")
+                      ),
                     },
                   ],
                 });

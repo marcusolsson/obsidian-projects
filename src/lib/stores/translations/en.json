@@ -3,10 +3,15 @@
         "data-types": {
             "string": "Text",
             "number": "Number",
-            "boolean": "True or false",
+            "boolean": "Checkbox",
             "date": "Date",
             "unknown": "Unknown data type",
             "repeated": "Repeated field"
+        },
+        "datasources": {
+            "folder": "Folder",
+            "tag": "Tag",
+            "dataview": "Dataview"
         },
         "commands": {
             "show-projects": {
@@ -23,6 +28,11 @@
             "project": {
                 "create": {
                     "title": "Create project in folder"
+                }
+            },
+            "tab-header": {
+                "new-window": {
+                    "title": "Move to new window"
                 }
             }
         },
@@ -42,7 +52,8 @@
                     "cta": "Save"
                 },
                 "duplicate": {
-                    "title": "Duplicate project"
+                    "title": "Duplicate project",
+                    "suffix": "Copy"
                 },
                 "delete": {
                     "short-title": "Delete project",
@@ -57,6 +68,10 @@
                 "default": {
                     "name": "Set as default",
                     "description": "Enable to open this project by default."
+                },
+                "datasource": {
+                    "name": "Data source",
+                    "description": "Choose how you want to define which notes to include."
                 },
                 "path": {
                     "name": "Path",
@@ -82,13 +97,23 @@
                     "name": "Include subfolders",
                     "description": "Manage notes inside subfolders within the project path."
                 },
+                "hierarchy": {
+                    "name": "Tag hierarchy",
+                    "description": "Manage notes containing sub-tags of the project target tag."
+                },
+                "more-settings": {
+                    "name": "More settings",
+                    "description": ""
+                },
                 "templates": {
                     "name": "Templates",
-                    "description": "Templates to choose from when you create new notes."
+                    "description": "Templates to choose from when you create new notes.",
+                    "add": "Add template"
                 },
                 "exclude": {
                     "name": "Excluded notes",
-                    "description": "Notes to exclude even if they would otherwise be part of the project."
+                    "description": "Notes to exclude even if they would otherwise be part of the project.",
+                    "add": "Add note"
                 },
                 "newNotesFolder": {
                     "name": "Location for new notes",
@@ -115,6 +140,10 @@
                     },
                     "cta": "Add view",
                     "existing-name-error": "A view with that name already exists."
+                },
+                "duplicate": {
+                    "title": "Duplicate view",
+                    "suffix": "Copy"
                 },
                 "delete": {
                     "short-title": "Delete view",
@@ -158,6 +187,29 @@
                         "title": "No editable fields",
                         "message": "This note has no editable fields."
                     }
+                }
+            },
+            "field": {
+                "configure": {
+                    "short-title": "Configure field",
+                    "title": "Configure field",
+                    "name": {
+                        "name": "Name",
+                        "description": ""
+                    },
+                    "type": {
+                        "name": "Type",
+                        "description": "Changing type isn't supported yet."
+                    },
+                    "options": {
+                        "name": "Options",
+                        "description": "Allows you to auto-complete using predefined values for the field."
+                    },
+                    "rich-text": {
+                        "name": "Enable rich text formatting",
+                        "description": "For fields with Markdown content."
+                    },
+                    "save": "Save"
                 }
             },
             "input": {

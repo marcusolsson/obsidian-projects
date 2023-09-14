@@ -59,7 +59,7 @@ export class ProjectsView extends ItemView {
       super.onPaneMenu(menu, source);
       menu.addItem((item) => {
         item
-          .setTitle(get(i18n).t("menus.tabHeader.newWindow.title"))
+          .setTitle(get(i18n).t("menus.tab-header.new-window.title"))
           .setIcon("maximize")
           .onClick(() => {
             const existingLeaves =

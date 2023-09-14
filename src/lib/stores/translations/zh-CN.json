@@ -3,10 +3,15 @@
         "data-types": {
             "string": "文本",
             "number": "数值",
-            "boolean": "布尔",
+            "boolean": "复选框",
             "date": "日期",
             "unknown": "未知",
             "repeated": "周期"
+        },
+        "datasources": {
+            "folder": "文件夹",
+            "tag": "标签",
+            "dataview": "Dataview"
         },
         "commands": {
             "show-projects": {
@@ -23,6 +28,11 @@
             "project": {
                 "create": {
                     "title": "在文件夹中新建项目"
+                }
+            },
+            "tab-header": {
+                "new-window": {
+                    "title": "移动至新窗口"
                 }
             }
         },
@@ -42,7 +52,8 @@
                     "cta": "保存"
                 },
                 "duplicate": {
-                    "title": "复制项目"
+                    "title": "复制项目",
+                    "suffix": "副本"
                 },
                 "delete": {
                     "short-title": "删除项目",
@@ -57,6 +68,10 @@
                 "default": {
                     "name": "设为默认项目",
                     "description": "打开 Projects 插件窗口时，默认打开本项目。"
+                },
+                "datasource": {
+                    "name": "数据源",
+                    "description": "选择项目的数据来源。"
                 },
                 "path": {
                     "name": "路径",
@@ -82,13 +97,23 @@
                     "name": "管理子文件夹",
                     "description": "管理项目文件夹下的所有子文件夹。"
                 },
+                "hierarchy": {
+                    "name": "嵌套标签",
+                    "description": "管理所有包含项目主标签及其子标签的笔记。"
+                },
+                "more-settings": {
+                    "name": "更多设置",
+                    "description": ""
+                },
                 "templates": {
                     "name": "模板",
-                    "description": "新建笔记时，从下列模板中选取新笔记模板。"
+                    "description": "新建笔记时，从下列模板中选取新笔记模板。",
+                    "add": "添加模板"
                 },
                 "exclude": {
                     "name": "排除笔记",
-                    "description": "下列笔记将不会被本项目追踪。"
+                    "description": "下列笔记将不会被本项目追踪。",
+                    "add": "添加笔记"
                 },
                 "newNotesFolder": {
                     "name": "新建笔记位置",
@@ -115,6 +140,10 @@
                     },
                     "cta": "新建视图",
                     "existing-name-error": "视图名称重复。"
+                },
+                "duplicate": {
+                    "title": "复制视图",
+                    "suffix": "副本"
                 },
                 "delete": {
                     "short-title": "删除视图",
@@ -158,6 +187,29 @@
                         "title": "没有可编辑字段。",
                         "message": "这个笔记的元数据没有可编辑字段。"
                     }
+                }
+            },
+            "field": {
+                "configure": {
+                    "short-title": "配置字段",
+                    "title": "配置字段",
+                    "name": {
+                        "name": "字段名称",
+                        "description": ""
+                    },
+                    "type": {
+                        "name": "字段类型",
+                        "description": "尚不支持修改字段类型。"
+                    },
+                    "options": {
+                        "name": "选项预设",
+                        "description": "在填写该字段内容时，将使用下面提供的预设值进行自动补全。"
+                    },
+                    "rich-text": {
+                        "name": "富文本",
+                        "description": "依照 Markdown 格式渲染字段内容。"
+                    },
+                    "save": "保存"
                 }
             },
             "input": {
