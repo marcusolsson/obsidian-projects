@@ -29,10 +29,19 @@
   let type: ViewType = "table";
 
   const options = Object.values($customViews).map((view) => {
-    return {
-      label: view.getDisplayName(),
-      value: view.getViewType(),
-    };
+    if (
+      ["table", "board", "calendar", "gallery"].includes(view.getViewType()) // Maybe we need a enum of integrated view types here
+    ) {
+      return {
+        label: $i18n.t(["views", view.getViewType(), "name"].join(".")),
+        value: view.getViewType(),
+      };
+    } else {
+      return {
+        label: view.getDisplayName(),
+        value: view.getViewType(),
+      };
+    }
   });
 
   $: selectedOption = options.find((option) => option.value === type);

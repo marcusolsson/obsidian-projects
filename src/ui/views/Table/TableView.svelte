@@ -158,7 +158,7 @@
         if (field) {
           new ConfigureFieldModal(
             $app,
-            "Configure field",
+            $i18n.t("modals.field.configure.title"),
             field,
             editable,
             (field) => {

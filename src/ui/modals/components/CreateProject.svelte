@@ -43,12 +43,15 @@
   $: nameError = validateName(name);
 
   const dataSourceOptions = [
-    { label: "Folder", value: "folder" },
-    { label: "Tag", value: "tag" },
+    { label: $i18n.t("datasources.folder"), value: "folder" },
+    { label: $i18n.t("datasources.tag"), value: "tag" },
   ];
 
   if ($capabilities.dataview) {
-    dataSourceOptions.push({ label: "Dataview", value: "dataview" });
+    dataSourceOptions.push({
+      label: $i18n.t("datasources.dataview"),
+      value: "dataview",
+    });
   }
 
   function handleDataSourceChange({ detail: value }: CustomEvent<string>) {
@@ -120,8 +123,8 @@
     </SettingItem>
 
     <SettingItem
-      name="Data source"
-      description="Choose how you want to define which notes to include."
+      name={$i18n.t("modals.project.datasource.name")}
+      description={$i18n.t("modals.project.datasource.description")}
     >
       <Select
         value={project.dataSource.kind}
@@ -202,8 +205,8 @@
       </SettingItem>
 
       <SettingItem
-        name={"Tag hierarchy"}
-        description={"Manage notes containing sub-tags of the project target tag."}
+        name={$i18n.t("modals.project.hierarchy.name")}
+        description={$i18n.t("modals.project.hierarchy.description")}
       >
         <Switch
           checked={project.dataSource.config.hierarchy}
@@ -261,7 +264,9 @@
     <Accordion>
       <AccordionItem>
         <div slot="header" class="setting-item-info" style:margin-top="8px">
-          <div class="setting-item-name">More settings</div>
+          <div class="setting-item-name">
+            {$i18n.t("modals.project.more-settings.name")}
+          </div>
         </div>
         <SettingItem
           name={$i18n.t("modals.project.newNotesFolder.name")}
@@ -311,7 +316,7 @@
           vertical
         >
           <FileListInput
-            buttonText="Add template"
+            buttonText={$i18n.t("modals.project.templates.add")}
             paths={project.templates ?? []}
             onPathsChange={(templates) => (project = { ...project, templates })}
           />
@@ -323,7 +328,7 @@
           vertical
         >
           <FileListInput
-            buttonText="Add note"
+            buttonText={$i18n.t("modals.project.exclude.add")}
             paths={project.excludedNotes ?? []}
             onPathsChange={(excludedNotes) =>
               (project = { ...project, excludedNotes })}

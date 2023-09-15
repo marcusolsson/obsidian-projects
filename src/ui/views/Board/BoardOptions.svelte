@@ -61,7 +61,7 @@
   />
 </Field>
 <SwitchSelect
-  label={"Include fields"}
+  label={$i18n.t("views.board.include-fields")}
   items={fields.map((field) => ({
     label: field.name,
     value: field.name,

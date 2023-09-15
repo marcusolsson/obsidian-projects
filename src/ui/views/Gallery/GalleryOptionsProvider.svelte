@@ -66,18 +66,18 @@
           value={config?.fitStyle ?? "cover"}
           options={[
             {
-              label: "Fill image",
+              label: $i18n.t("views.gallery.fit-style.fill"),
               value: "cover",
             },
             {
-              label: "Fit image",
+              label: $i18n.t("views.gallery.fit-style.fit"),
               value: "contain",
             },
           ]}
           on:change={({ detail }) => handleFitStyleChange(detail)}
         />
         <SwitchSelect
-          label={"Include fields"}
+          label={$i18n.t("views.gallery.include-fields")}
           items={fields.map((field) => ({
             label: field.name,
             value: field.name,

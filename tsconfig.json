@@ -22,6 +22,7 @@
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "lib": [
       "DOM",
       "ES5",

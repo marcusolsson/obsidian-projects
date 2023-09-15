@@ -28,6 +28,7 @@
     setOperator,
     setValue,
   } from "./helpers";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let filter: FilterDefinition;
   export let fields: DataField[];
@@ -84,7 +85,9 @@
     {@const field = getFieldByName(fields, condition.field)}
     <HorizontalGroup>
       <div class="setting-item-name" style="width: 5ch">
-        {i === 0 ? "Where" : "and"}
+        {i === 0
+          ? $i18n.t("components.filter.where")
+          : $i18n.t("components.filter.and")}
       </div>
       <Select
         value={condition.field}
@@ -118,7 +121,7 @@
   {/each}
   <HorizontalGroup>
     <Button variant="plain" on:click={handleConditionAdd}
-      ><Icon name="plus" />Add condition</Button
+      ><Icon name="plus" />{$i18n.t("components.filter.add")}</Button
     >
   </HorizontalGroup>
 </div>

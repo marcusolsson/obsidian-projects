@@ -2,6 +2,7 @@
   import { Menu } from "obsidian";
   import { Icon, IconButton, TextInput } from "obsidian-svelte";
   import { createEventDispatcher } from "svelte";
+  import { i18n } from "src/lib/stores/i18n";
 
   /**
    * Specifies the button label.
@@ -99,10 +100,6 @@
         }
       }}
       on:blur={() => {
-        if (fallback == label) {
-          return;
-        }
-
         if (!error) {
           fallback = label;
 
@@ -125,7 +122,7 @@
         const menu = new Menu();
 
         menu.addItem((item) => {
-          item.setTitle("Duplicate view");
+          item.setTitle($i18n.t("modals.view.duplicate.title"));
           item.setIcon("copy");
           item.onClick(() => {
             dispatch("duplicate");
@@ -133,7 +130,7 @@
         });
 
         menu.addItem((item) => {
-          item.setTitle("Delete view");
+          item.setTitle($i18n.t("modals.view.delete.title"));
           item.setIcon("trash");
           item.onClick(() => {
             dispatch("delete");
