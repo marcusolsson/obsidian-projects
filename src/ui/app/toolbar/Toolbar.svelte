@@ -112,7 +112,9 @@
           new ConfirmDialogModal(
             $app,
             $i18n.t("modals.view.delete.title"),
-            $i18n.t("modals.view.delete.message"),
+            $i18n.t("modals.view.delete.message", {
+              view: view?.name ?? "",
+            }),
             $i18n.t("modals.view.delete.cta"),
             () => {
               if (projectId) {

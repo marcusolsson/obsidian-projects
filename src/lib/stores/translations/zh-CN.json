@@ -1,0 +1,361 @@
+{
+    "translation": {
+        "data-types": {
+            "string": "文本",
+            "number": "数值",
+            "boolean": "复选框",
+            "date": "日期",
+            "unknown": "未知",
+            "repeated": "周期"
+        },
+        "datasources": {
+            "folder": "文件夹",
+            "tag": "标签",
+            "dataview": "Dataview"
+        },
+        "commands": {
+            "show-projects": {
+                "name": "打开项目"
+            },
+            "create-project": {
+                "name": "新建项目"
+            },
+            "create-note": {
+                "name": "新建笔记"
+            }
+        },
+        "menus": {
+            "project": {
+                "create": {
+                    "title": "在文件夹中新建项目"
+                }
+            },
+            "tab-header": {
+                "new-window": {
+                    "title": "移动至新窗口"
+                }
+            }
+        },
+        "modals": {
+            "project": {
+                "create": {
+                    "short-title": "新项目",
+                    "untitled": "未命名项目",
+                    "title": "新建项目",
+                    "cta": "新建项目",
+                    "existing-name-error": "项目名称重复。",
+                    "empty-name-error": "项目名不能为空。"
+                },
+                "edit": {
+                    "short-title": "编辑项目",
+                    "title": "编辑项目",
+                    "cta": "保存"
+                },
+                "duplicate": {
+                    "title": "复制项目",
+                    "suffix": "副本"
+                },
+                "delete": {
+                    "short-title": "删除项目",
+                    "title": "删除项目",
+                    "message": "确定要删除项目 \"{{project}}\" 吗？",
+                    "cta": "删除"
+                },
+                "name": {
+                    "name": "项目名称",
+                    "description": ""
+                },
+                "default": {
+                    "name": "设为默认项目",
+                    "description": "打开 Projects 插件窗口时，默认打开本项目。"
+                },
+                "datasource": {
+                    "name": "数据源",
+                    "description": "选择项目的数据来源。"
+                },
+                "path": {
+                    "name": "路径",
+                    "description": "目标文件夹路径。若为空值，路径将设为根目录。"
+                },
+                "tag": {
+                    "name": "标签",
+                    "description": "管理本仓库中所有含有该标签的笔记。"
+                },
+                "dataview": {
+                    "name": "Dataview",
+                    "description": "以 Dataview 查询结果创建只读项目。",
+                    "error": {
+                        "title": "Dataview 插件未启用。",
+                        "message": "启用 Dataview 插件以使用本项目。"
+                    }
+                },
+                "query": {
+                    "name": "查询语句 (Query)",
+                    "description": "当前只支持 TABLE 查询语句。"
+                },
+                "recursive": {
+                    "name": "管理子文件夹",
+                    "description": "管理项目文件夹下的所有子文件夹。"
+                },
+                "hierarchy": {
+                    "name": "嵌套标签",
+                    "description": "管理所有包含项目主标签及其子标签的笔记。"
+                },
+                "more-settings": {
+                    "name": "更多设置",
+                    "description": ""
+                },
+                "templates": {
+                    "name": "模板",
+                    "description": "新建笔记时，从下列模板中选取新笔记模板。",
+                    "add": "添加模板"
+                },
+                "exclude": {
+                    "name": "排除笔记",
+                    "description": "下列笔记将不会被本项目追踪。",
+                    "add": "添加笔记"
+                },
+                "newNotesFolder": {
+                    "name": "新建笔记位置",
+                    "description": "新建的笔记将存放于该文件夹。"
+                },
+                "defaultName": {
+                    "name": "默认笔记名称",
+                    "description": "支持 {{date:YYYY-MM-DD}} 和 {{time:HHmm}} 格式的日期、时间模板变量。",
+                    "invalid": "笔记名包含非法字符。"
+                }
+            },
+            "view": {
+                "create": {
+                    "short-title": "新建视图",
+                    "title": "新建视图",
+                    "optional": "可选",
+                    "type": {
+                        "name": "视图类型",
+                        "description": ""
+                    },
+                    "name": {
+                        "name": "视图名称",
+                        "description": ""
+                    },
+                    "cta": "新建视图",
+                    "existing-name-error": "视图名称重复。"
+                },
+                "duplicate": {
+                    "title": "复制视图",
+                    "suffix": "副本"
+                },
+                "delete": {
+                    "short-title": "删除视图",
+                    "title": "删除视图",
+                    "message": "确定要删除视图 \"{{view}}\" 吗？",
+                    "cta": "删除"
+                }
+            },
+            "note": {
+                "create": {
+                    "short-title": "新建笔记",
+                    "title": "新建笔记",
+                    "name": {
+                        "name": "笔记名称",
+                        "description": ""
+                    },
+                    "templatePath": {
+                        "name": "模板",
+                        "description": "",
+                        "none": "None"
+                    },
+                    "project": {
+                        "name": "所属项目",
+                        "description": ""
+                    },
+                    "name-taken-error": "已经存在一个同名文件。",
+                    "empty-name-error": "文件名不能为空。",
+                    "dot-start-error": "文件名不能以句点开头。",
+                    "create": "新建笔记",
+                    "readonly": {
+                        "title": "只读项目",
+                        "message": "{{project}} 是一个只读项目，请选择其他项目以新建笔记。"
+                    },
+                    "untitled": "未命名笔记"
+                },
+                "edit": {
+                    "short-title": "编辑笔记",
+                    "title": "编辑笔记元数据",
+                    "save": "保存",
+                    "no-editable-fields": {
+                        "title": "没有可编辑字段。",
+                        "message": "这个笔记的元数据没有可编辑字段。"
+                    }
+                }
+            },
+            "field": {
+                "configure": {
+                    "short-title": "配置字段",
+                    "title": "配置字段",
+                    "name": {
+                        "name": "字段名称",
+                        "description": ""
+                    },
+                    "type": {
+                        "name": "字段类型",
+                        "description": "尚不支持修改字段类型。"
+                    },
+                    "options": {
+                        "name": "选项预设",
+                        "description": "在填写该字段内容时，将使用下面提供的预设值进行自动补全。"
+                    },
+                    "rich-text": {
+                        "name": "富文本",
+                        "description": "依照 Markdown 格式渲染字段内容。"
+                    },
+                    "save": "保存"
+                }
+            },
+            "input": {
+                "cancel": "取消"
+            },
+            "confirm": {
+                "delete": "删除",
+                "cancel": "取消"
+            }
+        },
+        "views": {
+            "developer": {
+                "name": "开发者"
+            },
+            "table": {
+                "name": "表格",
+                "hide-fields": "隐藏字段",
+                "rename-field": "重命名字段",
+                "rename": "重命名"
+            },
+            "board": {
+                "name": "看板",
+                "no-status": "未设置状态",
+                "fields": {
+                    "status": "状态",
+                    "priority": "优先级",
+                    "none": "未选择"
+                },
+                "unprioritized": "未设置优先级",
+                "include-fields": "展示字段",
+                "settings": {
+                    "name": "看板设置",
+                    "column-width": {
+                        "name": "列宽度",
+                        "description": "调整每列的像素宽度。"
+                    }
+                },
+                "note": {
+                    "add": "新建笔记"
+                }
+            },
+            "calendar": {
+                "name": "日历",
+                "new-note": "新建笔记",
+                "fields": {
+                    "date": "日期",
+                    "check": "复选框",
+                    "none": "无"
+                },
+                "today": "今天",
+                "weekday": "{{value, datetime}}",
+                "date": "{{value, datetime}}",
+                "interval": "{{from, datetime}} – {{to, datetime}}",
+                "intervals": {
+                    "month_one": "月",
+                    "month_other": "月",
+                    "monthWithCount_one": "{{count}}月",
+                    "monthWithCount_other": "{{count}}月",
+                    "week_one": "周",
+                    "week_other": "周",
+                    "weekWithCount_one": "{{count}}周",
+                    "weekWithCount_other": "{{count}}周",
+                    "day_one": "日",
+                    "day_other": "日",
+                    "dayWithCount_one": "{{count}}日",
+                    "dayWithCount_other": "{{count}}日"
+                }
+            },
+            "gallery": {
+                "name": "画册",
+                "fields": {
+                    "cover": "图片源",
+                    "none": "未选择"
+                },
+                "fit-style": {
+                    "fill": "填充",
+                    "fit": "适应"
+                },
+                "include-fields": "展示字段",
+                "settings": {
+                    "name": "画册设置",
+                    "card-width": {
+                        "name": "卡片宽度",
+                        "description": "调整每张卡片的像素宽度。"
+                    }
+                },
+                "empty": "该视图还没有数据。"
+            }
+        },
+        "components": {
+            "data-grid": {
+                "column": {
+                    "configure": "配置字段",
+                    "rename": "重命名字段",
+                    "delete": "删除字段",
+                    "hide": "隐藏字段"
+                },
+                "row": {
+                    "add": "新建笔记",
+                    "edit": "编辑笔记",
+                    "delete": "删除笔记"
+                },
+                "cell": {
+                    "clear": "清空单元格"
+                },
+                "sort": {
+                    "asc": "升序 A → Z",
+                    "desc": "降序 Z → A"
+                },
+                "sortDate": {
+                    "asc": "按日期升序 旧 → 新",
+                    "desc": "按日期降序 新 → 旧"
+                }
+            },
+            "color": {
+                "label": "条件颜色",
+                "where": "当",
+                "add": "添加颜色"
+            },
+            "filter": {
+                "label": "筛选",
+                "where": "当",
+                "and": "与",
+                "add": "添加筛选条件"
+            },
+            "sort": {
+                "label": "排序",
+                "add": "添加排序条件"
+            }
+        },
+        "toolbar": {
+            "view": {
+                "add": "新建视图"
+            },
+            "projects": {
+                "none": "尚无项目",
+                "options": "更多选项"
+            },
+            "read-only": "只读项目",
+            "read-only-desc": "不能在只读项目中新增、编辑笔记。"
+        },
+        "errors": {
+            "missingDataview": {
+                "title": "Dataview 插件未启用",
+                "message": "启用 Dataview 插件以使用本项目。"
+            }
+        }
+    }
+}
