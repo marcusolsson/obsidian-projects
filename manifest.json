@@ -1,7 +1,7 @@
 {
   "id": "obsidian-projects",
   "name": "Projects",
-  "version": "1.16.3",
+  "version": "1.16.5",
   "minAppVersion": "1.0.0",
   "description": "Plain text project planning.",
   "author": "Marcus Olsson",
