@@ -48,7 +48,7 @@
                 },
                 "edit": {
                     "short-title": "编辑项目",
-                    "title": "编辑项目配置",
+                    "title": "编辑项目",
                     "cta": "保存"
                 },
                 "duplicate": {
@@ -232,13 +232,21 @@
             },
             "board": {
                 "name": "看板",
-                "no-status": "无状态字段",
+                "no-status": "未设置状态",
                 "fields": {
                     "status": "状态",
                     "priority": "优先级",
-                    "none": "无"
+                    "none": "未选择"
                 },
                 "unprioritized": "未设置优先级",
+                "include-fields": "展示字段",
+                "settings": {
+                    "name": "看板设置",
+                    "column-width": {
+                        "name": "列宽度",
+                        "description": "调整每列的像素宽度。"
+                    }
+                },
                 "note": {
                     "add": "新建笔记"
                 }
@@ -274,7 +282,19 @@
                 "name": "画册",
                 "fields": {
                     "cover": "图片源",
-                    "none": "无"
+                    "none": "未选择"
+                },
+                "fit-style": {
+                    "fill": "填充",
+                    "fit": "适应"
+                },
+                "include-fields": "展示字段",
+                "settings": {
+                    "name": "画册设置",
+                    "card-width": {
+                        "name": "卡片宽度",
+                        "description": "调整每张卡片的像素宽度。"
+                    }
                 },
                 "empty": "该视图还没有数据。"
             }
@@ -303,6 +323,21 @@
                     "asc": "按日期升序 旧 → 新",
                     "desc": "按日期降序 新 → 旧"
                 }
+            },
+            "color": {
+                "label": "条件颜色",
+                "where": "当",
+                "add": "添加颜色"
+            },
+            "filter": {
+                "label": "筛选",
+                "where": "当",
+                "and": "与",
+                "add": "添加筛选条件"
+            },
+            "sort": {
+                "label": "排序",
+                "add": "添加排序条件"
             }
         },
         "toolbar": {

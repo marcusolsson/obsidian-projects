@@ -7,6 +7,7 @@
     ModalContent,
   } from "obsidian-svelte";
   import type { GalleryConfig } from "../types";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let config: GalleryConfig;
   export let onSave: (config: GalleryConfig) => void;
@@ -14,9 +15,12 @@
   let cardWidthValue = config.cardWidth ?? null;
 </script>
 
-<ModalLayout title="Gallery settings">
+<ModalLayout title={$i18n.t("views.gallery.settings.name")}>
   <ModalContent>
-    <SettingItem name="Card width" description="Width of each card in pixels.">
+    <SettingItem
+      name={$i18n.t("views.gallery.settings.card-width.name")}
+      description={$i18n.t("views.gallery.settings.card-width.description")}
+    >
       <NumberInput
         placeholder="300"
         bind:value={cardWidthValue}

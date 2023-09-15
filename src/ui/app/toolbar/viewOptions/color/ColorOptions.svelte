@@ -35,6 +35,7 @@
     stripIds,
   } from "./helpers";
   import { fieldsToSelectOptions } from "../helpers";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let filter: ColorFilterDefinition;
   export let fields: DataField[];
@@ -126,7 +127,9 @@
       <HorizontalGroup>
         <Icon name="grip-vertical" />
         <ColorInput value={rule.color} on:change={handleColorChange(i)} />
-        <div class="setting-item-name" style="width: 5ch">Where</div>
+        <div class="setting-item-name">
+          {$i18n.t("components.color.where")}
+        </div>
         <Select
           value={rule.condition.field}
           options={fieldOptions}
@@ -161,7 +164,7 @@
   </div>
   <HorizontalGroup>
     <Button variant="plain" on:click={handleConditionAdd}
-      ><Icon name="plus" />Add color</Button
+      ><Icon name="plus" />{$i18n.t("components.color.add")}</Button
     >
   </HorizontalGroup>
 </div>

@@ -239,6 +239,14 @@
                     "none": "None"
                 },
                 "unprioritized": "Unprioritized",
+                "include-fields": "Include fields",
+                "settings": {
+                    "name": "Board settings",
+                    "column-width": {
+                        "name": "Column width",
+                        "description": "Width of each column in pixels."
+                    }
+                },
                 "note": {
                     "add": "Add note"
                 }
@@ -276,6 +284,18 @@
                     "cover": "Cover",
                     "none": "None"
                 },
+                "fit-style": {
+                    "fill": "Fill image",
+                    "fit": "Fit image"
+                },
+                "include-fields": "Include fields",
+                "settings": {
+                    "name": "画册设置",
+                    "card-width": {
+                        "name": "卡片宽度",
+                        "description": "调整每张卡片的像素宽度。"
+                    }
+                },
                 "empty": "This view is empty."
             }
         },
@@ -303,6 +323,21 @@
                     "asc": "Sort Old → New",
                     "desc": "Sort New → Old"
                 }
+            },
+            "color": {
+                "label": "Color",
+                "where": "Where",
+                "add": "Add color"
+            },
+            "filter": {
+                "label": "Filter",
+                "where": "Where",
+                "and": "and",
+                "add": "Add condition"
+            },
+            "sort": {
+                "label": "Sort",
+                "add": "Add another sort"
             }
         },
         "toolbar": {
