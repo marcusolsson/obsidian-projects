@@ -100,10 +100,6 @@
         }
       }}
       on:blur={() => {
-        if (fallback == label) {
-          return;
-        }
-
         if (!error) {
           fallback = label;
 
