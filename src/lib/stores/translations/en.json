@@ -183,6 +183,7 @@
                     "short-title": "Edit note",
                     "title": "Edit note",
                     "save": "Save",
+                    "confirm": "Confirm",
                     "no-editable-fields": {
                         "title": "No editable fields",
                         "message": "This note has no editable fields."
