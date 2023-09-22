@@ -1,9 +1,12 @@
 import produce from "immer";
-import type {
-  DataFrame,
-  DataRecord,
-  DataValue,
-  Optional,
+import {
+  type DataFrame,
+  type DataRecord,
+  type DataValue,
+  type Optional,
+  isOptionalString,
+  isOptionalNumber,
+  isOptionalBoolean,
 } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
@@ -29,24 +32,15 @@ export function matchesCondition(
     return baseFns[operator](value);
   }
 
-  switch (typeof value) {
-    case "string":
-      if (isStringFilterOperator(operator)) {
-        return stringFns[operator](value, cond.value);
-      }
-      break;
-    case "number":
-      if (isNumberFilterOperator(operator)) {
-        return numberFns[operator](
-          value,
-          cond.value ? parseFloat(cond.value) : undefined
-        );
-      }
-      break;
-    case "boolean":
-      if (isBooleanFilterOperator(operator)) {
-        return booleanFns[operator](value);
-      }
+  if (isOptionalString(value) && isStringFilterOperator(operator)) {
+    return stringFns[operator](value, cond.value);
+  } else if (isOptionalNumber(value) && isNumberFilterOperator(operator)) {
+    return numberFns[operator](
+      value,
+      cond.value ? parseFloat(cond.value) : undefined
+    );
+  } else if (isOptionalBoolean(value) && isBooleanFilterOperator(operator)) {
+    return booleanFns[operator](value);
   }
 
   return false;
