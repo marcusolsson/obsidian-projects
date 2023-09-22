@@ -84,29 +84,29 @@ export const baseFns: Record<
 
 export const stringFns: Record<
   StringFilterOperator,
-  (left: string, right?: string) => boolean
+  (left: Optional<string>, right?: string) => boolean
 > = {
-  is: (left, right) => left === right,
-  "is-not": (left, right) => left !== right,
-  contains: (left, right) => left.contains(right ?? ""),
-  "not-contains": (left, right) => !left.contains(right ?? ""),
+  is: (left, right) => (left ? left == right : false),
+  "is-not": (left, right) => (left ? left != right : true),
+  contains: (left, right) => (left ? left.contains(right ?? "") : false),
+  "not-contains": (left, right) => (left ? !left.contains(right ?? "") : true),
 };
 
 export const numberFns: Record<
   NumberFilterOperator,
-  (left: number, right?: number) => boolean
+  (left: Optional<number>, right?: number) => boolean
 > = {
   eq: (left, right) => left === right,
   neq: (left, right) => left !== right,
-  lt: (left, right) => (right ? left < right : false),
-  gt: (left, right) => (right ? left > right : false),
-  lte: (left, right) => (right ? left <= right : false),
-  gte: (left, right) => (right ? left >= right : false),
+  lt: (left, right) => (left && right ? left < right : false),
+  gt: (left, right) => (left && right ? left > right : false),
+  lte: (left, right) => (left && right ? left <= right : false),
+  gte: (left, right) => (left && right ? left >= right : false),
 };
 
 export const booleanFns: Record<
   BooleanFilterOperator,
-  (value: boolean) => boolean
+  (value: Optional<boolean>) => boolean
 > = {
   "is-checked": (value) => value === true,
   "is-not-checked": (value) => value === false,
