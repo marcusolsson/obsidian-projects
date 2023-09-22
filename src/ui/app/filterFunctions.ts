@@ -127,14 +127,14 @@ export const listFns: Record<
 > = {
   "has-any-of": (left, right) => {
     const list = right?.split(",").map((value) => value.trim()) ?? [];
-    return list.some((value) => left.includes(value?.toString() ?? ""));
+    return list.some((value) => left.includes(value));
   },
   "has-all-of": (left, right) => {
     const list = right?.split(",").map((value) => value.trim()) ?? [];
-    return list.every((value) => left.includes(value?.toString() ?? ""));
+    return list.every((value) => left.includes(value));
   },
   "has-none-of": (left, right) => {
     const list = right?.split(",").map((value) => value.trim()) ?? [];
-    return !list.some((value) => left.includes(value?.toString() ?? ""));
+    return !list.some((value) => left.includes(value));
   },
 };
