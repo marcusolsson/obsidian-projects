@@ -15,6 +15,7 @@
     filterOperatorTypes,
     isNumberFilterOperator,
     isStringFilterOperator,
+    isListFilterOperator,
     type FilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
@@ -108,6 +109,11 @@
         {:else if isNumberFilterOperator(condition.operator)}
           <NumberInput
             value={parseFloat(condition.value ?? "")}
+            on:blur={handleValueChange(i)}
+          />
+        {:else if isListFilterOperator(condition.operator)}
+          <TextInput
+            value={condition.value ?? ""}
             on:blur={handleValueChange(i)}
           />
         {/if}
