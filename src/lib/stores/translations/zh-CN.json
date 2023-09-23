@@ -183,6 +183,7 @@
                     "short-title": "编辑笔记",
                     "title": "编辑笔记元数据",
                     "save": "保存",
+                    "confirm": "确认",
                     "no-editable-fields": {
                         "title": "没有可编辑字段。",
                         "message": "这个笔记的元数据没有可编辑字段。"
