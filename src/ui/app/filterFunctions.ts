@@ -1,4 +1,5 @@
 import produce from "immer";
+import dayjs from "dayjs";
 import {
   type DataFrame,
   type DataRecord,
@@ -7,17 +8,20 @@ import {
   isOptionalString,
   isOptionalNumber,
   isOptionalBoolean,
+  isOptionalDate,
 } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,
   isStringFilterOperator,
+  isDateFilterOperator,
   type BaseFilterOperator,
   type BooleanFilterOperator,
   type FilterCondition,
   type FilterDefinition,
   type NumberFilterOperator,
   type StringFilterOperator,
+  type DateFilterOperator,
 } from "src/settings/settings";
 
 export function matchesCondition(
@@ -41,6 +45,11 @@ export function matchesCondition(
     );
   } else if (isOptionalBoolean(value) && isBooleanFilterOperator(operator)) {
     return booleanFns[operator](value);
+  } else if (isOptionalDate(value) && isDateFilterOperator(operator)) {
+    return dateFns[operator](
+      value,
+      cond.value ? dayjs(cond.value ?? "").toDate() : undefined
+    );
   }
 
   return false;
@@ -104,4 +113,23 @@ export const booleanFns: Record<
 > = {
   "is-checked": (value) => value === true,
   "is-not-checked": (value) => value === false,
+};
+
+export const dateFns: Record<
+  DateFilterOperator,
+  (left: Optional<Date>, right?: Optional<Date>) => boolean
+> = {
+  "is-on": (left, right) => {
+    return left && right ? left.getTime() == right.getTime() : false;
+  },
+  "is-not-on": (left, right) =>
+    left && right ? left.getTime() != right.getTime() : true,
+  "is-before": (left, right) =>
+    left && right ? left.getTime() < right.getTime() : false,
+  "is-after": (left, right) =>
+    left && right ? left.getTime() > right.getTime() : false,
+  "is-on-and-before": (left, right) =>
+    left && right ? left.getTime() <= right.getTime() : false,
+  "is-on-and-after": (left, right) =>
+    left && right ? left.getTime() >= right.getTime() : false,
 };
