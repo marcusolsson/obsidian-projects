@@ -1,12 +1,13 @@
 import produce from "immer";
 import { App, Platform, PluginSettingTab, Setting } from "obsidian";
+import Archives from "src/ui/settings/Archives.svelte";
 import { settings } from "src/lib/stores/settings";
 import { get } from "svelte/store";
-import type ProjectsPlugin from "./main";
+import type ProjectsPlugin from "../../main";
 import type {
   LinkBehavior,
   ProjectsPluginPreferences,
-} from "./settings/settings";
+} from "../../settings/settings";
 
 /**
  * ProjectsSettingTab builds the plugin settings tab.
@@ -19,7 +20,8 @@ export class ProjectsSettingTab extends PluginSettingTab {
   // display runs when the user opens the settings tab.
   display(): void {
     const { projects } = get(settings);
-    let { preferences } = get(settings);
+    const { archives } = get(settings);
+    let { preferences } = get(settings); //TODO: remove commands upon delete! and archive?
 
     const save = (prefs: ProjectsPluginPreferences) => {
       preferences = prefs;
@@ -154,6 +156,63 @@ export class ProjectsSettingTab extends PluginSettingTab {
               })
           );
       });
+    });
+
+    new Setting(containerEl)
+      .setName("Archives")
+      .setDesc("View, preview, restore or delete your archived projects.")
+      .setHeading();
+
+    new Archives({
+      target: containerEl,
+      props: {
+        archives: archives,
+      },
+    });
+
+    archives.forEach((archive) => {
+      new Setting(containerEl)
+        .setName(archive.name)
+        .setDesc("Archived project")
+        .addExtraButton((button) =>
+          button
+            .setIcon("view")
+            .setTooltip("Preview the archived project temproraly.")
+        ) // Preview the project, readonly
+        .addExtraButton((button) =>
+          button
+            .setIcon("archive-restore")
+            .setTooltip("Restore archive xxx(hint the name)")
+        ) // restore archive, update the list.
+        .addExtraButton((button) =>
+          button
+            .setIcon("trash-2")
+            .setTooltip("Delete this archive, add name hint")
+        ) // delete archive, abandon it.
+        .addToggle((toggle) =>
+          toggle
+            .setValue(
+              !!preferences.commands.find(
+                (command) => command.project == archive.id && !command.view
+              )
+            )
+            .onChange((value) => {
+              save(
+                produce(preferences, (draft) => {
+                  if (value) {
+                    draft.commands.push({
+                      project: archive.id,
+                    });
+                  } else {
+                    draft.commands = draft.commands.filter(
+                      (command) =>
+                        !(command.project === archive.id && !command.view)
+                    );
+                  }
+                })
+              );
+            })
+        );
     });
   }
 }

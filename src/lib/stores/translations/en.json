@@ -55,10 +55,16 @@
                     "title": "Duplicate project",
                     "suffix": "Copy"
                 },
+                "archive": {
+                    "short-title": "Archive project",
+                    "title": "Archive project",
+                    "message": "Are you sure you want to archive \"{{project}}\"? You can restore the project later in Projects plugin's setting tab.",
+                    "cta": "Archive"
+                },
                 "delete": {
                     "short-title": "Delete project",
                     "title": "Delete project",
-                    "message": "Are you sure you want to delete \"{{project}}\"?",
+                    "message": "Are you sure you want to delete \"{{project}}\"? This operation cannot be undone.",
                     "cta": "Delete"
                 },
                 "name": {

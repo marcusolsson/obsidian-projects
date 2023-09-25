@@ -55,10 +55,16 @@
                     "title": "复制项目",
                     "suffix": "副本"
                 },
+                "archive": {
+                    "short-title": "存档项目",
+                    "title": "存档项目",
+                    "message": "确定要存档项目 \"{{project}}\" 吗？存档后，您可以在 Projects 插件设置中恢复该项目。",
+                    "cta": "存档"
+                },
                 "delete": {
                     "short-title": "删除项目",
                     "title": "删除项目",
-                    "message": "确定要删除项目 \"{{project}}\" 吗？",
+                    "message": "确定要删除项目 \"{{project}}\" 吗？此操作不可撤销。",
                     "cta": "删除"
                 },
                 "name": {
