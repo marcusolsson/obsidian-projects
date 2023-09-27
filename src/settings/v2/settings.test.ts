@@ -8,6 +8,7 @@ describe("resolve v2", () => {
     expect(got).toStrictEqual({
       version: 2,
       projects: [],
+      archives: [],
       preferences: {
         frontmatter: {
           quoteStrings: "PLAIN",
@@ -44,6 +45,7 @@ describe("resolve v2", () => {
           views: [],
         },
       ],
+      archives: [],
       preferences: {
         frontmatter: {
           quoteStrings: "PLAIN",
