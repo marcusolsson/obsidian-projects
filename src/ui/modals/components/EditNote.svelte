@@ -7,6 +7,7 @@
     ModalContent,
     ModalLayout,
     SettingItem,
+    Typography,
   } from "obsidian-svelte";
 
   import { FieldControl } from "src/ui/components/FieldControl";
@@ -28,7 +29,9 @@
       icon="info"
       variant="info"
     >
-      {$i18n.t("modals.note.edit.no-editable-fields.message")}
+      <Typography variant="body">
+        {$i18n.t("modals.note.edit.no-editable-fields.message")}
+      </Typography>
     </Callout>
     <ModalContent>
       {#each fields as field (field.name)}

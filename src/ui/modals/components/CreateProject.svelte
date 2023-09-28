@@ -12,6 +12,7 @@
     Switch,
     TextArea,
     TextInput,
+    Typography,
   } from "obsidian-svelte";
 
   import { FileListInput } from "src/ui/components/FileListInput";
@@ -256,7 +257,9 @@
           icon="zap"
           variant="danger"
         >
-          {$i18n.t("modals.project.dataview.error.message")}
+          <Typography variant="body">
+            {$i18n.t("modals.project.dataview.error.message")}
+          </Typography>
         </Callout>
       {/if}
     {/if}
