@@ -29,7 +29,7 @@
         value: project.id,
       })),
       (draft) => {
-        draft.sort((a, b) => a.label.localeCompare(b.label));
+        draft.sort((a, b) => a.label.localeCompare(b.label, undefined, {numeric: true}));
       }
     )}
     on:change={({ detail: value }) => onProjectChange(value)}
