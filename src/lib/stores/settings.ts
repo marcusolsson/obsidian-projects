@@ -97,11 +97,11 @@ function createSettings() {
         })
       );
     },
-    restoreProject(projectId: ProjectId) {
+    restoreArchive(projectId: ProjectId) {
       update((state) =>
         produce(state, (draft) => {
-          const project = draft.archives.find((p) => p.id === projectId);
-          if (project) draft.projects.push(project);
+          const archive = draft.archives.find((p) => p.id === projectId);
+          if (archive) draft.projects.push(archive);
           draft.archives = draft.archives.filter((w) => w.id !== projectId);
         })
       );
