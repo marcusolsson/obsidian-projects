@@ -311,3 +311,83 @@ describe("applySort", () => {
     });
   });
 });
+
+describe("natural sort", () => {
+  const frame = {
+    fields: [],
+    records: [
+      {
+        id: "Section 1.md",
+        values: {
+          section: "1.Introduction",
+        },
+      },
+      {
+        id: "Section 11.md",
+        values: {
+          section: "11.References",
+        },
+      },
+      {
+        id: "Section 3.md",
+        values: {
+          section: "3.Results",
+        },
+      },
+      {
+        id: "Section 10.md",
+        values: {
+          section: "10.Acknowledgement",
+        },
+      },
+      {
+        id: "Section 2.md",
+        values: {
+          section: "2.Methods",
+        },
+      },
+    ],
+  };
+
+  it("should sort strings containing numbers naturally", () => {
+    const sorted = applySort(frame, {
+      criteria: [{ field: "section", order: "asc", enabled: true }],
+    });
+
+    expect(sorted).toStrictEqual({
+      fields: [],
+      records: [
+        {
+          id: "Section 1.md",
+          values: {
+            section: "1.Introduction",
+          },
+        },
+        {
+          id: "Section 2.md",
+          values: {
+            section: "2.Methods",
+          },
+        },
+        {
+          id: "Section 3.md",
+          values: {
+            section: "3.Results",
+          },
+        },
+        {
+          id: "Section 10.md",
+          values: {
+            section: "10.Acknowledgement",
+          },
+        },
+        {
+          id: "Section 11.md",
+          values: {
+            section: "11.References",
+          },
+        },
+      ],
+    });
+  });
+});

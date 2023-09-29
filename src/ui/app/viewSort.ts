@@ -97,11 +97,7 @@ function sortBoolean(a: boolean, b: boolean, asc: boolean): number {
 }
 
 function sortString(a: string, b: string, asc: boolean): number {
-  if (a < b) {
-    return asc ? -1 : 1;
-  }
-  if (a > b) {
-    return asc ? 1 : -1;
-  }
-  return 0;
+  return asc
+    ? a.localeCompare(b, undefined, { numeric: true })
+    : b.localeCompare(a, undefined, { numeric: true });
 }
