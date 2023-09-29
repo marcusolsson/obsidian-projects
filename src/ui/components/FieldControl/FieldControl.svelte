@@ -38,7 +38,7 @@
     on:check={({ detail }) => onChange(detail)}
   />
 {:else if field.repeated && isOptionalList(value)}
-  <TagList edit={true} values={value ?? []} {onChange} />
+  <TagList edit={!readonly} values={value ?? []} {onChange} />
 {:else if field.type === DataFieldType.String}
   {#if options.length > 0}
     <Autocomplete
