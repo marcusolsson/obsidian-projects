@@ -44,11 +44,7 @@
   </Callout>
 {:else}
   {#each archives as archive}
-    <SettingItem
-      name={`${archive.name}`}
-      description={getDescription(archive)}
-      heading={true}
-    >
+    <SettingItem name={`${archive.name}`} description={getDescription(archive)}>
       <IconButton
         icon="archive-restore"
         tooltip="Restore this archive"
