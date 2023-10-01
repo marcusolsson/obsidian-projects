@@ -9,17 +9,18 @@
   import { app } from "src/lib/stores/obsidian";
   import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";
   import type { ProjectDefinition, ProjectId } from "src/settings/settings";
+  import { normalizePath } from "obsidian";
 
   const dataSourceDetail = (archive: ProjectDefinition) => {
     switch (archive.dataSource.kind) {
       case "folder":
-        return `${$i18n.t("datasources.folder")} path: "${
+        return `${$i18n.t("datasources.folder")}: "${normalizePath(
           archive.dataSource.config.path
-        }"`;
+        )}", subfolder: ${archive.dataSource.config.recursive}`; // normalize!
       case "tag":
         return `${$i18n.t("datasources.tag")}: ${
           archive.dataSource.config.tag
-        }`;
+        }, hierarchy: ${archive.dataSource.config.hierarchy}`;
       case "dataview":
         return `${$i18n.t("datasources.dataview")} query: ${
           archive.dataSource.config.query
@@ -28,9 +29,9 @@
   };
 
   const getDescription = (archive: ProjectDefinition) => {
-    const viewCount = `${archive.views.length} views.`;
-    const detail = dataSourceDetail(archive);
-    return [viewCount, detail].join(" ");
+    return [`${archive.views.length} view(s).`, dataSourceDetail(archive)].join(
+      " "
+    );
   };
 
   export let archives: ProjectDefinition[];
