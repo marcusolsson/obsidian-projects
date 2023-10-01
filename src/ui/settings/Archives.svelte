@@ -7,11 +7,8 @@
   } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
-  import { settings } from "src/lib/stores/settings";
   import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";
-  import type { ProjectDefinition } from "src/settings/settings";
-
-  $: ({ archives } = $settings);
+  import type { ProjectDefinition, ProjectId } from "src/settings/settings";
 
   const dataSourceDetail = (archive: ProjectDefinition) => {
     switch (archive.dataSource.kind) {
@@ -35,6 +32,10 @@
     const detail = dataSourceDetail(archive);
     return [viewCount, detail].join(" ");
   };
+
+  export let archives: ProjectDefinition[];
+  export let onRestore: (archiveId: ProjectId) => void;
+  export let onDelete: (archiveId: ProjectId) => void;
 </script>
 
 {#if !archives.length}
@@ -43,11 +44,15 @@
   </Callout>
 {:else}
   {#each archives as archive}
-    <SettingItem name={`${archive.name}`} description={getDescription(archive)}>
+    <SettingItem
+      name={`${archive.name}`}
+      description={getDescription(archive)}
+      heading={true}
+    >
       <IconButton
         icon="archive-restore"
         tooltip="Restore this archive"
-        onClick={() => settings.restoreArchive(archive.id)}
+        onClick={() => onRestore(archive.id)}
       />
       <IconButton
         icon="trash-2"
@@ -61,7 +66,7 @@
             }),
             $i18n.t("modals.project.delete.cta"),
             () => {
-              settings.deleteArchive(archive.id);
+              onDelete(archive.id);
             }
           ).open();
         }}

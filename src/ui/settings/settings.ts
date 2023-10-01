@@ -3,11 +3,12 @@ import Projects from "src/ui/settings/Projects.svelte";
 import Archives from "src/ui/settings/Archives.svelte";
 import { settings } from "src/lib/stores/settings";
 import { get } from "svelte/store";
-import type ProjectsPlugin from "../../main";
+import type ProjectsPlugin from "src/main";
 import type {
   LinkBehavior,
+  ProjectId,
   ProjectsPluginPreferences,
-} from "../../settings/settings";
+} from "src/settings/settings";
 
 /**
  * ProjectsSettingTab builds the plugin settings tab.
@@ -91,17 +92,34 @@ export class ProjectsSettingTab extends PluginSettingTab {
       .setDesc("Add commands for your favorite projects and views.")
       .setHeading();
 
-    new Projects({
+    const projectsManager = new Projects({
       target: containerEl,
+      props: {
+        save,
+        preferences,
+        projects: get(settings).projects,
+      },
     });
 
     new Setting(containerEl)
       .setName("Archives")
-      .setDesc("View, preview, restore or delete your archived projects.")
+      .setDesc("Restore or delete your archived projects.")
       .setHeading();
 
-    new Archives({
+    const archivesManager = new Archives({
       target: containerEl,
+      props: {
+        archives: get(settings).archives,
+        onRestore: (archiveId: ProjectId) => {
+          settings.restoreArchive(archiveId);
+          archivesManager.$set({ archives: get(settings).archives });
+          projectsManager.$set({ projects: get(settings).projects });
+        },
+        onDelete: (archiveId: ProjectId) => {
+          settings.deleteArchive(archiveId);
+          archivesManager.$set({ archives: get(settings).archives });
+        },
+      },
     });
   }
 }

@@ -1,17 +1,14 @@
 <script lang="ts">
   import produce from "immer";
   import { Callout, SettingItem, Typography, Switch } from "obsidian-svelte";
+  import type {
+    ProjectDefinition,
+    ProjectsPluginPreferences,
+  } from "src/settings/settings";
 
-  import { settings } from "src/lib/stores/settings";
-  import type { ProjectsPluginPreferences } from "../../settings/settings";
-
-  const save = (prefs: ProjectsPluginPreferences) => {
-    preferences = prefs;
-    settings.updatePreferences(prefs);
-  };
-
-  $: ({ projects } = $settings);
-  $: ({ preferences } = $settings);
+  export let preferences: ProjectsPluginPreferences;
+  export let projects: ProjectDefinition[];
+  export let save: (prefs: ProjectsPluginPreferences) => void;
 </script>
 
 {#if !projects.length}
