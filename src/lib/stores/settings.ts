@@ -101,13 +101,17 @@ function createSettings() {
       update((state) =>
         produce(state, (draft) => {
           const archive = draft.archives.find((p) => p.id === projectId);
-          if (archive) draft.projects.push(archive);
+          if (archive) {
+            draft.projects.push({
+              ...archive,
+              name: nextUniqueProjectName(draft.projects, archive.name),
+            });
+          }
           draft.archives = draft.archives.filter((w) => w.id !== projectId);
         })
       );
     },
     deleteArchive(projectId: ProjectId) {
-      // remove commands
       update((state) =>
         produce(state, (draft) => {
           draft.archives = draft.archives.filter((w) => w.id !== projectId);
