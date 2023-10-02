@@ -55,7 +55,7 @@ export class ProjectsView extends ItemView {
   }
 
   onPaneMenu(menu: Menu, source: "more-options" | "tab-header" | string) {
-    if (source == "tab-header") {
+    if (source == "more-options" || "tab-header") {
       super.onPaneMenu(menu, source);
       menu.addItem((item) => {
         item
