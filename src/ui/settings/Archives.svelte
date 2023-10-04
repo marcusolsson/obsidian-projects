@@ -16,7 +16,7 @@
       case "folder":
         return `${$i18n.t("datasources.folder")}: "${normalizePath(
           archive.dataSource.config.path
-        )}", subfolder: ${archive.dataSource.config.recursive}`; // normalize!
+        )}", subfolder: ${archive.dataSource.config.recursive}`;
       case "tag":
         return `${$i18n.t("datasources.tag")}: ${
           archive.dataSource.config.tag
