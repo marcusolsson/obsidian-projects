@@ -2,6 +2,7 @@ import type {
   FieldConfig,
   ProjectId,
   ProjectsPluginPreferences,
+  ShowCommand,
   ViewDefinition,
 } from "../base/settings";
 import { DEFAULT_VIEW } from "../base/settings";
@@ -99,11 +100,23 @@ export type UnresolvedSettings = {
 export function resolve(
   unresolved: UnresolvedSettings
 ): ProjectsPluginSettings<ProjectDefinition<ViewDefinition>> {
+  const projects = unresolved.projects?.map(resolveProject) ?? [];
+  const archives = unresolved.archives?.map(resolveProject) ?? [];
+  const preferences = resolvePreferences(unresolved.preferences ?? {});
+
+  const commands = cleanUpCommands(preferences.commands, [
+    ...projects,
+    ...archives,
+  ]);
+
   return {
     version: 2,
-    projects: unresolved.projects?.map(resolveProject) ?? [],
-    archives: unresolved.archives?.map(resolveProject) ?? [],
-    preferences: resolvePreferences(unresolved.preferences ?? {}),
+    projects,
+    archives,
+    preferences: {
+      ...preferences,
+      commands,
+    },
   };
 }
 
@@ -158,3 +171,32 @@ export function resolvePreferences(
     ...unresolved,
   };
 }
+
+const cleanUpCommands = (
+  commands: ShowCommand[],
+  allProjects: ProjectDefinition<ViewDefinition>[]
+): ShowCommand[] => {
+  const uniquified = removeDuplicateCommands(commands);
+  return removeOrphanCommands(allProjects, uniquified);
+};
+
+const removeDuplicateCommands = (commands: ShowCommand[]): ShowCommand[] =>
+  commands.filter(
+    (cmd, index, self) =>
+      index ===
+      self.findIndex(
+        (curr) => curr.project === cmd.project && curr.view === cmd.view
+      )
+  );
+
+const removeOrphanCommands = (
+  allProjects: ProjectDefinition<ViewDefinition>[],
+  commands: ShowCommand[]
+): ShowCommand[] =>
+  commands.filter((cmd) =>
+    allProjects.some(
+      (project) =>
+        project.id === cmd.project &&
+        (!cmd.view || project.views.some((view) => view.id === cmd.view))
+    )
+  );
