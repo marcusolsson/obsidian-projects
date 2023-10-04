@@ -55,10 +55,16 @@
                     "title": "复制项目",
                     "suffix": "副本"
                 },
+                "archive": {
+                    "short-title": "存档项目",
+                    "title": "存档项目",
+                    "message": "确定要存档项目 \"{{project}}\" 吗？若需要，您可以在 Projects 插件设置中恢复该项目。",
+                    "cta": "存档"
+                },
                 "delete": {
                     "short-title": "删除项目",
                     "title": "删除项目",
-                    "message": "确定要删除项目 \"{{project}}\" 吗？",
+                    "message": "确定要删除项目 \"{{project}}\" 吗？此操作不可撤销。",
                     "cta": "删除"
                 },
                 "name": {
@@ -123,6 +129,14 @@
                     "name": "默认笔记名称",
                     "description": "支持 {{date:YYYY-MM-DD}} 和 {{time:HHmm}} 格式的日期、时间模板变量。",
                     "invalid": "笔记名包含非法字符。"
+                }
+            },
+            "archive": {
+                "delete": {
+                    "short-title": "删除存档",
+                    "title": "删除存档",
+                    "message": "确定要删除存档 \"{{archive}}\" 吗？此操作不可撤销。",
+                    "cta": "删除"
                 }
             },
             "view": {

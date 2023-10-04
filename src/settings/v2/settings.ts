@@ -53,6 +53,7 @@ export type UnsavedProjectDefinition = Omit<
 export type ProjectsPluginSettings<T> = {
   readonly version: 2;
   readonly projects: T[];
+  readonly archives: T[];
   readonly preferences: ProjectsPluginPreferences;
 };
 
@@ -78,6 +79,7 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
 > = {
   version: 2,
   projects: [],
+  archives: [],
   preferences: {
     projectSizeLimit: 1000,
     frontmatter: {
@@ -100,6 +102,7 @@ export function resolve(
   return {
     version: 2,
     projects: unresolved.projects?.map(resolveProject) ?? [],
+    archives: unresolved.archives?.map(resolveProject) ?? [],
     preferences: resolvePreferences(unresolved.preferences ?? {}),
   };
 }
