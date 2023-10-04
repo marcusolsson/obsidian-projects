@@ -6,7 +6,10 @@
             "boolean": "复选框",
             "date": "日期",
             "unknown": "未知",
-            "repeated": "周期"
+            "repeated": "周期",
+            "list": "列表",
+            "tags": "标签",
+            "aliases": "别名"
         },
         "datasources": {
             "folder": "文件夹",

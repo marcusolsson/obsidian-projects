@@ -28,7 +28,13 @@
   style:width={`${column.width}px`}
 >
   {#if column.repeated}
-    <Icon name="list" tooltip={get(i18n).t(`data-types.repeated`) ?? ""} />
+    {#if column.field == "tags"}
+      <Icon name="tags" tooltip={get(i18n).t(`data-types.tags`) ?? ""} />
+    {:else if column.field == "aliases"}
+      <Icon name="forward" tooltip={get(i18n).t(`data-types.aliases`) ?? ""} />
+    {:else}
+      <Icon name="list" tooltip={get(i18n).t(`data-types.list`) ?? ""} />
+    {/if}
   {:else}
     <Icon
       name={fieldIcon(column.type ?? DataFieldType.Unknown)}
