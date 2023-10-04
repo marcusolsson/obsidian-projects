@@ -6,7 +6,10 @@
             "boolean": "Checkbox",
             "date": "Date",
             "unknown": "Unknown data type",
-            "repeated": "Repeated field"
+            "repeated": "Repeated field",
+            "list": "List",
+            "tags": "Tags",
+            "Aliases": "Aliases"
         },
         "datasources": {
             "folder": "Folder",

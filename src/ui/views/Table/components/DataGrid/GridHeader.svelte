@@ -4,11 +4,12 @@
   import type { Menu } from "obsidian";
 
   import { GridCell, TextLabel } from "./GridCell";
-  import { fieldIcon, menuOnContextMenu, type GridColDef } from "./data-grid";
+  import { fieldIcon } from "src/ui/views/helpers";
+  import { menuOnContextMenu, type GridColDef } from "./dataGrid";
 
   import GridCellGroup from "./GridCellGroup.svelte";
 
-  import { DataFieldType } from "src/lib/data";
+  import { DataFieldType } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
 
   export let columns: GridColDef[];

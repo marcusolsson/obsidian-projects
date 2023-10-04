@@ -10,13 +10,13 @@ export function fieldIcon(field: DataFieldType): string {
     case DataFieldType.String:
       return "text";
     case DataFieldType.Number:
-      return "hash";
+      return "binary";
     case DataFieldType.Boolean:
-      return "check";
+      return "check-square";
     case DataFieldType.Date:
-      return "calendar-days";
+      return "calendar";
   }
-  return "info";
+  return "file-question";
 }
 
 export function fieldToSelectableValue(field: DataField): {
