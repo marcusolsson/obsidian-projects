@@ -88,6 +88,36 @@ function createSettings() {
       );
       return newId;
     },
+    archiveProject(projectId: ProjectId) {
+      update((state) =>
+        produce(state, (draft) => {
+          const project = draft.projects.find((p) => p.id === projectId);
+          if (project) draft.archives.push(project);
+          draft.projects = draft.projects.filter((w) => w.id !== projectId);
+        })
+      );
+    },
+    restoreArchive(archiveId: ProjectId) {
+      update((state) =>
+        produce(state, (draft) => {
+          const archive = draft.archives.find((a) => a.id === archiveId);
+          if (archive) {
+            draft.projects.push({
+              ...archive,
+              name: nextUniqueProjectName(draft.projects, archive.name),
+            });
+          }
+          draft.archives = draft.archives.filter((w) => w.id !== archiveId);
+        })
+      );
+    },
+    deleteArchive(projectId: ProjectId) {
+      update((state) =>
+        produce(state, (draft) => {
+          draft.archives = draft.archives.filter((w) => w.id !== projectId);
+        })
+      );
+    },
     deleteProject(projectId: ProjectId) {
       update((state) =>
         produce(state, (draft) => {

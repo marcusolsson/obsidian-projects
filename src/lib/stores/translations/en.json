@@ -55,10 +55,16 @@
                     "title": "Duplicate project",
                     "suffix": "Copy"
                 },
+                "archive": {
+                    "short-title": "Archive project",
+                    "title": "Archive project",
+                    "message": "Are you sure you want to archive \"{{project}}\"? You can restore it later in Projects plugin's setting tab.",
+                    "cta": "Archive"
+                },
                 "delete": {
                     "short-title": "Delete project",
                     "title": "Delete project",
-                    "message": "Are you sure you want to delete \"{{project}}\"?",
+                    "message": "Are you sure you want to delete \"{{project}}\"? This cannot be undone.",
                     "cta": "Delete"
                 },
                 "name": {
@@ -123,6 +129,14 @@
                     "name": "Default name for new notes",
                     "description": "Supports {{date:YYYY-MM-DD}} and {{time:HHmm}} templates variables.",
                     "invalid": "Contains illegal characters."
+                }
+            },
+            "archive": {
+                "delete": {
+                    "short-title": "Delete archive",
+                    "title": "Delete archive",
+                    "message": "Are you sure you want to delete \"{{archive}}\"? This cannot be undone.",
+                    "cta": "Delete"
                 }
             },
             "view": {

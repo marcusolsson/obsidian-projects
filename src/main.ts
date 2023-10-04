@@ -15,7 +15,7 @@ import { CreateProjectModal } from "src/ui/modals/createProjectModal";
 import { get, type Unsubscriber } from "svelte/store";
 import { registerFileEvents } from "./events";
 import { ObsidianFileSystemWatcher } from "./lib/filesystem/obsidian/filesystem";
-import { ProjectsSettingTab } from "./settings";
+import { ProjectsSettingTab } from "./ui/settings/settings";
 import {
   migrateSettings,
   type ProjectDefinition,
