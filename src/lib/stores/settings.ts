@@ -97,17 +97,17 @@ function createSettings() {
         })
       );
     },
-    restoreArchive(projectId: ProjectId) {
+    restoreArchive(archiveId: ProjectId) {
       update((state) =>
         produce(state, (draft) => {
-          const archive = draft.archives.find((p) => p.id === projectId);
+          const archive = draft.archives.find((a) => a.id === archiveId);
           if (archive) {
             draft.projects.push({
               ...archive,
               name: nextUniqueProjectName(draft.projects, archive.name),
             });
           }
-          draft.archives = draft.archives.filter((w) => w.id !== projectId);
+          draft.archives = draft.archives.filter((w) => w.id !== archiveId);
         })
       );
     },
