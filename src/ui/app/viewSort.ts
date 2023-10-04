@@ -67,7 +67,6 @@ function sortCriteria(
 
 function sortNumber(a: number, b: number, asc: boolean): number {
   if (a < b) {
-    console.log(a);
     return asc ? -1 : 1;
   }
   if (a > b) {
