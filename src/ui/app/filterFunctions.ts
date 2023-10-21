@@ -34,7 +34,10 @@ export function matchesCondition(
 
   if (isOptionalList(value)) {
     if (isListFilterOperator(operator)) {
-      return listFns[operator](value ?? [], cond.value);
+      return listFns[operator](
+        value ?? [],
+        cond.value ? JSON.parse(cond.value ?? "[]") : undefined
+      );
     }
   }
 
@@ -123,18 +126,15 @@ export const booleanFns: Record<
 
 export const listFns: Record<
   ListFilterOperator,
-  (left: Optional<DataValue>[], right?: string) => boolean
+  (left: Optional<DataValue>[], right?: Optional<DataValue>[]) => boolean
 > = {
   "has-any-of": (left, right) => {
-    const list = right?.split(",").map((value) => value.trim()) ?? [];
-    return list.some((value) => left.includes(value));
+    return right ? right.some((value) => left.includes(value)) : false;
   },
   "has-all-of": (left, right) => {
-    const list = right?.split(",").map((value) => value.trim()) ?? [];
-    return list.every((value) => left.includes(value));
+    return right ? right.every((value) => left.includes(value)) : false;
   },
   "has-none-of": (left, right) => {
-    const list = right?.split(",").map((value) => value.trim()) ?? [];
-    return !list.some((value) => left.includes(value));
+    return !(right ? right.some((value) => left.includes(value)) : false);
   },
 };
