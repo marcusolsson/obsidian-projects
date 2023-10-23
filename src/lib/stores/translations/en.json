@@ -308,10 +308,10 @@
                 },
                 "include-fields": "Include fields",
                 "settings": {
-                    "name": "画册设置",
+                    "name": "Gallery settings",
                     "card-width": {
-                        "name": "卡片宽度",
-                        "description": "调整每张卡片的像素宽度。"
+                        "name": "Card width",
+                        "description": "Width of each card in pixels."
                     }
                 },
                 "empty": "This view is empty."
