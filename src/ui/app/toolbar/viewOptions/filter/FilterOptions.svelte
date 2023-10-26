@@ -1,6 +1,5 @@
 <script lang="ts">
   import produce from "immer";
-  import dayjs from "dayjs";
   import {
     Button,
     IconButton,
@@ -9,7 +8,7 @@
     TextInput,
     NumberInput,
     Checkbox,
-    DateInput,
+    // DateInput, //use native date input temporarily,
   } from "obsidian-svelte";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
@@ -114,9 +113,11 @@
             on:blur={handleValueChange(i)}
           />
         {:else if isDateFilterOperator(condition.operator)}
-          <DateInput
-            value={dayjs(condition.value ?? "").toDate()}
+          <input
+            type="date"
+            value={condition.value ?? ""}
             on:blur={handleValueChange(i)}
+            max="2999-12-31"
           />
         {/if}
       {/if}
