@@ -7,6 +7,7 @@
     ModalContent,
     ModalLayout,
     SettingItem,
+    Typography,
   } from "obsidian-svelte";
 
   import { FieldControl } from "src/ui/components/FieldControl";
@@ -22,16 +23,35 @@
 </script>
 
 <ModalLayout title={$i18n.t("modals.note.edit.title")}>
-  <ModalContent>
-    {#if !editableFields.length}
-      <Callout
-        title={$i18n.t("modals.note.edit.no-editable-fields.title")}
-        icon="info"
-        variant="info"
-      >
+  {#if !editableFields.length}
+    <Callout
+      title={$i18n.t("modals.note.edit.no-editable-fields.title")}
+      icon="info"
+      variant="info"
+    >
+      <Typography variant="body">
         {$i18n.t("modals.note.edit.no-editable-fields.message")}
-      </Callout>
-    {/if}
+      </Typography>
+    </Callout>
+    <ModalContent>
+      {#each fields as field (field.name)}
+        <SettingItem name={field.name}>
+          <FieldControl
+            {field}
+            value={record.values[field.name]}
+            onChange={(value) => {
+              record = produce(record, (draft) => {
+                // @ts-ignore
+                draft.values[field.name] = value;
+              });
+            }}
+            readonly={true}
+          />
+        </SettingItem>
+      {/each}
+    </ModalContent>
+  {/if}
+  <ModalContent>
     {#each editableFields as field (field.name)}
       <SettingItem name={field.name}>
         <FieldControl
@@ -52,7 +72,10 @@
       variant="primary"
       on:click={() => {
         onSave(record);
-      }}>{$i18n.t("modals.note.edit.save")}</Button
+      }}
+      >{editableFields.length
+        ? $i18n.t("modals.note.edit.save")
+        : $i18n.t("modals.note.edit.confirm")}</Button
     >
   </ModalButtonGroup>
 </ModalLayout>
