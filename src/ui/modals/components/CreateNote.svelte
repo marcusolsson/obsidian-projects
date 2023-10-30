@@ -16,6 +16,11 @@
   import { settings } from "src/lib/stores/settings";
   import type { ProjectDefinition } from "src/settings/settings";
 
+  let inputRef: HTMLInputElement;
+  $: if (inputRef) {
+    inputRef.select();
+  }
+
   export let name: string;
   export let project: ProjectDefinition;
   export let onSave: (
@@ -72,13 +77,14 @@
       description={$i18n.t("modals.note.create.name.description") ?? ""}
     >
       <TextInput
+        bind:ref={inputRef}
         value={name}
         on:input={({ detail: value }) => (name = value)}
         autoFocus
         error={!!nameError}
         helperText={nameError}
         on:keydown={(ev) => {
-          if (ev.key === "Enter") {
+          if (ev.key === "Enter" && !nameError) {
             ev.preventDefault();
             onSave(name, templatePath, project);
           }
