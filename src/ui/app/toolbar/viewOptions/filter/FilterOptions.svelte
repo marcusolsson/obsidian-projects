@@ -8,6 +8,7 @@
     TextInput,
     NumberInput,
     Checkbox,
+    // DateInput, //use native date input temporarily,
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
@@ -16,6 +17,7 @@
     filterOperatorTypes,
     isNumberFilterOperator,
     isStringFilterOperator,
+    isDateFilterOperator,
     isListFilterOperator,
     type FilterDefinition,
     type FilterOperator,
@@ -111,6 +113,13 @@
           <NumberInput
             value={parseFloat(condition.value ?? "")}
             on:blur={handleValueChange(i)}
+          />
+        {:else if isDateFilterOperator(condition.operator)}
+          <input
+            type="date"
+            value={condition.value ?? ""}
+            on:blur={handleValueChange(i)}
+            max="2999-12-31"
           />
         {:else if isListFilterOperator(condition.operator)}
           <TagsInput

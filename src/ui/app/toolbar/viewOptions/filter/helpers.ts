@@ -109,6 +109,16 @@ export function getOperatorsByField(field: DataField): Array<{
         { label: "≤", value: "lte" },
         { label: "≥", value: "gte" },
       ];
+    case DataFieldType.Date:
+      return [
+        ...baseOperators,
+        { label: "is on", value: "is-on" },
+        { label: "is not on", value: "is-not-on" },
+        { label: "is before", value: "is-before" },
+        { label: "is after", value: "is-after" },
+        { label: "is on and before", value: "is-on-and-before" },
+        { label: "is on and after", value: "is-on-and-after" },
+      ];
   }
 
   return baseOperators;

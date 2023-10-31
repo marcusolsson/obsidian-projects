@@ -1,15 +1,21 @@
 import produce from "immer";
-import type {
-  DataFrame,
-  DataRecord,
-  DataValue,
-  Optional,
+import dayjs from "dayjs";
+import {
+  type DataFrame,
+  type DataRecord,
+  type DataValue,
+  type Optional,
+  isOptionalString,
+  isOptionalNumber,
+  isOptionalBoolean,
+  isOptionalDate,
+  isOptionalList,
 } from "src/lib/dataframe/dataframe";
-import { isOptionalList } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,
   isStringFilterOperator,
+  isDateFilterOperator,
   isListFilterOperator,
   type BaseFilterOperator,
   type BooleanFilterOperator,
@@ -17,6 +23,7 @@ import {
   type FilterDefinition,
   type NumberFilterOperator,
   type StringFilterOperator,
+  type DateFilterOperator,
   type ListFilterOperator,
 } from "src/settings/settings";
 
@@ -41,24 +48,20 @@ export function matchesCondition(
     }
   }
 
-  switch (typeof value) {
-    case "string":
-      if (isStringFilterOperator(operator)) {
-        return stringFns[operator](value, cond.value);
-      }
-      break;
-    case "number":
-      if (isNumberFilterOperator(operator)) {
-        return numberFns[operator](
-          value,
-          cond.value ? parseFloat(cond.value) : undefined
-        );
-      }
-      break;
-    case "boolean":
-      if (isBooleanFilterOperator(operator)) {
-        return booleanFns[operator](value);
-      }
+  if (isOptionalString(value) && isStringFilterOperator(operator)) {
+    return stringFns[operator](value, cond.value);
+  } else if (isOptionalNumber(value) && isNumberFilterOperator(operator)) {
+    return numberFns[operator](
+      value,
+      cond.value ? parseFloat(cond.value) : undefined
+    );
+  } else if (isOptionalBoolean(value) && isBooleanFilterOperator(operator)) {
+    return booleanFns[operator](value);
+  } else if (isOptionalDate(value) && isDateFilterOperator(operator)) {
+    return dateFns[operator](
+      value,
+      cond.value ? dayjs(cond.value ?? "").toDate() : undefined
+    );
   }
 
   return false;
@@ -96,32 +99,51 @@ export const baseFns: Record<
 
 export const stringFns: Record<
   StringFilterOperator,
-  (left: string, right?: string) => boolean
+  (left: Optional<string>, right?: string) => boolean
 > = {
-  is: (left, right) => left === right,
-  "is-not": (left, right) => left !== right,
-  contains: (left, right) => left.contains(right ?? ""),
-  "not-contains": (left, right) => !left.contains(right ?? ""),
+  is: (left, right) => (left ? left == right : false),
+  "is-not": (left, right) => (left ? left != right : true),
+  contains: (left, right) => (left ? left.contains(right ?? "") : false),
+  "not-contains": (left, right) => (left ? !left.contains(right ?? "") : true),
 };
 
 export const numberFns: Record<
   NumberFilterOperator,
-  (left: number, right?: number) => boolean
+  (left: Optional<number>, right?: number) => boolean
 > = {
   eq: (left, right) => left === right,
   neq: (left, right) => left !== right,
-  lt: (left, right) => (right ? left < right : false),
-  gt: (left, right) => (right ? left > right : false),
-  lte: (left, right) => (right ? left <= right : false),
-  gte: (left, right) => (right ? left >= right : false),
+  lt: (left, right) => (left && right ? left < right : false),
+  gt: (left, right) => (left && right ? left > right : false),
+  lte: (left, right) => (left && right ? left <= right : false),
+  gte: (left, right) => (left && right ? left >= right : false),
 };
 
 export const booleanFns: Record<
   BooleanFilterOperator,
-  (value: boolean) => boolean
+  (value: Optional<boolean>) => boolean
 > = {
   "is-checked": (value) => value === true,
   "is-not-checked": (value) => value === false,
+};
+
+export const dateFns: Record<
+  DateFilterOperator,
+  (left: Optional<Date>, right?: Optional<Date>) => boolean
+> = {
+  "is-on": (left, right) => {
+    return left && right ? left.getTime() == right.getTime() : false;
+  },
+  "is-not-on": (left, right) =>
+    left && right ? left.getTime() != right.getTime() : true,
+  "is-before": (left, right) =>
+    left && right ? left.getTime() < right.getTime() : false,
+  "is-after": (left, right) =>
+    left && right ? left.getTime() > right.getTime() : false,
+  "is-on-and-before": (left, right) =>
+    left && right ? left.getTime() <= right.getTime() : false,
+  "is-on-and-after": (left, right) =>
+    left && right ? left.getTime() >= right.getTime() : false,
 };
 
 export const listFns: Record<
