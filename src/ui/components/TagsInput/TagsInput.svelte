@@ -1,37 +1,88 @@
 <script lang="ts">
-  import { Tag, IconButton } from "obsidian-svelte";
-  import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
+  import { useClickOutside } from "obsidian-svelte";
   import { createEventDispatcher } from "svelte";
+  import type { DataValue } from "src/lib/dataframe/dataframe";
+  import { TagInput } from "./TagInput";
+  import { Tag } from "./Tag";
 
-  export let unique: boolean = false; // determine whether duplicated tag can be accepted
-  export let strict: boolean = false; // check invalid characters for preserved fields
-
-  export let value: Optional<DataValue>[];
-
-  let ref: HTMLDivElement;
-  let tag: string = "";
+  // determine whether duplicate tag can be accepted
+  export let unique: boolean = false;
+  // check invalid characters for preserved fields
+  export let strict: boolean = false;
+  export let invalidChars: string[] = [".", ",", " ", " "]; // ban unintentional nbsp
+  export let value: DataValue[];
+  let inputRef: HTMLDivElement;
 
   let editing: boolean = false;
-
-  $: error = !onValidate(tag);
-  const onValidate = (tag: string) => {
-    if (!tag || tag === "") return false;
-
-    // invalid chars, can be used as delimeter
-    if (strict)
-      if (tag.contains(",") || tag.contains(" ") || tag.contains("."))
-        return false; // show error hint
-
-    // duplicated tags
-    if (unique) if (value.includes(tag)) return false; // highlight existing one, visual hint
-
-    return true;
-  };
+  let selectedTag: number = -1; // -1 indicates that no tag is selected
+  let activeInput: number = -1; // -1 indicates that no tag is being modified
+  let duplicateTag: number = -1; // -1 indicates that no tag detected as duplicate
 
   const dispatch = createEventDispatcher();
-  function onChange(value: Optional<DataValue>[]) {
-    dispatch("change", JSON.stringify(value));
+
+  function onChange(newValue: DataValue, position: number) {
+    if (validate(newValue.toString())) {
+      value[position] = newValue;
+      dispatch("change", JSON.stringify(value));
+    } else {
+      activeInput = -1;
+    }
   }
+
+  function onDelete(position: number) {
+    value.splice(position, 1);
+    dispatch("change", JSON.stringify(value));
+    if (selectedTag === value.length || value.length === 0) {
+      selectedTag = -1;
+      inputRef.focus();
+    }
+  }
+
+  function onAdd(newValue: DataValue) {
+    if (validate(newValue.toString())) {
+      value.push(newValue);
+      dispatch("change", JSON.stringify(value));
+    } else {
+      activeInput = -1;
+    }
+  }
+
+  function navigatePrev() {
+    if (selectedTag == -1) {
+      selectedTag = value.length - 1;
+    } else if (selectedTag > value.length - 1 || selectedTag == 0) {
+      return;
+    } else {
+      selectedTag -= 1;
+    }
+  }
+
+  function navigateNext() {
+    if (selectedTag == value.length - 1) {
+      selectedTag = -1;
+      inputRef.focus();
+    } else if (selectedTag == -1) {
+      return;
+    } else {
+      selectedTag += 1;
+    }
+  }
+
+  const validate = (tag: string) => {
+    if (!tag || tag === "") {
+      return false;
+    }
+    if (strict && invalidChars.some((char) => tag.includes(char))) {
+      return false;
+    }
+    if (unique && value.includes(tag)) {
+      duplicateTag = value.findIndex((v) => v.toString() === tag);
+      return false;
+    }
+
+    duplicateTag = -1;
+    return true;
+  };
 </script>
 
 <div>
@@ -39,60 +90,57 @@
     class="container"
     class:editing
     tabindex="-1"
-    on:focus={(evt) => {
-      ref.focus();
+    on:click={(event) => {
       editing = true;
+      inputRef.focus();
+    }}
+    on:keydown={() => {}}
+    use:useClickOutside={() => {
+      editing = false;
     }}
   >
-    {#each value as eachtag}
-      <Tag>
-        {eachtag}
-        <IconButton
-          icon="cross"
-          size="xs"
-          nopadding
-          onClick={(evt) => {
-            evt.stopPropagation();
-            value = value.filter((value) => value !== eachtag);
-          }}
-        />
-      </Tag>
+    {#each value as eachtag, i}
+      <Tag
+        bind:tag={eachtag}
+        selected={selectedTag === i}
+        editing={activeInput === i}
+        duplicate={duplicateTag === i}
+        handleClick={(event) => {
+          selectedTag = i;
+          editing = true;
+          event.stopPropagation();
+        }}
+        on:edit={() => {
+          editing = true;
+          activeInput = i;
+        }}
+        on:navigatePrev={navigatePrev}
+        on:navigateNext={navigateNext}
+        on:update={({ detail: tag }) => {
+          onChange(tag, i);
+        }}
+        on:escape={() => {
+          activeInput = -1;
+        }}
+        on:delete={() => {
+          onDelete(i);
+        }}
+      />
     {/each}
-    <div
-      class="input"
-      contenteditable="true"
-      bind:textContent={tag}
-      bind:this={ref}
-      on:keydown={(event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-
-          if (tag == "") {
-            editing = false;
-            onChange(value);
-          }
-          if (!error) value.push(tag);
-
-          value = value; // force update
-          tag = "";
-        }
-        if (event.key === "Escape") {
-          editing = false;
-          onChange(value);
-          tag = "";
-        }
-        if (event.key === "Backspace" && tag === "") {
-          value.pop();
-          value = value; // force update
-        }
-        // navigate & focus, prev & next
+    <TagInput
+      value=""
+      bind:ref={inputRef}
+      on:focus={() => {
+        selectedTag = -1;
+        activeInput = -1;
+        editing = true;
       }}
-      on:blur={() => {
-        editing = false;
-        if (!error) {
-          value.push(tag);
-        }
-        onChange(value);
+      on:submit={({ detail: tag }) => {
+        onAdd(tag);
+      }}
+      on:navigatePrev={navigatePrev}
+      on:escape={() => {
+        activeInput = -1;
       }}
     />
   </div>
@@ -100,7 +148,7 @@
 
 <style>
   .container {
-    display: flex;
+    display: inline-flex;
     flex-wrap: nowrap;
 
     gap: var(--size-4-1);
@@ -121,28 +169,12 @@
     font-size: var(--font-ui-small);
   }
 
-  .container:focus-within {
-    box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
-    border-color: var(--background-modifier-border-focus);
-    transition: box-shadow 0.15s ease-in-out, border 0.15s ease-in-out;
-  }
-
-  .input {
-    min-width: 1ch;
-    max-width: max-content;
-    box-sizing: border-box;
-
-    cursor: text;
-    font-family: var(--font-interface);
-    color: var(--text-normal);
-    background-color: inherit;
-    border: none;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
   .editing {
     flex-wrap: wrap;
     overflow: auto;
+
+    box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+    border-color: var(--background-modifier-border-focus);
+    transition: box-shadow 0.15s ease-in-out, border 0.15s ease-in-out;
   }
 </style>
