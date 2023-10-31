@@ -6,7 +6,10 @@
             "boolean": "Checkbox",
             "date": "Date",
             "unknown": "Unknown data type",
-            "repeated": "Repeated field"
+            "repeated": "Repeated field",
+            "list": "List",
+            "tags": "Tags",
+            "Aliases": "Aliases"
         },
         "datasources": {
             "folder": "Folder",
@@ -55,10 +58,16 @@
                     "title": "Duplicate project",
                     "suffix": "Copy"
                 },
+                "archive": {
+                    "short-title": "Archive project",
+                    "title": "Archive project",
+                    "message": "Are you sure you want to archive \"{{project}}\"? You can restore it later in Projects plugin's setting tab.",
+                    "cta": "Archive"
+                },
                 "delete": {
                     "short-title": "Delete project",
                     "title": "Delete project",
-                    "message": "Are you sure you want to delete \"{{project}}\"?",
+                    "message": "Are you sure you want to delete \"{{project}}\"? This cannot be undone.",
                     "cta": "Delete"
                 },
                 "name": {
@@ -125,6 +134,14 @@
                     "invalid": "Contains illegal characters."
                 }
             },
+            "archive": {
+                "delete": {
+                    "short-title": "Delete archive",
+                    "title": "Delete archive",
+                    "message": "Are you sure you want to delete \"{{archive}}\"? This cannot be undone.",
+                    "cta": "Delete"
+                }
+            },
             "view": {
                 "create": {
                     "short-title": "New view",
@@ -183,6 +200,7 @@
                     "short-title": "Edit note",
                     "title": "Edit note",
                     "save": "Save",
+                    "confirm": "Confirm",
                     "no-editable-fields": {
                         "title": "No editable fields",
                         "message": "This note has no editable fields."
@@ -290,10 +308,10 @@
                 },
                 "include-fields": "Include fields",
                 "settings": {
-                    "name": "画册设置",
+                    "name": "Gallery settings",
                     "card-width": {
-                        "name": "卡片宽度",
-                        "description": "调整每张卡片的像素宽度。"
+                        "name": "Card width",
+                        "description": "Width of each card in pixels."
                     }
                 },
                 "empty": "This view is empty."

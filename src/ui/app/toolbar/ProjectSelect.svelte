@@ -29,7 +29,7 @@
         value: project.id,
       })),
       (draft) => {
-        draft.sort((a, b) => a.label.localeCompare(b.label));
+        draft.sort((a, b) => a.label.localeCompare(b.label, undefined, {numeric: true}));
       }
     )}
     on:change={({ detail: value }) => onProjectChange(value)}
@@ -70,6 +70,27 @@
               const id = settings.duplicateProject(projectId);
               onProjectChange(id);
             }
+          });
+      });
+
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("modals.project.archive.short-title"))
+          .setIcon("archive")
+          .onClick(() => {
+            new ConfirmDialogModal(
+              $app,
+              $i18n.t("modals.project.archive.title"),
+              $i18n.t("modals.project.archive.message", {
+                project: project?.name ?? "",
+              }),
+              $i18n.t("modals.project.archive.cta"),
+              () => {
+                if (projectId) {
+                  settings.archiveProject(projectId);
+                }
+              }
+            ).open();
           });
       });
 

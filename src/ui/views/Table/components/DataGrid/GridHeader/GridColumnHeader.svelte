@@ -4,7 +4,8 @@
   import { DataFieldType } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { get } from "svelte/store";
-  import { fieldIcon, type GridColDef } from "../dataGrid";
+  import { fieldIcon } from "src/ui/views/helpers";
+  import type { GridColDef } from "../dataGrid";
   import { TextLabel } from "../GridCell";
 
   type GridColDefWithId = GridColDef & { readonly id: string };
@@ -27,7 +28,13 @@
   style:width={`${column.width}px`}
 >
   {#if column.repeated}
-    <Icon name="list" tooltip={get(i18n).t(`data-types.repeated`) ?? ""} />
+    {#if column.field == "tags"}
+      <Icon name="tags" tooltip={get(i18n).t(`data-types.tags`) ?? ""} />
+    {:else if column.field == "aliases"}
+      <Icon name="forward" tooltip={get(i18n).t(`data-types.aliases`) ?? ""} />
+    {:else}
+      <Icon name="list" tooltip={get(i18n).t(`data-types.list`) ?? ""} />
+    {/if}
   {:else}
     <Icon
       name={fieldIcon(column.type ?? DataFieldType.Unknown)}

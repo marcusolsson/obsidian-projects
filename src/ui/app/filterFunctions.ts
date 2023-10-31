@@ -8,16 +8,19 @@ import {
   isOptionalNumber,
   isOptionalBoolean,
 } from "src/lib/dataframe/dataframe";
+import { isOptionalList } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,
   isStringFilterOperator,
+  isListFilterOperator,
   type BaseFilterOperator,
   type BooleanFilterOperator,
   type FilterCondition,
   type FilterDefinition,
   type NumberFilterOperator,
   type StringFilterOperator,
+  type ListFilterOperator,
 } from "src/settings/settings";
 
 export function matchesCondition(
@@ -104,4 +107,19 @@ export const booleanFns: Record<
 > = {
   "is-checked": (value) => value === true,
   "is-not-checked": (value) => value === false,
+};
+
+export const listFns: Record<
+  ListFilterOperator,
+  (left: Optional<DataValue>[], right?: Optional<DataValue>[]) => boolean
+> = {
+  "has-any-of": (left, right) => {
+    return right ? right.some((value) => left.includes(value)) : false;
+  },
+  "has-all-of": (left, right) => {
+    return right ? right.every((value) => left.includes(value)) : false;
+  },
+  "has-none-of": (left, right) => {
+    return !(right ? right.some((value) => left.includes(value)) : false);
+  },
 };

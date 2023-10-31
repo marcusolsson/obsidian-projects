@@ -222,6 +222,7 @@ const v2demo: v2.ProjectsPluginSettings<
       id: "861e5eaf-162e-4c4b-be1e-7556e2a8c889",
     },
   ],
+  archives: [],
   preferences: {
     projectSizeLimit: 1000,
     frontmatter: {

@@ -43,9 +43,9 @@ export class FolderDataSource extends FrontMatterDataSource {
 
     if (!this.project.dataSource.config.recursive) {
       return folderContainsPath(projectPath, normalizedPath);
+    } else {
+      return folderContainsDeepPath(projectPath, normalizedPath);
     }
-
-    return true;
   }
 }
 
@@ -60,7 +60,30 @@ export class FolderDataSource extends FrontMatterDataSource {
  */
 function folderContainsPath(folderPath: string, filePath: string): boolean {
   const fileElements = filePath.split("/").slice(0, -1);
-  const folderElement = folderPath.split("/").filter((el) => el);
+  const folderElements = folderPath.split("/").filter((el) => el);
 
-  return fileElements.join("/") === folderElement.join("/");
+  return fileElements.join("/") === folderElements.join("/");
+}
+
+/**
+ * Returns whether a root folder contains a file path under a subfolder.
+ *
+ * Assumes both folder path and file path have been normalized.
+ *
+ * @param folderPath path to the root folder, e.g. Work
+ * @param filePath path to the file to test, e.g. Work/Meetings/Untitled.md
+ * @returns
+ */
+function folderContainsDeepPath(folderPath: string, filePath: string): boolean {
+  const fileElements = filePath.split("/").filter((el) => el);
+  const folderElements = folderPath.split("/").filter((el) => el);
+
+  if (fileElements.length <= folderElements.length) {
+    return false;
+  }
+
+  return (
+    fileElements.slice(0, folderElements.length).join("/") ===
+    folderElements.join("/")
+  );
 }

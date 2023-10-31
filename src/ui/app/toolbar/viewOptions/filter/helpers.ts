@@ -76,7 +76,12 @@ export function getOperatorsByField(field: DataField): Array<{
   ];
 
   if (field.repeated) {
-    return baseOperators;
+    return [
+      ...baseOperators,
+      { label: "has any of", value: "has-any-of" },
+      { label: "has all of", value: "has-all-of" },
+      { label: "has none of", value: "has-none-of" },
+    ];
   }
 
   switch (field.type) {

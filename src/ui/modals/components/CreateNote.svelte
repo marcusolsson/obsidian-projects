@@ -15,6 +15,9 @@
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
   import type { ProjectDefinition } from "src/settings/settings";
+  import { onMount } from "svelte";
+
+  let inputRef: HTMLInputElement;
 
   export let name: string;
   export let project: ProjectDefinition;
@@ -63,6 +66,10 @@
 
     return "";
   }
+
+  onMount(() => {
+    if (inputRef) inputRef.select();
+  });
 </script>
 
 <ModalLayout title={$i18n.t("modals.note.create.title")}>
@@ -72,13 +79,15 @@
       description={$i18n.t("modals.note.create.name.description") ?? ""}
     >
       <TextInput
+        bind:ref={inputRef}
         value={name}
         on:input={({ detail: value }) => (name = value)}
         autoFocus
         error={!!nameError}
         helperText={nameError}
         on:keydown={(ev) => {
-          if (ev.key === "Enter") {
+          if (ev.key === "Enter" && !nameError) {
+            ev.preventDefault();
             onSave(name, templatePath, project);
           }
         }}
