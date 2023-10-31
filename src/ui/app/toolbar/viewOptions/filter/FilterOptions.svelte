@@ -10,6 +10,7 @@
     Checkbox,
     // DateInput, //use native date input temporarily,
   } from "obsidian-svelte";
+  import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
   import {
@@ -17,6 +18,7 @@
     isNumberFilterOperator,
     isStringFilterOperator,
     isDateFilterOperator,
+    isListFilterOperator,
     type FilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
@@ -118,6 +120,15 @@
             value={condition.value ?? ""}
             on:blur={handleValueChange(i)}
             max="2999-12-31"
+        {:else if isListFilterOperator(condition.operator)}
+          <TagsInput
+            strict={true}
+            unique={true}
+            value={JSON.parse(condition.value ?? "[]")}
+            on:change={(event) => {
+              filter = setValue(filter, i, event.detail);
+              onFilterChange(filter);
+            }}
           />
         {/if}
       {/if}

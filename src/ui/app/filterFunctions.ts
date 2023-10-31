@@ -10,11 +10,13 @@ import {
   isOptionalBoolean,
   isOptionalDate,
 } from "src/lib/dataframe/dataframe";
+import { isOptionalList } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,
   isStringFilterOperator,
   isDateFilterOperator,
+  isListFilterOperator,
   type BaseFilterOperator,
   type BooleanFilterOperator,
   type FilterCondition,
@@ -22,6 +24,7 @@ import {
   type NumberFilterOperator,
   type StringFilterOperator,
   type DateFilterOperator,
+  type ListFilterOperator,
 } from "src/settings/settings";
 
 export function matchesCondition(
@@ -35,6 +38,7 @@ export function matchesCondition(
   if (operator === "is-empty" || operator === "is-not-empty") {
     return baseFns[operator](value);
   }
+
 
   if (isOptionalString(value) && isStringFilterOperator(operator)) {
     return stringFns[operator](value, cond.value);
@@ -50,6 +54,34 @@ export function matchesCondition(
       value,
       cond.value ? dayjs(cond.value ?? "").toDate() : undefined
     );
+
+  if (isOptionalList(value)) {
+    if (isListFilterOperator(operator)) {
+      return listFns[operator](
+        value ?? [],
+        cond.value ? JSON.parse(cond.value ?? "[]") : undefined
+      );
+    }
+  }
+
+  switch (typeof value) {
+    case "string":
+      if (isStringFilterOperator(operator)) {
+        return stringFns[operator](value, cond.value);
+      }
+      break;
+    case "number":
+      if (isNumberFilterOperator(operator)) {
+        return numberFns[operator](
+          value,
+          cond.value ? parseFloat(cond.value) : undefined
+        );
+      }
+      break;
+    case "boolean":
+      if (isBooleanFilterOperator(operator)) {
+        return booleanFns[operator](value);
+      }
   }
 
   return false;
@@ -132,4 +164,18 @@ export const dateFns: Record<
     left && right ? left.getTime() <= right.getTime() : false,
   "is-on-and-after": (left, right) =>
     left && right ? left.getTime() >= right.getTime() : false,
+
+export const listFns: Record<
+  ListFilterOperator,
+  (left: Optional<DataValue>[], right?: Optional<DataValue>[]) => boolean
+> = {
+  "has-any-of": (left, right) => {
+    return right ? right.some((value) => left.includes(value)) : false;
+  },
+  "has-all-of": (left, right) => {
+    return right ? right.every((value) => left.includes(value)) : false;
+  },
+  "has-none-of": (left, right) => {
+    return !(right ? right.some((value) => left.includes(value)) : false);
+  },
 };

@@ -3,7 +3,7 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
-import { Plugin, TFile, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
+import { Plugin, TFile, TFolder, WorkspaceLeaf } from "obsidian";
 import "obsidian-dataview";
 import { createDataRecord, createProject } from "src/lib/dataApi";
 import { api } from "src/lib/stores/api";
@@ -47,13 +47,6 @@ export default class ProjectsPlugin extends Plugin {
     this.addRibbonIcon("layout", "Open projects", () => {
       this.activateView();
     });
-
-    // Add an icon for text fields. Remove once Obsidian has a decent
-    // alternative.
-    addIcon(
-      "text",
-      `<g transform="matrix(1,0,0,1,2,2)"><path d="M20,32L28,32L28,24L41.008,24L30.72,72L20,72L20,80L52,80L52,72L42.992,72L53.28,24L68,24L68,32L76,32L76,16L20,16L20,32Z" /></g>`
-    );
 
     this.registerView(
       VIEW_TYPE_PROJECTS,

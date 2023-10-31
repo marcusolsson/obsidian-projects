@@ -13,6 +13,7 @@
     Checkbox,
     DateInput,
   } from "obsidian-svelte";
+  import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
   import {
@@ -20,6 +21,7 @@
     isNumberFilterOperator,
     isStringFilterOperator,
     isDateFilterOperator,
+    isListFilterOperator,
     type ColorFilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
@@ -159,6 +161,15 @@
             <DateInput
               value={dayjs(rule.condition.value ?? "").toDate()}
               on:blur={handleValueChange(i)}
+          {:else if isListFilterOperator(rule.condition.operator)}
+            <TagsInput
+              strict={true}
+              unique={true}
+              value={JSON.parse(rule.condition.value ?? "[]")}
+              on:change={(event) => {
+                filter = setValue(filter, i, event.detail);
+                onFilterChange(filter);
+              }}
             />
           {/if}
         {/if}
