@@ -8,12 +8,10 @@ import {
   isOptionalNumber,
   isOptionalBoolean,
 } from "src/lib/dataframe/dataframe";
-import { isOptionalList } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,
   isStringFilterOperator,
-  isListFilterOperator,
   type BaseFilterOperator,
   type BooleanFilterOperator,
   type FilterCondition,
