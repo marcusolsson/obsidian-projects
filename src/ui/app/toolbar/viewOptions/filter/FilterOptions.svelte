@@ -9,12 +9,14 @@
     NumberInput,
     Checkbox,
   } from "obsidian-svelte";
+  import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
   import {
     filterOperatorTypes,
     isNumberFilterOperator,
     isStringFilterOperator,
+    isListFilterOperator,
     type FilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
@@ -109,6 +111,16 @@
           <NumberInput
             value={parseFloat(condition.value ?? "")}
             on:blur={handleValueChange(i)}
+          />
+        {:else if isListFilterOperator(condition.operator)}
+          <TagsInput
+            strict={true}
+            unique={true}
+            value={JSON.parse(condition.value ?? "[]")}
+            on:change={(event) => {
+              filter = setValue(filter, i, event.detail);
+              onFilterChange(filter);
+            }}
           />
         {/if}
       {/if}

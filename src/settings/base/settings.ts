@@ -68,11 +68,20 @@ export function isBooleanFilterOperator(
   return ["is-checked", "is-not-checked"].includes(op);
 }
 
+export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of";
+
+export function isListFilterOperator(
+  op: FilterOperator
+): op is ListFilterOperator {
+  return ["has-any-of", "has-all-of", "has-none-of"].includes(op);
+}
+
 export type FilterOperator =
   | BaseFilterOperator
   | StringFilterOperator
   | NumberFilterOperator
-  | BooleanFilterOperator;
+  | BooleanFilterOperator
+  | ListFilterOperator;
 
 export type FilterOperatorType = "unary" | "binary";
 
@@ -91,6 +100,9 @@ export const filterOperatorTypes: Record<FilterOperator, FilterOperatorType> = {
   gte: "binary",
   "is-checked": "unary",
   "is-not-checked": "unary",
+  "has-any-of": "binary",
+  "has-all-of": "binary",
+  "has-none-of": "binary",
 };
 
 export interface FilterCondition {
