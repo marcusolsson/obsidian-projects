@@ -45,8 +45,8 @@ function sortCriteria(
 
   const isAsc = criteria.order === "asc";
 
-  if (!isEmpty(aval) && isEmpty(bval)) return isAsc ? 1 : -1;
-  if (isEmpty(aval) && !isEmpty(bval)) return isAsc ? -1 : 1;
+  if (!isEmpty(aval) && isEmpty(bval)) return -1;
+  if (isEmpty(aval) && !isEmpty(bval)) return 1;
   if (isEmpty(aval) && isEmpty(bval)) return 0;
 
   if (isNumber(aval) && isNumber(bval)) {
