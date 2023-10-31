@@ -161,6 +161,7 @@
             <DateInput
               value={dayjs(rule.condition.value ?? "").toDate()}
               on:blur={handleValueChange(i)}
+            />
           {:else if isListFilterOperator(rule.condition.operator)}
             <TagsInput
               strict={true}

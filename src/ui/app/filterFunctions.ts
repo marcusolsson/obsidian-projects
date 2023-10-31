@@ -9,8 +9,8 @@ import {
   isOptionalNumber,
   isOptionalBoolean,
   isOptionalDate,
+  isOptionalList,
 } from "src/lib/dataframe/dataframe";
-import { isOptionalList } from "src/lib/dataframe/dataframe";
 import {
   isBooleanFilterOperator,
   isNumberFilterOperator,
@@ -39,6 +39,14 @@ export function matchesCondition(
     return baseFns[operator](value);
   }
 
+  if (isOptionalList(value)) {
+    if (isListFilterOperator(operator)) {
+      return listFns[operator](
+        value ?? [],
+        cond.value ? JSON.parse(cond.value ?? "[]") : undefined
+      );
+    }
+  }
 
   if (isOptionalString(value) && isStringFilterOperator(operator)) {
     return stringFns[operator](value, cond.value);
@@ -54,34 +62,6 @@ export function matchesCondition(
       value,
       cond.value ? dayjs(cond.value ?? "").toDate() : undefined
     );
-
-  if (isOptionalList(value)) {
-    if (isListFilterOperator(operator)) {
-      return listFns[operator](
-        value ?? [],
-        cond.value ? JSON.parse(cond.value ?? "[]") : undefined
-      );
-    }
-  }
-
-  switch (typeof value) {
-    case "string":
-      if (isStringFilterOperator(operator)) {
-        return stringFns[operator](value, cond.value);
-      }
-      break;
-    case "number":
-      if (isNumberFilterOperator(operator)) {
-        return numberFns[operator](
-          value,
-          cond.value ? parseFloat(cond.value) : undefined
-        );
-      }
-      break;
-    case "boolean":
-      if (isBooleanFilterOperator(operator)) {
-        return booleanFns[operator](value);
-      }
   }
 
   return false;
@@ -164,6 +144,7 @@ export const dateFns: Record<
     left && right ? left.getTime() <= right.getTime() : false,
   "is-on-and-after": (left, right) =>
     left && right ? left.getTime() >= right.getTime() : false,
+};
 
 export const listFns: Record<
   ListFilterOperator,

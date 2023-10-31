@@ -87,6 +87,7 @@ export function isDateFilterOperator(
     "is-on-and-before",
     "is-on-and-after",
   ].includes(op);
+}
 
 export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of";
 
@@ -101,7 +102,7 @@ export type FilterOperator =
   | StringFilterOperator
   | NumberFilterOperator
   | BooleanFilterOperator
-  | DateFilterOperator;
+  | DateFilterOperator
   | ListFilterOperator;
 
 export type FilterOperatorType = "unary" | "binary";

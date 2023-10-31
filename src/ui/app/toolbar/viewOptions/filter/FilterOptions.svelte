@@ -120,6 +120,7 @@
             value={condition.value ?? ""}
             on:blur={handleValueChange(i)}
             max="2999-12-31"
+          />
         {:else if isListFilterOperator(condition.operator)}
           <TagsInput
             strict={true}
