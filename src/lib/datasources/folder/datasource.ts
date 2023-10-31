@@ -38,7 +38,7 @@ export class FolderDataSource extends FrontMatterDataSource {
 
     // No need to continue if file is not below the project path.
     if (!normalizedPath.startsWith(projectPath)) {
-      return false; // can't handle `Work` & `Working-on/a.md`
+      return false;
     }
 
     if (!this.project.dataSource.config.recursive) {
