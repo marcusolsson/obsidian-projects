@@ -11,6 +11,7 @@
     ColorInput,
     Checkbox,
   } from "obsidian-svelte";
+  import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
   import {
@@ -154,9 +155,14 @@
               on:blur={handleValueChange(i)}
             />
           {:else if isListFilterOperator(rule.condition.operator)}
-            <TextInput
-              value={rule.condition.value ?? ""}
-              on:blur={handleValueChange(i)}
+            <TagsInput
+              strict={true}
+              unique={true}
+              value={JSON.parse(rule.condition.value ?? "[]")}
+              on:change={(event) => {
+                filter = setValue(filter, i, event.detail);
+                onFilterChange(filter);
+              }}
             />
           {/if}
         {/if}
