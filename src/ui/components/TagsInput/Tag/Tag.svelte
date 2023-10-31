@@ -26,6 +26,7 @@
           menu.close();
           dispatch("edit");
           event.stopPropagation();
+          event.preventDefault();
         });
     });
     menu.addSeparator();
@@ -37,6 +38,7 @@
           menu.close();
           dispatch("delete");
           event.stopPropagation();
+          event.preventDefault();
         });
     });
     menu.showAtMouseEvent(event);
@@ -114,6 +116,7 @@
       nopadding
       onClick={(event) => {
         event.stopPropagation();
+        event.preventDefault();
         dispatch("delete");
       }}
     />
@@ -135,6 +138,8 @@
     display: inline-flex;
     align-items: center;
     gap: var(--size-4-1);
+
+    text-wrap: nowrap;
   }
 
   .tag:hover {
