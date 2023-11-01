@@ -90,11 +90,12 @@
     class="container"
     class:editing
     tabindex="-1"
-    on:click={(event) => {
+    on:mousedown|stopPropagation={() => {}}
+    on:click|stopPropagation={(event) => {
       editing = true;
       inputRef.focus();
     }}
-    on:keydown={() => {}}
+    on:keydown|stopPropagation={() => {}}
     use:useClickOutside={() => {
       editing = false;
     }}
