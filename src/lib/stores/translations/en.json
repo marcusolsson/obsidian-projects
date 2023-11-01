@@ -9,7 +9,7 @@
             "repeated": "Repeated field",
             "list": "List",
             "tags": "Tags",
-            "Aliases": "Aliases"
+            "aliases": "Aliases"
         },
         "datasources": {
             "folder": "Folder",
