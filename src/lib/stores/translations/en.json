@@ -62,6 +62,7 @@
                     "short-title": "Archive project",
                     "title": "Archive project",
                     "message": "Are you sure you want to archive \"{{project}}\"? You can restore it later in Projects plugin's setting tab.",
+                    "notice": "Project archived! If you are using Projects across multiple devices and syncing between them, please upgrade to version 1.17.0 or above for all your devices to avoid losing your archived project configurations.",
                     "cta": "Archive"
                 },
                 "delete": {
