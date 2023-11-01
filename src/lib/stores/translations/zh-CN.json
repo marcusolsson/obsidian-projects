@@ -6,7 +6,7 @@
             "boolean": "复选框",
             "date": "日期",
             "unknown": "未知",
-            "repeated": "周期"
+            "repeated": "重复"
         },
         "datasources": {
             "folder": "文件夹",
@@ -262,7 +262,7 @@
                 "today": "今天",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
-                "interval": "{{from, datetime}} – {{to, datetime}}",
+                "interval": "{{year, datetime}}{{from, datetime}} – {{to, datetime}}",
                 "intervals": {
                     "month_one": "月",
                     "month_other": "月",
