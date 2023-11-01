@@ -47,6 +47,7 @@ export function migrate(
   return {
     version: 2,
     projects: v1settings.projects.map(migrateProject),
+    archives: [],
     preferences: v1settings.preferences,
   };
 }

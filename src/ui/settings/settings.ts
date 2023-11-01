@@ -1,12 +1,14 @@
-import produce from "immer";
 import { App, Platform, PluginSettingTab, Setting } from "obsidian";
+import Projects from "src/ui/settings/Projects.svelte";
+import Archives from "src/ui/settings/Archives.svelte";
 import { settings } from "src/lib/stores/settings";
 import { get } from "svelte/store";
-import type ProjectsPlugin from "./main";
+import type ProjectsPlugin from "src/main";
 import type {
   LinkBehavior,
+  ProjectId,
   ProjectsPluginPreferences,
-} from "./settings/settings";
+} from "src/settings/settings";
 
 /**
  * ProjectsSettingTab builds the plugin settings tab.
@@ -18,7 +20,6 @@ export class ProjectsSettingTab extends PluginSettingTab {
 
   // display runs when the user opens the settings tab.
   display(): void {
-    const { projects } = get(settings);
     let { preferences } = get(settings);
 
     const save = (prefs: ProjectsPluginPreferences) => {
@@ -91,69 +92,34 @@ export class ProjectsSettingTab extends PluginSettingTab {
       .setDesc("Add commands for your favorite projects and views.")
       .setHeading();
 
-    projects.forEach((project) => {
-      new Setting(containerEl)
-        .setName(project.name)
-        .setDesc("Project")
-        .addToggle((toggle) =>
-          toggle
-            .setValue(
-              !!preferences.commands.find(
-                (command) => command.project == project.id && !command.view
-              )
-            )
-            .onChange((value) => {
-              save(
-                produce(preferences, (draft) => {
-                  if (value) {
-                    draft.commands.push({
-                      project: project.id,
-                    });
-                  } else {
-                    draft.commands = draft.commands.filter(
-                      (command) =>
-                        !(command.project === project.id && !command.view)
-                    );
-                  }
-                })
-              );
-            })
-        );
+    const projectsManager = new Projects({
+      target: containerEl,
+      props: {
+        save,
+        preferences,
+        projects: get(settings).projects,
+      },
+    });
 
-      project.views.forEach((view) => {
-        new Setting(containerEl)
-          .setName(`${project.name}: ${view.name}`)
-          .setDesc("View")
-          .addToggle((toggle) =>
-            toggle
-              .setValue(
-                !!preferences.commands.find(
-                  (command) =>
-                    command.project == project.id && command.view === view.id
-                )
-              )
-              .onChange((value) => {
-                save(
-                  produce(preferences, (draft) => {
-                    if (value) {
-                      draft.commands.push({
-                        project: project.id,
-                        view: view.id,
-                      });
-                    } else {
-                      draft.commands = draft.commands.filter(
-                        (command) =>
-                          !(
-                            command.project === project.id &&
-                            command.view === view.id
-                          )
-                      );
-                    }
-                  })
-                );
-              })
-          );
-      });
+    new Setting(containerEl)
+      .setName("Archives")
+      .setDesc("Restore or delete your archived projects.")
+      .setHeading();
+
+    const archivesManager = new Archives({
+      target: containerEl,
+      props: {
+        archives: get(settings).archives,
+        onRestore: (archiveId: ProjectId) => {
+          settings.restoreArchive(archiveId);
+          archivesManager.$set({ archives: get(settings).archives });
+          projectsManager.$set({ projects: get(settings).projects });
+        },
+        onDelete: (archiveId: ProjectId) => {
+          settings.deleteArchive(archiveId);
+          archivesManager.$set({ archives: get(settings).archives });
+        },
+      },
     });
   }
 }

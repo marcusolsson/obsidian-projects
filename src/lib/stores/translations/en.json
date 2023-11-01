@@ -6,7 +6,10 @@
             "boolean": "Checkbox",
             "date": "Date",
             "unknown": "Unknown data type",
-            "repeated": "Repeated field"
+            "repeated": "Repeated field",
+            "list": "List",
+            "tags": "Tags",
+            "Aliases": "Aliases"
         },
         "datasources": {
             "folder": "Folder",
@@ -55,10 +58,17 @@
                     "title": "Duplicate project",
                     "suffix": "Copy"
                 },
+                "archive": {
+                    "short-title": "Archive project",
+                    "title": "Archive project",
+                    "message": "Are you sure you want to archive \"{{project}}\"? You can restore it later in Projects plugin's setting tab.",
+                    "notice": "Project archived! If you are using Projects across multiple devices and syncing between them, please upgrade to version 1.17.0 or above for all your devices to avoid losing your archived project configurations.",
+                    "cta": "Archive"
+                },
                 "delete": {
                     "short-title": "Delete project",
                     "title": "Delete project",
-                    "message": "Are you sure you want to delete \"{{project}}\"?",
+                    "message": "Are you sure you want to delete \"{{project}}\"? This cannot be undone.",
                     "cta": "Delete"
                 },
                 "name": {
@@ -125,6 +135,14 @@
                     "invalid": "Contains illegal characters."
                 }
             },
+            "archive": {
+                "delete": {
+                    "short-title": "Delete archive",
+                    "title": "Delete archive",
+                    "message": "Are you sure you want to delete \"{{archive}}\"? This cannot be undone.",
+                    "cta": "Delete"
+                }
+            },
             "view": {
                 "create": {
                     "short-title": "New view",
@@ -183,6 +201,7 @@
                     "short-title": "Edit note",
                     "title": "Edit note",
                     "save": "Save",
+                    "confirm": "Confirm",
                     "no-editable-fields": {
                         "title": "No editable fields",
                         "message": "This note has no editable fields."

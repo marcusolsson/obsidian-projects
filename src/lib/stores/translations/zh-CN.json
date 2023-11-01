@@ -6,7 +6,10 @@
             "boolean": "复选框",
             "date": "日期",
             "unknown": "未知",
-            "repeated": "重复"
+            "repeated": "重复",
+            "list": "列表",
+            "tags": "标签",
+            "aliases": "别名"
         },
         "datasources": {
             "folder": "文件夹",
@@ -55,10 +58,17 @@
                     "title": "复制项目",
                     "suffix": "副本"
                 },
+                "archive": {
+                    "short-title": "存档项目",
+                    "title": "存档项目",
+                    "message": "确定要存档项目 \"{{project}}\" 吗？若需要，您可以在 Projects 插件设置中恢复该项目。",
+                    "notice": "存档成功！若您在多个设备间同步使用 Projects，请确保将所有设备上的 Projects 都升级到 1.17.0 版本或以上，以避免存档的项目配置信息丢失。",
+                    "cta": "存档"
+                },
                 "delete": {
                     "short-title": "删除项目",
                     "title": "删除项目",
-                    "message": "确定要删除项目 \"{{project}}\" 吗？",
+                    "message": "确定要删除项目 \"{{project}}\" 吗？此操作不可撤销。",
                     "cta": "删除"
                 },
                 "name": {
@@ -125,6 +135,14 @@
                     "invalid": "笔记名包含非法字符。"
                 }
             },
+            "archive": {
+                "delete": {
+                    "short-title": "删除存档",
+                    "title": "删除存档",
+                    "message": "确定要删除存档 \"{{archive}}\" 吗？此操作不可撤销。",
+                    "cta": "删除"
+                }
+            },
             "view": {
                 "create": {
                     "short-title": "新建视图",
@@ -183,6 +201,7 @@
                     "short-title": "编辑笔记",
                     "title": "编辑笔记元数据",
                     "save": "保存",
+                    "confirm": "确认",
                     "no-editable-fields": {
                         "title": "没有可编辑字段。",
                         "message": "这个笔记的元数据没有可编辑字段。"

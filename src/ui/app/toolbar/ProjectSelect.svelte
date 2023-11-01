@@ -1,6 +1,6 @@
 <script lang="ts">
   import produce from "immer";
-  import { Menu } from "obsidian";
+  import { Menu, Notice } from "obsidian";
   import { IconButton, Select } from "obsidian-svelte";
 
   import { i18n } from "src/lib/stores/i18n";
@@ -29,7 +29,7 @@
         value: project.id,
       })),
       (draft) => {
-        draft.sort((a, b) => a.label.localeCompare(b.label));
+        draft.sort((a, b) => a.label.localeCompare(b.label, undefined, {numeric: true}));
       }
     )}
     on:change={({ detail: value }) => onProjectChange(value)}
@@ -70,6 +70,30 @@
               const id = settings.duplicateProject(projectId);
               onProjectChange(id);
             }
+          });
+      });
+
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("modals.project.archive.short-title"))
+          .setIcon("archive")
+          .onClick(() => {
+            new ConfirmDialogModal(
+              $app,
+              $i18n.t("modals.project.archive.title"),
+              $i18n.t("modals.project.archive.message", {
+                project: project?.name ?? "",
+              }),
+              $i18n.t("modals.project.archive.cta"),
+              () => {
+                if (projectId) {
+                  if ($settings.archives.length === 0) {
+                    new Notice($i18n.t("modals.project.archive.notice"), 15000);
+                  }
+                  settings.archiveProject(projectId);
+                }
+              }
+            ).open();
           });
       });
 

@@ -68,11 +68,42 @@ export function isBooleanFilterOperator(
   return ["is-checked", "is-not-checked"].includes(op);
 }
 
+export type DateFilterOperator =
+  | "is-on"
+  | "is-not-on"
+  | "is-before"
+  | "is-after"
+  | "is-on-and-before"
+  | "is-on-and-after";
+
+export function isDateFilterOperator(
+  op: FilterOperator
+): op is DateFilterOperator {
+  return [
+    "is-on",
+    "is-not-on",
+    "is-before",
+    "is-after",
+    "is-on-and-before",
+    "is-on-and-after",
+  ].includes(op);
+}
+
+export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of";
+
+export function isListFilterOperator(
+  op: FilterOperator
+): op is ListFilterOperator {
+  return ["has-any-of", "has-all-of", "has-none-of"].includes(op);
+}
+
 export type FilterOperator =
   | BaseFilterOperator
   | StringFilterOperator
   | NumberFilterOperator
-  | BooleanFilterOperator;
+  | BooleanFilterOperator
+  | DateFilterOperator
+  | ListFilterOperator;
 
 export type FilterOperatorType = "unary" | "binary";
 
@@ -91,6 +122,15 @@ export const filterOperatorTypes: Record<FilterOperator, FilterOperatorType> = {
   gte: "binary",
   "is-checked": "unary",
   "is-not-checked": "unary",
+  "is-on": "binary",
+  "is-not-on": "binary",
+  "is-before": "binary",
+  "is-after": "binary",
+  "is-on-and-before": "binary",
+  "is-on-and-after": "binary",
+  "has-any-of": "binary",
+  "has-all-of": "binary",
+  "has-none-of": "binary",
 };
 
 export interface FilterCondition {

@@ -45,8 +45,8 @@ function sortCriteria(
 
   const isAsc = criteria.order === "asc";
 
-  if (!isEmpty(aval) && isEmpty(bval)) return isAsc ? 1 : -1;
-  if (isEmpty(aval) && !isEmpty(bval)) return isAsc ? -1 : 1;
+  if (!isEmpty(aval) && isEmpty(bval)) return -1;
+  if (isEmpty(aval) && !isEmpty(bval)) return 1;
   if (isEmpty(aval) && isEmpty(bval)) return 0;
 
   if (isNumber(aval) && isNumber(bval)) {
@@ -96,11 +96,7 @@ function sortBoolean(a: boolean, b: boolean, asc: boolean): number {
 }
 
 function sortString(a: string, b: string, asc: boolean): number {
-  if (a < b) {
-    return asc ? -1 : 1;
-  }
-  if (a > b) {
-    return asc ? 1 : -1;
-  }
-  return 0;
+  return asc
+    ? a.localeCompare(b, undefined, { numeric: true })
+    : b.localeCompare(a, undefined, { numeric: true });
 }

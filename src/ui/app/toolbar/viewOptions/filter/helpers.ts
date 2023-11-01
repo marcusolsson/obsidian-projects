@@ -76,7 +76,12 @@ export function getOperatorsByField(field: DataField): Array<{
   ];
 
   if (field.repeated) {
-    return baseOperators;
+    return [
+      ...baseOperators,
+      { label: "has any of", value: "has-any-of" },
+      { label: "has all of", value: "has-all-of" },
+      { label: "has none of", value: "has-none-of" },
+    ];
   }
 
   switch (field.type) {
@@ -103,6 +108,16 @@ export function getOperatorsByField(field: DataField): Array<{
         { label: ">", value: "gt" },
         { label: "≤", value: "lte" },
         { label: "≥", value: "gte" },
+      ];
+    case DataFieldType.Date:
+      return [
+        ...baseOperators,
+        { label: "is on", value: "is-on" },
+        { label: "is not on", value: "is-not-on" },
+        { label: "is before", value: "is-before" },
+        { label: "is after", value: "is-after" },
+        { label: "is on and before", value: "is-on-and-before" },
+        { label: "is on and after", value: "is-on-and-after" },
       ];
   }
 
