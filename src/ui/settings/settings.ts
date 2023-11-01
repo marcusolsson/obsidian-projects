@@ -9,6 +9,7 @@ import type {
   ProjectId,
   ProjectsPluginPreferences,
 } from "src/settings/settings";
+import { i18n } from "src/lib/stores/i18n";
 
 /**
  * ProjectsSettingTab builds the plugin settings tab.
@@ -32,8 +33,8 @@ export class ProjectsSettingTab extends PluginSettingTab {
     containerEl.empty();
 
     new Setting(containerEl)
-      .setName("Project size limit")
-      .setDesc("Avoid accidentally loading too many notes. Increasing ")
+      .setName(get(i18n).t("settings.general.size-limit.name"))
+      .setDesc(get(i18n).t("settings.general.size-limit.desc"))
       .addText((text) =>
         text
           .setValue(preferences.projectSizeLimit.toString())
@@ -47,17 +48,21 @@ export class ProjectsSettingTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName("Link behavior")
+      .setName(get(i18n).t("settings.general.link-behavior.name"))
       .setDesc(
-        `Determines what happens when you select the link of a note. Press ${
-          Platform.isMacOS ? "Cmd" : "Ctrl"
-        } while selecting link for opposite behavior.`
+        get(i18n).t("settings.general.link-behavior.desc", {
+          modifier: Platform.isMacOS ? "Cmd" : "Ctrl",
+        })
       )
       .addDropdown((dropdown) => {
         dropdown
           .addOptions({
-            "open-editor": "Open editor",
-            "open-note": "Open note",
+            "open-editor": get(i18n).t(
+              "settings.general.link-behavior.options.open-editor"
+            ),
+            "open-note": get(i18n).t(
+              "settings.general.link-behavior.options.open-note"
+            ),
           })
           .setValue(preferences.linkBehavior)
           .onChange((value) => {
@@ -68,28 +73,40 @@ export class ProjectsSettingTab extends PluginSettingTab {
           });
       });
 
-    new Setting(containerEl).setName("Front matter").setHeading();
-
-    new Setting(containerEl).setName("Quote strings").addDropdown((dropdown) =>
-      dropdown
-        .addOption("PLAIN", "If needed")
-        .addOption("QUOTE_DOUBLE", "Always")
-        .setValue(preferences.frontmatter.quoteStrings)
-        .onChange((value) => {
-          if (value === "PLAIN" || value === "QUOTE_DOUBLE") {
-            save({
-              ...preferences,
-              frontmatter: {
-                quoteStrings: value,
-              },
-            });
-          }
-        })
-    );
+    new Setting(containerEl)
+      .setName(get(i18n).t("settings.front-matter.heading"))
+      .setHeading();
 
     new Setting(containerEl)
-      .setName("Commands")
-      .setDesc("Add commands for your favorite projects and views.")
+      .setName(get(i18n).t("settings.front-matter.quote-strings.name"))
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption(
+            "PLAIN",
+            get(i18n).t("settings.front-matter.quote-strings.options.plain")
+          )
+          .addOption(
+            "QUOTE_DOUBLE",
+            get(i18n).t(
+              "settings.front-matter.quote-strings.options.quote-double"
+            )
+          )
+          .setValue(preferences.frontmatter.quoteStrings)
+          .onChange((value) => {
+            if (value === "PLAIN" || value === "QUOTE_DOUBLE") {
+              save({
+                ...preferences,
+                frontmatter: {
+                  quoteStrings: value,
+                },
+              });
+            }
+          })
+      );
+
+    new Setting(containerEl)
+      .setName(get(i18n).t("settings.commands.name"))
+      .setDesc(get(i18n).t("settings.commands.desc"))
       .setHeading();
 
     const projectsManager = new Projects({
@@ -102,8 +119,8 @@ export class ProjectsSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-      .setName("Archives")
-      .setDesc("Restore or delete your archived projects.")
+      .setName(get(i18n).t("settings.archives.name"))
+      .setDesc(get(i18n).t("settings.archives.desc"))
       .setHeading();
 
     const archivesManager = new Archives({

@@ -117,11 +117,23 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
     });
   }
 
+  if (dateInterval[0].startOf("year").isSame(dateInterval[1].startOf("year"))) {
+    return get(i18n).t("views.calendar.interval", {
+      from: dateInterval[0],
+      to: dateInterval[1],
+      formatParams: {
+        from: { month: "short", day: "numeric" },
+        to: { month: "short", day: "numeric" },
+        year: { year: "numeric" },
+      },
+    });
+  }
+
   return get(i18n).t("views.calendar.interval", {
     from: dateInterval[0],
     to: dateInterval[1],
     formatParams: {
-      from: { month: "short", day: "numeric" },
+      from: { year: "numeric", month: "short", day: "numeric" },
       to: { year: "numeric", month: "short", day: "numeric" },
     },
   });

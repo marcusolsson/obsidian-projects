@@ -9,7 +9,7 @@
             "repeated": "Repeated field",
             "list": "List",
             "tags": "Tags",
-            "Aliases": "Aliases"
+            "aliases": "Aliases"
         },
         "datasources": {
             "folder": "Folder",
@@ -281,7 +281,7 @@
                 "today": "Today",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
-                "interval": "{{from, datetime}} – {{to, datetime}}",
+                "interval": "{{from, datetime}} – {{to, datetime}}, {{year, datetime}}",
                 "intervals": {
                     "month_one": "Month",
                     "month_other": "Months",
@@ -369,6 +369,41 @@
             },
             "read-only": "Read-only",
             "read-only-desc": "You can't create or edit notes in read-only projects."
+        },
+        "settings": {
+            "general": {
+                "size-limit": {
+                    "name": "Project size limit",
+                    "desc": "Avoid accidentally loading too many notes."
+                },
+                "link-behavior": {
+                    "name": "Link behavior",
+                    "desc": "Determines what happens when you select the link of a note. Press {{modifier}} while selecting link for opposite behavior.",
+                    "options": {
+                        "open-editor": "Open editor",
+                        "open-note": "Open note"
+                    }
+                }
+            },
+            "front-matter": {
+                "heading": "Front matter",
+                "quote-strings": {
+                    "name": "Quote strings",
+                    "options": {
+                        "plain": "If needeed",
+                        "quote-double": "Always"
+                    }
+                }
+            },
+            "commands": {
+                "name": "Commands",
+                "desc": "Add commands for your favorite projects and views."
+            },
+            "archives": {
+                "name": "Archives",
+                "desc": "Restore or delete your archived projects.",
+                "empty": "No archived project."
+            }
         },
         "errors": {
             "missingDataview": {
