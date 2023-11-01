@@ -2,7 +2,7 @@
     "translation": {
         "data-types": {
             "string": "文本",
-            "number": "数值",
+            "number": "数字",
             "boolean": "复选框",
             "date": "日期",
             "unknown": "未知",
@@ -369,6 +369,41 @@
             },
             "read-only": "只读项目",
             "read-only-desc": "不能在只读项目中新增、编辑笔记。"
+        },
+        "settings": {
+            "general": {
+                "size-limit": {
+                    "name": "最大条目数量",
+                    "desc": "防止意外加载过多条目。"
+                },
+                "link-behavior": {
+                    "name": "链接行为",
+                    "desc": "选择在 Projects 中点击链接时的行为。按下 {{modifier}} 键时点击将执行另一项。",
+                    "options": {
+                        "open-editor": "打开元数据编辑器",
+                        "open-note": "打开目标笔记"
+                    }
+                }
+            },
+            "front-matter": {
+                "heading": "Front matter",
+                "quote-strings": {
+                    "name": "使用引号包裹字符串",
+                    "options": {
+                        "plain": "必要时",
+                        "quote-double": "总是"
+                    }
+                }
+            },
+            "commands": {
+                "name": "命令",
+                "desc": "为你最常用的项目和视图添加命令到命令面板。"
+            },
+            "archives": {
+                "name": "存档管理",
+                "desc": "恢复或删除已存档项目。",
+                "empty": "没有已存档项目。"
+            }
         },
         "errors": {
             "missingDataview": {

@@ -41,7 +41,7 @@
 
 {#if !archives.length}
   <Callout title={"Info"} icon="info" variant="info">
-    <Typography variant="body">No archived project.</Typography>
+    <Typography variant="body">{$i18n.t("settings.archives.empty")}</Typography>
   </Callout>
 {:else}
   {#each archives as archive}
