@@ -11,7 +11,7 @@
     NumberInput,
     ColorInput,
     Checkbox,
-    DateInput,
+    // DateInput, //use native date input temporarily,
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
@@ -158,9 +158,11 @@
               on:blur={handleValueChange(i)}
             />
           {:else if isDateFilterOperator(rule.condition.operator)}
-            <DateInput
-              value={dayjs(rule.condition.value ?? "").toDate()}
+            <input
+              type="date"
+              value={rule.condition.value ?? ""}
               on:blur={handleValueChange(i)}
+              max="9999-12-31"
             />
           {:else if isListFilterOperator(rule.condition.operator)}
             <TagsInput
