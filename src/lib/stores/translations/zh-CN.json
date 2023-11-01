@@ -281,7 +281,7 @@
                 "today": "今天",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
-                "interval": "{{year, datetime}}{{from, datetime}} – {{to, datetime}}",
+                "interval": "{{custom_year, datetime}}{{from, datetime}} – {{to, datetime}}",
                 "intervals": {
                     "month_one": "月",
                     "month_other": "月",
