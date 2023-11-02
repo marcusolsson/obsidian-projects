@@ -9,7 +9,19 @@
   export let unique: boolean = false;
   // check invalid characters for preserved fields
   export let strict: boolean = false;
-  export let invalidChars: string[] = [".", ",", " ", " "]; // ban unintentional nbsp
+  export let invalidChars: string[] = [
+    ".",
+    ",",
+    ";",
+    ":",
+    "#",
+    "<",
+    ">",
+    "?",
+    "\\",
+    " ",
+    " ", // ban unintentional nbsp
+  ];
   export let value: DataValue[];
   let inputRef: HTMLDivElement;
 
