@@ -357,6 +357,10 @@
             "sort": {
                 "label": "Sort",
                 "add": "Add another sort"
+            },
+            "tag": {
+                "edit": "Edit",
+                "remove": "Remove"
             }
         },
         "toolbar": {

@@ -357,6 +357,10 @@
             "sort": {
                 "label": "排序",
                 "add": "添加排序条件"
+            },
+            "tag": {
+                "edit": "编辑",
+                "remove": "移除"
             }
         },
         "toolbar": {
