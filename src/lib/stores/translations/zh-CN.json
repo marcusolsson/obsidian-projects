@@ -195,7 +195,7 @@
                         "title": "只读项目",
                         "message": "{{project}} 是一个只读项目，请选择其他项目以新建笔记。"
                     },
-                    "untitled": "未命名笔记"
+                    "untitled": "未命名"
                 },
                 "edit": {
                     "short-title": "编辑笔记",
