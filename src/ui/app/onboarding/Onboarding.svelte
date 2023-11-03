@@ -11,7 +11,7 @@
   <Typography variant="h1">Get started with Projects</Typography>
   <Typography variant="body">
     Projects lets you manage groups of related notes using
-    <a href="https://help.obsidian.md/Advanced+topics/YAML+front+matter">
+    <a href="https://help.obsidian.md/Editing+and+formatting/Properties">
       front matter</a
     >. For example, a folder with the blog posts you're working on.
   </Typography>
