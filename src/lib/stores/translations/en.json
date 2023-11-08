@@ -281,7 +281,7 @@
                 "today": "Today",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
-                "interval": "{{from, datetime}} – {{to, datetime}}{{separator}}{{custom_year, datetime}}",
+                "interval": "{{from, datetime}} – {{to, datetime}}{{en_separator}}{{custom_year, datetime}}",
                 "intervals": {
                     "month_one": "Month",
                     "month_other": "Months",
