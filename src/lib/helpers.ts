@@ -3,6 +3,7 @@ import { get } from "svelte/store";
 
 import { app } from "src/lib/stores/obsidian";
 import type { ProjectDefinition, ViewDefinition } from "src/settings/settings";
+import type { DataField } from "./dataframe/dataframe";
 
 /**
  * notEmpty is a convenience function for filtering arrays with optional values.
@@ -43,12 +44,22 @@ export function nextUniqueProjectName(
 }
 
 /**
- * nextUniqueViewName returns the given project name with the lowest
+ * nextUniqueViewName returns the given view name with the lowest
  * available sequence number appended to it.
  */
 export function nextUniqueViewName(views: ViewDefinition[], name: string) {
   return uniquify(name, (candidate) => {
     return !!views.find((view) => view.name === candidate);
+  });
+}
+
+/**
+ * nextUniqueFieldName returns the given field name with the lowest
+ * available sequence number appended to it.
+ */
+export function nextUniqueFieldName(fields: DataField[], name: string) {
+  return uniquify(name, (candidate) => {
+    return !!fields.find((field) => field.name === candidate);
   });
 }
 

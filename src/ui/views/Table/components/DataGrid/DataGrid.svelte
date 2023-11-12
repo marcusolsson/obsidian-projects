@@ -30,6 +30,10 @@
   export let onColumnConfigure: (column: GridColDef, editable: boolean) => void;
   export let onColumnDelete: (field: string) => void;
   export let onColumnHide: (column: GridColDef) => void;
+  export let onColumnInsert: (
+    anchor: string, // anchor field name
+    direction: number // 1 for right, 0 for left insert (keep the place and push back others)
+  ) => void;
   export let onRowDelete: (rowId: GridRowId) => void;
   export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
 
@@ -53,6 +57,37 @@
         .onClick(() => onColumnConfigure(column, editable));
     });
 
+    if (!readonly) {
+      menu.addItem((item) => {
+        item
+          .setTitle(t("components.data-grid.column.insert-left"))
+          .setIcon("arrow-left")
+          .onClick(() => {
+            onColumnInsert(column.field, 0);
+          });
+      });
+
+      menu.addItem((item) => {
+        item
+          .setTitle(t("components.data-grid.column.insert-right"))
+          .setIcon("arrow-right")
+          .onClick(() => {
+            onColumnInsert(column.field, 1);
+          });
+      });
+    }
+
+    menu.addSeparator();
+
+    menu.addItem((item) => {
+      item
+        .setTitle(t("components.data-grid.column.hide"))
+        .setIcon("eye-off")
+        .onClick(() => {
+          onColumnHide(column);
+        });
+    });
+
     if (editable) {
       menu.addItem((item) => {
         item
@@ -60,8 +95,6 @@
           .setIcon("trash")
           .onClick(() => onColumnDelete(column.field));
       });
-
-      menu.addSeparator();
     }
 
     // let isDateCol = column.type === DataFieldType.Date;
@@ -92,15 +125,6 @@
     // });
     //
     // menu.addSeparator();
-
-    menu.addItem((item) => {
-      item
-        .setTitle(t("components.data-grid.column.hide"))
-        .setIcon("eye-off")
-        .onClick(() => {
-          onColumnHide(column);
-        });
-    });
 
     return menu;
   }

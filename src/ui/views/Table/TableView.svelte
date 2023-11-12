@@ -29,6 +29,8 @@
   import { settings } from "src/lib/stores/settings";
   import { sortFields } from "./helpers";
   import type { ProjectDefinition } from "src/settings/settings";
+  import { CreateFieldModal } from "src/ui/modals/createFieldModal";
+  import { Icon, Button } from "obsidian-svelte";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -38,6 +40,8 @@
 
   export let config: TableConfig | undefined;
   export let onConfigChange: (cfg: TableConfig) => void;
+
+  let button: HTMLElement;
 
   function saveConfig(cfg: TableConfig) {
     config = cfg;
@@ -121,62 +125,145 @@
     </ViewToolbar>
   </ViewHeader>
   <ViewContent>
-    <DataGrid
-      {columns}
-      {rows}
-      {readonly}
-      colorModel={(rowId) => {
-        const record = frame.records.find((record) => record.id === rowId);
-        if (record) {
-          return getRecordColor(record);
-        }
-        return null;
-      }}
-      onRowAdd={() => {
-        new CreateNoteModal($app, project, (name, templatePath, project) => {
-          api.addRecord(createDataRecord(name, project), templatePath);
-        }).open();
-      }}
-      onRowEdit={(id, values) => {
-        new EditNoteModal(
-          $app,
-          fields,
-          (record) => {
-            api.updateRecord(record, fields);
-          },
-          {
-            id,
-            values,
+    <div>
+      <DataGrid
+        {columns}
+        {rows}
+        {readonly}
+        colorModel={(rowId) => {
+          const record = frame.records.find((record) => record.id === rowId);
+          if (record) {
+            return getRecordColor(record);
           }
-        ).open();
-      }}
-      onRowDelete={(id) => api.deleteRecord(id)}
-      onColumnHide={(column) => handleVisibilityChange(column.field, false)}
-      onColumnConfigure={(column, editable) => {
-        const field = fields.find((field) => field.name === column.field);
-
-        if (field) {
-          new ConfigureFieldModal(
+          return null;
+        }}
+        onRowAdd={() => {
+          new CreateNoteModal($app, project, (name, templatePath, project) => {
+            api.addRecord(createDataRecord(name, project), templatePath);
+          }).open();
+        }}
+        onRowEdit={(id, values) => {
+          new EditNoteModal(
             $app,
-            $i18n.t("modals.field.configure.title"),
-            field,
-            editable,
-            (field) => {
-              if (editable) {
-                if (field.name !== column.field) {
-                  api.updateField(field, column.field);
-                } else {
-                  api.updateField(field);
+            fields,
+            (record) => {
+              api.updateRecord(record, fields);
+            },
+            {
+              id,
+              values,
+            }
+          ).open();
+        }}
+        onRowDelete={(id) => api.deleteRecord(id)}
+        onColumnHide={(column) => handleVisibilityChange(column.field, false)}
+        onColumnConfigure={(column, editable) => {
+          const field = fields.find((field) => field.name === column.field);
+
+          if (field) {
+            new ConfigureFieldModal(
+              $app,
+              $i18n.t("modals.field.configure.title"),
+              field,
+              editable,
+              (field) => {
+                if (editable) {
+                  if (field.name !== column.field) {
+                    api.updateField(field, column.field);
+                  } else {
+                    api.updateField(field);
+                  }
+                }
+
+                const projectFields = Object.fromEntries(
+                  Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+                    fields.find((field) => field.name === key)
+                  )
+                );
+
+                if (field.typeConfig) {
+                  settings.updateProject({
+                    ...project,
+                    fieldConfig: {
+                      ...projectFields,
+                      [field.name]: field.typeConfig,
+                    },
+                  });
                 }
               }
+            ).open();
+          }
+        }}
+        onColumnInsert={(anchor, direction) => {
+          const position = fields.findIndex((field) => anchor === field.name);
 
+          new CreateFieldModal($app, fields, async (field, value) => {
+            await api.addField(field, value, position + direction);
+
+            const orderFields = fields.map((field) => field.name);
+            orderFields.splice(position + direction, 0, field.name);
+
+            saveConfig({
+              ...config,
+              orderFields: orderFields,
+            });
+
+            if (field.typeConfig) {
               const projectFields = Object.fromEntries(
                 Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
                   fields.find((field) => field.name === key)
                 )
               );
 
+              settings.updateProject({
+                ...project,
+                fieldConfig: {
+                  ...projectFields,
+                  [field.name]: field.typeConfig,
+                },
+              });
+            }
+          }).open();
+        }}
+        onColumnDelete={(field) => api.deleteField(field)}
+        onRowChange={(rowId, row) => {
+          api.updateRecord({ id: rowId, values: row }, fields);
+        }}
+        onColumnResize={handleWidthChange}
+        onColumnSort={(fields) => {
+          saveConfig({
+            ...config,
+            orderFields: fields,
+          });
+        }}
+      />
+      <span bind:this={button}>
+        <Button
+          variant="plain"
+          on:click={() => {
+            new CreateFieldModal($app, fields, async (field, value) => {
+              await api.addField(field, value);
+
+              button.scrollIntoView({
+                block: "nearest",
+                inline: "nearest",
+              });
+
+              const orderFields = fields.map((field) => field.name);
+              orderFields.push(field.name);
+
+              saveConfig({
+                ...config,
+                orderFields: orderFields,
+              });
+
               if (field.typeConfig) {
+                const projectFields = Object.fromEntries(
+                  Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+                    fields.find((field) => field.name === key)
+                  )
+                );
+
                 settings.updateProject({
                   ...project,
                   fieldConfig: {
@@ -185,21 +272,42 @@
                   },
                 });
               }
-            }
-          ).open();
-        }
-      }}
-      onColumnDelete={(field) => api.deleteField(field)}
-      onRowChange={(rowId, row) => {
-        api.updateRecord({ id: rowId, values: row }, fields);
-      }}
-      onColumnResize={handleWidthChange}
-      onColumnSort={(fields) => {
-        saveConfig({
-          ...config,
-          orderFields: fields,
-        });
-      }}
-    />
+            }).open();
+          }}
+        >
+          <Icon name="plus" />
+          {$i18n.t("components.data-grid.column.add")}
+        </Button>
+      </span>
+    </div>
   </ViewContent>
 </ViewLayout>
+
+<style>
+  div {
+    display: flex;
+  }
+
+  /* styled as a column header, with a fixed height*/
+  span {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+
+    background-color: var(--background-secondary);
+    border-right: 1px solid var(--background-modifier-border);
+    border-left-color: var(--background-modifier-border);
+    border-bottom: 1px solid var(--background-modifier-border);
+
+    padding: 1px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+  }
+
+  span:focus-within {
+    border-radius: var(--button-radius);
+    box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+  }
+</style>

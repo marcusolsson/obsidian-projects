@@ -229,6 +229,34 @@
                         "description": "依照 Markdown 格式渲染字段内容。"
                     },
                     "save": "保存"
+                },
+                "create": {
+                    "short-title": "添加字段",
+                    "title": "添加字段",
+                    "name": {
+                        "name": "字段名称",
+                        "description": ""
+                    },
+                    "untitled": "新字段",
+                    "empty-name-error": "字段名不能为空。",
+                    "existing-name-error": "字段名称重复。",
+                    "type": {
+                        "name": "字段类型",
+                        "description": ""
+                    },
+                    "default": {
+                        "name": "默认值",
+                        "description": ""
+                    },
+                    "options": {
+                        "name": "选项预设",
+                        "description": "在填写该字段内容时，将使用下面提供的预设值进行自动补全。"
+                    },
+                    "rich-text": {
+                        "name": "富文本",
+                        "description": "依照 Markdown 格式渲染字段内容。"
+                    },
+                    "create": "添加字段"
                 }
             },
             "input": {
@@ -322,6 +350,9 @@
             "data-grid": {
                 "column": {
                     "configure": "配置字段",
+                    "add": "新建字段",
+                    "insert-left": "向左插入字段",
+                    "insert-right": "向右插入字段",
                     "rename": "重命名字段",
                     "delete": "删除字段",
                     "hide": "隐藏字段"

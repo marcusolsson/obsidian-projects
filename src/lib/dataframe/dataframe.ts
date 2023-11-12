@@ -64,6 +64,7 @@ export enum DataFieldType {
   Number = "number",
   Boolean = "boolean",
   Date = "date",
+  List = "multitext",
   Unknown = "unknown",
 }
 
