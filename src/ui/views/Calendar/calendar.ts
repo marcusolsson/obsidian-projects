@@ -121,10 +121,12 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
     return get(i18n).t("views.calendar.interval", {
       from: dateInterval[0],
       to: dateInterval[1],
+      en_separator: ", ",
+      custom_year: dateInterval[0],
       formatParams: {
         from: { month: "short", day: "numeric" },
         to: { month: "short", day: "numeric" },
-        year: { year: "numeric" },
+        custom_year: { year: "numeric" },
       },
     });
   }
@@ -132,9 +134,12 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
   return get(i18n).t("views.calendar.interval", {
     from: dateInterval[0],
     to: dateInterval[1],
+    en_separator: "",
+    custom_year: "",
     formatParams: {
       from: { year: "numeric", month: "short", day: "numeric" },
       to: { year: "numeric", month: "short", day: "numeric" },
+      custom_year: { year: false },
     },
   });
 }

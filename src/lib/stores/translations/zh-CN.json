@@ -195,7 +195,7 @@
                         "title": "只读项目",
                         "message": "{{project}} 是一个只读项目，请选择其他项目以新建笔记。"
                     },
-                    "untitled": "未命名笔记"
+                    "untitled": "未命名"
                 },
                 "edit": {
                     "short-title": "编辑笔记",
@@ -309,7 +309,7 @@
                 "today": "今天",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
-                "interval": "{{year, datetime}}{{from, datetime}} – {{to, datetime}}",
+                "interval": "{{custom_year, datetime}}{{from, datetime}} – {{to, datetime}}",
                 "intervals": {
                     "month_one": "月",
                     "month_other": "月",
@@ -388,6 +388,10 @@
             "sort": {
                 "label": "排序",
                 "add": "添加排序条件"
+            },
+            "tag": {
+                "edit": "编辑",
+                "remove": "移除"
             }
         },
         "toolbar": {

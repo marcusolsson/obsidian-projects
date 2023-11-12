@@ -251,11 +251,16 @@
     />
   {/each}
   <GridCellGroup index={rows.length + 2} footer>
-    <span style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}>
-      <Button variant="plain" on:click={() => onRowAdd()}>
-        <Icon name="plus" />
-        {t("components.data-grid.row.add")}
-      </Button>
+    <span
+      class="width-provider"
+      style={`width: ${60 + (sortedColumns[0]?.width ?? 0)}`}
+    >
+      <span class="focus-provider">
+        <Button variant="plain" on:click={() => onRowAdd()}>
+          <Icon name="plus" />
+          {t("components.data-grid.row.add")}
+        </Button>
+      </span>
     </span>
   </GridCellGroup>
 </div>
@@ -265,9 +270,18 @@
     display: inline-block;
   }
 
-  span {
+  .width-provider {
     padding: 4px;
     position: sticky;
     left: 0;
+  }
+
+  .focus-provider {
+    display: inline-flex;
+    border-radius: var(--button-radius);
+  }
+
+  .focus-provider:focus-within {
+    box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
   }
 </style>

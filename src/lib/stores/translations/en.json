@@ -195,7 +195,7 @@
                         "title": "Read-only project",
                         "message": "{{project}} is a read-only project. Select another project to create a note."
                     },
-                    "untitled": "Untitled note"
+                    "untitled": "Untitled"
                 },
                 "edit": {
                     "short-title": "Edit note",
@@ -309,7 +309,7 @@
                 "today": "Today",
                 "weekday": "{{value, datetime}}",
                 "date": "{{value, datetime}}",
-                "interval": "{{from, datetime}} – {{to, datetime}}, {{year, datetime}}",
+                "interval": "{{from, datetime}} – {{to, datetime}}{{en_separator}}{{custom_year, datetime}}",
                 "intervals": {
                     "month_one": "Month",
                     "month_other": "Months",
@@ -388,6 +388,10 @@
             "sort": {
                 "label": "Sort",
                 "add": "Add another sort"
+            },
+            "tag": {
+                "edit": "Edit",
+                "remove": "Remove"
             }
         },
         "toolbar": {

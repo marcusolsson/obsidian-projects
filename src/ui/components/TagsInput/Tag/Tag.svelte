@@ -4,6 +4,7 @@
   import type { DataValue } from "src/lib/dataframe/dataframe";
   import { createEventDispatcher } from "svelte";
   import { TagInput } from "../TagInput";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let tag: DataValue;
   export let selected: boolean = false;
@@ -20,7 +21,7 @@
     const menu = new Menu();
     menu.addItem((item) => {
       item
-        .setTitle("Edit")
+        .setTitle($i18n.t("components.tag.edit"))
         .setIcon("edit")
         .onClick((event) => {
           menu.close();
@@ -32,7 +33,7 @@
     menu.addSeparator();
     menu.addItem((item) => {
       item
-        .setTitle("Remove")
+        .setTitle($i18n.t("components.tag.remove"))
         .setIcon("trash-2")
         .onClick((event) => {
           menu.close();

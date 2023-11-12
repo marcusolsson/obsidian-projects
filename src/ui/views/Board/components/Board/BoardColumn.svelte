@@ -19,9 +19,24 @@
   <Typography variant="label" nomargin>{name}</Typography>
   <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
   {#if !readonly}
-    <Button variant="plain" on:click={() => onRecordAdd()}>
-      <Icon name="plus" />
-      {$i18n.t("views.board.note.add")}
-    </Button>
+    <span>
+      <Button variant="plain" on:click={() => onRecordAdd()}>
+        <Icon name="plus" />
+        {$i18n.t("views.board.note.add")}
+      </Button>
+    </span>
   {/if}
 </section>
+
+<style>
+  span {
+    display: inline-flex;
+    align-content: center;
+    justify-content: center;
+    border-radius: var(--button-radius);
+  }
+
+  span:focus-within {
+    box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+  }
+</style>

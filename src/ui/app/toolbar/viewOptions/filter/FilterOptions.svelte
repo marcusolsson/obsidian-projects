@@ -123,7 +123,7 @@
           />
         {:else if isListFilterOperator(condition.operator)}
           <TagsInput
-            strict={true}
+            strict={condition.field === "tags"}
             unique={true}
             value={JSON.parse(condition.value ?? "[]")}
             on:change={(event) => {

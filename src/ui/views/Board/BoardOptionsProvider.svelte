@@ -18,6 +18,8 @@
 
   $: ({ fields } = frame);
 
+  $: columnWidth = config?.columnWidth ?? 270;
+
   function handleIncludedFieldsChange(fields: string[]) {
     onConfigChange({ ...config, includeFields: fields });
   }
@@ -55,6 +57,7 @@
   </ViewHeader>
   <ViewContent>
     <slot
+      {columnWidth}
       groupByField={fields.find((field) => config.groupByField === field.name)}
       includeFields={config.includeFields ?? []}
     />

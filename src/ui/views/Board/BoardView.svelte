@@ -100,12 +100,13 @@
   {frame}
   config={config ?? {}}
   onConfigChange={saveConfig}
+  let:columnWidth
   let:groupByField
   let:includeFields
 >
   <Board
     columns={getColumns(records, config?.columns ?? {}, groupByField)}
-    columnWidth={config?.columnWidth ?? 270}
+    {columnWidth}
     includeFields={fields.filter((field) => includeFields.includes(field.name))}
     onRecordClick={handleRecordClick}
     onRecordAdd={handleRecordAdd(groupByField)}
