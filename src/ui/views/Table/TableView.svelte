@@ -30,7 +30,8 @@
   import { sortFields } from "./helpers";
   import type { ProjectDefinition } from "src/settings/settings";
   import { CreateFieldModal } from "src/ui/modals/createFieldModal";
-  import { Icon, Button } from "obsidian-svelte";
+  import { Icon } from "obsidian-svelte";
+  import { TextLabel } from "./components/DataGrid/GridCell/GridTextCell";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -41,7 +42,7 @@
   export let config: TableConfig | undefined;
   export let onConfigChange: (cfg: TableConfig) => void;
 
-  let button: HTMLElement;
+  let buttonEl: HTMLElement;
 
   function saveConfig(cfg: TableConfig) {
     config = cfg;
@@ -105,6 +106,75 @@
         },
       },
     });
+  }
+
+  function handleColumnAdd() {
+    new CreateFieldModal($app, fields, async (field, value) => {
+      await api.addField(field, value);
+
+      buttonEl.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "smooth",
+      });
+
+      const orderFields = fields.map((field) => field.name);
+      orderFields.push(field.name);
+
+      saveConfig({
+        ...config,
+        orderFields: orderFields,
+      });
+
+      if (field.typeConfig) {
+        const projectFields = Object.fromEntries(
+          Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+            fields.find((field) => field.name === key)
+          )
+        );
+
+        settings.updateProject({
+          ...project,
+          fieldConfig: {
+            ...projectFields,
+            [field.name]: field.typeConfig,
+          },
+        });
+      }
+    }).open();
+  }
+
+  function handleColumnInsert(anchor: string, direction: number) {
+    const position =
+      fields.findIndex((field) => anchor === field.name) + direction;
+
+    new CreateFieldModal($app, fields, async (field, value) => {
+      await api.addField(field, value, position);
+
+      const orderFields = fields.map((field) => field.name);
+      orderFields.splice(position, 0, field.name);
+
+      saveConfig({
+        ...config,
+        orderFields: orderFields,
+      });
+
+      if (field.typeConfig) {
+        const projectFields = Object.fromEntries(
+          Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+            fields.find((field) => field.name === key)
+          )
+        );
+
+        settings.updateProject({
+          ...project,
+          fieldConfig: {
+            ...projectFields,
+            [field.name]: field.typeConfig,
+          },
+        });
+      }
+    }).open();
   }
 </script>
 
@@ -194,37 +264,7 @@
             ).open();
           }
         }}
-        onColumnInsert={(anchor, direction) => {
-          const position = fields.findIndex((field) => anchor === field.name);
-
-          new CreateFieldModal($app, fields, async (field, value) => {
-            await api.addField(field, value, position + direction);
-
-            const orderFields = fields.map((field) => field.name);
-            orderFields.splice(position + direction, 0, field.name);
-
-            saveConfig({
-              ...config,
-              orderFields: orderFields,
-            });
-
-            if (field.typeConfig) {
-              const projectFields = Object.fromEntries(
-                Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-                  fields.find((field) => field.name === key)
-                )
-              );
-
-              settings.updateProject({
-                ...project,
-                fieldConfig: {
-                  ...projectFields,
-                  [field.name]: field.typeConfig,
-                },
-              });
-            }
-          }).open();
-        }}
+        onColumnInsert={handleColumnInsert}
         onColumnDelete={(field) => api.deleteField(field)}
         onRowChange={(rowId, row) => {
           api.updateRecord({ id: rowId, values: row }, fields);
@@ -237,47 +277,16 @@
           });
         }}
       />
-      <span bind:this={button}>
-        <Button
-          variant="plain"
-          on:click={() => {
-            new CreateFieldModal($app, fields, async (field, value) => {
-              await api.addField(field, value);
-
-              button.scrollIntoView({
-                block: "nearest",
-                inline: "nearest",
-              });
-
-              const orderFields = fields.map((field) => field.name);
-              orderFields.push(field.name);
-
-              saveConfig({
-                ...config,
-                orderFields: orderFields,
-              });
-
-              if (field.typeConfig) {
-                const projectFields = Object.fromEntries(
-                  Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-                    fields.find((field) => field.name === key)
-                  )
-                );
-
-                settings.updateProject({
-                  ...project,
-                  fieldConfig: {
-                    ...projectFields,
-                    [field.name]: field.typeConfig,
-                  },
-                });
-              }
-            }).open();
-          }}
-        >
-          <Icon name="plus" />
-          {$i18n.t("components.data-grid.column.add")}
-        </Button>
+      <span
+        tabindex="-1"
+        bind:this={buttonEl}
+        on:click={handleColumnAdd}
+        on:keydown={(evt) => {
+          if (evt.key === "Enter") handleColumnAdd();
+        }}
+      >
+        <Icon name="plus" />
+        <TextLabel value={$i18n.t("components.data-grid.column.add")} />
       </span>
     </div>
   </ViewContent>
@@ -288,26 +297,38 @@
     display: flex;
   }
 
-  /* styled as a column header, with a fixed height*/
+  /* styled as a column header*/
   span {
     position: sticky;
     top: 0;
     z-index: 6;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
 
     background-color: var(--background-secondary);
     border-right: 1px solid var(--background-modifier-border);
     border-left-color: var(--background-modifier-border);
     border-bottom: 1px solid var(--background-modifier-border);
 
-    padding: 1px;
-    height: 32px;
+    height: fit-content;
+    min-height: 30px;
 
-    display: flex;
-    align-items: center;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 0 12px;
+
+    cursor: default;
   }
 
-  span:focus-within {
+  span:focus {
     border-radius: var(--button-radius);
     box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+  }
+
+  span:hover {
+    color: var(--text-normal);
   }
 </style>
