@@ -138,8 +138,6 @@
     display: inline-flex;
     align-items: center;
     gap: var(--size-4-1);
-
-    text-wrap: nowrap;
   }
 
   .tag:hover {
