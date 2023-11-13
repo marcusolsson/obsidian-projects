@@ -118,8 +118,9 @@
         behavior: "smooth",
       });
 
-      const orderFields = fields.map((field) => field.name);
-      orderFields.filter((f) => f !== field.name);
+      const orderFields = fields
+        .map((field) => field.name)
+        .filter((f) => f !== field.name);
       orderFields.push(field.name);
       saveConfig({
         ...config,
@@ -135,8 +136,9 @@
       const position = fields.findIndex((f) => anchor === f.name) + direction;
       await api.addField(field, value, position);
 
-      const orderFields = fields.map((field) => field.name);
-      orderFields.filter((f) => f !== field.name);
+      const orderFields = fields
+        .map((field) => field.name)
+        .filter((f) => f !== field.name);
       orderFields.splice(position, 0, field.name);
       saveConfig({
         ...config,
