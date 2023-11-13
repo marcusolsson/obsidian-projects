@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     DataFieldType,
+    type DataField,
     type DataFrame,
     type DataRecord,
   } from "src/lib/dataframe/dataframe";
@@ -108,74 +109,67 @@
     });
   }
 
-  function handleColumnAdd() {
+  function handleColumnAppend() {
     new CreateFieldModal($app, fields, async (field, value) => {
-      const orderFields = fields.map((field) => field.name);
-      orderFields.filter((f) => f !== field.name);
-
       await api.addField(field, value);
-
       buttonEl.scrollIntoView({
         block: "nearest",
         inline: "nearest",
         behavior: "smooth",
       });
 
+      const orderFields = fields.map((field) => field.name);
+      orderFields.filter((f) => f !== field.name);
       orderFields.push(field.name);
       saveConfig({
         ...config,
         orderFields: orderFields,
       });
 
-      if (field.typeConfig) {
-        const projectFields = Object.fromEntries(
-          Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-            fields.find((field) => field.name === key)
-          )
-        );
-
-        settings.updateProject({
-          ...project,
-          fieldConfig: {
-            ...projectFields,
-            [field.name]: field.typeConfig,
-          },
-        });
-      }
+      handleFieldAdd(field);
     }).open();
   }
 
   function handleColumnInsert(anchor: string, direction: number) {
     new CreateFieldModal($app, fields, async (field, value) => {
-      const orderFields = fields.map((field) => field.name);
-      orderFields.filter((f) => f !== field.name);
       const position = fields.findIndex((f) => anchor === f.name) + direction;
-
       await api.addField(field, value, position);
 
+      const orderFields = fields.map((field) => field.name);
+      orderFields.filter((f) => f !== field.name);
       orderFields.splice(position, 0, field.name);
-
       saveConfig({
         ...config,
         orderFields: orderFields,
       });
 
-      if (field.typeConfig) {
-        const projectFields = Object.fromEntries(
-          Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-            fields.find((field) => field.name === key)
-          )
-        );
-
-        settings.updateProject({
-          ...project,
-          fieldConfig: {
-            ...projectFields,
-            [field.name]: field.typeConfig,
-          },
-        });
-      }
+      handleFieldAdd(field);
     }).open();
+  }
+
+  function handleFieldAdd(field: DataField) {
+    const projectFields = Object.fromEntries(
+      Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+        fields.find((f) => f.name === key && f.name !== field.name)
+      )
+    );
+
+    if (field.typeConfig) {
+      settings.updateProject({
+        ...project,
+        fieldConfig: {
+          ...projectFields,
+          [field.name]: field.typeConfig,
+        },
+      });
+    } else {
+      settings.updateProject({
+        ...project,
+        fieldConfig: {
+          ...projectFields,
+        },
+      });
+    }
   }
 </script>
 
@@ -281,9 +275,9 @@
       <span
         tabindex="-1"
         bind:this={buttonEl}
-        on:click={handleColumnAdd}
+        on:click={handleColumnAppend}
         on:keydown={(evt) => {
-          if (evt.key === "Enter") handleColumnAdd();
+          if (evt.key === "Enter") handleColumnAppend();
         }}
       >
         <Icon name="plus" />
