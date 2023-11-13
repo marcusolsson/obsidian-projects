@@ -110,6 +110,9 @@
 
   function handleColumnAdd() {
     new CreateFieldModal($app, fields, async (field, value) => {
+      const orderFields = fields.map((field) => field.name);
+      orderFields.filter((f) => f !== field.name);
+
       await api.addField(field, value);
 
       buttonEl.scrollIntoView({
@@ -118,9 +121,7 @@
         behavior: "smooth",
       });
 
-      const orderFields = fields.map((field) => field.name);
       orderFields.push(field.name);
-
       saveConfig({
         ...config,
         orderFields: orderFields,
@@ -145,13 +146,13 @@
   }
 
   function handleColumnInsert(anchor: string, direction: number) {
-    const position =
-      fields.findIndex((field) => anchor === field.name) + direction;
-
     new CreateFieldModal($app, fields, async (field, value) => {
+      const orderFields = fields.map((field) => field.name);
+      orderFields.filter((f) => f !== field.name);
+      const position = fields.findIndex((f) => anchor === f.name) + direction;
+
       await api.addField(field, value, position);
 
-      const orderFields = fields.map((field) => field.name);
       orderFields.splice(position, 0, field.name);
 
       saveConfig({
