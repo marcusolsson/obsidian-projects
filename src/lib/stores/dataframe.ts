@@ -49,6 +49,15 @@ function createDataFrame() {
         })
       );
     },
+    addField(newField: DataField, position?: number) {
+      update((state) =>
+        produce(state, (draft) => {
+          position
+            ? draft.fields.splice(position, 0, newField)
+            : draft.fields.push(newField);
+        })
+      );
+    },
     updateField(updated: DataField, oldName?: string) {
       update((state) =>
         produce(state, (draft) => {

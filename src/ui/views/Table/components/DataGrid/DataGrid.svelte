@@ -30,6 +30,10 @@
   export let onColumnConfigure: (column: GridColDef, editable: boolean) => void;
   export let onColumnDelete: (field: string) => void;
   export let onColumnHide: (column: GridColDef) => void;
+  export let onColumnInsert: (
+    anchor: string, // anchor field name
+    direction: number // 1 for right, 0 for left insert (keep the place and push back others)
+  ) => void;
   export let onRowDelete: (rowId: GridRowId) => void;
   export let onRowEdit: (rowId: GridRowId, row: GridRowModel) => void;
 
@@ -53,45 +57,27 @@
         .onClick(() => onColumnConfigure(column, editable));
     });
 
-    if (editable) {
+    if (!readonly) {
       menu.addItem((item) => {
         item
-          .setTitle(t("components.data-grid.column.delete"))
-          .setIcon("trash")
-          .onClick(() => onColumnDelete(column.field));
+          .setTitle(t("components.data-grid.column.insert-left"))
+          .setIcon("arrow-left")
+          .onClick(() => {
+            onColumnInsert(column.field, 0);
+          });
       });
 
-      menu.addSeparator();
+      menu.addItem((item) => {
+        item
+          .setTitle(t("components.data-grid.column.insert-right"))
+          .setIcon("arrow-right")
+          .onClick(() => {
+            onColumnInsert(column.field, 1);
+          });
+      });
     }
 
-    // let isDateCol = column.type === DataFieldType.Date;
-    //
-    // menu.addItem((item) => {
-    //   item
-    //     .setTitle(
-    //       t(
-    //         isDateCol
-    //           ? "components.data-grid.sortDate.asc"
-    //           : "components.data-grid.sort.asc"
-    //       )
-    //     )
-    //     .setIcon("sort-asc")
-    //     .onClick(() => onSortModelChange(column.field, "asc"));
-    // });
-    // menu.addItem((item) => {
-    //   item
-    //     .setTitle(
-    //       t(
-    //         isDateCol
-    //           ? "components.data-grid.sortDate.desc"
-    //           : "components.data-grid.sort.desc"
-    //       )
-    //     )
-    //     .setIcon("sort-desc")
-    //     .onClick(() => onSortModelChange(column.field, "desc"));
-    // });
-    //
-    // menu.addSeparator();
+    menu.addSeparator();
 
     menu.addItem((item) => {
       item
@@ -101,6 +87,15 @@
           onColumnHide(column);
         });
     });
+
+    if (editable) {
+      menu.addItem((item) => {
+        item
+          .setTitle(t("components.data-grid.column.delete"))
+          .setIcon("trash")
+          .onClick(() => onColumnDelete(column.field));
+      });
+    }
 
     return menu;
   }

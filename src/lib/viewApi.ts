@@ -1,6 +1,11 @@
 import { get } from "svelte/store";
 
-import type { DataField, DataRecord } from "./dataframe/dataframe";
+import type {
+  DataField,
+  DataRecord,
+  DataValue,
+  Optional,
+} from "./dataframe/dataframe";
 import type { DataApi } from "./dataApi";
 import { dataFrame } from "./stores/dataframe";
 import type { DataSource } from "./datasources";
@@ -30,6 +35,16 @@ export class ViewApi {
       dataFrame.deleteRecord(recordId);
     }
     this.dataApi.deleteRecord(recordId);
+  }
+
+  addField(field: DataField, value: Optional<DataValue>, position?: number) {
+    dataFrame.addField(field, position);
+
+    this.dataApi.addField(
+      get(dataFrame).records.map((record) => record.id),
+      field,
+      value
+    );
   }
 
   updateField(field: DataField, oldName?: string) {

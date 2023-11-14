@@ -229,6 +229,34 @@
                         "description": "For fields with Markdown content."
                     },
                     "save": "Save"
+                },
+                "create": {
+                    "short-title": "New field",
+                    "title": "Create new field",
+                    "name": {
+                        "name": "Name",
+                        "description": ""
+                    },
+                    "untitled": "New field",
+                    "empty-name-error": "Field name can't be empty.",
+                    "existing-name-error": "A field with that name already exists.",
+                    "type": {
+                        "name": "Type",
+                        "description": ""
+                    },
+                    "default": {
+                        "name": "Default value",
+                        "description": ""
+                    },
+                    "options": {
+                        "name": "Options",
+                        "description": "Allows you to auto-complete using predefined values for the field."
+                    },
+                    "rich-text": {
+                        "name": "Enable rich text formatting",
+                        "description": "For fields with Markdown content."
+                    },
+                    "create": "Create field"
                 }
             },
             "input": {
@@ -322,6 +350,9 @@
             "data-grid": {
                 "column": {
                     "configure": "Configure field",
+                    "add": "Add field",
+                    "insert-left": "Insert left",
+                    "insert-right": "Insert right",
                     "rename": "Rename field",
                     "delete": "Delete field",
                     "hide": "Hide field"

@@ -41,6 +41,21 @@ export class DataApi {
     }
   }
 
+  async addField(
+    paths: string[],
+    field: DataField,
+    value: Optional<DataValue>
+  ): Promise<void> {
+    Promise.all(
+      paths
+        .map((path) => this.fileSystem.getFile(path))
+        .filter(notEmpty)
+        .map((file) =>
+          this.updateFile(file, (data) => doAddField(data, field, value))()
+        )
+    );
+  }
+
   async renameField(paths: string[], from: string, to: string): Promise<void> {
     Promise.all(
       paths
@@ -151,6 +166,24 @@ export function doUpdateRecord(
     }),
     E.chain((updated) =>
       encodeFrontMatter(data, updated, getDefaultStringType())
+    )
+  );
+}
+
+export function doAddField(
+  data: string,
+  field: DataField,
+  value: Optional<DataValue>
+): E.Either<Error, string> {
+  return F.pipe(
+    data,
+    decodeFrontMatter,
+    E.map((frontmatter) => ({
+      ...frontmatter,
+      [field.name]: value,
+    })),
+    E.chain((frontmatter) =>
+      encodeFrontMatter(data, frontmatter, getDefaultStringType())
     )
   );
 }
