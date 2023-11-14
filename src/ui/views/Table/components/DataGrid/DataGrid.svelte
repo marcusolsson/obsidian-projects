@@ -97,35 +97,6 @@
       });
     }
 
-    // let isDateCol = column.type === DataFieldType.Date;
-    //
-    // menu.addItem((item) => {
-    //   item
-    //     .setTitle(
-    //       t(
-    //         isDateCol
-    //           ? "components.data-grid.sortDate.asc"
-    //           : "components.data-grid.sort.asc"
-    //       )
-    //     )
-    //     .setIcon("sort-asc")
-    //     .onClick(() => onSortModelChange(column.field, "asc"));
-    // });
-    // menu.addItem((item) => {
-    //   item
-    //     .setTitle(
-    //       t(
-    //         isDateCol
-    //           ? "components.data-grid.sortDate.desc"
-    //           : "components.data-grid.sort.desc"
-    //       )
-    //     )
-    //     .setIcon("sort-desc")
-    //     .onClick(() => onSortModelChange(column.field, "desc"));
-    // });
-    //
-    // menu.addSeparator();
-
     return menu;
   }
 
