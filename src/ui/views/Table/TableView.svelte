@@ -261,6 +261,7 @@
                       [field.name]: field.typeConfig,
                     },
                   });
+                  saveConfig({ ...config });
                 }
               }
             ).open();
