@@ -112,22 +112,15 @@
   function handleColumnAppend() {
     new CreateFieldModal($app, fields, async (field, value) => {
       await api.addField(field, value);
+
       buttonEl.scrollIntoView({
         block: "nearest",
         inline: "nearest",
         behavior: "smooth",
       });
 
-      const orderFields = fields
-        .map((field) => field.name)
-        .filter((f) => f !== field.name);
-      orderFields.push(field.name);
-      saveConfig({
-        ...config,
-        orderFields: orderFields,
-      });
-
-      handleFieldAdd(field);
+      updateFieldCfg(field);
+      updateViewCfg(field);
     }).open();
   }
 
@@ -136,20 +129,12 @@
       const position = fields.findIndex((f) => anchor === f.name) + direction;
       await api.addField(field, value, position);
 
-      const orderFields = fields
-        .map((field) => field.name)
-        .filter((f) => f !== field.name);
-      orderFields.splice(position, 0, field.name);
-      saveConfig({
-        ...config,
-        orderFields: orderFields,
-      });
-
-      handleFieldAdd(field);
+      updateFieldCfg(field);
+      updateViewCfg(field, position);
     }).open();
   }
 
-  function handleFieldAdd(field: DataField) {
+  function updateFieldCfg(field: DataField) {
     const projectFields = Object.fromEntries(
       Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
         fields.find((f) => f.name === key && f.name !== field.name)
@@ -172,6 +157,26 @@
         },
       });
     }
+  }
+
+  function updateViewCfg(field: DataField, position?: number) {
+    const orderFields = fields
+      .map((field) => field.name)
+      .filter((f) => f !== field.name);
+
+    orderFields.splice(position ?? orderFields.length, 0, field.name);
+
+    const tableFields = Object.fromEntries(
+      Object.entries(config?.fieldConfig ?? {}).filter(([key, _]) =>
+        fields.find((f) => f.name === key && f.name !== field.name)
+      )
+    );
+
+    saveConfig({
+      ...config,
+      orderFields: orderFields,
+      fieldConfig: { ...tableFields },
+    });
   }
 </script>
 
