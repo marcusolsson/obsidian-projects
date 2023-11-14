@@ -113,5 +113,6 @@
     onRecordUpdate={handleRecordUpdate(groupByField)}
     onSortColumns={handleSortColumns}
     {readonly}
+    richText={groupByField?.typeConfig?.richText ?? false}
   />
 </BoardOptionsProvider>

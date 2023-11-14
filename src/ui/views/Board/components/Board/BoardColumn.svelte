@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { Button, Typography, Icon } from "obsidian-svelte";
+  import { Button, Icon } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
+  import ColumnHeader from "./ColumnHeader.svelte";
 
   import type { DataRecord, DataField } from "src/lib/dataframe/dataframe";
   import CardGroup from "./CardList.svelte";
@@ -8,6 +9,7 @@
   export let name: string;
   export let records: DataRecord[];
   export let readonly: boolean;
+  export let richText: boolean;
   export let onDrop: (records: DataRecord[]) => void;
   export let includeFields: DataField[];
 
@@ -16,7 +18,7 @@
 </script>
 
 <section data-id={name} class="projects--board--column">
-  <Typography variant="label" nomargin>{name}</Typography>
+  <ColumnHeader value={name} {richText} />
   <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
   {#if !readonly}
     <span>

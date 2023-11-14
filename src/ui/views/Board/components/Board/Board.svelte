@@ -12,6 +12,7 @@
   export let columns: Column[];
 
   export let readonly: boolean;
+  export let richText: boolean;
   export let onRecordClick: (record: DataRecord) => void;
   export let onRecordUpdate: (column: string, record: DataRecord) => void;
   export let onRecordAdd: (column: string) => void;
@@ -48,6 +49,7 @@
   {#each columns as column (column.id)}
     <BoardColumn
       {readonly}
+      {richText}
       name={column.id}
       records={column.records}
       {onRecordClick}
