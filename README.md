@@ -63,6 +63,7 @@ If you'd like to see Projects in action, check out any of these amazing resource
 
 ### Videos
 
+- 2023-10-10: [Obsidian Library: How To Keep Track of Your Books in Obsidian](https://youtu.be/_3MSwW51BhU?t=405) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
 - 2023-06-28: [Obsidian Office Hours: First Look at Obsidian Projects](https://www.youtube.com/watch?v=DU7V69n5tIQ) by [@BenCodeZen](https://www.youtube.com/@BenCodeZen)
 - 2023-04-20: [You all NEED these Obsidian community plugins](https://www.youtube.com/watch?v=Yzi1o-BH6QQ&t=1022s) by [@christianlempa](https://www.youtube.com/@christianlempa)
 - 2022-12-10: [Use Obsidian for Content Creation | Build Notion-like Database Views](https://www.youtube.com/watch?v=Ds-VPz7jIwM) by [@amyjuanli](https://www.youtube.com/@amyjuanli)
@@ -73,10 +74,10 @@ If you'd like to see Projects in action, check out any of these amazing resource
 - 2022-11-07: [Notion database views in Obsidian Projects plugin](https://www.youtube.com/watch?v=LdaMe2rzAW8) by [@nicolevdh](https://www.youtube.com/@nicolevdh) (interview)
 - 2022-11-07: [Visualiza la base de datos como en Notion dentro de Obsidian](https://www.youtube.com/watch?v=vReObPVS2oo) by [@SniferL4bs](https://www.youtube.com/@SniferL4bs)
 
-
 ### Articles
 
 - 2023-06-02: [Obsidian Library — How to keep track of your books with Book Search and Projects plugins](https://medium.com/obsidian-observer/obsidian-library-how-to-keep-track-of-your-books-with-book-search-and-projects-plugins-716599633715) by [Marco Serafini](https://medium.com/@marco.ith)
+- 2023-03-16: [The Obsidian Projects Plugin: My Secret Weapon for Staying Organized and Focused](https://www.jordanrobison.net/the-obsidian-projects-plugin-my-secret-weapon-for-staying-organized-and-focused/) by [Jordan Robison](https://www.jordanrobison.net/)
 - 2022-11-19: [Obsidian Projects: A Better Way to Manage Text-Based Projects in Obsidian](https://beingpax.medium.com/obsidian-projects-a-better-way-to-manage-text-based-projects-in-obsidian-18c2a991069c) by [Prakash Joshi Pax](https://beingpax.medium.com/)
 - [How to Set up and Maintain Your Academic Reading List in Obsidian](https://nataliekraneiss.com/your-academic-reading-list-in-obsidian/) by [Natalie Kraneiß](https://nataliekraneiss.com/)
 
