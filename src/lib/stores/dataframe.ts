@@ -86,6 +86,41 @@ function createDataFrame() {
         })
       );
     },
+    addOption(newField: DataField, position?: number) {
+      update((state) =>
+        produce(state, (draft) => {
+          position
+            ? draft.fields.splice(position, 0, newField)
+            : draft.fields.push(newField);
+        })
+      );
+    },
+    updateOption(updated: DataField, oldName?: string) {
+      update((state) =>
+        produce(state, (draft) => {
+          draft.fields = draft.fields
+            .map((field) => (field.name === oldName ? updated : field))
+            .filter((field) => field.name !== oldName);
+
+          draft.records = draft.records.map((record) =>
+            produce(record, (draft) => {
+              if (oldName) {
+                // @ts-ignore
+                draft.values[updated.name] = draft.values[oldName];
+                delete draft.values[oldName];
+              }
+            })
+          );
+        })
+      );
+    },
+    deleteOption(fieldName: string) {
+      update((state) =>
+        produce(state, (draft) => {
+          draft.records.values;
+        })
+      );
+    },
     merge(updated: DataFrame) {
       update((existing) =>
         produce(existing, (draft) => {

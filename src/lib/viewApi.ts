@@ -66,4 +66,34 @@ export class ViewApi {
       field
     );
   }
+
+  addOption(field: DataField, value: Optional<DataValue>, position?: number) {
+    dataFrame.addOption(field, position);
+
+    this.dataApi.addOption(
+      get(dataFrame).records.map((record) => record.id),
+      field,
+      value
+    );
+  }
+
+  updateOption(field: DataField, oldName?: string) {
+    dataFrame.updateOption(field, oldName);
+
+    if (oldName) {
+      this.dataApi.renameOption(
+        get(dataFrame).records.map((record) => record.id),
+        oldName,
+        field.name
+      );
+    }
+  }
+
+  deleteOption(field: string) {
+    dataFrame.deleteOption(field);
+    this.dataApi.deleteOption(
+      get(dataFrame).records.map((record) => record.id),
+      field
+    );
+  }
 }

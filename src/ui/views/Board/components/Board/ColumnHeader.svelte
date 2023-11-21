@@ -2,9 +2,28 @@
   import { MarkdownRenderer } from "obsidian";
   import { app, view } from "src/lib/stores/obsidian";
   import { getContext } from "svelte";
+  import { TextInput, useClickOutside } from "obsidian-svelte";
 
   export let value: string;
+  export let readonly: boolean = false;
   export let richText: boolean = false;
+
+  export let onValidate: (value: string) => boolean;
+  export let onRename: (value: string) => void;
+
+  let editing: boolean = false;
+  let inputRef: HTMLInputElement;
+  $: if (editing && inputRef) {
+    inputRef.focus();
+    inputRef.select();
+  }
+
+  let fallback: string = value;
+  function rollback() {
+    value = fallback;
+  }
+
+  $: error = !onValidate(value);
 
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
@@ -41,20 +60,61 @@
   }
 </script>
 
-{#if richText}
-  <div use:useMarkdown={value} on:click={handleClick} on:keypress />
-{:else}
-  <div>
-    {value}
-  </div>
-{/if}
+<div
+  on:dblclick={() => {
+    if (!readonly) editing = true;
+  }}
+  use:useClickOutside={() => (editing = false)}
+>
+  {#if editing}
+    <TextInput
+      noPadding
+      embed
+      bind:ref={inputRef}
+      bind:value
+      on:keydown={(event) => {
+        if (event.key === "Enter") {
+          editing = false;
+
+          if (fallback == value) {
+            return;
+          }
+
+          if (!error) {
+            fallback = value;
+            onRename(value);
+          } else {
+            rollback();
+          }
+        }
+        if (event.key === "Escape") {
+          editing = false;
+          rollback();
+        }
+      }}
+      on:blur={() => {
+        editing = false;
+        if (!error) {
+          fallback = value;
+          onRename(value);
+        } else {
+          rollback();
+        }
+      }}
+    />
+  {:else if richText}
+    <span use:useMarkdown={value} on:click={handleClick} on:keypress />
+  {:else}
+    <span>{value}</span>
+  {/if}
+</div>
 
 <style>
-  div :global(p:first-child) {
+  span :global(p:first-child) {
     margin-top: 0;
   }
 
-  div :global(p:last-child) {
+  span :global(p:last-child) {
     margin-bottom: 0;
   }
 </style>

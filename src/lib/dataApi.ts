@@ -78,6 +78,43 @@ export class DataApi {
     );
   }
 
+  async addOption(
+    paths: string[],
+    field: DataField,
+    value: Optional<DataValue>
+  ): Promise<void> {
+    Promise.all(
+      paths
+        .map((path) => this.fileSystem.getFile(path))
+        .filter(notEmpty)
+        .map((file) =>
+          this.updateFile(file, (data) => doAddOption(data, field, value))()
+        )
+    );
+  }
+
+  async renameOption(paths: string[], from: string, to: string): Promise<void> {
+    Promise.all(
+      paths
+        .map((path) => this.fileSystem.getFile(path))
+        .filter(notEmpty)
+        .map((file) =>
+          this.updateFile(file, (data) => doRenameOption(data, from, to))()
+        )
+    );
+  }
+
+  async deleteOption(paths: string[], name: string): Promise<void> {
+    Promise.all(
+      paths
+        .map((path) => this.fileSystem.getFile(path))
+        .filter(notEmpty)
+        .map((file) =>
+          this.updateFile(file, (data) => doDeleteOption(data, name))()
+        )
+    );
+  }
+
   async createNote(record: DataRecord, templatePath: string): Promise<void> {
     let content = "";
 
@@ -214,6 +251,57 @@ export function doRenameField(
       ...frontmatter,
       [to]: frontmatter[from],
       [from]: undefined,
+    })),
+    E.chain((frontmatter) =>
+      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+    )
+  );
+}
+
+export function doRenameOption(
+  data: string,
+  from: string,
+  to: string
+): E.Either<Error, string> {
+  return F.pipe(
+    data,
+    decodeFrontMatter,
+    E.map((frontmatter) => ({
+      ...frontmatter,
+      [to]: frontmatter[from],
+      [from]: undefined,
+    })),
+    E.chain((frontmatter) =>
+      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+    )
+  );
+}
+
+export function doAddOption(
+  data: string,
+  field: DataField,
+  value: Optional<DataValue>
+): E.Either<Error, string> {
+  return F.pipe(
+    data,
+    decodeFrontMatter,
+    E.map((frontmatter) => ({
+      ...frontmatter,
+      [field.name]: value,
+    })),
+    E.chain((frontmatter) =>
+      encodeFrontMatter(data, frontmatter, getDefaultStringType())
+    )
+  );
+}
+
+export function doDeleteOption(data: string, field: string) {
+  return F.pipe(
+    data,
+    decodeFrontMatter,
+    E.map((frontmatter) => ({
+      ...frontmatter,
+      [field]: undefined,
     })),
     E.chain((frontmatter) =>
       encodeFrontMatter(data, frontmatter, getDefaultStringType())

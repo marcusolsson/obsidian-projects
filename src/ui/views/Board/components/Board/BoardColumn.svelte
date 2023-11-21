@@ -15,10 +15,18 @@
 
   export let onRecordClick: (record: DataRecord) => void;
   export let onRecordAdd: () => void;
+
+  export let onColumnRename: (name: string) => void;
 </script>
 
 <section data-id={name} class="projects--board--column">
-  <ColumnHeader value={name} {richText} />
+  <ColumnHeader
+    value={name}
+    {readonly}
+    {richText}
+    onRename={(name) => onColumnRename(name)}
+    onValidate={() => true}
+  />
   <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
   {#if !readonly}
     <span>

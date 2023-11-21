@@ -3,6 +3,7 @@
   import { dndzone } from "svelte-dnd-action";
 
   import BoardColumn from "./BoardColumn.svelte";
+  import NewColumn from "./NewColumn.svelte";
 
   type Column = {
     id: string;
@@ -18,6 +19,13 @@
   export let onRecordAdd: (column: string) => void;
   export let columnWidth: number;
   export let onSortColumns: (names: string[]) => void;
+  export let onColumnAdd: (columns: string[], name: string) => void;
+  export let onColumnRename: (
+    columns: string[],
+    records: DataRecord[],
+    oldname: string,
+    newname: string
+  ) => void;
   export let includeFields: DataField[];
 
   const flipDurationMs = 200;
@@ -32,34 +40,70 @@
   }
 </script>
 
-<section
-  class="projects--board"
-  style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
-  use:dndzone={{
-    type: "columns",
-    items: columns,
-    flipDurationMs,
-    dropTargetStyle: {
-      outline: "none",
-    },
-  }}
-  on:consider={handleDndConsider}
-  on:finalize={handleDndFinalize}
->
-  {#each columns as column (column.id)}
-    <BoardColumn
-      {readonly}
-      {richText}
-      name={column.id}
-      records={column.records}
-      {onRecordClick}
-      onRecordAdd={() => onRecordAdd(column.id)}
-      onDrop={(records) => {
-        records.forEach((record) => {
-          onRecordUpdate(column.id, record);
-        });
-      }}
-      {includeFields}
-    />
-  {/each}
-</section>
+<div>
+  <section
+    class="projects--board"
+    style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
+    use:dndzone={{
+      type: "columns",
+      items: columns,
+      flipDurationMs,
+      dropTargetStyle: {
+        outline: "none",
+      },
+    }}
+    on:consider={handleDndConsider}
+    on:finalize={handleDndFinalize}
+  >
+    {#each columns as column (column.id)}
+      <BoardColumn
+        {readonly}
+        {richText}
+        name={column.id}
+        records={column.records}
+        {onRecordClick}
+        onRecordAdd={() => onRecordAdd(column.id)}
+        onColumnRename={(name) =>
+          onColumnRename(
+            columns.map((col) => col.id),
+            column.records,
+            column.id,
+            name
+          )}
+        onDrop={(records) => {
+          records.forEach((record) => {
+            onRecordUpdate(column.id, record);
+          });
+        }}
+        {includeFields}
+      />
+    {/each}
+  </section>
+  {#if !readonly}
+    <span style={`grid-template-columns: ${columnWidth}px;`}>
+      <NewColumn
+        onColumnAdd={(name) => {
+          onColumnAdd(
+            columns.map((col) => col.id),
+            name
+          );
+        }}
+        onValidate={() => true}
+      />
+    </span>
+  {/if}
+</div>
+
+<style>
+  div {
+    display: flex;
+  }
+
+  span {
+    margin-top: 8px;
+    height: fit-content;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: var(--radius-m);
+    background-color: var(--background-secondary);
+  }
+</style>

@@ -7,6 +7,7 @@
   } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
+  import { settings } from "src/lib/stores/settings";
   import type { ViewApi } from "src/lib/viewApi";
   import type { ProjectDefinition } from "src/settings/settings";
   import { CreateNoteModal } from "src/ui/modals/createNoteModal";
@@ -74,12 +75,114 @@
       }).open();
     };
 
+  // catch rename error of yaml parser!
+  const handleColumnRename = (
+    field: DataField | undefined,
+    names: string[], // all column names, detected & defined
+    records: DataRecord[], // notes that belong to the column
+    oldname: string, // old column id
+    newname: string // proposing column id
+  ) => {
+    if (!field) return;
+    if (oldname === newname) return;
+
+    records.forEach((record) => {
+      api.updateRecord(
+        {
+          ...record,
+          values: { ...record.values, [field.name]: newname },
+        },
+        fields
+      );
+    });
+
+    const projectFields = Object.fromEntries(
+      Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+        fields.find((f) => f.name === key)
+      )
+    );
+
+    if (field.typeConfig && field.typeConfig.options) {
+      const options = field.typeConfig.options.map((option) =>
+        option === oldname ? newname : option
+      );
+
+      settings.updateProject({
+        ...project,
+        fieldConfig: {
+          ...projectFields,
+          [field.name]: {
+            ...field.typeConfig,
+            options: options,
+          },
+        },
+      });
+    }
+
+    const columns = names.map((name) => (name === oldname ? newname : name));
+    saveConfig({
+      ...config,
+      columns: Object.fromEntries(
+        columns.map((name, i) => {
+          return [name, { weight: i }];
+        })
+      ),
+    });
+  };
+
   function handleSortColumns(names: string[]) {
     saveConfig({
       ...config,
       columns: Object.fromEntries(
         names.map((name, i) => {
           return [name, { weight: i }];
+        })
+      ),
+    });
+  }
+
+  function handleColumnAdd(
+    field: DataField | undefined,
+    columns: string[], // all column names, detected & predefined
+    name: string
+  ) {
+    if (!field) return;
+
+    const projectFields = Object.fromEntries(
+      Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
+        fields.find((f) => f.name === key)
+      )
+    );
+
+    if (field.typeConfig && field.typeConfig.options) {
+      settings.updateProject({
+        ...project,
+        fieldConfig: {
+          ...projectFields,
+          [field.name]: {
+            ...field.typeConfig,
+            options: [...field.typeConfig.options, name],
+          },
+        },
+      });
+    } else {
+      settings.updateProject({
+        ...project,
+        fieldConfig: {
+          ...projectFields,
+          [field.name]: {
+            ...field.typeConfig,
+            options: [name],
+          },
+        },
+      });
+    }
+
+    saveConfig({
+      ...config,
+      columns: Object.fromEntries(
+        [...columns, name].map((column, i) => {
+          return [column, { weight: i }];
         })
       ),
     });
@@ -112,6 +215,10 @@
     onRecordAdd={handleRecordAdd(groupByField)}
     onRecordUpdate={handleRecordUpdate(groupByField)}
     onSortColumns={handleSortColumns}
+    onColumnAdd={(columns, name) =>
+      handleColumnAdd(groupByField, columns, name)}
+    onColumnRename={(columns, records, oldname, newname) =>
+      handleColumnRename(groupByField, columns, records, oldname, newname)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}
   />
