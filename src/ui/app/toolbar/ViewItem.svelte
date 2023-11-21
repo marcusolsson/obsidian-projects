@@ -100,6 +100,8 @@
         }
       }}
       on:blur={() => {
+        editing = false;
+
         if (!error) {
           fallback = label;
 
