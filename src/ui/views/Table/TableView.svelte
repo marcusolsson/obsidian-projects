@@ -280,17 +280,19 @@
           });
         }}
       />
-      <span
-        tabindex="-1"
-        bind:this={buttonEl}
-        on:click={handleColumnAppend}
-        on:keydown={(evt) => {
-          if (evt.key === "Enter") handleColumnAppend();
-        }}
-      >
-        <Icon name="plus" />
-        <TextLabel value={$i18n.t("components.data-grid.column.add")} />
-      </span>
+      {#if !readonly}
+        <span
+          tabindex="-1"
+          bind:this={buttonEl}
+          on:click={handleColumnAppend}
+          on:keydown={(evt) => {
+            if (evt.key === "Enter") handleColumnAppend();
+          }}
+        >
+          <Icon name="plus" />
+          <TextLabel value={$i18n.t("components.data-grid.column.add")} />
+        </span>
+      {/if}
     </div>
   </ViewContent>
 </ViewLayout>
