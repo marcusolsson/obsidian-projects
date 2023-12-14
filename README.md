@@ -63,6 +63,7 @@ If you'd like to see Projects in action, check out any of these amazing resource
 
 ### Videos
 
+- 2023-11-21: [Obsidian Projects - How To Manage Your Projects in Obsidian](https://youtu.be/aFfREf9IQ7Q?t=452) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
 - 2023-10-10: [Obsidian Library: How To Keep Track of Your Books in Obsidian](https://youtu.be/_3MSwW51BhU?t=405) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
 - 2023-06-28: [Obsidian Office Hours: First Look at Obsidian Projects](https://www.youtube.com/watch?v=DU7V69n5tIQ) by [@BenCodeZen](https://www.youtube.com/@BenCodeZen)
 - 2023-04-20: [You all NEED these Obsidian community plugins](https://www.youtube.com/watch?v=Yzi1o-BH6QQ&t=1022s) by [@christianlempa](https://www.youtube.com/@christianlempa)
