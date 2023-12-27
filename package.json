@@ -39,7 +39,7 @@
     "i18next": "^21.9.2",
     "immer": "^9.0.15",
     "jest": "^29.3.1",
-    "obsidian": "latest",
+    "obsidian": "^1.4.11",
     "obsidian-dataview": "^0.5.46",
     "obsidian-svelte": "0.1.10",
     "prettier": "^2.8.1",
