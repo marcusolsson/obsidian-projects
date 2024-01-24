@@ -57,6 +57,10 @@ To vote for a feature, react to the issue with a :+1:.
 
 For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
 
+### Translations
+
+[![inlang status badge](https://badge.inlang.com/?url=github.com/marcusolsson/obsidian-projects)](https://fink.inlang.com/https://badge.inlang.com/?url=github.com/marcusolsson/obsidian-projects?ref=badge)
+
 ## Learn More
 
 If you'd like to see Projects in action, check out any of these amazing resources made by users.
