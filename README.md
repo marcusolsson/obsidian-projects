@@ -51,15 +51,11 @@ If you're curious about what we're working on, check out the roadmap:
 
 To vote for a feature, react to the issue with a :+1:.
 
-- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc) 
+- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc)
 
 ## Contribute
 
 For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
-
-### Translations
-
-[![inlang status badge](https://badge.inlang.com/?url=github.com/marcusolsson/obsidian-projects)](https://fink.inlang.com/https://badge.inlang.com/?url=github.com/marcusolsson/obsidian-projects?ref=badge)
 
 ## Learn More
 
