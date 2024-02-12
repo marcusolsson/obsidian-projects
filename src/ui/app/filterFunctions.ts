@@ -5,6 +5,7 @@ import {
   type DataRecord,
   type DataValue,
   type Optional,
+  isNumber,
   isOptionalString,
   isOptionalNumber,
   isOptionalBoolean,
@@ -113,10 +114,10 @@ export const numberFns: Record<
 > = {
   eq: (left, right) => left === right,
   neq: (left, right) => left !== right,
-  lt: (left, right) => (left && right ? left < right : false),
-  gt: (left, right) => (left && right ? left > right : false),
-  lte: (left, right) => (left && right ? left <= right : false),
-  gte: (left, right) => (left && right ? left >= right : false),
+  lt: (left, right) => isNumber(left) && isNumber(right) && left < right,
+  gt: (left, right) => isNumber(left) && isNumber(right) && left > right,
+  lte: (left, right) => isNumber(left) && isNumber(right) && left <= right,
+  gte: (left, right) => isNumber(left) && isNumber(right) && left >= right,
 };
 
 export const booleanFns: Record<
