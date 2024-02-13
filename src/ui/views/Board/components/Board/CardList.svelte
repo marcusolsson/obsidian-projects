@@ -1,6 +1,10 @@
 <script lang="ts">
   import { InternalLink } from "obsidian-svelte";
-  import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
+  import {
+    isString,
+    type DataField,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
   import { getDisplayName } from "./boardHelpers";
   import { app } from "src/lib/stores/obsidian";
@@ -77,7 +81,8 @@
             }
           }}
         >
-          {getDisplayName(item.id)}
+          {@const path = item.values["path"]}
+          {getDisplayName(isString(path) ? path : item.id)}
         </InternalLink>
         <CardMetadata fields={includeFields} record={item} />
       </ColorItem>
