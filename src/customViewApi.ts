@@ -4,6 +4,8 @@ import type { ProjectDefinition, ViewId } from "./settings/settings";
 
 export interface DataQueryResult {
   data: DataFrame;
+  hasSort: boolean;
+  hasFilter: boolean;
 }
 
 /**
