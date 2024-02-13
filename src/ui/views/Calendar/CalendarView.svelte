@@ -22,7 +22,7 @@
   import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,
-    setRecordColorContext,
+    getRecordColorContext,
   } from "src/ui/views/helpers";
   import { get } from "svelte/store";
   import {
@@ -150,7 +150,7 @@
     }).open();
   }
 
-  setRecordColorContext(getRecordColor);
+  getRecordColorContext.set(getRecordColor);
 </script>
 
 <ViewLayout>

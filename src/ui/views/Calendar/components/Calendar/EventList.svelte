@@ -36,7 +36,7 @@
     records.forEach(onRecordChange);
   }
 
-  const getRecordColor = getRecordColorContext();
+  const getRecordColor = getRecordColorContext.get();
 </script>
 
 <div

@@ -3,6 +3,7 @@ import { get } from "svelte/store";
 
 import { app } from "src/lib/stores/obsidian";
 import type { ProjectDefinition, ViewDefinition } from "src/settings/settings";
+import { getContext, setContext } from "svelte";
 import type { DataField } from "./dataframe/dataframe";
 
 /**
@@ -87,4 +88,16 @@ export function getNameFromPath(path: string) {
   const start: number = path.lastIndexOf("/") + 1;
   const end: number = path.lastIndexOf(".");
   return path.substring(start, end);
+}
+
+export type Context<T> = Readonly<{
+  get: () => T;
+  set: (value: T) => void;
+}>;
+export function makeContext<T>(): Context<T> {
+  const key = Symbol();
+  return {
+    get: () => getContext(key),
+    set: (value: T) => setContext(key, value),
+  };
 }

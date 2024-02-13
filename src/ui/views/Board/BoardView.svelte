@@ -11,7 +11,7 @@
   import type { ProjectDefinition } from "src/settings/settings";
   import { CreateNoteModal } from "src/ui/modals/createNoteModal";
   import { EditNoteModal } from "src/ui/modals/editNoteModal";
-  import { setRecordColorContext } from "src/ui/views/helpers";
+  import { getRecordColorContext } from "src/ui/views/helpers";
 
   import BoardOptionsProvider from "./BoardOptionsProvider.svelte";
   import { getColumns } from "./board";
@@ -29,7 +29,7 @@
 
   $: ({ fields, records } = frame);
 
-  setRecordColorContext(getRecordColor);
+  getRecordColorContext.set(getRecordColor);
 
   function handleRecordClick(record: DataRecord) {
     new EditNoteModal(
