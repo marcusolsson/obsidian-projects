@@ -9,6 +9,7 @@
     DataValue,
     Optional,
   } from "src/lib/dataframe/dataframe";
+  import { copyRecordWithValues } from "src/lib/datasources/helpers";
   import { getRecordColorContext } from "src/ui/views/helpers";
   import { settings } from "src/lib/stores/settings";
 
@@ -62,13 +63,11 @@
           : undefined}
         on:check={({ detail: checked }) => {
           if (checkField) {
-            onRecordChange({
-              ...record,
-              values: {
-                ...record.values,
+            onRecordChange(
+              copyRecordWithValues(record, {
                 [checkField]: checked,
-              },
-            });
+              })
+            );
           }
         }}
         on:click={() => {

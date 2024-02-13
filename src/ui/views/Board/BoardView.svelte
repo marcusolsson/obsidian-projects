@@ -44,10 +44,9 @@
     (field: DataField | undefined) => (column: string, record: DataRecord) => {
       if (field) {
         api.updateRecord(
-          {
-            ...record,
-            values: { ...record.values, [field.name]: column },
-          },
+          copyRecordWithValues(record, {
+            [field.name]: column,
+          }),
           fields
         );
       }

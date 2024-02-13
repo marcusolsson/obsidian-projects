@@ -43,6 +43,7 @@
   import Navigation from "./components/Navigation/Navigation.svelte";
   import type { CalendarConfig } from "./types";
   import { Notice } from "obsidian";
+  import { copyRecordWithValues } from "src/lib/datasources/helpers";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -102,13 +103,9 @@
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
     if (dateField) {
       api.updateRecord(
-        {
-          ...record,
-          values: {
-            ...record.values,
-            [dateField.name]: date.format("YYYY-MM-DD"),
-          },
-        },
+        copyRecordWithValues(record, {
+          [dateField.name]: date.format("YYYY-MM-DD"),
+        }),
         fields
       );
     }
