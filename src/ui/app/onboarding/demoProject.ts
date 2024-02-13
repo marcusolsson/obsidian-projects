@@ -84,7 +84,7 @@ export async function createDemoProject(vault: Vault) {
 
   const boardConfig: BoardConfig = {
     groupByField: "status",
-    priorityField: "weight",
+    orderSyncField: "weight",
   };
 
   const calendarConfig: CalendarConfig = {

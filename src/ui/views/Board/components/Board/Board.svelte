@@ -1,23 +1,25 @@
 <script lang="ts">
-  import type { DataRecord, DataField } from "src/lib/dataframe/dataframe";
+  import type { DataField } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
 
   import BoardColumn from "./BoardColumn.svelte";
-
-  type Column = {
-    id: string;
-    records: DataRecord[];
-  };
+  import type {
+    Column,
+    OnRecordAdd,
+    OnRecordClick,
+    OnRecordUpdate,
+    OnSortColumns,
+  } from "./types";
 
   export let columns: Column[];
 
   export let readonly: boolean;
   export let richText: boolean;
-  export let onRecordClick: (record: DataRecord) => void;
-  export let onRecordUpdate: (column: string, record: DataRecord) => void;
-  export let onRecordAdd: (column: string) => void;
+  export let onRecordClick: OnRecordClick;
+  export let onRecordUpdate: OnRecordUpdate;
+  export let onRecordAdd: OnRecordAdd;
   export let columnWidth: number;
-  export let onSortColumns: (names: string[]) => void;
+  export let onSortColumns: OnSortColumns;
   export let includeFields: DataField[];
 
   const flipDurationMs = 200;
@@ -54,10 +56,15 @@
       records={column.records}
       {onRecordClick}
       onRecordAdd={() => onRecordAdd(column.id)}
-      onDrop={(records) => {
-        records.forEach((record) => {
-          onRecordUpdate(column.id, record);
-        });
+      onDrop={(record, records, trigger) => {
+        switch (trigger) {
+          case "droppedIntoZone":
+            onRecordUpdate(record, { ...column, records }, "addToColumn");
+            break;
+          case "droppedIntoAnother":
+            onRecordUpdate(record, { ...column, records }, "removeFromColumn");
+            break;
+        }
       }}
       {includeFields}
     />

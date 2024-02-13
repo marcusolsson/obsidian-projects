@@ -292,6 +292,10 @@
                     "column-width": {
                         "name": "Column width",
                         "description": "Width of each column in pixels."
+                    },
+                    "order-sync-field": {
+                        "name": "Sync card order with field",
+                        "description": "Field to store the position of cards in the board."
                     }
                 },
                 "note": {

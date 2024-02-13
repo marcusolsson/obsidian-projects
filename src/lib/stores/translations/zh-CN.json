@@ -292,6 +292,10 @@
                     "column-width": {
                         "name": "列宽度",
                         "description": "调整每列的像素宽度。"
+                    },
+                    "order-sync-field": {
+                        "name": "Sync card order with field",
+                        "description": "Field to store the position of cards in the board."
                     }
                 },
                 "note": {

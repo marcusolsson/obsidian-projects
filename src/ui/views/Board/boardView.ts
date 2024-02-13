@@ -21,8 +21,8 @@ export class BoardView extends ProjectView<BoardConfig> {
     return "columns";
   }
 
-  async onData({ data }: DataQueryResult) {
-    this.view?.$set({ frame: data });
+  async onData({ data, hasSort, hasFilter }: DataQueryResult) {
+    this.view?.$set({ frame: data, hasSort, hasFilter });
   }
 
   async onOpen(props: ProjectViewProps<BoardConfig>) {
@@ -36,6 +36,10 @@ export class BoardView extends ProjectView<BoardConfig> {
         config: props.config,
         onConfigChange: props.saveConfig,
         getRecordColor: props.getRecordColor,
+        sortRecords: props.sortRecords,
+        getRecord: props.getRecord,
+        hasSort: false,
+        hasFilter: false,
       },
     });
   }
