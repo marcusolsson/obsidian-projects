@@ -5,13 +5,14 @@
   import type {
     ProjectDefinition,
     ProjectId,
+    SortDefinition,
     ViewDefinition,
     ViewId,
   } from "src/settings/settings";
   import { applyFilter, matchesCondition } from "./filterFunctions";
 
   import { useView } from "./useView";
-  import { applySort } from "./viewSort";
+  import { applySort, sortRecords } from "./viewSort";
 
   /**
    * Specify the project.
@@ -74,7 +75,13 @@
   $: viewFilter = view.filter ?? { conditions: [] };
   $: filteredFrame = applyFilter(frame, viewFilter);
 
-  $: viewSort = view.sort ?? { criteria: [] };
+  $: viewSort =
+    view.sort.criteria.length > 0
+      ? view.sort
+      : ({
+          criteria: [{ field: "path", order: "asc", enabled: true }],
+        } satisfies SortDefinition);
+
   $: sortedFrame = applySort(filteredFrame, viewSort);
 
   function getRecordColor(record: DataRecord): string | null {
@@ -88,6 +95,12 @@
     }
     return null;
   }
+
+  const applyViewSortToRecords = (
+    records: ReadonlyArray<DataRecord>
+  ): Array<DataRecord> => {
+    return sortRecords([...records], viewSort);
+  };
 </script>
 
 <!--
@@ -107,6 +120,7 @@
     config: view.config,
     onConfigChange: handleConfigChange,
     getRecordColor: getRecordColor,
+    sortRecords: applyViewSortToRecords,
   }}
 />
 

@@ -1,5 +1,6 @@
 import { makeContext } from "src/lib/helpers";
 import { DataFieldType, type DataField } from "../../lib/dataframe/dataframe";
+import type { ViewProps } from "../app/useView";
 
 export function fieldIcon(field: DataFieldType): string {
   switch (field) {
@@ -26,3 +27,4 @@ export function fieldToSelectableValue(field: DataField): {
 }
 
 export const getRecordColorContext = makeContext<ViewProps["getRecordColor"]>();
+export const sortRecordsContext = makeContext<ViewProps["sortRecords"]>();

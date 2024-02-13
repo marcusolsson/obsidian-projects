@@ -1,6 +1,10 @@
 import { get } from "svelte/store";
 
-import type { DataQueryResult, ProjectView } from "src/customViewApi";
+import type {
+  DataQueryResult,
+  ProjectView,
+  ProjectViewProps,
+} from "src/customViewApi";
 import type { DataRecord } from "src/lib/dataframe/dataframe";
 import { customViews } from "src/lib/stores/customViews";
 import type { ViewApi } from "src/lib/viewApi";
@@ -15,6 +19,7 @@ export interface ViewProps {
   readonly: boolean;
   project: ProjectDefinition;
   getRecordColor: (record: DataRecord) => string | null;
+  sortRecords: ProjectViewProps["sortRecords"];
 }
 
 export function useView(node: HTMLElement, props: ViewProps) {
@@ -47,6 +52,7 @@ export function useView(node: HTMLElement, props: ViewProps) {
           config: newprops.config,
           saveConfig: newprops.onConfigChange,
           getRecordColor: newprops.getRecordColor,
+          sortRecords: newprops.sortRecords,
         });
         projectView.onData(newprops.dataProps);
       }

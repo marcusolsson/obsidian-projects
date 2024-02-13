@@ -18,6 +18,7 @@ export interface ProjectViewProps<T = Record<string, any>> {
   viewApi: ViewApi;
   readonly: boolean;
   getRecordColor: (record: DataRecord) => string | null;
+  sortRecords: (records: ReadonlyArray<DataRecord>) => DataRecord[];
 }
 
 /**
