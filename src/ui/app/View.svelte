@@ -84,6 +84,12 @@
 
   $: sortedFrame = applySort(filteredFrame, viewSort);
 
+  let recordCache: Record<string, DataRecord | undefined>;
+  $: {
+    frame;
+    recordCache = {};
+  }
+
   function getRecordColor(record: DataRecord): string | null {
     const colorFilter = view.colors ?? { conditions: [] };
     for (const cond of colorFilter.conditions) {
@@ -100,6 +106,13 @@
     records: ReadonlyArray<DataRecord>
   ): Array<DataRecord> => {
     return sortRecords([...records], viewSort);
+  };
+
+  const getRecord = (id: string) => {
+    return (
+      recordCache[id] ??
+      (recordCache[id] = frame.records.find((record) => record.id === id))
+    );
   };
 </script>
 
@@ -121,6 +134,7 @@
     onConfigChange: handleConfigChange,
     getRecordColor: getRecordColor,
     sortRecords: applyViewSortToRecords,
+    getRecord,
   }}
 />
 

@@ -20,6 +20,7 @@ export interface ViewProps {
   project: ProjectDefinition;
   getRecordColor: (record: DataRecord) => string | null;
   sortRecords: ProjectViewProps["sortRecords"];
+  getRecord: ProjectViewProps["getRecord"];
 }
 
 export function useView(node: HTMLElement, props: ViewProps) {
@@ -53,6 +54,7 @@ export function useView(node: HTMLElement, props: ViewProps) {
           saveConfig: newprops.onConfigChange,
           getRecordColor: newprops.getRecordColor,
           sortRecords: newprops.sortRecords,
+          getRecord: newprops.getRecord,
         });
         projectView.onData(newprops.dataProps);
       }
