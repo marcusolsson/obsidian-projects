@@ -43,7 +43,7 @@
       outline: "none",
       borderRadius: "5px",
       background: "hsla(var(--interactive-accent-hsl), 0.3)",
-      transition: "all 150ms easy-in-out",
+      transition: "all 150ms ease-in-out",
     },
   }}
 >
