@@ -294,8 +294,8 @@
                         "description": "调整每列的像素宽度。"
                     },
                     "order-sync-field": {
-                        "name": "Sync card order with field",
-                        "description": "Field to store the position of cards in the board."
+                        "name": "卡片顺序同步字段",
+                        "description": "该字段将用于存储卡片在看板列中的位置顺序信息。"
                     }
                 },
                 "note": {
