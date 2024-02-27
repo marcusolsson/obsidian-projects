@@ -95,10 +95,15 @@ export class DataApi {
             content,
             decodeFrontMatter,
             E.map((frontmatter) => frontmatter["tags"]),
-            E.getOrElse(() => [])
+            E.fold(
+              () => [],
+              (right) => right ?? [] // handle `null`
+            )
           );
           //@ts-ignore explict input in `createDataRecord()`
-          const tagSet = new Set(templateTags.concat(record.values["tags"]));
+          const tagSet: Set<string> = new Set(
+            templateTags.concat(record.values["tags"])
+          );
           record.values["tags"] = [...tagSet];
         }
       }
