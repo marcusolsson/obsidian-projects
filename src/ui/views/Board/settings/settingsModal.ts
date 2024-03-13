@@ -1,4 +1,5 @@
 import { App, Modal } from "obsidian";
+import type { DataField } from "src/lib/dataframe/dataframe";
 import type { BoardConfig } from "../types";
 import BoardSettings from "./BoardSettings.svelte";
 
@@ -8,6 +9,7 @@ export class BoardSettingsModal extends Modal {
   constructor(
     app: App,
     readonly config: BoardConfig,
+    readonly fields: DataField[],
     readonly onSave: (config: BoardConfig) => void
   ) {
     super(app);
@@ -20,6 +22,7 @@ export class BoardSettingsModal extends Modal {
       target: contentEl,
       props: {
         config: this.config,
+        fields: this.fields,
         onSave: (config: BoardConfig) => {
           this.onSave(config);
         },

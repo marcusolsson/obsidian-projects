@@ -1,6 +1,6 @@
 export interface BoardConfig {
   readonly groupByField?: string;
-  readonly priorityField?: string;
+  readonly orderSyncField?: string;
   readonly columnWidth?: number;
   readonly columns?: ColumnSettings;
   readonly includeFields?: string[];
@@ -9,5 +9,6 @@ export interface BoardConfig {
 export interface ColumnSettings {
   [name: string]: {
     readonly weight?: number;
+    readonly records?: string[];
   };
 }

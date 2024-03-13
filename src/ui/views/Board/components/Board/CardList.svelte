@@ -1,34 +1,58 @@
 <script lang="ts">
   import { InternalLink } from "obsidian-svelte";
-  import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
-  import { dndzone } from "svelte-dnd-action";
-  import { getDisplayName } from "./boardHelpers";
+  import {
+    isString,
+    type DataField,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
   import { app } from "src/lib/stores/obsidian";
-  import { flip } from "svelte/animate";
-  import { getRecordColorContext } from "src/ui/views/helpers";
+  import { settings } from "src/lib/stores/settings";
   import CardMetadata from "src/ui/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
-  import { settings } from "src/lib/stores/settings";
+  import {
+    getRecordColorContext,
+    sortRecordsContext,
+  } from "src/ui/views/helpers";
+  import {
+    SHADOW_ITEM_MARKER_PROPERTY_NAME,
+    TRIGGERS,
+    dndzone,
+  } from "svelte-dnd-action";
+  import { flip } from "svelte/animate";
+  import { getDisplayName } from "./boardHelpers";
+  import type { DropTrigger, OnRecordClick, OnRecordDrop } from "./types";
 
   export let items: DataRecord[];
-  export let onRecordClick: (record: DataRecord) => void;
-  export let onDrop: (records: DataRecord[]) => void = () => {};
+  export let onRecordClick: OnRecordClick;
+  export let onDrop: OnRecordDrop;
   export let includeFields: DataField[];
+
+  const getRecordColor = getRecordColorContext.get();
+  const sortRecords = sortRecordsContext.get();
 
   const flipDurationMs = 200;
 
-  function handleDndConsider(e: CustomEvent<DndEvent<DataRecord>>) {
-    items = e.detail.items;
+  let dragItem: DataRecord | undefined;
+  function handleDndConsider({ detail }: CustomEvent<DndEvent<DataRecord>>) {
+    if (detail.info.trigger === TRIGGERS.DRAG_STARTED) {
+      dragItem = items.find((item) => item.id === detail.info.id);
+    }
+    items = sortRecords(detail.items);
   }
 
-  function handleDndFinalize(e: CustomEvent<DndEvent<DataRecord>>) {
-    items = e.detail.items;
-    if (onDrop) {
-      onDrop(e.detail.items);
+  function handleDndFinalize({ detail }: CustomEvent<DndEvent<DataRecord>>) {
+    items = sortRecords(detail.items);
+    if (detail.info.trigger === TRIGGERS.DROPPED_INTO_ZONE) {
+      dragItem = items.find((item) => item.id === detail.info.id);
+    }
+    if (dragItem) {
+      onDrop(dragItem, items, detail.info.trigger as DropTrigger);
+      dragItem = undefined;
     }
   }
 
-  const getRecordColor = getRecordColorContext();
+  const isPlaceholder = (item: DataRecord) =>
+    !!(item as any)[SHADOW_ITEM_MARKER_PROPERTY_NAME];
 </script>
 
 <div
@@ -42,8 +66,8 @@
     dropTargetStyle: {
       outline: "none",
       borderRadius: "5px",
-      background: "hsla(var(--interactive-accent-hsl), 0.3)",
-      transition: "all 150ms easy-in-out",
+      background: "var(--board-column-drag-accent)",
+      transition: "all 150ms ease-in-out",
     },
   }}
 >
@@ -52,6 +76,7 @@
 
     <article
       class="projects--board--card"
+      class:projects--board--card-placeholder={isPlaceholder(item)}
       on:keypress
       on:click={() => onRecordClick(item)}
       animate:flip={{ duration: flipDurationMs }}
@@ -77,7 +102,8 @@
             }
           }}
         >
-          {getDisplayName(item.id)}
+          {@const path = item.values["path"]}
+          {getDisplayName(isString(path) ? path : item.id)}
         </InternalLink>
         <CardMetadata fields={includeFields} record={item} />
       </ColorItem>

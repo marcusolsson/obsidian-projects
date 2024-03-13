@@ -56,6 +56,20 @@ export function parseRecords(
   return records;
 }
 
+/**
+ * Merges a new version of `values` into a copy of data record.
+ *
+ * @param {Readonly<DataRecord>} record - the original data record
+ * @param {Readonly<DataRecord["values"]>} values - the values to merge into the original record
+ * @return {DataRecord} a new data record with the merged values
+ */
+export function updateRecordValues(
+  record: Readonly<DataRecord>,
+  values: Readonly<DataRecord["values"]>
+): DataRecord {
+  return { ...record, values: { ...record.values, ...values } };
+}
+
 export function detectFields(records: DataRecord[]): DataField[] {
   const valuesByField: Record<string, Optional<DataValue>[]> = {};
 

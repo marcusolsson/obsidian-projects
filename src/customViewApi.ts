@@ -4,6 +4,8 @@ import type { ProjectDefinition, ViewId } from "./settings/settings";
 
 export interface DataQueryResult {
   data: DataFrame;
+  hasSort: boolean;
+  hasFilter: boolean;
 }
 
 /**
@@ -18,6 +20,8 @@ export interface ProjectViewProps<T = Record<string, any>> {
   viewApi: ViewApi;
   readonly: boolean;
   getRecordColor: (record: DataRecord) => string | null;
+  sortRecords: (records: ReadonlyArray<DataRecord>) => DataRecord[];
+  getRecord: (id: string) => DataRecord | undefined;
 }
 
 /**

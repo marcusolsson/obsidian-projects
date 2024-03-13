@@ -1,11 +1,11 @@
 import { get } from "svelte/store";
 
 import {
+  DataFieldType,
   isNumber,
   isString,
-  type DataRecord,
   type DataField,
-  DataFieldType,
+  type DataRecord,
 } from "src/lib/dataframe/dataframe";
 import { notEmpty } from "src/lib/helpers";
 import { i18n } from "src/lib/stores/i18n";
@@ -42,37 +42,32 @@ export function unique(records: DataRecord[], fieldName: string): string[] {
 export function getColumns(
   records: DataRecord[],
   columnSettings: ColumnSettings,
-  field?: DataField
+  grouByField?: DataField,
+  orderSyncField?: DataField,
+  sortByCustomOrder?: boolean
 ) {
-  const groupedRecords = groupRecordsByField(records, field?.name);
+  const groupedRecords = groupRecordsByField(records, grouByField?.name);
 
-  const columns = new Set<string>(
-    Object.entries(groupedRecords).map((entry) => entry[0])
-  );
+  const columns = new Set(Object.keys(groupedRecords));
 
-  if (field?.type === DataFieldType.String) {
-    for (const option of field?.typeConfig?.options ?? []) {
+  if (grouByField?.type === DataFieldType.String) {
+    grouByField?.typeConfig?.options?.forEach((option) => {
       columns.add(option);
-    }
+    });
   }
 
   return [...columns]
-    .sort((a, b) => {
-      const aweight = columnSettings[a]?.weight ?? 0;
-      const bweight = columnSettings[b]?.weight ?? 0;
-
-      if (aweight < bweight) {
-        return -1;
-      } else if (aweight > bweight) {
-        return 1;
-      } else {
-        return 0;
+    .sort(
+      (a, b) =>
+        (columnSettings[a]?.weight ?? 0) - (columnSettings[b]?.weight ?? 0)
+    )
+    .map((column) => {
+      const records = groupedRecords[column] ?? [];
+      if (sortByCustomOrder && records.length > 0) {
+        applyCustomRecordOrder(records, columnSettings[column], orderSyncField);
       }
-    })
-    .map((column) => ({
-      id: column,
-      records: groupedRecords[column] ?? [],
-    }));
+      return { id: column, records };
+    });
 }
 
 function groupRecordsByField(
@@ -82,7 +77,7 @@ function groupRecordsByField(
   const noStatus = get(i18n).t("views.board.no-status");
 
   if (!fieldName) {
-    return { [noStatus]: records };
+    return { [noStatus]: [...records] };
   }
 
   const keys = unique(records, fieldName);
@@ -111,4 +106,39 @@ function groupRecordsByField(
   }
 
   return res;
+}
+
+/**
+ * Sorts records in place according to either order sync field if set, or to
+ * order of records in the column settings. This method mutates the array and
+ * returns a reference to the same array.
+ *
+ * @param {DataRecord[]} records - The records to be sorted.
+ * @param {ColumnSettings[string]} [columnSettings] - The column settings for sorting the records.
+ * @param {DataField} [orderSyncField] - The priority field for sorting the records.
+ * @return {DataRecord[]} The sorted records.
+ */
+function applyCustomRecordOrder(
+  records: DataRecord[],
+  columnSettings?: ColumnSettings[string],
+  orderSyncField?: DataField
+): DataRecord[] {
+  let getWeight: (record: DataRecord) => number;
+
+  if (orderSyncField?.name && orderSyncField.type === DataFieldType.Number) {
+    getWeight = (record) => {
+      const weight = record.values[orderSyncField.name];
+      return isNumber(weight) ? weight : Number.POSITIVE_INFINITY;
+    };
+  } else if (columnSettings) {
+    const weights = Object.fromEntries(
+      (columnSettings?.records ?? []).map((r, i) => [r, i])
+    );
+    getWeight = (record: DataRecord) =>
+      weights[record.id] ?? Number.POSITIVE_INFINITY;
+  } else {
+    return records;
+  }
+
+  return records.sort((a, b) => getWeight(a) - getWeight(b));
 }

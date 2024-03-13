@@ -1,19 +1,19 @@
 <script lang="ts">
   import { Button, Icon } from "obsidian-svelte";
+  import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
-  import ColumnHeader from "./ColumnHeader.svelte";
-
-  import type { DataRecord, DataField } from "src/lib/dataframe/dataframe";
   import CardGroup from "./CardList.svelte";
+  import ColumnHeader from "./ColumnHeader.svelte";
+  import type { OnRecordClick, OnRecordDrop } from "./types";
 
   export let name: string;
   export let records: DataRecord[];
   export let readonly: boolean;
   export let richText: boolean;
-  export let onDrop: (records: DataRecord[]) => void;
   export let includeFields: DataField[];
-
-  export let onRecordClick: (record: DataRecord) => void;
+  
+  export let onDrop: OnRecordDrop;
+  export let onRecordClick: OnRecordClick;
   export let onRecordAdd: () => void;
 </script>
 
