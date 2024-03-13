@@ -51,7 +51,7 @@ If you're curious about what we're working on, check out the roadmap:
 
 To vote for a feature, react to the issue with a :+1:.
 
-- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc) 
+- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc)
 
 ## Contribute
 
