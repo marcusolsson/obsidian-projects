@@ -10,6 +10,7 @@ import type { DataRecord } from "../../lib/dataframe/dataframe";
 
 export function applySort(frame: DataFrame, sort: SortDefinition): DataFrame {
   return produce(frame, (draft) => {
+    //@ts-ignore
     sortRecords(draft.records, sort);
   });
 }
@@ -24,7 +25,7 @@ export function applySort(frame: DataFrame, sort: SortDefinition): DataFrame {
 export function sortRecords(records: DataRecord[], sort: SortDefinition) {
   return records.sort((a, b): number => {
     let res = 0;
-    
+
     const enabledCriteria = sort.criteria.filter((c) => c.enabled);
     for (const criteria of enabledCriteria) {
       res = sortCriteria(a, b, criteria);
@@ -32,7 +33,7 @@ export function sortRecords(records: DataRecord[], sort: SortDefinition) {
         break;
       }
     }
-    
+
     return res;
   });
 }
