@@ -10,7 +10,7 @@
     Optional,
   } from "src/lib/dataframe/dataframe";
   import { copyRecordWithValues } from "src/lib/datasources/helpers";
-  import { getRecordColorContext } from "src/ui/views/helpers";
+  import { getRmergeRecordValuesfrom "src/ui/views/helpers";
   import { settings } from "src/lib/stores/settings";
 
   export let records: DataRecord[];
@@ -59,8 +59,7 @@
       <Event
         color={getRecordColor(record)}
         checked={checkField !== undefined
-          ? asOptionalBoolean(record.values[checkField])
-          : undefined}
+          ? asOptionalBmergeRecordValuesefined}
         on:check={({ detail: checked }) => {
           if (checkField) {
             onRecordChange(

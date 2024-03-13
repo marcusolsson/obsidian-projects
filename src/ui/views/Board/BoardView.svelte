@@ -6,7 +6,7 @@
     DataFrame,
     DataRecord,
   } from "src/lib/dataframe/dataframe";
-  import { copyRecordWithValues } from "src/lib/datasources/helpers";
+  import { updateRecordValues } from "src/lib/datasources/helpers";
   import { notUndefined } from "src/lib/helpers";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
@@ -67,7 +67,7 @@
     (record, { id: column, records }, trigger) => {
       // Update record groupByField
       if (trigger === "addToColumn" && groupByField?.name) {
-        record = copyRecordWithValues(record, {
+        record = updateRecordValues(record, {
           [groupByField.name]: column,
         });
       }
@@ -168,7 +168,7 @@
                 : r.values[orderSyncFieldName] !== i && r;
             if (recordToUpdate) {
               recordsToUpdate.push(
-                copyRecordWithValues(recordToUpdate, {
+                updateRecordValues(recordToUpdate, {
                   [orderSyncFieldName]: i,
                 })
               );
