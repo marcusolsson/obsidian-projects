@@ -34,7 +34,7 @@ To get started using Projects, press **Ctrl+P** (or **Cmd+P** on macOS) to open 
 
 ## Design Philosophy
 
-When developing any software, you often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
+When developing any software, you are often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
 
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
 - **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
