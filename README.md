@@ -22,7 +22,7 @@ If you have any questions, or want to stay updated, join our [Discussions](https
 
 ## Installation
 
-> **Note**  
+> [!Note]  
 > You must turn off **Restricted mode** to use Projects.
 
 1. In Obsidian, open **Settings**.
@@ -55,7 +55,7 @@ To vote for a feature, react to the issue with a :+1:.
 
 ## Contribute
 
-For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
+For more information on how to contribute to Projects, check out [CONTRIBUTING.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md). We appreciate bug reports, feature suggestions, PRs for features or translations, and help with issue triage.
 
 ## Learn More
 
