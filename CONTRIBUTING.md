@@ -18,6 +18,23 @@ Help find bugs and unexpected behavior when using the plugin. Help me find sourc
 
 You can work on any issue with the `lifecycle/backlog` label. Before you start working, please announce that you want to do so by commenting on the issue. I'll add the `lifecycle/active` label to let others know that it's being actively worked on by someone.
 
+## Translations
+
+[![inlang status badge](https://badge.inlang.com/?url=github.com/marcusolsson/obsidian-projects)](https://fink.inlang.com/github.com/marcusolsson/obsidian-projects)
+
+Help make the Projects display text available in your language!
+
+If you’re interested in adding a new translation, here’s how you can do it:
+
+1. Navigate to `src/lib/stores/i18n.ts.`
+2. Register your language code in the `resources` field.
+3. Create a corresponding `.json` file in the `src/lib/stores/translations` directory.
+
+Once the language is already registered, you can contribute in either way:
+
+- Directly push the updated `.json` resource.
+- Use the `inlang` platform for a more user-friendly interface by clicking the badge above.
+
 ## Triaging issues
 
 You can contribute by helping an issue move forward. Depending on the labels on the issue, you can help in different ways:

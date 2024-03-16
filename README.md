@@ -55,7 +55,7 @@ To vote for a feature, react to the issue with a :+1:.
 
 ## Contribute
 
-For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
+For more information on how to contribute to Projects, check out [CONTRIBUTING.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md). We appreciate bug reports, feature suggestions, PRs for features or translations, and help with issue triage.
 
 ## Learn More
 
