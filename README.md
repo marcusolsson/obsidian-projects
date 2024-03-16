@@ -22,7 +22,7 @@ If you have any questions, or want to stay updated, join our [Discussions](https
 
 ## Installation
 
-> **Note**  
+> [!Note]  
 > You must turn off **Restricted mode** to use Projects.
 
 1. In Obsidian, open **Settings**.
