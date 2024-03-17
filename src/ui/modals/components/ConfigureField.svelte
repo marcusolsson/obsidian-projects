@@ -102,6 +102,17 @@
         />
       </SettingItem>
     {/if}
+    {#if field.type === DataFieldType.String && field.repeated && !field.identifier}
+      <SettingItem
+        name={$i18n.t("modals.field.configure.rich-text.name")}
+        description={$i18n.t("modals.field.configure.rich-text.description")}
+      >
+        <Switch
+          checked={field.typeConfig?.richText ?? false}
+          on:check={handleRichTextChange}
+        />
+      </SettingItem>
+    {/if}
   </ModalContent>
   <ModalButtonGroup>
     <Button

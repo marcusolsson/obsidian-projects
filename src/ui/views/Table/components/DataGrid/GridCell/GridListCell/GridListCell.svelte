@@ -13,6 +13,11 @@
 </script>
 
 <GridCell {selected} {rowindex} {colindex} {column} on:mousedown on:navigate>
-  <TagList slot="read" edit={false} values={value || []} />
+  <TagList
+    slot="read"
+    edit={false}
+    values={value || []}
+    richText={column.typeConfig?.richText ?? false}
+  />
   <TagList slot="edit" edit={true} values={value || []} {onChange} />
 </GridCell>
