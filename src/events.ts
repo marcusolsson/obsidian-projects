@@ -20,6 +20,8 @@ export function registerFileEvents(watcher: IFileSystemWatcher) {
       if (source.includes(file.path)) {
         dataFrame.deleteRecord(oldPath);
         dataFrame.merge(await source.queryOne(file, get(dataFrame).fields));
+      } else if (source.includes(oldPath)) {
+        dataFrame.deleteRecord(oldPath);
       }
     });
   });
