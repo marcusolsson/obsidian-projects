@@ -71,7 +71,7 @@
     if (file instanceof TFile) {
       $app.workspace.trigger("hover-link", {
         event,
-        source: `obsidian-projects-table-view`,
+        source: "obsidian-projects-table-view",
         hoverParent: anchor,
         targetEl,
         linktext: file.name,
