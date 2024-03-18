@@ -429,7 +429,7 @@
                 "quote-strings": {
                     "name": "Quote strings",
                     "options": {
-                        "plain": "If needeed",
+                        "plain": "If needed",
                         "quote-double": "Always"
                     }
                 }
