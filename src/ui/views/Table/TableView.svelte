@@ -237,6 +237,7 @@
               $app,
               $i18n.t("modals.field.configure.title"),
               field,
+              fields.filter((f) => f.name !== field.name),
               editable,
               (field) => {
                 if (editable) {
