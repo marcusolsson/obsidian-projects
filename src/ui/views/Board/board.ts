@@ -48,19 +48,36 @@ export function getColumns(
 ) {
   const groupedRecords = groupRecordsByField(records, grouByField?.name);
 
-  const columns = new Set(Object.keys(groupedRecords));
-
+  let predefs = new Set<string>();
   if (grouByField?.type === DataFieldType.String) {
-    grouByField?.typeConfig?.options?.forEach((option) => {
-      columns.add(option);
-    });
+    predefs = new Set(grouByField.typeConfig?.options);
   }
 
+  const columns = new Set([...Object.keys(groupedRecords), ...predefs]);
+
   return [...columns]
-    .sort(
-      (a, b) =>
-        (columnSettings[a]?.weight ?? 0) - (columnSettings[b]?.weight ?? 0)
-    )
+    .sort((a, b) => {
+      const aweight = columnSettings[a]?.weight ?? 0;
+      const bweight = columnSettings[b]?.weight ?? 0;
+
+      if (aweight < bweight) {
+        return -1;
+      } else if (aweight > bweight) {
+        return 1;
+      } else {
+        const noStatus = get(i18n).t("views.board.no-status");
+        if (a === noStatus) return -1;
+        if (b === noStatus) return 1;
+
+        const aIndex = [...predefs].indexOf(a);
+        const bIndex = [...predefs].indexOf(b);
+
+        if (aIndex >= 0 && bIndex >= 0) return aIndex - bIndex;
+        else if (aIndex >= 0) return -1;
+        else if (bIndex >= 0) return 1;
+        else return a.localeCompare(b);
+      }
+    })
     .map((column) => {
       const records = groupedRecords[column] ?? [];
       if (sortByCustomOrder && records.length > 0) {

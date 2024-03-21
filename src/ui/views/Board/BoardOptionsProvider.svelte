@@ -26,6 +26,7 @@
 
   function handleStatusFieldChange(field: DataField | undefined) {
     const { groupByField, ...rest } = config;
+    delete rest.columns;
 
     onConfigChange(field ? { ...rest, groupByField: field.name } : { ...rest });
   }

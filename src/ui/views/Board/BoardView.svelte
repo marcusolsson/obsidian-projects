@@ -28,6 +28,7 @@
     OnSortColumns,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
+  import { settings } from "src/lib/stores/settings";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -206,17 +207,27 @@
       }).open();
     };
 
-  const handleSortColumns: OnSortColumns = (names) => {
-    saveConfig({
-      ...config,
-      columns: Object.fromEntries(
-        names.map((name, i) => [
-          name,
-          { ...config?.columns?.[name], weight: i },
-        ])
-      ),
-    });
-  };
+  const handleSortColumns =
+    (field: DataField | undefined): OnSortColumns =>
+    (names) => {
+      if (field?.name && field?.typeConfig) {
+        settings.updateFieldConfig(project.id, field?.name, {
+          ...field.typeConfig,
+          options: [...(field.typeConfig?.options ?? [])].sort(
+            (a, b) => names.indexOf(a) - names.indexOf(b)
+          ),
+        });
+      }
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          names.map((name, i) => [
+            name,
+            { ...config?.columns?.[name], weight: i },
+          ])
+        ),
+      });
+    };
 
   function saveConfig(cfg: BoardConfig) {
     config = cfg;
@@ -250,7 +261,7 @@
     onRecordClick={handleRecordClick}
     onRecordAdd={handleRecordAdd(groupByField)}
     onRecordUpdate={handleRecordUpdate(groupByField)}
-    onSortColumns={handleSortColumns}
+    onSortColumns={handleSortColumns(groupByField)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}
   />

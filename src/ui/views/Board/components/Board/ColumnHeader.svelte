@@ -50,6 +50,11 @@
 {/if}
 
 <style>
+  div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   div :global(p:first-child) {
     margin-top: 0;
   }
