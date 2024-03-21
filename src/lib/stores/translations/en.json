@@ -216,6 +216,8 @@
                         "name": "Name",
                         "description": ""
                     },
+                    "empty-name-error": "Field name can't be empty.",
+                    "existing-name-error": "Can't rename to a existing field name.",
                     "type": {
                         "name": "Type",
                         "description": "Changing type isn't supported yet."
