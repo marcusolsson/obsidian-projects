@@ -10,6 +10,7 @@ export class ConfigureFieldModal extends Modal {
     app: App,
     readonly title: string,
     readonly field: DataField,
+    readonly existingFields: DataField[],
     readonly editable: boolean,
     readonly onSave: (field: DataField) => void
   ) {
@@ -22,6 +23,7 @@ export class ConfigureFieldModal extends Modal {
       props: {
         title: this.title,
         field: this.field,
+        existingFields: this.existingFields,
         editable: this.editable,
         onSave: (field: DataField) => {
           this.onSave(field);

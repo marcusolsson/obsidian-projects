@@ -16,6 +16,7 @@ import {
   type ProjectId,
   type ProjectsPluginPreferences,
   type ProjectsPluginSettings,
+  type FieldConfig,
   type ViewDefinition,
   type ViewId,
 } from "src/settings/settings";
@@ -122,6 +123,36 @@ function createSettings() {
       update((state) =>
         produce(state, (draft) => {
           draft.projects = draft.projects.filter((w) => w.id !== projectId);
+        })
+      );
+    },
+    updateFieldConfig(
+      projectId: ProjectId,
+      fieldName: string,
+      config: FieldConfig
+    ) {
+      update((state) =>
+        produce(state, (draft) => {
+          draft.projects = draft.projects.map((project) => {
+            if (project.id === projectId) {
+              return {
+                ...project,
+                fieldConfig: {
+                  ...project.fieldConfig,
+                  [fieldName]: config,
+                },
+              };
+            }
+            return project;
+          });
+        })
+      );
+    },
+    deleteFieldConfig(projectId: ProjectId, fieldName: string) {
+      update((state) =>
+        produce(state, (draft) => {
+          const project = draft.projects.find((p) => p.id === projectId);
+          if (project) delete project.fieldConfig[fieldName];
         })
       );
     },

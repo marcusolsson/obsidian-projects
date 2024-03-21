@@ -216,6 +216,8 @@
                         "name": "字段名称",
                         "description": ""
                     },
+                    "empty-name-error": "字段名不能为空。",
+                    "existing-name-error": "不能重命名为已有字段。",
                     "type": {
                         "name": "字段类型",
                         "description": "尚不支持修改字段类型。"
@@ -228,7 +230,7 @@
                         "name": "富文本",
                         "description": "依照 Markdown 格式渲染字段内容。"
                     },
-                    "save": "保存"
+                    "save": "保存修改"
                 },
                 "create": {
                     "short-title": "添加字段",
