@@ -32,9 +32,7 @@ export function registerFileEvents(watcher: IFileSystemWatcher) {
         (record) => record.id === file.path
       );
 
-      if (source.includes(file.path)) {
-        dataFrame.deleteRecord(file.path);
-      } else if (recordExists) {
+      if (recordExists) {
         dataFrame.deleteRecord(file.path);
       }
     });
