@@ -309,6 +309,7 @@
                 "new-note": "New note",
                 "fields": {
                     "date": "Date",
+                    "end_date": "End date",
                     "check": "Check",
                     "none": "None"
                 },

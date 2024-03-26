@@ -68,6 +68,9 @@
   $: dateField =
     dateFields.find((field) => config?.dateField === field.name) ??
     dateFields[0];
+  $: endDateField =
+    dateFields.find((field) => config?.endDateField === field.name) ??
+    dateFields[0];
 
   $: booleanFields = fields
     .filter((field) => !field.repeated)
@@ -79,7 +82,7 @@
   $: dateInterval = computeDateInterval(anchorDate, interval);
 
   $: groupedRecords = dateField
-    ? groupRecordsByField(records, dateField.name)
+    ? groupRecordsByField(records, dateField.name, endDateField?.name)
     : {};
   $: title = dateInterval ? generateTitle(dateInterval) : "";
   $: dates = dateInterval ? generateDates(dateInterval) : [];
@@ -95,6 +98,9 @@
   }
   function handleDateFieldChange(dateField: string) {
     saveConfig({ ...config, dateField });
+  }
+  function handleEndDateFieldChange(endDateField: string) {
+    saveConfig({ ...config, endDateField });
   }
   function handleCheckFieldChange(checkField: string) {
     saveConfig({ ...config, checkField });
@@ -167,6 +173,14 @@
             options={dateFields.map(fieldToSelectableValue)}
             placeholder={$i18n.t("views.calendar.fields.none") ?? ""}
             on:change={({ detail }) => handleDateFieldChange(detail)}
+          />
+        </Field>
+        <Field name={$i18n.t("views.calendar.fields.end_date")}>
+          <Select
+            value={endDateField?.name ?? ""}
+            options={dateFields.map(fieldToSelectableValue)}
+            placeholder={$i18n.t("views.calendar.fields.none") ?? ""}
+            on:change={({ detail }) => handleEndDateFieldChange(detail)}
           />
         </Field>
         <Field name={$i18n.t("views.calendar.fields.check")}>

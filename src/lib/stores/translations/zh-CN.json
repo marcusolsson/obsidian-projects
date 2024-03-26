@@ -309,6 +309,7 @@
                 "new-note": "新建笔记",
                 "fields": {
                     "date": "日期",
+                    "end_date": "结束日期",
                     "check": "复选框",
                     "none": "无"
                 },
