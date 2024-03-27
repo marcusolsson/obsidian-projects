@@ -360,8 +360,10 @@
                     "insert-left": "向左插入字段",
                     "insert-right": "向右插入字段",
                     "rename": "重命名字段",
-                    "delete": "删除字段",
-                    "hide": "隐藏字段"
+                    "pin-field": "固定字段",
+                    "unpin-field": "取消固定",
+                    "hide": "隐藏字段",
+                    "delete": "删除字段"
                 },
                 "row": {
                     "add": "新建笔记",

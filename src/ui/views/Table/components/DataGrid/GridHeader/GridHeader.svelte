@@ -42,7 +42,11 @@
     on:finalize={handleDndFinalize}
   >
     {#each columns as column, columnIdx (column.id)}
-      <div class={`flex relative`} animate:flip={{ duration: flipDurationMs }}>
+      <div
+        class={`flex relative`}
+        animate:flip={{ duration: flipDurationMs }}
+        class:pinned={column.pinned}
+      >
         <GridColumnHeader {column} {onColumnMenu} colindex={columnIdx} />
         <Resizer
           width={column.width ?? 180}
@@ -86,5 +90,11 @@
     position: sticky;
     left: 0px;
     top: 0px;
+  }
+
+  div.pinned {
+    left: 60px;
+    z-index: 6;
+    position: sticky;
   }
 </style>

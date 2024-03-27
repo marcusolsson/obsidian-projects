@@ -30,6 +30,7 @@
   export let onColumnConfigure: (column: GridColDef, editable: boolean) => void;
   export let onColumnDelete: (field: string) => void;
   export let onColumnHide: (column: GridColDef) => void;
+  export let onColumnPin: (column: GridColDef) => void;
   export let onColumnInsert: (
     anchor: string, // anchor field name
     direction: number // 1 for right, 0 for left insert (keep the place and push back others)
@@ -78,6 +79,17 @@
     }
 
     menu.addSeparator();
+
+    menu.addItem((item) => {
+      item
+        .setTitle(
+          column.pinned
+            ? t("components.data-grid.column.unpin-field")
+            : t("components.data-grid.column.pin-field")
+        )
+        .setIcon(column.pinned ? "pin-off" : "pin")
+        .onClick(() => onColumnPin(column));
+    });
 
     menu.addItem((item) => {
       item

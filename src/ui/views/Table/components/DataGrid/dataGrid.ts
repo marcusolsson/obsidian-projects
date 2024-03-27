@@ -11,6 +11,7 @@ export interface GridColDef extends DataField {
   readonly hide?: boolean;
   readonly editable?: boolean;
   readonly header?: boolean;
+  readonly pinned?: boolean;
 }
 
 export type GridRowId = string;

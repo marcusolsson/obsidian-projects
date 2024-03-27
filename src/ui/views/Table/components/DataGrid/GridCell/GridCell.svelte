@@ -167,6 +167,7 @@
     class:selected
     class:rowHeader
     class:columnHeader
+    class:pinned={column.pinned}
     style={`width: ${column.width}px`}
     tabindex={!columnHeader && !rowHeader ? 1 : undefined}
     on:click={handleClick}
@@ -227,8 +228,8 @@
   }
 
   .selected {
-    box-shadow: 0 0 0 3px var(--interactive-accent);
-    z-index: 4;
+    box-shadow: 0 0 0 2px inset var(--interactive-accent);
+    border-radius: var(--radius-s);
     padding: 0;
   }
 
@@ -255,5 +256,12 @@
     padding: 3px;
     gap: 4px;
     position: sticky;
+  }
+
+  .pinned {
+    left: 60px;
+    background-color: var(--background-secondary);
+    position: sticky;
+    border-right: 1px solid var(--background-modifier-border-focus);
   }
 </style>
