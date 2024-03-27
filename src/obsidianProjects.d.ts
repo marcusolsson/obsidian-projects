@@ -18,4 +18,12 @@ declare module "obsidian" {
       };
     };
   }
+  // https://github.com/Fevol/obsidian-typings
+  interface MenuItem {
+    /**
+     * @internal Add warning styling to the menu item
+     * @param warning - Whether the menu item should be styled as a warning
+     */
+    setWarning(warning: boolean): MenuItem;
+  }
 }
