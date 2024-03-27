@@ -105,8 +105,7 @@
         item
           .setTitle(t("components.data-grid.column.delete"))
           .setIcon("trash")
-          .onClick(() => onColumnDelete(column.field))
-          .setWarning(true);
+          .onClick(() => onColumnDelete(column.field));
       });
     }
 
@@ -130,8 +129,7 @@
         item
           .setTitle(t("components.data-grid.row.delete"))
           .setIcon("trash")
-          .onClick(() => onRowDelete(rowId))
-          .setWarning(true);
+          .onClick(() => onRowDelete(rowId));
       });
     }
 
