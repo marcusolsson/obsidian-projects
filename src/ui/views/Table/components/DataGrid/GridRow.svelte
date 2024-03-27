@@ -7,7 +7,7 @@
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./dataGrid";
-  import { menuOnContextMenu } from "./dataGrid";
+  import { menuOnContextMenu } from "src/ui/views/helpers";
   import { app } from "src/lib/stores/obsidian";
 
   import { setContext } from "svelte";

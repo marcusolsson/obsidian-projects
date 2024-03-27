@@ -2,10 +2,11 @@
   import { get } from "svelte/store";
   import { Icon, IconButton } from "obsidian-svelte";
   import type { Menu } from "obsidian";
+  import { menuOnContextMenu } from "src/ui/views/helpers";
 
   import { GridCell, TextLabel } from "./GridCell";
   import { fieldIcon } from "src/ui/views/helpers";
-  import { menuOnContextMenu, type GridColDef } from "./dataGrid";
+  import type { GridColDef } from "./dataGrid";
 
   import GridCellGroup from "./GridCellGroup.svelte";
 
