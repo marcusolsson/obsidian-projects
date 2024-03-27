@@ -26,6 +26,7 @@
   role="columnheader"
   aria-colindex={colindex}
   style:width={`${column.width}px`}
+  class:pinned={column.pinned}
 >
   {#if column.repeated}
     {#if column.field == "tags"}
@@ -72,5 +73,9 @@
     padding: 0 4px;
 
     cursor: default;
+  }
+
+  div.pinned {
+    border-right: 1px solid var(--background-modifier-border-focus);
   }
 </style>

@@ -71,6 +71,7 @@
         field: field.name,
         width: fieldConfig[field.name]?.width ?? 180,
         hide: fieldConfig[field.name]?.hide ?? false,
+        pinned: fieldConfig[field.name]?.pinned ?? false,
         editable: !field.derived,
       };
 
@@ -103,6 +104,19 @@
         [field]: {
           ...fieldConfig[field],
           width,
+        },
+      },
+    });
+  }
+
+  function handleColumnPin(field: string, pinned: boolean | undefined) {
+    saveConfig({
+      ...config,
+      fieldConfig: {
+        ...fieldConfig,
+        [field]: {
+          ...fieldConfig[field],
+          pinned: !pinned,
         },
       },
     });
@@ -233,6 +247,7 @@
         }}
         onRowDelete={(id) => api.deleteRecord(id)}
         onColumnHide={(column) => handleVisibilityChange(column.field, false)}
+        onColumnPin={(column) => handleColumnPin(column.field, column.pinned)}
         onColumnConfigure={(column, editable) => {
           const field = fields.find((field) => field.name === column.field);
 
