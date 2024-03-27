@@ -100,7 +100,7 @@ export abstract class FrontMatterDataSource extends DataSource {
           return 1;
         }
 
-        return a.name.localeCompare(b.name);
+        return a.name.localeCompare(b.name, undefined, { numeric: true });
       });
     });
   }

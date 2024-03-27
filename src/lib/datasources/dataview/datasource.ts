@@ -100,7 +100,7 @@ export class DataviewDataSource extends DataSource {
           return distance;
         }
 
-        return a.name.localeCompare(b.name);
+        return a.name.localeCompare(b.name, undefined, { numeric: true });
       });
     });
   }
