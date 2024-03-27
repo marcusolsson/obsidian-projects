@@ -75,7 +75,7 @@ export function getColumns(
         if (aIndex >= 0 && bIndex >= 0) return aIndex - bIndex;
         else if (aIndex >= 0) return -1;
         else if (bIndex >= 0) return 1;
-        else return a.localeCompare(b);
+        else return a.localeCompare(b, undefined, { numeric: true });
       }
     })
     .map((column) => {
