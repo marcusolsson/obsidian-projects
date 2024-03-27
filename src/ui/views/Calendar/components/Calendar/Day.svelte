@@ -5,6 +5,7 @@
   import { i18n } from "src/lib/stores/i18n";
   import Date from "./Date.svelte";
   import EventList from "./EventList.svelte";
+  import { menuOnContextMenu } from "src/ui/views/helpers";
 
   /**
    * Specifies the date of the day.
@@ -50,14 +51,13 @@
 
   function handleMouseDown(event: MouseEvent) {
     if (event.button === 2) {
-      new Menu()
-        .addItem((item) => {
-          item
-            .setTitle($i18n.t("views.calendar.new-note"))
-            .setIcon("file-plus")
-            .onClick(() => onRecordAdd());
-        })
-        .showAtMouseEvent(event);
+      const menu = new Menu().addItem((item) => {
+        item
+          .setTitle($i18n.t("views.calendar.new-note"))
+          .setIcon("file-plus")
+          .onClick(() => onRecordAdd());
+      });
+      menuOnContextMenu(event, menu);
     }
   }
 </script>
