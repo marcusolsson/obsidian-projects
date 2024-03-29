@@ -6,13 +6,13 @@ export function useClickOutside(element, { onClickOutside, anchorEl, open }) {
             onClickOutside();
         }
     }
-    element.doc.body.addEventListener("click", onClick);
+    element.ownerDocument.body.addEventListener("click", onClick);
     return {
         update(props) {
             onClickOutside = props.onClickOutside;
         },
         destroy() {
-            element.doc.body.removeEventListener("click", onClick);
+            element.ownerDocument.body.removeEventListener("click", onClick);
         },
     };
 }

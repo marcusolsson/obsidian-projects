@@ -52,7 +52,7 @@
 </script>
 
 {#if open}
-  <Portal target={anchorEl.doc.body}>
+  <Portal target={anchorEl.ownerDocument.body}>
     <div
       class={className}
       bind:this={popperEl}
