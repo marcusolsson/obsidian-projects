@@ -5,7 +5,7 @@
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import Flair from "src/ui/app/toolbar/Flair.svelte";
   import Accordion from "src/ui/components/Accordion/Accordion.svelte";
   import AccordionItem from "src/ui/components/Accordion/AccordionItem.svelte";

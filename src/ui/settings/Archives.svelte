@@ -4,7 +4,7 @@
     IconButton,
     SettingItem,
     Typography,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";
   import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";

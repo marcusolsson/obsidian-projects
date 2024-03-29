@@ -8,7 +8,7 @@
     ModalLayout,
     SettingItem,
     Typography,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { FieldControl } from "src/ui/components/FieldControl";
   import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";

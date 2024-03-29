@@ -6,7 +6,7 @@
     NumberInput,
     Select,
     SettingItem,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { fieldToSelectableValue } from "../../helpers";

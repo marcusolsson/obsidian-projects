@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Switch } from "obsidian-svelte";
+  import { Switch } from "src/ui/mocks/obsidian-svelte";
   import {
     DataFieldType,
     type DataField,

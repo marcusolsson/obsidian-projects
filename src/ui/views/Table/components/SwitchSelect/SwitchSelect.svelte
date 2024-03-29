@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Menu, MenuItem } from "obsidian-svelte";
+  import { Menu, MenuItem } from "src/ui/mocks/obsidian-svelte";
   interface SwitchItem {
     readonly label: string;
     readonly value: string;

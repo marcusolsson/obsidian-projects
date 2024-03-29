@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconButton, Select } from "obsidian-svelte";
+  import { IconButton, Select } from "src/ui/mocks/obsidian-svelte";
 
   import { Field } from "src/ui/components/Field";
   import { SwitchSelect } from "../Table/components/SwitchSelect";

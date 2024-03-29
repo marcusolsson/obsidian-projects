@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconButton } from "obsidian-svelte";
+  import { IconButton } from "src/ui/mocks/obsidian-svelte";
   import { Menu } from "obsidian";
   import type { DataValue } from "src/lib/dataframe/dataframe";
   import { createEventDispatcher } from "svelte";

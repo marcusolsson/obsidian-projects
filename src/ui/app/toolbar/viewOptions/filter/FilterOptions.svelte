@@ -9,7 +9,7 @@
     NumberInput,
     Checkbox,
     // DateInput, //use native date input temporarily,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";

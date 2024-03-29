@@ -14,7 +14,7 @@
     GridRowProps,
   } from "./dataGrid";
   import GridCellGroup from "./GridCellGroup.svelte";
-  import { Button, Icon } from "obsidian-svelte";
+  import { Button, Icon } from "src/ui/mocks/obsidian-svelte";
   import GridHeader from "./GridHeader/GridHeader.svelte";
 
   export let columns: GridColDef[];

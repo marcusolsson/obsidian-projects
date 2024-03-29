@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Icon } from "obsidian-svelte";
+  import { Button, Icon } from "src/ui/mocks/obsidian-svelte";
   import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import CardGroup from "./CardList.svelte";
@@ -11,7 +11,7 @@
   export let readonly: boolean;
   export let richText: boolean;
   export let includeFields: DataField[];
-  
+
   export let onDrop: OnRecordDrop;
   export let onRecordClick: OnRecordClick;
   export let onRecordAdd: () => void;

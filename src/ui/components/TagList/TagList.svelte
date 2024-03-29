@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconButton, Tag } from "obsidian-svelte";
+  import { IconButton, Tag } from "src/ui/mocks/obsidian-svelte"; //TODO: Deal with this!
   import {
     isString,
     type DataValue,

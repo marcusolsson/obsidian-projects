@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Menu } from "obsidian";
-  import { Icon, IconButton, TextInput } from "obsidian-svelte";
+  import { Icon, IconButton, TextInput } from "src/ui/mocks/obsidian-svelte";
   import { createEventDispatcher } from "svelte";
   import { i18n } from "src/lib/stores/i18n";
 

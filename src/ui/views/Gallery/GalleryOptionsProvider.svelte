@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { IconButton, Select } from "obsidian-svelte";
+  import { IconButton, Select } from "src/ui/mocks/obsidian-svelte";
   import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { Field } from "src/ui/components/Field";

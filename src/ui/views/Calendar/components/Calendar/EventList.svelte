@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { InternalLink } from "obsidian-svelte";
+  import { InternalLink } from "src/ui/mocks/obsidian-svelte";
   import { getDisplayName } from "src/ui/views/Board/components/Board/boardHelpers";
   import Event from "./Event.svelte";
   import { dndzone } from "svelte-dnd-action";

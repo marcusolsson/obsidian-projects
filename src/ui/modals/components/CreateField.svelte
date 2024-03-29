@@ -9,7 +9,7 @@
     TextInput,
     NumberInput,
     Switch,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import MultiTextInput from "src/ui/components/MultiTextInput/MultiTextInput.svelte";
   import dayjs from "dayjs";

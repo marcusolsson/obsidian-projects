@@ -5,7 +5,7 @@
     NumberInput,
     Switch,
     TextInput,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { TagList } from "src/ui/components/TagList";
   import {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import produce from "immer";
   import { Menu, Notice } from "obsidian";
-  import { IconButton, Select } from "obsidian-svelte";
+  import { IconButton, Select } from "src/ui/mocks/obsidian-svelte";
 
   import { i18n } from "src/lib/stores/i18n";
   import { app } from "src/lib/stores/obsidian";

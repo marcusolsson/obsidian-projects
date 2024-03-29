@@ -4,7 +4,7 @@
     ModalButtonGroup,
     ModalContent,
     ModalLayout,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { i18n } from "src/lib/stores/i18n";
 

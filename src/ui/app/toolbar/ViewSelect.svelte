@@ -1,7 +1,7 @@
 <script lang="ts">
   import { customViews } from "src/lib/stores/customViews";
   import type { ViewDefinition, ViewId } from "src/settings/settings";
-  import { Icon, Button, IconButton } from "obsidian-svelte";
+  import { Icon, Button, IconButton } from "src/ui/mocks/obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
 
   import ViewItem from "./ViewItem.svelte";

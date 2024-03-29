@@ -5,7 +5,7 @@
     NumberInput,
     ModalLayout,
     ModalContent,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import type { GalleryConfig } from "../types";
   import { i18n } from "src/lib/stores/i18n";
 

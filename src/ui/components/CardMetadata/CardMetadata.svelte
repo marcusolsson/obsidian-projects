@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Icon } from "obsidian-svelte";
+  import { Icon } from "src/ui/mocks/obsidian-svelte";
   import {
     DataFieldType,
     type DataField,

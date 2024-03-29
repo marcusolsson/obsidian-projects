@@ -30,7 +30,7 @@
   import { sortFields } from "./helpers";
   import type { ProjectDefinition } from "src/settings/settings";
   import { CreateFieldModal } from "src/ui/modals/createFieldModal";
-  import { Icon } from "obsidian-svelte";
+  import { Icon } from "src/ui/mocks/obsidian-svelte";
   import { TextLabel } from "./components/DataGrid/GridCell/GridTextCell";
 
   export let project: ProjectDefinition;

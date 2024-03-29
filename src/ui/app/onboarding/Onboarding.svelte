@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { Button, ModalButtonGroup, Typography } from "obsidian-svelte";
+  import {
+    Button,
+    ModalButtonGroup,
+    Typography,
+  } from "src/ui/mocks/obsidian-svelte";
 
   import TabContainer from "./TabContainer.svelte";
 

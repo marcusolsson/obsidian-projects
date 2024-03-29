@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Button, IconButton, Icon, Select, Checkbox } from "obsidian-svelte";
+  import {
+    Button,
+    IconButton,
+    Icon,
+    Select,
+    Checkbox,
+  } from "src/ui/mocks/obsidian-svelte";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
   import type { SortDefinition } from "src/settings/settings";

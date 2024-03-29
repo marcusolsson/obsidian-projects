@@ -1,6 +1,11 @@
 <script lang="ts">
   import produce from "immer";
-  import { Button, Icon, IconButton, TextInput } from "obsidian-svelte";
+  import {
+    Button,
+    Icon,
+    IconButton,
+    TextInput,
+  } from "src/ui/mocks/obsidian-svelte";
 
   export let options: string[];
   export let onChange: (options: string[]) => void;

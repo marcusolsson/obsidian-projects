@@ -1,6 +1,10 @@
 <script lang="ts">
   import produce from "immer";
-  import { Button, FileAutocomplete, IconButton } from "obsidian-svelte";
+  import {
+    Button,
+    FileAutocomplete,
+    IconButton,
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { getFilesInFolder } from "src/lib/obsidian";
   import { app } from "src/lib/stores/obsidian";

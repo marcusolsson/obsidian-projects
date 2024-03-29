@@ -1,6 +1,11 @@
 <script lang="ts">
   import produce from "immer";
-  import { Callout, SettingItem, Typography, Switch } from "obsidian-svelte";
+  import {
+    Callout,
+    SettingItem,
+    Typography,
+    Switch,
+  } from "src/ui/mocks/obsidian-svelte";
   import type {
     ProjectDefinition,
     ProjectsPluginPreferences,

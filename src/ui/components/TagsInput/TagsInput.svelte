@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useClickOutside } from "obsidian-svelte";
+  import { useClickOutside } from "src/ui/mocks/obsidian-svelte";
   import { createEventDispatcher } from "svelte";
   import type { DataValue } from "src/lib/dataframe/dataframe";
   import { TagInput } from "./TagInput";

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Icon } from "obsidian-svelte";
+  import { Icon } from "src/ui/mocks/obsidian-svelte";
   import { slide } from "svelte/transition";
 
   let open: boolean = false;

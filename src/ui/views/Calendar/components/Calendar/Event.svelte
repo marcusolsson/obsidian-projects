@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Checkbox } from "obsidian-svelte";
+  import { Checkbox } from "src/ui/mocks/obsidian-svelte";
   import ColorPill from "./ColorPill.svelte";
   import Ellipsis from "./Ellipsis.svelte";
 

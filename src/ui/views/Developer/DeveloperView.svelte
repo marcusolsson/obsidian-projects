@@ -27,7 +27,7 @@
     Tag,
     TextInput,
     Typography,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { HorizontalGroup } from "src/ui/components/HorizontalGroup";
   import { ViewContent, ViewLayout } from "src/ui/components/Layout";

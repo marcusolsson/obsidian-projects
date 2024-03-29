@@ -1,6 +1,6 @@
 <script lang="ts">
   import dayjs from "dayjs";
-  import { Select, Typography } from "obsidian-svelte";
+  import { Select, Typography } from "src/ui/mocks/obsidian-svelte";
   import { Field } from "src/ui/components/Field";
   import {
     ViewContent,

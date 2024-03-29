@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DateInput } from "obsidian-svelte";
+  import { DateInput } from "src/ui/mocks/obsidian-svelte";
   import type { Optional } from "src/lib/dataframe/dataframe";
 
   import { GridCell } from "..";

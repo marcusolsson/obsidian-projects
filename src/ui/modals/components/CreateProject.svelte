@@ -13,7 +13,7 @@
     TextArea,
     TextInput,
     Typography,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { FileListInput } from "src/ui/components/FileListInput";
   import { Accordion, AccordionItem } from "src/ui/components/Accordion";

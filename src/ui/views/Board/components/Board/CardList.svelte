@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { InternalLink } from "obsidian-svelte";
+  import { InternalLink } from "src/ui/mocks/obsidian-svelte";
   import {
     isString,
     type DataField,

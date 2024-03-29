@@ -2,7 +2,7 @@
   import { GridCell } from "..";
   import type { GridColDef } from "../../dataGrid";
 
-  import { Autocomplete, TextInput } from "obsidian-svelte";
+  import { Autocomplete, TextInput } from "src/ui/mocks/obsidian-svelte";
   import TextLabel from "./TextLabel.svelte";
   import type { Optional } from "src/lib/dataframe/dataframe";
 

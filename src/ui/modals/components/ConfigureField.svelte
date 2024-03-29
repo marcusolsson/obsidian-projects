@@ -8,7 +8,7 @@
     SettingItem,
     Switch,
     TextInput,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
   import MultiTextInput from "src/ui/components/MultiTextInput/MultiTextInput.svelte";
   import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";

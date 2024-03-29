@@ -8,7 +8,7 @@
     Select,
     SettingItem,
     TextInput,
-  } from "obsidian-svelte";
+  } from "src/ui/mocks/obsidian-svelte";
 
   import { isValidPath } from "src/lib/obsidian";
   import { i18n } from "src/lib/stores/i18n";
