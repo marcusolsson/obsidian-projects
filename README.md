@@ -22,7 +22,7 @@ If you have any questions, or want to stay updated, join our [Discussions](https
 
 ## Installation
 
-> **Note**  
+> [!Note]  
 > You must turn off **Restricted mode** to use Projects.
 
 1. In Obsidian, open **Settings**.
@@ -34,7 +34,7 @@ To get started using Projects, press **Ctrl+P** (or **Cmd+P** on macOS) to open 
 
 ## Design Philosophy
 
-When developing any software, you often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
+When developing any software, you are often faced with difficult choices. To help guide design decisions, this project adheres to the following principles:
 
 - **Leave no trace:** The plugin must not leave any plugin-specific configuration in the notes, such as custom front matter properties. Notes may be shared with colleagues and teams who don't use Obsidian. If the user stops using this plugin, they shouldn't have to clean up all their notes.
 - **Keep it native:** The plugin should look and feel like it's native to Obsidian. The plugin should also prefer native Web APIs over custom components whenever possible.
@@ -51,11 +51,11 @@ If you're curious about what we're working on, check out the roadmap:
 
 To vote for a feature, react to the issue with a :+1:.
 
-- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc) 
+- [Most requested issues](https://github.com/marcusolsson/obsidian-projects/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc)
 
 ## Contribute
 
-For more information on how to contribute to Projects, check out [CONTRIBUTE.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md).
+For more information on how to contribute to Projects, check out [CONTRIBUTING.md](https://github.com/marcusolsson/obsidian-projects/blob/main/CONTRIBUTING.md). We appreciate bug reports, feature suggestions, PRs for features or translations, and help with issue triage.
 
 ## Learn More
 
@@ -63,6 +63,8 @@ If you'd like to see Projects in action, check out any of these amazing resource
 
 ### Videos
 
+- 2023-11-21: [Obsidian Projects - How To Manage Your Projects in Obsidian](https://youtu.be/aFfREf9IQ7Q?t=452) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
+- 2023-11-14: [How To Use Obsidian: Project Management](https://www.youtube.com/watch?v=-ZTo6rcH0a8) by [Jonathan Pritchard](https://www.youtube.com/@zavant)
 - 2023-10-10: [Obsidian Library: How To Keep Track of Your Books in Obsidian](https://youtu.be/_3MSwW51BhU?t=405) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
 - 2023-06-28: [Obsidian Office Hours: First Look at Obsidian Projects](https://www.youtube.com/watch?v=DU7V69n5tIQ) by [@BenCodeZen](https://www.youtube.com/@BenCodeZen)
 - 2023-04-20: [You all NEED these Obsidian community plugins](https://www.youtube.com/watch?v=Yzi1o-BH6QQ&t=1022s) by [@christianlempa](https://www.youtube.com/@christianlempa)

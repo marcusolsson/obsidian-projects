@@ -10,24 +10,31 @@ import type { DataRecord } from "../../lib/dataframe/dataframe";
 
 export function applySort(frame: DataFrame, sort: SortDefinition): DataFrame {
   return produce(frame, (draft) => {
-    draft.records = draft.records.sort((a, b): number => {
-      let res = 0;
+    //@ts-ignore
+    sortRecords(draft.records, sort);
+  });
+}
 
-      const enabledCriteria = sort.criteria.filter((c) => c.enabled);
+/**
+ * Sorts records in place. This method mutates the array
+ * and returns a reference to the same array.
+ *
+ * @param {DataRecord[]} records - the records to be sorted
+ * @param {SortDefinition} sort - the definition for sorting the records
+ */
+export function sortRecords(records: DataRecord[], sort: SortDefinition) {
+  return records.sort((a, b): number => {
+    let res = 0;
 
-      for (let i = 0; i < enabledCriteria.length; i++) {
-        const criteria = enabledCriteria[i];
-
-        // @ts-ignore
-        res = sortCriteria(a, b, criteria);
-
-        if (res !== 0) {
-          break;
-        }
+    const enabledCriteria = sort.criteria.filter((c) => c.enabled);
+    for (const criteria of enabledCriteria) {
+      res = sortCriteria(a, b, criteria);
+      if (res !== 0) {
+        break;
       }
+    }
 
-      return res;
-    });
+    return res;
   });
 }
 

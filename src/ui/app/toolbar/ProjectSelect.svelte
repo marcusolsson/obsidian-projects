@@ -101,6 +101,7 @@
         item
           .setTitle($i18n.t("modals.project.delete.short-title"))
           .setIcon("trash")
+          .setWarning(true)
           .onClick(() => {
             new ConfirmDialogModal(
               $app,

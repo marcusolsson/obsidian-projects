@@ -35,6 +35,7 @@
       item
         .setTitle($i18n.t("components.tag.remove"))
         .setIcon("trash-2")
+        .setWarning(true)
         .onClick((event) => {
           menu.close();
           dispatch("delete");

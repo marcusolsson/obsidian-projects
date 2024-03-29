@@ -42,7 +42,7 @@ body:
     id: obsidianVersion
     attributes:
       label: Obsidian version
-      description: You can find the version under Settings -> About -> Current version.
+      description: You can find the version under Settings -> General -> Current version.
     validations:
       required: true
 

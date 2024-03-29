@@ -9,6 +9,7 @@
     DataValue,
     Optional,
   } from "src/lib/dataframe/dataframe";
+  import { updateRecordValues } from "src/lib/datasources/helpers";
   import { getRecordColorContext } from "src/ui/views/helpers";
   import { settings } from "src/lib/stores/settings";
 
@@ -36,7 +37,7 @@
     records.forEach(onRecordChange);
   }
 
-  const getRecordColor = getRecordColorContext();
+  const getRecordColor = getRecordColorContext.get();
 </script>
 
 <div
@@ -62,13 +63,11 @@
           : undefined}
         on:check={({ detail: checked }) => {
           if (checkField) {
-            onRecordChange({
-              ...record,
-              values: {
-                ...record.values,
+            onRecordChange(
+              updateRecordValues(record, {
                 [checkField]: checked,
-              },
-            });
+              })
+            );
           }
         }}
         on:click={() => {

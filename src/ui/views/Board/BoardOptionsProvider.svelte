@@ -26,6 +26,7 @@
 
   function handleStatusFieldChange(field: DataField | undefined) {
     const { groupByField, ...rest } = config;
+    delete rest.columns;
 
     onConfigChange(field ? { ...rest, groupByField: field.name } : { ...rest });
   }
@@ -48,7 +49,7 @@
         includedFields={config.includeFields ?? []}
         onIncludedFieldsChange={handleIncludedFieldsChange}
         onSettings={() => {
-          new BoardSettingsModal($app, config, (value) => {
+          new BoardSettingsModal($app, config, fields, (value) => {
             onConfigChange(value);
           }).open();
         }}

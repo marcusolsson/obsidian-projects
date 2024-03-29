@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     DataFieldType,
-    type DataField,
     type DataFrame,
     type DataRecord,
   } from "src/lib/dataframe/dataframe";
@@ -72,6 +71,7 @@
         field: field.name,
         width: fieldConfig[field.name]?.width ?? 180,
         hide: fieldConfig[field.name]?.hide ?? false,
+        pinned: fieldConfig[field.name]?.pinned ?? false,
         editable: !field.derived,
       };
 
@@ -109,6 +109,19 @@
     });
   }
 
+  function handleColumnPin(field: string, pinned: boolean | undefined) {
+    saveConfig({
+      ...config,
+      fieldConfig: {
+        ...fieldConfig,
+        [field]: {
+          ...fieldConfig[field],
+          pinned: !pinned,
+        },
+      },
+    });
+  }
+
   function handleColumnAppend() {
     new CreateFieldModal($app, fields, async (field, value) => {
       await api.addField(field, value);
@@ -119,8 +132,9 @@
         behavior: "smooth",
       });
 
-      updateFieldCfg(field);
-      updateViewCfg(field);
+      if (field.typeConfig) {
+        settings.updateFieldConfig(project.id, field.name, field.typeConfig);
+      }
     }).open();
   }
 
@@ -129,48 +143,52 @@
       const position = fields.findIndex((f) => anchor === f.name) + direction;
       await api.addField(field, value, position);
 
-      updateFieldCfg(field);
-      updateViewCfg(field, position);
+      if (field.typeConfig) {
+        settings.updateFieldConfig(project.id, field.name, field.typeConfig);
+      }
+
+      const orderFields = fields
+        .map((f) => f.name)
+        .filter((f) => f !== field.name);
+      if (position) orderFields.splice(position, 0, field.name);
+
+      saveConfig({
+        ...config,
+        orderFields: orderFields,
+      });
     }).open();
   }
 
-  function updateFieldCfg(field: DataField) {
-    const projectFields = Object.fromEntries(
-      Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-        fields.find((f) => f.name === key && f.name !== field.name)
-      )
-    );
-
-    if (field.typeConfig) {
-      settings.updateProject({
-        ...project,
-        fieldConfig: {
-          ...projectFields,
-          [field.name]: field.typeConfig,
-        },
-      });
-    } else {
-      settings.updateProject({
-        ...project,
-        fieldConfig: {
-          ...projectFields,
-        },
-      });
-    }
-  }
-
-  function updateViewCfg(field: DataField, position?: number) {
+  function deleteColumnConfig(fieldName: string) {
     const orderFields = fields
       .map((field) => field.name)
-      .filter((f) => f !== field.name);
+      .filter((f) => f !== fieldName);
 
-    orderFields.splice(position ?? orderFields.length, 0, field.name);
+    const tableFields = { ...config?.fieldConfig };
+    delete tableFields[fieldName];
 
-    const tableFields = Object.fromEntries(
-      Object.entries(config?.fieldConfig ?? {}).filter(([key, _]) =>
-        fields.find((f) => f.name === key && f.name !== field.name)
-      )
-    );
+    saveConfig({
+      ...config,
+      orderFields: orderFields,
+      fieldConfig: { ...tableFields },
+    });
+  }
+
+  // update view-level config (width, hidden, order etc.) on column rename
+  function renameColumnConfig(newName: string, oldName: string) {
+    const orderFields = fields.map((field) => field.name);
+    const idx = orderFields.findIndex((f) => f === oldName);
+    if (idx >= 0) orderFields.splice(idx, 1, newName);
+
+    const tableFields = { ...config?.fieldConfig };
+
+    if (config?.fieldConfig) {
+      const oldConfig = config?.fieldConfig[oldName];
+      if (oldConfig) {
+        tableFields[newName] = oldConfig;
+        delete tableFields[oldName];
+      }
+    }
 
     saveConfig({
       ...config,
@@ -229,6 +247,7 @@
         }}
         onRowDelete={(id) => api.deleteRecord(id)}
         onColumnHide={(column) => handleVisibilityChange(column.field, false)}
+        onColumnPin={(column) => handleColumnPin(column.field, column.pinned)}
         onColumnConfigure={(column, editable) => {
           const field = fields.find((field) => field.name === column.field);
 
@@ -237,38 +256,38 @@
               $app,
               $i18n.t("modals.field.configure.title"),
               field,
+              fields.filter((f) => f.name !== field.name),
               editable,
               (field) => {
                 if (editable) {
                   if (field.name !== column.field) {
                     api.updateField(field, column.field);
+                    renameColumnConfig(field.name, column.field);
+                    settings.deleteFieldConfig(project.id, column.field);
                   } else {
                     api.updateField(field);
                   }
                 }
 
-                const projectFields = Object.fromEntries(
-                  Object.entries(project.fieldConfig ?? {}).filter(([key, _]) =>
-                    fields.find((field) => field.name === key)
-                  )
-                );
-
                 if (field.typeConfig) {
-                  settings.updateProject({
-                    ...project,
-                    fieldConfig: {
-                      ...projectFields,
-                      [field.name]: field.typeConfig,
-                    },
-                  });
-                  saveConfig({ ...config });
+                  settings.updateFieldConfig(
+                    project.id,
+                    field.name,
+                    field.typeConfig
+                  );
                 }
+
+                saveConfig({ ...config });
               }
             ).open();
           }
         }}
         onColumnInsert={handleColumnInsert}
-        onColumnDelete={(field) => api.deleteField(field)}
+        onColumnDelete={(field) => {
+          api.deleteField(field);
+          settings.deleteFieldConfig(project.id, field);
+          deleteColumnConfig(field);
+        }}
         onRowChange={(rowId, row) => {
           api.updateRecord({ id: rowId, values: row }, fields);
         }}
@@ -280,17 +299,19 @@
           });
         }}
       />
-      <span
-        tabindex="-1"
-        bind:this={buttonEl}
-        on:click={handleColumnAppend}
-        on:keydown={(evt) => {
-          if (evt.key === "Enter") handleColumnAppend();
-        }}
-      >
-        <Icon name="plus" />
-        <TextLabel value={$i18n.t("components.data-grid.column.add")} />
-      </span>
+      {#if !readonly}
+        <span
+          tabindex="-1"
+          bind:this={buttonEl}
+          on:click={handleColumnAppend}
+          on:keydown={(evt) => {
+            if (evt.key === "Enter") handleColumnAppend();
+          }}
+        >
+          <Icon name="plus" />
+          <TextLabel value={$i18n.t("components.data-grid.column.add")} />
+        </span>
+      {/if}
     </div>
   </ViewContent>
 </ViewLayout>

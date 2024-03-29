@@ -124,19 +124,22 @@
         const menu = new Menu();
 
         menu.addItem((item) => {
-          item.setTitle($i18n.t("modals.view.duplicate.title"));
-          item.setIcon("copy");
-          item.onClick(() => {
-            dispatch("duplicate");
-          });
+          item
+            .setTitle($i18n.t("modals.view.duplicate.title"))
+            .setIcon("copy")
+            .onClick(() => {
+              dispatch("duplicate");
+            });
         });
 
         menu.addItem((item) => {
-          item.setTitle($i18n.t("modals.view.delete.title"));
-          item.setIcon("trash");
-          item.onClick(() => {
-            dispatch("delete");
-          });
+          item
+            .setTitle($i18n.t("modals.view.delete.title"))
+            .setIcon("trash")
+            .setWarning(true)
+            .onClick(() => {
+              dispatch("delete");
+            });
         });
 
         menu.showAtMouseEvent(event);

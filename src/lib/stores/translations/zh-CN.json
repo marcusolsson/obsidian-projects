@@ -216,6 +216,8 @@
                         "name": "字段名称",
                         "description": ""
                     },
+                    "empty-name-error": "字段名不能为空。",
+                    "existing-name-error": "不能重命名为已有字段。",
                     "type": {
                         "name": "字段类型",
                         "description": "尚不支持修改字段类型。"
@@ -228,7 +230,7 @@
                         "name": "富文本",
                         "description": "依照 Markdown 格式渲染字段内容。"
                     },
-                    "save": "保存"
+                    "save": "保存修改"
                 },
                 "create": {
                     "short-title": "添加字段",
@@ -292,6 +294,10 @@
                     "column-width": {
                         "name": "列宽度",
                         "description": "调整每列的像素宽度。"
+                    },
+                    "order-sync-field": {
+                        "name": "卡片顺序同步字段",
+                        "description": "该字段将用于存储卡片在看板列中的位置顺序信息。"
                     }
                 },
                 "note": {
@@ -354,8 +360,10 @@
                     "insert-left": "向左插入字段",
                     "insert-right": "向右插入字段",
                     "rename": "重命名字段",
-                    "delete": "删除字段",
-                    "hide": "隐藏字段"
+                    "pin-field": "固定字段",
+                    "unpin-field": "取消固定",
+                    "hide": "隐藏字段",
+                    "delete": "删除字段"
                 },
                 "row": {
                     "add": "新建笔记",

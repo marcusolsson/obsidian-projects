@@ -19,7 +19,7 @@
   bind:this={ref}
   class="dropdown"
   on:keypress
-  on:click={() => (isOpen = true)}
+  on:click={() => (isOpen = !isOpen)}
 >
   {label}
 </div>

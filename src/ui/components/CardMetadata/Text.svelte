@@ -14,7 +14,7 @@
 
   function useMarkdown(node: HTMLElement) {
     if (typeof value === "string") {
-      MarkdownRenderer.renderMarkdown(value, node, sourcePath, $view);
+      MarkdownRenderer.render($app, value, node, sourcePath, $view);
     }
   }
 

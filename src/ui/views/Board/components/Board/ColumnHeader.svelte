@@ -28,12 +28,12 @@
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
   function useMarkdown(node: HTMLElement, value: string) {
-    MarkdownRenderer.renderMarkdown(value, node, sourcePath, $view);
+    MarkdownRenderer.render($app, value, node, sourcePath, $view);
 
     return {
       update(newValue: string) {
         node.empty();
-        MarkdownRenderer.renderMarkdown(newValue, node, sourcePath, $view);
+        MarkdownRenderer.render($app, newValue, node, sourcePath, $view);
       },
     };
   }
@@ -110,6 +110,11 @@
 </div>
 
 <style>
+  div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   span :global(p:first-child) {
     margin-top: 0;
   }

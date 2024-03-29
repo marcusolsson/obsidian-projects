@@ -5,13 +5,14 @@
   import type {
     ProjectDefinition,
     ProjectId,
+    SortDefinition,
     ViewDefinition,
     ViewId,
   } from "src/settings/settings";
   import { applyFilter, matchesCondition } from "./filterFunctions";
 
   import { useView } from "./useView";
-  import { applySort } from "./viewSort";
+  import { applySort, sortRecords } from "./viewSort";
 
   /**
    * Specify the project.
@@ -74,8 +75,20 @@
   $: viewFilter = view.filter ?? { conditions: [] };
   $: filteredFrame = applyFilter(frame, viewFilter);
 
-  $: viewSort = view.sort ?? { criteria: [] };
+  $: viewSort =
+    view.sort.criteria.length > 0
+      ? view.sort
+      : ({
+          criteria: [{ field: "path", order: "asc", enabled: true }],
+        } satisfies SortDefinition);
+
   $: sortedFrame = applySort(filteredFrame, viewSort);
+
+  let recordCache: Record<string, DataRecord | undefined>;
+  $: {
+    frame;
+    recordCache = {};
+  }
 
   function getRecordColor(record: DataRecord): string | null {
     const colorFilter = view.colors ?? { conditions: [] };
@@ -88,6 +101,19 @@
     }
     return null;
   }
+
+  const applyViewSortToRecords = (
+    records: ReadonlyArray<DataRecord>
+  ): Array<DataRecord> => {
+    return sortRecords([...records], viewSort);
+  };
+
+  const getRecord = (id: string) => {
+    return (
+      recordCache[id] ??
+      (recordCache[id] = frame.records.find((record) => record.id === id))
+    );
+  };
 </script>
 
 <!--
@@ -100,6 +126,8 @@
     view,
     dataProps: {
       data: sortedFrame,
+      hasSort: view.sort.criteria.filter((c) => c.enabled).length > 0,
+      hasFilter: view.filter.conditions.filter((c) => c.enabled).length > 0,
     },
     viewApi: api,
     project,
@@ -107,6 +135,8 @@
     config: view.config,
     onConfigChange: handleConfigChange,
     getRecordColor: getRecordColor,
+    sortRecords: applyViewSortToRecords,
+    getRecord,
   }}
 />
 

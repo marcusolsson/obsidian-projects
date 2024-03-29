@@ -20,13 +20,19 @@ export function registerFileEvents(watcher: IFileSystemWatcher) {
       if (source.includes(file.path)) {
         dataFrame.deleteRecord(oldPath);
         dataFrame.merge(await source.queryOne(file, get(dataFrame).fields));
+      } else if (source.includes(oldPath)) {
+        dataFrame.deleteRecord(oldPath);
       }
     });
   });
 
   watcher.onDelete(async (file) => {
     withDataSource(async (source) => {
-      if (source.includes(file.path)) {
+      const recordExists = !!get(dataFrame).records.find(
+        (record) => record.id === file.path
+      );
+
+      if (recordExists) {
         dataFrame.deleteRecord(file.path);
       }
     });

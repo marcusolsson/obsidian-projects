@@ -13,6 +13,13 @@
   gap: var(--size-4-2);
   flex-direction: column;
   padding: var(--size-4-2);
+
+  --board-column-drag-accent: hsla(var(--interactive-accent-hsl), 0.3);
+  --board-column-drop-accent: hsla(var(--interactive-accent-hsl), 0.5);
+  &:has(.projects--board--card-placeholder) {
+    box-shadow: 0px 0px 8px 0px var(--board-column-drop-accent);
+    transition: box-shadow 150ms ease-in-out;
+  }
 }
 
 .projects--board--card {
@@ -31,6 +38,10 @@
   gap: var(--size-4-2);
   min-height: 35px;
   transition: all 150ms ease-in-out;
+
+  &:has(.projects--board--card-placeholder) {
+    background: var(--board-column-drop-accent) !important;
+  }
 }
 
 .projects--gallery--grid {

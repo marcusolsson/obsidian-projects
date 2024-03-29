@@ -8,8 +8,10 @@
 
   import { app } from "src/lib/stores/obsidian";
   import { InputDialogModal } from "src/ui/modals/inputDialog";
+  import RichTextTag from "src/ui/views/Table/components/DataGrid/GridCell/GridListCell/RichTextTag.svelte";
 
   export let values: Optional<DataValue>[];
+  export let richText: boolean = false;
   export let edit: boolean = false;
 
   export let onChange: (values: Optional<DataValue>[]) => void = () => {};
@@ -43,7 +45,7 @@
     />
   {:else}
     {#each values as value}
-      <Tag>{value}</Tag>
+      <RichTextTag {richText} value={value?.toString() ?? ""} />
     {/each}
   {/if}
 </div>

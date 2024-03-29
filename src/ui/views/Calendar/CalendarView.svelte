@@ -22,7 +22,7 @@
   import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,
-    setRecordColorContext,
+    getRecordColorContext,
   } from "src/ui/views/helpers";
   import { get } from "svelte/store";
   import {
@@ -43,6 +43,7 @@
   import Navigation from "./components/Navigation/Navigation.svelte";
   import type { CalendarConfig } from "./types";
   import { Notice } from "obsidian";
+  import { updateRecordValues } from "src/lib/datasources/helpers";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -102,13 +103,9 @@
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
     if (dateField) {
       api.updateRecord(
-        {
-          ...record,
-          values: {
-            ...record.values,
-            [dateField.name]: date.format("YYYY-MM-DD"),
-          },
-        },
+        updateRecordValues(record, {
+          [dateField.name]: date.format("YYYY-MM-DD"),
+        }),
         fields
       );
     }
@@ -150,7 +147,7 @@
     }).open();
   }
 
-  setRecordColorContext(getRecordColor);
+  getRecordColorContext.set(getRecordColor);
 </script>
 
 <ViewLayout>

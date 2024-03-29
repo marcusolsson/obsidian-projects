@@ -22,9 +22,6 @@ export function getCoverRealPath(
   }
 
   if (isString(coverPath)) {
-    if (coverPath.startsWith("http://") || coverPath.startsWith("https://")) {
-      return coverPath;
-    }
     return getResourcePathFromLinkText(app, coverPath);
   }
 
@@ -33,6 +30,9 @@ export function getCoverRealPath(
 
 function getResourcePathFromLinkText(app: App, text: string) {
   const linkText = parseObsidianLink(text)?.linkText || text;
+  if (linkText.startsWith("http://") || linkText.startsWith("https://")) {
+    return linkText;
+  }
 
   const file = app.metadataCache.getFirstLinkpathDest(linkText, "");
 

@@ -100,7 +100,7 @@ export abstract class FrontMatterDataSource extends DataSource {
           return 1;
         }
 
-        return a.name.localeCompare(b.name);
+        return a.name.localeCompare(b.name, undefined, { numeric: true });
       });
     });
   }
@@ -125,7 +125,7 @@ export async function standardizeRecords(
         E.map((values) => ({
           ...values,
           path: file.path,
-          name: `[[${file.path}|${file.basename}]]`,
+          name: `[[${file.basename}]]`,
         })),
         E.map((values) => standardizeRecord(file.path, values))
       );

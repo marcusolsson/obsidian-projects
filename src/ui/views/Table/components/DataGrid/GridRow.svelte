@@ -7,7 +7,7 @@
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./dataGrid";
-  import { menuOnContextMenu } from "./dataGrid";
+  import { menuOnContextMenu } from "src/ui/views/helpers";
   import { app } from "src/lib/stores/obsidian";
 
   import { setContext } from "svelte";
@@ -60,21 +60,23 @@
       return;
     }
 
-    const targetEl = event.target;
+    const targetEl = event.target as HTMLDivElement;
+    const anchor =
+      targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
+    if (!anchor || !anchor.hasClass("internal-link")) return;
 
-    if (targetEl instanceof HTMLDivElement) {
-      const file = $app.vault.getAbstractFileByPath(rowId);
+    const href = anchor.getAttr("href");
+    const file = href && $app.metadataCache.getFirstLinkpathDest(href, rowId);
 
-      if (file instanceof TFile) {
-        $app.workspace.trigger("hover-link", {
-          event,
-          source: "obsidian-projects-table-view",
-          hoverParent: targetEl.parentElement,
-          targetEl,
-          linktext: file.name,
-          sourcePath: file.path,
-        });
-      }
+    if (file instanceof TFile) {
+      $app.workspace.trigger("hover-link", {
+        event,
+        source: "obsidian-projects-table-view",
+        hoverParent: anchor,
+        targetEl,
+        linktext: file.name,
+        sourcePath: file.path,
+      });
     }
   }
 </script>
