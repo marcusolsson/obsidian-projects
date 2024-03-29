@@ -1,6 +1,6 @@
 <script>
   import { createPopper } from "@popperjs/core";
-  import Portal from "svelte-portal";
+  import Portal from "src/ui/mocks/svelte-portal/Portal.svelte";
   import { onDestroy } from "svelte";
   import { useClickOutside } from "./useClickOutside";
   /**
@@ -52,7 +52,7 @@
 </script>
 
 {#if open}
-  <Portal target={anchorEl}>
+  <Portal target={anchorEl.doc.body}>
     <div
       class={className}
       bind:this={popperEl}
@@ -61,7 +61,6 @@
         anchorEl,
         onClickOutside: () => {
           open = false;
-          console.log(window.document);
         },
       }}
     >

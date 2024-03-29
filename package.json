@@ -50,7 +50,6 @@
     "svelte-dnd-action": "^0.9.31",
     "svelte-i18next": "^1.2.2",
     "svelte-media-queries": "^1.4.0",
-    "svelte-portal": "^2.2.0",
     "svelte-preprocess": "^5.0.0",
     "ts-essentials": "^9.3.0",
     "ts-jest": "^29.0.3",
