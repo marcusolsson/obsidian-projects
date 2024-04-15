@@ -41,7 +41,7 @@
     "jest": "^29.3.1",
     "obsidian": "^1.4.11",
     "obsidian-dataview": "^0.5.46",
-    "obsidian-svelte": "0.1.10",
+    "obsidian-svelte": "0.2.1",
     "prettier": "^2.8.1",
     "prettier-plugin-svelte": "^2.9.0",
     "sass": "^1.63.6",
