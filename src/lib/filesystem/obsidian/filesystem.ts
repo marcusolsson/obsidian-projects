@@ -16,7 +16,7 @@ class ObsidianFile extends IFile {
   static of(path: string, app: App): IFile {
     const file = app.vault.getAbstractFileByPath(normalizePath(path));
 
-    if (file instanceof TFile) {
+    if (file instanceof TFile && file.extension === "md") {
       return new ObsidianFile(file, app);
     }
 
@@ -112,7 +112,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
   onCreate(callback: (file: IFile) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.vault.on("create", (file) => {
-        if (file instanceof TFile) {
+        if (file instanceof TFile && file.extension === "md") {
           callback(new ObsidianFile(file, app));
         }
       })
@@ -123,7 +123,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
   onChange(callback: (file: IFile) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.metadataCache.on("changed", (file) => {
-        if (file instanceof TFile) {
+        if (file instanceof TFile && file.extension === "md") {
           callback(new ObsidianFile(file, app));
         }
       })
@@ -134,7 +134,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
   onDelete(callback: (file: IFile) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.vault.on("delete", (file) => {
-        if (file instanceof TFile) {
+        if (file instanceof TFile && file.extension === "md") {
           callback(new ObsidianFile(file, app));
         }
       })
@@ -145,7 +145,7 @@ export class ObsidianFileSystemWatcher implements IFileSystemWatcher {
   onRename(callback: (file: IFile, oldPath: string) => Promise<void>): void {
     this.plugin.registerEvent(
       this.plugin.app.vault.on("rename", (file, oldPath) => {
-        if (file instanceof TFile) {
+        if (file instanceof TFile && file.extension === "md") {
           callback(new ObsidianFile(file, app), oldPath);
         }
       })
