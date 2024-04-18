@@ -150,7 +150,7 @@
       const orderFields = fields
         .map((f) => f.name)
         .filter((f) => f !== field.name);
-      if (position) orderFields.splice(position, 0, field.name);
+      if (position >= 0) orderFields.splice(position, 0, field.name);
 
       saveConfig({
         ...config,
