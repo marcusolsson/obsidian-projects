@@ -210,10 +210,10 @@
   const handleSortColumns =
     (field: DataField | undefined): OnSortColumns =>
     (names) => {
-      if (field?.name && field?.typeConfig) {
+      if (field?.name && field?.typeConfig && field.typeConfig?.options) {
         settings.updateFieldConfig(project.id, field?.name, {
           ...field.typeConfig,
-          options: [...(field.typeConfig?.options ?? [])].sort(
+          options: [...field.typeConfig.options].sort(
             (a, b) => names.indexOf(a) - names.indexOf(b)
           ),
         });
