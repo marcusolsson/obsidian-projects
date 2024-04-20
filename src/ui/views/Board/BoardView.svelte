@@ -210,21 +210,21 @@
 
   const handleSortColumns =
     (field: DataField | undefined): OnSortColumns =>
-    (names) => {
+    (columns) => {
       if (field?.name && field?.typeConfig && field.typeConfig?.options) {
         settings.updateFieldConfig(project.id, field?.name, {
           ...field.typeConfig,
           options: [...field.typeConfig.options].sort(
-            (a, b) => names.indexOf(a) - names.indexOf(b)
+            (a, b) => columns.indexOf(a) - columns.indexOf(b)
           ),
         });
       }
       saveConfig({
         ...config,
         columns: Object.fromEntries(
-          names.map((name, i) => [
-            name,
-            { ...config?.columns?.[name], weight: i },
+          columns.map((column, i) => [
+            column,
+            { ...config?.columns?.[column], weight: i },
           ])
         ),
       });
@@ -244,7 +244,7 @@
         ...config,
         columns: Object.fromEntries(
           [...columns, name].map((column, i) => {
-            return [column, { weight: i }];
+            return [column, { ...config?.columns?.[column], weight: i }];
           })
         ),
       });
