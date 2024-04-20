@@ -287,10 +287,6 @@
                     "priority": "优先级",
                     "none": "未选择"
                 },
-                "column": {
-                    "add": "新建列表",
-                    "placeholder": "新列表"
-                },
                 "unprioritized": "未设置优先级",
                 "include-fields": "展示字段",
                 "settings": {
@@ -384,6 +380,12 @@
                 "sortDate": {
                     "asc": "按日期升序 旧 → 新",
                     "desc": "按日期降序 新 → 旧"
+                }
+            },
+            "board": {
+                "column": {
+                    "add": "新建列表",
+                    "placeholder": "新列表"
                 }
             },
             "color": {

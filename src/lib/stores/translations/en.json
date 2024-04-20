@@ -287,10 +287,6 @@
                     "priority": "Priority",
                     "none": "None"
                 },
-                "column": {
-                    "add": "Add column",
-                    "placeholder": "New column"
-                },
                 "unprioritized": "Unprioritized",
                 "include-fields": "Include fields",
                 "settings": {
@@ -368,6 +364,12 @@
                     "unpin-field": "Unpin field",
                     "hide": "Hide field",
                     "delete": "Delete field"
+                },
+                "board": {
+                    "column": {
+                        "add": "Add column",
+                        "placeholder": "New column"
+                    }
                 },
                 "row": {
                     "add": "Add note",

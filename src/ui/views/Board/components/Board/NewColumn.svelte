@@ -3,7 +3,9 @@
   import { i18n } from "src/lib/stores/i18n";
   import { TextInput } from "obsidian-svelte";
   let editing: boolean = false;
-  let defaultNewColumnName: string = $i18n.t("views.board.column.placeholder");
+  let defaultNewColumnName: string = $i18n.t(
+    "components.board.column.placeholder"
+  );
   let inputRef: HTMLInputElement;
   $: if (editing && inputRef) {
     inputRef.focus();
@@ -46,7 +48,7 @@
         }}
       >
         <Icon name="plus" />
-        {$i18n.t("views.board.column.add")}
+        {$i18n.t("components.board.column.add")}
       </Button>
     </div>
   {/if}
