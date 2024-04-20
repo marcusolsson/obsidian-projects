@@ -27,6 +27,7 @@
     OnRecordUpdate,
     OnSortColumns,
     OnColumnAdd,
+    OnColumnDelete,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
   import { settings } from "src/lib/stores/settings";
@@ -250,6 +251,41 @@
       });
     };
 
+  const handleColumnDelete =
+    (field: DataField | undefined): OnColumnDelete =>
+    (columns, name, records) => {
+      if (!field) return;
+
+      records.forEach((record) => {
+        api.updateRecord(
+          {
+            ...record,
+            values: { ...record.values, [field.name]: null }, // let the status value empty
+          },
+          fields
+        );
+      });
+
+      if (field.typeConfig && field.typeConfig.options) {
+        let options = [...field.typeConfig.options];
+        settings.updateFieldConfig(project.id, field.name, {
+          ...field.typeConfig,
+          options: options.filter((v) => v !== name),
+        });
+      }
+
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          columns
+            .filter((v) => v !== name)
+            .map((column, i) => {
+              return [column, { ...config?.columns?.[column], weight: i }];
+            })
+        ),
+      });
+    };
+
   function saveConfig(cfg: BoardConfig) {
     config = cfg;
     onConfigChange(cfg);
@@ -283,6 +319,7 @@
     onRecordAdd={handleRecordAdd(groupByField)}
     onRecordUpdate={handleRecordUpdate(groupByField)}
     onColumnAdd={handleColumnAdd(groupByField)}
+    onColumnDelete={handleColumnDelete(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}

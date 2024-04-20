@@ -32,3 +32,8 @@ export type OnSortRecords = (
 ) => DataRecord[];
 
 export type OnColumnAdd = (columns: string[], name: string) => void;
+export type OnColumnDelete = (
+  columns: string[],
+  name: string,
+  records: DataRecord[]
+) => void;

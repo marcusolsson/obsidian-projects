@@ -5,20 +5,22 @@
   import CardGroup from "./CardList.svelte";
   import ColumnHeader from "./ColumnHeader.svelte";
   import type { OnRecordClick, OnRecordDrop } from "./types";
+  import type { Menu } from "obsidian";
 
   export let name: string;
   export let records: DataRecord[];
   export let readonly: boolean;
   export let richText: boolean;
   export let includeFields: DataField[];
-  
+
   export let onDrop: OnRecordDrop;
   export let onRecordClick: OnRecordClick;
   export let onRecordAdd: () => void;
+  export let onColumnMenu: () => Menu;
 </script>
 
 <section data-id={name} class="projects--board--column">
-  <ColumnHeader value={name} {richText} />
+  <ColumnHeader value={name} {richText} {onColumnMenu} />
   <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
   {#if !readonly}
     <span>

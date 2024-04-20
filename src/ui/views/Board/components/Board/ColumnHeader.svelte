@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { MarkdownRenderer } from "obsidian";
+  import { MarkdownRenderer, Menu } from "obsidian";
   import { app, view } from "src/lib/stores/obsidian";
   import { getContext } from "svelte";
-
+  import { IconButton } from "obsidian-svelte";
   export let value: string;
   export let richText: boolean = false;
 
+  export let onColumnMenu: () => Menu;
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
   function useMarkdown(node: HTMLElement, value: string) {
@@ -41,25 +42,40 @@
   }
 </script>
 
-{#if richText}
-  <div use:useMarkdown={value} on:click={handleClick} on:keypress />
-{:else}
-  <div>
-    {value}
-  </div>
-{/if}
+<div>
+  {#if richText}
+    <span use:useMarkdown={value} on:click={handleClick} on:keypress />
+  {:else}
+    <span>
+      {value}
+    </span>
+  {/if}
+  <IconButton
+    icon="more-vertical"
+    size="sm"
+    onClick={(event) => {
+      onColumnMenu().showAtMouseEvent(event);
+    }}
+  />
+</div>
 
 <style>
-  div {
+  span {
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  div :global(p:first-child) {
+  span :global(p:first-child) {
     margin-top: 0;
   }
 
-  div :global(p:last-child) {
+  span :global(p:last-child) {
     margin-bottom: 0;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

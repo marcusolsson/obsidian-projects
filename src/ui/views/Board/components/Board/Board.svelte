@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { DataField } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
+  import { Menu } from "obsidian";
 
   import BoardColumn from "./BoardColumn.svelte";
   import NewColumn from "./NewColumn.svelte";
@@ -11,7 +12,9 @@
     OnRecordUpdate,
     OnSortColumns,
     OnColumnAdd,
+    OnColumnDelete,
   } from "./types";
+  import { i18n } from "src/lib/stores/i18n";
 
   export let columns: Column[];
 
@@ -23,6 +26,7 @@
   export let columnWidth: number;
   export let onSortColumns: OnSortColumns;
   export let onColumnAdd: OnColumnAdd;
+  export let onColumnDelete: OnColumnDelete;
   export let includeFields: DataField[];
 
   const flipDurationMs = 200;
@@ -34,6 +38,30 @@
   function handleDndFinalize(e: CustomEvent<DndEvent<Column>>) {
     columns = e.detail.items;
     onSortColumns(columns.map((col) => col.id));
+  }
+
+  function createColumnMenu(column: Column) {
+    const menu = new Menu();
+
+    if (column.id !== $i18n.t("views.board.no-status")) {
+      menu.addSeparator();
+
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("components.board.column.delete"))
+          .setIcon("trash-2")
+          .setWarning(true)
+          .onClick(() => {
+            onColumnDelete(
+              columns.map((col) => col.id),
+              column.id,
+              column.records
+            );
+          });
+      });
+    }
+
+    return menu;
   }
 </script>
 
@@ -75,6 +103,7 @@
           }
         }}
         {includeFields}
+        onColumnMenu={() => createColumnMenu(column)}
       />
     {/each}
   </section>

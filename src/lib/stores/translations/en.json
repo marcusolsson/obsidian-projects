@@ -368,7 +368,8 @@
                 "board": {
                     "column": {
                         "add": "Add column",
-                        "placeholder": "New column"
+                        "placeholder": "New column",
+                        "delete": "Delete column"
                     }
                 },
                 "row": {
