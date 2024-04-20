@@ -233,8 +233,8 @@
                     "save": "保存修改"
                 },
                 "create": {
-                    "short-title": "添加字段",
-                    "title": "添加字段",
+                    "short-title": "新建字段",
+                    "title": "新建字段",
                     "name": {
                         "name": "字段名称",
                         "description": ""
@@ -286,6 +286,10 @@
                     "status": "状态",
                     "priority": "优先级",
                     "none": "未选择"
+                },
+                "column": {
+                    "add": "新建列表",
+                    "placeholder": "新列表"
                 },
                 "unprioritized": "未设置优先级",
                 "include-fields": "展示字段",

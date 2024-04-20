@@ -26,6 +26,7 @@
     OnRecordClick,
     OnRecordUpdate,
     OnSortColumns,
+    OnColumnAdd,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
   import { settings } from "src/lib/stores/settings";
@@ -229,6 +230,26 @@
       });
     };
 
+  const handleColumnAdd =
+    (field: DataField | undefined): OnColumnAdd =>
+    (columns, name) => {
+      if (!field) return;
+
+      settings.updateFieldConfig(project.id, field.name, {
+        ...field?.typeConfig,
+        options: [...(field.typeConfig?.options ?? []), name],
+      });
+
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          [...columns, name].map((column, i) => {
+            return [column, { weight: i }];
+          })
+        ),
+      });
+    };
+
   function saveConfig(cfg: BoardConfig) {
     config = cfg;
     onConfigChange(cfg);
@@ -261,6 +282,7 @@
     onRecordClick={handleRecordClick}
     onRecordAdd={handleRecordAdd(groupByField)}
     onRecordUpdate={handleRecordUpdate(groupByField)}
+    onColumnAdd={handleColumnAdd(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}

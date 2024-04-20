@@ -30,3 +30,5 @@ export type OnSortColumns = (names: string[]) => void;
 export type OnSortRecords = (
   records: ReadonlyArray<DataRecord>
 ) => DataRecord[];
+
+export type OnColumnAdd = (columns: string[], name: string) => void;
