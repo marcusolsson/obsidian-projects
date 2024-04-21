@@ -386,7 +386,8 @@
                 "column": {
                     "add": "新建列表",
                     "placeholder": "新列表",
-                    "delete": "删除列表"
+                    "delete": "删除列表",
+                    "confirm": "确认"
                 }
             },
             "color": {

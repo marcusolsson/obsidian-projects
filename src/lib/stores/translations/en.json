@@ -365,13 +365,6 @@
                     "hide": "Hide field",
                     "delete": "Delete field"
                 },
-                "board": {
-                    "column": {
-                        "add": "Add column",
-                        "placeholder": "New column",
-                        "delete": "Delete column"
-                    }
-                },
                 "row": {
                     "add": "Add note",
                     "edit": "Edit note",
@@ -387,6 +380,14 @@
                 "sortDate": {
                     "asc": "Sort Old → New",
                     "desc": "Sort New → Old"
+                }
+            },
+            "board": {
+                "column": {
+                    "add": "Add column",
+                    "placeholder": "New column",
+                    "delete": "Delete column",
+                    "confirm": "Add"
                 }
             },
             "color": {
