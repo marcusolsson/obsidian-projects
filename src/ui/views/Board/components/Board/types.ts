@@ -4,6 +4,7 @@ import type { TRIGGERS } from "svelte-dnd-action";
 export type Column = {
   id: string;
   records: DataRecord[];
+  collapse: boolean;
 };
 
 export type OnRecordClick = (record: DataRecord) => void;
@@ -37,3 +38,4 @@ export type OnColumnDelete = (
   name: string,
   records: DataRecord[]
 ) => void;
+export type OnColumnCollapse = (name: string, collapse: boolean) => void;

@@ -83,7 +83,11 @@ export function getColumns(
       if (sortByCustomOrder && records.length > 0) {
         applyCustomRecordOrder(records, columnSettings[column], orderSyncField);
       }
-      return { id: column, records };
+      return {
+        id: column,
+        records,
+        collapse: columnSettings[column]?.collapse ?? false,
+      };
     });
 }
 

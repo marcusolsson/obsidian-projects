@@ -7,11 +7,14 @@
   import type { OnRecordClick, OnRecordDrop } from "./types";
   import type { Menu } from "obsidian";
 
+  export let width: number;
+
   export let name: string;
   export let records: DataRecord[];
   export let readonly: boolean;
   export let richText: boolean;
   export let includeFields: DataField[];
+  export let collapse: boolean;
 
   export let onDrop: OnRecordDrop;
   export let onRecordClick: OnRecordClick;
@@ -19,16 +22,30 @@
   export let onColumnMenu: () => Menu;
 </script>
 
-<section data-id={name} class="projects--board--column">
-  <ColumnHeader value={name} {richText} {onColumnMenu} />
-  <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
-  {#if !readonly}
-    <span>
-      <Button variant="plain" on:click={() => onRecordAdd()}>
-        <Icon name="plus" />
-        {$i18n.t("views.board.note.add")}
-      </Button>
-    </span>
+<section
+  data-id={name}
+  class="projects--board--column"
+  class:collapse
+  style={`width: ${width}px; margin-right: ${collapse ? 40 - width : 0}px`}
+>
+  <ColumnHeader
+    value={name}
+    count={records.length}
+    {richText}
+    {collapse}
+    {onColumnMenu}
+  />
+
+  {#if !collapse}
+    <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
+    {#if !readonly}
+      <span>
+        <Button variant="plain" on:click={() => onRecordAdd()}>
+          <Icon name="plus" />
+          {$i18n.t("views.board.note.add")}
+        </Button>
+      </span>
+    {/if}
   {/if}
 </section>
 
@@ -42,5 +59,10 @@
 
   span:focus-within {
     box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+  }
+
+  .collapse {
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: left top 0px;
   }
 </style>

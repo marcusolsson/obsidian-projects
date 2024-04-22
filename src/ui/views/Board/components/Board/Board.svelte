@@ -13,6 +13,7 @@
     OnSortColumns,
     OnColumnAdd,
     OnColumnDelete,
+    OnColumnCollapse,
   } from "./types";
   import { i18n } from "src/lib/stores/i18n";
 
@@ -27,6 +28,7 @@
   export let onSortColumns: OnSortColumns;
   export let onColumnAdd: OnColumnAdd;
   export let onColumnDelete: OnColumnDelete;
+  export let onColumnCollapse: OnColumnCollapse;
   export let includeFields: DataField[];
 
   const flipDurationMs = 200;
@@ -42,6 +44,17 @@
 
   function createColumnMenu(column: Column) {
     const menu = new Menu();
+
+    menu.addItem((item) => {
+      item
+        .setTitle(column.collapse ? "Expand column" : "Collapse column")
+        .setIcon(
+          column.collapse ? "chevrons-left-right" : "chevrons-right-left"
+        )
+        .onClick(() => {
+          onColumnCollapse(column.id, column.collapse);
+        });
+    });
 
     if (column.id !== $i18n.t("views.board.no-status")) {
       menu.addSeparator();
@@ -68,7 +81,6 @@
 <div>
   <section
     class="projects--board"
-    style={`grid-template-columns: repeat(${columns.length}, ${columnWidth}px);`}
     use:dndzone={{
       type: "columns",
       items: columns,
@@ -81,47 +93,49 @@
     on:finalize={handleDndFinalize}
   >
     {#each columns as column (column.id)}
-      <BoardColumn
-        {readonly}
-        {richText}
-        name={column.id}
-        records={column.records}
-        {onRecordClick}
-        onRecordAdd={() => onRecordAdd(column.id)}
-        onDrop={(record, records, trigger) => {
-          switch (trigger) {
-            case "droppedIntoZone":
-              onRecordUpdate(record, { ...column, records }, "addToColumn");
-              break;
-            case "droppedIntoAnother":
-              onRecordUpdate(
-                record,
-                { ...column, records },
-                "removeFromColumn"
-              );
-              break;
-          }
-        }}
-        {includeFields}
-        onColumnMenu={() => createColumnMenu(column)}
-      />
+      <div class="projects--board--column--dndwrapper">
+        <BoardColumn
+          {readonly}
+          {richText}
+          width={columnWidth}
+          collapse={column.collapse}
+          name={column.id}
+          records={column.records}
+          {onRecordClick}
+          onRecordAdd={() => onRecordAdd(column.id)}
+          onDrop={(record, records, trigger) => {
+            switch (trigger) {
+              case "droppedIntoZone":
+                onRecordUpdate(record, { ...column, records }, "addToColumn");
+                break;
+              case "droppedIntoAnother":
+                onRecordUpdate(
+                  record,
+                  { ...column, records },
+                  "removeFromColumn"
+                );
+                break;
+            }
+          }}
+          {includeFields}
+          onColumnMenu={() => createColumnMenu(column)}
+        />
+      </div>
     {/each}
   </section>
   {#if !readonly}
-    <span style={`grid-template-columns: ${columnWidth}px;`}>
-      <NewColumn
-        onColumnAdd={(name) => {
-          const cols = columns.map((col) => col.id);
-          onColumnAdd(cols, name);
-        }}
-        onValidate={(name) => {
-          if (name === "") return false;
-          if (columns.map((col) => col.id).includes(name)) return false;
+    <NewColumn
+      onColumnAdd={(name) => {
+        const cols = columns.map((col) => col.id);
+        onColumnAdd(cols, name);
+      }}
+      onValidate={(name) => {
+        if (name === "") return false;
+        if (columns.map((col) => col.id).includes(name)) return false;
 
-          return true;
-        }}
-      />
-    </span>
+        return true;
+      }}
+    />
   {/if}
 </div>
 

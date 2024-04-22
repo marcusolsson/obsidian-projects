@@ -28,6 +28,7 @@
     OnSortColumns,
     OnColumnAdd,
     OnColumnDelete,
+    OnColumnCollapse,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
   import { settings } from "src/lib/stores/settings";
@@ -287,6 +288,19 @@
       });
     };
 
+  const toggleColumnCollapse = (): OnColumnCollapse => (name, collapse) => {
+    saveConfig({
+      ...config,
+      columns: {
+        ...config?.columns,
+        [name]: {
+          ...config?.columns?.[name],
+          collapse: !collapse,
+        },
+      },
+    });
+  };
+
   function saveConfig(cfg: BoardConfig) {
     config = cfg;
     onConfigChange(cfg);
@@ -321,6 +335,7 @@
     onRecordUpdate={handleRecordUpdate(groupByField)}
     onColumnAdd={handleColumnAdd(groupByField)}
     onColumnDelete={handleColumnDelete(groupByField)}
+    onColumnCollapse={toggleColumnCollapse()}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}

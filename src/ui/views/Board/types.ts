@@ -10,5 +10,6 @@ export interface ColumnSettings {
   [name: string]: {
     readonly weight?: number;
     readonly records?: string[];
+    readonly collapse?: boolean;
   };
 }

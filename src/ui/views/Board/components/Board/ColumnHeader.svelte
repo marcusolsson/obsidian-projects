@@ -3,7 +3,11 @@
   import { app, view } from "src/lib/stores/obsidian";
   import { getContext } from "svelte";
   import { IconButton } from "obsidian-svelte";
+  import { Flair } from "src/ui/components/Flair";
+
   export let value: string;
+  export let count: number;
+  export let collapse: boolean = false;
   export let richText: boolean = false;
 
   export let onColumnMenu: () => Menu;
@@ -44,19 +48,29 @@
 
 <div>
   {#if richText}
-    <span use:useMarkdown={value} on:click={handleClick} on:keypress />
+    <span
+      class:collapse
+      use:useMarkdown={value}
+      on:click={handleClick}
+      on:keypress
+    />
   {:else}
-    <span>
+    <span class:collapse>
       {value}
     </span>
   {/if}
-  <IconButton
-    icon="more-vertical"
-    size="sm"
-    onClick={(event) => {
-      onColumnMenu().showAtMouseEvent(event);
-    }}
-  />
+  <div>
+    {#if collapse}
+      <Flair variant="primary">{count}</Flair>
+    {/if}
+    <IconButton
+      icon="more-vertical"
+      size="sm"
+      onClick={(event) => {
+        onColumnMenu().showAtMouseEvent(event);
+      }}
+    />
+  </div>
 </div>
 
 <style>
@@ -77,5 +91,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .collapse {
+    max-height: 24px;
+    overflow-y: scroll;
   }
 </style>
