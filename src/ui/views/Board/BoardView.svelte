@@ -71,7 +71,8 @@
       // Update record groupByField
       if (trigger === "addToColumn" && groupByField?.name) {
         record = updateRecordValues(record, {
-          [groupByField.name]: column,
+          [groupByField.name]:
+            column === $i18n.t("views.board.no-status") ? null : column,
         });
       }
 
