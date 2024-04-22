@@ -8,7 +8,7 @@
   import { AddViewModal } from "src/ui/modals/addViewModal";
   import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";
   import { CreateProjectModal } from "src/ui/modals/createProjectModal";
-  import Flair from "./Flair.svelte";
+  import { Flair } from "src/ui/components/Flair";
 
   import ProjectSelect from "./ProjectSelect.svelte";
   import ViewSelect from "./ViewSelect.svelte";
