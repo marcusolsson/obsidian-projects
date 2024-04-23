@@ -87,6 +87,7 @@ export function getColumns(
         id: column,
         records,
         collapse: columnSettings[column]?.collapse ?? false,
+        pinned: grouByField?.typeConfig?.options?.includes(column) ?? false,
       };
     });
 }

@@ -29,6 +29,7 @@
     OnColumnAdd,
     OnColumnDelete,
     OnColumnCollapse,
+    OnColumnPin,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
   import { settings } from "src/lib/stores/settings";
@@ -301,6 +302,43 @@
     });
   };
 
+  const toggleColumnPin =
+    (field: DataField | undefined): OnColumnPin =>
+    (columns, name, pinned) => {
+      if (!field) return;
+
+      if (field.typeConfig && field.typeConfig.options) {
+        let options = [...field.typeConfig.options];
+        if (pinned) {
+          settings.updateFieldConfig(project.id, field.name, {
+            ...field.typeConfig,
+            options: options.filter((v) => v !== name),
+          });
+        } else {
+          settings.updateFieldConfig(project.id, field.name, {
+            ...field.typeConfig,
+            options: columns.filter((v) => options.includes(v) || v === name),
+          });
+        }
+      } else {
+        settings.updateFieldConfig(project.id, field.name, {
+          ...field.typeConfig,
+          options: [name],
+        });
+      }
+
+      saveConfig({
+        ...config,
+        columns: {
+          ...config?.columns,
+          [name]: {
+            ...config?.columns?.[name],
+            pinned: !pinned,
+          },
+        },
+      });
+    };
+
   function saveConfig(cfg: BoardConfig) {
     config = cfg;
     onConfigChange(cfg);
@@ -336,6 +374,7 @@
     onColumnAdd={handleColumnAdd(groupByField)}
     onColumnDelete={handleColumnDelete(groupByField)}
     onColumnCollapse={toggleColumnCollapse()}
+    onColumnPin={toggleColumnPin(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}

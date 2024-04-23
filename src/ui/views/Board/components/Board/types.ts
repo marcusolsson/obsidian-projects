@@ -5,6 +5,7 @@ export type Column = {
   id: string;
   records: DataRecord[];
   collapse: boolean;
+  pinned: boolean;
 };
 
 export type OnRecordClick = (record: DataRecord) => void;
@@ -39,3 +40,8 @@ export type OnColumnDelete = (
   records: DataRecord[]
 ) => void;
 export type OnColumnCollapse = (name: string, collapse: boolean) => void;
+export type OnColumnPin = (
+  columns: string[],
+  name: string,
+  pinned: boolean
+) => void;

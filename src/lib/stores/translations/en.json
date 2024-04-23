@@ -387,7 +387,11 @@
                     "add": "Add column",
                     "placeholder": "New column",
                     "delete": "Delete column",
-                    "confirm": "Add"
+                    "confirm": "Add",
+                    "expand": "Expand column",
+                    "collapse": "Collapse column",
+                    "pin": "Pin column",
+                    "unpin": "Unpin column"
                 }
             },
             "color": {

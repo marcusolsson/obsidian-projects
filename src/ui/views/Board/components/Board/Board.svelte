@@ -14,6 +14,7 @@
     OnColumnAdd,
     OnColumnDelete,
     OnColumnCollapse,
+    OnColumnPin,
   } from "./types";
   import { i18n } from "src/lib/stores/i18n";
 
@@ -29,6 +30,7 @@
   export let onColumnAdd: OnColumnAdd;
   export let onColumnDelete: OnColumnDelete;
   export let onColumnCollapse: OnColumnCollapse;
+  export let onColumnPin: OnColumnPin;
   export let includeFields: DataField[];
 
   const flipDurationMs = 200;
@@ -47,7 +49,11 @@
 
     menu.addItem((item) => {
       item
-        .setTitle(column.collapse ? "Expand column" : "Collapse column")
+        .setTitle(
+          column.collapse
+            ? $i18n.t("components.board.column.expand")
+            : $i18n.t("components.board.column.collapse")
+        )
         .setIcon(
           column.collapse ? "chevrons-left-right" : "chevrons-right-left"
         )
@@ -58,6 +64,23 @@
 
     if (column.id !== $i18n.t("views.board.no-status")) {
       menu.addSeparator();
+
+      menu.addItem((item) => {
+        item
+          .setTitle(
+            column.pinned
+              ? $i18n.t("components.board.column.unpin")
+              : $i18n.t("components.board.column.pin")
+          )
+          .setIcon(column.pinned ? "pin-off" : "pin")
+          .onClick(() => {
+            onColumnPin(
+              columns.map((col) => col.id),
+              column.id,
+              column.pinned
+            );
+          });
+      });
 
       menu.addItem((item) => {
         item
