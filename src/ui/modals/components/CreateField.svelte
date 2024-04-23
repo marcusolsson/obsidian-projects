@@ -301,6 +301,19 @@
           );
         } else if (field.type === DataFieldType.Date) {
           onCreate(field, dateValue);
+        } else if (field.type === DataFieldType.String) {
+          // uniquify options items and omit empty
+          if (field?.typeConfig && field.typeConfig?.options) {
+            const options = field.typeConfig.options;
+            field = {
+              ...field,
+              typeConfig: {
+                ...field.typeConfig,
+                options: [...new Set(options)].filter((v) => v !== ""),
+              },
+            };
+          }
+          onCreate(field, value);
         } else {
           onCreate(field, value);
         }

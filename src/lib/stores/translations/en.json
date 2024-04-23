@@ -400,6 +400,9 @@
             "tag": {
                 "edit": "Edit",
                 "remove": "Remove"
+            },
+            "multi-text": {
+                "add": "Add an option"
             }
         },
         "toolbar": {
