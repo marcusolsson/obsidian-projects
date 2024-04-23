@@ -360,8 +360,8 @@
                     "insert-left": "Insert left",
                     "insert-right": "Insert right",
                     "rename": "Rename field",
-                    "pin-field": "Pin field",
-                    "unpin-field": "Unpin field",
+                    "pin": "Pin field",
+                    "unpin": "Unpin field",
                     "hide": "Hide field",
                     "delete": "Delete field"
                 },
