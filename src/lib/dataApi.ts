@@ -41,12 +41,28 @@ export class DataApi {
     }
   }
 
+  async updateRecords(
+    fields: DataField[],
+    records: DataRecord[]
+  ): Promise<void> {
+    await Promise.all(
+      records.map(async (record) => {
+        const file = this.fileSystem.getFile(record.id);
+        if (file) {
+          await this.updateFile(file, (data) =>
+            doUpdateRecord(data, fields, record)
+          )();
+        }
+      })
+    );
+  }
+
   async addField(
     paths: string[],
     field: DataField,
     value: Optional<DataValue>
   ): Promise<void> {
-    Promise.all(
+    await Promise.all(
       paths
         .map((path) => this.fileSystem.getFile(path))
         .filter(notEmpty)

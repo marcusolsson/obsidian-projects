@@ -2,7 +2,7 @@
   import { MarkdownRenderer, Menu } from "obsidian";
   import { app, view } from "src/lib/stores/obsidian";
   import { getContext } from "svelte";
-  import { IconButton } from "obsidian-svelte";
+  import { TextInput, IconButton } from "obsidian-svelte";
   import { Flair } from "src/ui/components/Flair";
 
   export let value: string;
@@ -44,10 +44,70 @@
       }
     }
   }
+
+  export let onValidate: (value: string) => boolean;
+  export let onColumnRename: (value: string) => void;
+  let editing: boolean = false;
+  let inputRef: HTMLInputElement;
+  $: if (editing && inputRef) {
+    inputRef.focus();
+    inputRef.select();
+  }
+  let fallback: string = value;
+  function rollback() {
+    value = fallback;
+  }
+  $: error = !onValidate(value);
 </script>
 
-<div>
-  {#if richText}
+<div
+  on:dblclick={() => {
+    if (!readonly) editing = true;
+  }}
+>
+  {#if editing}
+    <TextInput
+      noPadding
+      embed
+      bind:ref={inputRef}
+      bind:value
+      on:keydown={(event) => {
+        if (event.key === "Enter") {
+          editing = false;
+
+          if (fallback == value) {
+            return;
+          }
+
+          if (!error) {
+            fallback = value;
+
+            onColumnRename(value);
+          } else {
+            rollback();
+          }
+        }
+        if (event.key === "Escape") {
+          editing = false;
+          rollback();
+        }
+      }}
+      on:blur={() => {
+        editing = false;
+
+        if (fallback == value) {
+          return;
+        }
+
+        if (!error) {
+          fallback = value;
+          onColumnRename(value);
+        } else {
+          rollback();
+        }
+      }}
+    />
+  {:else if richText}
     <span
       class:collapse
       use:useMarkdown={value}

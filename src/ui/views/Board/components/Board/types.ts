@@ -39,6 +39,12 @@ export type OnColumnDelete = (
   name: string,
   records: DataRecord[]
 ) => void;
+export type OnColumnRename = (
+  columns: string[],
+  oldName: string,
+  newName: string,
+  records: DataRecord[]
+) => void;
 export type OnColumnCollapse = (name: string, collapse: boolean) => void;
 export type OnColumnPin = (
   columns: string[],

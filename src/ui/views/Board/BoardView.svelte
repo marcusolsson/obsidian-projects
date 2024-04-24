@@ -30,6 +30,7 @@
     OnColumnDelete,
     OnColumnCollapse,
     OnColumnPin,
+    OnColumnRename,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
   import { settings } from "src/lib/stores/settings";
@@ -184,9 +185,7 @@
           recordsToUpdate.push(record);
         }
 
-        recordsToUpdate.forEach((r, i) => {
-          api.updateRecord(r, fields);
-        });
+        api.updateRecords(recordsToUpdate, fields);
       }
     };
 
@@ -256,18 +255,16 @@
 
   const handleColumnDelete =
     (field: DataField | undefined): OnColumnDelete =>
-    (columns, name, records) => {
+    async (columns, name, records) => {
       if (!field) return;
 
-      records.forEach((record) => {
-        api.updateRecord(
-          {
-            ...record,
-            values: { ...record.values, [field.name]: null }, // let the status value empty
-          },
-          fields
-        );
+      const newRecords = records.map((record) => {
+        return {
+          ...record,
+          values: { ...record.values, [field.name]: null },
+        };
       });
+      await api.updateRecords(newRecords, fields);
 
       if (field.typeConfig && field.typeConfig.options) {
         let options = [...field.typeConfig.options];
@@ -285,6 +282,42 @@
             .map((column, i) => {
               return [column, { ...config?.columns?.[column], weight: i }];
             })
+        ),
+      });
+    };
+
+  const handleColumnRename =
+    (field: DataField | undefined): OnColumnRename =>
+    async (columns, oldName, newName, records) => {
+      if (!field) return;
+
+      const newRecords = records.map((record) => {
+        return {
+          ...record,
+          values: { ...record.values, [field.name]: newName },
+        };
+      });
+
+      await api.updateRecords(newRecords, fields);
+
+      if (field?.typeConfig && field.typeConfig?.options) {
+        const options = [...field.typeConfig?.options];
+        options.splice(options.indexOf(oldName), 1, newName);
+        settings.updateFieldConfig(project.id, field.name, {
+          ...field.typeConfig,
+          options,
+        });
+      }
+
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          columns.map((column, i) => {
+            return [
+              column === oldName ? newName : column,
+              { ...config?.columns?.[column], weight: i },
+            ];
+          })
         ),
       });
     };
@@ -362,6 +395,7 @@
     onRecordUpdate={handleRecordUpdate(groupByField)}
     onColumnAdd={handleColumnAdd(groupByField)}
     onColumnDelete={handleColumnDelete(groupByField)}
+    onColumnRename={handleColumnRename(groupByField)}
     onColumnCollapse={toggleColumnCollapse()}
     onColumnPin={toggleColumnPin(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}

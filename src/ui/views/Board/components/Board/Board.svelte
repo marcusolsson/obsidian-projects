@@ -13,6 +13,7 @@
     OnSortColumns,
     OnColumnAdd,
     OnColumnDelete,
+    OnColumnRename,
     OnColumnCollapse,
     OnColumnPin,
   } from "./types";
@@ -29,6 +30,7 @@
   export let onSortColumns: OnSortColumns;
   export let onColumnAdd: OnColumnAdd;
   export let onColumnDelete: OnColumnDelete;
+  export let onColumnRename: OnColumnRename;
   export let onColumnCollapse: OnColumnCollapse;
   export let onColumnPin: OnColumnPin;
   export let includeFields: DataField[];
@@ -141,6 +143,15 @@
             }
           }}
           {includeFields}
+          onColumnRename={(name) => {
+            const cols = columns.map((col) => col.id);
+            onColumnRename(cols, column.id, name, column.records);
+          }}
+          onValidate={(name) => {
+            if (name === "") return false;
+            if (columns.map((col) => col.id).includes(name)) return false;
+            return true;
+          }}
           onColumnMenu={() => createColumnMenu(column)}
         />
       </div>

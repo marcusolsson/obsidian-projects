@@ -20,6 +20,8 @@
   export let onRecordClick: OnRecordClick;
   export let onRecordAdd: () => void;
   export let onColumnMenu: () => Menu;
+  export let onColumnRename: (name: string) => void;
+  export let onValidate: (name: string) => boolean;
 </script>
 
 <section
@@ -34,6 +36,8 @@
     {richText}
     {collapse}
     {onColumnMenu}
+    {onColumnRename}
+    {onValidate}
   />
 
   {#if !collapse}
