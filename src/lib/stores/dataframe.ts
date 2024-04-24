@@ -123,8 +123,7 @@ function createDataFrame() {
             draft.records.some((record) => {
               return (
                 // @ts-ignore
-                record.values[field.name] !== undefined &&
-                record.values[field.name] !== null
+                record.values[field.name] !== undefined
               );
             })
           );
