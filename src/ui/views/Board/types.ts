@@ -11,6 +11,5 @@ export interface ColumnSettings {
     readonly weight?: number;
     readonly records?: string[];
     readonly collapse?: boolean;
-    readonly pinned?: boolean;
   };
 }

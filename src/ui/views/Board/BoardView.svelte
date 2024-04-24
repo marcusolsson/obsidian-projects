@@ -326,17 +326,6 @@
           options: [name],
         });
       }
-
-      saveConfig({
-        ...config,
-        columns: {
-          ...config?.columns,
-          [name]: {
-            ...config?.columns?.[name],
-            pinned: !pinned,
-          },
-        },
-      });
     };
 
   function saveConfig(cfg: BoardConfig) {
