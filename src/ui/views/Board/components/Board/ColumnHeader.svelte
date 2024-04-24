@@ -62,7 +62,7 @@
 
 <div
   on:dblclick={() => {
-    if (!readonly) editing = true;
+    editing = true;
   }}
 >
   {#if editing}
