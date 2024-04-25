@@ -63,7 +63,7 @@
           column.collapse ? "chevrons-left-right" : "chevrons-right-left"
         )
         .onClick(() => {
-          onColumnCollapse(column.id, column.collapse);
+          onColumnCollapse(column.id);
         });
     });
 
@@ -81,8 +81,7 @@
           .onClick(() => {
             onColumnPin(
               columns.map((col) => col.id),
-              column.id,
-              column.pinned
+              column.id
             );
           });
       });

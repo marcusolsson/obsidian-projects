@@ -332,14 +332,14 @@
       });
     };
 
-  const toggleColumnCollapse = (): OnColumnCollapse => (name, collapse) => {
+  const toggleColumnCollapse = (): OnColumnCollapse => (name) => {
     saveConfig({
       ...config,
       columns: {
         ...config?.columns,
         [name]: {
           ...config?.columns?.[name],
-          collapse: !collapse,
+          collapse: !config?.columns?.[name]?.collapse,
         },
       },
     });
@@ -347,11 +347,12 @@
 
   const toggleColumnPin =
     (field: DataField | undefined): OnColumnPin =>
-    (columns, name, pinned) => {
+    (columns, name) => {
       if (!field) return;
 
       if (field.typeConfig && field.typeConfig.options) {
         let options = [...field.typeConfig.options];
+        const pinned = options.includes(name);
         if (pinned) {
           settings.updateFieldConfig(project.id, field.name, {
             ...field.typeConfig,

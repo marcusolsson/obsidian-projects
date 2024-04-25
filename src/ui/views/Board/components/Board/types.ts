@@ -46,9 +46,5 @@ export type OnColumnRename = (
   newName: string,
   records: DataRecord[]
 ) => void;
-export type OnColumnCollapse = (name: string, collapse: boolean) => void;
-export type OnColumnPin = (
-  columns: string[],
-  name: string,
-  pinned: boolean
-) => void;
+export type OnColumnCollapse = (name: string) => void;
+export type OnColumnPin = (columns: string[], name: string) => void;
