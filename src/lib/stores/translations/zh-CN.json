@@ -414,6 +414,9 @@
             "tag": {
                 "edit": "编辑",
                 "remove": "移除"
+            },
+            "multi-text": {
+                "add": "添加一项"
             }
         },
         "toolbar": {

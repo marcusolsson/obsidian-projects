@@ -133,6 +133,18 @@
       variant="primary"
       disabled={!!fieldNameError}
       on:click={() => {
+        // uniquify options items and omit empty
+        if (field?.typeConfig && field.typeConfig?.options) {
+          const options = field.typeConfig.options;
+          field = {
+            ...field,
+            typeConfig: {
+              ...field.typeConfig,
+              options: [...new Set(options)].filter((v) => v !== ""),
+            },
+          };
+        }
+
         onSave(field);
       }}>{$i18n.t("modals.field.configure.save")}</Button
     >

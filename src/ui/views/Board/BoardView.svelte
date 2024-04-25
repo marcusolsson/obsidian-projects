@@ -227,12 +227,17 @@
     (field: DataField | undefined): OnSortColumns =>
     (columns) => {
       if (field?.name && field?.typeConfig && field.typeConfig?.options) {
-        settings.updateFieldConfig(project.id, field?.name, {
-          ...field.typeConfig,
-          options: [...field.typeConfig.options].sort(
-            (a, b) => columns.indexOf(a) - columns.indexOf(b)
-          ),
-        });
+        settings.updateFieldConfig(
+          project.id,
+          field?.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options: [...field.typeConfig.options].sort(
+              (a, b) => columns.indexOf(a) - columns.indexOf(b)
+            ),
+          }
+        );
       }
       saveConfig({
         ...config,

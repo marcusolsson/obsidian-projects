@@ -133,7 +133,12 @@
       });
 
       if (field.typeConfig) {
-        settings.updateFieldConfig(project.id, field.name, field.typeConfig);
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          field.typeConfig
+        );
       }
     }).open();
   }
@@ -144,13 +149,18 @@
       await api.addField(field, value, position);
 
       if (field.typeConfig) {
-        settings.updateFieldConfig(project.id, field.name, field.typeConfig);
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          field.typeConfig
+        );
       }
 
       const orderFields = fields
         .map((f) => f.name)
         .filter((f) => f !== field.name);
-      if (position) orderFields.splice(position, 0, field.name);
+      if (position >= 0) orderFields.splice(position, 0, field.name);
 
       saveConfig({
         ...config,
@@ -273,6 +283,7 @@
                   settings.updateFieldConfig(
                     project.id,
                     field.name,
+                    fields.map((f) => f.name),
                     field.typeConfig
                   );
                 }

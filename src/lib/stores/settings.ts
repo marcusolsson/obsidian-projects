@@ -1,4 +1,4 @@
-import produce from "immer";
+import produce, { castImmutable } from "immer";
 import { writable } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";
 
@@ -129,12 +129,19 @@ function createSettings() {
     updateFieldConfig(
       projectId: ProjectId,
       fieldName: string,
+      fields: string[],
       config: FieldConfig
     ) {
       update((state) =>
         produce(state, (draft) => {
           draft.projects = draft.projects.map((project) => {
             if (project.id === projectId) {
+              if (project.fieldConfig) {
+                Object.keys(castImmutable(project).fieldConfig)
+                  .filter((k) => !fields.includes(k))
+                  .forEach((k) => delete project.fieldConfig[k]);
+              }
+
               return {
                 ...project,
                 fieldConfig: {
