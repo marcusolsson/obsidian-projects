@@ -12,7 +12,9 @@
   export let fields: DataField[];
 
   export let statusField: string | undefined;
+  export let checkField: string | undefined;
   export let onStatusFieldChange: (field: DataField | undefined) => void;
+  export let onCheckFieldChange: (field: DataField | undefined) => void;
 
   export let includedFields: string[];
   export let onIncludedFieldsChange: (fields: string[]) => void;
@@ -22,15 +24,21 @@
   $: groupByField = statusField
     ? getFieldByName(fields, statusField)
     : undefined;
+  $: booleanField = checkField ? getFieldByName(fields, checkField) : undefined;
 
-  $: validFields = getFieldsByType(
+  $: validGroupByFields = getFieldsByType(
     fields,
     DataFieldType.String,
     DataFieldType.Number
   );
+  $: validBooleanFields = getFieldsByType(fields, DataFieldType.Boolean);
 
   function handleStatusChange(event: CustomEvent<string>) {
     onStatusFieldChange(getFieldByName(fields, event.detail));
+  }
+
+  function handleCheckFieldChange(event: CustomEvent<string>) {
+    onCheckFieldChange(getFieldByName(fields, event.detail));
   }
 
   function handleIncludedFieldsChange(field: string, enabled: boolean) {
@@ -55,9 +63,18 @@
   <Select
     value={groupByField?.name ?? ""}
     on:change={handleStatusChange}
-    options={validFields.map(fieldToSelectableValue)}
+    options={validGroupByFields.map(fieldToSelectableValue)}
     placeholder={$i18n.t("views.board.fields.none") ?? ""}
     allowEmpty
+  />
+</Field>
+<Field name={$i18n.t("views.board.fields.check")}>
+  <Select
+    allowEmpty
+    value={booleanField?.name ?? ""}
+    options={validBooleanFields.map(fieldToSelectableValue)}
+    placeholder={$i18n.t("views.board.fields.none") ?? ""}
+    on:change={handleCheckFieldChange}
   />
 </Field>
 <SwitchSelect

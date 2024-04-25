@@ -1,5 +1,6 @@
 export interface BoardConfig {
   readonly groupByField?: string;
+  readonly checkField?: string;
   readonly orderSyncField?: string;
   readonly columnWidth?: number;
   readonly columns?: ColumnSettings;

@@ -30,6 +30,12 @@
 
     onConfigChange(field ? { ...rest, groupByField: field.name } : { ...rest });
   }
+
+  function handleCheckFieldChange(field: DataField | undefined) {
+    const { checkField, ...rest } = config;
+
+    onConfigChange(field ? { ...rest, checkField: field.name } : { ...rest });
+  }
 </script>
 
 <!--
@@ -45,7 +51,9 @@
         slot="right"
         {fields}
         statusField={config.groupByField}
+        checkField={config.checkField}
         onStatusFieldChange={handleStatusFieldChange}
+        onCheckFieldChange={handleCheckFieldChange}
         includedFields={config.includeFields ?? []}
         onIncludedFieldsChange={handleIncludedFieldsChange}
         onSettings={() => {
@@ -59,6 +67,7 @@
   <ViewContent>
     <slot
       {columnWidth}
+      checkField={config.checkField ?? ""}
       groupByField={fields.find((field) => config.groupByField === field.name)}
       includeFields={config.includeFields ?? []}
     />

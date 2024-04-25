@@ -24,6 +24,7 @@
   import type {
     OnRecordAdd,
     OnRecordClick,
+    OnRecordCheck,
     OnRecordUpdate,
     OnSortColumns,
     OnColumnAdd,
@@ -67,6 +68,17 @@
       record
     ).open();
   };
+
+  const handleRecordCheck =
+    (checkField: string): OnRecordCheck =>
+    (record) => {
+      api.updateRecord(
+        updateRecordValues(record, {
+          [checkField]: !record.values[checkField],
+        }),
+        fields
+      );
+    };
 
   const handleRecordUpdate =
     (groupByField: DataField | undefined): OnRecordUpdate =>
@@ -378,6 +390,7 @@
   onConfigChange={saveConfig}
   let:columnWidth
   let:groupByField
+  let:checkField
   let:includeFields
 >
   <Board
@@ -389,8 +402,10 @@
       !hasSort
     )}
     {columnWidth}
+    {checkField}
     includeFields={fields.filter((field) => includeFields.includes(field.name))}
     onRecordClick={handleRecordClick}
+    onRecordCheck={handleRecordCheck(checkField)}
     onRecordAdd={handleRecordAdd(groupByField)}
     onRecordUpdate={handleRecordUpdate(groupByField)}
     onColumnAdd={handleColumnAdd(groupByField)}

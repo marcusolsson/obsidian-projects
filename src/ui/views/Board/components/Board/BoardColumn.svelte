@@ -4,7 +4,7 @@
   import { i18n } from "src/lib/stores/i18n";
   import CardGroup from "./CardList.svelte";
   import ColumnHeader from "./ColumnHeader.svelte";
-  import type { OnRecordClick, OnRecordDrop } from "./types";
+  import type { OnRecordClick, OnRecordCheck, OnRecordDrop } from "./types";
   import type { Menu } from "obsidian";
 
   export let width: number;
@@ -13,11 +13,13 @@
   export let records: DataRecord[];
   export let readonly: boolean;
   export let richText: boolean;
+  export let checkField: string;
   export let includeFields: DataField[];
   export let collapse: boolean;
 
   export let onDrop: OnRecordDrop;
   export let onRecordClick: OnRecordClick;
+  export let onRecordCheck: OnRecordCheck;
   export let onRecordAdd: () => void;
   export let onColumnMenu: () => Menu;
   export let onColumnRename: (name: string) => void;
@@ -41,7 +43,14 @@
   />
 
   {#if !collapse}
-    <CardGroup items={records} {onRecordClick} {onDrop} {includeFields} />
+    <CardGroup
+      items={records}
+      {onRecordClick}
+      {checkField}
+      {onRecordCheck}
+      {onDrop}
+      {includeFields}
+    />
     {#if !readonly}
       <span>
         <Button variant="plain" on:click={() => onRecordAdd()}>

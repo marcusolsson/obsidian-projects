@@ -285,6 +285,7 @@
                 "fields": {
                     "status": "状态",
                     "priority": "优先级",
+                    "check": "复选框",
                     "none": "未选择"
                 },
                 "unprioritized": "未设置优先级",

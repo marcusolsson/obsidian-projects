@@ -9,6 +9,7 @@
     Column,
     OnRecordAdd,
     OnRecordClick,
+    OnRecordCheck,
     OnRecordUpdate,
     OnSortColumns,
     OnColumnAdd,
@@ -24,6 +25,7 @@
   export let readonly: boolean;
   export let richText: boolean;
   export let onRecordClick: OnRecordClick;
+  export let onRecordCheck: OnRecordCheck;
   export let onRecordUpdate: OnRecordUpdate;
   export let onRecordAdd: OnRecordAdd;
   export let columnWidth: number;
@@ -33,6 +35,7 @@
   export let onColumnRename: OnColumnRename;
   export let onColumnCollapse: OnColumnCollapse;
   export let onColumnPin: OnColumnPin;
+  export let checkField: string;
   export let includeFields: DataField[];
 
   const flipDurationMs = 200;
@@ -127,6 +130,8 @@
           name={column.id}
           records={column.records}
           {onRecordClick}
+          {checkField}
+          {onRecordCheck}
           onRecordAdd={() => onRecordAdd(column.id)}
           onDrop={(record, records, trigger) => {
             switch (trigger) {
