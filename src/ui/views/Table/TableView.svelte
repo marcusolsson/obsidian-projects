@@ -133,7 +133,12 @@
       });
 
       if (field.typeConfig) {
-        settings.updateFieldConfig(project.id, field.name, field.typeConfig);
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          field.typeConfig
+        );
       }
     }).open();
   }
@@ -144,7 +149,12 @@
       await api.addField(field, value, position);
 
       if (field.typeConfig) {
-        settings.updateFieldConfig(project.id, field.name, field.typeConfig);
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          field.typeConfig
+        );
       }
 
       const orderFields = fields
@@ -273,6 +283,7 @@
                   settings.updateFieldConfig(
                     project.id,
                     field.name,
+                    fields.map((f) => f.name),
                     field.typeConfig
                   );
                 }
