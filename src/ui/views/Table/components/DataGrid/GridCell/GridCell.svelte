@@ -263,5 +263,6 @@
     background-color: var(--background-secondary);
     position: sticky;
     border-right: 1px solid var(--background-modifier-border-focus);
+    z-index: 4;
   }
 </style>
