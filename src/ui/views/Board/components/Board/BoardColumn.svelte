@@ -4,8 +4,13 @@
   import { i18n } from "src/lib/stores/i18n";
   import CardGroup from "./CardList.svelte";
   import ColumnHeader from "./ColumnHeader.svelte";
-  import type { OnRecordClick, OnRecordCheck, OnRecordDrop } from "./types";
-  import type { Menu } from "obsidian";
+  import type {
+    OnRecordClick,
+    OnRecordCheck,
+    OnRecordDrop,
+    OnColumnCollapse,
+  } from "./types";
+  import { Menu } from "obsidian";
 
   export let width: number;
 
@@ -15,15 +20,75 @@
   export let richText: boolean;
   export let checkField: string;
   export let includeFields: DataField[];
+  export let pinned: boolean;
   export let collapse: boolean;
 
   export let onDrop: OnRecordDrop;
   export let onRecordClick: OnRecordClick;
   export let onRecordCheck: OnRecordCheck;
   export let onRecordAdd: () => void;
-  export let onColumnMenu: () => Menu;
+  export let onColumnPin: (name: string) => void;
+  export let onColumnCollapse: OnColumnCollapse;
+  export let onColumnDelete: (name: string, records: DataRecord[]) => void;
   export let onColumnRename: (name: string) => void;
   export let onValidate: (name: string) => boolean;
+
+  let editing: boolean = false;
+
+  function onColumnMenu() {
+    const menu = new Menu();
+
+    menu.addItem((item) => {
+      item
+        .setTitle($i18n.t("components.board.column.rename"))
+        .setIcon("edit")
+        .onClick(() => {
+          editing = true;
+        });
+    });
+
+    menu.addItem((item) => {
+      item
+        .setTitle(
+          collapse
+            ? $i18n.t("components.board.column.expand")
+            : $i18n.t("components.board.column.collapse")
+        )
+        .setIcon(collapse ? "chevrons-left-right" : "chevrons-right-left")
+        .onClick(() => {
+          onColumnCollapse(name);
+        });
+    });
+
+    menu.addItem((item) => {
+      item
+        .setTitle(
+          pinned
+            ? $i18n.t("components.board.column.unpin")
+            : $i18n.t("components.board.column.pin")
+        )
+        .setIcon(pinned ? "pin-off" : "pin")
+        .onClick(() => {
+          onColumnPin(name);
+        });
+    });
+
+    if (name !== $i18n.t("views.board.no-status")) {
+      menu.addSeparator();
+
+      menu.addItem((item) => {
+        item
+          .setTitle($i18n.t("components.board.column.delete"))
+          .setIcon("trash-2")
+          .setWarning(true)
+          .onClick(() => {
+            onColumnDelete(name, records);
+          });
+      });
+    }
+
+    return menu;
+  }
 </script>
 
 <section
@@ -35,6 +100,7 @@
   <ColumnHeader
     value={name}
     count={records.length}
+    bind:editing
     {richText}
     {collapse}
     {onColumnMenu}

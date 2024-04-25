@@ -387,6 +387,7 @@
                 "column": {
                     "add": "新建列表",
                     "placeholder": "新列表",
+                    "rename": "重命名列表",
                     "delete": "删除列表",
                     "confirm": "确认",
                     "expand": "展开列表",

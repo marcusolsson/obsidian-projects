@@ -387,6 +387,7 @@
                 "column": {
                     "add": "Add column",
                     "placeholder": "New column",
+                    "rename": "Rename column",
                     "delete": "Delete column",
                     "confirm": "Add",
                     "expand": "Expand column",

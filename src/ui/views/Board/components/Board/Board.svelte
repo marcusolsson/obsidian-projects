@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { DataField } from "src/lib/dataframe/dataframe";
   import { dndzone } from "svelte-dnd-action";
-  import { Menu } from "obsidian";
 
   import BoardColumn from "./BoardColumn.svelte";
   import NewColumn from "./NewColumn.svelte";
@@ -18,7 +17,6 @@
     OnColumnCollapse,
     OnColumnPin,
   } from "./types";
-  import { i18n } from "src/lib/stores/i18n";
 
   export let columns: Column[];
 
@@ -48,61 +46,6 @@
     columns = e.detail.items;
     onSortColumns(columns.map((col) => col.id));
   }
-
-  function createColumnMenu(column: Column) {
-    const menu = new Menu();
-
-    menu.addItem((item) => {
-      item
-        .setTitle(
-          column.collapse
-            ? $i18n.t("components.board.column.expand")
-            : $i18n.t("components.board.column.collapse")
-        )
-        .setIcon(
-          column.collapse ? "chevrons-left-right" : "chevrons-right-left"
-        )
-        .onClick(() => {
-          onColumnCollapse(column.id);
-        });
-    });
-
-    if (column.id !== $i18n.t("views.board.no-status")) {
-      menu.addSeparator();
-
-      menu.addItem((item) => {
-        item
-          .setTitle(
-            column.pinned
-              ? $i18n.t("components.board.column.unpin")
-              : $i18n.t("components.board.column.pin")
-          )
-          .setIcon(column.pinned ? "pin-off" : "pin")
-          .onClick(() => {
-            onColumnPin(
-              columns.map((col) => col.id),
-              column.id
-            );
-          });
-      });
-
-      menu.addItem((item) => {
-        item
-          .setTitle($i18n.t("components.board.column.delete"))
-          .setIcon("trash-2")
-          .setWarning(true)
-          .onClick(() => {
-            onColumnDelete(
-              columns.map((col) => col.id),
-              column.id,
-              column.records
-            );
-          });
-      });
-    }
-
-    return menu;
-  }
 </script>
 
 <div>
@@ -126,6 +69,7 @@
           {richText}
           width={columnWidth}
           collapse={column.collapse}
+          pinned={column.pinned}
           name={column.id}
           records={column.records}
           {onRecordClick}
@@ -147,6 +91,18 @@
             }
           }}
           {includeFields}
+          onColumnPin={(name) =>
+            onColumnPin(
+              columns.map((col) => col.id),
+              name
+            )}
+          onColumnDelete={(name, records) =>
+            onColumnDelete(
+              columns.map((col) => col.id),
+              name,
+              records
+            )}
+          {onColumnCollapse}
           onColumnRename={(name) => {
             const cols = columns.map((col) => col.id);
             onColumnRename(cols, column.id, name, column.records);
@@ -156,7 +112,6 @@
             if (columns.map((col) => col.id).includes(name)) return false;
             return true;
           }}
-          onColumnMenu={() => createColumnMenu(column)}
         />
       </div>
     {/each}

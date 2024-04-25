@@ -47,7 +47,7 @@
 
   export let onValidate: (value: string) => boolean;
   export let onColumnRename: (value: string) => void;
-  let editing: boolean = false;
+  export let editing: boolean = false;
   let inputRef: HTMLInputElement;
   $: if (editing && inputRef) {
     inputRef.focus();
