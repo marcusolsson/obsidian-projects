@@ -20,6 +20,7 @@
 >
   <FilterOptions
     filter={value ?? {
+      conjunction: "and",
       conditions: [],
     }}
     {fields}

@@ -40,6 +40,11 @@
 
   $: fieldOptions = fieldsToSelectOptions(fields);
 
+  const handleConjunctionChange = ({ detail }: CustomEvent<string>) => {
+    filter = { ...filter, conjunction: detail as "and" | "or" };
+    onFilterChange(filter);
+  };
+
   const handleFieldChange =
     (i: number) =>
     ({ detail }: CustomEvent<string>) => {
@@ -88,10 +93,20 @@
   {#each filter.conditions as condition, i}
     {@const field = getFieldByName(fields, condition.field)}
     <HorizontalGroup>
-      <div class="setting-item-name" style="width: 5ch">
-        {i === 0
-          ? $i18n.t("components.filter.where")
-          : $i18n.t("components.filter.and")}
+      <div class="setting-item-name" style="width: 8ch">
+        {#if i === 0}
+          {$i18n.t("components.filter.where")}
+        {:else}
+          <Select
+            value={filter.conjunction ?? "and"}
+            disabled={i !== 1}
+            options={[
+              { label: $i18n.t("components.filter.and"), value: "and" },
+              { label: $i18n.t("components.filter.or"), value: "or" },
+            ]}
+            on:change={handleConjunctionChange}
+          />
+        {/if}
       </div>
       <Select
         value={condition.field}
