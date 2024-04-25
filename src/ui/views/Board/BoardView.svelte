@@ -270,12 +270,12 @@
     async (columns, name, records) => {
       if (!field) return;
 
-      const newRecords = records.map((record) => {
-        return {
-          ...record,
-          values: { ...record.values, [field.name]: null },
-        };
-      });
+      const newRecords = records.map((record) =>
+        updateRecordValues(record, {
+          [field.name]: null,
+        })
+      );
+
       await api.updateRecords(newRecords, fields);
 
       if (field.typeConfig && field.typeConfig.options) {
@@ -303,13 +303,11 @@
     async (columns, oldName, newName, records) => {
       if (!field) return;
 
-      const newRecords = records.map((record) => {
-        return {
-          ...record,
-          values: { ...record.values, [field.name]: newName },
-        };
-      });
-
+      const newRecords = records.map((record) =>
+        updateRecordValues(record, {
+          [field.name]: newName,
+        })
+      );
       await api.updateRecords(newRecords, fields);
 
       if (field?.typeConfig && field.typeConfig?.options) {
