@@ -40,6 +40,11 @@
   export let onEdit: (editing: boolean) => void;
   $: onEdit(editing);
 
+  $: count = records.length;
+  $: checkedCount = checkField
+    ? records.filter((r) => r.values[checkField]).length
+    : 0;
+
   function onColumnMenu() {
     const menu = new Menu();
 
@@ -104,10 +109,8 @@
 >
   <ColumnHeader
     value={name}
-    count={records.length}
-    checkedCount={checkField
-      ? records.filter((r) => r.values[checkField]).length
-      : 0}
+    {count}
+    {checkedCount}
     bind:editing
     {richText}
     {collapse}
