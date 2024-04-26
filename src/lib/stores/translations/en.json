@@ -285,6 +285,7 @@
                 "fields": {
                     "status": "Status",
                     "priority": "Priority",
+                    "check": "Check",
                     "none": "None"
                 },
                 "unprioritized": "Unprioritized",
@@ -294,6 +295,10 @@
                     "column-width": {
                         "name": "Column width",
                         "description": "Width of each column in pixels."
+                    },
+                    "custom-header": {
+                        "name": "Customize card header",
+                        "description": "Use selected field as the header of cards."
                     },
                     "order-sync-field": {
                         "name": "Sync card order with field",
@@ -360,8 +365,8 @@
                     "insert-left": "Insert left",
                     "insert-right": "Insert right",
                     "rename": "Rename field",
-                    "pin-field": "Pin field",
-                    "unpin-field": "Unpin field",
+                    "pin": "Pin field",
+                    "unpin": "Unpin field",
                     "hide": "Hide field",
                     "delete": "Delete field"
                 },
@@ -380,6 +385,18 @@
                 "sortDate": {
                     "asc": "Sort Old → New",
                     "desc": "Sort New → Old"
+                }
+            },
+            "board": {
+                "column": {
+                    "add": "Add column",
+                    "placeholder": "New column",
+                    "rename": "Rename column",
+                    "delete": "Delete column",
+                    "expand": "Expand column",
+                    "collapse": "Collapse column",
+                    "pin": "Pin column",
+                    "unpin": "Unpin column"
                 }
             },
             "color": {

@@ -24,8 +24,14 @@
   import type {
     OnRecordAdd,
     OnRecordClick,
+    OnRecordCheck,
     OnRecordUpdate,
     OnSortColumns,
+    OnColumnAdd,
+    OnColumnDelete,
+    OnColumnCollapse,
+    OnColumnPin,
+    OnColumnRename,
   } from "./components/Board/types";
   import type { BoardConfig } from "./types";
   import { settings } from "src/lib/stores/settings";
@@ -63,13 +69,25 @@
     ).open();
   };
 
+  const handleRecordCheck =
+    (checkField: string): OnRecordCheck =>
+    (record) => {
+      api.updateRecord(
+        updateRecordValues(record, {
+          [checkField]: !record.values[checkField],
+        }),
+        fields
+      );
+    };
+
   const handleRecordUpdate =
     (groupByField: DataField | undefined): OnRecordUpdate =>
     (record, { id: column, records }, trigger) => {
       // Update record groupByField
       if (trigger === "addToColumn" && groupByField?.name) {
         record = updateRecordValues(record, {
-          [groupByField.name]: column,
+          [groupByField.name]:
+            column === $i18n.t("views.board.no-status") ? null : column,
         });
       }
 
@@ -179,9 +197,7 @@
           recordsToUpdate.push(record);
         }
 
-        recordsToUpdate.forEach((r, i) => {
-          api.updateRecord(r, fields);
-        });
+        api.updateRecords(recordsToUpdate, fields);
       }
     };
 
@@ -209,16 +225,16 @@
 
   const handleSortColumns =
     (field: DataField | undefined): OnSortColumns =>
-    (names) => {
-      if (field?.name && field?.typeConfig) {
+    (columns) => {
+      if (field?.name && field?.typeConfig && field.typeConfig?.options) {
         settings.updateFieldConfig(
           project.id,
           field?.name,
           fields.map((f) => f.name),
           {
             ...field.typeConfig,
-            options: [...(field.typeConfig?.options ?? [])].sort(
-              (a, b) => names.indexOf(a) - names.indexOf(b)
+            options: [...field.typeConfig.options].sort(
+              (a, b) => columns.indexOf(a) - columns.indexOf(b)
             ),
           }
         );
@@ -226,12 +242,164 @@
       saveConfig({
         ...config,
         columns: Object.fromEntries(
-          names.map((name, i) => [
-            name,
-            { ...config?.columns?.[name], weight: i },
+          columns.map((column, i) => [
+            column,
+            { ...config?.columns?.[column], weight: i },
           ])
         ),
       });
+    };
+
+  const handleColumnAdd =
+    (field: DataField | undefined): OnColumnAdd =>
+    (columns, name) => {
+      if (!field) return;
+
+      settings.updateFieldConfig(
+        project.id,
+        field.name,
+        fields.map((f) => f.name),
+        {
+          ...field?.typeConfig,
+          options: [...(field.typeConfig?.options ?? []), name],
+        }
+      );
+
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          [...columns, name].map((column, i) => {
+            return [column, { ...config?.columns?.[column], weight: i }];
+          })
+        ),
+      });
+    };
+
+  const handleColumnDelete =
+    (field: DataField | undefined): OnColumnDelete =>
+    async (columns, name, records) => {
+      if (!field) return;
+
+      const newRecords = records.map((record) =>
+        updateRecordValues(record, {
+          [field.name]: null,
+        })
+      );
+
+      await api.updateRecords(newRecords, fields);
+
+      if (field.typeConfig && field.typeConfig.options) {
+        let options = [...field.typeConfig.options];
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options: options.filter((v) => v !== name),
+          }
+        );
+      }
+
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          columns
+            .filter((v) => v !== name)
+            .map((column, i) => {
+              return [column, { ...config?.columns?.[column], weight: i }];
+            })
+        ),
+      });
+    };
+
+  const handleColumnRename =
+    (field: DataField | undefined): OnColumnRename =>
+    async (columns, oldName, newName, records) => {
+      if (!field) return;
+
+      const newRecords = records.map((record) =>
+        updateRecordValues(record, {
+          [field.name]: newName,
+        })
+      );
+      await api.updateRecords(newRecords, fields);
+
+      if (field?.typeConfig && field.typeConfig?.options) {
+        const options = [...field.typeConfig?.options];
+        options.splice(options.indexOf(oldName), 1, newName);
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options,
+          }
+        );
+      }
+
+      saveConfig({
+        ...config,
+        columns: Object.fromEntries(
+          columns.map((column, i) => {
+            return [
+              column === oldName ? newName : column,
+              { ...config?.columns?.[column], weight: i },
+            ];
+          })
+        ),
+      });
+    };
+
+  const toggleColumnCollapse = (): OnColumnCollapse => (name) => {
+    saveConfig({
+      ...config,
+      columns: {
+        ...config?.columns,
+        [name]: {
+          ...config?.columns?.[name],
+          collapse: !config?.columns?.[name]?.collapse,
+        },
+      },
+    });
+  };
+
+  const toggleColumnPin =
+    (field: DataField | undefined): OnColumnPin =>
+    (columns, name) => {
+      if (!field) return;
+
+      if (field.typeConfig && field.typeConfig.options) {
+        let options = [...field.typeConfig.options];
+        const pinned = options.includes(name);
+
+        if (pinned) {
+          options = options.filter((v) => v !== name);
+        } else {
+          options = columns.filter((v) => options.includes(v) || v === name);
+        }
+
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options,
+          }
+        );
+      } else {
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options: [name],
+          }
+        );
+      }
     };
 
   function saveConfig(cfg: BoardConfig) {
@@ -251,7 +419,9 @@
   onConfigChange={saveConfig}
   let:columnWidth
   let:groupByField
+  let:checkField
   let:includeFields
+  let:customHeader
 >
   <Board
     columns={getColumns(
@@ -262,10 +432,18 @@
       !hasSort
     )}
     {columnWidth}
+    checkField={fields.find((field) => field.name === config?.checkField)?.name}
     includeFields={fields.filter((field) => includeFields.includes(field.name))}
+    customHeader={fields.find((field) => field.name === customHeader)}
     onRecordClick={handleRecordClick}
+    onRecordCheck={handleRecordCheck(checkField)}
     onRecordAdd={handleRecordAdd(groupByField)}
     onRecordUpdate={handleRecordUpdate(groupByField)}
+    onColumnAdd={handleColumnAdd(groupByField)}
+    onColumnDelete={handleColumnDelete(groupByField)}
+    onColumnRename={handleColumnRename(groupByField)}
+    onColumnCollapse={toggleColumnCollapse()}
+    onColumnPin={toggleColumnPin(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
     richText={groupByField?.typeConfig?.richText ?? false}

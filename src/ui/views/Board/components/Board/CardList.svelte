@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { InternalLink } from "obsidian-svelte";
+  import { InternalLink, Checkbox } from "obsidian-svelte";
   import {
     isString,
     type DataField,
@@ -20,12 +20,23 @@
   } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
   import { getDisplayName } from "./boardHelpers";
-  import type { DropTrigger, OnRecordClick, OnRecordDrop } from "./types";
+  import type {
+    DropTrigger,
+    OnRecordClick,
+    OnRecordCheck,
+    OnRecordDrop,
+  } from "./types";
 
   export let items: DataRecord[];
   export let onRecordClick: OnRecordClick;
+  export let onRecordCheck: OnRecordCheck;
   export let onDrop: OnRecordDrop;
   export let includeFields: DataField[];
+  export let checkField: string | undefined;
+  const checked = (item: DataRecord): boolean =>
+    checkField ? (item.values[checkField] as boolean) : false;
+  export let customHeader: DataField | undefined;
+  export let boardEditing: boolean;
 
   const getRecordColor = getRecordColorContext.get();
   const sortRecords = sortRecordsContext.get();
@@ -69,6 +80,8 @@
       background: "var(--board-column-drag-accent)",
       transition: "all 150ms ease-in-out",
     },
+    dragDisabled: boardEditing,
+    morphDisabled: true,
   }}
 >
   {#each items as item (item.id)}
@@ -82,31 +95,61 @@
       animate:flip={{ duration: flipDurationMs }}
     >
       <ColorItem {color}>
-        <InternalLink
-          slot="header"
-          linkText={item.id}
-          sourcePath=""
-          resolved
-          on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-            let openEditor =
-              $settings.preferences.linkBehavior == "open-editor";
+        <div slot="header" class="card-header">
+          {#if checkField}
+            <span class="checkbox-wrapper">
+              <Checkbox
+                checked={checked(item)}
+                on:check={() => {
+                  onRecordCheck(item);
+                }}
+              />
+            </span>
+          {/if}
+          {#if !customHeader}
+            <InternalLink
+              linkText={item.id}
+              sourcePath=""
+              resolved
+              on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                let openEditor =
+                  $settings.preferences.linkBehavior == "open-editor";
 
-            if (newLeaf) {
-              openEditor = !openEditor;
-            }
+                if (newLeaf) {
+                  openEditor = !openEditor;
+                }
 
-            if (openEditor) {
-              onRecordClick(item);
-            } else {
-              $app.workspace.openLinkText(linkText, sourcePath, true);
-            }
-          }}
-        >
-          {@const path = item.values["path"]}
-          {getDisplayName(isString(path) ? path : item.id)}
-        </InternalLink>
+                if (openEditor) {
+                  onRecordClick(item);
+                } else {
+                  $app.workspace.openLinkText(linkText, sourcePath, true);
+                }
+              }}
+            >
+              {@const path = item.values["path"]}
+              {getDisplayName(isString(path) ? path : item.id)}
+            </InternalLink>
+          {:else}
+            <CardMetadata fields={[customHeader]} record={item} />
+          {/if}
+        </div>
         <CardMetadata fields={includeFields} record={item} />
       </ColorItem>
     </article>
   {/each}
 </div>
+
+<style>
+  div.card-header {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    margin-top: 4px;
+  }
+</style>

@@ -30,6 +30,12 @@ export class ViewApi {
     this.dataApi.updateRecord(fields, record);
   }
 
+  async updateRecords(records: DataRecord[], fields: DataField[]) {
+    const rs = records.filter((r) => this.dataSource.includes(r.id));
+    if (rs) dataFrame.updateRecords(rs);
+    await this.dataApi.updateRecords(fields, records);
+  }
+
   deleteRecord(recordId: string) {
     if (this.dataSource.includes(recordId)) {
       dataFrame.deleteRecord(recordId);

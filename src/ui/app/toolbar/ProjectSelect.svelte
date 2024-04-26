@@ -9,7 +9,7 @@
   import { ConfirmDialogModal } from "src/ui/modals/confirmDialog";
   import { CreateProjectModal } from "src/ui/modals/createProjectModal";
   import type { ProjectDefinition, ProjectId } from "src/settings/settings";
-  import Flair from "./Flair.svelte";
+  import { Flair } from "src/ui/components/Flair";
 
   export let projectId: ProjectId | undefined;
   export let projects: ProjectDefinition[];
@@ -29,7 +29,9 @@
         value: project.id,
       })),
       (draft) => {
-        draft.sort((a, b) => a.label.localeCompare(b.label, undefined, {numeric: true}));
+        draft.sort((a, b) =>
+          a.label.localeCompare(b.label, undefined, { numeric: true })
+        );
       }
     )}
     on:change={({ detail: value }) => onProjectChange(value)}

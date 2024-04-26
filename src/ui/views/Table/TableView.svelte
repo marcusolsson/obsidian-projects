@@ -109,14 +109,14 @@
     });
   }
 
-  function handleColumnPin(field: string, pinned: boolean | undefined) {
+  function handleColumnPin(field: string) {
     saveConfig({
       ...config,
       fieldConfig: {
         ...fieldConfig,
         [field]: {
           ...fieldConfig[field],
-          pinned: !pinned,
+          pinned: !fieldConfig[field]?.pinned,
         },
       },
     });
@@ -257,7 +257,7 @@
         }}
         onRowDelete={(id) => api.deleteRecord(id)}
         onColumnHide={(column) => handleVisibilityChange(column.field, false)}
-        onColumnPin={(column) => handleColumnPin(column.field, column.pinned)}
+        onColumnPin={(column) => handleColumnPin(column.field)}
         onColumnConfigure={(column, editable) => {
           const field = fields.find((field) => field.name === column.field);
 

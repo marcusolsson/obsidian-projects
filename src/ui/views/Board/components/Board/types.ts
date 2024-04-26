@@ -4,9 +4,12 @@ import type { TRIGGERS } from "svelte-dnd-action";
 export type Column = {
   id: string;
   records: DataRecord[];
+  collapse: boolean;
+  pinned: boolean;
 };
 
 export type OnRecordClick = (record: DataRecord) => void;
+export type OnRecordCheck = (record: DataRecord) => void;
 export type OnRecordAdd = (column: string) => void;
 export type OnRecordDrop = (
   record: DataRecord,
@@ -30,3 +33,18 @@ export type OnSortColumns = (names: string[]) => void;
 export type OnSortRecords = (
   records: ReadonlyArray<DataRecord>
 ) => DataRecord[];
+
+export type OnColumnAdd = (columns: string[], name: string) => void;
+export type OnColumnDelete = (
+  columns: string[],
+  name: string,
+  records: DataRecord[]
+) => void;
+export type OnColumnRename = (
+  columns: string[],
+  oldName: string,
+  newName: string,
+  records: DataRecord[]
+) => void;
+export type OnColumnCollapse = (name: string) => void;
+export type OnColumnPin = (columns: string[], name: string) => void;

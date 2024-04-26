@@ -6,9 +6,9 @@
     ModalContent,
     ModalLayout,
   } from "obsidian-svelte";
-  import Flair from "src/ui/app/toolbar/Flair.svelte";
-  import Accordion from "src/ui/components/Accordion/Accordion.svelte";
-  import AccordionItem from "src/ui/components/Accordion/AccordionItem.svelte";
+  import { Flair } from "src/ui/components/Flair";
+  import { Accordion } from "src/ui/components/Accordion";
+  import { AccordionItem } from "src/ui/components/Accordion";
   import type { RecordError } from "src/lib/datasources/frontmatter/datasource";
 
   import { i18n } from "src/lib/stores/i18n";

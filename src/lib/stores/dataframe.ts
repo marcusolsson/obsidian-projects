@@ -42,6 +42,22 @@ function createDataFrame() {
         })
       );
     },
+    updateRecords(records: DataRecord[]) {
+      update((state) =>
+        produce(state, (draft) => {
+          // @ts-ignore
+          draft.records = castDraft(
+            draft.records
+              .map(castImmutable)
+              // @ts-ignore
+              .map((r) => {
+                const found = records.find((_r) => _r.id === r.id);
+                return found ? found : r;
+              })
+          );
+        })
+      );
+    },
     deleteRecord(id: string) {
       update((state) =>
         produce(state, (draft) => {
@@ -123,8 +139,7 @@ function createDataFrame() {
             draft.records.some((record) => {
               return (
                 // @ts-ignore
-                record.values[field.name] !== undefined &&
-                record.values[field.name] !== null
+                record.values[field.name] !== undefined
               );
             })
           );

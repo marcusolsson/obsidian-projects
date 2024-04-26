@@ -84,8 +84,8 @@
       item
         .setTitle(
           column.pinned
-            ? t("components.data-grid.column.unpin-field")
-            : t("components.data-grid.column.pin-field")
+            ? t("components.data-grid.column.unpin")
+            : t("components.data-grid.column.pin")
         )
         .setIcon(column.pinned ? "pin-off" : "pin")
         .onClick(() => onColumnPin(column));

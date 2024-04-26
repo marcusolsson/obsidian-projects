@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button, Icon, Popover } from "obsidian-svelte";
-  import Flair from "../Flair.svelte";
+  import { Flair } from "src/ui/components/Flair";
 
   export let label: string;
   export let icon: string;
