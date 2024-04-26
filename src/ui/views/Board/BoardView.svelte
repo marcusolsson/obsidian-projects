@@ -255,10 +255,15 @@
     (columns, name) => {
       if (!field) return;
 
-      settings.updateFieldConfig(project.id, field.name, {
-        ...field?.typeConfig,
-        options: [...(field.typeConfig?.options ?? []), name],
-      });
+      settings.updateFieldConfig(
+        project.id,
+        field.name,
+        fields.map((f) => f.name),
+        {
+          ...field?.typeConfig,
+          options: [...(field.typeConfig?.options ?? []), name],
+        }
+      );
 
       saveConfig({
         ...config,
@@ -285,10 +290,15 @@
 
       if (field.typeConfig && field.typeConfig.options) {
         let options = [...field.typeConfig.options];
-        settings.updateFieldConfig(project.id, field.name, {
-          ...field.typeConfig,
-          options: options.filter((v) => v !== name),
-        });
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options: options.filter((v) => v !== name),
+          }
+        );
       }
 
       saveConfig({
@@ -318,10 +328,15 @@
       if (field?.typeConfig && field.typeConfig?.options) {
         const options = [...field.typeConfig?.options];
         options.splice(options.indexOf(oldName), 1, newName);
-        settings.updateFieldConfig(project.id, field.name, {
-          ...field.typeConfig,
-          options,
-        });
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options,
+          }
+        );
       }
 
       saveConfig({
@@ -358,22 +373,32 @@
       if (field.typeConfig && field.typeConfig.options) {
         let options = [...field.typeConfig.options];
         const pinned = options.includes(name);
+
         if (pinned) {
-          settings.updateFieldConfig(project.id, field.name, {
-            ...field.typeConfig,
-            options: options.filter((v) => v !== name),
-          });
+          options = options.filter((v) => v !== name);
         } else {
-          settings.updateFieldConfig(project.id, field.name, {
-            ...field.typeConfig,
-            options: columns.filter((v) => options.includes(v) || v === name),
-          });
+          options =  columns.filter((v) => options.includes(v) || v === name);
         }
+
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options,
+          }
+        );
       } else {
-        settings.updateFieldConfig(project.id, field.name, {
-          ...field.typeConfig,
-          options: [name],
-        });
+        settings.updateFieldConfig(
+          project.id,
+          field.name,
+          fields.map((f) => f.name),
+          {
+            ...field.typeConfig,
+            options: [name],
+          }
+        );
       }
     };
 
