@@ -26,6 +26,7 @@ export interface SortingCriteria {
 export type SortOrder = "asc" | "desc";
 
 export interface FilterDefinition {
+  readonly conjunction?: "and" | "or";
   readonly conditions: FilterCondition[];
 }
 
@@ -170,7 +171,7 @@ export type UnsavedViewDefinition = Omit<
 
 export const DEFAULT_VIEW: UnsavedViewDefinition = {
   config: {},
-  filter: { conditions: [] },
+  filter: { conjunction: "and", conditions: [] },
   colors: { conditions: [] },
   sort: { criteria: [] },
 };

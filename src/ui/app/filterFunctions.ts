@@ -75,6 +75,12 @@ export function matchesFilterConditions(
   const validConds = filter.conditions.filter((cond) => {
     return cond?.enabled ?? true;
   });
+
+  if (!validConds.length) return true;
+
+  if (filter.conjunction === "or") {
+    return validConds.some((cond) => matchesCondition(cond, record));
+  }
   return validConds.every((cond) => matchesCondition(cond, record));
 }
 

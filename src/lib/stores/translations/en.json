@@ -391,6 +391,7 @@
                 "label": "Filter",
                 "where": "Where",
                 "and": "and",
+                "or": "or",
                 "add": "Add condition"
             },
             "sort": {

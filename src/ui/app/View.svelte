@@ -64,6 +64,7 @@
       settings.updateView(project.id, {
         ...view,
         filter: {
+          conjunction: viewFilter?.conjunction ?? "and",
           conditions: viewFilter.conditions.filter((cond) =>
             fieldNames.includes(cond.field)
           ),
@@ -72,7 +73,7 @@
     }
   }
 
-  $: viewFilter = view.filter ?? { conditions: [] };
+  $: viewFilter = view.filter ?? { conjunction: "and", conditions: [] };
   $: filteredFrame = applyFilter(frame, viewFilter);
 
   $: viewSort =
