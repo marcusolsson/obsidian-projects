@@ -32,7 +32,7 @@
   export let onRecordCheck: OnRecordCheck;
   export let onDrop: OnRecordDrop;
   export let includeFields: DataField[];
-  export let checkField: string;
+  export let checkField: string | undefined;
   const checked = (item: DataRecord): boolean =>
     checkField ? (item.values[checkField] as boolean) : false;
   export let customHeader: DataField | undefined;

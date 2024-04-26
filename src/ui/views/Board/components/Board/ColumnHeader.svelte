@@ -8,7 +8,7 @@
   export let value: string;
   export let count: number;
   export let checkedCount: number;
-  export let checkField: string = "";
+  export let checkField: string | undefined;
   export let collapse: boolean = false;
   export let richText: boolean = false;
   const sourcePath = getContext<string>("sourcePath") ?? "";

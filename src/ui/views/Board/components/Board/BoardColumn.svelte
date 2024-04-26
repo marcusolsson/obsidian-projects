@@ -18,7 +18,7 @@
   export let records: DataRecord[];
   export let readonly: boolean;
   export let richText: boolean;
-  export let checkField: string;
+  export let checkField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
   export let pinned: boolean;

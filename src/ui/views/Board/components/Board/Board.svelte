@@ -33,7 +33,7 @@
   export let onColumnRename: OnColumnRename;
   export let onColumnCollapse: OnColumnCollapse;
   export let onColumnPin: OnColumnPin;
-  export let checkField: string;
+  export let checkField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
 
