@@ -296,6 +296,10 @@
                         "name": "列宽度",
                         "description": "调整每列的像素宽度。"
                     },
+                    "custom-header": {
+                        "name": "自定义卡片标题",
+                        "description": "将使用所选字段值作为卡片标题。"
+                    },
                     "order-sync-field": {
                         "name": "卡片顺序同步字段",
                         "description": "该字段将用于存储卡片在看板列中的位置顺序信息。"

@@ -68,6 +68,7 @@
     <slot
       {columnWidth}
       checkField={config.checkField ?? ""}
+      customHeader={config.headerField}
       groupByField={fields.find((field) => config.groupByField === field.name)}
       includeFields={config.includeFields ?? []}
     />

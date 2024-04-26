@@ -377,7 +377,7 @@
         if (pinned) {
           options = options.filter((v) => v !== name);
         } else {
-          options =  columns.filter((v) => options.includes(v) || v === name);
+          options = columns.filter((v) => options.includes(v) || v === name);
         }
 
         settings.updateFieldConfig(
@@ -421,6 +421,7 @@
   let:groupByField
   let:checkField
   let:includeFields
+  let:customHeader
 >
   <Board
     columns={getColumns(
@@ -433,6 +434,7 @@
     {columnWidth}
     {checkField}
     includeFields={fields.filter((field) => includeFields.includes(field.name))}
+    customHeader={fields.find((field) => field.name === customHeader)}
     onRecordClick={handleRecordClick}
     onRecordCheck={handleRecordCheck(checkField)}
     onRecordAdd={handleRecordAdd(groupByField)}

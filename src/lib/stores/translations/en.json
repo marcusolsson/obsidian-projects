@@ -296,6 +296,10 @@
                         "name": "Column width",
                         "description": "Width of each column in pixels."
                     },
+                    "custom-header": {
+                        "name": "Customize card header",
+                        "description": "Use selected field as the header of cards."
+                    },
                     "order-sync-field": {
                         "name": "Sync card order with field",
                         "description": "Field to store the position of cards in the board."

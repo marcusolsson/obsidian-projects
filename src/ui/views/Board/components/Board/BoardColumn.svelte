@@ -20,6 +20,7 @@
   export let richText: boolean;
   export let checkField: string;
   export let includeFields: DataField[];
+  export let customHeader: DataField | undefined;
   export let pinned: boolean;
   export let collapse: boolean;
 
@@ -111,6 +112,7 @@
   {#if !collapse}
     <CardGroup
       items={records}
+      {customHeader}
       {onRecordClick}
       {checkField}
       {onRecordCheck}

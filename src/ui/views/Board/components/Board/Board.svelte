@@ -35,7 +35,7 @@
   export let onColumnPin: OnColumnPin;
   export let checkField: string;
   export let includeFields: DataField[];
-
+  export let customHeader: DataField | undefined;
   const flipDurationMs = 200;
 
   function handleDndConsider(e: CustomEvent<DndEvent<Column>>) {
@@ -91,6 +91,7 @@
             }
           }}
           {includeFields}
+          {customHeader}
           onColumnPin={(name) =>
             onColumnPin(
               columns.map((col) => col.id),

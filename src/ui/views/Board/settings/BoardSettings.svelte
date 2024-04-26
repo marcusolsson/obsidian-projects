@@ -10,7 +10,7 @@
   import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { fieldToSelectableValue } from "../../helpers";
-  import { getFieldByName, getFieldsByType } from "../board";
+  import { getFieldsByType } from "../board";
   import type { BoardConfig } from "../types";
 
   export let config: BoardConfig;
@@ -19,10 +19,9 @@
 
   let columnWidthValue = config.columnWidth ?? null;
 
+  $: headerField = config.headerField ?? "";
+
   $: orderSyncField = config.orderSyncField ?? "";
-  $: orderSyncDataField = orderSyncField
-    ? getFieldByName(fields, orderSyncField)
-    : undefined;
   $: validOrderSyncFields = getFieldsByType(fields, DataFieldType.Number);
 
   const updateConfig = <T extends keyof BoardConfig>(
@@ -50,11 +49,26 @@
       />
     </SettingItem>
     <SettingItem
+      name={$i18n.t("views.board.settings.custom-header.name")}
+      description={$i18n.t("views.board.settings.custom-header.description")}
+    >
+      <Select
+        value={headerField ?? ""}
+        options={fields.map(fieldToSelectableValue)}
+        placeholder={$i18n.t("views.board.fields.none") ?? ""}
+        allowEmpty
+        on:change={(event) => {
+          headerField = event.detail;
+          updateConfig("headerField", headerField);
+        }}
+      />
+    </SettingItem>
+    <SettingItem
       name={$i18n.t("views.board.settings.order-sync-field.name")}
       description={$i18n.t("views.board.settings.order-sync-field.description")}
     >
       <Select
-        value={orderSyncDataField?.name ?? ""}
+        value={orderSyncField ?? ""}
         options={validOrderSyncFields.map(fieldToSelectableValue)}
         placeholder={$i18n.t("views.board.fields.none") ?? ""}
         allowEmpty

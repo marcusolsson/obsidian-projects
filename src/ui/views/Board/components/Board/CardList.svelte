@@ -33,6 +33,7 @@
   export let onDrop: OnRecordDrop;
   export let checkField: string;
   export let includeFields: DataField[];
+  export let customHeader: DataField | undefined;
 
   const getRecordColor = getRecordColorContext.get();
   const sortRecords = sortRecordsContext.get();
@@ -103,28 +104,32 @@
               />
             </span>
           {/if}
-          <InternalLink
-            linkText={item.id}
-            sourcePath=""
-            resolved
-            on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-              let openEditor =
-                $settings.preferences.linkBehavior == "open-editor";
+          {#if !customHeader}
+            <InternalLink
+              linkText={item.id}
+              sourcePath=""
+              resolved
+              on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                let openEditor =
+                  $settings.preferences.linkBehavior == "open-editor";
 
-              if (newLeaf) {
-                openEditor = !openEditor;
-              }
+                if (newLeaf) {
+                  openEditor = !openEditor;
+                }
 
-              if (openEditor) {
-                onRecordClick(item);
-              } else {
-                $app.workspace.openLinkText(linkText, sourcePath, true);
-              }
-            }}
-          >
-            {@const path = item.values["path"]}
-            {getDisplayName(isString(path) ? path : item.id)}
-          </InternalLink>
+                if (openEditor) {
+                  onRecordClick(item);
+                } else {
+                  $app.workspace.openLinkText(linkText, sourcePath, true);
+                }
+              }}
+            >
+              {@const path = item.values["path"]}
+              {getDisplayName(isString(path) ? path : item.id)}
+            </InternalLink>
+          {:else}
+            <CardMetadata fields={[customHeader]} record={item} />
+          {/if}
         </div>
         <CardMetadata fields={includeFields} record={item} />
       </ColorItem>
