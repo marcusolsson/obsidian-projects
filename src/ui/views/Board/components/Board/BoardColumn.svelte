@@ -41,9 +41,7 @@
   $: onEdit(editing);
 
   $: count = records.length;
-  $: checkedCount = checkField
-    ? records.filter((r) => r.values[checkField]).length
-    : 0;
+  $: checkedCount = records.filter((r) => r.values[checkField ?? ""]).length;
 
   function onColumnMenu() {
     const menu = new Menu();
