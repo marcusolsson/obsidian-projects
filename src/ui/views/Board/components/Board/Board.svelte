@@ -36,6 +36,10 @@
   export let checkField: string;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
+
+  let boardEditing: boolean = false;
+  let onEdit = (editing: boolean) => (boardEditing = editing);
+
   const flipDurationMs = 200;
 
   function handleDndConsider(e: CustomEvent<DndEvent<Column>>) {
@@ -58,6 +62,8 @@
       dropTargetStyle: {
         outline: "none",
       },
+      dragDisabled: boardEditing,
+      morphDisabled: true,
     }}
     on:consider={handleDndConsider}
     on:finalize={handleDndFinalize}
@@ -67,6 +73,8 @@
         <BoardColumn
           {readonly}
           {richText}
+          {boardEditing}
+          {onEdit}
           width={columnWidth}
           collapse={column.collapse}
           pinned={column.pinned}
@@ -119,6 +127,7 @@
   </section>
   {#if !readonly}
     <NewColumn
+      {onEdit}
       onColumnAdd={(name) => {
         const cols = columns.map((col) => col.id);
         onColumnAdd(cols, name);

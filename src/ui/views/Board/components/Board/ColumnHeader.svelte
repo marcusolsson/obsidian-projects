@@ -9,8 +9,6 @@
   export let count: number;
   export let collapse: boolean = false;
   export let richText: boolean = false;
-
-  export let onColumnMenu: () => Menu;
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
   function useMarkdown(node: HTMLElement, value: string) {
@@ -23,6 +21,8 @@
       },
     };
   }
+
+  export let onColumnMenu: () => Menu;
 
   function handleClick(event: MouseEvent) {
     const targetEl = event.target as HTMLElement;
@@ -48,6 +48,7 @@
   export let onValidate: (value: string) => boolean;
   export let onColumnRename: (value: string) => void;
   export let editing: boolean = false;
+
   let inputRef: HTMLInputElement;
   $: if (editing && inputRef) {
     inputRef.focus();

@@ -393,7 +393,6 @@
                     "placeholder": "New column",
                     "rename": "Rename column",
                     "delete": "Delete column",
-                    "confirm": "Add",
                     "expand": "Expand column",
                     "collapse": "Collapse column",
                     "pin": "Pin column",

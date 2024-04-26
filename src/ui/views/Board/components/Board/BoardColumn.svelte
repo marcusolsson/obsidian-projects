@@ -36,6 +36,10 @@
 
   let editing: boolean = false;
 
+  export let boardEditing: boolean = false;
+  export let onEdit: (editing: boolean) => void;
+  $: onEdit(editing);
+
   function onColumnMenu() {
     const menu = new Menu();
 
@@ -112,6 +116,7 @@
   {#if !collapse}
     <CardGroup
       items={records}
+      {boardEditing}
       {customHeader}
       {onRecordClick}
       {checkField}

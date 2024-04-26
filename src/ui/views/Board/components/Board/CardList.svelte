@@ -31,9 +31,12 @@
   export let onRecordClick: OnRecordClick;
   export let onRecordCheck: OnRecordCheck;
   export let onDrop: OnRecordDrop;
-  export let checkField: string;
   export let includeFields: DataField[];
+  export let checkField: string;
+  const checked = (item: DataRecord): boolean =>
+    checkField ? (item.values[checkField] as boolean) : false;
   export let customHeader: DataField | undefined;
+  export let boardEditing: boolean;
 
   const getRecordColor = getRecordColorContext.get();
   const sortRecords = sortRecordsContext.get();
@@ -61,9 +64,6 @@
 
   const isPlaceholder = (item: DataRecord) =>
     !!(item as any)[SHADOW_ITEM_MARKER_PROPERTY_NAME];
-
-  const checked = (item: DataRecord): boolean =>
-    checkField ? (item.values[checkField] as boolean) : false;
 </script>
 
 <div
@@ -80,6 +80,8 @@
       background: "var(--board-column-drag-accent)",
       transition: "all 150ms ease-in-out",
     },
+    dragDisabled: boardEditing,
+    morphDisabled: true,
   }}
 >
   {#each items as item (item.id)}

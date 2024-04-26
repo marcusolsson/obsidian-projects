@@ -4,16 +4,16 @@
   import { TextInput, useClickOutside } from "obsidian-svelte";
 
   let editing: boolean = false;
-  let defaultNewColumnName: string = $i18n.t(
-    "components.board.column.placeholder"
-  );
   let inputRef: HTMLInputElement;
   $: if (editing && inputRef) {
     inputRef.focus();
     inputRef.select();
   }
+
+  let placeholder: string = $i18n.t("components.board.column.placeholder");
   let value: string = "";
   $: error = !onValidate(value);
+
   export let onColumnAdd: (name: string) => void;
   export let onValidate: (value: string) => boolean;
 
@@ -27,16 +27,19 @@
     editing = false;
     value = "";
   };
+
+  export let onEdit: (editing: boolean) => void;
+  $: onEdit(editing);
 </script>
 
 <section
-  data-id={defaultNewColumnName}
+  data-id={placeholder}
   class="projects--board--column"
   on:click|stopPropagation={() => {
     if (!editing) editing = true;
   }}
   on:keydown|stopPropagation={() => {}}
-  use:useClickOutside={() => escape()}
+  use:useClickOutside={() => addColumn()}
 >
   {#if editing}
     <TextInput
@@ -44,24 +47,12 @@
       embed
       bind:ref={inputRef}
       bind:value
-      placeholder={defaultNewColumnName}
+      {placeholder}
       on:keydown={(event) => {
         if (event.key === "Enter") addColumn();
         if (event.key === "Escape") escape();
       }}
     />
-    <span class="button-group">
-      <Button
-        variant="primary"
-        disabled={error}
-        on:click={(event) => {
-          event.stopPropagation();
-          addColumn();
-        }}
-      >
-        {$i18n.t("components.board.column.confirm")}
-      </Button>
-    </span>
   {:else}
     <span class="add-column">
       <Button variant="plain">
@@ -92,11 +83,5 @@
 
   .add-column {
     margin: -4px;
-  }
-
-  .button-group {
-    display: flex;
-    justify-content: end;
-    gap: var(--size-4-2);
   }
 </style>
