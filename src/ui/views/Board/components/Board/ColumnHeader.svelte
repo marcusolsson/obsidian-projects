@@ -7,6 +7,8 @@
 
   export let value: string;
   export let count: number;
+  export let checkedCount: number;
+  export let checkField: string = "";
   export let collapse: boolean = false;
   export let richText: boolean = false;
   const sourcePath = getContext<string>("sourcePath") ?? "";
@@ -121,8 +123,10 @@
     </span>
   {/if}
   <div>
-    {#if collapse}
-      <Flair variant="primary">{count}</Flair>
+    {#if collapse || checkField}
+      <Flair variant="primary">
+        {checkField ? `${checkedCount}/${count}` : count}
+      </Flair>
     {/if}
     <IconButton
       icon="more-vertical"

@@ -105,9 +105,13 @@
   <ColumnHeader
     value={name}
     count={records.length}
+    checkedCount={checkField
+      ? records.filter((r) => r.values[checkField]).length
+      : 0}
     bind:editing
     {richText}
     {collapse}
+    {checkField}
     {onColumnMenu}
     {onColumnRename}
     {onValidate}
