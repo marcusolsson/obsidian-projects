@@ -33,6 +33,7 @@
     "dayjs": "^1.11.6",
     "esbuild": "^0.16.12",
     "esbuild-jest": "^0.5.0",
+    "esbuild-plugin-replace": "^1.4.0",
     "esbuild-svelte": "^0.7.3",
     "eslint": "^8.30.0",
     "fp-ts": "^2.13.1",
