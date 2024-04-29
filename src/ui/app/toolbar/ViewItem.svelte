@@ -100,12 +100,17 @@
         }
       }}
       on:blur={() => {
-        if (!error) {
-          fallback = label;
+        if (editing) {
+          editing = false;
+          if (!error) {
+            fallback = label;
 
-          dispatch("rename", label);
+            dispatch("rename", label);
+          } else {
+            rollback();
+          }
         } else {
-          rollback();
+          return;
         }
       }}
     />
@@ -149,8 +154,9 @@
 <style>
   div {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: var(--size-4-1);
 
     height: 1.8rem;
     padding: 0 8px;

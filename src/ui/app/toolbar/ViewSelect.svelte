@@ -3,9 +3,10 @@
   import type { ViewDefinition, ViewId } from "src/settings/settings";
   import { Icon, Button, IconButton } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
+  import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from "svelte-dnd-action";
 
   import ViewItem from "./ViewItem.svelte";
-  import ViewItemList from "./ViewItemList.svelte";
+  import ShadowViewItem from "./ShadowViewItem.svelte";
 
   export let viewId: ViewId | undefined;
   export let views: ViewDefinition[];
@@ -20,13 +21,50 @@
   function iconFromViewType(type: string) {
     return $customViews[type]?.getIcon() ?? "";
   }
+
+  const flipDurationMs = 200;
+
+  function handleDndConsider({
+    detail,
+  }: CustomEvent<DndEvent<ViewDefinition>>) {
+    views = detail.items;
+  }
+
+  function handleDndFinalize({
+    detail,
+  }: CustomEvent<DndEvent<ViewDefinition>>) {
+    views = detail.items;
+    onViewSort(detail.items.map((i) => i.id));
+  }
+
+  function transformDraggedElement(draggedEl: HTMLElement | undefined) {
+    if (draggedEl) draggedEl.empty();
+  }
+
+  function isShadowItem(view: ViewDefinition) {
+    //@ts-ignore
+    return view[SHADOW_ITEM_MARKER_PROPERTY_NAME];
+  }
 </script>
 
 {#if views.length}
-  <span>
-    <ViewItemList onSort={onViewSort}>
-      {#key views}
-        {#each views as v (v.id)}
+  <section
+    use:dndzone={{
+      type: "view-select",
+      items: views,
+      flipDurationMs,
+      dropTargetStyle: {
+        outline: "none",
+      },
+      morphDisabled: false,
+      transformDraggedElement,
+    }}
+    on:consider={handleDndConsider}
+    on:finalize={handleDndFinalize}
+  >
+    {#each views as v (v.id)}
+      {#if !isShadowItem(v)}
+        <div>
           <ViewItem
             id={v.id}
             active={viewId === v.id}
@@ -51,9 +89,17 @@
               return name !== "" && !viewExists(name);
             }}
           />
-        {/each}
-      {/key}
-    </ViewItemList>
+        </div>
+      {:else}
+        <div>
+          <ShadowViewItem
+            id={v.id}
+            label={v.name}
+            icon={iconFromViewType(v.type)}
+          />
+        </div>
+      {/if}
+    {/each}
     <IconButton
       icon="plus"
       size="sm"
@@ -62,7 +108,7 @@
       }}
       tooltip={$i18n.t("toolbar.view.add")}
     />
-  </span>
+  </section>
 {:else}
   <Button
     variant="plain"
@@ -76,7 +122,7 @@
 {/if}
 
 <style>
-  span {
+  section {
     display: inline-flex;
     align-items: center;
     gap: 4px;
