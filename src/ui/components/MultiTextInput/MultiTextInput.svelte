@@ -58,7 +58,7 @@
 <div>
   <div
     use:dndzone={{
-      type: "color conditions",
+      type: "multi-text",
       items: optionItems,
       flipDurationMs,
       dropTargetStyle: {

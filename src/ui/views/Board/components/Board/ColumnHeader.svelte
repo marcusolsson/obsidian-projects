@@ -160,6 +160,6 @@
 
   .collapse {
     max-height: 24px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 </style>
