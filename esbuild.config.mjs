@@ -21,7 +21,7 @@ esbuild
         preprocess: sveltePreprocess(),
       }),
       replace({
-        include: /svelte-dnd-action\/dist\/index.mjs/,
+        include: /svelte-dnd-action.*$/,
         delimiters: ["", ""],
         values: {
           "window.": `activeWindow.`,
