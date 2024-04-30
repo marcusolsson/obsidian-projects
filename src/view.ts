@@ -51,7 +51,7 @@ export class ProjectsView extends ItemView {
   }
 
   getIcon() {
-    return "layout";
+    return "projects-icon";
   }
 
   onPaneMenu(menu: Menu, source: "more-options" | "tab-header" | string) {
