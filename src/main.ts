@@ -3,7 +3,7 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
-import { Plugin, TFile, TFolder, WorkspaceLeaf } from "obsidian";
+import { Plugin, TFile, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
 import "obsidian-dataview";
 import { createDataRecord, createProject } from "src/lib/dataApi";
 import { api } from "src/lib/stores/api";
@@ -44,7 +44,19 @@ export default class ProjectsPlugin extends Plugin {
 
     this.addSettingTab(new ProjectsSettingTab(this.app, this));
 
-    this.addRibbonIcon("layout", "Open projects", () => {
+    addIcon(
+      "projects-icon",
+      `
+      <g>
+        <path d="m84.42478,20.01081l10.10281,0l0,74.55223l-74.55082,0l0,-10.17944l10.14538,0l0,0.03689l54.26005,0l0,-0.03689l0.04257,0l0,-64.37279zm-18.92858,10.14255l-35.37403,0l0,35.29883l-10.10281,0l0,-45.44137l45.47685,0l0,10.14255l0,-0.00001z" fill="currentColor"/>
+          <g transform="matrix(0.676126 0 0 0.676126 -406.678 -7.59132)">
+            <path d="m719.83653,129.53201l-110.26,0l0,-110.263l110.26,0l0,110.263zm-15,-95.263l-80.26,0l0,80.263l80.26,0l0,-80.263z" fill="currentColor"/>
+          </g>
+      </g>
+      `
+    );
+
+    this.addRibbonIcon("projects-icon", "Open projects", () => {
       this.activateView();
     });
 
