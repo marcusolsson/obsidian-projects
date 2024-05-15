@@ -327,16 +327,18 @@
 
       if (field?.typeConfig && field.typeConfig?.options) {
         const options = [...field.typeConfig?.options];
-        options.splice(options.indexOf(oldName), 1, newName);
-        settings.updateFieldConfig(
-          project.id,
-          field.name,
-          fields.map((f) => f.name),
-          {
-            ...field.typeConfig,
-            options,
-          }
-        );
+        if (options.includes(oldName)) {
+          options.splice(options.indexOf(oldName), 1, newName);
+          settings.updateFieldConfig(
+            project.id,
+            field.name,
+            fields.map((f) => f.name),
+            {
+              ...field.typeConfig,
+              options,
+            }
+          );
+        }
       }
 
       saveConfig({
