@@ -14,6 +14,9 @@ describe("resolve v2", () => {
         frontmatter: {
           quoteStrings: "PLAIN",
         },
+        locale: {
+          firstDayOfWeek: "default",
+        },
         projectSizeLimit: 1000,
         commands: [],
         linkBehavior: "open-editor",
@@ -50,6 +53,9 @@ describe("resolve v2", () => {
       preferences: {
         frontmatter: {
           quoteStrings: "PLAIN",
+        },
+        locale: {
+          firstDayOfWeek: "default",
         },
         projectSizeLimit: 1000,
         commands: [],
@@ -145,6 +151,9 @@ describe("clean up commands", () => {
         frontmatter: {
           quoteStrings: "PLAIN",
         },
+        locale: {
+          firstDayOfWeek: "default",
+        },
         commands: [...validCommands, ...invalidCommands, ...duplicatedCommands],
         linkBehavior: "open-editor",
       },
@@ -157,6 +166,10 @@ describe("clean up commands", () => {
         frontmatter: {
           quoteStrings: "PLAIN",
         },
+        locale: {
+          firstDayOfWeek: "default",
+        },
+
         commands: validCommands,
         linkBehavior: "open-editor",
       },

@@ -5,6 +5,7 @@ import { settings } from "src/lib/stores/settings";
 import { get } from "svelte/store";
 import type ProjectsPlugin from "src/main";
 import type {
+  FirstDayOfWeek,
   LinkBehavior,
   ProjectId,
   ProjectsPluginPreferences,
@@ -72,6 +73,37 @@ export class ProjectsSettingTab extends PluginSettingTab {
             });
           });
       });
+
+    new Setting(containerEl)
+      .setName(get(i18n).t("settings.general.start-of-week.name"))
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption(
+            "default",
+            get(i18n).t("settings.general.start-of-week.options.default")
+          )
+          .addOption(
+            "sunday",
+            get(i18n).t("settings.general.start-of-week.options.sunday")
+          )
+          .addOption(
+            "monday",
+            get(i18n).t("settings.general.start-of-week.options.monday")
+          )
+          .setValue(
+            preferences.locale.firstDayOfWeek
+              ? preferences.locale.firstDayOfWeek.toString()
+              : "default"
+          )
+          .onChange((value) => {
+            save({
+              ...preferences,
+              locale: {
+                firstDayOfWeek: value as FirstDayOfWeek,
+              },
+            });
+          })
+      );
 
     new Setting(containerEl)
       .setName(get(i18n).t("settings.front-matter.heading"))

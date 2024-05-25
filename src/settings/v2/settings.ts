@@ -51,11 +51,11 @@ export type UnsavedProjectDefinition = Omit<
   "name" | "id"
 >;
 
-export type ProjectsPluginSettings<T> = {
+export type ProjectsPluginSettings<T, P> = {
   readonly version: 2;
   readonly projects: T[];
   readonly archives: T[];
-  readonly preferences: ProjectsPluginPreferences;
+  readonly preferences: P;
 };
 
 export const DEFAULT_PROJECT: UnsavedProjectDefinition = {
@@ -76,7 +76,8 @@ export const DEFAULT_PROJECT: UnsavedProjectDefinition = {
 };
 
 export const DEFAULT_SETTINGS: ProjectsPluginSettings<
-  ProjectDefinition<ViewDefinition>
+  ProjectDefinition<ViewDefinition>,
+  ProjectsPluginPreferences
 > = {
   version: 2,
   projects: [],
@@ -86,6 +87,9 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     frontmatter: {
       quoteStrings: "PLAIN",
     },
+    locale: {
+      firstDayOfWeek: "default",
+    },
     commands: [],
     linkBehavior: "open-editor",
   },
@@ -94,12 +98,18 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
 export type UnresolvedSettings = {
   readonly version: 2;
 } & Partial<
-  ProjectsPluginSettings<Partial<ProjectDefinition<Partial<ViewDefinition>>>>
+  ProjectsPluginSettings<
+    Partial<ProjectDefinition<Partial<ViewDefinition>>>,
+    Partial<ProjectsPluginPreferences>
+  >
 >;
 
 export function resolve(
   unresolved: UnresolvedSettings
-): ProjectsPluginSettings<ProjectDefinition<ViewDefinition>> {
+): ProjectsPluginSettings<
+  ProjectDefinition<ViewDefinition>,
+  ProjectsPluginPreferences
+> {
   const projects = unresolved.projects?.map(resolveProject) ?? [];
   const archives = unresolved.archives?.map(resolveProject) ?? [];
   const preferences = resolvePreferences(unresolved.preferences ?? {});
@@ -158,6 +168,9 @@ export const DEFAULT_PREFERENCES: ProjectsPluginPreferences = {
   projectSizeLimit: 1000,
   frontmatter: {
     quoteStrings: "PLAIN",
+  },
+  locale: {
+    firstDayOfWeek: "default",
   },
   commands: [],
   linkBehavior: "open-editor",

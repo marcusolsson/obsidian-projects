@@ -15,14 +15,14 @@ import {
   type ProjectDefinition,
   type ProjectId,
   type ProjectsPluginPreferences,
-  type ProjectsPluginSettings,
+  type LatestProjectsPluginSettings,
   type FieldConfig,
   type ViewDefinition,
   type ViewId,
 } from "src/settings/settings";
 
 function createSettings() {
-  const { set, update, subscribe } = writable<ProjectsPluginSettings>(
+  const { set, update, subscribe } = writable<LatestProjectsPluginSettings>(
     Object.assign({}, DEFAULT_SETTINGS)
   );
 

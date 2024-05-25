@@ -155,10 +155,15 @@ export type ShowCommand = {
 
 export type LinkBehavior = "open-note" | "open-editor";
 
+export type FirstDayOfWeek = "sunday" | "monday" | "default";
+
 export type ProjectsPluginPreferences = {
   readonly projectSizeLimit: number;
   readonly frontmatter: {
     readonly quoteStrings: "PLAIN" | "QUOTE_DOUBLE";
+  };
+  readonly locale: {
+    firstDayOfWeek: FirstDayOfWeek;
   };
   readonly commands: ShowCommand[];
   readonly linkBehavior: LinkBehavior;

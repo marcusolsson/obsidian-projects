@@ -3,6 +3,8 @@ import { get } from "svelte/store";
 
 import { isDate, type DataRecord } from "src/lib/dataframe/dataframe";
 import { i18n } from "src/lib/stores/i18n";
+import type { FirstDayOfWeek } from "src/settings/settings";
+import moment from "moment";
 
 export type CalendarInterval = "month" | "2weeks" | "week" | "3days" | "day";
 
@@ -85,21 +87,27 @@ export function groupRecordsByField(
 
 export function computeDateInterval(
   anchor: dayjs.Dayjs,
-  interval: CalendarInterval
+  interval: CalendarInterval,
+  firstDayOfWeek: number
 ): [dayjs.Dayjs, dayjs.Dayjs] {
+  let sow = anchor.startOf("isoWeek");
+  let eow = anchor.endOf("isoWeek");
+
+  const offset = weekdayOffset(sow, firstDayOfWeek);
+
+  sow = sow.subtract(offset, "days");
+  eow = eow.subtract(offset, "days");
+
   switch (interval) {
     case "month":
       return [
-        anchor.startOf("month").startOf("isoWeek"),
-        anchor.endOf("month").endOf("isoWeek"),
+        anchor.startOf("month").startOf("week"),
+        anchor.endOf("month").endOf("week"),
       ];
     case "2weeks":
-      return [
-        anchor.startOf("isoWeek"),
-        anchor.add(1, "week").endOf("isoWeek"),
-      ];
+      return [sow, eow.add(1, "week")];
     case "week":
-      return [anchor.startOf("isoWeek"), anchor.endOf("isoWeek")];
+      return [sow, eow];
     case "3days":
       return [anchor, anchor.add(2, "days")];
     case "day":
@@ -186,4 +194,41 @@ function take<T>(arr: Array<T>, num: number): Array<T> {
     }
   }
   return buffer;
+}
+
+export function weekdayOffset(
+  date: dayjs.Dayjs,
+  firstDayOfWeek: number
+): number {
+  let offset = date.day() - firstDayOfWeek;
+
+  if (offset < 0) {
+    offset += 7;
+  }
+
+  return offset;
+}
+
+export type LocaleOption = "system" | "obsidian";
+
+export function getLocale(locale: LocaleOption): Intl.Locale {
+  if (locale === "system") {
+    return new Intl.Locale(navigator?.language || "en");
+  }
+
+  const obsidianLanguage =
+    localStorage.getItem("language") || moment().locale();
+
+  return new Intl.Locale(obsidianLanguage);
+}
+
+export function getFirstDayOfWeek(day: FirstDayOfWeek): number {
+  switch (day) {
+    case "sunday":
+      return 0;
+    case "monday":
+      return 1;
+    case "default":
+      return getLocale("obsidian").weekInfo.firstDay;
+  }
 }

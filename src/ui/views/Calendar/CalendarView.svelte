@@ -1,6 +1,19 @@
 <script lang="ts">
   import dayjs from "dayjs";
+  import { Notice } from "obsidian";
   import { Select, Typography } from "obsidian-svelte";
+  import { createDataRecord } from "src/lib/dataApi";
+  import {
+    DataFieldType,
+    type DataFrame,
+    type DataRecord,
+  } from "src/lib/dataframe/dataframe";
+  import { updateRecordValues } from "src/lib/datasources/helpers";
+  import { i18n } from "src/lib/stores/i18n";
+  import { app } from "src/lib/stores/obsidian";
+  import { settings } from "src/lib/stores/settings";
+  import type { ViewApi } from "src/lib/viewApi";
+  import type { ProjectDefinition } from "src/settings/settings";
   import { Field } from "src/ui/components/Field";
   import {
     ViewContent,
@@ -8,18 +21,8 @@
     ViewLayout,
     ViewToolbar,
   } from "src/ui/components/Layout";
-  import {
-    DataFieldType,
-    type DataFrame,
-    type DataRecord,
-  } from "src/lib/dataframe/dataframe";
-  import { createDataRecord } from "src/lib/dataApi";
-  import { i18n } from "src/lib/stores/i18n";
-  import { app } from "src/lib/stores/obsidian";
-  import type { ViewApi } from "src/lib/viewApi";
   import { CreateNoteModal } from "src/ui/modals/createNoteModal";
   import { EditNoteModal } from "src/ui/modals/editNoteModal";
-  import type { ProjectDefinition } from "src/settings/settings";
   import {
     fieldToSelectableValue,
     getRecordColorContext,
@@ -31,6 +34,7 @@
     computeDateInterval,
     generateDates,
     generateTitle,
+    getFirstDayOfWeek,
     groupRecordsByField,
     isCalendarInterval,
     subtractInterval,
@@ -38,12 +42,10 @@
   import Calendar from "./components/Calendar/Calendar.svelte";
   import Day from "./components/Calendar/Day.svelte";
   import Week from "./components/Calendar/Week.svelte";
-  import Weekday from "./components/Calendar/Weekday.svelte";
   import WeekHeader from "./components/Calendar/WeekHeader.svelte";
+  import Weekday from "./components/Calendar/Weekday.svelte";
   import Navigation from "./components/Navigation/Navigation.svelte";
   import type { CalendarConfig } from "./types";
-  import { Notice } from "obsidian";
-  import { updateRecordValues } from "src/lib/datasources/helpers";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -76,7 +78,11 @@
 
   $: interval = config?.interval ?? "week";
 
-  $: dateInterval = computeDateInterval(anchorDate, interval);
+  $: firstDayOfWeek = getFirstDayOfWeek(
+    $settings.preferences.locale.firstDayOfWeek
+  );
+
+  $: dateInterval = computeDateInterval(anchorDate, interval, firstDayOfWeek);
 
   $: groupedRecords = dateField
     ? groupRecordsByField(records, dateField.name)

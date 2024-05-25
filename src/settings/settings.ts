@@ -6,10 +6,18 @@ import * as v2 from "./v2/settings";
 
 export * from "./base/settings";
 
+// These types are backwards-compatible and does not yet need versioning.
 export type ViewDefinition = base.ViewDefinition;
+export type ProjectPreferences = base.ProjectsPluginPreferences;
+
+// This defines the latest version of the project definition.
 export type ProjectDefinition = v2.ProjectDefinition<ViewDefinition>;
-export type ProjectsPluginSettings =
-  v2.ProjectsPluginSettings<ProjectDefinition>;
+
+// Defines the latest version of the plugin settings.
+export type LatestProjectsPluginSettings = v2.ProjectsPluginSettings<
+  ProjectDefinition,
+  ProjectPreferences
+>;
 
 export const DEFAULT_SETTINGS = v2.DEFAULT_SETTINGS;
 export const DEFAULT_PROJECT = v2.DEFAULT_PROJECT;
@@ -21,7 +29,7 @@ export const DEFAULT_VIEW = base.DEFAULT_VIEW;
  */
 export function migrateSettings(
   settings: any
-): either.Either<Error, ProjectsPluginSettings> {
+): either.Either<Error, LatestProjectsPluginSettings> {
   if (!settings) {
     return either.right(Object.assign({}, v2.DEFAULT_SETTINGS));
   }
@@ -43,7 +51,7 @@ export function migrate(
   v1settings: v1.ProjectsPluginSettings<
     v1.ProjectDefinition<base.ViewDefinition>
   >
-): v2.ProjectsPluginSettings<v2.ProjectDefinition<base.ViewDefinition>> {
+): LatestProjectsPluginSettings {
   return {
     version: 2,
     projects: v1settings.projects.map(migrateProject),
