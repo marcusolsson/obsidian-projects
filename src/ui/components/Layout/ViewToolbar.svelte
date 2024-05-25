@@ -32,6 +32,7 @@
     gap: var(--size-4-2);
     border-bottom: 1px solid var(--background-modifier-border);
     align-items: center;
+    width: auto;
   }
   .middle {
     flex: 1;
