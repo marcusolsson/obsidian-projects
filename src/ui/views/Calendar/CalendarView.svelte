@@ -79,7 +79,7 @@
   $: interval = config?.interval ?? "week";
 
   $: firstDayOfWeek = getFirstDayOfWeek(
-    $settings.preferences.calendar.firstDayOfWeek
+    $settings.preferences.locale.firstDayOfWeek
   );
 
   $: dateInterval = computeDateInterval(anchorDate, interval, firstDayOfWeek);
