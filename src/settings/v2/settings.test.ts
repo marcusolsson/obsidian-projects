@@ -145,6 +145,9 @@ describe("clean up commands", () => {
         frontmatter: {
           quoteStrings: "PLAIN",
         },
+        locale: {
+          firstDayOfWeek: "default",
+        },
         commands: [...validCommands, ...invalidCommands, ...duplicatedCommands],
         linkBehavior: "open-editor",
       },

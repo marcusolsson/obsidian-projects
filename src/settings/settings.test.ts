@@ -113,6 +113,9 @@ const v1demo: v1.ProjectsPluginSettings<
     frontmatter: {
       quoteStrings: "PLAIN",
     },
+    locale: {
+      firstDayOfWeek: "default",
+    },
     projectSizeLimit: 1000,
     commands: [],
     linkBehavior: "open-editor",
@@ -120,7 +123,8 @@ const v1demo: v1.ProjectsPluginSettings<
 };
 
 const v2demo: v2.ProjectsPluginSettings<
-  v2.ProjectDefinition<base.ViewDefinition>
+  v2.ProjectDefinition<base.ViewDefinition>,
+  base.ProjectsPluginPreferences
 > = {
   version: 2,
   projects: [
@@ -227,6 +231,9 @@ const v2demo: v2.ProjectsPluginSettings<
     projectSizeLimit: 1000,
     frontmatter: {
       quoteStrings: "PLAIN",
+    },
+    locale: {
+      firstDayOfWeek: "default",
     },
     commands: [],
     linkBehavior: "open-editor",

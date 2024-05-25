@@ -39,6 +39,9 @@ export const DEFAULT_SETTINGS: ProjectsPluginSettings<
     frontmatter: {
       quoteStrings: "PLAIN",
     },
+    locale: {
+      firstDayOfWeek: "default",
+    },
     commands: [],
     linkBehavior: "open-editor",
   },

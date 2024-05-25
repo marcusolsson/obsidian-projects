@@ -447,6 +447,14 @@
                         "open-editor": "Open editor",
                         "open-note": "Open note"
                     }
+                },
+                "start-of-week": {
+                    "name": "Start week on",
+                    "options": {
+                        "sunday": "Sunday",
+                        "monday": "Monday",
+                        "default": "Default"
+                    }
                 }
             },
             "front-matter": {
