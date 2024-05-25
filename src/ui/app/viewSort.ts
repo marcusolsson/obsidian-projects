@@ -69,6 +69,12 @@ function sortCriteria(
   aval = aval?.toString().toLocaleLowerCase() ?? "";
   bval = bval?.toString().toLocaleLowerCase() ?? "";
 
+  const nameLinkRegExp = /^\[\[(.*?)\|(.*?)\]\]$/;
+  if (criteria.field === "name") {
+    aval = aval.match(nameLinkRegExp)?.[2] || aval;
+    bval = bval.match(nameLinkRegExp)?.[2] || bval;
+  }
+
   return sortString(aval, bval, isAsc);
 }
 
