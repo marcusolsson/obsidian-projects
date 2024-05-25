@@ -9,7 +9,7 @@
     "baseUrl": ".",
     "inlineSources": true,
     "module": "ESNext",
-    "target": "ES6",
+    "target": "ES2022",
     "allowJs": true,
     "moduleResolution": "node",
     "importHelpers": true,
@@ -26,10 +26,8 @@
     "resolveJsonModule": true,
     "lib": [
       "DOM",
-      "ES5",
-      "ES6",
-      "ES7"
-    ]
+      "ES2022",
+    ],
   },
   "include": [
     "**/*.ts",
