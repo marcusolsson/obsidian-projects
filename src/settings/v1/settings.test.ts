@@ -12,6 +12,9 @@ describe("resolve v2", () => {
         frontmatter: {
           quoteStrings: "PLAIN",
         },
+        locale: {
+          firstDayOfWeek: "default",
+        },
         projectSizeLimit: 1000,
         commands: [],
         linkBehavior: "open-editor",
@@ -43,6 +46,9 @@ describe("resolve v2", () => {
       preferences: {
         frontmatter: {
           quoteStrings: "PLAIN",
+        },
+        locale: {
+          firstDayOfWeek: "default",
         },
         projectSizeLimit: 1000,
         commands: [],
