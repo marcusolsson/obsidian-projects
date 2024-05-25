@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Menu } from "obsidian";
+  import { GridCell } from "../GridCell";
   import { dndzone } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
   import type { GridColDef } from "../dataGrid";
@@ -27,7 +28,13 @@
 </script>
 
 <div class="flex container">
-  <span />
+  <GridCell
+    colindex={1}
+    rowindex={1}
+    column={{ field: "", width: 60, header: true, editable: false }}
+    columnHeader
+    rowHeader
+  />
   <div
     class="flex"
     use:dndzone={{
@@ -76,20 +83,6 @@
 
   div.relative {
     position: relative;
-  }
-
-  span {
-    background-color: var(--background-secondary);
-    border-right: 1px solid var(--background-modifier-border);
-    border-left-color: var(--background-modifier-border);
-    border-bottom: 1px solid var(--background-modifier-border);
-
-    min-height: 30px;
-    width: 60px;
-    z-index: 50;
-    position: sticky;
-    left: 0px;
-    top: 0px;
   }
 
   div.pinned {
