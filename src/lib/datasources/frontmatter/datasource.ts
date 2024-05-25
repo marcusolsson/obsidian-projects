@@ -125,7 +125,7 @@ export async function standardizeRecords(
         E.map((values) => ({
           ...values,
           path: file.path,
-          name: `[[${file.basename}]]`,
+          name: `[[${file.path}|${file.basename}]]`,
         })),
         E.map((values) => standardizeRecord(file.path, values))
       );
