@@ -8,6 +8,7 @@
     SettingItem,
     TextInput,
     NumberInput,
+    DateInput,
     Switch,
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
@@ -36,7 +37,7 @@
 
   let value: Optional<DataValue> = ""; // text, number and boolean
   let listValue: string = "[]";
-  let dateValue: string = dayjs().format("YYYY-MM-DD");
+  let dateValue: Optional<Date> = new Date();
 
   export let onCreate: (field: DataField, value: Optional<DataValue>) => void;
 
@@ -250,13 +251,11 @@
           }}
         />
       {:else if field.type === DataFieldType.Date}
-        <input
-          type="date"
-          bind:value={dateValue}
-          on:change={(ev) => {
-            dateValue = ev.currentTarget.value;
+        <DateInput
+          value={new Date()}
+          on:change={({ detail: value }) => {
+            dateValue = value;
           }}
-          max="9999-12-31"
         />
       {:else if field.type === DataFieldType.Boolean}
         <Switch
@@ -300,7 +299,7 @@
             JSON.parse(listValue)
           );
         } else if (field.type === DataFieldType.Date) {
-          onCreate(field, dateValue);
+          onCreate(field, dayjs(dateValue).format("YYYY-MM-DD"));
         } else if (field.type === DataFieldType.String) {
           // uniquify options items and omit empty
           if (field?.typeConfig && field.typeConfig?.options) {

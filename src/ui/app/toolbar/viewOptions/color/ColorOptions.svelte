@@ -1,5 +1,6 @@
 <script lang="ts">
   import produce from "immer";
+  import dayjs from "dayjs";
   import { dndzone } from "svelte-dnd-action";
   import {
     Button,
@@ -10,7 +11,7 @@
     NumberInput,
     ColorInput,
     Checkbox,
-    // DateInput, //use native date input temporarily,
+    DateInput,
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
@@ -157,11 +158,9 @@
               on:blur={handleValueChange(i)}
             />
           {:else if isDateFilterOperator(rule.condition.operator)}
-            <input
-              type="date"
-              value={rule.condition.value ?? ""}
+            <DateInput
+              value={dayjs(rule.condition.value ?? "").toDate()}
               on:blur={handleValueChange(i)}
-              max="9999-12-31"
             />
           {:else if isListFilterOperator(rule.condition.operator)}
             <TagsInput
