@@ -7,6 +7,7 @@
   import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<Date>;
+  let cachedValue: Optional<Date>;
   export let onChange: (value: Optional<Date>) => void;
   export let column: GridColDef;
   export let rowindex: number;
@@ -41,9 +42,10 @@
   <svelte:fragment slot="edit">
     <DateInput
       value={value != undefined ? value : null}
-      on:change={({ detail: value }) => {
+      on:change={({ detail: value }) => (cachedValue = value)}
+      on:blur={() => {
         edit = false;
-        onChange(value != null ? value : undefined);
+        onChange(cachedValue);
       }}
       embed
     />

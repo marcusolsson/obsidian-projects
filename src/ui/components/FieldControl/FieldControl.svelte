@@ -22,6 +22,7 @@
 
   export let field: DataField;
   export let value: Optional<DataValue>;
+  let cachedValue: Optional<Date>;
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
@@ -62,7 +63,7 @@
 {:else if field.type === DataFieldType.Date}
   <DateInput
     value={isDate(value) ? value : null}
-    on:change={({ detail: value }) =>
-      onChange(value != null ? value : undefined)}
+    on:change={({ detail: value }) => (cachedValue = value)}
+    on:blur={() => onChange(cachedValue)}
   />
 {/if}
