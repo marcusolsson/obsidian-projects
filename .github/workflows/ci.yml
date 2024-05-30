@@ -33,9 +33,25 @@ jobs:
         run: npm run svelte-check
 
       - name: Update manifest-beta.json
-        run: node version-beta-manifest.mjs ${{github.run_number}}
+        if: github.ref == 'ref/head/main'
+        run: |
+          node version-beta-manifest.mjs ${{github.run_number}}
+          cp manifest-beta.json manifest.json
+
+      - name: Create release
+        if: github.ref == 'ref/head/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="0.0.0-${{ github.run_number }}"
+
+          gh release create "$tag" \
+            --title="$tag" \
+            --draft \
+            main.js manifest.json styles.css
 
       - name: Publish build
+        if: github.ref == 'ref/head/main'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
