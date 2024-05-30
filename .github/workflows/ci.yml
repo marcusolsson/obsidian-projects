@@ -47,7 +47,7 @@ jobs:
 
           gh release create "$tag" \
             --title="$tag" \
-            --draft \
+            --prerelease \
             main.js manifest.json styles.css
 
       - name: Publish build
