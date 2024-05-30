@@ -33,7 +33,7 @@ jobs:
         run: npm run svelte-check
 
       - name: Update manifest-beta.json
-        run: node version-beta-manifest.json ${{github.run_number}}
+        run: node version-beta-manifest.mjs ${{github.run_number}}
 
       - name: Publish build
         run: |
