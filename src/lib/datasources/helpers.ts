@@ -9,8 +9,7 @@ import {
 } from "../dataframe/dataframe";
 
 /**
- * parseRecords parses the values for each record based on the detected field
- * types.
+ * Parses the values for each record based on the detected field types.
  *
  * If field types matches with the corresponding data types in the records,
  * this function does nothing.
@@ -18,8 +17,8 @@ import {
  * In the case where a field contains more than one data type, this function
  * tries to parse the value in each record to match the field type.
  *
- * For example, if the record contains { "weight": 12 }, and the field type is
- * DataFieldType.String, the resulting record has { "weight": "12"}.
+ * For example, if the record contains \{ "weight": 12 \}, and the field type is
+ * DataFieldType.String, the resulting record has \{ "weight": "12" \}.
  */
 export function parseRecords(
   records: DataRecord[],
@@ -59,9 +58,9 @@ export function parseRecords(
 /**
  * Merges a new version of `values` into a copy of data record.
  *
- * @param {Readonly<DataRecord>} record - the original data record
- * @param {Readonly<DataRecord["values"]>} values - the values to merge into the original record
- * @return {DataRecord} a new data record with the merged values
+ * @param record - The original data record
+ * @param values - The values to merge into the original record
+ * @returns A new data record with the merged values
  */
 export function updateRecordValues(
   record: Readonly<DataRecord>,
@@ -144,8 +143,14 @@ export function detectCellType(value: unknown): DataFieldType {
   return DataFieldType.Unknown;
 }
 
-function stringToBoolean(stringValue: string): boolean {
-  switch (stringValue?.toLowerCase()?.trim()) {
+/**
+ * Converts a string to a boolean.
+ *
+ * @param str - The string to convert.
+ * @returns The boolean representation of the string.
+ */
+function stringToBoolean(str: string): boolean {
+  switch (str?.toLowerCase()?.trim()) {
     case "true":
     case "yes":
     case "1":
@@ -159,7 +164,7 @@ function stringToBoolean(stringValue: string): boolean {
       return false;
 
     default:
-      return !!stringValue;
+      return !!str;
   }
 }
 

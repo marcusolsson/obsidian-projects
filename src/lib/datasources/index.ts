@@ -20,9 +20,10 @@ export abstract class DataSource {
   abstract queryAll(): Promise<DataFrame>;
 
   /**
-   * queryOne returns a DataFrame with a single record for the given file.
+   * Returns a DataFrame with a single record for the given file.
    *
-   * @param fields contains existing fields, to be able to parse file into the existing schema.
+   * @param fields - The existing fields to allow parsing file into the existing schema
+   * @returns A dataframe containing a single record
    */
   abstract queryOne(file: IFile, fields: DataField[]): Promise<DataFrame>;
 
