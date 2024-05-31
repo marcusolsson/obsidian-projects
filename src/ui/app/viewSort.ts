@@ -19,8 +19,8 @@ export function applySort(frame: DataFrame, sort: SortDefinition): DataFrame {
  * Sorts records in place. This method mutates the array
  * and returns a reference to the same array.
  *
- * @param {DataRecord[]} records - the records to be sorted
- * @param {SortDefinition} sort - the definition for sorting the records
+ * @param records - the records to be sorted
+ * @param sort - the definition for sorting the records
  */
 export function sortRecords(records: DataRecord[], sort: SortDefinition) {
   return records.sort((a, b): number => {

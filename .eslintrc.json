@@ -4,8 +4,14 @@
   "env": {
     "node": true
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parserOptions": {
     "sourceType": "module"
   },
@@ -15,6 +21,7 @@
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+    "tsdoc/syntax": "warn"
   }
 }

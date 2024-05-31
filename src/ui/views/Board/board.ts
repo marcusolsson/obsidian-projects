@@ -135,10 +135,10 @@ function groupRecordsByField(
  * order of records in the column settings. This method mutates the array and
  * returns a reference to the same array.
  *
- * @param {DataRecord[]} records - The records to be sorted.
- * @param {ColumnSettings[string]} [columnSettings] - The column settings for sorting the records.
- * @param {DataField} [orderSyncField] - The priority field for sorting the records.
- * @return {DataRecord[]} The sorted records.
+ * @param records - The records to be sorted.
+ * @param columnSettings - The column settings for sorting the records.
+ * @param orderSyncField - The priority field for sorting the records.
+ * @returns The sorted records.
  */
 function applyCustomRecordOrder(
   records: DataRecord[],

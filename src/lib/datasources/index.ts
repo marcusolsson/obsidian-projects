@@ -15,24 +15,25 @@ export abstract class DataSource {
   ) {}
 
   /**
-   * queryAll returns a DataFrame with all records in the project.
+   * Returns a DataFrame with all records in the project.
    */
   abstract queryAll(): Promise<DataFrame>;
 
   /**
-   * queryOne returns a DataFrame with a single record for the given file.
+   * Returns a DataFrame with a single record for the given file.
    *
-   * @param fields contains existing fields, to be able to parse file into the existing schema.
+   * @param fields - The existing fields to allow parsing file into the existing schema
+   * @returns A dataframe containing a single record
    */
   abstract queryOne(file: IFile, fields: DataField[]): Promise<DataFrame>;
 
   /**
-   * includes returns whether a path belongs to the current project.
+   * Returns whether a path belongs to the current project.
    */
   abstract includes(path: string): boolean;
 
   /**
-   * readonly returns whether the data source is read-only.
+   * Returns whether the data source is read-only.
    *
    * Read-only data sources are typically derived records where the data
    * source can't determine the original names of the fields.

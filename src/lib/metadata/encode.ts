@@ -3,11 +3,11 @@ import { stringify } from "yaml";
 import { parseYaml } from "./decode";
 
 /**
- * encodeFrontMatter updates the front matter of a note.
+ * Updates the front matter of a note.
  *
- * @param data is the current content of the note, including front matter.
- * @param frontmatter is the front matter to add to the note.
- * @returns data with the updated front matter.
+ * @param data - The current content of the note, including front matter.
+ * @param frontmatter - The front matter to add to the note.
+ * @returns Data with the updated front matter.
  */
 export function encodeFrontMatter(
   data: string,

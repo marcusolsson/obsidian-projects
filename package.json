@@ -36,6 +36,7 @@
     "esbuild-plugin-replace": "^1.4.0",
     "esbuild-svelte": "^0.7.4",
     "eslint": "^8.57.0",
+    "eslint-plugin-tsdoc": "^0.3.0",
     "fp-ts": "^2.16.6",
     "i18next": "^21.10.0",
     "immer": "^9.0.21",
