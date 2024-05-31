@@ -168,6 +168,9 @@ function stringToBoolean(str: string): boolean {
   }
 }
 
+/**
+ * Thrown to avoid processing more files than the plugin can handle.
+ */
 export class TooManyNotesError extends Error {
   constructor(n: number, limit: number) {
     const message = `This project contains ${Intl.NumberFormat().format(
