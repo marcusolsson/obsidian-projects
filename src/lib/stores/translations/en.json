@@ -120,6 +120,10 @@
                     "description": "Templates to choose from when you create new notes.",
                     "add": "Add template"
                 },
+                "templater": {
+                    "name": "Use Templater",
+                    "description": "Render templates for new notes using Templater if available."
+                },
                 "exclude": {
                     "name": "Excluded notes",
                     "description": "Notes to exclude even if they would otherwise be part of the project.",

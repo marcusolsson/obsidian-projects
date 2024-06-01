@@ -87,6 +87,7 @@ function migrateProject(
 
   return {
     ...common,
+    useTemplater: false,
     newNotesFolder: "",
     dataSource: migrateDataSource(v1project),
   };

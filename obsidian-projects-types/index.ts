@@ -114,6 +114,7 @@ export type ProjectDefinition = {
   readonly id: string;
   readonly defaultName: string;
   readonly templates: string[];
+  readonly useTemplater: boolean;
   readonly excludedNotes: string[];
   readonly isDefault: boolean;
   readonly dataSource: DataSource;

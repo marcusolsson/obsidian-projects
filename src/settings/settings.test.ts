@@ -132,6 +132,7 @@ const v2demo: v2.ProjectsPluginSettings<
       fieldConfig: {},
       defaultName: "",
       templates: [],
+      useTemplater: false,
       excludedNotes: [],
       isDefault: false,
       dataSource: {

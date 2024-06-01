@@ -326,6 +326,17 @@
         </SettingItem>
 
         <SettingItem
+          name={$i18n.t("modals.project.templater.name")}
+          description={$i18n.t("modals.project.templater.description") ?? ""}
+        >
+          <Switch
+            checked={project.useTemplater ?? false}
+            on:check={({ detail: useTemplater }) =>
+              (project = { ...project, useTemplater })}
+          />
+        </SettingItem>
+
+        <SettingItem
           name={$i18n.t("modals.project.exclude.name")}
           description={$i18n.t("modals.project.exclude.description") ?? ""}
           vertical
