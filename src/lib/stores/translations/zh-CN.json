@@ -447,6 +447,14 @@
                         "open-editor": "打开元数据编辑器",
                         "open-note": "打开目标笔记"
                     }
+                },
+                "start-of-week": {
+                    "name": "一周的第一天",
+                    "options": {
+                        "sunday": "星期日",
+                        "monday": "星期一",
+                        "default": "默认"
+                    }
                 }
             },
             "front-matter": {
