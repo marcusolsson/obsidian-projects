@@ -94,7 +94,11 @@ export class DataApi {
     );
   }
 
-  async createNote(record: DataRecord, templatePath: string): Promise<void> {
+  async createNote(
+    record: DataRecord,
+    fields: DataField[],
+    templatePath: string
+  ): Promise<void> {
     let content = "";
 
     if (templatePath) {
@@ -127,7 +131,9 @@ export class DataApi {
 
     const file = await this.fileSystem.create(record.id, content);
 
-    await this.updateFile(file, (data) => doUpdateRecord(data, [], record))();
+    await this.updateFile(file, (data) =>
+      doUpdateRecord(data, fields, record)
+    )();
   }
 
   updateFile(

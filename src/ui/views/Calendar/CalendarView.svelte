@@ -147,6 +147,7 @@
           createDataRecord(name, project, {
             [dateField.name]: date.toDate(),
           }),
+          fields,
           templatePath
         );
       }

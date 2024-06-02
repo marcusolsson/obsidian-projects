@@ -77,7 +77,11 @@ export type Optional<T> =
   | null;
 
 export class ViewApi {
-  addRecord(record: DataRecord, templatePath: string): void {}
+  addRecord(
+    record: DataRecord,
+    fields: DataField[],
+    templatePath: string
+  ): void {}
   updateRecord(record: DataRecord, fields: DataField[]): void {}
   deleteRecord(recordId: string): void {}
   updateField(field: DataField): void {}
