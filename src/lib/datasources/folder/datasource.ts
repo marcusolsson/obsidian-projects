@@ -54,9 +54,9 @@ export class FolderDataSource extends FrontMatterDataSource {
  *
  * Assumes both folder path and file path have been normalized.
  *
- * @param folderPath path to the root folder, e.g. Work
- * @param filePath path to the file to test, e.g. Work/Untitled.md
- * @returns
+ * @param folderPath - The path to the root folder, e.g. Work
+ * @param filePath - The path to the file to test, e.g. Work/Untitled.md
+ * @returns True if the folder contains the given file, else false
  */
 function folderContainsPath(folderPath: string, filePath: string): boolean {
   const fileElements = filePath.split("/").slice(0, -1);
@@ -70,9 +70,9 @@ function folderContainsPath(folderPath: string, filePath: string): boolean {
  *
  * Assumes both folder path and file path have been normalized.
  *
- * @param folderPath path to the root folder, e.g. Work
- * @param filePath path to the file to test, e.g. Work/Meetings/Untitled.md
- * @returns
+ * @param folderPath - The path to the root folder, e.g. Work
+ * @param filePath - The path to the file to test, e.g. Work/Meetings/Untitled.md
+ * @returns True if the file exists in any subfolder.
  */
 function folderContainsDeepPath(folderPath: string, filePath: string): boolean {
   const fileElements = filePath.split("/").filter((el) => el);

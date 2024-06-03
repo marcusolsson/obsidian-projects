@@ -19,11 +19,42 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
       - name: Build plugin
         run: npm run build
+
       - name: Test plugin
         run: npm run test
+
       - name: Lint plugin (ESLint)
         run: npm run lint
+
       - name: Check plugin (Svelte)
         run: npm run svelte-check
+
+      - name: Update manifest-beta.json
+        if: github.ref_name == 'main'
+        run: |
+          node version-beta-manifest.mjs ${{github.run_number}}
+          cp manifest-beta.json manifest.json
+
+      - name: Create release
+        if: github.ref_name == 'main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="0.0.0-${{ github.run_number }}"
+
+          gh release create "$tag" \
+            --title="$tag" \
+            --prerelease \
+            main.js manifest.json styles.css
+
+      - name: Publish build
+        if: github.ref_name == 'main'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add manifest-beta.json
+          git commit -m "Bump beta version [skip ci]"
+          git push

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "@jest/globals";
+import { test, describe, expect, it } from "@jest/globals";
 import {
   DataFieldType,
   type DataField,
@@ -148,31 +148,34 @@ describe("detectFields", () => {
 });
 
 describe("detectCellType", () => {
-  it("detects simple data types", () => {
-    expect(detectCellType("My value")).toStrictEqual(DataFieldType.String);
-    expect(detectCellType(12.0)).toStrictEqual(DataFieldType.Number);
-    expect(detectCellType(true)).toStrictEqual(DataFieldType.Boolean);
-  });
+  const cases: [unknown, DataFieldType][] = [
+    // Primitive values.
+    [null, DataFieldType.Unknown],
+    [undefined, DataFieldType.Unknown],
+    ["My value", DataFieldType.String],
+    ["", DataFieldType.String],
+    [12.0, DataFieldType.Number],
+    [0, DataFieldType.Number],
+    [true, DataFieldType.Boolean],
+    [false, DataFieldType.Boolean],
 
-  it("detects repeated field types", () => {
-    expect(detectCellType(["foo", "bar"])).toStrictEqual(DataFieldType.String);
-    expect(detectCellType([1, 2])).toStrictEqual(DataFieldType.Number);
+    // Repeated values.
+    [["foo", "bar"], DataFieldType.String],
+    [[null, "bar"], DataFieldType.String],
+    [[1, 2], DataFieldType.Number],
+    [[1, null], DataFieldType.Number],
+    [[true, false], DataFieldType.Boolean],
+    [[null, false], DataFieldType.Boolean],
+    [[true, 1], DataFieldType.String], // Fall back to String field.
+    [[], DataFieldType.String], // Current behavior, but is this what we want?
 
-    // Fallback to String field
-    expect(detectCellType([true, 1])).toStrictEqual(DataFieldType.String);
-  });
+    // Complex values.
+    ["2022-01-01", DataFieldType.Date],
+    ["2022-01-01T22:35", DataFieldType.Datetime],
+    [{ my: "object" }, DataFieldType.Unknown],
+  ];
 
-  it("detects null fields", () => {
-    expect(detectCellType(null)).toStrictEqual(DataFieldType.Unknown);
-  });
-
-  it("detects complex field types", () => {
-    expect(detectCellType("2022-01-01")).toStrictEqual(DataFieldType.Date);
-    expect(detectCellType("2022-01-01T22:35")).toStrictEqual(
-      DataFieldType.Datetime
-    );
-    expect(detectCellType({ my: "object" })).toStrictEqual(
-      DataFieldType.Unknown
-    );
+  test.each(cases)("%s should be detected as %s", (value, expected) => {
+    expect(detectCellType(value)).toStrictEqual(expected);
   });
 });
