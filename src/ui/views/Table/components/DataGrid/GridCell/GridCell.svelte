@@ -69,7 +69,7 @@
           onEditChange(false);
           ref.focus();
         } else {
-          onEditChange(true);
+          if (column.editable) onEditChange(true);
         }
         break;
       case "Escape":
