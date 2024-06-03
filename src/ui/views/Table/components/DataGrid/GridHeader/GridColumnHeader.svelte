@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Menu } from "obsidian";
   import { Icon, IconButton } from "obsidian-svelte";
-  import { fieldDisplayText, fieldIcon } from "src/ui/views/helpers";
+  import { fieldIcon, fieldDisplayText } from "src/ui/views/helpers";
   import type { GridColDef } from "../dataGrid";
   import { TextLabel } from "../GridCell";
 

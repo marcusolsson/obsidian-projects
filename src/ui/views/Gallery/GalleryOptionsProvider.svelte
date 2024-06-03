@@ -10,7 +10,7 @@
     ViewToolbar,
   } from "src/ui/components/Layout";
   import { SwitchSelect } from "../Table/components/SwitchSelect";
-  import { fieldToSelectableValue } from "../helpers";
+  import { fieldIcon, fieldToSelectableValue } from "../helpers";
   import type { GalleryConfig } from "./types";
 
   export let fields: DataField[];
@@ -80,6 +80,7 @@
           label={$i18n.t("views.gallery.include-fields")}
           items={fields.map((field) => ({
             label: field.name,
+            icon: fieldIcon(field),
             value: field.name,
             enabled: !!config?.includeFields?.includes(field.name),
           }))}

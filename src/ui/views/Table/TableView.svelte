@@ -32,6 +32,7 @@
   import { CreateFieldModal } from "src/ui/modals/createFieldModal";
   import { Icon } from "obsidian-svelte";
   import { TextLabel } from "./components/DataGrid/GridCell/GridTextCell";
+  import { fieldIcon } from "../helpers";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -47,6 +48,11 @@
   function saveConfig(cfg: TableConfig) {
     config = cfg;
     onConfigChange(cfg);
+  }
+
+  export function getFieldTypeByName(name: string): DataFieldType | undefined {
+    const field = fields.find((field) => name === field.name);
+    return field?.type;
   }
 
   $: ({ fields, records } = frame);
@@ -216,6 +222,7 @@
           label={$i18n.t("views.table.hide-fields")}
           items={columns.map((column) => ({
             label: column.field,
+            icon: fieldIcon(column),
             value: column.field,
             enabled: !column.hide,
           }))}
