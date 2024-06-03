@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Menu } from "obsidian";
   import { Icon, IconButton } from "obsidian-svelte";
-  import { DataFieldType } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { get } from "svelte/store";
   import { fieldIcon } from "src/ui/views/helpers";
@@ -38,7 +37,7 @@
     {/if}
   {:else}
     <Icon
-      name={fieldIcon(column.type ?? DataFieldType.Unknown)}
+      name={fieldIcon(column)}
       tooltip={get(i18n).t(`data-types.${column.type}`) ?? ""}
     />
   {/if}

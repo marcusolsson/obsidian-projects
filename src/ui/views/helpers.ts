@@ -3,9 +3,18 @@ import { DataFieldType, type DataField } from "../../lib/dataframe/dataframe";
 import type { ViewProps } from "../app/useView";
 import type { Menu } from "obsidian";
 
-export function fieldIcon(field: DataFieldType): string {
-  switch (field) {
+export function fieldIcon(field: DataField): string {
+  switch (field.type) {
     case DataFieldType.String:
+      if (field.repeated) {
+        switch (field.name) {
+          case "tags":
+            return "tags";
+          case "aliases":
+            return "forward";
+        }
+        return "list";
+      }
       return "text";
     case DataFieldType.Number:
       return "binary";
