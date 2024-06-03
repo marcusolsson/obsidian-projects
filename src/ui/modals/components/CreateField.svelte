@@ -275,15 +275,15 @@
         />
       {:else if field.type === DataFieldType.Date}
         <DateInput
-          value={new Date()}
-          on:change={({ detail: value }) => {
+          value={dateValue ?? new Date()}
+          on:input={({ detail: value }) => {
             dateValue = value;
           }}
         />
       {:else if field.type === DataFieldType.Datetime}
         <DatetimeInput
-          value={new Date()}
-          on:change={({ detail: value }) => {
+          value={dateValue ?? new Date()}
+          on:input={({ detail: value }) => {
             dateValue = value;
           }}
         />
