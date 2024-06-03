@@ -90,6 +90,27 @@ export function isDateFilterOperator(
   ].includes(op);
 }
 
+export type DatetimeFilterOperator =
+  | "datetime-is-on"
+  | "datetime-is-not-on"
+  | "datetime-is-before"
+  | "datetime-is-after"
+  | "datetime-is-on-and-before"
+  | "datetime-is-on-and-after";
+
+export function isDatetimeFilterOperator(
+  op: FilterOperator
+): op is DatetimeFilterOperator {
+  return [
+    "datetime-is-on",
+    "datetime-is-not-on",
+    "datetime-is-before",
+    "datetime-is-after",
+    "datetime-is-on-and-before",
+    "datetime-is-on-and-after",
+  ].includes(op);
+}
+
 export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of";
 
 export function isListFilterOperator(
@@ -104,6 +125,7 @@ export type FilterOperator =
   | NumberFilterOperator
   | BooleanFilterOperator
   | DateFilterOperator
+  | DatetimeFilterOperator
   | ListFilterOperator;
 
 export type FilterOperatorType = "unary" | "binary";
@@ -129,6 +151,12 @@ export const filterOperatorTypes: Record<FilterOperator, FilterOperatorType> = {
   "is-after": "binary",
   "is-on-and-before": "binary",
   "is-on-and-after": "binary",
+  "datetime-is-on": "binary",
+  "datetime-is-not-on": "binary",
+  "datetime-is-before": "binary",
+  "datetime-is-after": "binary",
+  "datetime-is-on-and-before": "binary",
+  "datetime-is-on-and-after": "binary",
   "has-any-of": "binary",
   "has-all-of": "binary",
   "has-none-of": "binary",

@@ -84,6 +84,11 @@ export function getOrderByField(field: DataField): Array<{
         { label: "Oldest → Newest", value: "asc" },
         { label: "Newest → Oldest", value: "desc" },
       ];
+    case DataFieldType.Datetime:
+      return [
+        { label: "Oldest → Newest", value: "asc" },
+        { label: "Newest → Oldest", value: "desc" },
+      ];
     default:
       return [
         { label: "Asc", value: "asc" },
