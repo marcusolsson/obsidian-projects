@@ -37,4 +37,9 @@ declare module "obsidian" {
      */
     setWarning(warning: boolean): MenuItem;
   }
+  interface Vault {
+    config: {
+      accentColor: string;
+    };
+  }
 }
