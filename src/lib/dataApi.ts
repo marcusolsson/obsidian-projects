@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import {
   isDate,
+  DataFieldType,
   type DataField,
   type DataRecord,
   type DataValue,
@@ -178,13 +179,21 @@ export function doUpdateRecord(
     E.map((frontmatter) => {
       return Object.fromEntries(
         Object.entries({ ...frontmatter, ...record.values })
-          .map((entry) =>
-            isDate(entry[1])
-              ? produce(entry, (draft) => {
-                  draft[1] = dayjs(entry[1]).format("YYYY-MM-DD");
-                })
-              : entry
-          )
+          .map((entry) => {
+            if (isDate(entry[1])) {
+              const isDatetime = fields.find(
+                (field) =>
+                  field.name === entry[0] &&
+                  field.type === DataFieldType.Datetime
+              );
+              return produce(entry, (draft) => {
+                draft[1] = dayjs(entry[1]).format(
+                  isDatetime ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
+                );
+              });
+            }
+            return entry;
+          })
           .filter(
             (entry) =>
               !fields.find((field) => field.name === entry[0] && field.derived)

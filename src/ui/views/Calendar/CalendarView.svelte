@@ -66,7 +66,11 @@
 
   $: dateFields = fields
     .filter((field) => !field.repeated)
-    .filter((field) => field.type === DataFieldType.Date);
+    .filter(
+      (field) =>
+        field.type === DataFieldType.Date ||
+        field.type === DataFieldType.Datetime
+    );
   $: dateField =
     dateFields.find((field) => config?.dateField === field.name) ??
     dateFields[0];
@@ -108,12 +112,25 @@
 
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
     if (dateField) {
-      api.updateRecord(
-        updateRecordValues(record, {
-          [dateField.name]: date.format("YYYY-MM-DD"),
-        }),
-        fields
-      );
+      if (dateField.type === DataFieldType.Date)
+        api.updateRecord(
+          updateRecordValues(record, {
+            [dateField.name]: date.format("YYYY-MM-DD"),
+          }),
+          fields
+        );
+      else if (dateField.type === DataFieldType.Datetime) {
+        const newDatetime = dayjs(record.values[dateField.name] as string)
+          .set("year", date.year())
+          .set("month", date.month())
+          .set("date", date.date());
+        api.updateRecord(
+          updateRecordValues(record, {
+            [dateField.name]: newDatetime.format("YYYY-MM-DDTHH:mm"),
+          }),
+          fields
+        );
+      }
     }
   }
 
@@ -231,13 +248,14 @@
           <Weekday
             width={100 / weekDays.length}
             weekend={weekDay.day() === 0 || weekDay.day() === 6}
-            >{$i18n.t("views.calendar.weekday", {
+          >
+            {$i18n.t("views.calendar.weekday", {
               value: weekDay.toDate(),
               formatParams: {
                 value: { weekday: "short" },
               },
-            })}</Weekday
-          >
+            })}
+          </Weekday>
         {/each}
       </WeekHeader>
       {#each weeks as week}

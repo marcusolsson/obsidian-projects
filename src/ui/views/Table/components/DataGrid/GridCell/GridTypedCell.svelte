@@ -14,6 +14,7 @@
   import type { GridColDef } from "../dataGrid";
   import { GridBooleanCell } from "./GridBooleanCell";
   import { GridDateCell } from "./GridDateCell";
+  import { GridDatetimeCell } from "./GridDatetimeCell";
   import { GridNumberCell } from "./GridNumberCell";
   import { GridTextCell } from "./GridTextCell";
   import { GridListCell } from "./GridListCell";
@@ -72,6 +73,17 @@
   />
 {:else if column.type === "date" && isOptionalDate(value)}
   <GridDateCell
+    {selected}
+    {rowindex}
+    {colindex}
+    {value}
+    {onChange}
+    {column}
+    on:mousedown
+    on:navigate
+  />
+{:else if column.type === "datetime" && isOptionalDate(value)}
+  <GridDatetimeCell
     {selected}
     {rowindex}
     {colindex}

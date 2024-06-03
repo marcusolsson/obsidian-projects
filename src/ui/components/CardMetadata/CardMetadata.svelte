@@ -9,6 +9,7 @@
   import Tags from "./Tags.svelte";
   import Text from "./Text.svelte";
   import Date from "./Date.svelte";
+  import Datetime from "./Datetime.svelte";
   import Number from "./Number.svelte";
 
   export let fields: DataField[];
@@ -34,6 +35,8 @@
         <Number {field} {value} />
       {:else if field.type === DataFieldType.Date}
         <Date {value} {field} />
+      {:else if field.type === DataFieldType.Datetime}
+        <Datetime {value} {field} />
       {:else}
         <Icon name="slash" />
       {/if}

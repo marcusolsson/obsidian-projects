@@ -9,6 +9,7 @@
     TextInput,
     NumberInput,
     DateInput,
+    // DatetimeInput,
     Switch,
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
@@ -22,6 +23,7 @@
   } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { onMount } from "svelte";
+  import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
 
   export let existingFields: DataField[];
   export let defaultName: string;
@@ -67,6 +69,7 @@
       [DataFieldType.Number]: (v: number) => v.toString(),
       [DataFieldType.Boolean]: (v: boolean) => v.toString(),
       [DataFieldType.Date]: (v: string) => v.toString(),
+      [DataFieldType.Datetime]: (v: string) => v.toString(),
       [DataFieldType.List]: (v: Array<string>) => v.toString(),
       [DataFieldType.Unknown]: () => null,
     },
@@ -75,6 +78,7 @@
       [DataFieldType.Number]: (v: number) => v,
       [DataFieldType.Boolean]: (v: boolean) => (v ? 1 : 0),
       [DataFieldType.Date]: (v: string) => dayjs(v).toDate().getTime(),
+      [DataFieldType.Datetime]: (v: string) => dayjs(v).toDate().getTime(),
       [DataFieldType.List]: (v: Array<string>) => parseInt(v.toString()),
       [DataFieldType.Unknown]: () => null,
     },
@@ -83,6 +87,7 @@
       [DataFieldType.Number]: (v: number) => !!v,
       [DataFieldType.Boolean]: (v: boolean) => v,
       [DataFieldType.Date]: (v: string) => !!v,
+      [DataFieldType.Datetime]: (v: string) => !!v,
       [DataFieldType.List]: (v: Array<string>) => !!v.toString(),
       [DataFieldType.Unknown]: () => null,
     },
@@ -91,8 +96,21 @@
       [DataFieldType.Number]: (v: number) => dayjs(v).format("YYYY-MM-DD"),
       [DataFieldType.Boolean]: () => dayjs().format("YYYY-MM-DD"),
       [DataFieldType.Date]: (v: string) => v,
+      [DataFieldType.Datetime]: (v: string) => dayjs(v).format("YYYY-MM-DD"),
       [DataFieldType.List]: (v: Array<string>) =>
         dayjs(v.toString()).format("YYYY-MM-DD"),
+      [DataFieldType.Unknown]: () => null,
+    },
+    [DataFieldType.Datetime]: {
+      [DataFieldType.String]: (v: string) =>
+        dayjs(v).format("YYYY-MM-DDTHH:mm"),
+      [DataFieldType.Number]: (v: number) =>
+        dayjs(v).format("YYYY-MM-DDTHH:mm"),
+      [DataFieldType.Boolean]: () => dayjs().format("YYYY-MM-DDTHH:mm"),
+      [DataFieldType.Date]: (v: string) => dayjs(v).format("YYYY-MM-DDTHH:mm"),
+      [DataFieldType.Datetime]: (v: string) => v,
+      [DataFieldType.List]: (v: Array<string>) =>
+        dayjs(v.toString()).format("YYYY-MM-DDTHH:mm"),
       [DataFieldType.Unknown]: () => null,
     },
     [DataFieldType.List]: {
@@ -100,6 +118,7 @@
       [DataFieldType.Number]: (v: number) => [v],
       [DataFieldType.Boolean]: (v: boolean) => [v],
       [DataFieldType.Date]: (v: string) => [v],
+      [DataFieldType.Datetime]: (v: string) => [v],
       [DataFieldType.List]: (v: Array<string>) => v,
       [DataFieldType.Unknown]: () => null,
     },
@@ -108,6 +127,7 @@
       [DataFieldType.Number]: () => null,
       [DataFieldType.Boolean]: () => null,
       [DataFieldType.Date]: () => null,
+      [DataFieldType.Datetime]: () => null,
       [DataFieldType.List]: () => null,
       [DataFieldType.Unknown]: () => null,
     },
@@ -126,8 +146,10 @@
     if (
       to === DataFieldType.List ||
       to === DataFieldType.Date ||
+      to === DataFieldType.Datetime ||
       from === DataFieldType.List ||
-      from === DataFieldType.Date
+      from === DataFieldType.Date ||
+      from === DataFieldType.Datetime
     ) {
       return origValue;
     }
@@ -179,6 +201,7 @@
     { label: $i18n.t("data-types.number"), value: DataFieldType.Number },
     { label: $i18n.t("data-types.boolean"), value: DataFieldType.Boolean },
     { label: $i18n.t("data-types.date"), value: DataFieldType.Date },
+    { label: $i18n.t("data-types.datetime"), value: DataFieldType.Datetime },
     { label: $i18n.t("data-types.list"), value: DataFieldType.List },
   ];
 
@@ -257,6 +280,13 @@
             dateValue = value;
           }}
         />
+      {:else if field.type === DataFieldType.Datetime}
+        <DatetimeInput
+          value={new Date()}
+          on:change={({ detail: value }) => {
+            dateValue = value;
+          }}
+        />
       {:else if field.type === DataFieldType.Boolean}
         <Switch
           checked={value ? true : false}
@@ -300,6 +330,8 @@
           );
         } else if (field.type === DataFieldType.Date) {
           onCreate(field, dayjs(dateValue).format("YYYY-MM-DD"));
+        } else if (field.type === DataFieldType.Datetime) {
+          onCreate(field, dayjs(dateValue).format("YYYY-MM-DDTHH:mm"));
         } else if (field.type === DataFieldType.String) {
           // uniquify options items and omit empty
           if (field?.typeConfig && field.typeConfig?.options) {

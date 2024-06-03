@@ -5,6 +5,7 @@
             "number": "数字",
             "boolean": "复选框",
             "date": "日期",
+            "datetime": "日期 & 时间",
             "unknown": "未知",
             "repeated": "重复",
             "list": "列表",

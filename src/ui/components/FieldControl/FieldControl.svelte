@@ -2,10 +2,12 @@
   import {
     Autocomplete,
     DateInput,
+    // DatetimeInput,
     NumberInput,
     Switch,
     TextInput,
   } from "obsidian-svelte";
+  import DatetimeInput from "../DatetimeInput.svelte";
 
   import { TagList } from "src/ui/components/TagList";
   import {
@@ -22,7 +24,8 @@
 
   export let field: DataField;
   export let value: Optional<DataValue>;
-  let cachedValue: Optional<Date>;
+  let cachedDate: Optional<Date>;
+  let cachedDatetime: Optional<Date>;
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
@@ -63,7 +66,13 @@
 {:else if field.type === DataFieldType.Date}
   <DateInput
     value={isDate(value) ? value : null}
-    on:change={({ detail: value }) => (cachedValue = value)}
-    on:blur={() => onChange(cachedValue)}
+    on:change={({ detail: value }) => (cachedDate = value)}
+    on:blur={() => onChange(cachedDate)}
+  />
+{:else if field.type === DataFieldType.Datetime}
+  <DatetimeInput
+    value={isDate(value) ? value : null}
+    on:input={({ detail: value }) => (cachedDatetime = value)}
+    on:blur={() => onChange(cachedDatetime)}
   />
 {/if}

@@ -5,6 +5,7 @@
             "number": "Number",
             "boolean": "Checkbox",
             "date": "Date",
+            "datetime": "Date & time",
             "unknown": "Unknown data type",
             "repeated": "Repeated field",
             "list": "List",

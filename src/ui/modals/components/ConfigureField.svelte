@@ -69,6 +69,7 @@
     { label: $i18n.t("data-types.number"), value: DataFieldType.Number },
     { label: $i18n.t("data-types.boolean"), value: DataFieldType.Boolean },
     { label: $i18n.t("data-types.date"), value: DataFieldType.Date },
+    { label: $i18n.t("data-types.datetime"), value: DataFieldType.Datetime },
     { label: $i18n.t("data-types.unknown"), value: DataFieldType.Unknown },
   ];
 </script>

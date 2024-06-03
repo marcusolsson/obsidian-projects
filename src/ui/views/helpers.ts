@@ -13,6 +13,8 @@ export function fieldIcon(field: DataFieldType): string {
       return "check-square";
     case DataFieldType.Date:
       return "calendar";
+    case DataFieldType.Datetime:
+      return "clock";
   }
   return "file-question";
 }
