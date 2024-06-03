@@ -4,7 +4,7 @@
   import { Field } from "src/ui/components/Field";
   import { SwitchSelect } from "../Table/components/SwitchSelect";
   import { i18n } from "src/lib/stores/i18n";
-  import { fieldToSelectableValue } from "../helpers";
+  import { fieldIcon, fieldToSelectableValue } from "../helpers";
   import { getFieldsByType } from "./board";
   import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
   import { getFieldByName } from "src/ui/app/toolbar/viewOptions/filter/helpers";
@@ -81,6 +81,7 @@
   label={$i18n.t("views.board.include-fields")}
   items={fields.map((field) => ({
     label: field.name,
+    icon: fieldIcon(field),
     value: field.name,
     enabled: includedFields.includes(field.name),
   }))}

@@ -2,6 +2,7 @@
   import { Menu, MenuItem } from "obsidian-svelte";
   interface SwitchItem {
     readonly label: string;
+    readonly icon?: string;
     readonly value: string;
     readonly enabled: boolean;
   }
@@ -25,8 +26,9 @@
 </div>
 
 <Menu anchorEl={ref} open={isOpen} onClose={() => (isOpen = false)}>
-  {#each items as { label, value, enabled }}
+  {#each items as { label, icon, value, enabled }}
     <MenuItem
+      {icon}
       {label}
       checked={enabled}
       on:check={({ detail: checked }) => onChange(value, checked)}
