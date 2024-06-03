@@ -69,6 +69,8 @@ export enum DataFieldType {
 }
 
 export type DataRecord = {
+  readonly name?: string;
+  readonly path?: string;
   readonly id: string;
   readonly values: Record<string, Optional<DataValue>>;
 };

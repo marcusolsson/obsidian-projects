@@ -239,7 +239,7 @@
         }}
         onRowAdd={() => {
           new CreateNoteModal($app, project, (name, templatePath, project) => {
-            api.addRecord(createDataRecord(name, project), templatePath);
+            api.addRecord(createDataRecord(name, project), templatePath, project.useTemplater);
           }).open();
         }}
         onRowEdit={(id, values) => {
