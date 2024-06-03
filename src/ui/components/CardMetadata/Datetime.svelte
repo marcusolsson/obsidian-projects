@@ -10,7 +10,7 @@
   export let field: DataField;
 </script>
 
-{#if field.type === DataFieldType.Datetime && !field.repeated && value instanceof Date}
+{#if field.type === DataFieldType.Date && !field.repeated && value instanceof Date}
   {Intl.DateTimeFormat("default", {
     year: "numeric",
     month: "numeric",

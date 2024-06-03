@@ -34,11 +34,6 @@ export function parseRecords(
             record.values[field.name] = dayjs(value).toDate();
           }
           break;
-        case DataFieldType.Datetime:
-          if (typeof value === "string") {
-            record.values[field.name] = dayjs(value).toDate();
-          }
-          break;
         case DataFieldType.Number:
           if (typeof value === "string") {
             record.values[field.name] = parseFloat(value);
@@ -117,12 +112,7 @@ function typeFromValues(values: Optional<DataValue>[]): DataFieldType {
 
   if (detectedTypes.length === 1) {
     return detectedTypes[0] as DataFieldType;
-  } else if (detectedTypes.length === 2) {
-    const dateTypes = new Set(["date", "datetime"]);
-    return detectedTypes.every((type) => dateTypes.has(type))
-      ? DataFieldType.Datetime
-      : DataFieldType.String;
-  } else if (detectedTypes.length > 2) {
+  } else if (detectedTypes.length > 1) {
     return DataFieldType.String;
   } else {
     return DataFieldType.Unknown;
@@ -132,11 +122,10 @@ function typeFromValues(values: Optional<DataValue>[]): DataFieldType {
 export function detectCellType(value: unknown): DataFieldType {
   // Standard types
   if (typeof value === "string") {
-    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    if (
+      /^\d{4}-\d{2}-\d{2}(T)?(\d{2})?(:\d{2})?(:\d{2})?(.\d{3})?$/.test(value)
+    ) {
       return DataFieldType.Date;
-    }
-    if (/^\d{4}-\d{2}-\d{2}T(\d{2})?(:\d{2})?(:\d{2})?(.\d{3})?$/.test(value)) {
-      return DataFieldType.Datetime;
     }
     return DataFieldType.String;
   } else if (typeof value === "number") {

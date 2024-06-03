@@ -64,15 +64,17 @@
       onChange(value !== null ? value : undefined)}
   />
 {:else if field.type === DataFieldType.Date}
-  <DateInput
-    value={isDate(value) ? value : null}
-    on:change={({ detail: value }) => (cachedDate = value)}
-    on:blur={() => onChange(cachedDate)}
-  />
-{:else if field.type === DataFieldType.Datetime}
-  <DatetimeInput
-    value={isDate(value) ? value : null}
-    on:input={({ detail: value }) => (cachedDatetime = value)}
-    on:blur={() => onChange(cachedDatetime)}
-  />
+  {#if field.typeConfig?.time}
+    <DatetimeInput
+      value={isDate(value) ? value : null}
+      on:input={({ detail: value }) => (cachedDatetime = value)}
+      on:blur={() => onChange(cachedDatetime)}
+    />
+  {:else}
+    <DateInput
+      value={isDate(value) ? value : null}
+      on:change={({ detail: value }) => (cachedDate = value)}
+      on:blur={() => onChange(cachedDate)}
+    />
+  {/if}
 {/if}

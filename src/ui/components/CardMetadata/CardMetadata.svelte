@@ -34,9 +34,11 @@
       {:else if field.type === DataFieldType.Number}
         <Number {field} {value} />
       {:else if field.type === DataFieldType.Date}
-        <Date {value} {field} />
-      {:else if field.type === DataFieldType.Datetime}
-        <Datetime {value} {field} />
+        {#if field.typeConfig?.time}
+          <Datetime {value} {field} />
+        {:else}
+          <Date {value} {field} />
+        {/if}
       {:else}
         <Icon name="slash" />
       {/if}

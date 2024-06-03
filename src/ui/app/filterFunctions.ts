@@ -17,7 +17,6 @@ import {
   isNumberFilterOperator,
   isStringFilterOperator,
   isDateFilterOperator,
-  isDatetimeFilterOperator,
   isListFilterOperator,
   type BaseFilterOperator,
   type BooleanFilterOperator,
@@ -26,7 +25,6 @@ import {
   type NumberFilterOperator,
   type StringFilterOperator,
   type DateFilterOperator,
-  type DatetimeFilterOperator,
   type ListFilterOperator,
 } from "src/settings/settings";
 
@@ -62,11 +60,6 @@ export function matchesCondition(
     return booleanFns[operator](value);
   } else if (isOptionalDate(value) && isDateFilterOperator(operator)) {
     return dateFns[operator](
-      value,
-      cond.value ? dayjs(cond.value ?? "").toDate() : undefined
-    );
-  } else if (isOptionalDate(value) && isDatetimeFilterOperator(operator)) {
-    return datetimeFns[operator](
       value,
       cond.value ? dayjs(cond.value ?? "").toDate() : undefined
     );
@@ -157,25 +150,6 @@ export const dateFns: Record<
   "is-on-and-before": (left, right) =>
     left && right ? left.getTime() <= right.getTime() : false,
   "is-on-and-after": (left, right) =>
-    left && right ? left.getTime() >= right.getTime() : false,
-};
-
-export const datetimeFns: Record<
-  DatetimeFilterOperator,
-  (left: Optional<Date>, right?: Optional<Date>) => boolean
-> = {
-  "datetime-is-on": (left, right) => {
-    return left && right ? left.getTime() == right.getTime() : false;
-  },
-  "datetime-is-not-on": (left, right) =>
-    left && right ? left.getTime() != right.getTime() : true,
-  "datetime-is-before": (left, right) =>
-    left && right ? left.getTime() < right.getTime() : false,
-  "datetime-is-after": (left, right) =>
-    left && right ? left.getTime() > right.getTime() : false,
-  "datetime-is-on-and-before": (left, right) =>
-    left && right ? left.getTime() <= right.getTime() : false,
-  "datetime-is-on-and-after": (left, right) =>
     left && right ? left.getTime() >= right.getTime() : false,
 };
 

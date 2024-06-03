@@ -66,11 +66,7 @@
 
   $: dateFields = fields
     .filter((field) => !field.repeated)
-    .filter(
-      (field) =>
-        field.type === DataFieldType.Date ||
-        field.type === DataFieldType.Datetime
-    );
+    .filter((field) => field.type === DataFieldType.Date);
   $: dateField =
     dateFields.find((field) => config?.dateField === field.name) ??
     dateFields[0];
@@ -112,21 +108,16 @@
 
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
     if (dateField) {
-      if (dateField.type === DataFieldType.Date)
-        api.updateRecord(
-          updateRecordValues(record, {
-            [dateField.name]: date.format("YYYY-MM-DD"),
-          }),
-          fields
-        );
-      else if (dateField.type === DataFieldType.Datetime) {
+      if (dateField.type === DataFieldType.Date) {
         const newDatetime = dayjs(record.values[dateField.name] as string)
           .set("year", date.year())
           .set("month", date.month())
           .set("date", date.date());
         api.updateRecord(
           updateRecordValues(record, {
-            [dateField.name]: newDatetime.format("YYYY-MM-DDTHH:mm"),
+            [dateField.name]: newDatetime.format(
+              dateField.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
+            ),
           }),
           fields
         );

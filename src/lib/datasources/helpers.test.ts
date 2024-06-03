@@ -171,7 +171,7 @@ describe("detectCellType", () => {
 
     // Complex values.
     ["2022-01-01", DataFieldType.Date],
-    ["2022-01-01T22:35", DataFieldType.Datetime],
+    ["2022-01-01T22:35", DataFieldType.Date],
     [{ my: "object" }, DataFieldType.Unknown],
   ];
 

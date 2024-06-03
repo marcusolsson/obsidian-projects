@@ -5,9 +5,9 @@
             "number": "数字",
             "boolean": "复选框",
             "date": "日期",
-            "datetime": "日期 & 时间",
             "unknown": "未知",
             "repeated": "重复",
+            "datetime": "日期 & 时间",
             "list": "列表",
             "tags": "标签",
             "aliases": "别名"
@@ -230,6 +230,10 @@
                     "rich-text": {
                         "name": "富文本",
                         "description": "依照 Markdown 格式渲染字段内容。"
+                    },
+                    "time": {
+                        "name": "启用时间",
+                        "description": "将该字段识别为日期 & 时间格式。"
                     },
                     "save": "保存修改"
                 },

@@ -184,7 +184,8 @@ export function doUpdateRecord(
               const isDatetime = fields.find(
                 (field) =>
                   field.name === entry[0] &&
-                  field.type === DataFieldType.Datetime
+                  field.type === DataFieldType.Date &&
+                  field.typeConfig?.time
               );
               return produce(entry, (draft) => {
                 draft[1] = dayjs(entry[1]).format(

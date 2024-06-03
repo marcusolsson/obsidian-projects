@@ -23,7 +23,6 @@
     isNumberFilterOperator,
     isStringFilterOperator,
     isDateFilterOperator,
-    isDatetimeFilterOperator,
     isListFilterOperator,
     type ColorFilterDefinition,
     type FilterOperator,
@@ -161,15 +160,17 @@
               on:blur={handleValueChange(i)}
             />
           {:else if isDateFilterOperator(rule.condition.operator)}
-            <DateInput
-              value={dayjs(rule.condition.value ?? "").toDate()}
-              on:blur={handleValueChange(i)}
-            />
-          {:else if isDatetimeFilterOperator(rule.condition.operator)}
-            <DatetimeInput
-              value={dayjs(rule.condition.value ?? "").toDate()}
-              on:blur={handleValueChange(i)}
-            />
+            {#if field?.typeConfig?.time}
+              <DatetimeInput
+                value={dayjs(rule.condition.value ?? "").toDate()}
+                on:blur={handleValueChange(i)}
+              />
+            {:else}
+              <DateInput
+                value={dayjs(rule.condition.value ?? "").toDate()}
+                on:blur={handleValueChange(i)}
+              />
+            {/if}
           {:else if isListFilterOperator(rule.condition.operator)}
             <TagsInput
               strict={rule.condition.field === "tags"}

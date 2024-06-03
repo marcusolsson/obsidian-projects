@@ -3,20 +3,55 @@ import { DataFieldType, type DataField } from "../../lib/dataframe/dataframe";
 import type { ViewProps } from "../app/useView";
 import type { Menu } from "obsidian";
 
-export function fieldIcon(field: DataFieldType): string {
-  switch (field) {
+import { i18n } from "src/lib/stores/i18n";
+import { get } from "svelte/store";
+
+export function fieldIcon(field: DataField): string {
+  switch (field.type) {
     case DataFieldType.String:
+      if (field.repeated) {
+        switch (field.name) {
+          case "tags":
+            return "tags";
+          case "aliases":
+            return "forward";
+        }
+        return "list";
+      }
       return "text";
     case DataFieldType.Number:
       return "binary";
     case DataFieldType.Boolean:
       return "check-square";
     case DataFieldType.Date:
-      return "calendar";
-    case DataFieldType.Datetime:
-      return "clock";
+      return field.typeConfig?.time ? "clock" : "calendar";
   }
   return "file-question";
+}
+
+export function fieldDisplayText(field: DataField): string {
+  switch (field.type) {
+    case DataFieldType.String:
+      if (field.repeated) {
+        switch (field.name) {
+          case "tags":
+            return get(i18n).t("data-types.tags");
+          case "aliases":
+            return get(i18n).t("data-types.aliases");
+        }
+        return get(i18n).t("data-types.list");
+      }
+      return get(i18n).t("data-types.string");
+    case DataFieldType.Number:
+      return get(i18n).t("data-types.number");
+    case DataFieldType.Boolean:
+      return get(i18n).t("data-types.boolean");
+    case DataFieldType.Date:
+      return field.typeConfig?.time
+        ? get(i18n).t("data-types.datetime")
+        : get(i18n).t("data-types.date");
+  }
+  return get(i18n).t("data-types.unknown");
 }
 
 export function fieldToSelectableValue(field: DataField): {

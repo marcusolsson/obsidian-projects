@@ -72,27 +72,29 @@
     on:navigate
   />
 {:else if column.type === "date" && isOptionalDate(value)}
-  <GridDateCell
-    {selected}
-    {rowindex}
-    {colindex}
-    {value}
-    {onChange}
-    {column}
-    on:mousedown
-    on:navigate
-  />
-{:else if column.type === "datetime" && isOptionalDate(value)}
-  <GridDatetimeCell
-    {selected}
-    {rowindex}
-    {colindex}
-    {value}
-    {onChange}
-    {column}
-    on:mousedown
-    on:navigate
-  />
+  {#if column.typeConfig?.time}
+    <GridDatetimeCell
+      {selected}
+      {rowindex}
+      {colindex}
+      {value}
+      {onChange}
+      {column}
+      on:mousedown
+      on:navigate
+    />
+  {:else}
+    <GridDateCell
+      {selected}
+      {rowindex}
+      {colindex}
+      {value}
+      {onChange}
+      {column}
+      on:mousedown
+      on:navigate
+    />
+  {/if}
 {:else}
   <GridCell
     {rowindex}

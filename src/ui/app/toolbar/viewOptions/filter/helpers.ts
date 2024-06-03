@@ -119,16 +119,6 @@ export function getOperatorsByField(field: DataField): Array<{
         { label: "is on and before", value: "is-on-and-before" },
         { label: "is on and after", value: "is-on-and-after" },
       ];
-    case DataFieldType.Datetime:
-      return [
-        ...baseOperators,
-        { label: "is on", value: "datetime-is-on" },
-        { label: "is not on", value: "datetime-is-not-on" },
-        { label: "is before", value: "datetime-is-before" },
-        { label: "is after", value: "datetime-is-after" },
-        { label: "is on and before", value: "datetime-is-on-and-before" },
-        { label: "is on and after", value: "datetime-is-on-and-after" },
-      ];
   }
 
   return baseOperators;

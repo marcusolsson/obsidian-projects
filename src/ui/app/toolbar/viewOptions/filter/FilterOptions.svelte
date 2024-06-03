@@ -21,7 +21,6 @@
     isNumberFilterOperator,
     isStringFilterOperator,
     isDateFilterOperator,
-    isDatetimeFilterOperator,
     isListFilterOperator,
     type FilterDefinition,
     type FilterOperator,
@@ -134,15 +133,17 @@
             on:blur={handleValueChange(i)}
           />
         {:else if isDateFilterOperator(condition.operator)}
-          <DateInput
-            value={dayjs(condition.value ?? "").toDate()}
-            on:blur={handleValueChange(i)}
-          />
-        {:else if isDatetimeFilterOperator(condition.operator)}
-          <DatetimeInput
-            value={dayjs(condition.value ?? "").toDate()}
-            on:blur={handleValueChange(i)}
-          />
+          {#if field?.typeConfig?.time}
+            <DatetimeInput
+              value={dayjs(condition.value ?? "").toDate()}
+              on:blur={handleValueChange(i)}
+            />
+          {:else}
+            <DateInput
+              value={dayjs(condition.value ?? "").toDate()}
+              on:blur={handleValueChange(i)}
+            />
+          {/if}
         {:else if isListFilterOperator(condition.operator)}
           <TagsInput
             strict={condition.field === "tags"}
