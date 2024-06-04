@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { InternalLink, Checkbox } from "obsidian-svelte";
+  import { InternalLink, Checkbox, Icon } from "obsidian-svelte";
   import {
     isString,
     type DataField,
@@ -19,7 +19,7 @@
     dndzone,
   } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
-  import { getDisplayName } from "./boardHelpers";
+  import { getDisplayName, getTaskProgress } from "./boardHelpers";
   import type {
     DropTrigger,
     OnRecordClick,
@@ -134,13 +134,21 @@
           {/if}
         </div>
         <CardMetadata fields={includeFields} record={item} />
+        {#await getTaskProgress(item.id, $app) then taskProgress}
+        {#if taskProgress}
+        <div class=task-progress-heading>
+          <Icon name="check-circle" />
+          <span>{taskProgress}</span>
+        </div>
+        {/if}
+        {/await}
       </ColorItem>
     </article>
   {/each}
 </div>
 
 <style>
-  div.card-header {
+  div.card-header, div.task-progress-heading {
     display: flex;
     gap: 4px;
     align-items: center;
