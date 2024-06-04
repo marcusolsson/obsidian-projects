@@ -185,8 +185,13 @@ export function doUpdateRecord(
                 (field) =>
                   field.name === entry[0] &&
                   field.type === DataFieldType.Date &&
-                  field.typeConfig?.time
+                  (field.typeConfig?.time ||
+                    entry[1].getHours() ||
+                    entry[1].getMinutes() ||
+                    entry[1].getSeconds() ||
+                    entry[1].getMilliseconds())
               );
+
               return produce(entry, (draft) => {
                 draft[1] = dayjs(entry[1]).format(
                   isDatetime ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"

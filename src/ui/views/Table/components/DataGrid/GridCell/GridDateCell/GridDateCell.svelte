@@ -1,6 +1,7 @@
 <script lang="ts">
   import { DateInput } from "obsidian-svelte";
   import type { Optional } from "src/lib/dataframe/dataframe";
+  import dayjs from "dayjs";
 
   import { GridCell } from "..";
   import { TextLabel } from "..";
@@ -57,7 +58,12 @@
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
         edit = false;
-        onChange(cachedValue);
+        const cachedDate = dayjs(cachedValue);
+        const newDatetime = dayjs(value)
+          .set("year", cachedDate.year())
+          .set("month", cachedDate.month())
+          .set("date", cachedDate.date());
+        onChange(newDatetime.toDate());
       }}
       embed
     />
