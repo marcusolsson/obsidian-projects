@@ -26,10 +26,10 @@ export async function getTaskProgress(recordId: string, app: App): Promise<strin
   const file = app.vault.getFileByPath(recordId);
   if (file) {
     const content = await app.vault.read(file);
-    const lines = content.split("\n");
+    const taskLines = content.split("\n").filter(l => CHECKBOX_ITEM_REGEX.test(l));
 
-    const totalTasks = lines.map(l => CHECKBOX_ITEM_REGEX.test(l)).filter(Boolean).length;
-    const completedTasks = lines.map(l => COMPLETED_ITEM_REGEX.test(l)).filter(Boolean).length;
+    const totalTasks = taskLines.length;
+    const completedTasks = taskLines.map(l => COMPLETED_ITEM_REGEX.test(l)).filter(Boolean).length;
 
     if (totalTasks) {
       progress = `${completedTasks}/${totalTasks}`;
