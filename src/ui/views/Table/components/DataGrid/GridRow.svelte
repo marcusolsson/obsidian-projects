@@ -11,6 +11,7 @@
   import { app } from "src/lib/stores/obsidian";
 
   import { setContext } from "svelte";
+  import { VIEW_TYPE_PROJECTS } from "src/view";
 
   export let rowId: GridRowId;
   export let index: number;
@@ -56,10 +57,6 @@
   }
 
   function handleHoverLink(event: MouseEvent) {
-    if (!event.ctrlKey && !event.metaKey) {
-      return;
-    }
-
     const targetEl = event.target as HTMLDivElement;
     const anchor =
       targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
@@ -71,7 +68,7 @@
     if (file instanceof TFile) {
       $app.workspace.trigger("hover-link", {
         event,
-        source: "obsidian-projects-table-view",
+        source: VIEW_TYPE_PROJECTS,
         hoverParent: anchor,
         targetEl,
         linktext: file.name,

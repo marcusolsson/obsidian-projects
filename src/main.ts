@@ -65,6 +65,11 @@ export default class ProjectsPlugin extends Plugin {
       (leaf) => new ProjectsView(leaf, this)
     );
 
+    this.registerHoverLinkSource(VIEW_TYPE_PROJECTS, {
+      display: "Projects Task Notes",
+      defaultMod: false
+    });
+
     // Allow the user to create a project by right-clicking a folder in the
     // File explorer.
     this.registerEvent(
