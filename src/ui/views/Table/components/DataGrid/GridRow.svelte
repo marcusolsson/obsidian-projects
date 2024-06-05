@@ -1,17 +1,15 @@
 <script lang="ts">
   import produce from "immer";
-  import { TFile, type Menu } from "obsidian";
+  import type { Menu } from "obsidian";
 
   import { GridCell, GridTypedCell } from "./GridCell";
   import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./dataGrid";
-  import { menuOnContextMenu } from "src/ui/views/helpers";
-  import { app } from "src/lib/stores/obsidian";
+  import { handleHoverLink, menuOnContextMenu } from "src/ui/views/helpers";
 
   import { setContext } from "svelte";
-  import { VIEW_TYPE_PROJECTS } from "src/view";
 
   export let rowId: GridRowId;
   export let index: number;
@@ -55,30 +53,9 @@
       }
     };
   }
-
-  function handleHoverLink(event: MouseEvent) {
-    const targetEl = event.target as HTMLDivElement;
-    const anchor =
-      targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
-    if (!anchor || !anchor.hasClass("internal-link")) return;
-
-    const href = anchor.getAttr("href");
-    const file = href && $app.metadataCache.getFirstLinkpathDest(href, rowId);
-
-    if (file instanceof TFile) {
-      $app.workspace.trigger("hover-link", {
-        event,
-        source: VIEW_TYPE_PROJECTS,
-        hoverParent: anchor,
-        targetEl,
-        linktext: file.name,
-        sourcePath: file.path,
-      });
-    }
-  }
 </script>
 
-<GridCellGroup on:mouseover={handleHoverLink} {index}>
+<GridCellGroup on:mouseover={((event) => {handleHoverLink(event, rowId);})} {index}>
   <GridCell
     rowindex={1}
     colindex={1}

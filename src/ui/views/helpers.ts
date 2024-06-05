@@ -1,10 +1,12 @@
 import { makeContext } from "src/lib/helpers";
 import { DataFieldType, type DataField } from "../../lib/dataframe/dataframe";
 import type { ViewProps } from "../app/useView";
-import type { Menu } from "obsidian";
+import { TFile, type Menu } from "obsidian";
 
 import { i18n } from "src/lib/stores/i18n";
+import { app } from "src/lib/stores/obsidian";
 import { get } from "svelte/store";
+import { VIEW_TYPE_PROJECTS } from "src/view";
 
 export function fieldIcon(field: DataField): string {
   switch (field.type) {
@@ -74,3 +76,24 @@ export function menuOnContextMenu(event: MouseEvent, menu: Menu): void {
   };
   window.addEventListener("contextmenu", contextMenuFunc, false);
 }
+
+export function handleHoverLink(event: MouseEvent, sourcePath: string) {
+    const targetEl = event.target as HTMLDivElement;
+    const anchor =
+      targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
+    if (!anchor || !anchor.hasClass("internal-link")) return;
+
+    const href = anchor.getAttr("href");
+    const file = href && get(app).metadataCache.getFirstLinkpathDest(href, sourcePath);
+
+    if (file instanceof TFile) {
+      get(app).workspace.trigger("hover-link", {
+        event,
+        source: VIEW_TYPE_PROJECTS,
+        hoverParent: anchor,
+        targetEl,
+        linktext: file.name,
+        sourcePath: file.path,
+      });
+    }
+  }

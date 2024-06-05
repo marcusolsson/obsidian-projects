@@ -11,6 +11,7 @@
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
   import {
     getRecordColorContext,
+    handleHoverLink,
     sortRecordsContext,
   } from "src/ui/views/helpers";
   import {
@@ -26,8 +27,6 @@
     OnRecordCheck,
     OnRecordDrop,
   } from "./types";
-  import { TFile } from "obsidian";
-  import { VIEW_TYPE_PROJECTS } from "src/view";
 
   export let items: DataRecord[];
   export let onRecordClick: OnRecordClick;
@@ -66,27 +65,6 @@
 
   const isPlaceholder = (item: DataRecord) =>
     !!(item as any)[SHADOW_ITEM_MARKER_PROPERTY_NAME];
-
-  function handleHoverLink(event: MouseEvent) {
-    const targetEl = event.target as HTMLDivElement;
-    const anchor =
-      targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
-    if (!anchor || !anchor.hasClass("internal-link")) return;
-
-    const href = anchor.getAttr("href");
-    const file = href && $app.metadataCache.getFirstLinkpathDest(href, "");
-
-    if (file instanceof TFile) {
-      $app.workspace.trigger("hover-link", {
-        event,
-        source: VIEW_TYPE_PROJECTS,
-        hoverParent: anchor,
-        targetEl,
-        linktext: file.name,
-        sourcePath: file.path,
-      });
-    }
-  }
 </script>
 
 <div
@@ -131,7 +109,7 @@
           {/if}
           {#if !customHeader}
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-            <span class="link-wrapper" on:mouseover={handleHoverLink}>
+            <span class="link-wrapper" on:mouseover={((event) => {handleHoverLink(event, "");})}>
             <InternalLink
               linkText={item.id}
               sourcePath=""
