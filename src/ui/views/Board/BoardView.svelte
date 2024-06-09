@@ -435,6 +435,7 @@
     )}
     {columnWidth}
     checkField={fields.find((field) => field.name === config?.checkField)?.name}
+    weightField={fields.find((field) => field.name === config?.weightField)?.name}
     includeFields={fields.filter((field) => includeFields.includes(field.name))}
     customHeader={fields.find((field) => field.name === customHeader)}
     onRecordClick={handleRecordClick}

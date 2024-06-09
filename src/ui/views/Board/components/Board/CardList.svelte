@@ -38,6 +38,9 @@
   export let checkField: string | undefined;
   const checked = (item: DataRecord): boolean =>
     checkField ? (item.values[checkField] as boolean) : false;
+  export let weightField: string | undefined;
+  const taskWeight = (item: DataRecord): number =>
+    weightField ? (item.values[weightField] as number) : 1;
   export let customHeader: DataField | undefined;
   export let boardEditing: boolean;
 
@@ -89,6 +92,7 @@
 >
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
+    {@const weight = taskWeight(item)}
 
     <article
       class="projects--board--card"
@@ -140,14 +144,23 @@
           {/if}
         </div>
         <CardMetadata fields={includeFields} record={item} />
-        {#await getTaskProgress(item.id) then taskProgress}
+        <div class=task-indicators>
+          {#await getTaskProgress(item.id) then taskProgress}
           {#if taskProgress}
-            <div class="task-progress-heading">
+            <div class=task-progress>
               <Icon name="check-circle" />
               <span>{taskProgress}</span>
             </div>
           {/if}
-        {/await}
+          {/await}
+
+          {#if weight > 1 }
+          <div class=task-weight>
+            <Icon name="weight" />
+            <span>{weight}</span>
+          </div>
+          {/if}
+        </div>
       </ColorItem>
     </article>
   {/each}
@@ -155,10 +168,15 @@
 
 <style>
   div.card-header,
-  div.task-progress-heading {
+  div.task-indicators,
+  div.task-indicators div {
     display: flex;
     gap: 4px;
     align-items: center;
+  }
+
+  div.task-indicators {
+    gap: 10px;
   }
 
   .checkbox-wrapper {

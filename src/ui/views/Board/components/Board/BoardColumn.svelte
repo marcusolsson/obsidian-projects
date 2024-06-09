@@ -19,6 +19,7 @@
   export let readonly: boolean;
   export let richText: boolean;
   export let checkField: string | undefined;
+  export let weightField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
   export let pinned: boolean;
@@ -40,8 +41,9 @@
   export let onEdit: (editing: boolean) => void;
   $: onEdit(editing);
 
-  $: count = records.length;
-  $: checkedCount = records.filter((r) => r.values[checkField ?? ""]).length;
+  $: count = records.reduce((total, r) => total + (r.values[weightField ?? ""] as number ?? 1), 0);
+  $: checkedCount = records.filter((r) => r.values[checkField ?? ""])
+                           .reduce((total, r) => total + (r.values[weightField ?? ""] as number ?? 1), 0);
 
   function onColumnMenu() {
     const menu = new Menu();
@@ -125,6 +127,7 @@
       {customHeader}
       {onRecordClick}
       {checkField}
+      {weightField}
       {onRecordCheck}
       {onDrop}
       {includeFields}

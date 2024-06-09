@@ -303,6 +303,10 @@
                     "order-sync-field": {
                         "name": "Sync card order with field",
                         "description": "Field to store the position of cards in the board."
+                    },
+                    "weight-field": {
+                        "name": "Task weight field",
+                        "description": "Use the selected field as task weight (defaults to 1 if None)."
                     }
                 },
                 "note": {
