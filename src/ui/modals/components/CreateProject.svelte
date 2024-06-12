@@ -17,7 +17,7 @@
 
   import { FileListInput } from "src/ui/components/FileListInput";
   import { Accordion, AccordionItem } from "src/ui/components/Accordion";
-  import { notEmpty } from "src/lib/helpers";
+  import { getTemplater, notEmpty } from "src/lib/helpers";
   import { getFoldersInFolder, isValidPath } from "src/lib/obsidian";
   import { capabilities } from "src/lib/stores/capabilities";
   import { i18n } from "src/lib/stores/i18n";
@@ -324,6 +324,19 @@
             onPathsChange={(templates) => (project = { ...project, templates })}
           />
         </SettingItem>
+
+        {#if !!getTemplater()}
+        <SettingItem
+          name={$i18n.t("modals.project.templater.name")}
+          description={$i18n.t("modals.project.templater.description") ?? ""}
+        >
+          <Switch
+            checked={project.useTemplater ?? false}
+            on:check={({ detail: useTemplater }) =>
+              (project = { ...project, useTemplater })}
+          />
+        </SettingItem>
+        {/if}
 
         <SettingItem
           name={$i18n.t("modals.project.exclude.name")}

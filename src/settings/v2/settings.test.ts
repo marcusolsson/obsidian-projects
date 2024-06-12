@@ -36,6 +36,7 @@ describe("resolve v2", () => {
           fieldConfig: {},
           defaultName: "",
           templates: [],
+          useTemplater: false,
           excludedNotes: [],
           isDefault: false,
           dataSource: {
@@ -93,6 +94,7 @@ describe("clean up commands", () => {
           fieldConfig: {},
           defaultName: "",
           templates: [],
+          useTemplater: false,
           excludedNotes: [],
           isDefault: false,
           dataSource: {
@@ -123,6 +125,7 @@ describe("clean up commands", () => {
           fieldConfig: {},
           defaultName: "",
           templates: [],
+          useTemplater: false,
           excludedNotes: [],
           isDefault: false,
           dataSource: {

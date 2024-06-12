@@ -218,7 +218,8 @@
                 }
               : {}
           ),
-          templatePath
+          templatePath,
+          project.useTemplater
         );
       }).open();
     };

@@ -11,7 +11,7 @@ import {
   type DataValue,
   type Optional,
 } from "./dataframe/dataframe";
-import { nextUniqueProjectName, notEmpty, getNameFromPath } from "./helpers";
+import { nextUniqueProjectName, notEmpty, getNameFromPath, getTemplater } from "./helpers";
 import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
@@ -94,38 +94,44 @@ export class DataApi {
     );
   }
 
-  async createNote(record: DataRecord, templatePath: string): Promise<void> {
-    let content = "";
+  async createNote(record: DataRecord, templatePath: string, useTemplater: boolean): Promise<void> {
+    const templater = getTemplater();
+    let file;
+    let content;
 
     if (templatePath) {
-      const file = this.fileSystem.getFile(templatePath);
-      if (file) {
-        content = await file.read();
-        content = interpolateTemplate(content, {
-          title: () => getNameFromPath(record.id),
-          date: (format) => moment().format(format || "YYYY-MM-DD"),
-          time: (format) => moment().format(format || "HH:mm"),
-        });
-        if (record.values["tags"]) {
-          const templateTags = F.pipe(
-            content,
-            decodeFrontMatter,
-            E.map((frontmatter) => frontmatter["tags"]),
-            E.fold(
-              () => [],
-              (right) => right ?? [] // handle `null`
-            )
-          );
-          //@ts-ignore explict input in `createDataRecord()`
-          const tagSet: Set<string> = new Set(
-            templateTags.concat(record.values["tags"])
-          );
-          record.values["tags"] = [...tagSet];
-        }
-      }
+      content = await this.fileSystem.getFile(templatePath)?.read();
     }
 
-    const file = await this.fileSystem.create(record.id, content);
+    if (!content) {
+      file = await this.fileSystem.create(record.id, "");
+    } else if (useTemplater && templater) {
+      const newTemplaterFile = await templater.templater.create_new_note_from_template(content, record.path, record.name, false);
+      file = this.fileSystem.getFile(newTemplaterFile.path)!;
+    } else {
+      content = interpolateTemplate(content, {
+        title: () => getNameFromPath(record.id),
+        date: (format) => moment().format(format || "YYYY-MM-DD"),
+        time: (format) => moment().format(format || "HH:mm"),
+      });
+      if (record.values["tags"]) {
+        const templateTags = F.pipe(
+          content,
+          decodeFrontMatter,
+          E.map((frontmatter) => frontmatter["tags"]),
+          E.fold(
+            () => [],
+            (right) => right ?? [] // handle `null`
+          )
+        );
+        //@ts-ignore explict input in `createDataRecord()`
+        const tagSet: Set<string> = new Set(
+          templateTags.concat(record.values["tags"])
+        );
+        record.values["tags"] = [...tagSet];
+      }
+      file = await this.fileSystem.create(record.id, content);
+    }
 
     await this.updateFile(file, (data) => doUpdateRecord(data, [], record))();
   }
@@ -282,6 +288,8 @@ export function createDataRecord(
   }
 
   return {
+    name: name,
+    path: normalizePath(path),
     id: normalizePath(path + "/" + name + ".md"),
     values: values ?? {},
   };

@@ -138,3 +138,14 @@ export function makeContext<T>(): Context<T> {
     set: (value: T) => setContext(key, value),
   };
 }
+
+export function getTemplater(): any {
+  return get(app).plugins.plugins["templater-obsidian"];
+}
+
+export async function createNoteFromTemplaterTemplate(templateFile: string, folderPath: string, filename: string): Promise<void> {
+  const templater = getTemplater();
+  if (!templater) return;
+
+  await templater.templater.create_new_note_from_template();
+}
