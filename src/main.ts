@@ -56,7 +56,7 @@ export default class ProjectsPlugin extends Plugin {
       `
     );
 
-    this.addRibbonIcon("projects-icon", "Open projects", () => {
+    this.addRibbonIcon("projects-icon", t("obsidian.ribbon-tooltip"), () => {
       this.activateView();
     });
 
@@ -66,8 +66,8 @@ export default class ProjectsPlugin extends Plugin {
     );
 
     this.registerHoverLinkSource(VIEW_TYPE_PROJECTS, {
-      display: "Projects Task Notes",
       defaultMod: false
+      display: t("obsidian.hover-link-settings"),
     });
 
     // Allow the user to create a project by right-clicking a folder in the
