@@ -29,6 +29,7 @@
     OnRecordCheck,
     OnRecordDrop,
   } from "./types";
+  import { Indicator } from "src/ui/components/Indicator";
 
   export let items: DataRecord[];
   export let onRecordClick: OnRecordClick;
@@ -147,18 +148,12 @@
         <div class=task-indicators>
           {#await getTaskProgress(item.id) then taskProgress}
           {#if taskProgress}
-            <div class=task-progress>
-              <Icon name="check-circle" />
-              <span>{taskProgress}</span>
-            </div>
+            <Indicator icon="check-circle" content={taskProgress} />
           {/if}
           {/await}
 
-          {#if weight > 1 }
-          <div class=task-weight>
-            <Icon name="weight" />
-            <span>{weight}</span>
-          </div>
+          {#if weight > 1}
+            <Indicator icon="weight" content={weight} />
           {/if}
         </div>
       </ColorItem>
@@ -168,8 +163,7 @@
 
 <style>
   div.card-header,
-  div.task-indicators,
-  div.task-indicators div {
+  div.task-indicators {
     display: flex;
     gap: 4px;
     align-items: center;
