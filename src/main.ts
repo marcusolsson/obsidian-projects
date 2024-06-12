@@ -66,7 +66,7 @@ export default class ProjectsPlugin extends Plugin {
     );
 
     this.registerHoverLinkSource(VIEW_TYPE_PROJECTS, {
-      defaultMod: false
+      defaultMod: true,
       display: t("obsidian.hover-link-settings"),
     });
 
