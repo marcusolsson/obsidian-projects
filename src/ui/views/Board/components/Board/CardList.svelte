@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { InternalLink, Checkbox } from "obsidian-svelte";
+  // import { Checkbox, InternalLink} from "obsidian-svelte";
+  import { Checkbox } from "obsidian-svelte";
+  import InternalLink from "src/ui/components/InternalLink.svelte";
+
   import {
     isString,
     type DataField,
@@ -108,36 +111,31 @@
             </span>
           {/if}
           {#if !customHeader}
-            <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-            <span
-              class="link-wrapper"
-              on:mouseover={(event) => {
-                handleHoverLink(event, "");
+            <InternalLink
+              linkText={item.id}
+              sourcePath=""
+              resolved
+              on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                let openEditor =
+                  $settings.preferences.linkBehavior == "open-editor";
+
+                if (newLeaf) {
+                  openEditor = !openEditor;
+                }
+
+                if (openEditor) {
+                  onRecordClick(item);
+                } else {
+                  $app.workspace.openLinkText(linkText, sourcePath, true);
+                }
+              }}
+              on:hover={({ detail: { event, sourcePath } }) => {
+                handleHoverLink(event, sourcePath);
               }}
             >
-              <InternalLink
-                linkText={item.id}
-                sourcePath=""
-                resolved
-                on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-                  let openEditor =
-                    $settings.preferences.linkBehavior == "open-editor";
-
-                  if (newLeaf) {
-                    openEditor = !openEditor;
-                  }
-
-                  if (openEditor) {
-                    onRecordClick(item);
-                  } else {
-                    $app.workspace.openLinkText(linkText, sourcePath, true);
-                  }
-                }}
-              >
-                {@const path = item.values["path"]}
-                {getDisplayName(isString(path) ? path : item.id)}
-              </InternalLink>
-            </span>
+              {@const path = item.values["path"]}
+              {getDisplayName(isString(path) ? path : item.id)}
+            </InternalLink>
           {:else}
             <CardMetadata fields={[customHeader]} record={item} />
           {/if}
