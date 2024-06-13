@@ -78,22 +78,23 @@ export function menuOnContextMenu(event: MouseEvent, menu: Menu): void {
 }
 
 export function handleHoverLink(event: MouseEvent, sourcePath: string) {
-    const targetEl = event.target as HTMLDivElement;
-    const anchor =
-      targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
-    if (!anchor || !anchor.hasClass("internal-link")) return;
+  const targetEl = event.target as HTMLDivElement;
+  const anchor =
+    targetEl.tagName === "A" ? targetEl : targetEl.querySelector("a");
+  if (!anchor || !anchor.hasClass("internal-link")) return;
 
-    const href = anchor.getAttr("href");
-    const file = href && get(app).metadataCache.getFirstLinkpathDest(href, sourcePath);
+  const href = anchor.getAttr("href");
+  const file =
+    href && get(app).metadataCache.getFirstLinkpathDest(href, sourcePath);
 
-    if (file instanceof TFile) {
-      get(app).workspace.trigger("hover-link", {
-        event,
-        source: VIEW_TYPE_PROJECTS,
-        hoverParent: anchor,
-        targetEl,
-        linktext: file.name,
-        sourcePath: file.path,
-      });
-    }
+  if (file instanceof TFile) {
+    get(app).workspace.trigger("hover-link", {
+      event,
+      source: VIEW_TYPE_PROJECTS,
+      hoverParent: anchor,
+      targetEl,
+      linktext: file.name,
+      sourcePath: file.path,
+    });
   }
+}

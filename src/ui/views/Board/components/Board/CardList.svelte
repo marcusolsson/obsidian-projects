@@ -109,29 +109,34 @@
           {/if}
           {#if !customHeader}
             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-            <span class="link-wrapper" on:mouseover={((event) => {handleHoverLink(event, "");})}>
-            <InternalLink
-              linkText={item.id}
-              sourcePath=""
-              resolved
-              on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
-                let openEditor =
-                  $settings.preferences.linkBehavior == "open-editor";
-
-                if (newLeaf) {
-                  openEditor = !openEditor;
-                }
-
-                if (openEditor) {
-                  onRecordClick(item);
-                } else {
-                  $app.workspace.openLinkText(linkText, sourcePath, true);
-                }
+            <span
+              class="link-wrapper"
+              on:mouseover={(event) => {
+                handleHoverLink(event, "");
               }}
             >
-              {@const path = item.values["path"]}
-              {getDisplayName(isString(path) ? path : item.id)}
-            </InternalLink>
+              <InternalLink
+                linkText={item.id}
+                sourcePath=""
+                resolved
+                on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
+                  let openEditor =
+                    $settings.preferences.linkBehavior == "open-editor";
+
+                  if (newLeaf) {
+                    openEditor = !openEditor;
+                  }
+
+                  if (openEditor) {
+                    onRecordClick(item);
+                  } else {
+                    $app.workspace.openLinkText(linkText, sourcePath, true);
+                  }
+                }}
+              >
+                {@const path = item.values["path"]}
+                {getDisplayName(isString(path) ? path : item.id)}
+              </InternalLink>
             </span>
           {:else}
             <CardMetadata fields={[customHeader]} record={item} />

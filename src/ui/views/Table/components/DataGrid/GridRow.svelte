@@ -55,7 +55,12 @@
   }
 </script>
 
-<GridCellGroup on:mouseover={((event) => {handleHoverLink(event, rowId);})} {index}>
+<GridCellGroup
+  on:mouseover={(event) => {
+    handleHoverLink(event, rowId);
+  }}
+  {index}
+>
   <GridCell
     rowindex={1}
     colindex={1}
