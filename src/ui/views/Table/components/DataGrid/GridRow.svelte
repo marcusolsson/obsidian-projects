@@ -7,7 +7,7 @@
   import GridCellGroup from "./GridCellGroup.svelte";
 
   import type { GridColDef, GridRowId, GridRowModel } from "./dataGrid";
-  import { handleHoverLink, menuOnContextMenu } from "src/ui/views/helpers";
+  import { menuOnContextMenu } from "src/ui/views/helpers";
 
   import { setContext } from "svelte";
 
@@ -55,12 +55,7 @@
   }
 </script>
 
-<GridCellGroup
-  on:mouseover={(event) => {
-    handleHoverLink(event, rowId);
-  }}
-  {index}
->
+<GridCellGroup {index}>
   <GridCell
     rowindex={1}
     colindex={1}

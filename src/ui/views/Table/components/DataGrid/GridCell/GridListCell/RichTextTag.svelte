@@ -5,6 +5,7 @@
   const sourcePath = getContext<string>("sourcePath") ?? "";
 
   import { app } from "src/lib/stores/obsidian";
+  import { handleHoverLink } from "src/ui/views/helpers";
 
   export let value: string;
   export let richText: boolean = false;
@@ -43,7 +44,15 @@
 </script>
 
 {#if richText}
-  <div use:useMarkdown={value} on:click={handleClick} on:keypress />
+  <div
+    use:useMarkdown={value}
+    on:click={handleClick}
+    on:mouseover={(event) => {
+      handleHoverLink(event, sourcePath);
+    }}
+    on:focus
+    on:keypress
+  />
 {:else}
   <div>{value}</div>
 {/if}
