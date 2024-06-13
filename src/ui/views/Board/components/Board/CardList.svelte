@@ -22,7 +22,8 @@
     dndzone,
   } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
-  import { getDisplayName, getTaskProgress } from "./boardHelpers";
+  import { getDisplayName } from "./boardHelpers";
+  import { getTaskProgress } from "./taskHelpers";
   import type {
     DropTrigger,
     OnRecordClick,
