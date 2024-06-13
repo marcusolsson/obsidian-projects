@@ -140,7 +140,7 @@
           {/if}
         </div>
         <CardMetadata fields={includeFields} record={item} />
-        {#await getTaskProgress(item.id, $app) then taskProgress}
+        {#await getTaskProgress(item.id) then taskProgress}
           {#if taskProgress}
             <div class="task-progress-heading">
               <Icon name="check-circle" />

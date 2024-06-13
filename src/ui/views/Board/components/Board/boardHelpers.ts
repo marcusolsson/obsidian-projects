@@ -1,4 +1,5 @@
-import type { App } from "obsidian";
+import { app } from "src/lib/stores/obsidian";
+import { get } from "svelte/store";
 
 export function getDisplayName(recordId: string): string {
   const basename = getBasename(recordId);
@@ -16,14 +17,11 @@ function getBasename(str: string) {
   return str.slice(lastSlash + 1);
 }
 
-export async function getTaskProgress(
-  recordId: string,
-  app: App
-): Promise<string> {
+export async function getTaskProgress(recordId: string): Promise<string> {
   let progress = "";
 
-  const totalTasks = app.metadataCache
-    .getCache(recordId)
+  const totalTasks = get(app)
+    .metadataCache.getCache(recordId)
     ?.listItems?.filter((item) => item.task !== undefined);
 
   if (totalTasks) {
