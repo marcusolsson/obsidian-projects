@@ -10,7 +10,6 @@
   export let count: number;
   export let checkedCount: number;
   export let checkField: string | undefined;
-  export let weightField: string | undefined;
   export let collapse: boolean = false;
   export let richText: boolean = false;
   const sourcePath = getContext<string>("sourcePath") ?? "";

@@ -41,9 +41,16 @@
   export let onEdit: (editing: boolean) => void;
   $: onEdit(editing);
 
-  $: count = records.reduce((total, r) => total + (r.values[weightField ?? ""] as number ?? 1), 0);
-  $: checkedCount = records.filter((r) => r.values[checkField ?? ""])
-                           .reduce((total, r) => total + (r.values[weightField ?? ""] as number ?? 1), 0);
+  $: count = records.reduce(
+    (total, r) => total + ((r.values[weightField ?? ""] as number) ?? 1),
+    0
+  );
+  $: checkedCount = records
+    .filter((r) => r.values[checkField ?? ""])
+    .reduce(
+      (total, r) => total + ((r.values[weightField ?? ""] as number) ?? 1),
+      0
+    );
 
   function onColumnMenu() {
     const menu = new Menu();
