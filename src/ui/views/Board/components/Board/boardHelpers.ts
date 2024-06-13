@@ -22,16 +22,13 @@ export async function getTaskProgress(
 ): Promise<string> {
   let progress = "";
 
-  const file = app.vault.getFileByPath(recordId);
-  if (file) {
-    const totalTasks = app.metadataCache
-      .getFileCache(file)
-      ?.listItems?.filter((item) => item.task !== undefined);
+  const totalTasks = app.metadataCache
+    .getCache(recordId)
+    ?.listItems?.filter((item) => item.task !== undefined);
 
-    if (totalTasks) {
-      const completedTasks = totalTasks?.filter((item) => item.task !== " ");
-      progress = `${completedTasks.length}/${totalTasks.length}`;
-    }
+  if (totalTasks) {
+    const completedTasks = totalTasks?.filter((item) => item.task !== " ");
+    progress = `${completedTasks.length}/${totalTasks.length}`;
   }
 
   return progress;
