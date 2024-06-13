@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { InternalLink } from "obsidian-svelte";
+  // import { InternalLink } from "obsidian-svelte";
+  import InternalLink from "src/ui/components/InternalLink.svelte";
   import { getDisplayName } from "src/ui/views/Board/components/Board/boardHelpers";
   import Event from "./Event.svelte";
   import { dndzone } from "svelte-dnd-action";
@@ -10,7 +11,7 @@
     Optional,
   } from "src/lib/dataframe/dataframe";
   import { updateRecordValues } from "src/lib/datasources/helpers";
-  import { getRecordColorContext } from "src/ui/views/helpers";
+  import { getRecordColorContext, handleHoverLink } from "src/ui/views/helpers";
   import { settings } from "src/lib/stores/settings";
 
   export let records: DataRecord[];
@@ -76,7 +77,7 @@
       >
         <InternalLink
           linkText={record.id}
-          sourcePath=""
+          sourcePath={record.id}
           resolved
           tooltip={getDisplayName(record.id)}
           on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
@@ -92,6 +93,9 @@
             } else {
               $app.workspace.openLinkText(linkText, sourcePath, true);
             }
+          }}
+          on:hover={({ detail: { event, sourcePath } }) => {
+            handleHoverLink(event, sourcePath);
           }}
         >
           {getDisplayName(record.id)}

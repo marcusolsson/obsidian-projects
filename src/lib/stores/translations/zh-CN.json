@@ -474,6 +474,10 @@
                 "title": "Dataview 插件未启用",
                 "message": "启用 Dataview 插件以使用本项目。"
             }
+        },
+        "obsidian": {
+            "ribbon-tooltip": "打开项目",
+            "hover-link-settings": "Projects"
         }
     }
 }

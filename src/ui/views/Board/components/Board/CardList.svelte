@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { InternalLink, Checkbox } from "obsidian-svelte";
+  // import { Checkbox, InternalLink} from "obsidian-svelte";
+  import { Checkbox } from "obsidian-svelte";
+  import InternalLink from "src/ui/components/InternalLink.svelte";
+
   import {
     isString,
     type DataField,
@@ -11,6 +14,7 @@
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
   import {
     getRecordColorContext,
+    handleHoverLink,
     sortRecordsContext,
   } from "src/ui/views/helpers";
   import {
@@ -109,7 +113,7 @@
           {#if !customHeader}
             <InternalLink
               linkText={item.id}
-              sourcePath=""
+              sourcePath={item.id}
               resolved
               on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
                 let openEditor =
@@ -124,6 +128,9 @@
                 } else {
                   $app.workspace.openLinkText(linkText, sourcePath, true);
                 }
+              }}
+              on:hover={({ detail: { event, sourcePath } }) => {
+                handleHoverLink(event, sourcePath);
               }}
             >
               {@const path = item.values["path"]}

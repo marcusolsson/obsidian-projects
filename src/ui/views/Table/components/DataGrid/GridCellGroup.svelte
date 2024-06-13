@@ -4,14 +4,7 @@
   export let footer: boolean = false;
 </script>
 
-<div
-  role="row"
-  aria-rowindex={index}
-  class:header
-  class:footer
-  on:mouseover
-  on:focus
->
+<div role="row" aria-rowindex={index} class:header class:footer>
   <slot />
 </div>
 

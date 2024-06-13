@@ -482,6 +482,10 @@
                 "title": "Dataview is disabled",
                 "message": "Enable the Dataview plugin to continue using this project."
             }
+        },
+        "obsidian": {
+            "ribbon-tooltip": "Open projects",
+            "hover-link-settings": "Projects"
         }
     }
 }

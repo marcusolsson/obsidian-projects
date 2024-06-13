@@ -4,6 +4,7 @@
   import { getContext } from "svelte";
   import { TextInput, IconButton } from "obsidian-svelte";
   import { Flair } from "src/ui/components/Flair";
+  import { handleHoverLink } from "src/ui/views/helpers";
 
   export let value: string;
   export let count: number;
@@ -114,6 +115,8 @@
     <span
       class:collapse
       use:useMarkdown={value}
+      on:mouseover={(event) => handleHoverLink(event, "")}
+      on:focus
       on:click={handleClick}
       on:keypress
     />

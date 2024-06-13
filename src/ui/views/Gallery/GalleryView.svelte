@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { Icon, IconButton, InternalLink, Typography } from "obsidian-svelte";
+  // import { Icon, IconButton, InternalLink, Typography } from "obsidian-svelte";
+  import { Icon, IconButton, Typography } from "obsidian-svelte";
+  import InternalLink from "src/ui/components/InternalLink.svelte";
   import CardMetadata from "src/ui/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
 
@@ -22,6 +24,7 @@
   import GalleryOptionsProvider from "./GalleryOptionsProvider.svelte";
   import { getCoverRealPath } from "./gallery";
   import { settings } from "src/lib/stores/settings";
+  import { handleHoverLink } from "../helpers";
 
   export let project: ProjectDefinition;
   export let frame: DataFrame;
@@ -96,7 +99,7 @@
               <InternalLink
                 slot="header"
                 linkText={record.id}
-                sourcePath=""
+                sourcePath={record.id}
                 resolved
                 on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
                   let openEditor =
@@ -111,6 +114,9 @@
                   } else {
                     $app.workspace.openLinkText(linkText, sourcePath, true);
                   }
+                }}
+                on:hover={({ detail: { event, sourcePath } }) => {
+                  handleHoverLink(event, sourcePath);
                 }}
               >
                 {getDisplayName(record.id)}

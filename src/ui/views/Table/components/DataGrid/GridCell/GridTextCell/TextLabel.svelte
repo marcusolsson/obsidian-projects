@@ -1,6 +1,7 @@
 <script lang="ts">
   import { MarkdownRenderer } from "obsidian";
   import { app, view } from "src/lib/stores/obsidian";
+  import { handleHoverLink } from "src/ui/views/helpers";
   import { getContext } from "svelte";
 
   export let value: string;
@@ -42,7 +43,15 @@
 </script>
 
 {#if richText}
-  <div use:useMarkdown={value} on:click={handleClick} on:keypress />
+  <div
+    use:useMarkdown={value}
+    on:click={handleClick}
+    on:mouseover={(event) => {
+      handleHoverLink(event, sourcePath);
+    }}
+    on:focus
+    on:keypress
+  />
 {:else}
   <div>
     {value}
