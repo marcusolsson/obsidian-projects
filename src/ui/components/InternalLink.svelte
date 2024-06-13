@@ -17,21 +17,13 @@
    */
   export let resolved;
 
-  interface openLink {
-    linkText: string;
-    sourcePath: string;
-    newLeaf: boolean;
-  }
-
-  interface hoverLink {
-    event: MouseEvent;
-    linkText: string;
-    sourcePath: string;
-  }
-
   const dispatch = createEventDispatcher<{
-    open: openLink;
-    hover: hoverLink;
+    open: { linkText: string; sourcePath: string; newLeaf: boolean };
+    hover: {
+      event: MouseEvent;
+      linkText: string;
+      sourcePath: string;
+    };
   }>();
   let aria = {};
   if (tooltip) {
