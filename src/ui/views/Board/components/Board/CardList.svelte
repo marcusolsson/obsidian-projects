@@ -94,6 +94,7 @@
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
     {@const weight = taskWeight(item)}
+    {@const taskProgress = getTaskProgress(item.id)}
 
     <article
       class="projects--board--card"
@@ -146,11 +147,9 @@
         </div>
         <CardMetadata fields={includeFields} record={item} />
         <div class=task-indicators>
-          {#await getTaskProgress(item.id) then taskProgress}
           {#if taskProgress}
             <Indicator icon="check-circle" content={taskProgress} />
           {/if}
-          {/await}
 
           {#if weight > 1}
             <Indicator icon="weight" content={weight} />
