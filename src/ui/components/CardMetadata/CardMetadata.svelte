@@ -5,6 +5,7 @@
     type DataField,
     type DataRecord,
   } from "src/lib/dataframe/dataframe";
+  import { setContext } from "svelte";
   import Checkbox from "./Checkbox.svelte";
   import Tags from "./Tags.svelte";
   import Text from "./Text.svelte";
@@ -13,6 +14,8 @@
 
   export let fields: DataField[];
   export let record: DataRecord;
+
+  setContext<string>("sourcePath", record.id);
 </script>
 
 {#each fields as field (field.name)}

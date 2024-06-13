@@ -60,7 +60,7 @@ export class ProjectsView extends ItemView {
       menu.addItem((item) => {
         item
           .setTitle(get(i18n).t("menus.tab-header.new-window.title"))
-          .setIcon("maximize")
+          .setIcon("picture-in-picture-2")
           .onClick(() => {
             const existingLeaves =
               this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECTS);

@@ -56,7 +56,7 @@ export default class ProjectsPlugin extends Plugin {
       `
     );
 
-    this.addRibbonIcon("projects-icon", "Open projects", () => {
+    this.addRibbonIcon("projects-icon", t("obsidian.ribbon-tooltip"), () => {
       this.activateView();
     });
 
@@ -64,6 +64,11 @@ export default class ProjectsPlugin extends Plugin {
       VIEW_TYPE_PROJECTS,
       (leaf) => new ProjectsView(leaf, this)
     );
+
+    this.registerHoverLinkSource(VIEW_TYPE_PROJECTS, {
+      defaultMod: true,
+      display: t("obsidian.hover-link-settings"),
+    });
 
     // Allow the user to create a project by right-clicking a folder in the
     // File explorer.
@@ -220,8 +225,6 @@ export default class ProjectsPlugin extends Plugin {
         viewId,
       },
     });
-
-    this.app.workspace.revealLeaf(leaf);
   }
 
   /**
