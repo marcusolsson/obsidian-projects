@@ -1,6 +1,6 @@
 <script lang="ts">
   // import { Checkbox, InternalLink} from "obsidian-svelte";
-  import { Checkbox } from "obsidian-svelte";
+  import { Checkbox, Icon } from "obsidian-svelte";
   import InternalLink from "src/ui/components/InternalLink.svelte";
   import {
     isString,
@@ -141,12 +141,12 @@
         </div>
         <CardMetadata fields={includeFields} record={item} />
         {#await getTaskProgress(item.id, $app) then taskProgress}
-        {#if taskProgress}
-        <div class=task-progress-heading>
-          <Icon name="check-circle" />
-          <span>{taskProgress}</span>
-        </div>
-        {/if}
+          {#if taskProgress}
+            <div class="task-progress-heading">
+              <Icon name="check-circle" />
+              <span>{taskProgress}</span>
+            </div>
+          {/if}
         {/await}
       </ColorItem>
     </article>
@@ -154,7 +154,8 @@
 </div>
 
 <style>
-  div.card-header, div.task-progress-heading {
+  div.card-header,
+  div.task-progress-heading {
     display: flex;
     gap: 4px;
     align-items: center;
