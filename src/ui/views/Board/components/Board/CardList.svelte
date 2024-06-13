@@ -113,7 +113,7 @@
           {#if !customHeader}
             <InternalLink
               linkText={item.id}
-              sourcePath=""
+              sourcePath={item.id}
               resolved
               on:open={({ detail: { linkText, sourcePath, newLeaf } }) => {
                 let openEditor =

@@ -6,11 +6,13 @@
     Optional,
   } from "src/lib/dataframe/dataframe";
   import { app, view } from "src/lib/stores/obsidian";
+  import { handleHoverLink } from "src/ui/views/helpers";
+  import { getContext } from "svelte";
 
   export let value: Optional<DataValue>;
   export let field: DataField;
 
-  export let sourcePath: string = "";
+  const sourcePath = getContext<string>("sourcePath") ?? "";
 
   function useMarkdown(node: HTMLElement) {
     if (typeof value === "string") {
@@ -43,7 +45,13 @@
 </script>
 
 {#if field.typeConfig?.richText}
-  <div use:useMarkdown on:click={handleClick} on:keypress />
+  <div
+    use:useMarkdown
+    on:click={handleClick}
+    on:mouseover={(event) => handleHoverLink(event, sourcePath)}
+    on:focus
+    on:keypress
+  />
 {:else if typeof value === "string"}
   <div>
     {value}
