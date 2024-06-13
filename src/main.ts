@@ -225,8 +225,6 @@ export default class ProjectsPlugin extends Plugin {
         viewId,
       },
     });
-
-    this.app.workspace.revealLeaf(leaf);
   }
 
   /**

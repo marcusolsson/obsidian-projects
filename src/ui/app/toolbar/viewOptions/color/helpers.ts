@@ -7,6 +7,8 @@ import type {
   ColorRule,
   FilterOperator,
 } from "src/settings/settings";
+import { get } from "svelte/store";
+import { app } from "src/lib/stores/obsidian";
 
 export type ColorRuleWithId = ColorRule & { readonly id: string };
 
@@ -121,7 +123,7 @@ export function addCondition(
 ) {
   return produce(filter, (draft) => {
     draft.conditions.push({
-      color: "#a882ff", // Obsidian purple
+      color: get(app).vault.config.accentColor ?? "#a882ff", // Obsidian purple
       condition: {
         field: fields.at(0)?.name ?? "",
         operator: "is-not-empty",

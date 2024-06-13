@@ -35,6 +35,11 @@ declare module "obsidian" {
      * @internal Add warning styling to the menu item
      * @param warning - Whether the menu item should be styled as a warning
      */
-    setWarning(warning: boolean): MenuItem;
+    setWarning(warning: boolean): this;
+  }
+  interface Vault {
+    config: {
+      accentColor: string;
+    };
   }
 }

@@ -25,6 +25,7 @@
   {/if}
 </Button>
 <Popover
+  className={"projects--popover"}
   anchorEl={ref}
   open={isOpen}
   onClose={() => {

@@ -88,8 +88,13 @@
   padding: 0;
 }
 
-.sortable-drag {
-  opacity: 0 !important;
+.projects--popover {
+  background-color: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  box-shadow: var(--shadow-s);
+  border-radius: var(--radius-m);
+  padding: var(--size-4-5);
+  max-height: 95vh;
 }
 
 /*# sourceMappingURL=styles.css.map */
