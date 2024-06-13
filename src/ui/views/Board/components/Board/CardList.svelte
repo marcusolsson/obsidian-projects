@@ -11,6 +11,7 @@
   import { settings } from "src/lib/stores/settings";
   import CardMetadata from "src/ui/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
+  import Indicator from "src/ui/components/Indicator/Indicator.svelte";
   import {
     getRecordColorContext,
     handleHoverLink,
@@ -30,7 +31,6 @@
     OnRecordCheck,
     OnRecordDrop,
   } from "./types";
-  import { Indicator } from "src/ui/components/Indicator";
 
   export let items: DataRecord[];
   export let onRecordClick: OnRecordClick;
