@@ -26,7 +26,7 @@ export function fieldIcon(field: DataField): string {
     case DataFieldType.Boolean:
       return "check-square";
     case DataFieldType.Date:
-      return "calendar";
+      return field.typeConfig?.time ? "clock" : "calendar";
   }
   return "file-question";
 }
@@ -49,7 +49,9 @@ export function fieldDisplayText(field: DataField): string {
     case DataFieldType.Boolean:
       return get(i18n).t("data-types.boolean");
     case DataFieldType.Date:
-      return get(i18n).t("data-types.date");
+      return field.typeConfig?.time
+        ? get(i18n).t("data-types.datetime")
+        : get(i18n).t("data-types.date");
   }
   return get(i18n).t("data-types.unknown");
 }

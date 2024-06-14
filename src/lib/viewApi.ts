@@ -16,11 +16,11 @@ import type { DataSource } from "./datasources";
 export class ViewApi {
   constructor(readonly dataSource: DataSource, readonly dataApi: DataApi) {}
 
-  addRecord(record: DataRecord, templatePath: string) {
+  addRecord(record: DataRecord, fields: DataField[], templatePath: string) {
     if (this.dataSource.includes(record.id)) {
       dataFrame.addRecord(record);
     }
-    this.dataApi.createNote(record, templatePath);
+    this.dataApi.createNote(record, fields ?? [], templatePath);
   }
 
   updateRecord(record: DataRecord, fields: DataField[]) {

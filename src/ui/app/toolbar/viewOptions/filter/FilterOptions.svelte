@@ -10,7 +10,9 @@
     NumberInput,
     Checkbox,
     DateInput,
+    // DatetimeInput,
   } from "obsidian-svelte";
+  import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
   import type { DataField } from "src/lib/dataframe/dataframe";
@@ -131,10 +133,17 @@
             on:blur={handleValueChange(i)}
           />
         {:else if isDateFilterOperator(condition.operator)}
-          <DateInput
-            value={dayjs(condition.value ?? "").toDate()}
-            on:blur={handleValueChange(i)}
-          />
+          {#if field?.typeConfig?.time}
+            <DatetimeInput
+              value={dayjs(condition.value ?? "").toDate()}
+              on:blur={handleValueChange(i)}
+            />
+          {:else}
+            <DateInput
+              value={dayjs(condition.value ?? "").toDate()}
+              on:blur={handleValueChange(i)}
+            />
+          {/if}
         {:else if isListFilterOperator(condition.operator)}
           <TagsInput
             strict={condition.field === "tags"}

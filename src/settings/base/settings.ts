@@ -146,7 +146,11 @@ export type StringFieldConfig = {
   richText?: boolean;
 };
 
-export type FieldConfig = StringFieldConfig;
+export type DateFieldConfig = {
+  time?: boolean;
+};
+
+export type FieldConfig = StringFieldConfig & DateFieldConfig;
 
 export type ShowCommand = {
   readonly project: string;

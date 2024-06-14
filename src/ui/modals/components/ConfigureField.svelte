@@ -64,6 +64,16 @@
     };
   }
 
+  function handleTimeChange({ detail: time }: CustomEvent<boolean>) {
+    field = {
+      ...field,
+      typeConfig: {
+        ...field.typeConfig,
+        time,
+      },
+    };
+  }
+
   $: options = [
     { label: $i18n.t("data-types.string"), value: DataFieldType.String },
     { label: $i18n.t("data-types.number"), value: DataFieldType.Number },
@@ -124,6 +134,17 @@
         <Switch
           checked={field.typeConfig?.richText ?? false}
           on:check={handleRichTextChange}
+        />
+      </SettingItem>
+    {/if}
+    {#if field.type === DataFieldType.Date && !field.repeated}
+      <SettingItem
+        name={$i18n.t("modals.field.configure.time.name")}
+        description={$i18n.t("modals.field.configure.time.description")}
+      >
+        <Switch
+          checked={field.typeConfig?.time ?? false}
+          on:check={handleTimeChange}
         />
       </SettingItem>
     {/if}

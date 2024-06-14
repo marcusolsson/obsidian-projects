@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import {
   isDate,
+  DataFieldType,
   type DataField,
   type DataRecord,
   type DataValue,
@@ -94,7 +95,11 @@ export class DataApi {
     );
   }
 
-  async createNote(record: DataRecord, templatePath: string): Promise<void> {
+  async createNote(
+    record: DataRecord,
+    fields: DataField[],
+    templatePath: string
+  ): Promise<void> {
     let content = "";
 
     if (templatePath) {
@@ -127,7 +132,9 @@ export class DataApi {
 
     const file = await this.fileSystem.create(record.id, content);
 
-    await this.updateFile(file, (data) => doUpdateRecord(data, [], record))();
+    await this.updateFile(file, (data) =>
+      doUpdateRecord(data, fields, record)
+    )();
   }
 
   updateFile(
@@ -172,13 +179,27 @@ export function doUpdateRecord(
     E.map((frontmatter) => {
       return Object.fromEntries(
         Object.entries({ ...frontmatter, ...record.values })
-          .map((entry) =>
-            isDate(entry[1])
-              ? produce(entry, (draft) => {
-                  draft[1] = dayjs(entry[1]).format("YYYY-MM-DD");
-                })
-              : entry
-          )
+          .map((entry) => {
+            if (isDate(entry[1])) {
+              const isDatetime = fields.find(
+                (field) =>
+                  field.name === entry[0] &&
+                  field.type === DataFieldType.Date &&
+                  (field.typeConfig?.time ||
+                    entry[1].getHours() ||
+                    entry[1].getMinutes() ||
+                    entry[1].getSeconds() ||
+                    entry[1].getMilliseconds())
+              );
+
+              return produce(entry, (draft) => {
+                draft[1] = dayjs(entry[1]).format(
+                  isDatetime ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
+                );
+              });
+            }
+            return entry;
+          })
           .filter(
             (entry) =>
               !fields.find((field) => field.name === entry[0] && field.derived)

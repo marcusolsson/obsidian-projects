@@ -145,7 +145,7 @@ export default class ProjectsPlugin extends Plugin {
               project,
               async (name, templatePath, project) => {
                 const record = createDataRecord(name, project);
-                await get(api).createNote(record, templatePath);
+                await get(api).createNote(record, [], templatePath);
 
                 // Open the created note in a new tab.
                 const file = this.app.vault.getAbstractFileByPath(record.id);

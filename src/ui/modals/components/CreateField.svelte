@@ -9,6 +9,7 @@
     TextInput,
     NumberInput,
     DateInput,
+    // DatetimeInput,
     Switch,
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
@@ -22,6 +23,7 @@
   } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { onMount } from "svelte";
+  import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
 
   export let existingFields: DataField[];
   export let defaultName: string;
@@ -174,6 +176,16 @@
     };
   }
 
+  function handleTimeChange({ detail: time }: CustomEvent<boolean>) {
+    field = {
+      ...field,
+      typeConfig: {
+        ...field.typeConfig,
+        time,
+      },
+    };
+  }
+
   const options = [
     { label: $i18n.t("data-types.string"), value: DataFieldType.String },
     { label: $i18n.t("data-types.number"), value: DataFieldType.Number },
@@ -251,12 +263,21 @@
           }}
         />
       {:else if field.type === DataFieldType.Date}
-        <DateInput
-          value={new Date()}
-          on:change={({ detail: value }) => {
-            dateValue = value;
-          }}
-        />
+        {#if field.typeConfig?.time}
+          <DatetimeInput
+            value={dateValue ?? new Date()}
+            on:input={({ detail: value }) => {
+              dateValue = value;
+            }}
+          />
+        {:else}
+          <DateInput
+            value={dateValue ?? new Date()}
+            on:input={({ detail: value }) => {
+              dateValue = value;
+            }}
+          />
+        {/if}
       {:else if field.type === DataFieldType.Boolean}
         <Switch
           checked={value ? true : false}
@@ -287,6 +308,17 @@
         />
       </SettingItem>
     {/if}
+    {#if !field.repeated && field.type === DataFieldType.Date}
+      <SettingItem
+        name={$i18n.t("modals.field.configure.time.name")}
+        description={$i18n.t("modals.field.configure.time.description")}
+      >
+        <Switch
+          checked={field.typeConfig?.time ?? false}
+          on:check={handleTimeChange}
+        />
+      </SettingItem>
+    {/if}
   </ModalContent>
   <ModalButtonGroup>
     <Button
@@ -299,7 +331,12 @@
             JSON.parse(listValue)
           );
         } else if (field.type === DataFieldType.Date) {
-          onCreate(field, dayjs(dateValue).format("YYYY-MM-DD"));
+          onCreate(
+            field,
+            dayjs(dateValue).format(
+              field.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
+            )
+          );
         } else if (field.type === DataFieldType.String) {
           // uniquify options items and omit empty
           if (field?.typeConfig && field.typeConfig?.options) {

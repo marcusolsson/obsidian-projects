@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { DateInput } from "obsidian-svelte";
+  import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
+  // import { DatetimeInput } from "obsidian-svelte";
   import type { Optional } from "src/lib/dataframe/dataframe";
-  import dayjs from "dayjs";
 
   import { GridCell } from "..";
   import { TextLabel } from "..";
@@ -36,6 +36,9 @@
           year: "numeric",
           month: "numeric",
           day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          hour12: false,
         }).format(value)
       );
     }
@@ -48,22 +51,20 @@
           year: "numeric",
           month: "numeric",
           day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          hour12: false,
         }).format(value)}
       />
     {/if}
   </svelte:fragment>
   <svelte:fragment slot="edit">
-    <DateInput
+    <DatetimeInput
       value={value != undefined ? value : null}
-      on:change={({ detail: value }) => (cachedValue = value)}
+      on:input={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
         edit = false;
-        const cachedDate = dayjs(cachedValue);
-        const newDatetime = dayjs(value)
-          .set("year", cachedDate.year())
-          .set("month", cachedDate.month())
-          .set("date", cachedDate.date());
-        onChange(newDatetime.toDate());
+        onChange(cachedValue);
       }}
       embed
     />

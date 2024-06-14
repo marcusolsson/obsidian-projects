@@ -2,10 +2,13 @@
   import {
     Autocomplete,
     DateInput,
+    // DatetimeInput,
     NumberInput,
     Switch,
     TextInput,
   } from "obsidian-svelte";
+  import DatetimeInput from "../DatetimeInput.svelte";
+  import dayjs from "dayjs";
 
   import { TagList } from "src/ui/components/TagList";
   import {
@@ -61,9 +64,24 @@
       onChange(value !== null ? value : undefined)}
   />
 {:else if field.type === DataFieldType.Date}
-  <DateInput
-    value={isDate(value) ? value : null}
-    on:change={({ detail: value }) => (cachedValue = value)}
-    on:blur={() => onChange(cachedValue)}
-  />
+  {#if field.typeConfig?.time}
+    <DatetimeInput
+      value={isDate(value) ? value : null}
+      on:input={({ detail: value }) => (cachedValue = value)}
+      on:blur={() => onChange(cachedValue)}
+    />
+  {:else}
+    <DateInput
+      value={isDate(value) ? value : null}
+      on:change={({ detail: value }) => (cachedValue = value)}
+      on:blur={() => {
+        const cachedDate = dayjs(cachedValue);
+        const newDatetime = dayjs(isDate(value) ? value : null)
+          .set("year", cachedDate.year())
+          .set("month", cachedDate.month())
+          .set("date", cachedDate.date());
+        onChange(newDatetime.toDate());
+      }}
+    />
+  {/if}
 {/if}

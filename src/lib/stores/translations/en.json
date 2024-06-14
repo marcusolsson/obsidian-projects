@@ -7,6 +7,7 @@
             "date": "Date",
             "unknown": "Unknown data type",
             "repeated": "Repeated field",
+            "datetime": "Date & time",
             "list": "List",
             "tags": "Tags",
             "aliases": "Aliases"
@@ -229,6 +230,10 @@
                     "rich-text": {
                         "name": "Enable rich text formatting",
                         "description": "For fields with Markdown content."
+                    },
+                    "time": {
+                        "name": "Enable time",
+                        "description": "Recognize this field as Date & time."
                     },
                     "save": "Save"
                 },
