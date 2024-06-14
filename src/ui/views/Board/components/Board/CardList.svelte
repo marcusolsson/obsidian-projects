@@ -149,11 +149,14 @@
         <CardMetadata fields={includeFields} record={item} />
         <div class="task-indicators">
           {#if taskProgress}
-            <Indicator icon="check-circle" content={taskProgress} />
+            <Indicator icon="check-circle">
+              {taskProgress}
+            </Indicator>
           {/if}
-
           {#if weight > 1}
-            <Indicator icon="weight" content={weight} />
+            <Indicator icon="weight">
+              {weight}
+            </Indicator>
           {/if}
         </div>
       </ColorItem>
@@ -162,14 +165,16 @@
 </div>
 
 <style>
-  div.card-header,
-  div.task-indicators {
+  div.card-header {
     display: flex;
     gap: 4px;
     align-items: center;
   }
 
   div.task-indicators {
+    display: flex;
+    gap: 4px;
+    align-items: center;
     gap: 10px;
   }
 
