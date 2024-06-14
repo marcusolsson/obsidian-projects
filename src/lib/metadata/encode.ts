@@ -23,7 +23,7 @@ export function encodeFrontMatter(
   const hasFrontMatter = isStart && endPosition > startPosition;
 
   return F.pipe(
-    parseYaml(data.slice(startPosition, endPosition)),
+    parseYaml(hasFrontMatter ? data.slice(startPosition, endPosition) : ""),
     E.map((existing) => Object.assign({}, existing, frontmatter)),
     E.map((fm) => {
       if (Object.entries(fm).length) {
