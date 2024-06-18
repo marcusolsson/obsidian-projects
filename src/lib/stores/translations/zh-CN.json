@@ -7,6 +7,7 @@
             "date": "日期",
             "unknown": "未知",
             "repeated": "重复",
+            "datetime": "日期 & 时间",
             "list": "列表",
             "tags": "标签",
             "aliases": "别名"
@@ -230,6 +231,10 @@
                         "name": "富文本",
                         "description": "依照 Markdown 格式渲染字段内容。"
                     },
+                    "time": {
+                        "name": "启用时间",
+                        "description": "将该字段识别为日期 & 时间格式。"
+                    },
                     "save": "保存修改"
                 },
                 "create": {
@@ -446,6 +451,14 @@
                     "options": {
                         "open-editor": "打开元数据编辑器",
                         "open-note": "打开目标笔记"
+                    }
+                },
+                "start-of-week": {
+                    "name": "一周的第一天",
+                    "options": {
+                        "sunday": "星期日",
+                        "monday": "星期一",
+                        "default": "默认"
                     }
                 }
             },

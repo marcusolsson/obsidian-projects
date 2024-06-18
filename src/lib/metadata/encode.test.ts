@@ -34,8 +34,7 @@ title6: -Title
   it("should keep existing Markdown content", () => {
     expect(
       encodeFrontMatter(
-        `
----
+        `---
 status: In progress
 ---
 
@@ -47,8 +46,7 @@ status: In progress
         "PLAIN"
       )
     ).toStrictEqual(
-      E.right(`
----
+      E.right(`---
 status: Done
 ---
 
@@ -60,8 +58,7 @@ status: Done
   it("should keep existing properties", () => {
     expect(
       encodeFrontMatter(
-        `
----
+        `---
 status: In progress
 due: 1979-01-01
 ---
@@ -74,8 +71,7 @@ due: 1979-01-01
         "PLAIN"
       )
     ).toStrictEqual(
-      E.right(`
----
+      E.right(`---
 status: Done
 due: 1979-01-01
 ---
@@ -106,8 +102,7 @@ status:
   it("should handle null and undefined", () => {
     expect(
       encodeFrontMatter(
-        `
----
+        `---
 foo: 1
 bar: 2
 baz: 3
@@ -124,14 +119,41 @@ test: 4
         "PLAIN"
       )
     ).toStrictEqual(
-      E.right(`
----
+      E.right(`---
 foo: "5"
 baz:
 test: 4
 ---
 
 # My title
+`)
+    );
+  });
+
+  it("should ignore non-leading front matter", () => {
+    expect(
+      encodeFrontMatter(
+        `# My title
+
+---
+some text
+---
+`,
+        {
+          status: "Done",
+        },
+        "PLAIN"
+      )
+    ).toStrictEqual(
+      E.right(`---
+status: Done
+---
+
+# My title
+
+---
+some text
+---
 `)
     );
   });

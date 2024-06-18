@@ -108,12 +108,20 @@
 
   function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
     if (dateField) {
-      api.updateRecord(
-        updateRecordValues(record, {
-          [dateField.name]: date.format("YYYY-MM-DD"),
-        }),
-        fields
-      );
+      if (dateField.type === DataFieldType.Date) {
+        const newDatetime = dayjs(record.values[dateField.name] as string)
+          .set("year", date.year())
+          .set("month", date.month())
+          .set("date", date.date());
+        api.updateRecord(
+          updateRecordValues(record, {
+            [dateField.name]: newDatetime.format(
+              dateField.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
+            ),
+          }),
+          fields
+        );
+      }
     }
   }
 
@@ -147,6 +155,7 @@
           createDataRecord(name, project, {
             [dateField.name]: date.toDate(),
           }),
+          fields,
           templatePath
         );
       }
@@ -230,13 +239,14 @@
           <Weekday
             width={100 / weekDays.length}
             weekend={weekDay.day() === 0 || weekDay.day() === 6}
-            >{$i18n.t("views.calendar.weekday", {
+          >
+            {$i18n.t("views.calendar.weekday", {
               value: weekDay.toDate(),
               formatParams: {
                 value: { weekday: "short" },
               },
-            })}</Weekday
-          >
+            })}
+          </Weekday>
         {/each}
       </WeekHeader>
       {#each weeks as week}

@@ -218,6 +218,7 @@
                 }
               : {}
           ),
+          fields,
           templatePath
         );
       }).open();
