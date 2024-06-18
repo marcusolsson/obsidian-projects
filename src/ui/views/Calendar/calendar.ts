@@ -59,12 +59,14 @@ export function subtractInterval(
 
 export function groupRecordsByField(
   records: DataRecord[],
-  field: string
+  startDateField: string,
+  endDateField?: string
 ): Record<string, DataRecord[]> {
   const res: Record<string, DataRecord[]> = {};
 
   records.forEach((record) => {
-    const dateValue = record.values[field];
+    const dateValue = record.values[startDateField];
+    const endDateValue = endDateField != undefined ? record.values[endDateField] : null;
 
     const start = dateValue
       ? isDate(dateValue)
@@ -72,14 +74,31 @@ export function groupRecordsByField(
         : null
       : null;
 
-    if (start) {
+    const end = dateValue ? isDate(endDateValue) ? dayjs(endDateValue) : null : null;
+
+    if (start && end == null) {
       const dateStr = start.format("YYYY-MM-DD");
       if (!(dateStr in res)) {
         res[dateStr] = [];
       }
 
       res[dateStr]?.push(record);
+
+    } else if (start && end?.isAfter(start, "day")) {
+      for (
+        let date = start;
+        date.isSame(end, "day") || date.isBefore(end, "day");
+        date = date.add(1, "day")
+      ) {
+        const dateStr = date.format("YYYY-MM-DD");
+        if (!(dateStr in res)) {
+          res[dateStr] = [];
+        }
+
+        res[dateStr]?.push(record);
+      }
     }
+
   });
 
   return res;
