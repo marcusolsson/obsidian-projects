@@ -64,7 +64,8 @@
   class:active
   class:error
   on:dblclick={() => (editing = true)}
-  on:mousedown
+  on:click
+  on:keydown
 >
   {#if icon}
     <Icon name={icon} />
