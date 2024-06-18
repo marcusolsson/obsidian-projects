@@ -70,7 +70,7 @@
             active={viewId === v.id}
             label={v.name}
             icon={iconFromViewType(v.type)}
-            on:mousedown={() => onViewChange(v.id)}
+            on:click={() => onViewChange(v.id)}
             on:rename={({ detail: name }) => {
               onViewRename(v.id, name);
             }}
