@@ -34,6 +34,7 @@
   export let onColumnCollapse: OnColumnCollapse;
   export let onColumnPin: OnColumnPin;
   export let checkField: string | undefined;
+  export let weightField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
 
@@ -82,6 +83,7 @@
           records={column.records}
           {onRecordClick}
           {checkField}
+          {weightField}
           {onRecordCheck}
           onRecordAdd={() => onRecordAdd(column.id)}
           onDrop={(record, records, trigger) => {

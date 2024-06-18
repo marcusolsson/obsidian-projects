@@ -20,9 +20,10 @@
   let columnWidthValue = config.columnWidth ?? null;
 
   $: headerField = config.headerField ?? "";
-
   $: orderSyncField = config.orderSyncField ?? "";
-  $: validOrderSyncFields = getFieldsByType(fields, DataFieldType.Number);
+  $: weightField = config.weightField ?? "";
+
+  $: numberFields = getFieldsByType(fields, DataFieldType.Number);
 
   const updateConfig = <T extends keyof BoardConfig>(
     key: T,
@@ -69,12 +70,27 @@
     >
       <Select
         value={orderSyncField ?? ""}
-        options={validOrderSyncFields.map(fieldToSelectableValue)}
+        options={numberFields.map(fieldToSelectableValue)}
         placeholder={$i18n.t("views.board.fields.none") ?? ""}
         allowEmpty
         on:change={(event) => {
           orderSyncField = event.detail;
           updateConfig("orderSyncField", orderSyncField);
+        }}
+      />
+    </SettingItem>
+    <SettingItem
+      name={$i18n.t("views.board.settings.weight-field.name")}
+      description={$i18n.t("views.board.settings.weight-field.description")}
+    >
+      <Select
+        value={weightField ?? ""}
+        options={numberFields.map(fieldToSelectableValue)}
+        placeholder={$i18n.t("views.board.fields.none") ?? ""}
+        allowEmpty
+        on:change={(event) => {
+          weightField = event.detail;
+          updateConfig("weightField", weightField);
         }}
       />
     </SettingItem>
