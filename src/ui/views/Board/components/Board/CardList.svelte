@@ -43,7 +43,7 @@
   const checked = (item: DataRecord): boolean =>
     checkField ? (item.values[checkField] as boolean) : false;
   export let pointsField: string | undefined;
-  const taskPoints = (item: DataRecord): number =>
+  const getTaskPoints = (item: DataRecord): number =>
     pointsField ? (item.values[pointsField] as number) : 1;
   export let customHeader: DataField | undefined;
   export let boardEditing: boolean;
@@ -96,7 +96,7 @@
 >
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
-    {@const taskPoints = taskPoints(item)}
+    {@const taskPoints = getTaskPoints(item)}
     {@const taskProgress = getTaskProgress(item.id)}
 
     <article
