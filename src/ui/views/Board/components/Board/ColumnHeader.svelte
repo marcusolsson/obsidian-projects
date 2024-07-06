@@ -1,6 +1,8 @@
 <script lang="ts">
   import { MarkdownRenderer, Menu } from "obsidian";
   import { app, view } from "src/lib/stores/obsidian";
+  import { i18n } from "src/lib/stores/i18n";
+  import { get } from "svelte/store";
   import { getContext } from "svelte";
   import { TextInput, IconButton } from "obsidian-svelte";
   import { Flair } from "src/ui/components/Flair";
@@ -127,7 +129,7 @@
   {/if}
   <div>
     {#if collapse || checkField}
-      <Flair variant="primary">
+      <Flair variant="primary" tooltip={get(i18n).t("views.board.tooltips.checked-total")}>
         {checkField ? `${checkedCount}/${count}` : count}
       </Flair>
     {/if}

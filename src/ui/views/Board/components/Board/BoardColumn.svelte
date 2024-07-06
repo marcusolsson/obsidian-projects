@@ -19,7 +19,7 @@
   export let readonly: boolean;
   export let richText: boolean;
   export let checkField: string | undefined;
-  export let weightField: string | undefined;
+  export let pointsField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
   export let pinned: boolean;
@@ -42,13 +42,13 @@
   $: onEdit(editing);
 
   $: count = records.reduce(
-    (total, r) => total + ((r.values[weightField ?? ""] as number) ?? 1),
+    (total, r) => total + ((r.values[pointsField ?? ""] as number) ?? 1),
     0
   );
   $: checkedCount = records
     .filter((r) => r.values[checkField ?? ""])
     .reduce(
-      (total, r) => total + ((r.values[weightField ?? ""] as number) ?? 1),
+      (total, r) => total + ((r.values[pointsField ?? ""] as number) ?? 1),
       0
     );
 
@@ -122,6 +122,7 @@
     {richText}
     {collapse}
     {checkField}
+    {pointsField}
     {onColumnMenu}
     {onColumnRename}
     {onValidate}
@@ -134,7 +135,7 @@
       {customHeader}
       {onRecordClick}
       {checkField}
-      {weightField}
+      {pointsField}
       {onRecordCheck}
       {onDrop}
       {includeFields}

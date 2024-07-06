@@ -9,6 +9,8 @@
   } from "src/lib/dataframe/dataframe";
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
+  import { i18n } from "src/lib/stores/i18n";
+  import { get } from "svelte/store";
   import CardMetadata from "src/ui/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
   import Indicator from "src/ui/components/Indicator/Indicator.svelte";
@@ -40,9 +42,9 @@
   export let checkField: string | undefined;
   const checked = (item: DataRecord): boolean =>
     checkField ? (item.values[checkField] as boolean) : false;
-  export let weightField: string | undefined;
-  const taskWeight = (item: DataRecord): number =>
-    weightField ? (item.values[weightField] as number) : 1;
+  export let pointsField: string | undefined;
+  const taskPoints = (item: DataRecord): number =>
+    pointsField ? (item.values[pointsField] as number) : 1;
   export let customHeader: DataField | undefined;
   export let boardEditing: boolean;
 
@@ -94,7 +96,7 @@
 >
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
-    {@const weight = taskWeight(item)}
+    {@const taskPoints = taskPoints(item)}
     {@const taskProgress = getTaskProgress(item.id)}
 
     <article
@@ -149,13 +151,13 @@
         <CardMetadata fields={includeFields} record={item} />
         <div class="task-indicators">
           {#if taskProgress}
-            <Indicator icon="check-circle">
+            <Indicator icon="check-square" tooltip={get(i18n).t("views.board.tooltips.checklist-items")}>
               {taskProgress}
             </Indicator>
           {/if}
-          {#if weight > 1}
-            <Indicator icon="weight">
-              {weight}
+          {#if taskPoints > 1}
+            <Indicator icon="weight" tooltip={get(i18n).t("views.board.tooltips.task-points")}>
+              {taskPoints}
             </Indicator>
           {/if}
         </div>

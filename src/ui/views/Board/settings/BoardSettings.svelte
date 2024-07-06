@@ -21,7 +21,7 @@
 
   $: headerField = config.headerField ?? "";
   $: orderSyncField = config.orderSyncField ?? "";
-  $: weightField = config.weightField ?? "";
+  $: pointsField = config.pointsField ?? "";
 
   $: numberFields = getFieldsByType(fields, DataFieldType.Number);
 
@@ -80,17 +80,17 @@
       />
     </SettingItem>
     <SettingItem
-      name={$i18n.t("views.board.settings.weight-field.name")}
-      description={$i18n.t("views.board.settings.weight-field.description")}
+      name={$i18n.t("views.board.settings.points-field.name")}
+      description={$i18n.t("views.board.settings.points-field.description")}
     >
       <Select
-        value={weightField ?? ""}
+        value={pointsField ?? ""}
         options={numberFields.map(fieldToSelectableValue)}
         placeholder={$i18n.t("views.board.fields.none") ?? ""}
         allowEmpty
         on:change={(event) => {
-          weightField = event.detail;
-          updateConfig("weightField", weightField);
+          pointsField = event.detail;
+          updateConfig("pointsField", pointsField);
         }}
       />
     </SettingItem>
