@@ -296,7 +296,8 @@
                 "tooltips": {
                     "checklist-items": "Checklist items",
                     "task-points": "Story points",
-                    "checked-total": "Cards checked/total"
+                    "checked-total": "Cards checked/total",
+                    "task-points-total": "Story point total"
                 },
                 "unprioritized": "Unprioritized",
                 "include-fields": "Include fields",

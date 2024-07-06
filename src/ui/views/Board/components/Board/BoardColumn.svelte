@@ -41,16 +41,9 @@
   export let onEdit: (editing: boolean) => void;
   $: onEdit(editing);
 
-  $: count = records.reduce(
-    (total, r) => total + ((r.values[pointsField ?? ""] as number) ?? 1),
-    0
-  );
-  $: checkedCount = records
-    .filter((r) => r.values[checkField ?? ""])
-    .reduce(
-      (total, r) => total + ((r.values[pointsField ?? ""] as number) ?? 1),
-      0
-    );
+  $: count = records.length;
+  $: checkedCount = records.filter((r) => r.values[checkField ?? ""]).length;
+  $: pointsCount = records.map((r) => r.values[pointsField ?? ""] as number).reduce((sum, p) => sum + p, 0);
 
   function onColumnMenu() {
     const menu = new Menu();
@@ -118,6 +111,7 @@
     value={name}
     {count}
     {checkedCount}
+    {pointsCount}
     bind:editing
     {richText}
     {collapse}
