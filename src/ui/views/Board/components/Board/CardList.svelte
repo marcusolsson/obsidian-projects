@@ -43,8 +43,8 @@
   const checked = (item: DataRecord): boolean =>
     checkField ? (item.values[checkField] as boolean) : false;
   export let pointsField: string | undefined;
-  const getTaskPoints = (item: DataRecord): number =>
-    pointsField ? (item.values[pointsField] as number) : 1;
+  const getTaskPoints = (item: DataRecord) =>
+    pointsField ? (item.values[pointsField] as number) : null;
   export let customHeader: DataField | undefined;
   export let boardEditing: boolean;
 
@@ -155,7 +155,7 @@
               {taskProgress}
             </Indicator>
           {/if}
-          {#if taskPoints > 1}
+          {#if taskPoints}
             <Indicator icon="weight" tooltip={get(i18n).t("views.board.tooltips.task-points")}>
               {taskPoints}
             </Indicator>
