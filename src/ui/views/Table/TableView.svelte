@@ -11,6 +11,8 @@
   import { CreateNoteModal } from "src/ui/modals/createNoteModal";
   import { EditNoteModal } from "src/ui/modals/editNoteModal";
 
+  import { searchText } from "src/settings/settings";
+
   import type {
     GridColDef,
     GridRowProps,
@@ -217,6 +219,9 @@
 <ViewLayout>
   <ViewHeader>
     <ViewToolbar variant="secondary">
+      <svelte:fragment slot="left">
+        <input type="text" bind:value={$searchText} placeholder="Search"/>
+      </svelte:fragment>
       <svelte:fragment slot="right">
         <SwitchSelect
           label={$i18n.t("views.table.hide-fields")}

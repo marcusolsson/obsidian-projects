@@ -14,6 +14,8 @@
   import { useView } from "./useView";
   import { applySort, sortRecords } from "./viewSort";
 
+  import { searchText } from "src/settings/settings";
+
   /**
    * Specify the project.
    */
@@ -72,9 +74,21 @@
       });
     }
   }
+  //let searchFilter: { conjunction: "and", conditions: [searchDict]};
+  
+  let searchDict = {
+    field: "path",
+    operator: "contains",
+    value: "",
+    enabled: true,
+  };
+
+  $: searchDict.value = $searchText;
 
   $: viewFilter = view.filter ?? { conjunction: "and", conditions: [] };
-  $: filteredFrame = applyFilter(frame, viewFilter);
+  $: filteredFrame = applyFilter(frame, { conjunction: "and", conditions: [searchDict]});
+  $: console.log("String found search", searchDict);
+  $: console.log("String found filter", viewFilter);
 
   $: viewSort =
     view.sort.criteria.length > 0
