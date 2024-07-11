@@ -81,6 +81,7 @@ export function getOperatorsByField(field: DataField): Array<{
       { label: "has any of", value: "has-any-of" },
       { label: "has all of", value: "has-all-of" },
       { label: "has none of", value: "has-none-of" },
+      { label: "contains part of", value: "contains-part-of" },
     ];
   }
 
