@@ -90,12 +90,12 @@ export function isDateFilterOperator(
   ].includes(op);
 }
 
-export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of" | "contains-part-of";
+export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of" | "has-keyword";
 
 export function isListFilterOperator(
   op: FilterOperator
 ): op is ListFilterOperator {
-  return ["has-any-of", "has-all-of", "has-none-of", "contains-part-of"].includes(op);
+  return ["has-any-of", "has-all-of", "has-none-of", "has-keyword"].includes(op);
 }
 
 export type FilterOperator =
@@ -132,7 +132,7 @@ export const filterOperatorTypes: Record<FilterOperator, FilterOperatorType> = {
   "has-any-of": "binary",
   "has-all-of": "binary",
   "has-none-of": "binary",
-  "contains-part-of": "binary",
+  "has-keyword": "binary",
 };
 
 export interface FilterCondition {
