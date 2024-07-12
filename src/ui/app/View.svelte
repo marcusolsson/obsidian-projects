@@ -9,7 +9,7 @@
     ViewDefinition,
     ViewId,
   } from "src/settings/settings";
-  import { applyFilter, matchesCondition } from "./filterFunctions";
+  import { applyFilter, matchesCondition, applySearch } from "./filterFunctions";
 
   import { useView } from "./useView";
   import { applySort, sortRecords } from "./viewSort";
@@ -83,22 +83,10 @@
     enabled: true,
   };
 
-  let filterConditions = [];
-  let totalFilter = { conjunction: "and", conditions: [] };
-
   $: searchDict.value = $searchText;
-
   $: viewFilter = view.filter ?? { conjunction: "and", conditions: [] };
-  $: {
-    //filterConjunction = viewFilter.conjunction;
-    filterConditions = [...viewFilter.conditions, searchDict];
-    totalFilter = { conjunction: "and", conditions: filterConditions}
-    //viewFilter.conditions = [...viewFilter.conditions, searchDict];
-  }
-  $: filteredFrame = applyFilter(frame, totalFilter);
-  $: console.log("String found search", searchDict);
-  $: console.log("String found filter", viewFilter);
-  $: console.log("String found total", totalFilter);
+  $: filteredFrame = applyFilter(frame, viewFilter);
+  $: filteredAndSearchedFrame = applySearch(filteredFrame, { conjunction: "and", conditions: [searchDict] });
 
   $: viewSort =
     view.sort.criteria.length > 0
@@ -107,7 +95,7 @@
           criteria: [{ field: "path", order: "asc", enabled: true }],
         } satisfies SortDefinition);
 
-  $: sortedFrame = applySort(filteredFrame, viewSort);
+  $: sortedFrame = applySort(filteredAndSearchedFrame, viewSort);
 
   let recordCache: Record<string, DataRecord | undefined>;
   $: {
