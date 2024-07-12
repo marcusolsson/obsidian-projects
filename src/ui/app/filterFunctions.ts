@@ -204,7 +204,4 @@ export const listFns: Record<
   "has-none-of": (left, right) => {
     return !(right ? right.some((value) => left.includes(value)) : false);
   },
-  "contains-part-of": (left, right) => {
-    return right ? right.some((value) => left.some((l) => l.includes(value))) : false;
-  },
 };
