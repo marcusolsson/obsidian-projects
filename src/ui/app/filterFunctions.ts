@@ -104,10 +104,8 @@ export function matchesConditionSearch(
 
   const value: Optional<DataValue> = record.values[cond.field];
 
-  console.log("matchesConditionSearch", { cond, record, value, operator });
   if (isStringFilterOperator(operator) && cond.value !== undefined) {
     return stringFns[operator](value?.toString().toLowerCase() ?? "", cond.value.toLowerCase());
-    //maybe replace this with a straight fuzzy match? This way might not work with lists...
   }
   return false;
 }
