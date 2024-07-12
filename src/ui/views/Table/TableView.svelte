@@ -11,7 +11,7 @@
   import { CreateNoteModal } from "src/ui/modals/createNoteModal";
   import { EditNoteModal } from "src/ui/modals/editNoteModal";
 
-  import { searchText } from "src/settings/settings";
+  import { searchText, searchField } from "src/settings/settings";
 
   import type {
     GridColDef,
@@ -32,7 +32,7 @@
   import { sortFields } from "./helpers";
   import type { ProjectDefinition } from "src/settings/settings";
   import { CreateFieldModal } from "src/ui/modals/createFieldModal";
-  import { Icon } from "obsidian-svelte";
+  import { Icon, Select } from "obsidian-svelte";
   import { TextLabel } from "./components/DataGrid/GridCell/GridTextCell";
   import { fieldIcon } from "../helpers";
 
@@ -221,6 +221,16 @@
     <ViewToolbar variant="secondary">
       <svelte:fragment slot="left">
         <input type="text" bind:value={$searchText} placeholder="Search"/>
+        <Select
+          options={fields.map((field) => ({
+            label: field.name,
+            value: field.name,
+          }))}
+          value={$searchField}
+          on:change={({ detail : value }) => {
+            $searchField = value;
+          }}
+        />
       </svelte:fragment>
       <svelte:fragment slot="right">
         <SwitchSelect

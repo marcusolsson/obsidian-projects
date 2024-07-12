@@ -14,7 +14,7 @@
   import { useView } from "./useView";
   import { applySort, sortRecords } from "./viewSort";
 
-  import { searchText } from "src/settings/settings";
+  import { searchText, searchField } from "src/settings/settings";
   import { filter } from "fp-ts/lib/ReadonlyNonEmptyArray";
 
   /**
@@ -84,6 +84,9 @@
   };
 
   $: searchDict.value = $searchText;
+  $: if ($searchField !== '') {
+    searchDict.field = $searchField;
+  }
   $: viewFilter = view.filter ?? { conjunction: "and", conditions: [] };
   $: filteredFrame = applyFilter(frame, viewFilter);
   $: filteredAndSearchedFrame = applySearch(filteredFrame, { conjunction: "and", conditions: [searchDict] });
