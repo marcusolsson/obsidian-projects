@@ -15,6 +15,7 @@
   import { applySort, sortRecords } from "./viewSort";
 
   import { searchText } from "src/settings/settings";
+  import { filter } from "fp-ts/lib/ReadonlyNonEmptyArray";
 
   /**
    * Specify the project.
@@ -74,7 +75,6 @@
       });
     }
   }
-  //let searchFilter: { conjunction: "and", conditions: [searchDict]};
   
   let searchDict = {
     field: "path",
@@ -83,12 +83,22 @@
     enabled: true,
   };
 
+  let filterConditions = [];
+  let totalFilter = { conjunction: "and", conditions: [] };
+
   $: searchDict.value = $searchText;
 
   $: viewFilter = view.filter ?? { conjunction: "and", conditions: [] };
-  $: filteredFrame = applyFilter(frame, { conjunction: "and", conditions: [searchDict]});
+  $: {
+    //filterConjunction = viewFilter.conjunction;
+    filterConditions = [...viewFilter.conditions, searchDict];
+    totalFilter = { conjunction: "and", conditions: filterConditions}
+    //viewFilter.conditions = [...viewFilter.conditions, searchDict];
+  }
+  $: filteredFrame = applyFilter(frame, totalFilter);
   $: console.log("String found search", searchDict);
   $: console.log("String found filter", viewFilter);
+  $: console.log("String found total", totalFilter);
 
   $: viewSort =
     view.sort.criteria.length > 0
