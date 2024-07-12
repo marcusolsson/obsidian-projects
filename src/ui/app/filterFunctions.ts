@@ -167,6 +167,10 @@ export const listFns: Record<
     return !(right ? right.some((value) => left.includes(value)) : false);
   },
   "has-keyword": (left, right) => {
-    return right ? right.some((value) => left.some((l) => l.includes(value))) : false;
+    return right ? right.some(rightValue => 
+        left.some(leftValue => 
+          String(leftValue).includes(String(rightValue))
+        )
+      ) : false;
   },
 };
