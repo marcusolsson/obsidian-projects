@@ -90,12 +90,18 @@ export function isDateFilterOperator(
   ].includes(op);
 }
 
-export type ListFilterOperator = "has-any-of" | "has-all-of" | "has-none-of" | "has-keyword";
+export type ListFilterOperator =
+  | "has-any-of"
+  | "has-all-of"
+  | "has-none-of"
+  | "has-keyword";
 
 export function isListFilterOperator(
   op: FilterOperator
 ): op is ListFilterOperator {
-  return ["has-any-of", "has-all-of", "has-none-of", "has-keyword"].includes(op);
+  return ["has-any-of", "has-all-of", "has-none-of", "has-keyword"].includes(
+    op
+  );
 }
 
 export type FilterOperator =
@@ -106,33 +112,38 @@ export type FilterOperator =
   | DateFilterOperator
   | ListFilterOperator;
 
-export type FilterOperatorType = "unary" | "binary";
+export type FilterOperatorType =
+  | "unary"
+  | "binary-text"
+  | "binary-number"
+  | "binary-date"
+  | "binary-multitext";
 
 export const filterOperatorTypes: Record<FilterOperator, FilterOperatorType> = {
   "is-empty": "unary",
   "is-not-empty": "unary",
-  is: "binary",
-  "is-not": "binary",
-  contains: "binary",
-  "not-contains": "binary",
-  eq: "binary",
-  neq: "binary",
-  lt: "binary",
-  gt: "binary",
-  lte: "binary",
-  gte: "binary",
+  is: "binary-text",
+  "is-not": "binary-text",
+  contains: "binary-text",
+  "not-contains": "binary-text",
+  eq: "binary-number",
+  neq: "binary-number",
+  lt: "binary-number",
+  gt: "binary-number",
+  lte: "binary-number",
+  gte: "binary-number",
   "is-checked": "unary",
   "is-not-checked": "unary",
-  "is-on": "binary",
-  "is-not-on": "binary",
-  "is-before": "binary",
-  "is-after": "binary",
-  "is-on-and-before": "binary",
-  "is-on-and-after": "binary",
-  "has-any-of": "binary",
-  "has-all-of": "binary",
-  "has-none-of": "binary",
-  "has-keyword": "binary",
+  "is-on": "binary-date",
+  "is-not-on": "binary-date",
+  "is-before": "binary-date",
+  "is-after": "binary-date",
+  "is-on-and-before": "binary-date",
+  "is-on-and-after": "binary-date",
+  "has-any-of": "binary-multitext",
+  "has-all-of": "binary-multitext",
+  "has-none-of": "binary-multitext",
+  "has-keyword": "binary-text",
 };
 
 export interface FilterCondition {
