@@ -18,6 +18,7 @@
   import type { DataField } from "src/lib/dataframe/dataframe";
   import {
     filterOperatorTypes,
+    getFilterOperatorType,
     type FilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
@@ -55,9 +56,8 @@
     (i: number) =>
     ({ detail }: CustomEvent<string>) => {
       if (
-        filter.conditions[i]?.operator &&
-        filterOperatorTypes[detail as FilterOperator] !==
-          filterOperatorTypes[filter.conditions[i].operator]
+        getFilterOperatorType(detail as FilterOperator) !==
+        getFilterOperatorType(filter.conditions[i]?.operator)
       ) {
         //TODO: potential type conversion here.
         filter = setValue(filter, i, "");

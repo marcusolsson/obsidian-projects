@@ -20,10 +20,7 @@
   import type { DataField } from "src/lib/dataframe/dataframe";
   import {
     filterOperatorTypes,
-    isNumberFilterOperator,
-    isStringFilterOperator,
-    isDateFilterOperator,
-    isListFilterOperator,
+    getFilterOperatorType,
     type ColorFilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
@@ -69,6 +66,12 @@
   const handleOperatorChange =
     (i: number) =>
     ({ detail }: CustomEvent<string>) => {
+      if (
+        getFilterOperatorType(detail as FilterOperator) !==
+        getFilterOperatorType(filter.conditions[i]?.condition.operator)
+      ) {
+        filter = setValue(filter, i, "");
+      }
       filter = setOperator(filter, i, detail as FilterOperator);
       onFilterChange(filter);
     };
@@ -148,40 +151,38 @@
           options={field ? getOperatorsByField(field) : []}
         />
 
-        {#if filterOperatorTypes[rule.condition.operator] === "binary"}
-          {#if isStringFilterOperator(rule.condition.operator)}
-            <TextInput
-              value={rule.condition.value ?? ""}
+        {#if filterOperatorTypes[rule.condition.operator] === "binary-text"}
+          <TextInput
+            value={rule.condition.value ?? ""}
+            on:blur={handleValueChange(i)}
+          />
+        {:else if filterOperatorTypes[rule.condition.operator] === "binary-number"}
+          <NumberInput
+            value={parseFloat(rule.condition.value ?? "")}
+            on:blur={handleValueChange(i)}
+          />
+        {:else if filterOperatorTypes[rule.condition.operator] === "binary-date"}
+          {#if field?.typeConfig?.time}
+            <DatetimeInput
+              value={dayjs(rule.condition.value ?? "").toDate()}
               on:blur={handleValueChange(i)}
             />
-          {:else if isNumberFilterOperator(rule.condition.operator)}
-            <NumberInput
-              value={parseFloat(rule.condition.value ?? "")}
+          {:else}
+            <DateInput
+              value={dayjs(rule.condition.value ?? "").toDate()}
               on:blur={handleValueChange(i)}
-            />
-          {:else if isDateFilterOperator(rule.condition.operator)}
-            {#if field?.typeConfig?.time}
-              <DatetimeInput
-                value={dayjs(rule.condition.value ?? "").toDate()}
-                on:blur={handleValueChange(i)}
-              />
-            {:else}
-              <DateInput
-                value={dayjs(rule.condition.value ?? "").toDate()}
-                on:blur={handleValueChange(i)}
-              />
-            {/if}
-          {:else if isListFilterOperator(rule.condition.operator)}
-            <TagsInput
-              strict={rule.condition.field === "tags"}
-              unique={true}
-              value={JSON.parse(rule.condition.value ?? "[]")}
-              on:change={(event) => {
-                filter = setValue(filter, i, event.detail);
-                onFilterChange(filter);
-              }}
             />
           {/if}
+        {:else if filterOperatorTypes[rule.condition.operator] === "binary-multitext"}
+          <TagsInput
+            strict={rule.condition.field === "binary-multitext"}
+            unique={true}
+            value={rule.condition.value ? JSON.parse(rule.condition.value) : []}
+            on:change={(event) => {
+              filter = setValue(filter, i, event.detail);
+              onFilterChange(filter);
+            }}
+          />
         {/if}
         <Checkbox
           checked={rule.condition?.enabled ?? true}

@@ -146,6 +146,12 @@ export const filterOperatorTypes: Record<FilterOperator, FilterOperatorType> = {
   "has-keyword": "binary-text",
 };
 
+export function getFilterOperatorType(
+  op: FilterOperator | undefined
+): FilterOperatorType | undefined {
+  return op ? filterOperatorTypes[op] : undefined;
+}
+
 export interface FilterCondition {
   readonly field: string;
   readonly operator: FilterOperator;
