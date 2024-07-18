@@ -40,11 +40,13 @@ export function matchesCondition(
     return baseFns[operator](value);
   }
 
-  if (isOptionalList(value)) {
-    if (isListFilterOperator(operator)) {
+  if (isOptionalList(value) && isListFilterOperator(operator)) {
+    if (operator === "has-keyword") {
+      return listFns[operator](value ?? [], cond.value);
+    } else {
       return listFns[operator](
         value ?? [],
-        cond.value ? JSON.parse(cond.value ?? "[]") : undefined
+        cond.value ? JSON.parse(cond.value) : undefined
       );
     }
   }
@@ -61,7 +63,7 @@ export function matchesCondition(
   } else if (isOptionalDate(value) && isDateFilterOperator(operator)) {
     return dateFns[operator](
       value,
-      cond.value ? dayjs(cond.value ?? "").toDate() : undefined
+      cond.value ? dayjs(cond.value).toDate() : undefined
     );
   }
 
@@ -153,8 +155,8 @@ export const dateFns: Record<
     left && right ? left.getTime() >= right.getTime() : false,
 };
 
-export const listFns: Record<
-  ListFilterOperator,
+export const listFns_multitext: Record<
+  Exclude<ListFilterOperator, "has-keyword">,
   (left: Optional<DataValue>[], right?: Optional<DataValue>[]) => boolean
 > = {
   "has-any-of": (left, right) => {
@@ -166,4 +168,20 @@ export const listFns: Record<
   "has-none-of": (left, right) => {
     return !(right ? right.some((value) => left.includes(value)) : false);
   },
+};
+
+export const listFns_text: Record<
+  "has-keyword",
+  (left: Optional<DataValue>[], right?: string) => boolean
+> = {
+  "has-keyword": (left, right) => {
+    return right
+      ? left.some((value) => String(value).contains(String(right)))
+      : false;
+  },
+};
+
+export const listFns = {
+  ...listFns_multitext,
+  ...listFns_text,
 };
