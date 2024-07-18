@@ -5,6 +5,7 @@ import { moment } from "obsidian";
 
 import en from "src/lib/stores/translations/en.json";
 import zh_CN from "src/lib/stores/translations/zh-CN.json";
+import uk from "src/lib/stores/translations/uk.json";
 
 i18next.init({
   lng: moment.locale(),
@@ -15,6 +16,7 @@ i18next.init({
   resources: {
     en: en,
     "zh-CN": zh_CN,
+    uk: uk,
   },
   interpolation: {
     escapeValue: false, // not needed for svelte as it escapes by default
