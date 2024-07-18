@@ -8,7 +8,7 @@
   import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<Date>;
-  let cachedValue: Optional<Date>;
+  let cachedValue: Optional<Date>; // store the proposing value
   export let onChange: (value: Optional<Date>) => void;
   export let column: GridColDef;
   export let rowindex: number;
@@ -58,6 +58,10 @@
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
         edit = false;
+        if (!cachedValue) {
+          onChange(cachedValue);
+          return;
+        }
         const cachedDate = dayjs(cachedValue);
         const newDatetime = dayjs(value)
           .set("year", cachedDate.year())
