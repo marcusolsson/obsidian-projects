@@ -449,6 +449,11 @@
     onColumnPin={toggleColumnPin(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
+    validateStatusField={() => {
+      if (groupByField?.derived) return "derived-status-field";
+      if (!groupByField) return "no-status-field";
+      return "";
+    }}
     richText={groupByField?.typeConfig?.richText ?? false}
   />
 </BoardOptionsProvider>

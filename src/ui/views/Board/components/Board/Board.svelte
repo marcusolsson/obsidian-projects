@@ -33,6 +33,7 @@
   export let onColumnRename: OnColumnRename;
   export let onColumnCollapse: OnColumnCollapse;
   export let onColumnPin: OnColumnPin;
+  export let validateStatusField: () => string;
   export let checkField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
@@ -132,6 +133,7 @@
         const cols = columns.map((col) => col.id);
         onColumnAdd(cols, name);
       }}
+      fieldError={validateStatusField()}
       onValidate={(name) => {
         if (name === "") return false;
         if (columns.map((col) => col.id).includes(name)) return false;

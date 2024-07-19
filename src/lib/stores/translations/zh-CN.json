@@ -394,8 +394,12 @@
             },
             "board": {
                 "column": {
-                    "add": "新建列表",
-                    "placeholder": "新列表",
+                    "add": {
+                        "name": "新建列表",
+                        "placeholder": "新列表",
+                        "no-status-field": "需要设置状态字段",
+                        "derived-status-field": "该状态字段只读，无法添加列"
+                    },
                     "rename": "重命名列表",
                     "delete": "删除列表",
                     "expand": "展开列表",

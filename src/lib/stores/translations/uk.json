@@ -394,8 +394,12 @@
             },
             "board": {
                 "column": {
-                    "add": "Додати стовпчик",
-                    "placeholder": "Новий стовпець",
+                    "add": {
+                        "name": "Додати стовпчик",
+                        "placeholder": "Новий стовпець",
+                        "no-status-field": "Status field required",
+                        "derived-status-field": "Current status field is read-only"
+                    },
                     "rename": "Перейменувати стовпець",
                     "delete": "Видалити стовпець",
                     "expand": "Розгорнути стовпець",
