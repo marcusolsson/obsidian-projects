@@ -10,16 +10,20 @@
     inputRef.select();
   }
 
-  let placeholder: string = $i18n.t("components.board.column.placeholder");
+  let placeholder: string = $i18n.t("components.board.column.add.placeholder");
   let value: string = "";
-  $: error = !onValidate(value);
+
+  export let fieldError: string = "";
+  $: tooltip = fieldError
+    ? $i18n.t(`components.board.column.add.${fieldError}`)
+    : "";
 
   export let onColumnAdd: (name: string) => void;
   export let onValidate: (value: string) => boolean;
 
   const addColumn = () => {
     editing = false;
-    if (!error) onColumnAdd(value);
+    if (onValidate(value)) onColumnAdd(value);
     value = "";
   };
 
@@ -55,9 +59,9 @@
     />
   {:else}
     <span class="add-column">
-      <Button variant="plain">
+      <Button variant="plain" disabled={!!fieldError} {tooltip}>
         <Icon name="plus" />
-        {$i18n.t("components.board.column.add")}
+        {$i18n.t("components.board.column.add.name")}
       </Button>
     </span>
   {/if}
