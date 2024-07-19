@@ -1,8 +1,10 @@
 <script lang="ts">
   import { MarkdownRenderer, Menu } from "obsidian";
   import { app, view } from "src/lib/stores/obsidian";
+  import { i18n } from "src/lib/stores/i18n";
+  import { get } from "svelte/store";
   import { getContext } from "svelte";
-  import { TextInput, IconButton } from "obsidian-svelte";
+  import { TextInput, IconButton, Icon } from "obsidian-svelte";
   import { Flair } from "src/ui/components/Flair";
   import { handleHoverLink } from "src/ui/views/helpers";
 
@@ -10,6 +12,8 @@
   export let count: number;
   export let checkedCount: number;
   export let checkField: string | undefined;
+  export let pointsCount: number;
+  export let pointsField: string | undefined;
   export let collapse: boolean = false;
   export let richText: boolean = false;
   const sourcePath = getContext<string>("sourcePath") ?? "";
@@ -126,8 +130,15 @@
     </span>
   {/if}
   <div>
+    {#if pointsField && pointsCount}
+      <Flair variant="primary" tooltip={get(i18n).t("views.board.tooltips.task-points-total")}>
+        <Icon name="weight" size="xs" --icon-color="var(--text-color)"/>
+        {pointsCount}
+      </Flair>
+    {/if}
     {#if collapse || checkField}
-      <Flair variant="primary">
+      <Flair variant="primary" tooltip={get(i18n).t("views.board.tooltips.checked-total")}>
+        <Icon name="wallet-cards" size="xs" --icon-color="var(--text-color)"/>
         {checkField ? `${checkedCount}/${count}` : count}
       </Flair>
     {/if}
