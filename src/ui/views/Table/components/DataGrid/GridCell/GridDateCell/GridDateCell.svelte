@@ -58,7 +58,6 @@
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
         edit = false;
-        console.log(cachedValue);
         if (!cachedValue) {
           onChange(cachedValue);
           return;
