@@ -36,6 +36,8 @@
       return;
     }
 
+    event.stopPropagation();
+
     if (closestAnchor.hasClass("internal-link")) {
       event.preventDefault();
 
