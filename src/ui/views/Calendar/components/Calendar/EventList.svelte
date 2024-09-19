@@ -10,7 +10,6 @@
     DataValue,
     Optional,
   } from "src/lib/dataframe/dataframe";
-  import { updateRecordValues } from "src/lib/datasources/helpers";
   import { getRecordColorContext, handleHoverLink } from "src/ui/views/helpers";
   import { settings } from "src/lib/stores/settings";
 
@@ -18,6 +17,7 @@
   export let checkField: string | undefined;
 
   export let onRecordClick: (record: DataRecord) => void;
+  export let onRecordCheck: (record: DataRecord) => void;
   export let onRecordChange: (record: DataRecord) => void;
 
   function asOptionalBoolean(value: Optional<DataValue>): Optional<boolean> {
@@ -62,17 +62,8 @@
         checked={checkField !== undefined
           ? asOptionalBoolean(record.values[checkField])
           : undefined}
-        on:check={({ detail: checked }) => {
-          if (checkField) {
-            onRecordChange(
-              updateRecordValues(record, {
-                [checkField]: checked,
-              })
-            );
-          }
-        }}
-        on:click={() => {
-          onRecordClick(record);
+        on:check={() => {
+          onRecordCheck(record);
         }}
       >
         <InternalLink

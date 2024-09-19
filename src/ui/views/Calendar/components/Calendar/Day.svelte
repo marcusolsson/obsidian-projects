@@ -33,6 +33,11 @@
   export let onRecordClick: (record: DataRecord) => void;
 
   /**
+   * onRecordCheck runs when the user Checks / Unchecks a calendar event.
+   */
+  export let onRecordCheck: (record: DataRecord) => void;
+
+  /**
    * onRecordChange runs when the user changes the checked state.
    */
   export let onRecordChange: (record: DataRecord) => void;
@@ -69,7 +74,13 @@
   style:width={width + "%"}
 >
   <Date {today}>{date.date()}</Date>
-  <EventList {checkField} {records} {onRecordClick} {onRecordChange} />
+  <EventList
+    {checkField}
+    {records}
+    {onRecordClick}
+    {onRecordCheck}
+    {onRecordChange}
+  />
 </div>
 
 <style>
