@@ -25,7 +25,7 @@
 
   export let field: DataField;
   export let value: Optional<DataValue>;
-  let cachedValue: Optional<Date>; // store the proposing value
+  let cachedValue: Optional<Date> = isDate(value) ? value : null; // store the proposing value
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
