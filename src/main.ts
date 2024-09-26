@@ -256,16 +256,20 @@ export default class ProjectsPlugin extends Plugin {
       )
     );
 
-    this.removeMissingCommands(enabledCommands, projects, registeredCommandIds);
+    this.removeRedundantCommands(
+      enabledCommands,
+      projects,
+      registeredCommandIds
+    );
     this.addMissingCommands(enabledCommands, projects, registeredCommandIds);
   }
 
   /**
-   * removeMissingCommands cleans up registered show commands that have either
+   * removeRedundantCommands cleans up registered show commands that have either
    * been disabled from the settings, or where the project or view has been
    * deleted.
    */
-  removeMissingCommands(
+  removeRedundantCommands(
     enabledCommands: ShowCommand[],
     projects: ProjectDefinition[],
     registeredCommandIds: Set<string>
