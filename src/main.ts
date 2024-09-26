@@ -3,7 +3,7 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
-import { Plugin, TFile, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
+import { Plugin, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
 import "obsidian-dataview";
 import { createDataRecord, createProject } from "src/lib/dataApi";
 import { api } from "src/lib/stores/api";
