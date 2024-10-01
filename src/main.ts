@@ -3,7 +3,7 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
-import { Plugin, TFile, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
+import { Plugin, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
 import "obsidian-dataview";
 import { createDataRecord, createProject } from "src/lib/dataApi";
 import { api } from "src/lib/stores/api";
@@ -146,12 +146,6 @@ export default class ProjectsPlugin extends Plugin {
               async (name, templatePath, project) => {
                 const record = createDataRecord(name, project);
                 await get(api).createNote(record, [], templatePath);
-
-                // Open the created note in a new tab.
-                const file = this.app.vault.getAbstractFileByPath(record.id);
-                if (file instanceof TFile) {
-                  this.app.workspace.getLeaf("tab").openFile(file);
-                }
               }
             ).open();
           }
@@ -256,16 +250,20 @@ export default class ProjectsPlugin extends Plugin {
       )
     );
 
-    this.removeMissingCommands(enabledCommands, projects, registeredCommandIds);
+    this.removeRedundantCommands(
+      enabledCommands,
+      projects,
+      registeredCommandIds
+    );
     this.addMissingCommands(enabledCommands, projects, registeredCommandIds);
   }
 
   /**
-   * removeMissingCommands cleans up registered show commands that have either
+   * removeRedundantCommands cleans up registered show commands that have either
    * been disabled from the settings, or where the project or view has been
    * deleted.
    */
-  removeMissingCommands(
+  removeRedundantCommands(
     enabledCommands: ShowCommand[],
     projects: ProjectDefinition[],
     registeredCommandIds: Set<string>
