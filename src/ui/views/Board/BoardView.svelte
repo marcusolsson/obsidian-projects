@@ -436,6 +436,7 @@
     )}
     {columnWidth}
     checkField={fields.find((field) => field.name === config?.checkField)?.name}
+    pointsField={fields.find((field) => field.name === config?.pointsField)?.name}
     includeFields={fields.filter((field) => includeFields.includes(field.name))}
     customHeader={fields.find((field) => field.name === customHeader)}
     onRecordClick={handleRecordClick}

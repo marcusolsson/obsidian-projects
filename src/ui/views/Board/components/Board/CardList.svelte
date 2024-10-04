@@ -2,7 +2,6 @@
   // import { Checkbox, InternalLink} from "obsidian-svelte";
   import { Checkbox } from "obsidian-svelte";
   import InternalLink from "src/ui/components/InternalLink.svelte";
-
   import {
     isString,
     type DataField,
@@ -10,8 +9,11 @@
   } from "src/lib/dataframe/dataframe";
   import { app } from "src/lib/stores/obsidian";
   import { settings } from "src/lib/stores/settings";
+  import { i18n } from "src/lib/stores/i18n";
+  import { get } from "svelte/store";
   import CardMetadata from "src/ui/components/CardMetadata/CardMetadata.svelte";
   import ColorItem from "src/ui/components/ColorItem/ColorItem.svelte";
+  import Indicator from "src/ui/components/Indicator/Indicator.svelte";
   import {
     getRecordColorContext,
     handleHoverLink,
@@ -24,6 +26,7 @@
   } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
   import { getDisplayName } from "./boardHelpers";
+  import { getTaskProgress } from "./taskHelpers";
   import type {
     DropTrigger,
     OnRecordClick,
@@ -39,6 +42,9 @@
   export let checkField: string | undefined;
   const checked = (item: DataRecord): boolean =>
     checkField ? (item.values[checkField] as boolean) : false;
+  export let pointsField: string | undefined;
+  const getTaskPoints = (item: DataRecord) =>
+    pointsField ? (item.values[pointsField] as number) : null;
   export let customHeader: DataField | undefined;
   export let boardEditing: boolean;
 
@@ -90,6 +96,8 @@
 >
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
+    {@const taskPoints = getTaskPoints(item)}
+    {@const taskProgress = getTaskProgress(item.id)}
 
     <article
       class="projects--board--card"
@@ -141,6 +149,18 @@
           {/if}
         </div>
         <CardMetadata fields={includeFields} record={item} />
+        <div class="task-indicators">
+          {#if taskProgress}
+            <Indicator icon="check-square" tooltip={get(i18n).t("views.board.tooltips.checklist-items")}>
+              {taskProgress}
+            </Indicator>
+          {/if}
+          {#if taskPoints}
+            <Indicator icon="weight" tooltip={get(i18n).t("views.board.tooltips.task-points")}>
+              {taskPoints}
+            </Indicator>
+          {/if}
+        </div>
       </ColorItem>
     </article>
   {/each}
@@ -151,6 +171,13 @@
     display: flex;
     gap: 4px;
     align-items: center;
+  }
+
+  div.task-indicators {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    gap: 10px;
   }
 
   .checkbox-wrapper {
