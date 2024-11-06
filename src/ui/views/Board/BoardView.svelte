@@ -71,10 +71,10 @@
 
   const handleRecordCheck =
     (checkField: string): OnRecordCheck =>
-    (record) => {
+    (record, checked) => {
       api.updateRecord(
         updateRecordValues(record, {
-          [checkField]: !record.values[checkField],
+          [checkField]: checked,
         }),
         fields
       );

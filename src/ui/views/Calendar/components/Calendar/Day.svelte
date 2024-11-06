@@ -35,7 +35,7 @@
   /**
    * onRecordCheck runs when the user Checks / Unchecks a calendar event.
    */
-  export let onRecordCheck: (record: DataRecord) => void;
+  export let onRecordCheck: (record: DataRecord, checked: boolean) => void;
 
   /**
    * onRecordChange runs when the user changes the checked state.
