@@ -17,7 +17,7 @@
   export let checkField: string | undefined;
 
   export let onRecordClick: (record: DataRecord) => void;
-  export let onRecordCheck: (record: DataRecord) => void;
+  export let onRecordCheck: (record: DataRecord, checked: boolean) => void;
   export let onRecordChange: (record: DataRecord) => void;
 
   function asOptionalBoolean(value: Optional<DataValue>): Optional<boolean> {
@@ -62,9 +62,7 @@
         checked={checkField !== undefined
           ? asOptionalBoolean(record.values[checkField])
           : undefined}
-        on:check={() => {
-          onRecordCheck(record);
-        }}
+        on:check={({ detail: checked }) => onRecordCheck(record, checked)}
       >
         <InternalLink
           linkText={record.id}

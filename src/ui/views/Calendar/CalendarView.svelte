@@ -125,11 +125,11 @@
     }
   }
 
-  function handleRecordCheck(record: DataRecord) {
+  function handleRecordCheck(record: DataRecord, checked: boolean) {
     if (booleanField) {
       api.updateRecord(
         updateRecordValues(record, {
-          [booleanField.name]: !record.values[booleanField.name],
+          [booleanField.name]: checked,
         }),
         fields
       );
@@ -272,8 +272,8 @@
               onRecordChange={(record) => {
                 handleRecordChange(date, record);
               }}
-              onRecordCheck={(record) => {
-                handleRecordCheck(record);
+              onRecordCheck={(record, checked) => {
+                handleRecordCheck(record, checked);
               }}
               onRecordAdd={() => {
                 handleRecordAdd(date);

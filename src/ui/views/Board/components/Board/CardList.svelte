@@ -37,8 +37,6 @@
   export let onDrop: OnRecordDrop;
   export let includeFields: DataField[];
   export let checkField: string | undefined;
-  const checked = (item: DataRecord): boolean =>
-    checkField ? (item.values[checkField] as boolean) : false;
   export let customHeader: DataField | undefined;
   export let boardEditing: boolean;
 
@@ -103,10 +101,10 @@
           {#if checkField}
             <span class="checkbox-wrapper">
               <Checkbox
-                checked={checked(item)}
-                on:check={() => {
-                  onRecordCheck(item);
-                }}
+                checked={checkField !== undefined
+                  ? !!item.values[checkField]
+                  : false}
+                on:check={({ detail: checked }) => onRecordCheck(item, checked)}
               />
             </span>
           {/if}

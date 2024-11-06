@@ -9,7 +9,7 @@ export type Column = {
 };
 
 export type OnRecordClick = (record: DataRecord) => void;
-export type OnRecordCheck = (record: DataRecord) => void;
+export type OnRecordCheck = (record: DataRecord, checked: boolean) => void;
 export type OnRecordAdd = (column: string) => void;
 export type OnRecordDrop = (
   record: DataRecord,
