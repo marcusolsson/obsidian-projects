@@ -1,14 +1,13 @@
 import type { DataFrame } from "./lib/dataframe/dataframe";
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Intl {
     interface Locale {
-      weekInfo: {
-        firstDay: number;
-      };
+      weekInfo?: WeekInfo;
+      getWeekInfo?: () => WeekInfo;
     }
   }
+  type WeekInfo = { firstDay: number; weekend: number[]; minimalDays: number };
 }
 
 declare module "obsidian" {

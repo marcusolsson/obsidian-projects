@@ -225,7 +225,15 @@ export function getFirstDayOfWeek(day: FirstDayOfWeek): number {
       return 0;
     case "monday":
       return 1;
-    case "default":
-      return getLocale("obsidian").weekInfo.firstDay;
+    case "default": {
+      const obLocale = getLocale("obsidian");
+      if (obLocale.weekInfo) {
+        return obLocale.weekInfo.firstDay ?? 0;
+      }
+      if (typeof obLocale.getWeekInfo === "function") {
+        return obLocale.getWeekInfo().firstDay ?? 0;
+      }
+      return 0;
+    }
   }
 }
