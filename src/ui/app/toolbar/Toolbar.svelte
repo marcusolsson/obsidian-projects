@@ -18,7 +18,7 @@
     ProjectId,
     ViewId,
   } from "src/settings/settings";
-  import produce from "immer";
+  import { produce } from "immer";
   import ProjectViewOptions from "./viewOptions/ProjectViewOptions.svelte";
 
   export let projects: ProjectDefinition[];

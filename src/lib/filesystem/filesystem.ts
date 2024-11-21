@@ -1,5 +1,5 @@
 import { either } from "fp-ts";
-import produce from "immer";
+import { produce } from "immer";
 import { encodeFrontMatter, decodeFrontMatter } from "../metadata";
 
 export abstract class IFile {

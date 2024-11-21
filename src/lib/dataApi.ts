@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import produce from "immer";
+import { produce } from "immer";
 import moment from "moment";
 import { get } from "svelte/store";
 import { v4 as uuidv4 } from "uuid";

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import produce from "immer";
+  import { produce } from "immer";
   import dayjs from "dayjs";
   import {
     Button,

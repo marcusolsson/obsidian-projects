@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 import type { DataField, DataRecord } from "src/lib/dataframe/dataframe";
 import { detectFields } from "src/lib/datasources/helpers";
 

@@ -1,4 +1,4 @@
-import produce, { castDraft, castImmutable } from "immer";
+import { produce, castDraft, castImmutable } from "immer";
 import { writable } from "svelte/store";
 
 import {
