@@ -14,7 +14,11 @@
   import { OnboardingModal } from "./onboarding/onboardingModal";
   import View from "./View.svelte";
   import DataFrameProvider from "./DataFrameProvider.svelte";
-  import type { ProjectId, ViewId } from "src/settings/settings";
+  import type {
+    ProjectId,
+    ViewDefinition,
+    ViewId,
+  } from "src/settings/settings";
 
   export let projectId: ProjectId | undefined;
   export let viewId: ViewId | undefined;
@@ -29,8 +33,18 @@
     projects[0];
 
   $: views = project?.views || [];
+  $: views, viewId, setView();
 
-  $: view = views.find((view) => viewId === view.id) || views[0];
+  let view: ViewDefinition | undefined;
+  const setView = () => {
+    const t = views.find((view) => viewId === view.id);
+    if (!t) {
+      viewId = views[0]?.id;
+      view = views[0];
+    } else {
+      view = t;
+    }
+  };
 
   onMount(() => {
     if (!projects.length) {
