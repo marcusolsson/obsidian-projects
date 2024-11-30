@@ -11,6 +11,11 @@
   export let id: string;
 
   /**
+   *  Specifies whether the button is active.
+   */
+  export let active: boolean = false;
+
+  /**
    * Specifies an optional icon.
    */
   export let icon: string = "";
@@ -21,7 +26,9 @@
     <Icon name={icon} />
   {/if}
   {label}
-  <IconButton icon="chevron-down" size="sm" nopadding />
+  {#if active}
+    <IconButton icon="chevron-down" size="sm" nopadding />
+  {/if}
 </div>
 
 <style>
