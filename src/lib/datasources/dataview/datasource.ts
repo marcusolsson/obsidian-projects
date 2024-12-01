@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 import type { DataviewApi, Link } from "obsidian-dataview";
 import type { TableResult } from "obsidian-dataview/lib/api/plugin-api";
 import {

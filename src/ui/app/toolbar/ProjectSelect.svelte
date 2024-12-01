@@ -1,5 +1,5 @@
 <script lang="ts">
-  import produce from "immer";
+  import { produce } from "immer";
   import { Menu, Notice } from "obsidian";
   import { IconButton, Select } from "obsidian-svelte";
 

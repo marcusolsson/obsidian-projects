@@ -1,4 +1,4 @@
-import produce, { castDraft, castImmutable } from "immer";
+import { produce, castDraft, castImmutable } from "immer";
 import { writable } from "svelte/store";
 
 import {
@@ -47,13 +47,11 @@ function createDataFrame() {
         produce(state, (draft) => {
           // @ts-ignore
           draft.records = castDraft(
-            draft.records
-              .map(castImmutable)
+            draft.records.map(castImmutable).map((r) => {
+              const found = records.find((_r) => _r.id === r.id);
               // @ts-ignore
-              .map((r) => {
-                const found = records.find((_r) => _r.id === r.id);
-                return found ? found : r;
-              })
+              return found ? found : r;
+            })
           );
         })
       );
@@ -68,9 +66,8 @@ function createDataFrame() {
     addField(newField: DataField, position?: number) {
       update((state) =>
         produce(state, (draft) => {
-          position
-            ? draft.fields.splice(position, 0, newField)
-            : draft.fields.push(newField);
+          if (position) draft.fields.splice(position, 0, newField);
+          else draft.fields.push(newField);
         })
       );
     },

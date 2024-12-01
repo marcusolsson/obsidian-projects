@@ -1,5 +1,5 @@
 <script lang="ts">
-  import produce from "immer";
+  import { produce } from "immer";
   import { Button, Icon, IconButton, TextInput } from "obsidian-svelte";
   import { dndzone } from "svelte-dnd-action";
   import { i18n } from "src/lib/stores/i18n";
