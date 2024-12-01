@@ -90,19 +90,13 @@ export function computeDateInterval(
   interval: CalendarInterval,
   firstDayOfWeek: number
 ): [dayjs.Dayjs, dayjs.Dayjs] {
-  let sow = anchor.startOf("isoWeek");
-  let eow = anchor.endOf("isoWeek");
-
-  const offset = weekdayOffset(sow, firstDayOfWeek);
-
-  sow = sow.subtract(offset, "days");
-  eow = eow.subtract(offset, "days");
-
+  const sow = startOfWeek(anchor, firstDayOfWeek);
+  const eow = endOfWeek(anchor, firstDayOfWeek);
   switch (interval) {
     case "month":
       return [
-        anchor.startOf("month").startOf("week"),
-        anchor.endOf("month").endOf("week"),
+        startOfWeek(anchor.startOf("month"), firstDayOfWeek),
+        endOfWeek(anchor.endOf("month"), firstDayOfWeek),
       ];
     case "2weeks":
       return [sow, eow.add(1, "week")];
@@ -196,17 +190,20 @@ function take<T>(arr: Array<T>, num: number): Array<T> {
   return buffer;
 }
 
-export function weekdayOffset(
+export function startOfWeek(
   date: dayjs.Dayjs,
   firstDayOfWeek: number
-): number {
-  let offset = date.day() - firstDayOfWeek;
+): dayjs.Dayjs {
+  const offset = (7 + date.day() - firstDayOfWeek) % 7;
+  return date.subtract(offset, "days");
+}
 
-  if (offset < 0) {
-    offset += 7;
-  }
-
-  return offset;
+export function endOfWeek(
+  date: dayjs.Dayjs,
+  firstDayOfWeek: number
+): dayjs.Dayjs {
+  const offset = (firstDayOfWeek + 6 - date.day()) % 7;
+  return date.add(offset, "days");
 }
 
 export type LocaleOption = "system" | "obsidian";
@@ -228,7 +225,15 @@ export function getFirstDayOfWeek(day: FirstDayOfWeek): number {
       return 0;
     case "monday":
       return 1;
-    case "default":
-      return getLocale("obsidian").weekInfo.firstDay;
+    case "default": {
+      const obLocale = getLocale("obsidian");
+      if (obLocale.weekInfo) {
+        return obLocale.weekInfo.firstDay ?? 0;
+      }
+      if (typeof obLocale.getWeekInfo === "function") {
+        return obLocale.getWeekInfo().firstDay ?? 0;
+      }
+      return 0;
+    }
   }
 }

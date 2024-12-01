@@ -1,5 +1,5 @@
 <script lang="ts">
-  import produce from "immer";
+  import { produce } from "immer";
   import { Callout, SettingItem, Typography, Switch } from "obsidian-svelte";
   import type {
     ProjectDefinition,

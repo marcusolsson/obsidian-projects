@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
 import type {
   BaseFilterOperator,
@@ -81,6 +81,7 @@ export function getOperatorsByField(field: DataField): Array<{
       { label: "has any of", value: "has-any-of" },
       { label: "has all of", value: "has-all-of" },
       { label: "has none of", value: "has-none-of" },
+      { label: "has keyword", value: "has-keyword" },
     ];
   }
 

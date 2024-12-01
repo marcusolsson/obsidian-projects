@@ -1,5 +1,5 @@
 <script lang="ts">
-  import produce from "immer";
+  import { produce } from "immer";
   import type { Menu } from "obsidian";
 
   import { GridCell, GridTypedCell } from "./GridCell";

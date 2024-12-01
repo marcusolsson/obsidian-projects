@@ -333,7 +333,8 @@
         } else if (field.type === DataFieldType.Date) {
           onCreate(
             field,
-            dayjs(dateValue).format(
+            // If no date(time) value specified still add today's date / current time
+            dayjs(dateValue ?? "").format(
               field.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
             )
           );

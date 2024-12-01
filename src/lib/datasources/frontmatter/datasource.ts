@@ -15,7 +15,7 @@ import { decodeFrontMatter } from "src/lib/metadata";
 
 import { array as A, either as E, function as F } from "fp-ts";
 import { standardizeRecord } from "./standardize";
-import produce from "immer";
+import { produce } from "immer";
 import type {
   ProjectDefinition,
   ProjectsPluginPreferences,
@@ -107,7 +107,10 @@ export abstract class FrontMatterDataSource extends DataSource {
 }
 
 export class RecordError extends Error {
-  constructor(readonly recordId: string, readonly err: Error) {
+  constructor(
+    readonly recordId: string,
+    readonly err: Error
+  ) {
     super(err.message);
   }
 }

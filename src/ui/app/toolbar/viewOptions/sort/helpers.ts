@@ -1,4 +1,4 @@
-import produce from "immer";
+import { produce } from "immer";
 import { DataFieldType, type DataField } from "src/lib/dataframe/dataframe";
 import type { SortDefinition, SortOrder } from "src/settings/settings";
 

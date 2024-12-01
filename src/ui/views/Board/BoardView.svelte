@@ -71,10 +71,10 @@
 
   const handleRecordCheck =
     (checkField: string): OnRecordCheck =>
-    (record) => {
+    (record, checked) => {
       api.updateRecord(
         updateRecordValues(record, {
-          [checkField]: !record.values[checkField],
+          [checkField]: checked,
         }),
         fields
       );
@@ -450,6 +450,11 @@
     onColumnPin={toggleColumnPin(groupByField)}
     onSortColumns={handleSortColumns(groupByField)}
     {readonly}
+    validateStatusField={() => {
+      if (groupByField?.derived) return "derived-status-field";
+      if (!groupByField) return "no-status-field";
+      return "";
+    }}
     richText={groupByField?.typeConfig?.richText ?? false}
   />
 </BoardOptionsProvider>

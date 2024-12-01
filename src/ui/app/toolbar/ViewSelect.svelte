@@ -3,8 +3,11 @@
   import type { ViewDefinition, ViewId } from "src/settings/settings";
   import { Icon, Button, IconButton } from "obsidian-svelte";
   import { i18n } from "src/lib/stores/i18n";
-  import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from "svelte-dnd-action";
-
+  import {
+    dndzone,
+    TRIGGERS,
+    SHADOW_ITEM_MARKER_PROPERTY_NAME,
+  } from "svelte-dnd-action";
   import ViewItem from "./ViewItem.svelte";
   import ShadowViewItem from "./ShadowViewItem.svelte";
 
@@ -18,6 +21,8 @@
   export let onViewSort: (viewIds: ViewId[]) => void;
   export let viewExists: (name: string) => boolean;
 
+  let dragItem: ViewDefinition | undefined;
+
   function iconFromViewType(type: string) {
     return $customViews[type]?.getIcon() ?? "";
   }
@@ -27,6 +32,9 @@
   function handleDndConsider({
     detail,
   }: CustomEvent<DndEvent<ViewDefinition>>) {
+    if (detail.info.trigger === TRIGGERS.DRAG_STARTED) {
+      dragItem = views.find((v) => v.id === detail.info.id);
+    }
     views = detail.items;
   }
 
@@ -35,6 +43,12 @@
   }: CustomEvent<DndEvent<ViewDefinition>>) {
     views = detail.items;
     onViewSort(detail.items.map((i) => i.id));
+    if (detail.info.trigger === TRIGGERS.DROPPED_INTO_ZONE) {
+      dragItem = views.find((v) => v.id === detail.info.id);
+    }
+    if (dragItem) {
+      dragItem = undefined;
+    }
   }
 
   function transformDraggedElement(draggedEl: HTMLElement | undefined) {
@@ -42,7 +56,7 @@
   }
 
   function isShadowItem(view: ViewDefinition) {
-    //@ts-ignore
+    // @ts-ignore
     return view[SHADOW_ITEM_MARKER_PROPERTY_NAME];
   }
 </script>
@@ -58,6 +72,7 @@
       },
       morphDisabled: false,
       transformDraggedElement,
+      // centreDraggedOnCursor: true,
     }}
     on:consider={handleDndConsider}
     on:finalize={handleDndFinalize}
@@ -70,7 +85,7 @@
             active={viewId === v.id}
             label={v.name}
             icon={iconFromViewType(v.type)}
-            on:mousedown={() => onViewChange(v.id)}
+            on:click={() => onViewChange(v.id)}
             on:rename={({ detail: name }) => {
               onViewRename(v.id, name);
             }}
@@ -94,6 +109,7 @@
         <div>
           <ShadowViewItem
             id={v.id}
+            active={dragItem?.id === viewId}
             label={v.name}
             icon={iconFromViewType(v.type)}
           />

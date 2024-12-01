@@ -1,0 +1,500 @@
+{
+    "translation": {
+        "data-types": {
+            "string": "Текст",
+            "number": "Число",
+            "boolean": "Прапорець",
+            "date": "ДАТА",
+            "unknown": "Невідомий тип даних",
+            "repeated": "Повторюване поле",
+            "datetime": "Дата та час",
+            "list": "Список",
+            "tags": "Мітки",
+            "aliases": "Псевдоніми"
+        },
+        "datasources": {
+            "folder": "Тека",
+            "tag": "Тег",
+            "dataview": "Dataview"
+        },
+        "commands": {
+            "show-projects": {
+                "name": "Показати проєкти"
+            },
+            "create-project": {
+                "name": "Створити новий проєкт"
+            },
+            "create-note": {
+                "name": "Створити нову нотатку"
+            }
+        },
+        "menus": {
+            "project": {
+                "create": {
+                    "title": "Створити проєкт у теці"
+                }
+            },
+            "tab-header": {
+                "new-window": {
+                    "title": "Відкрити в новому вікні"
+                }
+            }
+        },
+        "modals": {
+            "project": {
+                "create": {
+                    "short-title": "Новий проєкт",
+                    "untitled": "Проєкт без назви",
+                    "title": "Створити новий проєкт",
+                    "cta": "Створити проєкт",
+                    "existing-name-error": "Проєкт з таким ім'ям вже існує.",
+                    "empty-name-error": "Ім'я проєкту не може бути порожнім."
+                },
+                "edit": {
+                    "short-title": "Редагувати проєкт",
+                    "title": "Редагувати проєкт",
+                    "cta": "Зберегти"
+                },
+                "duplicate": {
+                    "title": "Дублювати проєкт",
+                    "suffix": "Скопіювати"
+                },
+                "archive": {
+                    "short-title": "Архівувати проєкт",
+                    "title": "Архівувати проєкт",
+                    "message": "Are you sure you want to archive \"{{project}}\"? You can restore it later in Projects plugin's setting tab.",
+                    "notice": "Project archived! If you are using Projects across multiple devices and syncing between them, please upgrade to version 1.17.0 or above for all your devices to avoid losing your archived project configurations.",
+                    "cta": "Архів"
+                },
+                "delete": {
+                    "short-title": "Видалити проєкт",
+                    "title": "Видалити проєкт",
+                    "message": "Ви впевнені, що бажаєте видалити \"{{project}}\"? Це неможливо скасувати.",
+                    "cta": "Видалити"
+                },
+                "name": {
+                    "name": "Назва",
+                    "description": ""
+                },
+                "default": {
+                    "name": "Встановити за замовчуванням",
+                    "description": "Увімкніть, щоб відкривати цей проєкт за замовчуванням."
+                },
+                "datasource": {
+                    "name": "Джерело даних",
+                    "description": "Виберіть, як ви хочете визначити, які нотатки слід включити."
+                },
+                "path": {
+                    "name": "Шлях",
+                    "description": "Шлях до теки, якою потрібно керувати. Залиште порожнім для використання кореневої теки."
+                },
+                "tag": {
+                    "name": "Мітка",
+                    "description": "Включити усі нотатки з цією міткою."
+                },
+                "dataview": {
+                    "name": "Використовувати Dataview",
+                    "description": "Використовуйте Dataview для запиту даних тільки для читання, замість використання шляхів.",
+                    "error": {
+                        "title": "Dataview вимкнений",
+                        "message": "Увімкніть плагін Dataview, щоб продовжити використовувати цей проєкт."
+                    }
+                },
+                "query": {
+                    "name": "Запит",
+                    "description": "Підтримує лише запити TABLE."
+                },
+                "recursive": {
+                    "name": "Включати підтеки",
+                    "description": "Керування нотатками всередині підтек по шляху проєкту."
+                },
+                "hierarchy": {
+                    "name": "Ієрархія міток",
+                    "description": "Керування нотатками, що містять суб-мітки головної мітки проєкту."
+                },
+                "more-settings": {
+                    "name": "Додаткові налаштування",
+                    "description": ""
+                },
+                "templates": {
+                    "name": "Шаблони",
+                    "description": "Вибрати шаблони для створення нових нотаток.",
+                    "add": "Додати шаблон"
+                },
+                "exclude": {
+                    "name": "Виключені нотатки",
+                    "description": "Нотатки для виключення, навіть якщо вони були б частиною проєкту.",
+                    "add": "Додати нотатку"
+                },
+                "newNotesFolder": {
+                    "name": "Місце для нових нотаток",
+                    "description": "Тека, де будуть створюватися всі нові нотатки."
+                },
+                "defaultName": {
+                    "name": "Типове ім'я для нових нотаток",
+                    "description": "Підтримує змінні шаблонів {{date:YYYY-MM-DD}} та {{time:HHmm}}.",
+                    "invalid": "Містить неприпустимі символи."
+                }
+            },
+            "archive": {
+                "delete": {
+                    "short-title": "Видалити архів",
+                    "title": "Видалити архів",
+                    "message": "Ви впевнені, що бажаєте видалити \"{{archive}}\"? Це неможливо скасувати.",
+                    "cta": "Видалити"
+                }
+            },
+            "view": {
+                "create": {
+                    "short-title": "Новий вигляд",
+                    "title": "Додати новий вигляд",
+                    "optional": "За бажанням",
+                    "type": {
+                        "name": "Тип",
+                        "description": ""
+                    },
+                    "name": {
+                        "name": "Назва",
+                        "description": ""
+                    },
+                    "cta": "Додати вигляд",
+                    "existing-name-error": "Вигляд з таким іменем вже існує."
+                },
+                "duplicate": {
+                    "title": "Дублювати вигляд",
+                    "suffix": "Скопіювати"
+                },
+                "delete": {
+                    "short-title": "Видалити вигляд",
+                    "title": "Видалити вигляд",
+                    "message": "Ви впевнені, що бажаєте видалити перегляд \"{{view}}\"?",
+                    "cta": "Видалити"
+                }
+            },
+            "note": {
+                "create": {
+                    "short-title": "Нова нотатка",
+                    "title": "Створити нову нотатку",
+                    "name": {
+                        "name": "Назва",
+                        "description": ""
+                    },
+                    "templatePath": {
+                        "name": "Шаблон",
+                        "description": "",
+                        "none": "Нічого"
+                    },
+                    "project": {
+                        "name": "Проєкт",
+                        "description": ""
+                    },
+                    "name-taken-error": "Нотатка з таким іменем вже існує.",
+                    "empty-name-error": "Ім'я не може бути порожнім.",
+                    "dot-start-error": "Ім'я файлу не може починатися з крапки.",
+                    "create": "Створити нотатку",
+                    "readonly": {
+                        "title": "Проект тільки для читання",
+                        "message": "{{project}} is a read-only project. Select another project to create a note."
+                    },
+                    "untitled": "Без назви"
+                },
+                "edit": {
+                    "short-title": "Редагувати нотатку",
+                    "title": "Редагувати нотатку",
+                    "save": "Зберегти",
+                    "confirm": "Підтвердити",
+                    "no-editable-fields": {
+                        "title": "Немає полів для редагування",
+                        "message": "Ця нотатка не має полів для редагування."
+                    }
+                }
+            },
+            "field": {
+                "configure": {
+                    "short-title": "Налаштувати поле",
+                    "title": "Налаштувати поле",
+                    "name": {
+                        "name": "Назва",
+                        "description": ""
+                    },
+                    "empty-name-error": "Ім'я поля не може бути порожнім.",
+                    "existing-name-error": "Неможливо перейменувати на наявну назву поля.",
+                    "type": {
+                        "name": "Тип",
+                        "description": "Зміна типу ще не підтримується."
+                    },
+                    "options": {
+                        "name": "Налаштування",
+                        "description": "Дозволяє автозаповнення з використанням попередньо визначених значень для поля."
+                    },
+                    "rich-text": {
+                        "name": "Увімкнути форматування тексту",
+                        "description": "Для полів з Markdown вмістом."
+                    },
+                    "time": {
+                        "name": "Увімкнути час",
+                        "description": "Розпізнати це поле як Дата і час."
+                    },
+                    "save": "Зберегти"
+                },
+                "create": {
+                    "short-title": "Нове поле",
+                    "title": "Створити нове поле",
+                    "name": {
+                        "name": "Назва",
+                        "description": ""
+                    },
+                    "untitled": "Нове поле",
+                    "empty-name-error": "Ім'я поля не може бути порожнім.",
+                    "existing-name-error": "Поле з таким іменем вже існує.",
+                    "type": {
+                        "name": "Тип",
+                        "description": ""
+                    },
+                    "default": {
+                        "name": "Типове значення",
+                        "description": ""
+                    },
+                    "options": {
+                        "name": "Налаштування",
+                        "description": "Дозволяє автозаповнення з використанням попередньо визначених значень для поля."
+                    },
+                    "rich-text": {
+                        "name": "Увімкнути форматування тексту",
+                        "description": "Для полів з Markdown вмістом."
+                    },
+                    "create": "Створити поле"
+                }
+            },
+            "input": {
+                "cancel": "Скасувати"
+            },
+            "confirm": {
+                "delete": "Видалити",
+                "cancel": "Скасувати"
+            }
+        },
+        "views": {
+            "developer": {
+                "name": "Розробник"
+            },
+            "table": {
+                "name": "Таблиця",
+                "hide-fields": "Приховати поля",
+                "rename-field": "Перейменувати поле",
+                "rename": "Перейменувати"
+            },
+            "board": {
+                "name": "Дошка",
+                "no-status": "Без статусу",
+                "fields": {
+                    "status": "статус",
+                    "priority": "Пріоритет",
+                    "check": "Відмітити",
+                    "none": "Нічого"
+                },
+                "unprioritized": "Непріоритетні",
+                "include-fields": "Долучати поля",
+                "settings": {
+                    "name": "Налаштування дошки",
+                    "column-width": {
+                        "name": "Ширина стовпця",
+                        "description": "Ширина кожного стовпця у пікселях."
+                    },
+                    "custom-header": {
+                        "name": "Налаштувати заголовок картки",
+                        "description": "Використовуйте вибране поле як заголовок картки."
+                    },
+                    "order-sync-field": {
+                        "name": "Синхронізувати порядок карт з полем",
+                        "description": "Поле для зберігання положення карток на дошці."
+                    }
+                },
+                "note": {
+                    "add": "Додати нотатку"
+                }
+            },
+            "calendar": {
+                "name": "Календар",
+                "new-note": "Нова нотатка",
+                "fields": {
+                    "date": "ДАТА",
+                    "check": "Відмітити",
+                    "none": "Стандартний"
+                },
+                "today": "Сьогодні",
+                "weekday": "{{value, datetime}}",
+                "date": "{{value, datetime}}",
+                "interval": "{{from, datetime}} – {{to, datetime}}{{en_separator}}{{custom_year, datetime}}",
+                "intervals": {
+                    "month_one": "Місяць",
+                    "month_other": "Місяці",
+                    "monthWithCount_one": "{{count}} місяць",
+                    "monthWithCount_other": "{{count}} місяців",
+                    "week_one": "Тиждень",
+                    "week_other": "Тижні",
+                    "weekWithCount_one": "{{count}} тиждень",
+                    "weekWithCount_other": "{{count}} тижня",
+                    "day_one": "День",
+                    "day_other": "Дні",
+                    "dayWithCount_one": "{{count}} день",
+                    "dayWithCount_other": "{{count}} днів"
+                }
+            },
+            "gallery": {
+                "name": "Галерея",
+                "fields": {
+                    "cover": "Обкладинка",
+                    "none": "Нічого"
+                },
+                "fit-style": {
+                    "fill": "Заповнити зображення",
+                    "fit": "За розміром зображення"
+                },
+                "include-fields": "Включити поля",
+                "settings": {
+                    "name": "Налаштування галереї",
+                    "card-width": {
+                        "name": "Ширина картки",
+                        "description": "Ширина кожної картки у пікселях."
+                    }
+                },
+                "empty": "Цей вигляд порожній."
+            }
+        },
+        "components": {
+            "data-grid": {
+                "column": {
+                    "configure": "Налаштувати поле",
+                    "add": "Додати поле",
+                    "insert-left": "Вставити зліва",
+                    "insert-right": "Вставити зправа",
+                    "rename": "Перейменувати поле",
+                    "pin": "Закріпити поле",
+                    "unpin": "Відкріпити поле",
+                    "hide": "Приховати поле",
+                    "delete": "Видалити поле"
+                },
+                "row": {
+                    "add": "Додати нотатку",
+                    "edit": "Редагувати нотатку",
+                    "delete": "Видалити нотатку"
+                },
+                "cell": {
+                    "clear": "Очистити подання"
+                },
+                "sort": {
+                    "asc": "Сортувати А → Я",
+                    "desc": "Сортувати Я → А"
+                },
+                "sortDate": {
+                    "asc": "Сортувати Старі → Нові",
+                    "desc": "Сортувати Нові → Старі"
+                }
+            },
+            "board": {
+                "column": {
+                    "add": {
+                        "name": "Додати стовпчик",
+                        "placeholder": "Новий стовпець",
+                        "no-status-field": "Status field required",
+                        "derived-status-field": "Current status field is read-only"
+                    },
+                    "rename": "Перейменувати стовпець",
+                    "delete": "Видалити стовпець",
+                    "expand": "Розгорнути стовпець",
+                    "collapse": "Згорнути стовпець",
+                    "pin": "Закріпити стовпець",
+                    "unpin": "Відкріпити стовпець"
+                }
+            },
+            "color": {
+                "label": "Колір",
+                "where": "Де",
+                "add": "Додати колір"
+            },
+            "filter": {
+                "label": "Фільтр",
+                "where": "Де",
+                "and": "і",
+                "or": "або",
+                "add": "Додати умову"
+            },
+            "sort": {
+                "label": "Сортувати",
+                "add": "Додати інше сортування"
+            },
+            "tag": {
+                "edit": "Редагувати",
+                "remove": "Видалити"
+            },
+            "multi-text": {
+                "add": "Додати параметр"
+            }
+        },
+        "toolbar": {
+            "view": {
+                "add": "Додати вигляд"
+            },
+            "projects": {
+                "none": "Немає проєктів",
+                "options": "Інші параметри"
+            },
+            "read-only": "Тільки читання",
+            "read-only-desc": "Ви не можете створювати або редагувати нотатки у проєктах лише для читання."
+        },
+        "settings": {
+            "general": {
+                "size-limit": {
+                    "name": "Обмеження розміру проєкта",
+                    "desc": "Уникати випадкового завантаження занадто багатьох нотаток."
+                },
+                "link-behavior": {
+                    "name": "Поведінка посилання",
+                    "desc": "Визначає, що відбувається, коли ви вибираєте нотатку. Натисніть {{modifier}} для вибору посилання для протилежної поведінки.",
+                    "options": {
+                        "open-editor": "Відкрити редактор",
+                        "open-note": "Відкрити нотатку"
+                    }
+                },
+                "start-of-week": {
+                    "name": "Почати тиждень з",
+                    "options": {
+                        "sunday": "Неділя",
+                        "monday": "Понеділок",
+                        "default": "За замовчуванням"
+                    }
+                }
+            },
+            "front-matter": {
+                "heading": "Front matter",
+                "quote-strings": {
+                    "name": "Цитований рядок",
+                    "options": {
+                        "plain": "За потреби",
+                        "quote-double": "Завжди"
+                    }
+                }
+            },
+            "commands": {
+                "name": "Команди",
+                "desc": "Додайте команди для Ваших улюблених проєктів та переглядів."
+            },
+            "archives": {
+                "name": "Архіви",
+                "desc": "Відновіть або видаліть архівні проєкти.",
+                "empty": "Немає архівованих проєктів."
+            }
+        },
+        "errors": {
+            "missingDataview": {
+                "title": "Dataview вимкнений",
+                "message": "Увімкніть плагін Dataview, щоб продовжити використовувати цей проєкт."
+            }
+        },
+        "obsidian": {
+            "ribbon-tooltip": "Відкриті проєкти",
+            "hover-link-settings": "Проєкти"
+        }
+    }
+}

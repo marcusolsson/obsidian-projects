@@ -8,7 +8,7 @@
   import type { GridColDef } from "../../dataGrid";
 
   export let value: Optional<Date>;
-  let cachedValue: Optional<Date>;
+  let cachedValue: Optional<Date> = value; // store the proposing value
   export let onChange: (value: Optional<Date>) => void;
   export let column: GridColDef;
   export let rowindex: number;

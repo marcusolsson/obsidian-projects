@@ -25,7 +25,7 @@
 
   export let field: DataField;
   export let value: Optional<DataValue>;
-  let cachedValue: Optional<Date>;
+  let cachedValue: Optional<Date> = isDate(value) ? value : null; // store the proposing value
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
@@ -75,6 +75,10 @@
       value={isDate(value) ? value : null}
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
+        if (!cachedValue) {
+          onChange(cachedValue);
+          return;
+        }
         const cachedDate = dayjs(cachedValue);
         const newDatetime = dayjs(isDate(value) ? value : null)
           .set("year", cachedDate.year())

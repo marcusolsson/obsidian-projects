@@ -404,8 +404,12 @@
             },
             "board": {
                 "column": {
-                    "add": "Add column",
-                    "placeholder": "New column",
+                    "add": {
+                        "name": "Add column",
+                        "placeholder": "New column",
+                        "no-status-field": "Status field required",
+                        "derived-status-field": "Current status field is read-only"
+                    },
                     "rename": "Rename column",
                     "delete": "Delete column",
                     "expand": "Expand column",

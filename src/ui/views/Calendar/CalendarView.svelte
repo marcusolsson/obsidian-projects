@@ -125,6 +125,17 @@
     }
   }
 
+  function handleRecordCheck(record: DataRecord, checked: boolean) {
+    if (booleanField) {
+      api.updateRecord(
+        updateRecordValues(record, {
+          [booleanField.name]: checked,
+        }),
+        fields
+      );
+    }
+  }
+
   function handleRecordClick(entry: DataRecord) {
     if (entry) {
       new EditNoteModal(
@@ -260,6 +271,9 @@
               onRecordClick={handleRecordClick}
               onRecordChange={(record) => {
                 handleRecordChange(date, record);
+              }}
+              onRecordCheck={(record, checked) => {
+                handleRecordCheck(record, checked);
               }}
               onRecordAdd={() => {
                 handleRecordAdd(date);
