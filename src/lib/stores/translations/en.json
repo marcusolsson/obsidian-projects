@@ -293,6 +293,12 @@
                     "check": "Check",
                     "none": "None"
                 },
+                "tooltips": {
+                    "checklist-items": "Checklist items",
+                    "task-points": "Story points",
+                    "checked-total": "Cards checked/total",
+                    "task-points-total": "Story point total"
+                },
                 "unprioritized": "Unprioritized",
                 "include-fields": "Include fields",
                 "settings": {
@@ -308,6 +314,10 @@
                     "order-sync-field": {
                         "name": "Sync card order with field",
                         "description": "Field to store the position of cards in the board."
+                    },
+                    "points-field": {
+                        "name": "Card story points field",
+                        "description": "Use the selected field as the card story point value."
                     }
                 },
                 "note": {

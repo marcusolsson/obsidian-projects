@@ -19,6 +19,7 @@
   export let readonly: boolean;
   export let richText: boolean;
   export let checkField: string | undefined;
+  export let pointsField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
   export let pinned: boolean;
@@ -42,6 +43,9 @@
 
   $: count = records.length;
   $: checkedCount = records.filter((r) => r.values[checkField ?? ""]).length;
+  $: pointsCount = records.map((r) => r.values[pointsField ?? ""] as number)
+                          .filter(Number.isFinite)
+                          .reduce((sum, p) => sum + p, 0);
 
   function onColumnMenu() {
     const menu = new Menu();
@@ -109,10 +113,12 @@
     value={name}
     {count}
     {checkedCount}
+    {pointsCount}
     bind:editing
     {richText}
     {collapse}
     {checkField}
+    {pointsField}
     {onColumnMenu}
     {onColumnRename}
     {onValidate}
@@ -125,6 +131,7 @@
       {customHeader}
       {onRecordClick}
       {checkField}
+      {pointsField}
       {onRecordCheck}
       {onDrop}
       {includeFields}
