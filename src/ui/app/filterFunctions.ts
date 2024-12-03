@@ -98,6 +98,44 @@ export function applyFilter(
   });
 }
 
+export function matchesConditionSearch(
+  cond: FilterCondition,
+  record: DataRecord
+): boolean {
+  const { operator } = cond;
+
+  const value: Optional<DataValue> = record.values[cond.field];
+
+  if (isStringFilterOperator(operator) && cond.value !== undefined) {
+    return stringFns[operator](value?.toString().toLowerCase() ?? "", cond.value.toLowerCase());
+  }
+  return false;
+}
+
+export function matchesSearchConditions(
+  filter: FilterDefinition,
+  record: DataRecord
+) {
+  const validConds = filter.conditions.filter((cond) => {
+    return cond?.enabled ?? true;
+  });
+
+  if (!validConds.length) return true;
+
+  return validConds.every((cond) => matchesConditionSearch(cond, record));
+}
+
+export function applySearch(
+  frame: DataFrame,
+  filter: FilterDefinition
+): DataFrame {
+  return produce(frame, (draft) => {
+    draft.records = draft.records.filter((record) =>
+      matchesSearchConditions(filter, record)
+    );
+  });
+}
+
 export const baseFns: Record<
   BaseFilterOperator,
   (value: Optional<DataValue>) => boolean
