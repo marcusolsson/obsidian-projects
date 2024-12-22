@@ -63,6 +63,8 @@ If you'd like to see Projects in action, check out any of these amazing resource
 
 ### Videos
 
+- 2024-12-09: [How to use Obsidian: Project vs Trello](https://www.youtube.com/watch?v=kWpIz0CJXoE) by [+1creator](https://www.youtube.com/@plus1creator)
+- 2024-06-07: [How To Use Obsidian: Project Management (NEW & IMPROVED!)](https://www.youtube.com/watch?v=tYC7n-sDApU) by [+1creator](https://www.youtube.com/@plus1creator)
 - 2023-11-21: [Obsidian Projects - How To Manage Your Projects in Obsidian](https://youtu.be/aFfREf9IQ7Q?t=452) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
 - 2023-11-14: [How To Use Obsidian: Project Management](https://www.youtube.com/watch?v=-ZTo6rcH0a8) by [Jonathan Pritchard](https://www.youtube.com/@zavant)
 - 2023-10-10: [Obsidian Library: How To Keep Track of Your Books in Obsidian](https://youtu.be/_3MSwW51BhU?t=405) by [Marco Serafini](https://www.youtube.com/@Marco_Mindstone)
