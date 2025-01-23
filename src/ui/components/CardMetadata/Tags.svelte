@@ -12,5 +12,5 @@
 </script>
 
 {#if field.type === DataFieldType.String && field.repeated && Array.isArray(value)}
-  <TagList values={value || []} />
+  <TagList richText={field.typeConfig?.richText ?? false} values={value || []} />
 {/if}
