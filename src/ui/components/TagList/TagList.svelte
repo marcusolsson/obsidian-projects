@@ -8,7 +8,7 @@
 
   import { app } from "src/lib/stores/obsidian";
   import { InputDialogModal } from "src/ui/modals/inputDialog";
-  import RichTextTag from "src/ui/views/Table/components/DataGrid/GridCell/GridListCell/RichTextTag.svelte";
+  import RichTextTag from "src/ui/components/TagList/RichTextTag.svelte";
 
   export let values: Optional<DataValue>[];
   export let richText: boolean = false;
