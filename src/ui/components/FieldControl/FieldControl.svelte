@@ -1,12 +1,13 @@
 <script lang="ts">
   import {
     Autocomplete,
-    DateInput,
+    // DateInput,
     // DatetimeInput,
     NumberInput,
     Switch,
     TextInput,
   } from "obsidian-svelte";
+  import DateInput from "../DateInput.svelte";
   import DatetimeInput from "../DatetimeInput.svelte";
   import dayjs from "dayjs";
 

@@ -8,7 +8,7 @@
     SettingItem,
     TextInput,
     NumberInput,
-    DateInput,
+    // DateInput,
     // DatetimeInput,
     Switch,
   } from "obsidian-svelte";
@@ -23,6 +23,7 @@
   } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
   import { onMount } from "svelte";
+  import DateInput from "src/ui/components/DateInput.svelte";
   import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
 
   export let existingFields: DataField[];

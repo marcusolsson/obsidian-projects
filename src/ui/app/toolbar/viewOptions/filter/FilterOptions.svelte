@@ -9,9 +9,10 @@
     TextInput,
     NumberInput,
     Checkbox,
-    DateInput,
+    // DateInput,
     // DatetimeInput,
   } from "obsidian-svelte";
+  import DateInput from "src/ui/components/DateInput.svelte";
   import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import HorizontalGroup from "src/ui/components/HorizontalGroup/HorizontalGroup.svelte";
