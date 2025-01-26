@@ -1,6 +1,8 @@
 <script lang="ts">
   // import { DateInput } from "obsidian-svelte";
   import { DateInput } from "obsidian-svelte";
+  import { isDate } from "src/lib/dataframe/dataframe";
+  import DateInput from "src/ui/components/DateInput.svelte";
   import type { Optional } from "src/lib/dataframe/dataframe";
   import dayjs from "dayjs";
 
@@ -59,7 +61,7 @@
       on:change={({ detail }) => (cachedValue = detail)}
       on:blur={() => {
         edit = false;
-        if (!cachedValue) {
+        if (!cachedValue || !isDate(value)) {
           onChange(cachedValue);
           return;
         }

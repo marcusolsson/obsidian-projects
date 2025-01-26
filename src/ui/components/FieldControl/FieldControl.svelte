@@ -76,12 +76,12 @@
       value={isDate(value) ? value : null}
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
-        if (!cachedValue) {
+        if (!cachedValue || !isDate(value)) {
           onChange(cachedValue);
           return;
         }
         const cachedDate = dayjs(cachedValue);
-        const newDatetime = dayjs(isDate(value) ? value : cachedValue)
+        const newDatetime = dayjs(value)
           .set("year", cachedDate.year())
           .set("month", cachedDate.month())
           .set("date", cachedDate.date());
