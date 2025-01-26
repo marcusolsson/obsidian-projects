@@ -7,6 +7,7 @@ import {
 } from "../../lib/dataframe/dataframe";
 import type { SortDefinition, SortingCriteria } from "src/settings/settings";
 import type { DataRecord } from "../../lib/dataframe/dataframe";
+import { Temporal } from "temporal-polyfill";
 
 export function applySort(frame: DataFrame, sort: SortDefinition): DataFrame {
   return produce(frame, (draft) => {
@@ -88,14 +89,14 @@ function sortNumber(a: number, b: number, asc: boolean): number {
   return 0;
 }
 
-function sortDate(a: Date, b: Date, asc: boolean): number {
-  if (a.getTime() < b.getTime()) {
-    return asc ? -1 : 1;
-  }
-  if (a.getTime() > b.getTime()) {
-    return asc ? 1 : -1;
-  }
-  return 0;
+function sortDate(
+  a: Temporal.ZonedDateTime,
+  b: Temporal.ZonedDateTime,
+  asc: boolean
+): number {
+  return asc
+    ? Temporal.ZonedDateTime.compare(a, b)
+    : Temporal.ZonedDateTime.compare(b, a);
 }
 
 function sortBoolean(a: boolean, b: boolean, asc: boolean): number {

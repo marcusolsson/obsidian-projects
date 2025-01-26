@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { produce } from "immer";
 import moment from "moment";
 import { get } from "svelte/store";
@@ -17,6 +16,7 @@ import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
 import { interpolateTemplate } from "./templates/interpolate";
+import { Temporal } from "temporal-polyfill";
 
 import { function as F, task as T, either as E, taskEither as TE } from "fp-ts";
 import {
@@ -181,21 +181,38 @@ export function doUpdateRecord(
         Object.entries({ ...frontmatter, ...record.values })
           .map((entry) => {
             if (isDate(entry[1])) {
-              const isDatetime = fields.find(
+              const hasTime = fields.some(
                 (field) =>
                   field.name === entry[0] &&
                   field.type === DataFieldType.Date &&
                   (field.typeConfig?.time ||
-                    entry[1].getHours() ||
-                    entry[1].getMinutes() ||
-                    entry[1].getSeconds() ||
-                    entry[1].getMilliseconds())
+                    entry[1].hour ||
+                    entry[1].minute ||
+                    entry[1].second)
               );
 
+              const zoned =
+                entry[1].timeZoneId !== Temporal.Now.timeZoneId() && // default "+08:00" comparing to "America/New York"
+                entry[1].offset !== Temporal.Now.zonedDateTimeISO().offset; // default "+08:00" comparing to "-05:00"
+
+              // const hasOffset =
+              const utc = entry[1].timeZoneId === "UTC";
+              //TODO; format with Z mark, seems hard to do w/0 third-party libs
+
               return produce(entry, (draft) => {
-                draft[1] = dayjs(entry[1]).format(
-                  isDatetime ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
-                );
+                draft[1] = hasTime
+                  ? zoned
+                    ? (entry[1] as Temporal.ZonedDateTime).toString({
+                        smallestUnit: "minute",
+                        offset: "auto",
+                        timeZoneName: "never",
+                      })
+                    : (entry[1] as Temporal.ZonedDateTime)
+                        .toPlainDateTime()
+                        .toString({ smallestUnit: "minute" })
+                  : (entry[1] as Temporal.ZonedDateTime)
+                      .toPlainDate()
+                      .toString();
               });
             }
             return entry;

@@ -1,5 +1,4 @@
 import { produce } from "immer";
-import dayjs from "dayjs";
 import {
   type DataFrame,
   type DataRecord,
@@ -27,6 +26,7 @@ import {
   type DateFilterOperator,
   type ListFilterOperator,
 } from "src/settings/settings";
+import { Temporal } from "temporal-polyfill";
 
 export function matchesCondition(
   cond: FilterCondition,
@@ -61,10 +61,30 @@ export function matchesCondition(
   } else if (isOptionalBoolean(value) && isBooleanFilterOperator(operator)) {
     return booleanFns[operator](value);
   } else if (isOptionalDate(value) && isDateFilterOperator(operator)) {
-    return dateFns[operator](
-      value,
-      cond.value ? dayjs(cond.value).toDate() : undefined
-    );
+    let parsedValue = null; // TODO: extract to help functions / processing numbers
+    if (cond.value) {
+      try {
+        // Attempt to parse as ZonedDateTime
+        parsedValue = Temporal.ZonedDateTime.from(cond.value);
+      } catch {
+        try {
+          // Attempt to parse as Instant and convert to ZonedDateTime
+          parsedValue = Temporal.Instant.from(cond.value).toZonedDateTimeISO(
+            cond.value
+          );
+        } catch {
+          try {
+            // Attempt to create ZonedDateTime using the current time and a PlainDate
+            parsedValue = Temporal.PlainDateTime.from(
+              cond.value
+            ).toZonedDateTime(Temporal.Now.timeZoneId());
+          } catch {
+            parsedValue = null; // Default to null if all parsing fails
+          }
+        }
+      }
+    }
+    return dateFns[operator](value, parsedValue ?? undefined);
   }
 
   return false;
@@ -137,22 +157,28 @@ export const booleanFns: Record<
 };
 
 export const dateFns: Record<
+  //TODO: handle datetime
   DateFilterOperator,
-  (left: Optional<Date>, right?: Optional<Date>) => boolean
+  (
+    left: Optional<Temporal.ZonedDateTime>,
+    right?: Optional<Temporal.ZonedDateTime>
+  ) => boolean
 > = {
   "is-on": (left, right) => {
-    return left && right ? left.getTime() == right.getTime() : false;
+    return left && right ? left.equals(right) : false;
   },
   "is-not-on": (left, right) =>
-    left && right ? left.getTime() != right.getTime() : true,
+    left?.toPlainDateTime() && right?.toPlainDateTime()
+      ? !left.toPlainDateTime().equals(right.toPlainDateTime())
+      : true,
   "is-before": (left, right) =>
-    left && right ? left.getTime() < right.getTime() : false,
+    left && right ? Temporal.PlainDateTime.compare(left, right) == -1 : false,
   "is-after": (left, right) =>
-    left && right ? left.getTime() > right.getTime() : false,
+    left && right ? Temporal.PlainDateTime.compare(left, right) == 1 : false,
   "is-on-and-before": (left, right) =>
-    left && right ? left.getTime() <= right.getTime() : false,
+    left && right ? Temporal.PlainDateTime.compare(left, right) < 1 : false,
   "is-on-and-after": (left, right) =>
-    left && right ? left.getTime() >= right.getTime() : false,
+    left && right ? Temporal.PlainDateTime.compare(left, right) > -1 : false,
 };
 
 export const listFns_multitext: Record<
