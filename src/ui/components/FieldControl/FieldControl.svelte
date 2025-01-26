@@ -77,7 +77,7 @@
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
         if (!cachedValue) {
-          onChange();
+          onChange(cachedValue);
           return;
         }
         const cachedDate = dayjs(cachedValue);
