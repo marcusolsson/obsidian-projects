@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { DateInput } from "obsidian-svelte";
+  // import { DateInput } from "obsidian-svelte";
+  import { isDate } from "src/lib/dataframe/dataframe";
+  import DateInput from "src/ui/components/DateInput.svelte";
   import type { Optional } from "src/lib/dataframe/dataframe";
   import dayjs from "dayjs";
 
@@ -54,11 +56,11 @@
   </svelte:fragment>
   <svelte:fragment slot="edit">
     <DateInput
-      value={value != undefined ? value : null}
-      on:change={({ detail: value }) => (cachedValue = value)}
+      value={value ?? null}
+      on:change={({ detail }) => (cachedValue = detail)}
       on:blur={() => {
         edit = false;
-        if (!cachedValue) {
+        if (!cachedValue || !isDate(value)) {
           onChange(cachedValue);
           return;
         }

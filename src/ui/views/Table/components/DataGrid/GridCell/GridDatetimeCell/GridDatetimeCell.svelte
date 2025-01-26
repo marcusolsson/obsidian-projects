@@ -60,8 +60,8 @@
   </svelte:fragment>
   <svelte:fragment slot="edit">
     <DatetimeInput
-      value={value != undefined ? value : null}
-      on:input={({ detail: value }) => (cachedValue = value)}
+      value={value ?? null}
+      on:input={({ detail }) => (cachedValue = detail)}
       on:blur={() => {
         edit = false;
         onChange(cachedValue);

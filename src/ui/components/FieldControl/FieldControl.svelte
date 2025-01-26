@@ -1,12 +1,13 @@
 <script lang="ts">
   import {
     Autocomplete,
-    DateInput,
+    // DateInput,
     // DatetimeInput,
     NumberInput,
     Switch,
     TextInput,
   } from "obsidian-svelte";
+  import DateInput from "../DateInput.svelte";
   import DatetimeInput from "../DatetimeInput.svelte";
   import dayjs from "dayjs";
 
@@ -75,12 +76,12 @@
       value={isDate(value) ? value : null}
       on:change={({ detail: value }) => (cachedValue = value)}
       on:blur={() => {
-        if (!cachedValue) {
-          onChange();
+        if (!cachedValue || !isDate(value)) {
+          onChange(cachedValue);
           return;
         }
         const cachedDate = dayjs(cachedValue);
-        const newDatetime = dayjs(isDate(value) ? value : cachedValue)
+        const newDatetime = dayjs(value)
           .set("year", cachedDate.year())
           .set("month", cachedDate.month())
           .set("date", cachedDate.date());
