@@ -3,6 +3,7 @@ export interface BoardConfig {
   readonly checkField?: string;
   readonly headerField?: string;
   readonly orderSyncField?: string;
+  readonly pointsField?: string;
   readonly columnWidth?: number;
   readonly columns?: ColumnSettings;
   readonly includeFields?: string[];

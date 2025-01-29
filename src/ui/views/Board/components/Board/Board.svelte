@@ -35,6 +35,7 @@
   export let onColumnPin: OnColumnPin;
   export let validateStatusField: () => string;
   export let checkField: string | undefined;
+  export let pointsField: string | undefined;
   export let includeFields: DataField[];
   export let customHeader: DataField | undefined;
 
@@ -83,6 +84,7 @@
           records={column.records}
           {onRecordClick}
           {checkField}
+          {pointsField}
           {onRecordCheck}
           onRecordAdd={() => onRecordAdd(column.id)}
           onDrop={(record, records, trigger) => {
