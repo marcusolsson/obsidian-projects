@@ -1,6 +1,6 @@
 <script lang="ts">
   import { produce } from "immer";
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
   import {
     Button,
     IconButton,
@@ -139,12 +139,16 @@
       {:else if filterOperatorTypes[condition.operator] === "binary-date"}
         {#if field?.typeConfig?.time}
           <DatetimeInput
-            value={dayjs(condition.value ?? "").toDate()}
+            value={condition.value
+              ? Temporal.PlainDateTime.from(condition.value)
+              : Temporal.Now.plainDateTimeISO()}
             on:blur={handleValueChange(i)}
           />
         {:else}
           <DateInput
-            value={dayjs(condition.value ?? "").toDate()}
+            value={condition.value
+              ? Temporal.PlainDate.from(condition.value)
+              : Temporal.Now.plainDateISO()}
             on:blur={handleValueChange(i)}
           />
         {/if}

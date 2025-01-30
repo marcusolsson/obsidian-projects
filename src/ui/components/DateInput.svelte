@@ -1,11 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
 
   /**
    * Specifies the date value.
    */
-  export let value: Date | null;
+  export let value: Temporal.PlainDate | null;
 
   /**
    * Specifies whether to remove decorations so that it can be embedded in other
@@ -14,8 +14,8 @@
   export let embed: boolean = false;
 
   const dispatch = createEventDispatcher<{
-    change: Date | null;
-    input: Date | null;
+    change: Temporal.PlainDate | null;
+    input: Temporal.PlainDate | null;
   }>();
 
   function handleChange(event: Event) {
@@ -23,7 +23,7 @@
       dispatch(
         "change",
         event.currentTarget.value
-          ? dayjs(event.currentTarget.value).toDate()
+          ? Temporal.PlainDate.from(event.currentTarget.value)
           : null
       );
     }
@@ -34,7 +34,7 @@
       dispatch(
         "input",
         event.currentTarget.value
-          ? dayjs(event.currentTarget.value).toDate()
+          ? Temporal.PlainDate.from(event.currentTarget.value)
           : null
       );
     }
@@ -44,7 +44,7 @@
 <input
   type="date"
   class:embed
-  value={value ? dayjs(value).format("YYYY-MM-DD") : null}
+  value={value ? value.toString() : null}
   max="9999-12-31"
   on:change={handleChange}
   on:input={handleInput}

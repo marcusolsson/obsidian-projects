@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { produce } from "immer";
 import moment from "moment";
 import { get } from "svelte/store";
@@ -185,17 +184,15 @@ export function doUpdateRecord(
                 (field) =>
                   field.name === entry[0] &&
                   field.type === DataFieldType.Date &&
-                  (field.typeConfig?.time ||
-                    entry[1].getHours() ||
-                    entry[1].getMinutes() ||
-                    entry[1].getSeconds() ||
-                    entry[1].getMilliseconds())
+                  (field.typeConfig?.time || entry[1].hour)
+                // TODO: double check
               );
-
               return produce(entry, (draft) => {
-                draft[1] = dayjs(entry[1]).format(
-                  isDatetime ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
-                );
+                draft[1] = isDatetime
+                  ? entry[1]
+                      .toPlainDateTime()
+                      .toString({ smallestUnit: "minute" })
+                  : entry[1].toPlainDate().toString();
               });
             }
             return entry;

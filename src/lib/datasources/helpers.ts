@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import {
   DataFieldType,
   type DataField,
@@ -7,6 +5,7 @@ import {
   type DataValue,
   type Optional,
 } from "../dataframe/dataframe";
+import { Temporal } from "temporal-polyfill";
 
 /**
  * Parses the values for each record based on the detected field types.
@@ -29,15 +28,44 @@ export function parseRecords(
       const value = record.values[field.name];
 
       switch (field.type) {
-        case DataFieldType.Date:
+        case DataFieldType.Date: //TODO: extract to helpers, and processing numbers
           if (typeof value === "string") {
-            record.values[field.name] = dayjs(value).toDate();
+            let parsedValue = null;
+            try {
+              // Attempt to parse as ZonedDateTime
+              parsedValue = Temporal.ZonedDateTime.from(value);
+            } catch {
+              try {
+                // Attempt to parse as Instant and convert to ZonedDateTime
+                parsedValue =
+                  Temporal.Instant.from(value).toZonedDateTimeISO(value);
+              } catch {
+                try {
+                  // Attempt to create ZonedDateTime using the current time and a PlainDate
+                  parsedValue = Temporal.PlainDateTime.from(
+                    value
+                  ).toZonedDateTime(Temporal.Now.timeZoneId());
+                } catch {
+                  parsedValue = null; // Default to null if all parsing fails
+                }
+              }
+            }
+
+            // Assign the parsed value to the record
+            record.values[field.name] = parsedValue;
           }
           break;
         case DataFieldType.Number:
           if (typeof value === "string") {
             record.values[field.name] = parseFloat(value);
           }
+          // else if (typeof value === "number") {
+          //   record.values[field.name] =
+          //     Temporal.ZonedDateTime.from(value.toString()) ??
+          //     Temporal.Instant.fromEpochMilliseconds(value).toZonedDateTimeISO(
+          //       "UTC" // possible thru Now, for user local zone
+          //     );
+          // }
           break;
         case DataFieldType.Boolean:
           if (typeof value === "string") {
@@ -123,7 +151,9 @@ export function detectCellType(value: unknown): DataFieldType {
   // Standard types
   if (typeof value === "string") {
     if (
-      /^\d{4}-\d{2}-\d{2}(T)?(\d{2})?(:\d{2})?(:\d{2})?(.\d{3})?$/.test(value)
+      /^\d{4}-\d{2}-\d{2}(?:[Tt ](?:\d{2})?(?::\d{2})?(?::\d{2})?(?:.\d+)?(?:[+-]\d{2}(?::?\d{2})?|[Zz])?)?$/.test(
+        value
+      )
     ) {
       return DataFieldType.Date;
     }

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
 
   /**
    * Specifies the date time value.
    */
-  export let value: Date | null;
+  export let value: Temporal.PlainDateTime | null;
 
   /**
    * Specifies whether to remove decorations so that it can be embedded in other
@@ -14,8 +14,8 @@
   export let embed: boolean = false;
 
   const dispatch = createEventDispatcher<{
-    change: Date | null;
-    input: Date | null;
+    change: Temporal.PlainDateTime | null;
+    input: Temporal.PlainDateTime | null;
   }>();
 
   function handleChange(event: Event) {
@@ -23,7 +23,7 @@
       dispatch(
         "change",
         event.currentTarget.value
-          ? dayjs(event.currentTarget.value).toDate()
+          ? Temporal.PlainDateTime.from(event.currentTarget.value)
           : null
       );
     }
@@ -34,7 +34,7 @@
       dispatch(
         "input",
         event.currentTarget.value
-          ? dayjs(event.currentTarget.value).toDate()
+          ? Temporal.PlainDateTime.from(event.currentTarget.value)
           : null
       );
     }
@@ -44,7 +44,7 @@
 <input
   type="datetime-local"
   class:embed
-  value={value ? dayjs(value).format("YYYY-MM-DDTHH:mm") : null}
+  value={value ? value.toString({ smallestUnit: "minutes" }) : null}
   max="9999-12-31T23:59"
   on:change={handleChange}
   on:input={handleInput}

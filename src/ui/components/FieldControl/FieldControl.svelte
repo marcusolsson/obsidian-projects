@@ -9,7 +9,7 @@
   } from "obsidian-svelte";
   import DateInput from "../DateInput.svelte";
   import DatetimeInput from "../DatetimeInput.svelte";
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
 
   import { TagList } from "src/ui/components/TagList";
   import {
@@ -26,7 +26,9 @@
 
   export let field: DataField;
   export let value: Optional<DataValue>;
-  let cachedValue: Optional<Date> = isDate(value) ? value : null; // store the proposing value
+  let cachedValue: Optional<Temporal.ZonedDateTime> = isDate(value)
+    ? value
+    : null; // store the proposing value
   export let onChange: (value: Optional<DataValue>) => void;
   export let readonly: boolean = false;
 
@@ -67,25 +69,71 @@
 {:else if field.type === DataFieldType.Date}
   {#if field.typeConfig?.time}
     <DatetimeInput
-      value={isDate(value) ? value : null}
-      on:input={({ detail: value }) => (cachedValue = value)}
+      value={isDate(value) ? value.toPlainDateTime() : null}
+      on:input={({ detail: value }) => {
+        if (value) {
+          cachedValue = cachedValue
+            ? cachedValue.with({
+                year: value.year,
+                month: value.month,
+                day: value.day,
+                hour: value.hour,
+                minute: value.minute,
+                second: value.second,
+              })
+            : value.toZonedDateTime(Temporal.Now.timeZoneId()); // to local timezone
+        } else {
+          cachedValue = null;
+        }
+      }}
       on:blur={() => onChange(cachedValue)}
     />
   {:else}
     <DateInput
-      value={isDate(value) ? value : null}
-      on:change={({ detail: value }) => (cachedValue = value)}
+      value={isDate(value) ? value.toPlainDate() : null}
+      on:change={({ detail: value }) => {
+        console.log("change event");
+        if (value) {
+          cachedValue = cachedValue
+            ? cachedValue.with({
+                year: value.year,
+                month: value.month,
+                day: value.day,
+              })
+            : value.toZonedDateTime(Temporal.Now.timeZoneId()); // to local timezone
+        } else {
+          cachedValue = null;
+        }
+      }}
+      on:input={({ detail: value }) => {
+        console.log("input event"); //TODO: awaiting debugging
+        if (value) {
+          cachedValue = cachedValue
+            ? cachedValue.with({
+                year: value.year,
+                month: value.month,
+                day: value.day,
+              })
+            : value.toZonedDateTime(Temporal.Now.timeZoneId()); // to local timezone
+        } else {
+          cachedValue = null;
+        }
+      }}
       on:blur={() => {
         if (!cachedValue || !isDate(value)) {
           onChange(cachedValue);
           return;
         }
-        const cachedDate = dayjs(cachedValue);
-        const newDatetime = dayjs(value)
-          .set("year", cachedDate.year())
-          .set("month", cachedDate.month())
-          .set("date", cachedDate.date());
-        onChange(newDatetime.toDate());
+        onChange(
+          value.with({
+            year: cachedValue.year,
+            month: cachedValue.month,
+            day: cachedValue.day,
+            hour: cachedValue.hour,
+            minute: cachedValue.minute,
+            second: cachedValue.second,
+          })
+        );
       }}
     />
   {/if}

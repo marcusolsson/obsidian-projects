@@ -14,7 +14,6 @@
   } from "obsidian-svelte";
   import { TagsInput } from "src/ui/components/TagsInput";
   import MultiTextInput from "src/ui/components/MultiTextInput/MultiTextInput.svelte";
-  import dayjs from "dayjs";
   import {
     DataFieldType,
     type Optional,
@@ -25,6 +24,7 @@
   import { onMount } from "svelte";
   import DateInput from "src/ui/components/DateInput.svelte";
   import DatetimeInput from "src/ui/components/DatetimeInput.svelte";
+  import { Temporal } from "temporal-polyfill";
 
   export let existingFields: DataField[];
   export let defaultName: string;
@@ -40,7 +40,8 @@
 
   let value: Optional<DataValue> = ""; // text, number and boolean
   let listValue: string = "[]";
-  let dateValue: Optional<Date> = new Date();
+  let dateValue: Optional<Temporal.ZonedDateTime> =
+    Temporal.Now.zonedDateTimeISO();
 
   export let onCreate: (field: DataField, value: Optional<DataValue>) => void;
 
@@ -69,7 +70,8 @@
       [DataFieldType.String]: (v: string) => v,
       [DataFieldType.Number]: (v: number) => v.toString(),
       [DataFieldType.Boolean]: (v: boolean) => v.toString(),
-      [DataFieldType.Date]: (v: string) => v.toString(),
+      [DataFieldType.Date]: (v: string) =>
+        Temporal.PlainDate.from(v).toString(),
       [DataFieldType.List]: (v: Array<string>) => v.toString(),
       [DataFieldType.Unknown]: () => null,
     },
@@ -77,7 +79,8 @@
       [DataFieldType.String]: (v: string) => parseInt(v),
       [DataFieldType.Number]: (v: number) => v,
       [DataFieldType.Boolean]: (v: boolean) => (v ? 1 : 0),
-      [DataFieldType.Date]: (v: string) => dayjs(v).toDate().getTime(),
+      [DataFieldType.Date]: (v: string) =>
+        parseInt(Temporal.PlainDate.from(v).toString().replace(/-/g, "")), // 注意捕获错误
       [DataFieldType.List]: (v: Array<string>) => parseInt(v.toString()),
       [DataFieldType.Unknown]: () => null,
     },
@@ -90,12 +93,17 @@
       [DataFieldType.Unknown]: () => null,
     },
     [DataFieldType.Date]: {
-      [DataFieldType.String]: (v: string) => dayjs(v).format("YYYY-MM-DD"),
-      [DataFieldType.Number]: (v: number) => dayjs(v).format("YYYY-MM-DD"),
-      [DataFieldType.Boolean]: () => dayjs().format("YYYY-MM-DD"),
+      [DataFieldType.String]: (v: string) =>
+        Temporal.PlainDate.from(v).toString(),
+      [DataFieldType.Number]: (v: number) =>
+        (
+          Temporal.PlainDate.from(v.toString()) ??
+          Temporal.Instant.fromEpochMilliseconds(v)
+        ).toString(),
+      [DataFieldType.Boolean]: () => Temporal.Now.plainDateISO().toString(),
       [DataFieldType.Date]: (v: string) => v,
       [DataFieldType.List]: (v: Array<string>) =>
-        dayjs(v.toString()).format("YYYY-MM-DD"),
+        Temporal.PlainDate.from(v.toString()).toString(),
       [DataFieldType.Unknown]: () => null,
     },
     [DataFieldType.List]: {
@@ -117,11 +125,11 @@
   };
 
   function convert(
-    origValue: Optional<DataValue>,
+    oValue: Optional<DataValue>,
     from: DataFieldType,
     to: DataFieldType
   ) {
-    if (origValue === undefined || origValue === null) {
+    if (oValue === undefined || oValue === null) {
       return null;
     }
 
@@ -132,23 +140,24 @@
       from === DataFieldType.List ||
       from === DataFieldType.Date
     ) {
-      return origValue;
+      return oValue;
     }
 
-    return conversions[to][from](origValue);
+    return conversions[to][from](oValue); //TODO: add error handling
   }
 
   function handleTypeChange(event: CustomEvent<string>) {
     const from = field.type;
     const to = event.detail as DataFieldType;
     if (to === DataFieldType.List) {
+      value = convert(value, from, to) ?? null; // check this line?
       field = {
         ...field,
         type: to,
         repeated: true,
       };
     } else {
-      value = convert(value, from, to);
+      value = convert(value, from, to) ?? null;
       field = {
         ...field,
         type: to,
@@ -266,16 +275,29 @@
       {:else if field.type === DataFieldType.Date}
         {#if field.typeConfig?.time}
           <DatetimeInput
-            value={dateValue ?? new Date()}
+            value={dateValue?.toPlainDateTime() ??
+              Temporal.Now.plainDateTimeISO()}
             on:input={({ detail: value }) => {
-              dateValue = value;
+              if (value) {
+                dateValue = dateValue
+                  ? dateValue.with(value)
+                  : Temporal.ZonedDateTime.from(value);
+              } else {
+                dateValue = null;
+              }
             }}
           />
         {:else}
           <DateInput
-            value={dateValue ?? new Date()}
+            value={dateValue?.toPlainDate() ?? Temporal.Now.plainDateISO()}
             on:input={({ detail: value }) => {
-              dateValue = value;
+              if (value) {
+                dateValue = dateValue
+                  ? dateValue.with(value)
+                  : Temporal.ZonedDateTime.from(value);
+              } else {
+                dateValue = null;
+              }
             }}
           />
         {/if}
@@ -334,10 +356,15 @@
         } else if (field.type === DataFieldType.Date) {
           onCreate(
             field,
-            // If no date(time) value specified still add today's date / current time
-            dayjs(dateValue ?? "").format(
-              field.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
-            )
+            field.typeConfig?.time
+              ? dateValue
+                ? dateValue
+                    .toPlainDateTime()
+                    .toString({ smallestUnit: "minutes" })
+                : Temporal.Now.plainDateTimeISO().toString()
+              : dateValue
+                ? dateValue.toPlainDate().toString()
+                : Temporal.Now.plainDateISO().toString()
           );
         } else if (field.type === DataFieldType.String) {
           // uniquify options items and omit empty
