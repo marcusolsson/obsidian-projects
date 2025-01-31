@@ -47,7 +47,7 @@
    */
   export let onRecordAdd: () => void;
 
-  $: weekend = date.day === 0 || date.day === 6;
+  $: weekend = date.dayOfWeek % 7 === 0 || date.dayOfWeek === 6;
   $: today = date.equals(Temporal.Now.plainDateISO());
 
   function handleDblClick(event: MouseEvent) {

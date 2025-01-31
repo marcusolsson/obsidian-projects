@@ -28,17 +28,6 @@
       );
     }
   }
-
-  function handleInput(event: Event) {
-    if (event.currentTarget instanceof HTMLInputElement) {
-      dispatch(
-        "input",
-        event.currentTarget.value
-          ? Temporal.PlainDate.from(event.currentTarget.value)
-          : null
-      );
-    }
-  }
 </script>
 
 <input
@@ -47,7 +36,6 @@
   value={value ? value.toString() : null}
   max="9999-12-31"
   on:change={handleChange}
-  on:input={handleInput}
   on:blur
 />
 

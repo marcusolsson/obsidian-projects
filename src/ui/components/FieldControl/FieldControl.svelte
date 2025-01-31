@@ -70,7 +70,7 @@
   {#if field.typeConfig?.time}
     <DatetimeInput
       value={isDate(value) ? value.toPlainDateTime() : null}
-      on:input={({ detail: value }) => {
+      on:change={({ detail: value }) => {
         if (value) {
           cachedValue = cachedValue
             ? cachedValue.with({
@@ -92,21 +92,6 @@
     <DateInput
       value={isDate(value) ? value.toPlainDate() : null}
       on:change={({ detail: value }) => {
-        console.log("change event");
-        if (value) {
-          cachedValue = cachedValue
-            ? cachedValue.with({
-                year: value.year,
-                month: value.month,
-                day: value.day,
-              })
-            : value.toZonedDateTime(Temporal.Now.timeZoneId()); // to local timezone
-        } else {
-          cachedValue = null;
-        }
-      }}
-      on:input={({ detail: value }) => {
-        console.log("input event"); //TODO: awaiting debugging
         if (value) {
           cachedValue = cachedValue
             ? cachedValue.with({

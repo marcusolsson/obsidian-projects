@@ -27,15 +27,15 @@ export function addInterval(
 ): Temporal.PlainDate {
   switch (interval) {
     case "month":
-      return date.add({months: 1});
+      return date.add({ months: 1 });
     case "2weeks":
-      return date.add({weeks: 2});
+      return date.add({ weeks: 2 });
     case "week":
-      return date.add({weeks: 1});
+      return date.add({ weeks: 1 });
     case "3days":
-      return date.add({days: 1}); //TODO: double check
+      return date.add({ days: 1 }); //TODO: double check
     case "day":
-      return date.add({days: 1});
+      return date.add({ days: 1 });
   }
 }
 
@@ -45,15 +45,15 @@ export function subtractInterval(
 ): Temporal.PlainDate {
   switch (interval) {
     case "month":
-      return date.subtract({months: 1});
+      return date.subtract({ months: 1 });
     case "2weeks":
-      return date.subtract({weeks: 2});
+      return date.subtract({ weeks: 2 });
     case "week":
-      return date.subtract({weeks: 1});
+      return date.subtract({ weeks: 1 });
     case "3days":
-      return date.subtract({days: 1}); //TODO: double check
+      return date.subtract({ days: 1 }); //TODO: double check
     case "day":
-      return date.subtract({days: 1});
+      return date.subtract({ days: 1 });
   }
 }
 
@@ -66,11 +66,7 @@ export function groupRecordsByField(
   records.forEach((record) => {
     const dateValue = record.values[field];
 
-    const start = dateValue
-      ? isDate(dateValue)
-        ? dateValue
-        : null
-      : null;
+    const start = dateValue ? (isDate(dateValue) ? dateValue : null) : null;
 
     if (start) {
       const dateStr = start.toPlainDate().toString();
@@ -95,24 +91,30 @@ export function computeDateInterval(
   switch (interval) {
     case "month":
       return [
-        startOfWeek(anchor.with({day: 1}), firstDayOfWeek),
-        endOfWeek(anchor.with({day: anchor.daysInMonth}), firstDayOfWeek),
+        startOfWeek(anchor.with({ day: 1 }), firstDayOfWeek),
+        endOfWeek(anchor.with({ day: anchor.daysInMonth }), firstDayOfWeek),
       ];
     case "2weeks":
-      return [sow, eow.add({weeks: 1})];
+      return [sow, eow.add({ weeks: 1 })];
     case "week":
       return [sow, eow];
     case "3days":
-      return [anchor, anchor.add({days: 2})];
+      return [anchor, anchor.add({ days: 2 })];
     case "day":
       return [anchor, anchor];
   }
 }
 
-export function generateTitle(dateInterval: [Temporal.PlainDate, Temporal.PlainDate]) {
+export function generateTitle(
+  dateInterval: [Temporal.PlainDate, Temporal.PlainDate]
+) {
   if (dateInterval[0].equals(dateInterval[1])) {
     return get(i18n).t("views.calendar.date", {
-      value: new Date(dateInterval[0].toString()),
+      value: new Date(
+        dateInterval[0].toZonedDateTime(
+          Temporal.Now.timeZoneId()
+        ).epochMilliseconds
+      ),
       formatParams: {
         value: { year: "numeric", month: "long", day: "numeric" },
       },
@@ -121,10 +123,22 @@ export function generateTitle(dateInterval: [Temporal.PlainDate, Temporal.PlainD
 
   if (dateInterval[0].year === dateInterval[1].year) {
     return get(i18n).t("views.calendar.interval", {
-      from: new Date(dateInterval[0].toString()),
-      to: new Date(dateInterval[1].toString()),
+      from: new Date(
+        dateInterval[0].toZonedDateTime(
+          Temporal.Now.timeZoneId()
+        ).epochMilliseconds
+      ),
+      to: new Date(
+        dateInterval[1].toZonedDateTime(
+          Temporal.Now.timeZoneId()
+        ).epochMilliseconds
+      ),
       en_separator: ", ",
-      custom_year: new Date(dateInterval[0].toString()),
+      custom_year: new Date(
+        dateInterval[0].toZonedDateTime(
+          Temporal.Now.timeZoneId()
+        ).epochMilliseconds
+      ),
       formatParams: {
         from: { month: "short", day: "numeric" },
         to: { month: "short", day: "numeric" },
@@ -134,8 +148,16 @@ export function generateTitle(dateInterval: [Temporal.PlainDate, Temporal.PlainD
   }
 
   return get(i18n).t("views.calendar.interval", {
-    from: new Date(dateInterval[0].toString()),
-    to: new Date(dateInterval[1].toString()),
+    from: new Date(
+      dateInterval[0].toZonedDateTime(
+        Temporal.Now.timeZoneId()
+      ).epochMilliseconds
+    ),
+    to: new Date(
+      dateInterval[1].toZonedDateTime(
+        Temporal.Now.timeZoneId()
+      ).epochMilliseconds
+    ),
     en_separator: "",
     custom_year: "",
     formatParams: {
@@ -151,10 +173,10 @@ export function generateDates(
 ): Temporal.PlainDate[] {
   const dates: Temporal.PlainDate[] = [];
 
-  const numDays = dateInterval[0].until(dateInterval[1]).days
+  const numDays = dateInterval[0].until(dateInterval[1]).days;
 
   for (let i = 0; i <= numDays; i++) {
-    dates.push(dateInterval[0].add({days: i}));
+    dates.push(dateInterval[0].add({ days: i }));
   }
 
   return dates;
@@ -194,16 +216,16 @@ export function startOfWeek(
   date: Temporal.PlainDate,
   firstDayOfWeek: number
 ): Temporal.PlainDate {
-  const offset = (7 + date.day - firstDayOfWeek) % 7;
-  return date.subtract({days: offset});
+  const offset = (7 + date.dayOfWeek - firstDayOfWeek) % 7;
+  return date.subtract({ days: offset });
 }
 
 export function endOfWeek(
   date: Temporal.PlainDate,
   firstDayOfWeek: number
 ): Temporal.PlainDate {
-  const offset = (firstDayOfWeek + 6 - date.day) % 7;
-  return date.add({days: offset});
+  const offset = (firstDayOfWeek + 6 - date.dayOfWeek) % 7;
+  return date.add({ days: offset });
 }
 
 export type LocaleOption = "system" | "obsidian";

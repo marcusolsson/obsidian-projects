@@ -28,17 +28,6 @@
       );
     }
   }
-
-  function handleInput(event: Event) {
-    if (event.currentTarget instanceof HTMLInputElement) {
-      dispatch(
-        "input",
-        event.currentTarget.value
-          ? Temporal.PlainDateTime.from(event.currentTarget.value)
-          : null
-      );
-    }
-  }
 </script>
 
 <input
@@ -47,7 +36,6 @@
   value={value ? value.toString({ smallestUnit: "minutes" }) : null}
   max="9999-12-31T23:59"
   on:change={handleChange}
-  on:input={handleInput}
   on:blur
 />
 

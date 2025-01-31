@@ -109,15 +109,14 @@
   function handleRecordChange(date: Temporal.PlainDate, record: DataRecord) {
     if (dateField) {
       if (dateField.type === DataFieldType.Date) {
-        const newDatetime = Temporal.PlainDateTime.from(record.values[dateField.name] as string)
-          .with({year: date.year,
-          month: date.month,
-          day: date.day})//check intension here
+        const newDatetime = Temporal.PlainDateTime.from(
+          record.values[dateField.name] as string
+        ).with({ year: date.year, month: date.month, day: date.day }); //check intension here
         api.updateRecord(
           updateRecordValues(record, {
-            [dateField.name]:
-              dateField.typeConfig?.time ? newDatetime.toString({smallestUnit: "minute"}) : newDatetime.toPlainDate().toString()
-            ,
+            [dateField.name]: dateField.typeConfig?.time
+              ? newDatetime.toString({ smallestUnit: "minute" })
+              : newDatetime.toPlainDate().toString(),
           }),
           fields
         );
@@ -249,10 +248,14 @@
         {#each weekDays as weekDay}
           <Weekday
             width={100 / weekDays.length}
-            weekend={weekDay.day === 0 || weekDay.day === 6}
+            weekend={weekDay.dayOfWeek % 7 === 0 || weekDay.dayOfWeek === 6}
           >
             {$i18n.t("views.calendar.weekday", {
-              value: new Date(weekDay.toString()), // bug may arise here, use local Date variable
+              value: new Date(
+                weekDay.toZonedDateTime(
+                  Temporal.Now.timeZoneId()
+                ).epochMilliseconds
+              ), // bug may arise here, use local Date variable
               formatParams: {
                 value: { weekday: "short" },
               },
