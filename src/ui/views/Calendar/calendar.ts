@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
 import { get } from "svelte/store";
+import { Temporal } from "temporal-polyfill";
 
 import { isDate, type DataRecord } from "src/lib/dataframe/dataframe";
 import { i18n } from "src/lib/stores/i18n";
@@ -22,38 +22,38 @@ export function isCalendarInterval(value: string): value is CalendarInterval {
 }
 
 export function addInterval(
-  date: dayjs.Dayjs,
+  date: Temporal.PlainDate,
   interval: CalendarInterval
-): dayjs.Dayjs {
+): Temporal.PlainDate {
   switch (interval) {
     case "month":
-      return date.add(1, "month");
+      return date.add({months: 1});
     case "2weeks":
-      return date.add(2, "week");
+      return date.add({weeks: 2});
     case "week":
-      return date.add(1, "week");
+      return date.add({weeks: 1});
     case "3days":
-      return date.add(1, "day");
+      return date.add({days: 1}); //TODO: double check
     case "day":
-      return date.add(1, "day");
+      return date.add({days: 1});
   }
 }
 
 export function subtractInterval(
-  date: dayjs.Dayjs,
+  date: Temporal.PlainDate,
   interval: CalendarInterval
-): dayjs.Dayjs {
+): Temporal.PlainDate {
   switch (interval) {
     case "month":
-      return date.subtract(1, "month");
+      return date.subtract({months: 1});
     case "2weeks":
-      return date.subtract(2, "week");
+      return date.subtract({weeks: 2});
     case "week":
-      return date.subtract(1, "week");
+      return date.subtract({weeks: 1});
     case "3days":
-      return date.subtract(1, "day");
+      return date.subtract({days: 1}); //TODO: double check
     case "day":
-      return date.subtract(1, "day");
+      return date.subtract({days: 1});
   }
 }
 
@@ -68,12 +68,12 @@ export function groupRecordsByField(
 
     const start = dateValue
       ? isDate(dateValue)
-        ? dayjs(dateValue)
+        ? dateValue
         : null
       : null;
 
     if (start) {
-      const dateStr = start.format("YYYY-MM-DD");
+      const dateStr = start.toPlainDate().toString();
       if (!(dateStr in res)) {
         res[dateStr] = [];
       }
@@ -86,45 +86,45 @@ export function groupRecordsByField(
 }
 
 export function computeDateInterval(
-  anchor: dayjs.Dayjs,
+  anchor: Temporal.PlainDate,
   interval: CalendarInterval,
   firstDayOfWeek: number
-): [dayjs.Dayjs, dayjs.Dayjs] {
+): [Temporal.PlainDate, Temporal.PlainDate] {
   const sow = startOfWeek(anchor, firstDayOfWeek);
   const eow = endOfWeek(anchor, firstDayOfWeek);
   switch (interval) {
     case "month":
       return [
-        startOfWeek(anchor.startOf("month"), firstDayOfWeek),
-        endOfWeek(anchor.endOf("month"), firstDayOfWeek),
+        startOfWeek(anchor.with({day: 1}), firstDayOfWeek),
+        endOfWeek(anchor.with({day: anchor.daysInMonth}), firstDayOfWeek),
       ];
     case "2weeks":
-      return [sow, eow.add(1, "week")];
+      return [sow, eow.add({weeks: 1})];
     case "week":
       return [sow, eow];
     case "3days":
-      return [anchor, anchor.add(2, "days")];
+      return [anchor, anchor.add({days: 2})];
     case "day":
       return [anchor, anchor];
   }
 }
 
-export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
-  if (dateInterval[0].startOf("day").isSame(dateInterval[1].startOf("day"))) {
+export function generateTitle(dateInterval: [Temporal.PlainDate, Temporal.PlainDate]) {
+  if (dateInterval[0].equals(dateInterval[1])) {
     return get(i18n).t("views.calendar.date", {
-      value: dateInterval[0],
+      value: new Date(dateInterval[0].toString()),
       formatParams: {
         value: { year: "numeric", month: "long", day: "numeric" },
       },
     });
   }
 
-  if (dateInterval[0].startOf("year").isSame(dateInterval[1].startOf("year"))) {
+  if (dateInterval[0].year === dateInterval[1].year) {
     return get(i18n).t("views.calendar.interval", {
-      from: dateInterval[0],
-      to: dateInterval[1],
+      from: new Date(dateInterval[0].toString()),
+      to: new Date(dateInterval[1].toString()),
       en_separator: ", ",
-      custom_year: dateInterval[0],
+      custom_year: new Date(dateInterval[0].toString()),
       formatParams: {
         from: { month: "short", day: "numeric" },
         to: { month: "short", day: "numeric" },
@@ -134,8 +134,8 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
   }
 
   return get(i18n).t("views.calendar.interval", {
-    from: dateInterval[0],
-    to: dateInterval[1],
+    from: new Date(dateInterval[0].toString()),
+    to: new Date(dateInterval[1].toString()),
     en_separator: "",
     custom_year: "",
     formatParams: {
@@ -147,24 +147,24 @@ export function generateTitle(dateInterval: [dayjs.Dayjs, dayjs.Dayjs]) {
 }
 
 export function generateDates(
-  dateInterval: [dayjs.Dayjs, dayjs.Dayjs]
-): dayjs.Dayjs[] {
-  const dates: dayjs.Dayjs[] = [];
+  dateInterval: [Temporal.PlainDate, Temporal.PlainDate]
+): Temporal.PlainDate[] {
+  const dates: Temporal.PlainDate[] = [];
 
-  const numDays = dateInterval[1].diff(dateInterval[0], "days");
+  const numDays = dateInterval[0].until(dateInterval[1]).days
 
   for (let i = 0; i <= numDays; i++) {
-    dates.push(dateInterval[0].add(i, "day"));
+    dates.push(dateInterval[0].add({days: i}));
   }
 
   return dates;
 }
 
 export function chunkDates(
-  dates: dayjs.Dayjs[],
+  dates: Temporal.PlainDate[],
   chunks: number
-): dayjs.Dayjs[][] {
-  const chunkedDates: dayjs.Dayjs[][] = [];
+): Temporal.PlainDate[][] {
+  const chunkedDates: Temporal.PlainDate[][] = [];
 
   let rest = dates;
   while (rest.length) {
@@ -191,19 +191,19 @@ function take<T>(arr: Array<T>, num: number): Array<T> {
 }
 
 export function startOfWeek(
-  date: dayjs.Dayjs,
+  date: Temporal.PlainDate,
   firstDayOfWeek: number
-): dayjs.Dayjs {
-  const offset = (7 + date.day() - firstDayOfWeek) % 7;
-  return date.subtract(offset, "days");
+): Temporal.PlainDate {
+  const offset = (7 + date.day - firstDayOfWeek) % 7;
+  return date.subtract({days: offset});
 }
 
 export function endOfWeek(
-  date: dayjs.Dayjs,
+  date: Temporal.PlainDate,
   firstDayOfWeek: number
-): dayjs.Dayjs {
-  const offset = (firstDayOfWeek + 6 - date.day()) % 7;
-  return date.add(offset, "days");
+): Temporal.PlainDate {
+  const offset = (firstDayOfWeek + 6 - date.day) % 7;
+  return date.add({days: offset});
 }
 
 export type LocaleOption = "system" | "obsidian";

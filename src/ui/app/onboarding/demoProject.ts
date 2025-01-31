@@ -1,6 +1,6 @@
-import dayjs from "dayjs";
 import { normalizePath, stringifyYaml, type Vault } from "obsidian";
 import { v4 as uuidv4 } from "uuid";
+import { Temporal } from "temporal-polyfill";
 
 import { settings } from "src/lib/stores/settings";
 import type { BoardConfig } from "src/ui/views/Board/types";
@@ -14,12 +14,12 @@ export async function createDemoProject(vault: Vault) {
 
   await vault.createFolder(demoFolder);
 
-  const startDate = dayjs();
+  const startDate = Temporal.Now.zonedDateTimeISO();
 
   const files = {
     "The Best Notes You'll Ever Make": {
       status: "Done",
-      due: startDate.subtract(2, "weeks").format("YYYY-MM-DD"),
+      due: startDate.subtract({weeks: 2}).toPlainDate().toString(),
       published: true,
       weight: 1,
       tags: ["note-taking"],
@@ -28,7 +28,7 @@ export async function createDemoProject(vault: Vault) {
     },
     "The Easiest Way to Start Taking Notes": {
       status: "Done",
-      due: startDate.subtract(1, "weeks").format("YYYY-MM-DD"),
+      due: startDate.subtract({weeks: 1}).toPlainDate().toString(),
       published: true,
       weight: 2,
       tags: ["note-taking", "obsidian"],
@@ -37,7 +37,7 @@ export async function createDemoProject(vault: Vault) {
     },
     "Why You Should Be Taking More Notes": {
       status: "Doing",
-      due: startDate.format("YYYY-MM-DD"),
+      due: startDate.toPlainDate().toString(),
       published: false,
       weight: 3,
       tags: ["note-taking", "pkm"],
@@ -46,7 +46,7 @@ export async function createDemoProject(vault: Vault) {
     },
     "What I Learned From Taking 15,000 Notes": {
       status: "Backlog",
-      due: startDate.add(1, "weeks").format("YYYY-MM-DD"),
+      due: startDate.add({weeks: 1}).toPlainDate().toString(),
       published: false,
       weight: 4,
       tags: ["pkm", "obsidian"],
@@ -55,7 +55,7 @@ export async function createDemoProject(vault: Vault) {
     },
     "5 Mistakes I Made When I Started Using Obsidian": {
       status: "Backlog",
-      due: startDate.add(2, "weeks").format("YYYY-MM-DD"),
+      due: startDate.add({weeks: 2}).toPlainDate().toString(),
       published: false,
       tags: ["obsidian"],
       image:
