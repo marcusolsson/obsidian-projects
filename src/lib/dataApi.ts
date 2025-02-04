@@ -196,7 +196,7 @@ export function doUpdateRecord(
                 entry[1].offset !== Temporal.Now.zonedDateTimeISO().offset; // default "+08:00" comparing to "-05:00"
 
               // const hasOffset =
-              const utc = entry[1].timeZoneId === "UTC";
+              // const utc = entry[1].timeZoneId === "UTC";
               //TODO; format with Z mark, seems hard to do w/0 third-party libs
 
               return produce(entry, (draft) => {
