@@ -66,7 +66,8 @@
   $: error = !onValidate(value);
 </script>
 
-<div
+<section
+  class="projects--board--column-header"
   on:dblclick={() => {
     editing = true;
   }}
@@ -141,7 +142,7 @@
       }}
     />
   </div>
-</div>
+</section>
 
 <style>
   span {

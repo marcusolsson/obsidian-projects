@@ -234,7 +234,7 @@
   }
 
   .columnHeader {
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     font-weight: 500;
     text-align: center;
     justify-content: space-between;
@@ -242,7 +242,7 @@
   }
 
   .header {
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     position: sticky;
     left: 60px;
   }
@@ -251,7 +251,7 @@
     left: 0px;
     justify-content: center;
     z-index: 5;
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     font-weight: 500;
     padding: 3px;
     gap: 4px;
@@ -260,7 +260,7 @@
 
   .pinned {
     left: 60px;
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     position: sticky;
     border-right: 1px solid var(--background-modifier-border-focus);
     z-index: 4;

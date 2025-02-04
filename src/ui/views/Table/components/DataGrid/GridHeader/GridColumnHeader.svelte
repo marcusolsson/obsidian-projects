@@ -45,7 +45,7 @@
     justify-content: space-between;
     text-align: center;
 
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     border-right: 1px solid var(--background-modifier-border);
     border-left-color: var(--background-modifier-border);
     border-bottom: 1px solid var(--background-modifier-border);

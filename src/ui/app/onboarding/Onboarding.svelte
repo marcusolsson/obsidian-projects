@@ -80,7 +80,7 @@ published: false
 
 <style>
   pre {
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     border-radius: var(--radius-s);
     padding: 8px;
   }

@@ -24,7 +24,7 @@
     bottom: 0;
     z-index: 10;
 
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     border-bottom: 1px solid var(--background-modifier-border);
   }
 </style>

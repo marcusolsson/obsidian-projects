@@ -10,7 +10,7 @@ $card-radius: var(--radius-s);
 }
 
 .#{$prefix}--#{$view}--card {
-  background-color: var(--background-secondary);
+  background-color: var(--background-primary-alt);
   border-radius: #{$card-radius};
   border: 1px solid var(--background-modifier-border);
   padding: 0;
