@@ -114,9 +114,6 @@
             year: cachedValue.year,
             month: cachedValue.month,
             day: cachedValue.day,
-            hour: cachedValue.hour,
-            minute: cachedValue.minute,
-            second: cachedValue.second,
           })
         );
       }}
