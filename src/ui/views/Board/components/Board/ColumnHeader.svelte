@@ -66,8 +66,8 @@
   $: error = !onValidate(value);
 </script>
 
-<section
-  class="projects--board--column-header"
+<div
+  class="projects--board--column--header"
   on:dblclick={() => {
     editing = true;
   }}
@@ -128,7 +128,7 @@
       {value}
     </span>
   {/if}
-  <div>
+  <div class="right">
     {#if collapse || checkField}
       <Flair variant="primary">
         {checkField ? `${checkedCount}/${count}` : count}
@@ -142,7 +142,7 @@
       }}
     />
   </div>
-</section>
+</div>
 
 <style>
   span {
@@ -158,9 +158,14 @@
     margin-bottom: 0;
   }
 
-  div {
+  .projects--board--column--header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  .right {
+    display: flex;
     align-items: center;
   }
 

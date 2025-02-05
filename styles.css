@@ -23,12 +23,6 @@
   }
 }
 
-.projects--board--column-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .projects--board--card {
   background-color: var(--background-primary);
   border-radius: var(--radius-s);
