@@ -25,7 +25,7 @@
 
   div {
     padding: 8px;
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
   }
 
   header {

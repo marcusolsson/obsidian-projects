@@ -73,7 +73,7 @@
     margin-top: 8px;
     border: 1px solid var(--background-modifier-border);
     border-radius: var(--radius-m);
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
     display: flex;
     flex-direction: column;
     row-gap: var(--size-4-2);

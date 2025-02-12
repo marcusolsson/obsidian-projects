@@ -55,9 +55,9 @@
   }
 
   .primary {
-    background-color: var(--tab-background-active);
+    background-color: var(--background-primary);
   }
   .secondary {
-    background-color: var(--background-secondary);
+    background-color: var(--background-primary-alt);
   }
 </style>

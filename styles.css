@@ -8,7 +8,7 @@
 .projects--board--column {
   border: 1px solid var(--background-modifier-border);
   border-radius: var(--radius-m);
-  background-color: var(--background-secondary);
+  background-color: var(--background-primary-alt);
   display: flex;
   gap: var(--size-4-2);
   flex-direction: column;
@@ -52,7 +52,7 @@
 }
 
 .projects--gallery--card {
-  background-color: var(--background-secondary);
+  background-color: var(--background-primary-alt);
   border-radius: var(--radius-s);
   border: 1px solid var(--background-modifier-border);
   padding: 0;
@@ -84,7 +84,7 @@
   border-top-right-radius: var(--radius-s);
 }
 
-.workspace-leaf-content[data-type=obsidian-projects] .view-content {
+.workspace-leaf-content[data-type="obsidian-projects"] .view-content {
   padding: 0;
 }
 
