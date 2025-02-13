@@ -52,13 +52,6 @@ export function removeCriterium(value: SortDefinition, pos: number) {
   });
 }
 
-export function getFieldByName(
-  fields: DataField[],
-  fieldName: string
-): DataField | undefined {
-  return fields.find((field) => field.name === fieldName);
-}
-
 export function getOrderByField(field: DataField): Array<{
   label: string;
   value: SortOrder;

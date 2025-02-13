@@ -8,3 +8,10 @@ export function fieldsToSelectOptions(fields: DataField[]): SelectOption[] {
     value: field.name,
   }));
 }
+
+export function getFieldByName(
+  fields: DataField[],
+  fieldName: string
+): DataField | undefined {
+  return fields.find((field) => field.name === fieldName);
+}

@@ -56,13 +56,6 @@ export function addCondition(filter: FilterDefinition, fields: DataField[]) {
   });
 }
 
-export function getFieldByName(
-  fields: DataField[],
-  fieldName: string
-): DataField | undefined {
-  return fields.find((field) => field.name === fieldName);
-}
-
 export function getOperatorsByField(field: DataField): Array<{
   label: string;
   value: FilterOperator;

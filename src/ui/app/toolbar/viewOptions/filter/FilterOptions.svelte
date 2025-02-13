@@ -23,10 +23,9 @@
     type FilterDefinition,
     type FilterOperator,
   } from "src/settings/settings";
-  import { fieldsToSelectOptions } from "../helpers";
+  import { fieldsToSelectOptions, getFieldByName } from "../helpers";
   import {
     addCondition,
-    getFieldByName,
     getOperatorsByField,
     removeCondition,
     setField,

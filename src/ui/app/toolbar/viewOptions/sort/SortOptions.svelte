@@ -5,14 +5,13 @@
   import type { SortDefinition } from "src/settings/settings";
   import {
     addCriterium,
-    getFieldByName,
     getOrderByField,
     removeCriterium,
     setEnabled,
     setField,
     setOrder,
   } from "./helpers";
-  import { fieldsToSelectOptions } from "../helpers";
+  import { fieldsToSelectOptions, getFieldByName } from "../helpers";
   import { i18n } from "src/lib/stores/i18n";
 
   export let value: SortDefinition;

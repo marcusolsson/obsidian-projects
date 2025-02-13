@@ -35,11 +35,10 @@
     setEnabled,
     removeCondition,
     addCondition,
-    getFieldByName,
     getOperatorsByField,
     stripIds,
   } from "./helpers";
-  import { fieldsToSelectOptions } from "../helpers";
+  import { fieldsToSelectOptions, getFieldByName } from "../helpers";
   import { i18n } from "src/lib/stores/i18n";
 
   export let filter: ColorFilterDefinition;
