@@ -1,6 +1,3 @@
-import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import { either, task, taskEither } from "fp-ts";
 import { pipe } from "fp-ts/lib/function";
 import { Plugin, TFolder, WorkspaceLeaf, addIcon } from "obsidian";
@@ -24,9 +21,6 @@ import {
   type ViewId,
 } from "./settings/settings";
 import { ProjectsView, VIEW_TYPE_PROJECTS } from "./view";
-
-dayjs.extend(isoWeek);
-dayjs.extend(localizedFormat);
 
 const PROJECTS_PLUGIN_ID = "obsidian-projects";
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     DataFieldType,
+    isDate,
     type DataField,
     type DataValue,
     type Optional,
@@ -10,13 +11,13 @@
   export let field: DataField;
 </script>
 
-{#if field.type === DataFieldType.Date && !field.repeated && value instanceof Date}
-  {Intl.DateTimeFormat("default", {
+{#if field.type === DataFieldType.Date && !field.repeated && isDate(value)}
+  {value.toPlainDateTime().toLocaleString("default", {
     year: "numeric",
     month: "numeric",
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
     hour12: false,
-  }).format(value)}
+  })}
 {/if}
