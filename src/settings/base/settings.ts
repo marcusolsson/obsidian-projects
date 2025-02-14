@@ -1,3 +1,7 @@
+import { writable } from 'svelte/store';
+export const searchText = writable("");
+export const searchField = writable("");
+
 export type ProjectId = string;
 export type ViewId = string;
 
