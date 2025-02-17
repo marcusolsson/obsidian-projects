@@ -42,7 +42,7 @@ function isEmpty(value: any): boolean {
   return value === undefined || value === null;
 }
 
-function sortCriteria(
+function sortCriteria( // by field options sort
   a: DataRecord,
   b: DataRecord,
   criteria: SortingCriteria
@@ -113,3 +113,25 @@ function sortString(a: string, b: string, asc: boolean): number {
     ? a.localeCompare(b, undefined, { numeric: true })
     : b.localeCompare(a, undefined, { numeric: true });
 }
+
+function sortByStringOptions( // custom order
+  a: string,
+  b: string,
+  ordering: string[],
+  asc: boolean
+): number {
+  // Use indexOf to find the priority for each stringz
+  const pa = ordering.indexOf(a);
+  const pb = ordering.indexOf(b);
+
+  if (pa || pb) {
+    return sortNumber(pa, pb, asc);
+  }
+
+  return asc
+    ? a.localeCompare(b, undefined, { numeric: true })
+    : b.localeCompare(a, undefined, { numeric: true });
+}
+
+// 单元测试：按照升序排列，按照降序排列，未出现在 ordering 中的元素按升序排列，未出现在 ordering 中的元素按降序排列，混合升序排列，混合降序排列
+// 未来拓展性：考虑非字符串 options

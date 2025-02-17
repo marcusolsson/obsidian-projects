@@ -18,12 +18,13 @@ export interface SortDefinition {
 }
 
 export interface SortingCriteria {
+  // hack here?
   readonly field: string;
   readonly order: SortOrder;
   readonly enabled: boolean;
 }
 
-export type SortOrder = "asc" | "desc";
+export type SortOrder = "asc" | "desc" | "oasc" | "odesc";
 
 export interface FilterDefinition {
   readonly conjunction?: "and" | "or";

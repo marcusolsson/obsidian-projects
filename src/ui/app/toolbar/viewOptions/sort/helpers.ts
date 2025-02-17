@@ -61,6 +61,8 @@ export function getOrderByField(field: DataField): Array<{
       return [
         { label: "A → Z", value: "asc" },
         { label: "Z → A", value: "desc" },
+        { label: "Options Asc", value: "oasc" },
+        { label: "Options Desc", value: "odesc" },
       ];
     case DataFieldType.Number:
       return [
