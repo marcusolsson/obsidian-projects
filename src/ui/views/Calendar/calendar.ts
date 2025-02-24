@@ -21,7 +21,7 @@ export function isCalendarInterval(value: string): value is CalendarInterval {
   }
 }
 
-export function addInterval( 
+export function addInterval(
   // scroll interaction
   date: Temporal.PlainDate,
   interval: CalendarInterval
