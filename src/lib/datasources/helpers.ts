@@ -47,7 +47,7 @@ export function parseRecords(
           break;
         case DataFieldType.String:
           if (typeof value !== "object") {
-            record.values[field.name] = value?.toLocaleString(); //TODO: refine this
+            record.values[field.name] = value?.toLocaleString(); //TODO: fallback type, to be refined in type casting
           }
           break;
       }
@@ -158,14 +158,13 @@ function typeFromValues(values: Optional<DataValue>[]): DataFieldType {
   }
 }
 
+export const DateTimeRegex =
+  /^\d{4}-\d{2}-\d{2}(?:[Tt ](?:\d{2})?(?::\d{2})?(?::\d{2})?(?:.\d+)?(?:[+-]\d{2}(?::?\d{2})?|[Zz])?(?:\[[^\]]+\])?)?$/;
+
 export function detectCellType(value: unknown): DataFieldType {
   // Standard types
   if (typeof value === "string") {
-    if (
-      /^\d{4}-\d{2}-\d{2}(?:[Tt ](?:\d{2})?(?::\d{2})?(?::\d{2})?(?:.\d+)?(?:[+-]\d{2}(?::?\d{2})?|[Zz])?(?:\[[^\]]+\])?)?$/.test(
-        value
-      )
-    ) {
+    if (DateTimeRegex.test(value)) {
       return DataFieldType.Date;
     }
     return DataFieldType.String;

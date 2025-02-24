@@ -61,33 +61,29 @@ export function matchesCondition(
   } else if (isOptionalBoolean(value) && isBooleanFilterOperator(operator)) {
     return booleanFns[operator](value);
   } else if (isOptionalDate(value) && isDateFilterOperator(operator)) {
-    let parsedValue = null; // TODO: extract to help functions / processing numbers
-    if (cond.value) {
-      try {
-        // Attempt to parse as ZonedDateTime
-        parsedValue = Temporal.ZonedDateTime.from(cond.value);
-      } catch {
-        try {
-          // Attempt to parse as Instant and convert to ZonedDateTime
-          parsedValue = Temporal.Instant.from(cond.value).toZonedDateTimeISO(
-            cond.value
-          );
-        } catch {
-          try {
-            // Attempt to create ZonedDateTime using the current time and a PlainDate
-            parsedValue = Temporal.PlainDateTime.from(
-              cond.value
-            ).toZonedDateTime(Temporal.Now.timeZoneId());
-          } catch {
-            parsedValue = null; // Default to null if all parsing fails
-          }
-        }
-      }
-    }
-    return dateFns[operator](value, parsedValue ?? undefined);
+    const parsedDate = cond.value ? parseStringDate(cond.value) : undefined;
+    return dateFns[operator](value, parsedDate);
   }
 
   return false;
+}
+
+function parseStringDate(value: string) {
+  for (const parseFn of [
+    () => Temporal.ZonedDateTime.from(value), // with timezone id
+    () => Temporal.Instant.from(value).toZonedDateTimeISO(value), // with timezone offset
+    () =>
+      Temporal.PlainDateTime.from(value).toZonedDateTime(
+        Temporal.Now.timeZoneId()
+      ), // w/o timezone info
+  ]) {
+    try {
+      return parseFn();
+    } catch {
+      continue;
+    }
+  }
+  return null;
 }
 
 export function matchesFilterConditions(
@@ -156,8 +152,8 @@ export const booleanFns: Record<
   "is-not-checked": (value) => value === false,
 };
 
+// TODO: time filters, should be implemented together with day-level view
 export const dateFns: Record<
-  //TODO: handle datetime
   DateFilterOperator,
   (
     left: Optional<Temporal.ZonedDateTime>,

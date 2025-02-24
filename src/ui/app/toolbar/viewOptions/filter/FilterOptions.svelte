@@ -60,8 +60,7 @@
         getFilterOperatorType(detail as FilterOperator) !==
         getFilterOperatorType(filter.conditions[i]?.operator)
       ) {
-        //TODO: potential type conversion here.
-        filter = setValue(filter, i, "");
+        filter = setValue(filter, i, ""); // TODO: better initialization for date / datetime inputs
       }
       filter = setOperator(filter, i, detail as FilterOperator);
       onFilterChange(filter);

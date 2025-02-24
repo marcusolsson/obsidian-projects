@@ -71,7 +71,7 @@
         getFilterOperatorType(detail as FilterOperator) !==
         getFilterOperatorType(filter.conditions[i]?.condition.operator)
       ) {
-        filter = setValue(filter, i, "");
+        filter = setValue(filter, i, ""); // TODO: better initialization for date / datetime inputs
       }
       filter = setOperator(filter, i, detail as FilterOperator);
       onFilterChange(filter);
@@ -167,14 +167,14 @@
             <DatetimeInput
               value={rule.condition.value
                 ? Temporal.PlainDateTime.from(rule.condition.value)
-                : Temporal.Now.plainDateTimeISO()}
+                : null}
               on:blur={handleValueChange(i)}
             />
           {:else}
             <DateInput
               value={rule.condition.value
                 ? Temporal.PlainDate.from(rule.condition.value)
-                : Temporal.Now.plainDateISO()}
+                : null}
               on:blur={handleValueChange(i)}
             />
           {/if}
