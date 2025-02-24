@@ -181,38 +181,44 @@ export function doUpdateRecord(
         Object.entries({ ...frontmatter, ...record.values })
           .map((entry) => {
             if (isDate(entry[1])) {
+              const [, dateValue] = entry;
+
               const hasTime = fields.some(
                 (field) =>
                   field.name === entry[0] &&
                   field.type === DataFieldType.Date &&
                   (field.typeConfig?.time ||
-                    entry[1].hour ||
-                    entry[1].minute ||
-                    entry[1].second)
+                    dateValue.hour ||
+                    dateValue.minute ||
+                    dateValue.second ||
+                    dateValue.millisecond)
               );
 
-              const zoned =
-                entry[1].timeZoneId !== Temporal.Now.timeZoneId() && // default "+08:00" comparing to "America/New York"
-                entry[1].offset !== Temporal.Now.zonedDateTimeISO().offset; // default "+08:00" comparing to "-05:00"
-
-              // const hasOffset =
-              // const utc = entry[1].timeZoneId === "UTC";
-              //TODO; format with Z mark, seems hard to do w/0 third-party libs
+              const isZoned =
+                dateValue.timeZoneId !== Temporal.Now.timeZoneId() &&
+                dateValue.offset !== Temporal.Now.zonedDateTimeISO().offset;
 
               return produce(entry, (draft) => {
-                draft[1] = hasTime
-                  ? zoned
-                    ? (entry[1] as Temporal.ZonedDateTime).toString({
-                        smallestUnit: "minute",
-                        offset: "auto",
-                        timeZoneName: "never",
-                      })
-                    : (entry[1] as Temporal.ZonedDateTime)
+                if (hasTime && isZoned) {
+                  draft[1] =
+                    dateValue.timeZoneId === "UTC" // The original raw string ends with "Z"
+                      ? dateValue.toString({
+                          smallestUnit: "minute",
+                          offset: "never",
+                          timeZoneName: "never",
+                        }) + "Z"
+                      : dateValue.toString({
+                          smallestUnit: "minute",
+                          offset: "auto",
+                          timeZoneName: "never",
+                        });
+                } else {
+                  draft[1] = hasTime
+                    ? dateValue
                         .toPlainDateTime()
                         .toString({ smallestUnit: "minute" })
-                  : (entry[1] as Temporal.ZonedDateTime)
-                      .toPlainDate()
-                      .toString();
+                    : (draft[1] = dateValue.toPlainDate().toString());
+                }
               });
             }
             return entry;
