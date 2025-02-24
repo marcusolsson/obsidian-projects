@@ -61,11 +61,7 @@
       on:change={({ detail: value }) => {
         if (value) {
           cachedValue = cachedValue
-            ? cachedValue.with({
-                year: value.year,
-                month: value.month,
-                day: value.day,
-              })
+            ? cachedValue.withPlainDate(value)
             : value.toZonedDateTime(Temporal.Now.timeZoneId());
         } else {
           cachedValue = null;
@@ -74,11 +70,7 @@
       on:input={({ detail: value }) => {
         if (value) {
           cachedValue = cachedValue
-            ? cachedValue.with({
-                year: value.year,
-                month: value.month,
-                day: value.day,
-              })
+            ? cachedValue.withPlainDate(value)
             : value.toZonedDateTime(Temporal.Now.timeZoneId());
         } else {
           cachedValue = null;
@@ -90,13 +82,7 @@
           onChange(cachedValue);
           return;
         }
-        onChange(
-          value.with({
-            year: cachedValue.year,
-            month: cachedValue.month,
-            day: cachedValue.day,
-          })
-        );
+        onChange(value.withPlainDate(cachedValue));
       }}
       embed
     />

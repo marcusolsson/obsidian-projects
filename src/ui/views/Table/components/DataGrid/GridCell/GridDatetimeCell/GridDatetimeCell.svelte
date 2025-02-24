@@ -61,14 +61,7 @@
       on:change={({ detail: value }) => {
         if (value) {
           cachedValue = cachedValue
-            ? cachedValue.with({
-                year: value.year,
-                month: value.month,
-                day: value.day,
-                hour: value.hour,
-                minute: value.minute,
-                second: value.second,
-              })
+            ? cachedValue.withPlainDate(value).withPlainTime(value)
             : value.toZonedDateTime(Temporal.Now.timeZoneId());
         } else {
           cachedValue = null;
@@ -77,14 +70,7 @@
       on:input={({ detail: value }) => {
         if (value) {
           cachedValue = cachedValue
-            ? cachedValue.with({
-                year: value.year,
-                month: value.month,
-                day: value.day,
-                hour: value.hour,
-                minute: value.minute,
-                second: value.second,
-              })
+            ? cachedValue.withPlainDate(value).withPlainTime(value)
             : value.toZonedDateTime(Temporal.Now.timeZoneId());
         } else {
           cachedValue = null;
@@ -96,16 +82,7 @@
           onChange(cachedValue);
           return;
         }
-        onChange(
-          value.with({
-            year: cachedValue.year,
-            month: cachedValue.month,
-            day: cachedValue.day,
-            hour: cachedValue.hour,
-            minute: cachedValue.minute,
-            second: cachedValue.second,
-          })
-        );
+        onChange(value.withPlainDate(cachedValue).withPlainTime(cachedValue));
       }}
       embed
     />

@@ -278,14 +278,7 @@
             on:input={({ detail: value }) => {
               if (value) {
                 dateValue = dateValue
-                  ? dateValue.with({
-                      year: value.year,
-                      month: value.month,
-                      day: value.day,
-                      hour: value.hour,
-                      minute: value.minute,
-                      second: value.second,
-                    })
+                  ? dateValue.withPlainDate(value).withPlainTime(value)
                   : value.toZonedDateTime(Temporal.Now.timeZoneId());
               } else {
                 dateValue = null;
@@ -298,11 +291,7 @@
             on:input={({ detail: value }) => {
               if (value) {
                 dateValue = dateValue
-                  ? dateValue.with({
-                      year: value.year,
-                      month: value.month,
-                      day: value.day,
-                    })
+                  ? dateValue.withPlainDate(value)
                   : value.toZonedDateTime(Temporal.Now.timeZoneId());
               } else {
                 dateValue = null;
