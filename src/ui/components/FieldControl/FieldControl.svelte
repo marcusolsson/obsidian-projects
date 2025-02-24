@@ -98,7 +98,7 @@
           onChange(cachedValue);
           return;
         }
-        onChange(value.withPlainDate(cachedValue).withPlainTime(cachedValue));
+        onChange(value.withPlainDate(cachedValue));
       }}
     />
   {/if}
