@@ -71,7 +71,10 @@ export function groupRecordsByField(
     const start = dateValue ? (isDate(dateValue) ? dateValue : null) : null;
 
     if (start) {
-      const dateStr = start.toPlainDate().toString();
+      const dateStr = start
+        .withTimeZone(Temporal.Now.timeZoneId())
+        .toPlainDate()
+        .toString();
       if (!(dateStr in res)) {
         res[dateStr] = [];
       }

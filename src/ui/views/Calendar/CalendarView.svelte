@@ -5,6 +5,7 @@
   import { createDataRecord } from "src/lib/dataApi";
   import {
     DataFieldType,
+    isDate,
     type DataFrame,
     type DataRecord,
   } from "src/lib/dataframe/dataframe";
@@ -107,20 +108,32 @@
   }
 
   function handleRecordChange(date: Temporal.PlainDate, record: DataRecord) {
-    if (dateField) {
-      if (dateField.type === DataFieldType.Date) {
-        const newDatetime = Temporal.PlainDateTime.from(
-          record.values[dateField.name] as string
-        ).with({ year: date.year, month: date.month, day: date.day }); //check intension here
-        api.updateRecord(
-          updateRecordValues(record, {
-            [dateField.name]: dateField.typeConfig?.time
-              ? newDatetime.toString({ smallestUnit: "minute" })
-              : newDatetime.toPlainDate().toString(),
-          }),
-          fields
-        );
-      }
+    if (dateField?.type !== DataFieldType.Date) return;
+
+    const recordDate = record.values[dateField.name];
+    if (!isDate(recordDate)) return;
+
+    const localTz = Temporal.Now.timeZoneId();
+
+    if (
+      recordDate.offset !== Temporal.Now.zonedDateTimeISO().offset ||
+      recordDate.timeZoneId !== localTz // TODO: check DST
+    ) {
+      const displayNewDateTime = date
+        .toZonedDateTime(localTz)
+        .withPlainTime(recordDate.withTimeZone(localTz));
+      const writeBackNewDateTime = displayNewDateTime.withTimeZone(recordDate);
+
+      api.updateRecord(
+        updateRecordValues(record, { [dateField.name]: writeBackNewDateTime }),
+        fields
+      );
+    } else {
+      const newDateTime = recordDate.withPlainDate(date);
+      api.updateRecord(
+        updateRecordValues(record, { [dateField.name]: newDateTime }),
+        fields
+      );
     }
   }
 
