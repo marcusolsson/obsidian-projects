@@ -11,8 +11,20 @@ export function interpolateTemplate(
   template: string,
   data: Record<string, (arg?: string) => string>
 ): string {
+  // List of allowed template functions
+  const allowedFunctions = new Set(Object.keys(data));
+  
   return template.replace(/\{\{\s*(.*?)\s*\}\}/g, (_, name) => {
-    const [func, arg] = name.split(/:(.*)/s);
+    // Validate and sanitize the function name
+    const [funcRaw, argRaw] = name.split(/:(.*)/s);
+    const func = funcRaw?.trim();
+    const arg = argRaw?.trim();
+    
+    // Only allow execution of functions that are in the provided data object
+    if (!func || !allowedFunctions.has(func)) {
+      return "";
+    }
+    
     const f = data[func];
     return f ? f(arg) : "";
   });

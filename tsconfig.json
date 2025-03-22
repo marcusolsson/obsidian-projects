@@ -4,7 +4,8 @@
     "ignoreDeprecations": "5.0",
     "types": [
       "node",
-      "svelte"
+      "svelte",
+      "vscode"
     ],
     "baseUrl": ".",
     "inlineSources": true,
@@ -24,13 +25,17 @@
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
+    "verbatimModuleSyntax": false,
     "lib": [
       "DOM",
-      "ES2022",
-    ],
+      "ES2022"
+    ]
   },
   "include": [
-    "**/*.ts",
+    "src/**/*.ts",
     "src/__mocks__/obsidian.ts"
+  ],
+  "exclude": [
+    "vscode-projects/**/*"
   ]
 }

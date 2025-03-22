@@ -122,11 +122,20 @@ function typeFromValues(values: Optional<DataValue>[]): DataFieldType {
 export function detectCellType(value: unknown): DataFieldType {
   // Standard types
   if (typeof value === "string") {
-    if (
-      /^\d{4}-\d{2}-\d{2}(T)?(\d{2})?(:\d{2})?(:\d{2})?(.\d{3})?$/.test(value)
-    ) {
+    // Simpler, safer regex with limited repetition and clear boundaries
+    // Limit regex execution to a reasonable length to prevent ReDoS
+    if (value.length > 100) {
+      return DataFieldType.String;
+    }
+    
+    // Break the date check into simpler patterns
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    const dateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}(:\d{2}(:\d{2})?)?$/;
+    
+    if (datePattern.test(value) || dateTimePattern.test(value)) {
       return DataFieldType.Date;
     }
+    
     return DataFieldType.String;
   } else if (typeof value === "number") {
     return DataFieldType.Number;

@@ -60,14 +60,33 @@ class ObsidianFile extends IFile {
 export class ObsidianFileSystem implements IFileSystem {
   constructor(readonly app: App) {}
 
+  /**
+   * Safely handles a path ensuring it's normalized and doesn't contain directory traversal
+   * @param path The path to sanitize
+   * @returns Sanitized path
+   */
+  private sanitizePath(path: string): string {
+    // Normalize the path to handle any platform differences
+    const normalizedPath = normalizePath(path);
+    
+    // Check for path traversal attempts
+    if (normalizedPath.includes("../") || normalizedPath.includes("..\\")) {
+      throw new Error("Path traversal detected");
+    }
+    
+    return normalizedPath;
+  }
+
   async create(path: string, content: string): Promise<IFile> {
-    const file = await this.app.vault.create(normalizePath(path), content);
+    const safePath = this.sanitizePath(path);
+    const file = await this.app.vault.create(safePath, content);
 
     return new ObsidianFile(file, this.app);
   }
 
   async read(path: string): Promise<string> {
-    const file = this.app.vault.getAbstractFileByPath(normalizePath(path));
+    const safePath = this.sanitizePath(path);
+    const file = this.app.vault.getAbstractFileByPath(safePath);
     if (file instanceof TFile) {
       return this.app.vault.cachedRead(file);
     }
@@ -75,22 +94,25 @@ export class ObsidianFileSystem implements IFileSystem {
   }
 
   async write(path: string, content: string): Promise<void> {
-    const file = this.app.vault.getAbstractFileByPath(normalizePath(path));
+    const safePath = this.sanitizePath(path);
+    const file = this.app.vault.getAbstractFileByPath(safePath);
     if (file instanceof TFile) {
       return this.app.vault.modify(file, content);
     }
   }
 
   async delete(path: string): Promise<void> {
-    const file = this.app.vault.getAbstractFileByPath(normalizePath(path));
+    const safePath = this.sanitizePath(path);
+    const file = this.app.vault.getAbstractFileByPath(safePath);
     if (file instanceof TFile) {
       return this.app.vault.trash(file, true);
     }
   }
 
   getFile(path: string): IFile | null {
-    if (this.app.vault.getAbstractFileByPath(path)) {
-      return ObsidianFile.of(path, this.app);
+    const safePath = this.sanitizePath(path);
+    if (this.app.vault.getAbstractFileByPath(safePath)) {
+      return ObsidianFile.of(safePath, this.app);
     }
     return null;
   }

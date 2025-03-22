@@ -1,0 +1,17 @@
+# Ignore development files
+.vscode/**
+.vscode-test/**
+.gitignore
+.git/**
+node_modules/**
+src/**
+scripts/**
+.eslintrc.json
+.eslintignore
+.prettierrc
+tsconfig.json
+esbuild.js
+
+# Only include essential files
+!out/**
+!media/**

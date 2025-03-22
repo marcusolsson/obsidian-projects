@@ -13,60 +13,69 @@ if you want to view the source, please visit the github repository of this plugi
 
 const prod = process.argv[2] === "production";
 
-esbuild
-  .build({
-    plugins: [
-      esbuildSvelte({
-        compilerOptions: { css: true },
-        preprocess: sveltePreprocess(),
-      }),
-      replace({
-        include: /svelte-dnd-action.*$/,
-        delimiters: ["", ""],
-        values: {
-          "window.": `activeWindow.`,
-          "document.": `activeDocument.`,
-        },
-      }),
-    ],
-    banner: {
-      js: banner,
-    },
-    entryPoints: ["./src/main.ts"],
-    bundle: true,
-    external: [
-      "obsidian",
-      "electron",
-      "@codemirror/autocomplete",
-      "@codemirror/closebrackets",
-      "@codemirror/collab",
-      "@codemirror/commands",
-      "@codemirror/comment",
-      "@codemirror/fold",
-      "@codemirror/gutter",
-      "@codemirror/highlight",
-      "@codemirror/history",
-      "@codemirror/language",
-      "@codemirror/lint",
-      "@codemirror/matchbrackets",
-      "@codemirror/panel",
-      "@codemirror/rangeset",
-      "@codemirror/rectangular-selection",
-      "@codemirror/search",
-      "@codemirror/state",
-      "@codemirror/stream-parser",
-      "@codemirror/text",
-      "@codemirror/tooltip",
-      "@codemirror/view",
-      ...builtins,
-    ],
-    format: "cjs",
-    watch: !prod,
-    target: "es2016",
-    logLevel: "info",
-    sourcemap: prod ? false : "inline",
-    treeShaking: true,
-    minify: prod,
-    outfile: "main.js",
-  })
-  .catch(() => process.exit(1));
+const buildOptions = {
+  plugins: [
+    esbuildSvelte({
+      compilerOptions: { css: "injected" },
+      preprocess: sveltePreprocess(),
+    }),
+    replace({
+      include: /svelte-dnd-action.*$/,
+      delimiters: ["", ""],
+      values: {
+        "window.": `activeWindow.`,
+        "document.": `activeDocument.`,
+      },
+    }),
+  ],
+  banner: {
+    js: banner,
+  },
+  entryPoints: ["./src/main.ts"],
+  bundle: true,
+  external: [
+    "obsidian",
+    "electron",
+    "@codemirror/autocomplete",
+    "@codemirror/closebrackets",
+    "@codemirror/collab",
+    "@codemirror/commands",
+    "@codemirror/comment",
+    "@codemirror/fold",
+    "@codemirror/gutter",
+    "@codemirror/highlight",
+    "@codemirror/history",
+    "@codemirror/language",
+    "@codemirror/lint",
+    "@codemirror/matchbrackets",
+    "@codemirror/panel",
+    "@codemirror/rangeset",
+    "@codemirror/rectangular-selection",
+    "@codemirror/search",
+    "@codemirror/state",
+    "@codemirror/stream-parser",
+    "@codemirror/text",
+    "@codemirror/tooltip",
+    "@codemirror/view",
+    ...builtins,
+  ],
+  format: "cjs",
+  target: "es2018",
+  logLevel: "info",
+  sourcemap: prod ? false : "inline",
+  treeShaking: true,
+  minify: prod,
+  outfile: "main.js",
+};
+
+// Use an IIFE to enable async/await
+(async () => {
+  if (prod) {
+    esbuild.build(buildOptions).catch(() => process.exit(1));
+  } else {
+    // For development, use the context API for watch mode
+    const context = await esbuild.context(buildOptions);
+    await context.watch();
+    console.log("Watching for changes...");
+  }
+})();

@@ -1,0 +1,228 @@
+{
+  "name": "vscode-projects",
+  "displayName": "VSCode Projects",
+  "description": "Project management and visualization for VSCode",
+  "version": "0.1.0",
+  "publisher": "vscode-projects-publisher",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/vscode-projects"
+  },
+  "keywords": [
+    "project-management",
+    "visualization",
+    "organization",
+    "productivity",
+    "tasks"
+  ],
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
+  "homepage": "https://github.com/username/vscode-projects/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/username/vscode-projects/issues"
+  },
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*",
+    "onCommand:vscode-projects.showProjects",
+    "onCommand:vscode-projects.createProject",
+    "onCommand:vscode-projects.createNote",
+    "onCommand:vscode-projects.openProject",
+    "onCommand:vscode-projects.openView",
+    "onCommand:vscode-projects.refreshView",
+    "onCommand:vscode-projects.toggleArchives",
+    "onView:vscode-projects-sidebar"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-projects.showProjects",
+        "title": "Show Projects",
+        "category": "Projects"
+      },
+      {
+        "command": "vscode-projects.createProject",
+        "title": "Create Project",
+        "category": "Projects"
+      },
+      {
+        "command": "vscode-projects.createNote",
+        "title": "Create Note",
+        "category": "Projects"
+      },
+      {
+        "command": "vscode-projects.createView",
+        "title": "Create View",
+        "category": "Projects",
+        "icon": "$(add)"
+      },
+      {
+        "command": "vscode-projects.openProject",
+        "title": "Open Project",
+        "category": "Projects"
+      },
+      {
+        "command": "vscode-projects.openView",
+        "title": "Open View",
+        "category": "Projects"
+      },
+      {
+        "command": "vscode-projects.refreshView",
+        "title": "Refresh",
+        "category": "Projects",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "vscode-projects.toggleArchives",
+        "title": "Show/Hide Archives",
+        "category": "Projects",
+        "icon": "$(archive)"
+      },
+      {
+        "command": "vscode-projects.deleteProject",
+        "title": "Delete Project",
+        "category": "Projects",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "vscode-projects.deleteView",
+        "title": "Delete View",
+        "category": "Projects",
+        "icon": "$(trash)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vscode-projects",
+          "title": "Projects",
+          "icon": "media/projects-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vscode-projects": [
+        {
+          "id": "vscode-projects-sidebar",
+          "name": "Projects"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "vscode-projects.refreshView",
+          "when": "view == vscode-projects-sidebar",
+          "group": "navigation"
+        },
+        {
+          "command": "vscode-projects.toggleArchives",
+          "when": "view == vscode-projects-sidebar",
+          "group": "navigation"
+        },
+        {
+          "command": "vscode-projects.createProject",
+          "when": "view == vscode-projects-sidebar",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "vscode-projects.createNote",
+          "when": "view == vscode-projects-sidebar && viewItem == project",
+          "group": "inline"
+        },
+        {
+          "command": "vscode-projects.createView",
+          "when": "view == vscode-projects-sidebar && viewItem == project",
+          "group": "inline"
+        },
+        {
+          "command": "vscode-projects.deleteProject",
+          "when": "view == vscode-projects-sidebar && viewItem == project",
+          "group": "inline"
+        },
+        {
+          "command": "vscode-projects.openProject",
+          "when": "view == vscode-projects-sidebar && viewItem == project",
+          "group": "1_open"
+        },
+        {
+          "command": "vscode-projects.deleteView",
+          "when": "view == vscode-projects-sidebar && viewItem == view",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "VSCode Projects",
+      "properties": {
+        "vscode-projects.projects": {
+          "type": "array",
+          "default": [],
+          "description": "Configured projects"
+        },
+        "vscode-projects.archives": {
+          "type": "array",
+          "default": [],
+          "description": "Archived projects"
+        },
+        "vscode-projects.preferences": {
+          "type": "object",
+          "default": {
+            "projectSizeLimit": 1000,
+            "frontmatter": {
+              "quoteStrings": "PLAIN"
+            },
+            "locale": {
+              "firstDayOfWeek": "default"
+            },
+            "commands": [],
+            "linkBehavior": "open-editor"
+          },
+          "description": "User preferences for the extension"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "NODE_ENV=production node esbuild.js && node ./scripts/verify-assets.js",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "verify-assets": "node ./scripts/verify-assets.js",
+    "package": "node ./scripts/package-extension.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/node": "^14.17.0",
+    "@types/vscode": "^1.60.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "@vscode/vsce": "^2.19.0",
+    "esbuild": "^0.25.1",
+    "esbuild-plugin-copy": "^2.1.1",
+    "eslint": "^8.9.0",
+    "glob": "^7.2.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "fp-ts": "^2.11.0",
+    "gray-matter": "^4.0.3",
+    "immer": "^9.0.6",
+    "uuid": "^8.3.2"
+  }
+}
