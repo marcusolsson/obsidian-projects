@@ -20,6 +20,9 @@ For example, if you're a content manager, Projects can help you manage your cont
 
 If you have any questions, or want to stay updated, join our [Discussions](https://github.com/marcusolsson/obsidian-projects/discussions).
 
+> [!IMPORTANT]
+> As of May 2025, I've decided to discontinue this plugin. I created Obsidian Projects because I wanted to scratch my own itch. Unfortunately, I'm no longer using Obsidian, nor following the development of the plugin eco-system. That being said, if there's an interest from the Obsidian community to take over the plugin, I'd be more than happy to facilitate the changes necessary.
+
 ## Installation
 
 > [!Note]  
