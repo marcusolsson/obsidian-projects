@@ -1,5 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { applySort } from "./viewSort";
+import { Temporal } from "temporal-polyfill";
 
 describe("applySort", () => {
   const frame = {
@@ -10,7 +11,11 @@ describe("applySort", () => {
         values: {
           author: "Alice",
           age: 1,
-          due: new Date(Date.UTC(2001, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2001,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
           weight: 10,
         },
       },
@@ -19,7 +24,11 @@ describe("applySort", () => {
         values: {
           author: "Charlie",
           age: 3,
-          due: new Date(Date.UTC(2021, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2021,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
           weight: 100,
         },
       },
@@ -28,7 +37,11 @@ describe("applySort", () => {
         values: {
           author: "Bob",
           age: 2,
-          due: new Date(Date.UTC(2011, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2011,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
           weight: 100,
         },
       },
@@ -48,7 +61,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -57,7 +74,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -66,7 +87,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -87,7 +112,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -96,7 +125,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -105,7 +138,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -126,7 +163,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -135,7 +176,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -144,7 +189,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -165,7 +214,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -174,7 +227,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -183,7 +240,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -204,7 +265,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -213,7 +278,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -222,7 +291,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -243,7 +316,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -252,7 +329,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -261,7 +342,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -285,7 +370,11 @@ describe("applySort", () => {
           values: {
             author: "Alice",
             age: 1,
-            due: new Date(Date.UTC(2001, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2001,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 10,
           },
         },
@@ -294,7 +383,11 @@ describe("applySort", () => {
           values: {
             author: "Bob",
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -303,7 +396,11 @@ describe("applySort", () => {
           values: {
             author: "Charlie",
             age: 3,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
             weight: 100,
           },
         },
@@ -401,7 +498,11 @@ describe("sort empty values to the end", () => {
         values: {
           author: null,
           age: 2,
-          due: new Date(Date.UTC(2011, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2011,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
         },
       },
       {
@@ -409,7 +510,11 @@ describe("sort empty values to the end", () => {
         values: {
           author: "",
           age: 3,
-          due: new Date(Date.UTC(2031, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2031,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
         },
       },
       {
@@ -417,7 +522,11 @@ describe("sort empty values to the end", () => {
         values: {
           author: undefined,
           age: 4,
-          due: new Date(Date.UTC(2025, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2025,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
         },
       },
       {
@@ -433,7 +542,11 @@ describe("sort empty values to the end", () => {
         values: {
           author: "Charlie",
           age: null,
-          due: new Date(Date.UTC(2021, 1, 1)),
+          due: Temporal.PlainDate.from({
+            year: 2021,
+            month: 1,
+            day: 1,
+          }).toZonedDateTime(Temporal.Now.timeZoneId()),
         },
       },
     ],
@@ -452,7 +565,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -468,7 +585,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -476,7 +597,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -484,7 +609,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
       ],
@@ -504,7 +633,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -520,7 +653,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -528,7 +665,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -536,7 +677,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
       ],
@@ -564,7 +709,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -572,7 +721,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -580,7 +733,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -588,7 +745,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
       ],
@@ -608,7 +769,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -616,7 +781,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -624,7 +793,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -640,7 +813,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
       ],
@@ -660,7 +837,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -668,7 +849,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -676,7 +861,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -684,7 +873,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -712,7 +905,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -720,7 +917,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -728,7 +929,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -736,7 +941,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -767,7 +976,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "",
             age: 3,
-            due: new Date(Date.UTC(2031, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2031,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -783,7 +996,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: "Charlie",
             age: null,
-            due: new Date(Date.UTC(2021, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2021,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -791,7 +1008,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: undefined,
             age: 4,
-            due: new Date(Date.UTC(2025, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2025,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
         {
@@ -799,7 +1020,11 @@ describe("sort empty values to the end", () => {
           values: {
             author: null,
             age: 2,
-            due: new Date(Date.UTC(2011, 1, 1)),
+            due: Temporal.PlainDate.from({
+              year: 2011,
+              month: 1,
+              day: 1,
+            }).toZonedDateTime(Temporal.Now.timeZoneId()),
           },
         },
       ],

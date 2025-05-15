@@ -1,5 +1,5 @@
 <script lang="ts">
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
   import { Menu } from "obsidian";
   import type { DataRecord } from "src/lib/dataframe/dataframe";
   import { i18n } from "src/lib/stores/i18n";
@@ -10,7 +10,7 @@
   /**
    * Specifies the date of the day.
    */
-  export let date: dayjs.Dayjs;
+  export let date: Temporal.PlainDate;
 
   /**
    * Specifies the width of the day div.
@@ -47,8 +47,8 @@
    */
   export let onRecordAdd: () => void;
 
-  $: weekend = date.day() === 0 || date.day() === 6;
-  $: today = date.startOf("day").isSame(dayjs().startOf("day"));
+  $: weekend = date.dayOfWeek % 7 === 0 || date.dayOfWeek === 6;
+  $: today = date.equals(Temporal.Now.plainDateISO());
 
   function handleDblClick(event: MouseEvent) {
     onRecordAdd();
@@ -73,7 +73,7 @@
   on:mousedown={handleMouseDown}
   style:width={width + "%"}
 >
-  <Date {today}>{date.date()}</Date>
+  <Date {today}>{date.day}</Date>
   <EventList
     {checkField}
     {records}

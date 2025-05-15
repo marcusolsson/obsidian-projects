@@ -1,10 +1,11 @@
 <script lang="ts">
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
   import { Notice } from "obsidian";
   import { Select, Typography } from "obsidian-svelte";
   import { createDataRecord } from "src/lib/dataApi";
   import {
     DataFieldType,
+    isDate,
     type DataFrame,
     type DataRecord,
   } from "src/lib/dataframe/dataframe";
@@ -62,7 +63,7 @@
 
   $: ({ fields, records } = frame);
 
-  let anchorDate: dayjs.Dayjs = dayjs();
+  let anchorDate: Temporal.PlainDate = Temporal.Now.plainDateISO();
 
   $: dateFields = fields
     .filter((field) => !field.repeated)
@@ -106,22 +107,33 @@
     saveConfig({ ...config, checkField });
   }
 
-  function handleRecordChange(date: dayjs.Dayjs, record: DataRecord) {
-    if (dateField) {
-      if (dateField.type === DataFieldType.Date) {
-        const newDatetime = dayjs(record.values[dateField.name] as string)
-          .set("year", date.year())
-          .set("month", date.month())
-          .set("date", date.date());
-        api.updateRecord(
-          updateRecordValues(record, {
-            [dateField.name]: newDatetime.format(
-              dateField.typeConfig?.time ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
-            ),
-          }),
-          fields
-        );
-      }
+  function handleRecordChange(date: Temporal.PlainDate, record: DataRecord) {
+    if (dateField?.type !== DataFieldType.Date) return;
+
+    const recordDate = record.values[dateField.name];
+    if (!isDate(recordDate)) return;
+
+    const localTz = Temporal.Now.timeZoneId();
+
+    if (
+      recordDate.offset !== Temporal.Now.zonedDateTimeISO().offset ||
+      recordDate.timeZoneId !== localTz // TODO: check DST
+    ) {
+      const displayNewDateTime = date
+        .toZonedDateTime(localTz)
+        .withPlainTime(recordDate.withTimeZone(localTz));
+      const writeBackNewDateTime = displayNewDateTime.withTimeZone(recordDate);
+
+      api.updateRecord(
+        updateRecordValues(record, { [dateField.name]: writeBackNewDateTime }),
+        fields
+      );
+    } else {
+      const newDateTime = recordDate.withPlainDate(date);
+      api.updateRecord(
+        updateRecordValues(record, { [dateField.name]: newDateTime }),
+        fields
+      );
     }
   }
 
@@ -149,7 +161,7 @@
     }
   }
 
-  function handleRecordAdd(date: dayjs.Dayjs) {
+  function handleRecordAdd(date: Temporal.PlainDate) {
     if (!dateField) {
       new Notice("Select a Date field to create calendar events.");
       return;
@@ -164,7 +176,7 @@
       if (dateField) {
         api.addRecord(
           createDataRecord(name, project, {
-            [dateField.name]: date.toDate(),
+            [dateField.name]: date.toZonedDateTime(Temporal.Now.timeZoneId()),
           }),
           fields,
           templatePath
@@ -183,7 +195,7 @@
         slot="left"
         onNext={() => (anchorDate = addInterval(anchorDate, interval))}
         onPrevious={() => (anchorDate = subtractInterval(anchorDate, interval))}
-        onToday={() => (anchorDate = dayjs())}
+        onToday={() => (anchorDate = Temporal.Now.plainDateISO())}
       />
       <Typography slot="middle" variant="h2" nomargin>{title}</Typography>
       <svelte:fragment slot="right">
@@ -249,10 +261,14 @@
         {#each weekDays as weekDay}
           <Weekday
             width={100 / weekDays.length}
-            weekend={weekDay.day() === 0 || weekDay.day() === 6}
+            weekend={weekDay.dayOfWeek % 7 === 0 || weekDay.dayOfWeek === 6}
           >
             {$i18n.t("views.calendar.weekday", {
-              value: weekDay.toDate(),
+              value: new Date(
+                weekDay.toZonedDateTime(
+                  Temporal.Now.timeZoneId()
+                ).epochMilliseconds
+              ), // bug may arise here, use local Date variable
               formatParams: {
                 value: { weekday: "short" },
               },
@@ -267,7 +283,7 @@
               width={100 / week.length}
               {date}
               checkField={booleanField?.name}
-              records={groupedRecords[date.format("YYYY-MM-DD")] || []}
+              records={groupedRecords[date.toString()] || []}
               onRecordClick={handleRecordClick}
               onRecordChange={(record) => {
                 handleRecordChange(date, record);

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { produce } from "immer";
-  import dayjs from "dayjs";
+  import { Temporal } from "temporal-polyfill";
   import { dndzone } from "svelte-dnd-action";
   import {
     Button,
@@ -71,7 +71,7 @@
         getFilterOperatorType(detail as FilterOperator) !==
         getFilterOperatorType(filter.conditions[i]?.condition.operator)
       ) {
-        filter = setValue(filter, i, "");
+        filter = setValue(filter, i, ""); // TODO: better initialization for date / datetime inputs
       }
       filter = setOperator(filter, i, detail as FilterOperator);
       onFilterChange(filter);
@@ -165,12 +165,16 @@
         {:else if filterOperatorTypes[rule.condition.operator] === "binary-date"}
           {#if field?.typeConfig?.time}
             <DatetimeInput
-              value={dayjs(rule.condition.value ?? "").toDate()}
+              value={rule.condition.value
+                ? Temporal.PlainDateTime.from(rule.condition.value)
+                : null}
               on:blur={handleValueChange(i)}
             />
           {:else}
             <DateInput
-              value={dayjs(rule.condition.value ?? "").toDate()}
+              value={rule.condition.value
+                ? Temporal.PlainDate.from(rule.condition.value)
+                : null}
               on:blur={handleValueChange(i)}
             />
           {/if}

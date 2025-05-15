@@ -1,6 +1,6 @@
-import dayjs from "dayjs";
 import type { Link } from "obsidian-dataview";
 import type { DataValue, Optional } from "src/lib/dataframe/dataframe";
+import { Temporal } from "temporal-polyfill";
 
 /**
  * standardizeValues converts a Dataview data structure of values to the common
@@ -36,6 +36,6 @@ function standardizeObject(value: any) {
     return (value as Link).toString();
   }
   if ("ts" in value) {
-    return dayjs(value.ts).format("YYYY-MM-DD");
+    return Temporal.PlainDateTime.from(value.c).toString()
   }
 }

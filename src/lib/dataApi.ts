@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { produce } from "immer";
 import moment from "moment";
 import { get } from "svelte/store";
@@ -17,6 +16,7 @@ import { decodeFrontMatter, encodeFrontMatter } from "./metadata";
 import { i18n } from "./stores/i18n";
 import { settings } from "./stores/settings";
 import { interpolateTemplate } from "./templates/interpolate";
+import { Temporal } from "temporal-polyfill";
 
 import { function as F, task as T, either as E, taskEither as TE } from "fp-ts";
 import {
@@ -181,21 +181,44 @@ export function doUpdateRecord(
         Object.entries({ ...frontmatter, ...record.values })
           .map((entry) => {
             if (isDate(entry[1])) {
-              const isDatetime = fields.find(
+              const [, dateValue] = entry;
+
+              const hasTime = fields.some(
                 (field) =>
                   field.name === entry[0] &&
                   field.type === DataFieldType.Date &&
                   (field.typeConfig?.time ||
-                    entry[1].getHours() ||
-                    entry[1].getMinutes() ||
-                    entry[1].getSeconds() ||
-                    entry[1].getMilliseconds())
+                    dateValue.hour ||
+                    dateValue.minute ||
+                    dateValue.second ||
+                    dateValue.millisecond)
               );
 
+              const isZoned =
+                dateValue.timeZoneId !== Temporal.Now.timeZoneId() &&
+                dateValue.offset !== Temporal.Now.zonedDateTimeISO().offset;
+
               return produce(entry, (draft) => {
-                draft[1] = dayjs(entry[1]).format(
-                  isDatetime ? "YYYY-MM-DDTHH:mm" : "YYYY-MM-DD"
-                );
+                if (hasTime && isZoned) {
+                  draft[1] =
+                    dateValue.timeZoneId === "UTC" // The original raw string ends with "Z"
+                      ? dateValue.toString({
+                          smallestUnit: "minute",
+                          offset: "never",
+                          timeZoneName: "never",
+                        }) + "Z"
+                      : dateValue.toString({
+                          smallestUnit: "minute",
+                          offset: "auto",
+                          timeZoneName: "never",
+                        });
+                } else {
+                  draft[1] = hasTime
+                    ? dateValue
+                        .toPlainDateTime()
+                        .toString({ smallestUnit: "minute" })
+                    : (draft[1] = dateValue.toPlainDate().toString());
+                }
               });
             }
             return entry;

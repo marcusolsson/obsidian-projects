@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import {
   DataFieldType,
   type DataField,
@@ -7,6 +5,7 @@ import {
   type DataValue,
   type Optional,
 } from "../dataframe/dataframe";
+import { Temporal } from "temporal-polyfill";
 
 /**
  * Parses the values for each record based on the detected field types.
@@ -31,7 +30,9 @@ export function parseRecords(
       switch (field.type) {
         case DataFieldType.Date:
           if (typeof value === "string") {
-            record.values[field.name] = dayjs(value).toDate();
+            record.values[field.name] = parseStringDate(value);
+          } else if (typeof value === "number") {
+            record.values[field.name] = parseNumberDate(value);
           }
           break;
         case DataFieldType.Number:
@@ -46,13 +47,51 @@ export function parseRecords(
           break;
         case DataFieldType.String:
           if (typeof value !== "object") {
-            record.values[field.name] = value?.toLocaleString();
+            record.values[field.name] = value?.toLocaleString(); //TODO: fallback type, to be refined in type casting
           }
           break;
       }
     }
   }
   return records;
+}
+
+function parseStringDate(value: string) {
+  for (const parseFn of [
+    () => Temporal.ZonedDateTime.from(value), // with timezone id
+    () => Temporal.Instant.from(value).toZonedDateTimeISO(value), // with timezone offset
+    () =>
+      Temporal.PlainDateTime.from(value).toZonedDateTime(
+        Temporal.Now.timeZoneId()
+      ), // w/o timezone info
+  ]) {
+    try {
+      return parseFn();
+    } catch {
+      continue;
+    }
+  }
+  return null;
+}
+
+function parseNumberDate(value: number) {
+  for (const parseFn of [
+    () =>
+      Temporal.PlainDateTime.from(value.toString()).toZonedDateTime(
+        Temporal.Now.timeZoneId()
+      ),
+    () =>
+      Temporal.Instant.fromEpochMilliseconds(value).toZonedDateTimeISO(
+        Temporal.Now.timeZoneId()
+      ),
+  ]) {
+    try {
+      return parseFn();
+    } catch {
+      continue;
+    }
+  }
+  return null;
 }
 
 /**
@@ -119,12 +158,13 @@ function typeFromValues(values: Optional<DataValue>[]): DataFieldType {
   }
 }
 
+export const DateTimeRegex =
+  /^\d{4}-\d{2}-\d{2}(?:[Tt ](?:\d{2})?(?::\d{2})?(?::\d{2})?(?:.\d+)?(?:[+-]\d{2}(?::?\d{2})?|[Zz])?(?:\[[^\]]+\])?)?$/;
+
 export function detectCellType(value: unknown): DataFieldType {
   // Standard types
   if (typeof value === "string") {
-    if (
-      /^\d{4}-\d{2}-\d{2}(T)?(\d{2})?(:\d{2})?(:\d{2})?(.\d{3})?$/.test(value)
-    ) {
+    if (DateTimeRegex.test(value)) {
       return DataFieldType.Date;
     }
     return DataFieldType.String;
