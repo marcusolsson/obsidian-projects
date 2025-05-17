@@ -9,10 +9,12 @@
     ViewDefinition,
     ViewId,
   } from "src/settings/settings";
-  import { applyFilter, matchesCondition } from "./filterFunctions";
+  import { applyFilter, matchesCondition, applySearch } from "./filterFunctions";
 
   import { useView } from "./useView";
   import { applySort, sortRecords } from "./viewSort";
+
+  import { searchText, searchField } from "src/settings/settings";
 
   /**
    * Specify the project.
@@ -76,6 +78,16 @@
   $: viewFilter = view.filter ?? { conjunction: "and", conditions: [] };
   $: filteredFrame = applyFilter(frame, viewFilter);
 
+  // initialize search field and frame
+  let filteredAndSearchedFrame = frame;
+  $searchField = "name";
+
+  $: if ($searchText !== '') {
+    filteredAndSearchedFrame = applySearch(filteredFrame, { conjunction: "and", conditions: [{field: $searchField, operator: "contains", value: $searchText, enabled: true}] });
+  } else {
+    filteredAndSearchedFrame = filteredFrame;
+  }
+
   $: viewSort =
     view.sort.criteria.length > 0
       ? view.sort
@@ -83,7 +95,7 @@
           criteria: [{ field: "path", order: "asc", enabled: true }],
         } satisfies SortDefinition);
 
-  $: sortedFrame = applySort(filteredFrame, viewSort);
+  $: sortedFrame = applySort(filteredAndSearchedFrame, viewSort);
 
   let recordCache: Record<string, DataRecord | undefined>;
   $: {

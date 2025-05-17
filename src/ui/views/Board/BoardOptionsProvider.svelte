@@ -11,6 +11,9 @@
   import { BoardSettingsModal } from "./settings/settingsModal";
   import { app } from "src/lib/stores/obsidian";
 
+  import { Select } from "obsidian-svelte";
+  import { searchText, searchField } from "src/settings/settings";
+
   export let config: BoardConfig;
   export let onConfigChange: (cfg: BoardConfig) => void;
 
@@ -47,6 +50,19 @@
 <ViewLayout>
   <ViewHeader>
     <ViewToolbar variant="secondary">
+      <svelte:fragment slot="left">
+        <input type="text" bind:value={$searchText} placeholder="Search"/>
+        <Select
+          options={fields.map((field) => ({
+            label: field.name,
+            value: field.name,
+          }))}
+          value={$searchField}
+          on:change={({ detail : value }) => {
+            $searchField = value;
+          }}
+        />
+      </svelte:fragment>
       <BoardOptions
         slot="right"
         {fields}
