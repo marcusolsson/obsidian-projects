@@ -22,6 +22,8 @@ If you have any questions, or want to stay updated, join our [Discussions](https
 
 > [!IMPORTANT]
 > As of May 2025, I've decided to discontinue this plugin. I created Obsidian Projects because I wanted to scratch my own itch. Unfortunately, I'm no longer using Obsidian, nor following the development of the plugin eco-system. That being said, if there's an interest from the Obsidian community to take over the plugin, I'd be more than happy to facilitate the changes necessary.
+>
+> _Edit 2025-07-18:_ It's come to my attention that the plugin has been removed from the community plugin list. If you'd like to keep using the plugin, you can install it with the [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin.
 
 ## Installation
 
